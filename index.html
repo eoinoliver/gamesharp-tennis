@@ -287,6 +287,17 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .daily-q{font-size:14px;line-height:1.55;color:var(--white);margin-bottom:12px;font-weight:500;}
 .daily-cta{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:700;}
 .daily-done{font-size:12px;color:var(--correct);font-weight:600;}
+/* ── PLAY A POINT CARD ── */
+.pap-card{margin:14px 22px 0;background:linear-gradient(135deg,rgba(22,68,30,.95) 0%,rgba(14,42,18,.98) 100%);border:1px solid rgba(91,186,111,.3);border-radius:18px;padding:20px 20px 18px;position:relative;z-index:1;overflow:hidden;}
+.pap-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#5bba6f,#a8c850,#5bba6f);background-size:200%;animation:shimmer 2.5s linear infinite;}
+.pap-eyebrow{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#5bba6f;font-weight:700;margin-bottom:7px;}
+.pap-headline{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1.5px;color:var(--white);line-height:1.15;margin-bottom:14px;}
+.pap-pills{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;}
+.pap-pill{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:6px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:rgba(255,255,255,.65);cursor:pointer;transition:all .18s;}
+.pap-pill:active{transform:scale(.95);}
+.pap-pill.pap-active{background:rgba(91,186,111,.18);border-color:rgba(91,186,111,.5);color:#5bba6f;}
+.pap-cta{width:100%;background:#5bba6f;color:#0d1a0f;border:none;border-radius:13px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .18s;}
+.pap-cta:active{transform:scale(.97);background:#4da85f;}
 /* ── START HERE CARD ── */
 .start-here-card{margin:18px 22px 0;cursor:pointer;position:relative;z-index:1;}
 .start-here-inner{background:linear-gradient(135deg,var(--gold) 0%,#b8932a 100%);border-radius:18px;padding:20px 20px 18px;position:relative;overflow:hidden;active-transform:scale(.98);}
@@ -531,7 +542,20 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       </div>
     </div>
 
-    <!-- 2. START HERE / PROFILE FLOW -->
+    <!-- 2. PLAY A POINT -->
+    <div class="pap-card" id="papCard">
+      <div class="pap-eyebrow">▶ PLAY A POINT</div>
+      <div class="pap-headline">5 linked decisions.<br>One match situation.</div>
+      <div class="pap-pills" id="papPills">
+        <button class="pap-pill pap-active" onclick="setPapPillar(this,'Win More')">Win More</button>
+        <button class="pap-pill" onclick="setPapPillar(this,'Mental')">Mental</button>
+        <button class="pap-pill" onclick="setPapPillar(this,'Game IQ')">Game IQ</button>
+        <button class="pap-pill" onclick="setPapPillar(this,'Technique')">Technique</button>
+      </div>
+      <button class="pap-cta" id="papCta" onclick="startPlayAPoint()">Start Point →</button>
+    </div>
+
+    <!-- 3. START HERE / PROFILE FLOW -->
     <div class="start-here-card" id="startHereCard" onclick="handleStartHere()">
       <div class="start-here-inner">
         <div class="sh-eyebrow" id="shEyebrow">🎾 Start Here</div>
@@ -3882,6 +3906,17 @@ function applyStreakTier(el, count) {
   el.classList.remove('streak-pulse', 'streak-shimmer');
   if (count >= 10) el.classList.add('streak-shimmer');
   else if (count >= 5) el.classList.add('streak-pulse');
+}
+
+// ── PLAY A POINT ──
+let _papPillar = 'Win More';
+function setPapPillar(btn, pillar) {
+  _papPillar = pillar;
+  document.querySelectorAll('.pap-pill').forEach(p => p.classList.remove('pap-active'));
+  btn.classList.add('pap-active');
+}
+function startPlayAPoint() {
+  startQuiz(_papPillar, null);
 }
 
 function initHome() {
