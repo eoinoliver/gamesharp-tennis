@@ -366,6 +366,18 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .leg-coming-soon{display:inline-block;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.2);border-radius:20px;padding:6px 16px;font-size:10px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:28px;}
 .leg-home-link{width:100%;background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:auto;}
 .leg-home-link:active{transform:scale(.97);}
+/* transition between steps */
+.leg-trans-wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;text-align:center;}
+.leg-trans-caption{font-family:'Bebas Neue',sans-serif;font-size:54px;letter-spacing:2px;color:var(--white);animation:legFadeUp .55s ease forwards;}
+.leg-trans-sub{font-size:15px;color:rgba(255,255,255,.32);font-style:italic;margin-top:10px;opacity:0;animation:legFadeUp .55s .22s ease forwards;}
+/* step-2 elevated crowd glow */
+.leg-crowd-glow-2{position:absolute;inset:0;background:radial-gradient(ellipse 105% 62% at 50% 82%,rgba(195,145,40,.18) 0%,transparent 65%);pointer-events:none;z-index:0;}
+/* momentum meter */
+.leg-momentum{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:9px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;}
+.leg-mom-name{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:700;width:26px;text-align:center;flex-shrink:0;}
+.leg-mom-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;position:relative;}
+.leg-mom-fill{position:absolute;right:0;top:0;height:100%;background:linear-gradient(90deg,rgba(91,186,111,.3),#5bba6f,#d4e84a);border-radius:3px;animation:momSlide .9s .1s cubic-bezier(.34,1.1,.64,1) both;}
+@keyframes momSlide{from{width:50%}to{width:var(--mom-w,60%)}}
 /* ── START HERE CARD ── */
 .start-here-card{margin:18px 22px 0;cursor:pointer;position:relative;z-index:1;}
 .start-here-inner{background:linear-gradient(135deg,var(--gold) 0%,#b8932a 100%);border-radius:18px;padding:20px 20px 18px;position:relative;overflow:hidden;active-transform:scale(.98);}
@@ -4857,10 +4869,35 @@ const LEGENDARY_EXCHANGES = [
         ],
         insightGood: 'Great attackers don\'t always finish immediately. They make the defender hit one more uncomfortable ball. The inside-out forehand is the decision that looks slow but wins fast.',
         insightBad: 'On grass, with inside baseline position, the elite choice is the high-percentage pressure ball — not the sideline gamble, not the trick shot, not the reset. Keep Nadal stretched.',
+      },
+      {
+        id: 'step_2',
+        tag: 'Rally continues · Federer now pressing',
+        showMomentum: true,
+        momentumPct: 60,
+        situation: 'Nadal scrambles and floats a deeper defensive backhand crosscourt. Federer is now well inside the baseline — Nadal still slightly recovering toward the backhand side.',
+        commentary: '"Federer has time now… but not forever."',
+        question: 'How should Federer apply pressure here?',
+        options: [
+          { letter: 'A', label: 'Take the backhand early down the line and rush net', consequence: 'Bold Attack' },
+          { letter: 'B', label: 'Roll another heavy forehand crosscourt to stretch Nadal further', consequence: 'Suffocating Pressure' },
+          { letter: 'C', label: 'Step in and play a controlled forehand approach into Nadal\'s backhand side', consequence: 'Elite Transition' },
+          { letter: 'D', label: 'Retreat slightly and restart the neutral rally', consequence: 'Lost Initiative' },
+        ],
+        bestIndex: 2,
+        resultTitle: 'Elite Transition Tennis',
+        outcomes: [
+          'A brave play, but low margin. Nadal loves passing targets when given direction early.',
+          'Elite patience. Federer keeps Nadal defending while waiting for a shorter recovery ball.',
+          'Perfect timing. Federer attacks only after Nadal\'s recovery position is compromised enough to make the approach manageable.',
+          'Too cautious. Federer gives away the court position he worked hard to earn.',
+        ],
+        insightGood: 'The best attackers build pressure before they finish points. Great transition tennis is earned, not forced.',
+        insightBad: 'Attacking is about timing, not just aggression. Federer had earned the right to approach — the key is reading when Nadal\'s recovery position is compromised enough to make it work.',
       }
     ],
-    continueSetup: 'Nadal scrambles a deep defensive reply cross-court. Federer is still inside the baseline. The court is open — but now there\'s a choice about closing, redirecting, or rebuilding.',
-    continueQuestion: 'Do you close the net, change direction, or rebuild the point?',
+    continueSetup: 'Nadal blocks the approach low and short. Federer is moving forward. The crowd rises…',
+    continueQuestion: 'Do you take the volley down the line, angle it wide, or play the safe drop volley?',
   }
 ];
 
@@ -4882,6 +4919,7 @@ function renderLeg() {
   const el = document.getElementById('legContent');
   if (!el) return;
   if (legState.phase === 'intro') el.innerHTML = buildLegIntro();
+  else if (legState.phase === 'transition') el.innerHTML = buildLegTransition();
   else if (legState.phase === 'step') el.innerHTML = buildLegStep();
   else if (legState.phase === 'continue') el.innerHTML = buildLegContinue();
   window.scrollTo(0, 0);
@@ -4914,10 +4952,25 @@ function enterLegExchange() {
   renderLeg();
 }
 
+// ── TRANSITION ──
+function buildLegTransition() {
+  const ex = legState.exchange;
+  const nextStep = ex.steps[legState.stepIdx];
+  const caption = nextStep && nextStep.transitionCaption ? nextStep.transitionCaption : 'Nadal gets there.';
+  return `
+    <div class="leg-crowd-glow"></div>
+    <div class="leg-grass-lines"></div>
+    <div class="leg-trans-wrap">
+      <div class="leg-trans-caption">${caption}</div>
+      <div class="leg-trans-sub">The rally continues…</div>
+    </div>`;
+}
+
 // ── STEP ──
 function buildLegStep() {
   const ex = legState.exchange;
   const step = ex.steps[legState.stepIdx];
+  const isLaterStep = legState.stepIdx > 0;
   const opts = step.options.map((o, i) => `
     <div class="leg-opt" id="legOpt${i}" onclick="pickLegAnswer(${i})">
       <div class="leg-opt-ltr">${o.letter}</div>
@@ -4926,12 +4979,23 @@ function buildLegStep() {
         <div class="leg-consequence" id="legCons${i}">${o.consequence}</div>
       </div>
     </div>`).join('');
+
+  const momentumHtml = step.showMomentum ? `
+    <div class="leg-momentum">
+      <div class="leg-mom-name">FED</div>
+      <div class="leg-mom-track">
+        <div class="leg-mom-fill" style="--mom-w:${step.momentumPct}%"></div>
+      </div>
+      <div class="leg-mom-name">NAD</div>
+    </div>` : '';
+
   return `
-    <div class="leg-crowd-glow"></div>
+    ${isLaterStep ? '<div class="leg-crowd-glow-2"></div>' : '<div class="leg-crowd-glow"></div>'}
     <div class="leg-grass-lines"></div>
     <div class="leg-step-wrap">
       <div class="leg-back-btn" onclick="startLegendaryExchange('${ex.id}')">←</div>
       <div class="leg-step-tag">${step.tag}</div>
+      ${momentumHtml}
       <div class="leg-situation">${step.situation}</div>
       <div class="leg-commentary">${step.commentary}</div>
       <div class="leg-question">${step.question}</div>
@@ -4983,39 +5047,102 @@ function pickLegAnswer(idx) {
 
 // ── COURT ANIMATION ──
 function buildLegCourtAnim(ansIdx, step) {
-  // Top-down grass court, 320×195
-  // F = Federer (gold), inside baseline deuce side
-  // N = Nadal (red), stretched far left after return
-  // Ball paths differ per answer:
-  //  0 = DTL (Federer right → opponent right corner)
-  //  1 = Inside-out (Federer right → opponent left corner) ← BEST
-  //  2 = Drop shot (Federer right → service box short)
-  //  3 = Deep middle (Federer right → deep center)
+  const isStep2 = legState.stepIdx === 1;
 
-  const fX = 242, fY = 158;  // Federer inside baseline, deuce (right) side
-  const nX = 52,  nY = 42;   // Nadal stretched far left
+  if (isStep2) {
+    // Step 2: Federer pressed inside baseline, Nadal recovering to backhand side
+    // F at (195, 135) — further inside than step 1 (was 242,158)
+    // N at (65, 52)   — less stretched, recovering toward backhand side
+    const fX = 195, fY = 135;
+    const nX = 65,  nY = 52;
 
-  const paths = [
-    { d:`M${fX},${fY} Q278,88 285,28`,  len:175, color:'#ef5350', endX:285, endY:28,  nRX:278, nRY:35 },  // A DTL
-    { d:`M${fX},${fY} Q140,90 38,28`,   len:210, color:'#5bba6f', endX:38,  endY:28,  nRX:42,  nRY:58 },  // B Inside-out BEST
-    { d:`M${fX},${fY} Q205,118 178,112`,len:120, color:'#ffa726', endX:178, endY:112, nRX:155, nRY:75 },  // C Drop shot
-    { d:`M${fX},${fY} Q195,88 158,28`,  len:165, color:'#90caf9', endX:158, endY:28,  nRX:152, nRY:38 },  // D Deep middle
-  ];
-  const p = paths[ansIdx];
-  const isBest = ansIdx === step.bestIndex;
+    // Ghost position from step 1 to show forward movement
+    const ghostF = `<circle cx="242" cy="158" r="10" fill="none" stroke="rgba(200,168,75,.25)" stroke-width="1.5" stroke-dasharray="3,2"/>`;
 
-  // Nadal reaction: animate from start pos to reaction pos
-  const nReact = `<circle cx="${nX}" cy="${nY}" r="10" fill="#ef5350" opacity="0.85"/>
+    const paths2 = [
+      { d:`M${fX},${fY} Q285,108 288,28`, len:170, color:'#ef5350', endX:288, endY:28,  nRX:280, nRY:38 },  // A DTL backhand (red)
+      { d:`M${fX},${fY} Q100,88 38,28`,   len:200, color:'#ffa726', endX:38,  endY:28,  nRX:42,  nRY:55 },  // B Heavy CC (amber)
+      { d:`M${fX},${fY} Q118,90 82,22`,   len:168, color:'#5bba6f', endX:82,  endY:22,  nRX:78,  nRY:48 },  // C Approach backhand side (green BEST)
+      { d:`M${fX},${fY} Q175,108 160,28`, len:152, color:'#90caf9', endX:160, endY:28,  nRX:155, nRY:40 },  // D Retreat deep center (blue)
+    ];
+    const p2 = paths2[ansIdx];
+    const isBest = ansIdx === step.bestIndex;
+
+    // Approach arrow for best answer (C): Federer moving toward net
+    const approachArrow = isBest
+      ? `<line x1="${fX}" y1="${fY}" x2="${fX-12}" y2="${fY-24}" stroke="rgba(91,186,111,.7)" stroke-width="2" marker-end="url(#arrowGreen)" opacity="0" style="animation:tpop .3s .9s ease both"/>
+         <defs><marker id="arrowGreen" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="rgba(91,186,111,.8)"/></marker></defs>`
+      : '';
+
+    // Net glow for best answer (approach)
+    const netGlow = isBest
+      ? `<line x1="22" y1="97" x2="298" y2="97" stroke="rgba(91,186,111,.45)" stroke-width="4" opacity="0" style="animation:tpop .4s .95s ease both"/>`
+      : '';
+
+    const crowdRing2 = isBest
+      ? `<circle cx="${p2.endX}" cy="${p2.endY}" r="18" fill="rgba(91,186,111,.1)" stroke="rgba(91,186,111,.4)" stroke-width="1.5" opacity="0" style="animation:ballBloom .55s .72s ease forwards"/>`
+      : '';
+
+    const nReact2 = `<circle cx="${nX}" cy="${nY}" r="10" fill="#ef5350" opacity="0.85"/>
+  <text x="${nX}" y="${nY+4}" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">N</text>
+  <circle cx="${p2.nRX}" cy="${p2.nRY}" r="10" fill="rgba(239,83,80,.35)" stroke="#ef5350" stroke-width="1.5" stroke-dasharray="3,2" opacity="0" style="animation:tpop .25s .85s ease both"/>
+  <line x1="${nX}" y1="${nY}" x2="${p2.nRX}" y2="${p2.nRY}" stroke="rgba(239,83,80,.25)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0" style="animation:tpop .2s .78s ease both"/>`;
+
+    return `<svg viewBox="0 0 320 195" style="width:100%;display:block;border-radius:14px;">
+  <rect x="0" y="0" width="320" height="195" fill="#1a4a1e"/>
+  <rect x="0" y="0" width="320" height="195" fill="url(#grassPat2)" opacity="0.4"/>
+  <defs>
+    <pattern id="grassPat2" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)">
+      <rect width="3" height="6" fill="rgba(0,0,0,.12)"/>
+    </pattern>
+  </defs>
+  <rect x="22" y="14" width="276" height="167" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
+  ${netGlow}
+  <line x1="22" y1="97" x2="298" y2="97" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
+  <line x1="160" y1="94" x2="160" y2="100" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="22" y1="137" x2="298" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="97" x2="160" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="45" y1="14" x2="45" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="275" y1="14" x2="275" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <text x="30" y="27" fill="rgba(255,255,255,.28)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">NADAL END</text>
+  <text x="30" y="188" fill="rgba(255,255,255,.28)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">FEDERER END</text>
+  ${ghostF}
+  <path d="${p2.d}" stroke="${p2.color}" stroke-width="2.8" fill="none" stroke-linecap="round"
+    stroke-dasharray="${p2.len}" stroke-dashoffset="${p2.len}"
+    style="animation:drawPath .42s .05s ease forwards"/>
+  ${crowdRing2}
+  <circle cx="${p2.endX}" cy="${p2.endY}" r="7" fill="#d4e84a" opacity="0"
+    style="animation:tpop .22s .52s cubic-bezier(.34,1.5,.64,1) both"/>
+  ${approachArrow}
+  <circle cx="${fX}" cy="${fY}" r="11" fill="#c8a84b" opacity="0.95"/>
+  <text x="${fX}" y="${fY+4}" fill="#0a1509" font-size="9" font-weight="bold" text-anchor="middle" font-family="DM Sans,sans-serif">F</text>
+  ${nReact2}
+</svg>`;
+
+  } else {
+    // Step 1: Federer inside baseline deuce side, Nadal stretched far left
+    const fX = 242, fY = 158;
+    const nX = 52,  nY = 42;
+
+    const paths = [
+      { d:`M${fX},${fY} Q278,88 285,28`,  len:175, color:'#ef5350', endX:285, endY:28,  nRX:278, nRY:35 },  // A DTL
+      { d:`M${fX},${fY} Q140,90 38,28`,   len:210, color:'#5bba6f', endX:38,  endY:28,  nRX:42,  nRY:58 },  // B Inside-out BEST
+      { d:`M${fX},${fY} Q205,118 178,112`,len:120, color:'#ffa726', endX:178, endY:112, nRX:155, nRY:75 },  // C Drop shot
+      { d:`M${fX},${fY} Q195,88 158,28`,  len:165, color:'#90caf9', endX:158, endY:28,  nRX:152, nRY:38 },  // D Deep middle
+    ];
+    const p = paths[ansIdx];
+    const isBest = ansIdx === step.bestIndex;
+
+    const nReact = `<circle cx="${nX}" cy="${nY}" r="10" fill="#ef5350" opacity="0.85"/>
   <text x="${nX}" y="${nY+4}" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">N</text>
   <circle cx="${p.nRX}" cy="${p.nRY}" r="10" fill="rgba(239,83,80,.35)" stroke="#ef5350" stroke-width="1.5" stroke-dasharray="3,2" opacity="0" style="animation:tpop .25s .85s ease both"/>
   <line x1="${nX}" y1="${nY}" x2="${p.nRX}" y2="${p.nRY}" stroke="rgba(239,83,80,.25)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0" style="animation:tpop .2s .78s ease both"/>`;
 
-  const crowdRing = isBest
-    ? `<circle cx="${p.endX}" cy="${p.endY}" r="18" fill="rgba(91,186,111,.1)" stroke="rgba(91,186,111,.4)" stroke-width="1.5" opacity="0" style="animation:ballBloom .55s .72s ease forwards"/>`
-    : '';
+    const crowdRing = isBest
+      ? `<circle cx="${p.endX}" cy="${p.endY}" r="18" fill="rgba(91,186,111,.1)" stroke="rgba(91,186,111,.4)" stroke-width="1.5" opacity="0" style="animation:ballBloom .55s .72s ease forwards"/>`
+      : '';
 
-  return `<svg viewBox="0 0 320 195" style="width:100%;display:block;border-radius:14px;">
-  <!-- Grass surface -->
+    return `<svg viewBox="0 0 320 195" style="width:100%;display:block;border-radius:14px;">
   <rect x="0" y="0" width="320" height="195" fill="#1a4a1e"/>
   <rect x="0" y="0" width="320" height="195" fill="url(#grassPat)" opacity="0.4"/>
   <defs>
@@ -5023,35 +5150,26 @@ function buildLegCourtAnim(ansIdx, step) {
       <rect width="3" height="6" fill="rgba(0,0,0,.12)"/>
     </pattern>
   </defs>
-  <!-- Court boundary -->
   <rect x="22" y="14" width="276" height="167" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
-  <!-- Net -->
   <line x1="22" y1="97" x2="298" y2="97" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
   <line x1="160" y1="94" x2="160" y2="100" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
-  <!-- Service boxes -->
   <line x1="22" y1="137" x2="298" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
   <line x1="160" y1="97" x2="160" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-  <!-- Side alleys (singles) -->
   <line x1="45" y1="14" x2="45" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
   <line x1="275" y1="14" x2="275" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
-  <!-- Labels -->
   <text x="30" y="27" fill="rgba(255,255,255,.28)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">NADAL END</text>
   <text x="30" y="188" fill="rgba(255,255,255,.28)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">FEDERER END</text>
-  <!-- Ball path -->
   <path d="${p.d}" stroke="${p.color}" stroke-width="2.8" fill="none" stroke-linecap="round"
     stroke-dasharray="${p.len}" stroke-dashoffset="${p.len}"
     style="animation:drawPath .42s .05s ease forwards"/>
-  <!-- Crowd ring on best answer -->
   ${crowdRing}
-  <!-- Ball landing -->
   <circle cx="${p.endX}" cy="${p.endY}" r="7" fill="#d4e84a" opacity="0"
     style="animation:tpop .22s .52s cubic-bezier(.34,1.5,.64,1) both"/>
-  <!-- Federer marker -->
   <circle cx="${fX}" cy="${fY}" r="11" fill="#c8a84b" opacity="0.95"/>
   <text x="${fX}" y="${fY+4}" fill="#0a1509" font-size="9" font-weight="bold" text-anchor="middle" font-family="DM Sans,sans-serif">F</text>
-  <!-- Nadal marker + reaction -->
   ${nReact}
 </svg>`;
+  }
 }
 
 // ── RESULT CARD ──
@@ -5060,7 +5178,7 @@ function buildLegResultCard(ansIdx, step, isBest) {
   const outcome = step.outcomes[ansIdx];
   const insight = isBest ? step.insightGood : step.insightBad;
   const cls = isBest ? 'res-good' : 'res-bad';
-  const tag = isBest ? 'Elite Pattern' : opt.consequence;
+  const tag = isBest ? (step.resultTitle || 'Elite Pattern') : opt.consequence;
   return `
     <div class="leg-result-card ${cls}">
       <div class="leg-res-tag">${tag}</div>
@@ -5078,7 +5196,14 @@ function nextLegStep() {
     renderLeg();
   } else {
     legState.answered = false;
+    legState.phase = 'transition';
     renderLeg();
+    setTimeout(() => {
+      if (legState.phase === 'transition') {
+        legState.phase = 'step';
+        renderLeg();
+      }
+    }, 2200);
   }
 }
 
