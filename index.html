@@ -298,6 +298,74 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .pap-pill.pap-active{background:rgba(91,186,111,.18);border-color:rgba(91,186,111,.5);color:#5bba6f;}
 .pap-cta{width:100%;background:#5bba6f;color:#0d1a0f;border:none;border-radius:13px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .18s;}
 .pap-cta:active{transform:scale(.97);background:#4da85f;}
+/* ── LEGENDARY EXCHANGE HOME CARD ── */
+.leg-home-card{margin:14px 22px 0;background:linear-gradient(135deg,#0e1a0f 0%,#070d08 100%);border:1px solid rgba(200,168,75,.3);border-radius:18px;padding:20px;position:relative;z-index:1;overflow:hidden;cursor:pointer;transition:transform .18s;}
+.leg-home-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,rgba(200,168,75,.15),var(--gold),rgba(200,168,75,.15));background-size:200%;animation:shimmer 4s linear infinite;}
+.leg-home-card:active{transform:scale(.98);}
+.leg-home-eyebrow{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:7px;}
+.leg-home-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1.5px;color:var(--white);line-height:1.1;margin-bottom:5px;}
+.leg-home-sub{font-size:13px;color:rgba(255,255,255,.45);line-height:1.4;}
+.leg-home-badge{position:absolute;top:18px;right:18px;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.22);border-radius:20px;padding:4px 10px;font-size:9px;color:var(--gold);font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+/* ── LEGENDARY EXCHANGE SCREEN ── */
+.leg-screen-bg{min-height:100vh;background:#070d08;position:relative;}
+/* intro */
+.leg-crowd-glow{position:absolute;inset:0;background:radial-gradient(ellipse 100% 55% at 50% 85%,rgba(180,140,40,.1) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.leg-grass-lines{position:absolute;inset:0;opacity:.04;background:repeating-linear-gradient(175deg,#5bba6f 0,#5bba6f 1px,transparent 1px,transparent 28px);pointer-events:none;z-index:0;}
+.leg-year-bg{position:absolute;top:60px;left:0;right:0;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:110px;letter-spacing:6px;color:rgba(255,255,255,.03);pointer-events:none;z-index:0;line-height:1;}
+.leg-intro-wrap{position:relative;z-index:1;padding:58px 26px 36px;min-height:100vh;display:flex;flex-direction:column;}
+.leg-scoreboard{background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:9px 18px;font-family:'Courier New',monospace;font-size:13px;letter-spacing:2px;color:rgba(255,255,255,.8);text-align:center;margin-bottom:32px;}
+.leg-intro-eyebrow{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px;}
+.leg-intro-title{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:2px;color:var(--white);line-height:1.05;margin-bottom:4px;}
+.leg-intro-subtitle{font-size:14px;color:rgba(255,255,255,.4);font-style:italic;margin-bottom:28px;}
+.leg-atm-lines{margin-bottom:28px;}
+.leg-atm-line{font-size:16px;color:rgba(255,255,255,.72);line-height:1.7;opacity:0;animation:legFadeUp .55s ease forwards;}
+@keyframes legFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.leg-atmosphere{border-left:2px solid rgba(200,168,75,.35);padding-left:14px;margin-top:20px;font-size:14px;color:rgba(255,255,255,.5);line-height:1.65;font-style:italic;}
+.leg-enter-btn{margin-top:auto;background:var(--gold);color:#0a1509;border:none;border-radius:13px;padding:16px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;letter-spacing:.3px;width:100%;cursor:pointer;transition:all .2s;}
+.leg-enter-btn:active{transform:scale(.97);}
+/* step */
+.leg-step-wrap{padding:20px 22px 40px;position:relative;z-index:1;}
+.leg-back-btn{width:40px;height:40px;background:rgba(255,255,255,.06);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:18px;font-size:16px;color:rgba(255,255,255,.6);}
+.leg-step-tag{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;}
+.leg-situation{font-size:15px;line-height:1.65;color:rgba(255,255,255,.85);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px 18px;margin-bottom:10px;}
+.leg-commentary{font-size:13px;font-style:italic;color:rgba(255,255,255,.38);margin-bottom:22px;padding-left:2px;}
+.leg-question{font-size:19px;font-weight:600;color:var(--white);line-height:1.45;margin-bottom:16px;}
+.leg-opt{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.09);border-radius:14px;padding:13px 16px;cursor:pointer;margin-bottom:9px;display:flex;align-items:flex-start;gap:12px;transition:all .18s;position:relative;overflow:hidden;}
+.leg-opt:hover:not(.leg-locked){border-color:rgba(200,168,75,.32);background:rgba(200,168,75,.04);transform:translateX(3px);}
+.leg-opt.leg-best{border-color:#4caf50;background:rgba(76,175,80,.1);animation:optLift .28s ease both;}
+.leg-opt.leg-wrong{border-color:rgba(224,82,82,.4);background:rgba(224,82,82,.06);animation:optDrop .22s ease both;}
+.leg-opt.leg-locked{cursor:default;}
+.leg-opt-ltr{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:rgba(255,255,255,.7);flex-shrink:0;transition:all .22s;}
+.leg-opt.leg-best .leg-opt-ltr{background:#4caf50;color:#fff;}
+.leg-opt.leg-wrong .leg-opt-ltr{background:#e05252;color:#fff;}
+.leg-opt-body{flex:1;}
+.leg-opt-label{font-size:14px;color:rgba(255,255,255,.88);line-height:1.45;margin-bottom:3px;}
+.leg-consequence{font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;height:14px;opacity:0;transition:opacity .3s .12s;}
+.leg-opt.leg-best .leg-consequence{color:#5bba6f;opacity:1;}
+.leg-opt.leg-wrong .leg-consequence{color:#ef5350;opacity:1;}
+.leg-opt.leg-other .leg-consequence{color:rgba(255,255,255,.3);opacity:1;}
+/* court anim */
+.leg-anim-wrap{margin:20px 0 6px;border-radius:14px;overflow:hidden;}
+/* result */
+.leg-result-card{margin:4px 0 0;border-radius:16px;padding:18px;animation:exin .38s cubic-bezier(.34,1.1,.64,1);}
+.leg-result-card.res-good{background:rgba(28,60,24,.45);border:1px solid rgba(76,175,80,.22);}
+.leg-result-card.res-bad{background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.18);}
+.leg-res-tag{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:800;margin-bottom:8px;}
+.res-good .leg-res-tag{color:#5bba6f;}.res-bad .leg-res-tag{color:#ef5350;}
+.leg-res-choice{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:10px;}
+.leg-res-outcome{font-size:15px;line-height:1.65;color:rgba(255,255,255,.88);margin-bottom:14px;}
+.leg-res-insight{background:rgba(200,168,75,.07);border-left:2px solid var(--gold);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;font-style:italic;}
+.leg-next-btn{width:100%;background:var(--gold);color:#0a1509;border:none;border-radius:13px;padding:15px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:18px;display:none;transition:all .2s;}
+.leg-next-btn.show{display:block;animation:nxin .28s cubic-bezier(.34,1.3,.64,1);}
+.leg-next-btn:active{transform:scale(.97);}
+/* continue */
+.leg-continue-wrap{position:relative;z-index:1;padding:60px 26px 40px;min-height:100vh;display:flex;flex-direction:column;}
+.leg-continue-eyebrow{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px;}
+.leg-continue-hed{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:1.5px;color:var(--white);line-height:1.15;margin-bottom:12px;}
+.leg-continue-body{font-size:15px;line-height:1.7;color:rgba(255,255,255,.55);margin-bottom:28px;}
+.leg-coming-soon{display:inline-block;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.2);border-radius:20px;padding:6px 16px;font-size:10px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:28px;}
+.leg-home-link{width:100%;background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:auto;}
+.leg-home-link:active{transform:scale(.97);}
 /* ── START HERE CARD ── */
 .start-here-card{margin:18px 22px 0;cursor:pointer;position:relative;z-index:1;}
 .start-here-inner{background:linear-gradient(135deg,var(--gold) 0%,#b8932a 100%);border-radius:18px;padding:20px 20px 18px;position:relative;overflow:hidden;active-transform:scale(.98);}
@@ -555,7 +623,15 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       <button class="pap-cta" id="papCta" onclick="startPlayAPoint()">Start Point →</button>
     </div>
 
-    <!-- 3. START HERE / PROFILE FLOW -->
+    <!-- 3. LEGENDARY EXCHANGE -->
+    <div class="leg-home-card" onclick="startLegendaryExchange('wim2008_exchange_001')">
+      <div class="leg-home-badge">NEW</div>
+      <div class="leg-home-eyebrow">🏆 Legendary Exchange</div>
+      <div class="leg-home-title">Step inside a famous<br>grass-court point.</div>
+      <div class="leg-home-sub">London 2008 Final-inspired. Federer vs Nadal. Fifth set.</div>
+    </div>
+
+    <!-- 4. START HERE / PROFILE FLOW -->
     <div class="start-here-card" id="startHereCard" onclick="handleStartHere()">
       <div class="start-here-inner">
         <div class="sh-eyebrow" id="shEyebrow">🎾 Start Here</div>
@@ -761,6 +837,11 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     </div>
 
   </div>
+</div>
+
+<!-- LEGENDARY EXCHANGE SCREEN -->
+<div class="screen" id="legendaryScreen">
+  <div class="leg-screen-bg" id="legContent"></div>
 </div>
 
 <script>
@@ -4735,6 +4816,288 @@ function recordFeedback(key, val) {
     if (fq2) fq2.style.display = 'none';
     if (ft) ft.style.display = 'block';
   }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// LEGENDARY EXCHANGE
+// ══════════════════════════════════════════════════════════════════
+
+const LEGENDARY_EXCHANGES = [
+  {
+    id: 'wim2008_exchange_001',
+    title: 'London 2008: The Half-Court Opening',
+    matchLabel: 'Grass-court final, 2008',
+    players: 'Federer vs Nadal-inspired exchange',
+    scoreboard: 'FED  7 – 7  NAD  |  Fifth Set',
+    introLines: [
+      'London, 2008.',
+      'Fifth set. Light fading.',
+      'Every serve feels like it could decide history.'
+    ],
+    atmosphere: 'Federer is protecting serve. Nadal is reading patterns, leaning into the forehand return — recovering like a storm cloud with legs.',
+    steps: [
+      {
+        id: 'step_1',
+        tag: 'Grass-court final · Fifth set · 7–7',
+        situation: 'Federer serves wide to the deuce side. Nadal stretches and blocks a short crosscourt return. Federer steps inside the baseline — half the court is open.',
+        commentary: '"He has half a court. But Nadal is already on the move…"',
+        question: 'What should Federer do next?',
+        options: [
+          { letter: 'A', label: 'Go for the clean forehand winner down the line', consequence: 'Tempting — Low Margin' },
+          { letter: 'B', label: 'Heavy inside-out forehand into Nadal\'s backhand corner', consequence: 'Elite Pattern' },
+          { letter: 'C', label: 'Drop shot immediately', consequence: 'Too Cute Too Soon' },
+          { letter: 'D', label: 'Reset deep to the middle and restart the rally', consequence: 'Safe — But Wasteful' },
+        ],
+        bestIndex: 1,
+        outcomes: [
+          'The line was open — but the margin was thin. Nadal only needed one look to counter-pass down the line.',
+          'Smart. Federer uses the open court without gambling on the sideline. Nadal has to run one more uncomfortable ball.',
+          'Too cute too soon. Against Nadal\'s recovery speed on grass, you need disguise he doesn\'t have time to read.',
+          'Safe — but the opening disappears. On grass, hesitation is expensive. The court closes in half a second.',
+        ],
+        insightGood: 'Great attackers don\'t always finish immediately. They make the defender hit one more uncomfortable ball. The inside-out forehand is the decision that looks slow but wins fast.',
+        insightBad: 'On grass, with inside baseline position, the elite choice is the high-percentage pressure ball — not the sideline gamble, not the trick shot, not the reset. Keep Nadal stretched.',
+      }
+    ],
+    continueSetup: 'Nadal scrambles a deep defensive reply cross-court. Federer is still inside the baseline. The court is open — but now there\'s a choice about closing, redirecting, or rebuilding.',
+    continueQuestion: 'Do you close the net, change direction, or rebuild the point?',
+  }
+];
+
+// ── STATE ──
+let legState = { exchange: null, stepIdx: 0, answered: false, phase: 'intro' };
+
+// ── ENTRY POINT ──
+function startLegendaryExchange(id) {
+  legState.exchange = LEGENDARY_EXCHANGES.find(e => e.id === id) || LEGENDARY_EXCHANGES[0];
+  legState.stepIdx = 0;
+  legState.answered = false;
+  legState.phase = 'intro';
+  showScreen('legendaryScreen');
+  window.scrollTo(0, 0);
+  renderLeg();
+}
+
+function renderLeg() {
+  const el = document.getElementById('legContent');
+  if (!el) return;
+  if (legState.phase === 'intro') el.innerHTML = buildLegIntro();
+  else if (legState.phase === 'step') el.innerHTML = buildLegStep();
+  else if (legState.phase === 'continue') el.innerHTML = buildLegContinue();
+  window.scrollTo(0, 0);
+}
+
+// ── INTRO ──
+function buildLegIntro() {
+  const ex = legState.exchange;
+  const lines = ex.introLines.map((l, i) =>
+    `<div class="leg-atm-line" style="animation-delay:${i * 0.18}s">${l}</div>`
+  ).join('');
+  return `
+    <div class="leg-crowd-glow"></div>
+    <div class="leg-grass-lines"></div>
+    <div class="leg-year-bg">2008</div>
+    <div class="leg-intro-wrap">
+      <div class="leg-scoreboard">${ex.scoreboard}</div>
+      <div class="leg-intro-eyebrow">${ex.matchLabel}</div>
+      <div class="leg-intro-title">${ex.players}</div>
+      <div class="leg-intro-subtitle">${ex.matchLabel}</div>
+      <div class="leg-atm-lines">${lines}</div>
+      <div class="leg-atmosphere">${ex.atmosphere}</div>
+      <button class="leg-enter-btn" onclick="enterLegExchange()" style="margin-top:40px;">Enter the Exchange →</button>
+    </div>`;
+}
+
+function enterLegExchange() {
+  legState.phase = 'step';
+  legState.answered = false;
+  renderLeg();
+}
+
+// ── STEP ──
+function buildLegStep() {
+  const ex = legState.exchange;
+  const step = ex.steps[legState.stepIdx];
+  const opts = step.options.map((o, i) => `
+    <div class="leg-opt" id="legOpt${i}" onclick="pickLegAnswer(${i})">
+      <div class="leg-opt-ltr">${o.letter}</div>
+      <div class="leg-opt-body">
+        <div class="leg-opt-label">${o.label}</div>
+        <div class="leg-consequence" id="legCons${i}">${o.consequence}</div>
+      </div>
+    </div>`).join('');
+  return `
+    <div class="leg-crowd-glow"></div>
+    <div class="leg-grass-lines"></div>
+    <div class="leg-step-wrap">
+      <div class="leg-back-btn" onclick="startLegendaryExchange('${ex.id}')">←</div>
+      <div class="leg-step-tag">${step.tag}</div>
+      <div class="leg-situation">${step.situation}</div>
+      <div class="leg-commentary">${step.commentary}</div>
+      <div class="leg-question">${step.question}</div>
+      ${opts}
+      <div id="legAnim" class="leg-anim-wrap"></div>
+      <div id="legResult"></div>
+      <button class="leg-next-btn" id="legNextBtn" onclick="nextLegStep()">Play Next Ball →</button>
+    </div>`;
+}
+
+// ── PICK ANSWER ──
+function pickLegAnswer(idx) {
+  if (legState.answered) return;
+  legState.answered = true;
+  legState.answerIdx = idx;
+  const step = legState.exchange.steps[legState.stepIdx];
+  const isBest = idx === step.bestIndex;
+
+  // Lock all opts + reveal consequences
+  step.options.forEach((_, i) => {
+    const el = document.getElementById('legOpt' + i);
+    if (!el) return;
+    el.classList.add('leg-locked');
+    if (i === step.bestIndex) el.classList.add('leg-best');
+    else if (i === idx) el.classList.add('leg-wrong');
+    else el.classList.add('leg-other');
+  });
+
+  // Court animation
+  const animEl = document.getElementById('legAnim');
+  if (animEl) {
+    animEl.innerHTML = buildLegCourtAnim(idx, step);
+    animEl.style.display = 'block';
+  }
+
+  // Result card
+  setTimeout(() => {
+    const resEl = document.getElementById('legResult');
+    if (resEl) {
+      resEl.innerHTML = buildLegResultCard(idx, step, isBest);
+      resEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    setTimeout(() => {
+      const nb = document.getElementById('legNextBtn');
+      if (nb) nb.classList.add('show');
+    }, 350);
+  }, 600);
+}
+
+// ── COURT ANIMATION ──
+function buildLegCourtAnim(ansIdx, step) {
+  // Top-down grass court, 320×195
+  // F = Federer (gold), inside baseline deuce side
+  // N = Nadal (red), stretched far left after return
+  // Ball paths differ per answer:
+  //  0 = DTL (Federer right → opponent right corner)
+  //  1 = Inside-out (Federer right → opponent left corner) ← BEST
+  //  2 = Drop shot (Federer right → service box short)
+  //  3 = Deep middle (Federer right → deep center)
+
+  const fX = 242, fY = 158;  // Federer inside baseline, deuce (right) side
+  const nX = 52,  nY = 42;   // Nadal stretched far left
+
+  const paths = [
+    { d:`M${fX},${fY} Q278,88 285,28`,  len:175, color:'#ef5350', endX:285, endY:28,  nRX:278, nRY:35 },  // A DTL
+    { d:`M${fX},${fY} Q140,90 38,28`,   len:210, color:'#5bba6f', endX:38,  endY:28,  nRX:42,  nRY:58 },  // B Inside-out BEST
+    { d:`M${fX},${fY} Q205,118 178,112`,len:120, color:'#ffa726', endX:178, endY:112, nRX:155, nRY:75 },  // C Drop shot
+    { d:`M${fX},${fY} Q195,88 158,28`,  len:165, color:'#90caf9', endX:158, endY:28,  nRX:152, nRY:38 },  // D Deep middle
+  ];
+  const p = paths[ansIdx];
+  const isBest = ansIdx === step.bestIndex;
+
+  // Nadal reaction: animate from start pos to reaction pos
+  const nReact = `<circle cx="${nX}" cy="${nY}" r="10" fill="#ef5350" opacity="0.85"/>
+  <text x="${nX}" y="${nY+4}" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">N</text>
+  <circle cx="${p.nRX}" cy="${p.nRY}" r="10" fill="rgba(239,83,80,.35)" stroke="#ef5350" stroke-width="1.5" stroke-dasharray="3,2" opacity="0" style="animation:tpop .25s .85s ease both"/>
+  <line x1="${nX}" y1="${nY}" x2="${p.nRX}" y2="${p.nRY}" stroke="rgba(239,83,80,.25)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0" style="animation:tpop .2s .78s ease both"/>`;
+
+  const crowdRing = isBest
+    ? `<circle cx="${p.endX}" cy="${p.endY}" r="18" fill="rgba(91,186,111,.1)" stroke="rgba(91,186,111,.4)" stroke-width="1.5" opacity="0" style="animation:ballBloom .55s .72s ease forwards"/>`
+    : '';
+
+  return `<svg viewBox="0 0 320 195" style="width:100%;display:block;border-radius:14px;">
+  <!-- Grass surface -->
+  <rect x="0" y="0" width="320" height="195" fill="#1a4a1e"/>
+  <rect x="0" y="0" width="320" height="195" fill="url(#grassPat)" opacity="0.4"/>
+  <defs>
+    <pattern id="grassPat" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)">
+      <rect width="3" height="6" fill="rgba(0,0,0,.12)"/>
+    </pattern>
+  </defs>
+  <!-- Court boundary -->
+  <rect x="22" y="14" width="276" height="167" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
+  <!-- Net -->
+  <line x1="22" y1="97" x2="298" y2="97" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
+  <line x1="160" y1="94" x2="160" y2="100" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <!-- Service boxes -->
+  <line x1="22" y1="137" x2="298" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="97" x2="160" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <!-- Side alleys (singles) -->
+  <line x1="45" y1="14" x2="45" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="275" y1="14" x2="275" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <!-- Labels -->
+  <text x="30" y="27" fill="rgba(255,255,255,.28)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">NADAL END</text>
+  <text x="30" y="188" fill="rgba(255,255,255,.28)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">FEDERER END</text>
+  <!-- Ball path -->
+  <path d="${p.d}" stroke="${p.color}" stroke-width="2.8" fill="none" stroke-linecap="round"
+    stroke-dasharray="${p.len}" stroke-dashoffset="${p.len}"
+    style="animation:drawPath .42s .05s ease forwards"/>
+  <!-- Crowd ring on best answer -->
+  ${crowdRing}
+  <!-- Ball landing -->
+  <circle cx="${p.endX}" cy="${p.endY}" r="7" fill="#d4e84a" opacity="0"
+    style="animation:tpop .22s .52s cubic-bezier(.34,1.5,.64,1) both"/>
+  <!-- Federer marker -->
+  <circle cx="${fX}" cy="${fY}" r="11" fill="#c8a84b" opacity="0.95"/>
+  <text x="${fX}" y="${fY+4}" fill="#0a1509" font-size="9" font-weight="bold" text-anchor="middle" font-family="DM Sans,sans-serif">F</text>
+  <!-- Nadal marker + reaction -->
+  ${nReact}
+</svg>`;
+}
+
+// ── RESULT CARD ──
+function buildLegResultCard(ansIdx, step, isBest) {
+  const opt = step.options[ansIdx];
+  const outcome = step.outcomes[ansIdx];
+  const insight = isBest ? step.insightGood : step.insightBad;
+  const cls = isBest ? 'res-good' : 'res-bad';
+  const tag = isBest ? 'Elite Pattern' : opt.consequence;
+  return `
+    <div class="leg-result-card ${cls}">
+      <div class="leg-res-tag">${tag}</div>
+      <div class="leg-res-choice">You chose: ${opt.label}</div>
+      <div class="leg-res-outcome">${outcome}</div>
+      <div class="leg-res-insight">${insight}</div>
+    </div>`;
+}
+
+// ── NEXT STEP / CONTINUE ──
+function nextLegStep() {
+  legState.stepIdx++;
+  if (legState.stepIdx >= legState.exchange.steps.length) {
+    legState.phase = 'continue';
+    renderLeg();
+  } else {
+    legState.answered = false;
+    renderLeg();
+  }
+}
+
+// ── CONTINUE (next ball teaser) ──
+function buildLegContinue() {
+  const ex = legState.exchange;
+  return `
+    <div class="leg-crowd-glow"></div>
+    <div class="leg-grass-lines"></div>
+    <div class="leg-continue-wrap">
+      <div class="leg-back-btn" onclick="initHome()">←</div>
+      <div class="leg-continue-eyebrow">Exchange continues…</div>
+      <div class="leg-continue-hed">The next ball.</div>
+      <div class="leg-continue-body">${ex.continueSetup}</div>
+      <div class="leg-continue-body" style="color:rgba(255,255,255,.35);font-style:italic;">"${ex.continueQuestion}"</div>
+      <div class="leg-coming-soon">Next ball coming soon</div>
+      <div style="flex:1"></div>
+      <button class="leg-home-link" onclick="initHome()">← Back to GameSharp</button>
+    </div>`;
 }
 
 // Boot
