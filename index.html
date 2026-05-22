@@ -5037,12 +5037,13 @@ const TOMORROW_TEASERS = {
 function pickDailyChallengePool(n) {
   n = n || 5;
   const pool = QBANK.filter(q => q.tier === 'Free' || !q.tier);
-  // Score each question by engagement + utility
-  const scored = pool.map(q => ({
+  // Apply anti-repeat first — strict unseen preference
+  const fresh = getAntiRepeatPool(pool);
+  // Among fresh, prefer high engagement+utility, then shuffle top tier for variety
+  const scored = fresh.map(q => ({
     q,
     score: (parseFloat(q.engagement_score)||3) + (parseFloat(q.utility_score)||3)
   }));
-  // Sort descending, take top 40%, then shuffle within that for variety
   scored.sort((a,b) => b.score - a.score);
   const topCut = Math.max(n * 3, Math.ceil(scored.length * 0.4));
   const top = scored.slice(0, topCut).map(x => x.q);
@@ -6009,8 +6010,8 @@ function recordSeenQuestions(questions) {
       if (q.hook_type) seen.hooks[q.hook_type] = (seen.hooks[q.hook_type]||0)+1;
       if (q.skill_target) seen.skills[q.skill_target] = (seen.skills[q.skill_target]||0)+1;
     });
-    // Keep only last 150 IDs to avoid unbounded growth
-    if (seen.ids.length > 150) seen.ids = seen.ids.slice(-150);
+    // Keep last 300 IDs (80% of the bank) — enough memory to avoid repetition meaningfully
+    if (seen.ids.length > 300) seen.ids = seen.ids.slice(-300);
     localStorage.setItem('gamesharp_seen', JSON.stringify(seen));
   } catch(e) {}
 }
@@ -6019,17 +6020,17 @@ function getAntiRepeatPool(pool) {
   const seen = getSeenData();
   const seenIds = new Set(seen.ids || []);
   const seenModules = seen.modules || {};
-  // Score each question: fresh IDs get +10, overused modules get penalised
-  const scored = pool.map(q => {
-    let score = seenIds.has(q.id) ? 0 : 10;
-    score -= Math.min((seenModules[q.module]||0) * 1.5, 7);
-    score += (parseFloat(q.engagement_score)||3) * 0.4; // slight quality bias
-    return { q, score };
+  const byEng = (a, b) => (parseFloat(b.engagement_score)||3) - (parseFloat(a.engagement_score)||3);
+
+  // Hard split: unseen first, seen only as fallback
+  const unseen = pool.filter(q => !seenIds.has(q.id)).sort(byEng);
+  if (unseen.length >= 3) return unseen;
+
+  // Pool exhausted — return all, least-revisited modules first
+  return [...pool].sort((a, b) => {
+    const diff = (seenModules[a.module]||0) - (seenModules[b.module]||0);
+    return diff !== 0 ? diff : byEng(a, b);
   });
-  scored.sort((a, b) => b.score - a.score);
-  // Return top 65%, but always at least 6 to prevent empty pools
-  const cutoff = Math.max(6, Math.ceil(scored.length * 0.65));
-  return scored.slice(0, cutoff).map(x => x.q);
 }
 
 // ── FORMAT LABELS ──
@@ -6050,24 +6051,21 @@ function fmtLabel(key) {
 
 // ── VARIED BUNDLE PICKER ──
 function pickVariedBundle(pool, size) {
-  // Try to include at least one question with pro_insight and one with common_pitfall for format variety
-  const withPro = pool.filter(q => q.pro_insight);
-  const withTrap = pool.filter(q => q.common_pitfall);
-  const rest = pool.filter(q => !q.pro_insight && !q.common_pitfall);
+  // Shuffle within each category so picks vary across sessions
+  const withPro  = shuffle(pool.filter(q => q.pro_insight));
+  const withTrap = shuffle(pool.filter(q => q.common_pitfall));
   const picked = [];
-  // First slot: easiest (already sorted by difficulty in callers)
-  if (pool[0]) picked.push(pool[0]);
-  // Inject a trap if available
+  // First slot: pick from the easiest tier (bottom 20% by difficulty rank) at random
+  const easyTier = pool.slice(0, Math.max(1, Math.ceil(pool.length * 0.2)));
+  const opener = shuffle(easyTier)[0];
+  if (opener) picked.push(opener);
+  // Inject a trap
   const trapQ = withTrap.find(q => !picked.includes(q));
   if (trapQ && picked.length < size) picked.push(trapQ);
-  // Inject a pro-replay if available
+  // Inject a pro-replay
   const proQ = withPro.find(q => !picked.includes(q));
   if (proQ && picked.length < size) picked.push(proQ);
-  // Fill with remaining
-  for (const q of shuffle(rest)) {
-    if (picked.length >= size) break;
-    if (!picked.includes(q)) picked.push(q);
-  }
+  // Fill with shuffled remainder
   for (const q of shuffle(pool)) {
     if (picked.length >= size) break;
     if (!picked.includes(q)) picked.push(q);
