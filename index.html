@@ -554,7 +554,96 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   52% {filter:blur(0)brightness(1.16)contrast(1.08)}
   100%{filter:blur(0)brightness(1)contrast(1)}
 }
-.home-logo.logo-sharpen{animation:logoFocus .65s cubic-bezier(.4,0,.2,1) forwards;}
+.home-logo.logo-sharpen,.gs-hero-logo.logo-sharpen{animation:logoFocus .65s cubic-bezier(.4,0,.2,1) forwards;}
+
+/* ══════════════════════════════════════════════════════════
+   GAMESHARP DASHBOARD v2 — Netflix-style layout
+   Mobile: scrollable gs-main + fixed bottom nav
+   Desktop ≥768px: sticky left sidebar + gs-main scroll
+   ══════════════════════════════════════════════════════════ */
+#homeScreen{flex-direction:row!important;height:100vh!important;overflow:hidden!important;}
+
+/* ── SIDEBAR ── */
+.gs-sidebar{display:none;flex-direction:column;width:68px;min-width:68px;height:100vh;background:rgba(9,16,7,.98);border-right:1px solid rgba(255,255,255,.055);padding:22px 0 24px;align-items:center;gap:2px;flex-shrink:0;overflow:hidden;transition:width .22s,min-width .22s,padding .22s;}
+@media(min-width:768px){
+  .gs-sidebar{display:flex;}
+  .gs-sidebar:hover{width:200px;min-width:200px;padding:22px 10px 24px;align-items:flex-start;}
+  .gs-sidebar:hover .gs-nav-label{display:block;}
+}
+.gs-sbar-logo{width:38px;height:38px;border-radius:10px;background:radial-gradient(circle at 36% 36%,#d8f04e,#9eb528);display:flex;align-items:center;justify-content:center;margin-bottom:18px;flex-shrink:0;box-shadow:0 4px 16px rgba(158,181,40,.32);}
+.gs-sbar-logo-inner{width:22px;height:22px;color:#2a4a00;}
+.gs-sbar-nav{width:100%;display:flex;flex-direction:column;gap:2px;padding:0 8px;}
+.gs-nav-item{display:flex;align-items:center;gap:11px;padding:10px;border-radius:10px;cursor:pointer;color:rgba(255,255,255,.34);width:100%;transition:all .18s;white-space:nowrap;overflow:hidden;min-width:0;}
+.gs-nav-item:hover{color:rgba(255,255,255,.7);background:rgba(255,255,255,.05);}
+.gs-nav-item.gs-nav-active{color:#5bba6f;background:rgba(91,186,111,.1);}
+.gs-nav-icon{width:20px;height:20px;flex-shrink:0;}
+.gs-nav-label{display:none;font-size:13px;font-weight:600;}
+
+/* ── MAIN SCROLL AREA ── */
+.gs-main{flex:1;overflow-y:auto;overflow-x:hidden;height:100vh;-webkit-overflow-scrolling:touch;padding-bottom:80px;min-width:0;}
+@media(min-width:768px){.gs-main{padding-bottom:36px;}}
+
+/* ── BOTTOM NAV — mobile only ── */
+.gs-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:500;display:flex;height:56px;background:rgba(9,14,7,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.07);}
+@media(min-width:768px){.gs-bottom-nav{display:none!important;}}
+.gs-bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:rgba(255,255,255,.3);font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:color .18s;}
+.gs-bnav-item.gs-bnav-active{color:#5bba6f;}
+.gs-bnav-icon{width:19px;height:19px;}
+
+/* ── HERO ── */
+.gs-hero{position:relative;padding:38px 22px 20px;overflow:hidden;}
+.gs-hero-bg{position:absolute;inset:0;background:linear-gradient(145deg,rgba(20,52,16,.65) 0%,rgba(10,14,8,.0) 55%);pointer-events:none;}
+.gs-hero-visual{position:absolute;right:0;top:0;bottom:0;width:52%;pointer-events:none;opacity:.5;}
+.gs-hero-inner{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;}
+.gs-hero-text{flex:1;min-width:0;}
+.gs-hero-logo{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:5px;line-height:1;color:var(--white);position:relative;display:block;}
+.gs-hero-logo span{color:var(--gold);}
+.gs-hero-sub{font-size:11px;letter-spacing:.4px;color:rgba(255,255,255,.36);margin-top:5px;font-weight:500;}
+.gs-hero-right{display:flex;align-items:center;gap:10px;flex-shrink:0;padding-bottom:3px;}
+.gs-streak-chip{display:none;background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.28);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.3px;}
+.gs-hero .home-ball{position:relative;top:auto;right:auto;width:42px;height:42px;font-size:22px;}
+
+/* ── TOP CARDS ── */
+.gs-top-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:8px 14px 0;}
+.gs-top-cards .daily-card,.gs-top-cards .start-here-card{margin:0!important;}
+.gs-top-cards .daily-inner{padding:13px;}
+.gs-top-cards .daily-q{font-size:12px;line-height:1.48;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+.gs-top-cards .start-here-inner{padding:13px!important;}
+.gs-top-cards .sh-headline{font-size:18px;}
+.gs-top-cards .sh-sub{font-size:11px;line-height:1.4;}
+
+/* ── FEATURE CARD — PLAY A POINT ── */
+.gs-pap-feature{margin:12px 14px 0;background:linear-gradient(135deg,rgba(15,52,18,.98) 0%,rgba(8,26,10,.99) 100%);border:1px solid rgba(91,186,111,.3);border-radius:20px;padding:22px 18px 20px;position:relative;overflow:hidden;display:flex;align-items:stretch;min-height:185px;}
+.gs-pap-feature::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#5bba6f,#a8c850,#5bba6f,transparent);background-size:300%;animation:shimmer 3s linear infinite;}
+.gs-pap-feature::after{content:'';position:absolute;bottom:-25px;right:110px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(91,186,111,.09) 0%,transparent 70%);pointer-events:none;}
+.gs-pap-left{flex:1;display:flex;flex-direction:column;justify-content:space-between;z-index:1;position:relative;min-width:0;padding-right:6px;}
+.gs-pap-tag{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#5bba6f;font-weight:700;margin-bottom:9px;}
+.gs-pap-big{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:2px;color:var(--white);line-height:1.02;margin-bottom:2px;}
+.gs-pap-desc{font-size:9.5px;color:rgba(255,255,255,.36);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;}
+.gs-pap-bottom{display:flex;flex-direction:column;gap:10px;}
+.gs-pap-cta-btn{display:inline-flex;align-items:center;gap:8px;background:#5bba6f;color:#061208;border:none;border-radius:24px;padding:11px 18px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;align-self:flex-start;}
+.gs-pap-cta-btn:active{transform:scale(.96);}
+.gs-pap-play-dot{width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;}
+.gs-pap-court-side{width:108px;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;z-index:1;}
+/* Court ping pulse on player dot */
+@keyframes courtPing{0%{opacity:.55;transform:scale(1);}70%{opacity:0;transform:scale(2.8);}100%{opacity:0;}}
+.court-ping{transform-box:fill-box;transform-origin:center;animation:courtPing 2s ease-out infinite;}
+
+/* ── SECTION HEADERS ── */
+.gs-section-hdr{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.4);font-weight:700;padding:20px 22px 10px;}
+
+/* ── PILLARS ROW — horizontal scroll mobile, 5-col desktop ── */
+.gs-pillars-row{display:flex;gap:10px;overflow-x:auto;padding:0 14px 14px;scrollbar-width:none;-ms-overflow-style:none;}
+.gs-pillars-row::-webkit-scrollbar{display:none;}
+.gs-pillars-row .pillar-card{min-width:148px;flex-shrink:0;min-height:168px;transition:transform .22s cubic-bezier(.34,1.2,.64,1),box-shadow .22s;}
+.gs-pillars-row .pillar-card:hover{transform:translateY(-5px);box-shadow:0 12px 36px rgba(0,0,0,.5),0 0 0 1.5px var(--pc,rgba(200,168,75,.4));}
+@media(min-width:768px){
+  .gs-pillars-row{display:grid;grid-template-columns:repeat(5,1fr);overflow-x:visible;padding:0 14px 14px;}
+  .gs-pillars-row .pillar-card{min-width:0;}
+}
+/* Continue / Enter button */
+.pc-btn{display:block;margin-top:9px;width:100%;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:7px 0;color:rgba(255,255,255,.6);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;text-align:center;cursor:pointer;transition:background .18s;}
+.pillar-card:hover .pc-btn{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);}
 
 /* Streak tier animations */
 @keyframes streakPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
@@ -633,42 +722,101 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 
 <!-- HOME -->
 <div class="screen active" id="homeScreen">
+  <!-- Court atmosphere background -->
   <svg class="court-bg" viewBox="0 0 320 600" fill="none" preserveAspectRatio="xMidYMid slice">
-    <rect width="320" height="600" fill="#152c12" opacity="0.3"/>
-    <rect x="18" y="30" width="284" height="540" stroke="rgba(255,255,255,0.07)" stroke-width="1.5" fill="none"/>
-    <line x1="160" y1="30" x2="160" y2="570" stroke="rgba(255,255,255,0.07)" stroke-width="1.5"/>
-    <rect x="18" y="180" width="284" height="180" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
-    <line x1="18" y1="270" x2="160" y2="270" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-    <line x1="160" y1="270" x2="302" y2="270" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-    <rect x="152" y="265" width="16" height="10" rx="2" fill="rgba(255,255,255,0.04)"/>
+    <rect width="320" height="600" fill="#152c12" opacity="0.28"/>
+    <rect x="18" y="30" width="284" height="540" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" fill="none"/>
+    <line x1="160" y1="30" x2="160" y2="570" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
+    <rect x="18" y="180" width="284" height="180" stroke="rgba(255,255,255,0.04)" stroke-width="1" fill="none"/>
+    <line x1="18" y1="270" x2="302" y2="270" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
   </svg>
-  <div class="home-inner">
 
-    <!-- HEADER — slim wordmark only -->
-    <div class="home-header">
-      <div class="home-hbg"></div>
-      <div class="home-logo" id="homeLogo">Game<span>Shar<em class="logo-p-target">p</em></span></div>
-      <!-- drop ball — one-time bouncing intro -->
-      <div class="logo-drop-ball" id="logoBallRoll" aria-hidden="true">
-        <svg width="22" height="22" viewBox="0 0 22 22">
+  <!-- ── LEFT SIDEBAR (desktop ≥768px) ── -->
+  <div class="gs-sidebar">
+    <div class="gs-sbar-logo">
+      <svg class="gs-sbar-logo-inner" viewBox="0 0 24 24" fill="currentColor">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M3.5 9.5Q12 11.5 20.5 9.5" fill="none" stroke="rgba(0,0,0,.3)" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M3 14.5Q12 12.5 21 14.5" fill="none" stroke="rgba(0,0,0,.3)" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <nav class="gs-sbar-nav">
+      <div class="gs-nav-item gs-nav-active" onclick="initHome()">
+        <svg class="gs-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="gs-nav-label">Home</span>
+      </div>
+      <div class="gs-nav-item" onclick="startPlayAPoint()">
+        <svg class="gs-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <span class="gs-nav-label">Play</span>
+      </div>
+      <div class="gs-nav-item" onclick="initPillarScreen('Win More')">
+        <svg class="gs-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span class="gs-nav-label">Learn</span>
+      </div>
+      <div class="gs-nav-item" onclick="handleStartHere()">
+        <svg class="gs-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="gs-nav-label">Profile</span>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ── MAIN SCROLL CONTENT ── -->
+  <div class="gs-main">
+
+    <!-- HERO: logo + subline + streak + ball -->
+    <div class="gs-hero">
+      <div class="gs-hero-bg"></div>
+      <!-- Cinematic court lines + player silhouette (right side) -->
+      <div class="gs-hero-visual">
+        <svg viewBox="0 0 220 160" fill="none" preserveAspectRatio="xMaxYMid meet" style="width:100%;height:100%;position:absolute;right:0;top:0;">
           <defs>
-            <radialGradient id="lbgrad" cx="34%" cy="31%" r="65%">
-              <stop offset="0%" stop-color="#f8ff68"/>
-              <stop offset="60%" stop-color="#d2e83a"/>
-              <stop offset="100%" stop-color="#8aab20"/>
-            </radialGradient>
+            <linearGradient id="vlineG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(91,186,111,.22)"/><stop offset="100%" stop-color="rgba(91,186,111,0)"/></linearGradient>
+            <linearGradient id="hlineG" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(91,186,111,0)"/><stop offset="100%" stop-color="rgba(91,186,111,.22)"/></linearGradient>
           </defs>
-          <circle cx="11" cy="11" r="9.5" fill="url(#lbgrad)"/>
-          <path d="M4.5,8 Q11,10 17.5,8"    fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linecap="round"/>
-          <path d="M4,13.5 Q11,11.5 18,13.5" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="220" y1="0"   x2="55"  y2="160" stroke="url(#vlineG)" stroke-width="1"/>
+          <line x1="220" y1="45"  x2="90"  y2="160" stroke="url(#vlineG)" stroke-width="1"/>
+          <line x1="220" y1="90"  x2="130" y2="160" stroke="url(#vlineG)" stroke-width=".8"/>
+          <line x1="220" y1="130" x2="175" y2="160" stroke="url(#vlineG)" stroke-width=".6"/>
+          <line x1="95"  y1="160" x2="220" y2="115" stroke="url(#hlineG)" stroke-width=".8"/>
+          <line x1="118" y1="130" x2="220" y2="80"  stroke="url(#hlineG)" stroke-width=".8"/>
+          <line x1="142" y1="100" x2="220" y2="48"  stroke="url(#hlineG)" stroke-width=".6"/>
+          <!-- Net line -->
+          <line x1="165" y1="0" x2="220" y2="0" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+          <!-- Player silhouette -->
+          <g opacity="0.11" fill="white">
+            <ellipse cx="158" cy="52" rx="6.5" ry="7.5"/>
+            <rect x="152" y="59" width="12" height="22" rx="5"/>
+            <rect x="163" y="61" width="18" height="3.5" rx="2" transform="rotate(-18 163 61)"/>
+            <ellipse cx="184" cy="53" rx="10" ry="13" fill="none" stroke="white" stroke-width="1.5" transform="rotate(-20 184 53)"/>
+            <rect x="152" y="81" width="5.5" height="20" rx="2.5" transform="rotate(-6 152 81)"/>
+            <rect x="160" y="81" width="5.5" height="20" rx="2.5" transform="rotate(9 160 81)"/>
+          </g>
         </svg>
       </div>
-      <div class="home-ball">&#127934;</div>
-      <div class="home-streak-badge" id="homeStreakBadge"></div>
+      <div class="gs-hero-inner">
+        <div class="gs-hero-text">
+          <!-- Logo (keeps home-logo class for animation CSS compatibility) -->
+          <div class="gs-hero-logo home-logo" id="homeLogo">GAME<span>SHAR<em class="logo-p-target">P</em></span></div>
+          <!-- Bouncing ball intro animation -->
+          <div class="logo-drop-ball" id="logoBallRoll" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22">
+              <defs><radialGradient id="lbgrad" cx="34%" cy="31%" r="65%"><stop offset="0%" stop-color="#f8ff68"/><stop offset="60%" stop-color="#d2e83a"/><stop offset="100%" stop-color="#8aab20"/></radialGradient></defs>
+              <circle cx="11" cy="11" r="9.5" fill="url(#lbgrad)"/>
+              <path d="M4.5,8 Q11,10 17.5,8"    fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M4,13.5 Q11,11.5 18,13.5" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="gs-hero-sub">Train Smarter. Play Sharper. Win More.</div>
+        </div>
+        <div class="gs-hero-right">
+          <div class="gs-streak-chip" id="homeStreakBadge"></div>
+          <div class="home-ball" style="position:relative;top:auto;right:auto;width:42px;height:42px;font-size:22px;">&#127934;</div>
+        </div>
+      </div>
     </div>
 
-    <!-- ROW 1: SPLIT HERO — Challenge | Profile -->
-    <div class="home-hero-row">
+    <!-- TOP CARDS: Today's Challenge | Build Your Profile -->
+    <div class="gs-top-cards">
       <div class="daily-card" id="dailyCard" onclick="startDailyChallenge()">
         <div class="daily-inner">
           <div class="daily-top">
@@ -676,54 +824,112 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
             <div class="daily-streak" id="dailyStreak">🔥 <span id="streakCount">0</span></div>
           </div>
           <div class="daily-q" id="dailyQ">Loading today's pressure point…</div>
-          <div class="daily-cta" id="dailyCta">Start →</div>
+          <div class="daily-cta" id="dailyCta">Start Challenge →</div>
         </div>
       </div>
       <div class="start-here-card" id="startHereCard" onclick="handleStartHere()">
         <div class="start-here-inner">
           <div class="sh-eyebrow" id="shEyebrow">Start Here</div>
           <div class="sh-headline" id="shHeadline">Build Your Profile</div>
-          <div class="sh-sub" id="shSub">60 sec. Personalised training.</div>
+          <div class="sh-sub" id="shSub">60 seconds. Then we personalise your training.</div>
           <div class="sh-cta"><span id="shCtaText">Get Started</span><span class="sh-cta-arrow">→</span></div>
         </div>
       </div>
     </div>
 
-    <!-- ROW 2: TRAIN YOUR GAME — 4 Pillars -->
-    <div class="section-label">Train Your Game</div>
-    <div class="pillar-grid" id="pillarGrid"></div>
-
-    <!-- ROW 3: PLAY A POINT -->
-    <div class="pap-card" id="papCard">
-      <div class="pap-eyebrow">▶ PLAY A POINT</div>
-      <div class="pap-headline">5 linked decisions.<br>One match situation.</div>
-      <div class="pap-pills" id="papPills">
-        <button class="pap-pill pap-active" onclick="setPapPillar(this,'Win More')">Win More</button>
-        <button class="pap-pill" onclick="setPapPillar(this,'Mental')">Mental</button>
-        <button class="pap-pill" onclick="setPapPillar(this,'Game IQ')">Game IQ</button>
-        <button class="pap-pill" onclick="setPapPillar(this,'Technique')">Technique</button>
+    <!-- PLAY A POINT — central feature card (emotional centre) -->
+    <div class="gs-pap-feature" id="papCard">
+      <div class="gs-pap-left">
+        <div>
+          <div class="gs-pap-tag">▶ PLAY A POINT</div>
+          <div class="gs-pap-big">5 LINKED<br>DECISIONS.</div>
+          <div class="gs-pap-desc">One match situation.</div>
+        </div>
+        <div class="gs-pap-bottom">
+          <div class="pap-pills" id="papPills" style="margin:0;padding:0;">
+            <button class="pap-pill pap-active" onclick="event.stopPropagation();setPapPillar(this,'Win More')">Win More</button>
+            <button class="pap-pill" onclick="event.stopPropagation();setPapPillar(this,'Mental')">Mental</button>
+            <button class="pap-pill" onclick="event.stopPropagation();setPapPillar(this,'Game IQ')">Game IQ</button>
+            <button class="pap-pill" onclick="event.stopPropagation();setPapPillar(this,'Technique')">Technique</button>
+          </div>
+          <button class="gs-pap-cta-btn" onclick="event.stopPropagation();startPlayAPoint()">
+            <div class="gs-pap-play-dot">▶</div>Play Now
+          </button>
+        </div>
       </div>
-      <button class="pap-cta" id="papCta" onclick="startPlayAPoint()">Start Point →</button>
+      <!-- Mini court animation -->
+      <div class="gs-pap-court-side">
+        <svg viewBox="0 0 100 112" fill="none" width="100" height="112">
+          <!-- Court outline -->
+          <rect x="7" y="5" width="86" height="102" stroke="rgba(91,186,111,.5)" stroke-width="1.5" rx="2" fill="rgba(14,46,16,.5)"/>
+          <!-- Center line -->
+          <line x1="50" y1="5" x2="50" y2="107" stroke="rgba(91,186,111,.22)" stroke-width=".8"/>
+          <!-- Service boxes -->
+          <rect x="7" y="30" width="86" height="47" stroke="rgba(91,186,111,.28)" stroke-width="1" fill="none"/>
+          <!-- Net -->
+          <line x1="7" y1="56" x2="93" y2="56" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+          <rect x="48" y="53" width="4" height="6" rx="1" fill="rgba(255,255,255,.25)"/>
+          <!-- Ball trajectory arc -->
+          <path d="M 50,88 Q 70,56 50,24" stroke="rgba(200,168,75,.45)" stroke-width="1.5" stroke-dasharray="4,3" fill="none" stroke-linecap="round"/>
+          <!-- Player marker + ping -->
+          <circle cx="50" cy="88" r="5" fill="#5bba6f"/>
+          <circle class="court-ping" cx="50" cy="88" r="5" fill="#5bba6f" opacity=".5"/>
+          <!-- Opponent marker -->
+          <circle cx="50" cy="20" r="4" fill="rgba(255,255,255,.35)"/>
+          <!-- Animated ball -->
+          <circle r="3.5" fill="#d2e83a" opacity=".9">
+            <animateMotion dur="2.2s" repeatCount="indefinite"
+              path="M 50,88 Q 72,56 50,24 Q 28,56 50,88"
+              calcMode="paced"/>
+          </circle>
+        </svg>
+      </div>
     </div>
 
-    <!-- ROW 4: PRO LENS MOMENTS -->
-    <div class="section-label" style="margin-top:4px">✨ Pro Lens Moments</div>
+    <!-- THE 5 PILLARS -->
+    <div class="gs-section-hdr">THE 5 PILLARS OF GAMESHARP</div>
+    <div class="gs-pillars-row" id="pillarGrid"></div>
+
+    <!-- PRO LENS MOMENTS -->
+    <div class="gs-section-hdr">✨ Pro Lens Moments</div>
     <div class="plm-scroll" id="plmScroll"></div>
 
-    <!-- ROW 5: LEGENDARY EXPERIENCES — cinematic premium -->
-    <div class="leg-home-card leg-home-premium" onclick="startLegendaryExchange('wim2008_exchange_001')">
+    <!-- LEGENDARY EXPERIENCES -->
+    <div class="gs-section-hdr">🏆 Legendary Experiences</div>
+    <div class="leg-home-card leg-home-premium" style="margin:0 14px 0;" onclick="startLegendaryExchange('wim2008_exchange_001')">
       <div class="leg-home-premium-bg"></div>
       <div class="leg-home-badge">PREMIUM</div>
-      <div class="leg-home-eyebrow">🏆 Legendary Experiences</div>
+      <div class="leg-home-eyebrow">Legendary Experiences</div>
       <div class="leg-home-title">Step inside a famous<br>grass-court point.</div>
       <div class="leg-home-sub">London 2008 Final-inspired. Federer vs Nadal. Fifth set.</div>
       <div class="leg-home-premium-cta">Enter the Exchange →</div>
     </div>
 
-    <!-- Personal Session (populated if match focus set) -->
+    <!-- Personal session card (populated by JS) -->
     <div id="personalSessionWrap"></div>
 
-  </div>
+  </div><!-- /gs-main -->
+
+  <!-- ── BOTTOM NAV (mobile ≤767px) ── -->
+  <nav class="gs-bottom-nav">
+    <div class="gs-bnav-item gs-bnav-active" onclick="initHome()">
+      <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </div>
+    <div class="gs-bnav-item" onclick="startPlayAPoint()">
+      <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      <span>Play</span>
+    </div>
+    <div class="gs-bnav-item" onclick="initPillarScreen('Win More')">
+      <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      <span>Learn</span>
+    </div>
+    <div class="gs-bnav-item" onclick="handleStartHere()">
+      <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profile</span>
+    </div>
+  </nav>
+
 </div>
 
 <!-- ONBOARDING SCREEN -->
@@ -1935,7 +2141,7 @@ const PILLAR_META = {
   'Game IQ':    { icon: '♟️', color: '#d47c3e', desc: 'Read the game before it happens' },
   'Technique':  { icon: '⚡', color: '#5b9bd5', desc: 'Move and strike at a higher level' },
   'Mental':     { icon: '🧠', color: '#7c6fcd', desc: 'Stay sharp when it matters most' },
-  'The Debate': { icon: '💬', color: '#e07070', desc: 'Hot takes, history and conditions' },
+  'The Debate': { icon: '👥', color: '#5b9bd5', desc: 'Debates, legendary matches, and players like you' },
 };
 
 // ── PILLAR DISPLAY NAMES (identity — pillar names already user-facing) ──
@@ -1944,7 +2150,7 @@ const PILLAR_DISPLAY = {
   'Game IQ':    'Game IQ',
   'Technique':  'Technique',
   'Mental':     'Mental',
-  'The Debate': 'The Debate',
+  'The Debate': 'The Locker Room',
 };
 
 // TECHNIQUE ANIMATIONS (from GameSharp v1)
@@ -4320,7 +4526,7 @@ function triggerLogoIntro() {
   _logoBallPlayed = true;
   const ball   = document.getElementById('logoBallRoll');
   const pEl    = document.querySelector('.logo-p-target');
-  const header = document.querySelector('.home-header');
+  const header = document.querySelector('.gs-hero') || document.querySelector('.home-header');
   if (!ball || !pEl || !header) return;
   const cornerBall = document.querySelector('.home-ball');
 
@@ -4451,13 +4657,12 @@ function initHome() {
     }
   }
 
-  // Pillar grid with dynamic progress bars
+  // Pillars row — 5 cards, horizontal scroll on mobile, 5-col on desktop
   const grid = document.getElementById('pillarGrid');
   grid.innerHTML = '';
   const pillars = [...new Set(QBANK.map(q=>q.pillar))];
   const doneCount = parseInt(localStorage.getItem('gamesharp_challenges_done') || '0');
   pillars.forEach((p, i) => {
-    // Hide The Debate until user has completed 3+ challenges
     if (p === 'The Debate' && doneCount < 3) return;
     const meta = PILLAR_META[p] || { icon:'🎾', color:'#c8a84b', desc:'' };
     const displayName = PILLAR_DISPLAY[p] || p;
@@ -4465,19 +4670,25 @@ function initHome() {
     const progress = getPillarProgress(p);
     const barPct = Math.round(progress * 100);
     const progressLabel = barPct > 0 ? `${barPct}% explored` : `${count} scenarios`;
+    const btnLabel = p === 'The Debate' ? 'Enter' : 'Continue';
     const card = document.createElement('div');
     card.className = 'pillar-card card-enter';
     card.style.setProperty('--pc', meta.color);
     card.innerHTML = `
-      <div class="pc-icon">${meta.icon}</div>
-      <div class="pc-name">${displayName}</div>
-      <div class="pc-desc">${meta.desc}</div>
-      <div class="pc-count">${progressLabel}</div>
-      <div class="pc-bar"><div class="pc-bar-fill" style="width:${barPct}%"></div></div>
+      <div>
+        <div class="pc-icon">${meta.icon}</div>
+        <div class="pc-name">${displayName}</div>
+        <div class="pc-desc">${meta.desc}</div>
+      </div>
+      <div>
+        <div class="pc-count">${progressLabel}</div>
+        <div class="pc-bar"><div class="pc-bar-fill" style="width:${barPct}%"></div></div>
+        <div class="pc-btn">${btnLabel} →</div>
+      </div>
     `;
     card.onclick = () => initPillarScreen(p);
     grid.appendChild(card);
-    setTimeout(() => card.classList.add('card-visible'), 40 + i * 55);
+    setTimeout(() => card.classList.add('card-visible'), 40 + i * 60);
   });
 
   triggerLogoIntro();
