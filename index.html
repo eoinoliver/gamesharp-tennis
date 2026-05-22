@@ -5071,7 +5071,7 @@ const LEGENDARY_EXCHANGES = [
 ];
 
 // ── STATE ──
-let legState = { exchange: null, stepIdx: 0, answered: false, phase: 'intro' };
+let legState = { exchange: null, stepIdx: 0, answered: false, phase: 'intro', step1Choice: null };
 
 // ── ENTRY POINT ──
 function startLegendaryExchange(id) {
@@ -5079,6 +5079,8 @@ function startLegendaryExchange(id) {
   legState.stepIdx = 0;
   legState.answered = false;
   legState.phase = 'intro';
+  legState.step1Choice = null;
+  legState.resolvedBestIndex = null;
   showScreen('legendaryScreen');
   window.scrollTo(0, 0);
   renderLeg();
@@ -5140,6 +5142,27 @@ function buildLegStep() {
   const ex = legState.exchange;
   const step = ex.steps[legState.stepIdx];
   const isLaterStep = legState.stepIdx > 0;
+
+  // Branch step 2 text + logic based on step 1 choice — read into locals, never mutate data
+  let situation  = step.situation;
+  let commentary = step.commentary;
+  let bestIndex  = step.bestIndex;
+  let momentumPct = step.momentumPct || 50;
+
+  if (legState.stepIdx === 1 && legState.step1Choice !== null) {
+    const elite = legState.step1Choice === 1;  // option B (inside-out) was the elite call
+    situation = elite
+      ? 'Nadal is fully stretched — his defensive float drifts high and central. You\'re well inside the baseline with time to read the court.'
+      : 'Your previous shot lacked leverage. Nadal recovered early and has driven a firm dipping backhand to your feet in no-man\'s-land.';
+    commentary = elite
+      ? '"Federer has position and time. The question now is how to finish the point."'
+      : '"Caught at the shoe-laces inside the baseline — survive this and rebuild."';
+    bestIndex  = elite ? 2 : 0;  // C (approach backhand side) in elite path; A (early DTL to escape) in scramble
+    momentumPct = elite ? 70 : 38;
+  }
+  // Persist resolved bestIndex so pickLegAnswer uses the same value without re-deriving it
+  legState.resolvedBestIndex = bestIndex;
+
   const opts = step.options.map((o, i) => `
     <div class="leg-opt" id="legOpt${i}" onclick="pickLegAnswer(${i})">
       <div class="leg-opt-ltr">${o.letter}</div>
@@ -5153,7 +5176,7 @@ function buildLegStep() {
     <div class="leg-momentum">
       <div class="leg-mom-name">FED</div>
       <div class="leg-mom-track">
-        <div class="leg-mom-fill" style="--mom-w:${step.momentumPct}%"></div>
+        <div class="leg-mom-fill" style="--mom-w:${momentumPct}%"></div>
       </div>
       <div class="leg-mom-name">NAD</div>
     </div>` : '';
@@ -5165,8 +5188,8 @@ function buildLegStep() {
       <div class="leg-back-btn" onclick="startLegendaryExchange('${ex.id}')">←</div>
       <div class="leg-step-tag">${step.tag}</div>
       ${momentumHtml}
-      <div class="leg-situation">${step.situation}</div>
-      <div class="leg-commentary">${step.commentary}</div>
+      <div class="leg-situation">${situation}</div>
+      <div class="leg-commentary">${commentary}</div>
       <div class="leg-question">${step.question}</div>
       ${opts}
       <div id="legAnim" class="leg-anim-wrap"></div>
@@ -5180,15 +5203,17 @@ function pickLegAnswer(idx) {
   if (legState.answered) return;
   legState.answered = true;
   legState.answerIdx = idx;
+  if (legState.stepIdx === 0) legState.step1Choice = idx;
   const step = legState.exchange.steps[legState.stepIdx];
-  const isBest = idx === step.bestIndex;
+  const bestIndex = legState.resolvedBestIndex ?? step.bestIndex;
+  const isBest = idx === bestIndex;
 
   // Lock all opts + reveal consequences
   step.options.forEach((_, i) => {
     const el = document.getElementById('legOpt' + i);
     if (!el) return;
     el.classList.add('leg-locked');
-    if (i === step.bestIndex) el.classList.add('leg-best');
+    if (i === bestIndex) el.classList.add('leg-best');
     else if (i === idx) el.classList.add('leg-wrong');
     else el.classList.add('leg-other');
   });
@@ -5235,7 +5260,7 @@ function buildLegCourtAnim(ansIdx, step) {
       { d:`M${fX},${fY} Q175,108 160,28`, len:152, color:'#90caf9', endX:160, endY:28,  nRX:155, nRY:40 },  // D Retreat deep center (blue)
     ];
     const p2 = paths2[ansIdx];
-    const isBest = ansIdx === step.bestIndex;
+    const isBest = ansIdx === (legState.resolvedBestIndex ?? step.bestIndex);
 
     // Approach arrow for best answer (C): Federer moving toward net
     const approachArrow = isBest
