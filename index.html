@@ -5591,18 +5591,52 @@ function playBounceThud(volume) {
     src.start(); src.stop(ctx.currentTime + 0.04);
   } catch(e) {}
 }
-// Warm wooden timber knock: triangle resonance, not a chime
-function playTimberKnock() {
+// Confident warm strike: full-body resonance, clean winner feel
+function playImpactStrike() {
   const ctx = _audioCtx(); if (!ctx) return;
-  [[400,'triangle',0,0.10,0.30],[800,'triangle',0,0.05,0.14],[190,'sine',0,0.09,0.07]].forEach(([f,type,d,v,dur]) => {
+  const t = ctx.currentTime;
+  // Layered resonance: warm body + harmonics + sub + airy confidence tail
+  [
+    [260, 'sine',     0,    0.32, 0.46],   // warm round body
+    [520, 'sine',     0,    0.14, 0.24],   // 2nd harmonic — brightness
+    [130, 'sine',     0,    0.18, 0.15],   // sub warmth
+    [800, 'triangle', 0,    0.07, 0.08],   // crisp contact click
+    [940, 'sine',     0.01, 0.07, 0.34],   // airy confidence ring
+    [1480,'sine',     0.02, 0.03, 0.18],   // shimmer overtone
+  ].forEach(([f, type, d, v, dur]) => {
     const osc = ctx.createOscillator(), g = ctx.createGain();
     osc.type = type;
-    osc.frequency.setValueAtTime(f, ctx.currentTime + d);
-    if (type === 'sine') osc.frequency.exponentialRampToValueAtTime(f * 0.6, ctx.currentTime + d + dur);
-    g.gain.setValueAtTime(v, ctx.currentTime + d);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + d + dur);
+    osc.frequency.setValueAtTime(f, t + d);
+    g.gain.setValueAtTime(0, t + d);
+    g.gain.linearRampToValueAtTime(v, t + d + 0.007);
+    g.gain.exponentialRampToValueAtTime(0.001, t + d + dur);
     osc.connect(g); g.connect(ctx.destination);
-    osc.start(ctx.currentTime + d); osc.stop(ctx.currentTime + d + dur + 0.01);
+    osc.start(t + d); osc.stop(t + d + dur + 0.02);
+  });
+  // Felt-noise transient — authentic ball contact texture
+  try {
+    const n = Math.floor(ctx.sampleRate * 0.022);
+    const buf = ctx.createBuffer(1, n, ctx.sampleRate);
+    const ch = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) ch[i] = (Math.random()*2-1) * Math.pow(1 - i/n, 2.2);
+    const src = ctx.createBufferSource(), bpf = ctx.createBiquadFilter(), ng = ctx.createGain();
+    src.buffer = buf; bpf.type = 'bandpass'; bpf.frequency.value = 380; bpf.Q.value = 1.3;
+    ng.gain.setValueAtTime(0.22, t);
+    src.connect(bpf); bpf.connect(ng); ng.connect(ctx.destination);
+    src.start(); src.stop(t + 0.03);
+  } catch(e) {}
+}
+// Soft warm tap when ball spins back to P
+function playReturnTap() {
+  const ctx = _audioCtx(); if (!ctx) return;
+  const t = ctx.currentTime;
+  [[260,'sine',0,0.11,0.20],[520,'sine',0,0.05,0.13],[130,'sine',0,0.07,0.10]].forEach(([f,type,d,v,dur]) => {
+    const osc = ctx.createOscillator(), g = ctx.createGain();
+    osc.type = type; osc.frequency.setValueAtTime(f, t+d);
+    g.gain.setValueAtTime(0, t+d); g.gain.linearRampToValueAtTime(v, t+d+0.007);
+    g.gain.exponentialRampToValueAtTime(0.001, t+d+dur);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(t+d); osc.stop(t+d+dur+0.01);
   });
 }
 
@@ -5637,24 +5671,24 @@ function triggerLogoIntro() {
     const ARC_DUR    = MAIN_MS / 6; // 425ms each — true constant horizontal speed
 
     // ── Return journey durations ──
-    const HOLD_DUR   = 90;  // impact hold — un-squash
-    const BOUNCE_DUR = 460; // bounce-back right (affirmative pop)
-    const ROLL_DUR   = 400; // roll-back left (affectionate)
-    const SETTLE_DUR = 160; // micro-settle
-    const TOTAL = MAIN_MS + HOLD_DUR + BOUNCE_DUR + ROLL_DUR + SETTLE_DUR; // 3660ms
+    const HOLD_DUR        = 90;  // impact hold — un-squash
+    const BOUNCE_DUR      = 290; // confident pop right
+    const BOUNCE_BACK_DUR = 350; // spin back toward P
+    const SETTLE_DUR      = 160; // micro-settle
+    const TOTAL = MAIN_MS + HOLD_DUR + BOUNCE_DUR + BOUNCE_BACK_DUR + SETTLE_DUR; // 3440ms
 
     // Cumulative arc start times [0..10]
     const arcStarts = [];
     for (let i = 0; i <= 6; i++) arcStarts.push(i * ARC_DUR);
-    arcStarts.push(arcStarts[6] + HOLD_DUR);    // arc 7: bounce-back
-    arcStarts.push(arcStarts[7] + BOUNCE_DUR);  // arc 8: roll-back
-    arcStarts.push(arcStarts[8] + ROLL_DUR);    // arc 9: micro-settle
-    arcStarts.push(arcStarts[9] + SETTLE_DUR);  // end
+    arcStarts.push(arcStarts[6] + HOLD_DUR);          // arc 7: confident pop right
+    arcStarts.push(arcStarts[7] + BOUNCE_DUR);        // arc 8: spin back to P
+    arcStarts.push(arcStarts[8] + BOUNCE_BACK_DUR);   // arc 9: micro-settle
+    arcStarts.push(arcStarts[9] + SETTLE_DUR);        // end
 
     // x-positions for return arcs
-    const BOUNCE_X = endX + 48; // lands here after bouncing back right
-    const ROLL_X   = endX + 4;  // rolls back to just under P
-    const SETTLE_X = endX + 1;  // final resting spot
+    const BOUNCE_X = endX + 26; // short confident rebound right
+    const RETURN_X = endX + 1;  // spins back to P
+    const SETTLE_X = endX + 1;  // final rest at P
 
     // ── Pre-schedule sounds ────────────────────────────────────────
     const LAT = 25;
@@ -5662,17 +5696,20 @@ function triggerLogoIntro() {
     [0.21, 0.17, 0.14, 0.11, 0.09].forEach((vol, i) => {
       setTimeout(() => playBounceThud(vol), arcStarts[i + 1] - LAT);
     });
-    // Timber knock + P animation at impact (arcStarts[6])
+    // Confident warm strike + P animation at impact (arcStarts[6])
     setTimeout(() => {
-      playTimberKnock();
+      playImpactStrike();
       pEl.classList.add('logo-p-pinged');
       const logo = document.getElementById('homeLogo');
       if (logo) { logo.classList.remove('logo-sharpen'); void logo.offsetWidth; logo.classList.add('logo-sharpen'); }
     }, arcStarts[6] - LAT);
-    // Soft thud: ball lands after bouncing back (arcStarts[8])
-    setTimeout(() => playBounceThud(0.07), arcStarts[8] - LAT);
+    // Soft return tap + secondary P glow when ball spins back (arcStarts[8])
+    setTimeout(() => {
+      playReturnTap();
+      pEl.classList.remove('logo-p-pinged'); void pEl.offsetWidth; pEl.classList.add('logo-p-pinged');
+    }, arcStarts[8] - LAT);
     // Micro thud: settle (arcStarts[9])
-    setTimeout(() => playBounceThud(0.04), arcStarts[9] - LAT);
+    setTimeout(() => playBounceThud(0.03), arcStarts[9] - LAT);
 
     // ── Clean-up ───────────────────────────────────────────────────
     // Ball fades and corner ball restores after full sequence
@@ -5686,11 +5723,13 @@ function triggerLogoIntro() {
 
     // ── rAF animation loop ─────────────────────────────────────────
     let startTime = null;
+    let prevCx = startX;
+    let totalDeg = 0; // accumulated rotation for seam-line spin
     function frame(now) {
       if (!startTime) { startTime = now; ball.style.opacity = '1'; }
       const elapsed = now - startTime;
       if (elapsed >= TOTAL) {
-        ball.style.transform = `translate(${SETTLE_X.toFixed(1)}px,${floorY}px) scaleX(1) scaleY(1)`;
+        ball.style.transform = `translate(${SETTLE_X.toFixed(1)}px,${floorY}px) rotate(${totalDeg.toFixed(1)}deg) scaleX(1) scaleY(1)`;
         return;
       }
 
@@ -5737,54 +5776,60 @@ function triggerLogoIntro() {
         sx = 1 + 0.36 * s; sy = 1 - 0.36 * s;
 
       } else if (ai === 7) {
-        // ── Arc 7: bounce-back right — affirmative pop ──
+        // ── Arc 7: confident pop right — backspin begins ──
         cx = endX + (BOUNCE_X - endX) * at;
         let yOff;
         if (at <= 0.5) {
           const tr = at / 0.5;
-          yOff = 20 * (1 - (1 - tr) * (1 - tr));
+          yOff = 14 * (1 - (1 - tr) * (1 - tr));
         } else {
           const tf = (at - 0.5) / 0.5;
-          yOff = 20 * (1 - tf) * (1 - tf);
+          yOff = 14 * (1 - tf) * (1 - tf);
         }
         cy = floorY - yOff;
-        // Gentle squash/stretch
         if (at < 0.12) {
           const s = 1 - at / 0.12;
           sx = 1 - 0.10 * s; sy = 1 + 0.10 * s;
         } else if (at > 0.88) {
           const s = (at - 0.88) / 0.12;
-          sx = 1 + 0.18 * s; sy = 1 - 0.18 * s;
+          sx = 1 + 0.16 * s; sy = 1 - 0.16 * s;
         }
 
       } else if (ai === 8) {
-        // ── Arc 8: roll back left — affectionate, low ──
-        cx = BOUNCE_X + (ROLL_X - BOUNCE_X) * at;
+        // ── Arc 8: spin back to P — warm homecoming ──
+        cx = BOUNCE_X + (RETURN_X - BOUNCE_X) * at;
         let yOff;
         if (at <= 0.5) {
           const tr = at / 0.5;
-          yOff = 5 * (1 - (1 - tr) * (1 - tr));
+          yOff = 9 * (1 - (1 - tr) * (1 - tr));
         } else {
           const tf = (at - 0.5) / 0.5;
-          yOff = 5 * (1 - tf) * (1 - tf);
+          yOff = 9 * (1 - tf) * (1 - tf);
         }
         cy = floorY - yOff;
-        // Subtle squash on landing
-        if (at > 0.88) {
+        if (at < 0.12) {
+          const s = 1 - at / 0.12;
+          sx = 1 - 0.08 * s; sy = 1 + 0.08 * s;
+        } else if (at > 0.88) {
           const s = (at - 0.88) / 0.12;
-          sx = 1 + 0.09 * s; sy = 1 - 0.09 * s;
+          sx = 1 + 0.10 * s; sy = 1 - 0.10 * s;
         }
 
       } else {
-        // ── Arc 9: micro-settle ──
-        cx = ROLL_X + (SETTLE_X - ROLL_X) * at;
+        // ── Arc 9: micro-settle at P ──
+        cx = RETURN_X + (SETTLE_X - RETURN_X) * at;
         cy = floorY;
         // Residual squash easing to round
         const s = 1 - at;
         sx = 1 + 0.04 * s; sy = 1 - 0.04 * s;
       }
 
-      ball.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) scaleX(${sx.toFixed(3)}) scaleY(${sy.toFixed(3)})`;
+      // Rolling rotation: seam lines spin proportional to horizontal travel
+      // ~5.2 deg per pixel for r=11 ball; leftward = negative (topspin in), rightward = positive (backspin out)
+      totalDeg += (cx - prevCx) * 5.2;
+      prevCx = cx;
+
+      ball.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) rotate(${totalDeg.toFixed(1)}deg) scaleX(${sx.toFixed(3)}) scaleY(${sy.toFixed(3)})`;
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
