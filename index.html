@@ -537,16 +537,17 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 /* ── LOGO INTRO BALL — JS-driven rAF animation, no CSS keyframes ── */
 .logo-drop-ball{position:absolute;left:0;top:0;width:22px;height:22px;pointer-events:none;z-index:6;opacity:0;will-change:transform,opacity;transform-origin:50% 50%;filter:drop-shadow(0 0 6px rgba(210,240,40,.9)) drop-shadow(0 2px 4px rgba(0,0,0,.55));}
 .logo-drop-ball svg{display:block;}
-/* P: premium impact — pushed left by ball, warm gold glow, spring back */
-.home-logo em{font-style:normal;display:inline-block;}
+/* P: starts crooked; ball knocks it straight, lights it up, spring settle */
+.home-logo em{font-style:normal;display:inline-block;transform:rotate(-5deg) translateX(1px);}
 @keyframes pStrike{
-  0%   {color:#fff9e8;text-shadow:0 0 7px #fff5b0,0 0 20px rgba(200,168,75,.9),0 0 40px rgba(200,168,75,.4);transform:translateX(-4px) scaleX(.91) scaleY(1.09)}
-  16%  {transform:translateX(2px) scaleX(1.05) scaleY(.97);color:#ffd96e;text-shadow:0 0 5px rgba(200,168,75,.65)}
-  32%  {transform:translateX(-1px) scaleX(1.01);color:#e8b84b;text-shadow:0 0 2px rgba(200,168,75,.25)}
-  58%  {transform:translateX(0) scale(1);color:#d4a645}
-  100% {transform:translateX(0) scale(1);color:var(--gold);text-shadow:none}
+  0%   {transform:rotate(-5deg) translateX(1px);color:#fff9e8;text-shadow:0 0 7px #fff5b0,0 0 20px rgba(200,168,75,.9),0 0 40px rgba(200,168,75,.4)}
+  8%   {transform:rotate(-11deg) translateX(-3px) scaleX(.9) scaleY(1.1);color:#ffd96e;text-shadow:0 0 12px #fff5b0,0 0 28px rgba(200,168,75,.95),0 0 50px rgba(200,168,75,.5)}
+  22%  {transform:rotate(2deg) translateX(2px) scaleX(1.04);color:#e8b84b;text-shadow:0 0 5px rgba(200,168,75,.65)}
+  40%  {transform:rotate(-1deg) scaleX(1.01);color:#d4a645;text-shadow:0 0 2px rgba(200,168,75,.25)}
+  65%  {transform:rotate(0deg) scale(1);color:var(--gold);text-shadow:none}
+  100% {transform:rotate(0deg) scale(1);color:var(--gold);text-shadow:none}
 }
-.home-logo em.logo-p-pinged{animation:pStrike .85s cubic-bezier(.2,.8,.4,1) forwards;}
+.home-logo em.logo-p-pinged{animation:pStrike .9s cubic-bezier(.2,.8,.4,1) forwards;}
 /* Logo sharpens after impact */
 @keyframes logoFocus{
   0%  {filter:blur(0)brightness(1)contrast(1)}
@@ -4534,14 +4535,11 @@ function triggerLogoIntro() {
     const hRect = header.getBoundingClientRect();
     const pRect = pEl.getBoundingClientRect();
     const BALL_R = 11;
-    // Ground: ball center sits at text cap baseline
     const floorY = Math.round(pRect.bottom - hRect.top) - BALL_R;
-    // Ball starts just off the right edge (clipped by overflow-x:hidden, naturally enters from right)
     const startX = Math.round(hRect.width) + BALL_R + 2;
-    const endX   = Math.round(pRect.left - hRect.left + 1); // left face of P
+    const endX   = Math.round(pRect.left - hRect.left + 1);
     const dist   = startX - endX;
 
-    // Anchor element at (0,0) inside header — all movement via transform only
     ball.style.left      = '0px';
     ball.style.top       = '0px';
     ball.style.animation = 'none';
@@ -4549,84 +4547,157 @@ function triggerLogoIntro() {
     ball.style.transform = `translate(${startX}px,${floorY}px)`;
     if (cornerBall) { cornerBall.style.transition = 'none'; cornerBall.style.opacity = '0'; }
 
-    // ── Arc waypoints ──────────────────────────────────────────────
-    // wp[i]: fraction of total horizontal distance (0=start, 1=P)
-    // ht[i]: arc peak height in px — 6 arcs, diminishing
-    const wp = [0, 0.20, 0.38, 0.54, 0.67, 0.79, 1.0];
-    const ht = [70,  52,  36,  22,  12,   5       ];
-    const TOTAL = 2800;
+    // ── Arc heights (6 main arcs, equal horizontal spacing = constant speed) ──
+    const HT = [70, 52, 36, 22, 12, 5];
+    const MAIN_MS    = 2550; // total travel time
+    const ARC_DUR    = MAIN_MS / 6; // 425ms each — true constant horizontal speed
 
-    // Arc durations: physics — time in air ∝ √height × horizontal span
-    const rawW = ht.map((h, i) => Math.sqrt(h) * (wp[i+1] - wp[i]));
-    const sumW  = rawW.reduce((a, b) => a + b, 0);
-    const dur   = rawW.map(w => (w / sumW) * TOTAL);
+    // ── Return journey durations ──
+    const HOLD_DUR   = 90;  // impact hold — un-squash
+    const BOUNCE_DUR = 460; // bounce-back right (affirmative pop)
+    const ROLL_DUR   = 400; // roll-back left (affectionate)
+    const SETTLE_DUR = 160; // micro-settle
+    const TOTAL = MAIN_MS + HOLD_DUR + BOUNCE_DUR + ROLL_DUR + SETTLE_DUR; // 3660ms
 
-    // Cumulative arc-start times + final (P contact) timestamp
-    const t0ms = [0];
-    for (let i = 0; i < dur.length - 1; i++) t0ms.push(t0ms[i] + dur[i]);
-    t0ms.push(TOTAL); // t0ms[6] = moment ball reaches P
+    // Cumulative arc start times [0..10]
+    const arcStarts = [];
+    for (let i = 0; i <= 6; i++) arcStarts.push(i * ARC_DUR);
+    arcStarts.push(arcStarts[6] + HOLD_DUR);    // arc 7: bounce-back
+    arcStarts.push(arcStarts[7] + BOUNCE_DUR);  // arc 8: roll-back
+    arcStarts.push(arcStarts[8] + ROLL_DUR);    // arc 9: micro-settle
+    arcStarts.push(arcStarts[9] + SETTLE_DUR);  // end
+
+    // x-positions for return arcs
+    const BOUNCE_X = endX + 48; // lands here after bouncing back right
+    const ROLL_X   = endX + 4;  // rolls back to just under P
+    const SETTLE_X = endX + 1;  // final resting spot
 
     // ── Pre-schedule sounds ────────────────────────────────────────
-    const LAT = 25; // ms lead — compensates AudioContext startup latency
+    const LAT = 25;
+    // 5 bounce thuds at arc landings (arcStarts[1..5])
     [0.21, 0.17, 0.14, 0.11, 0.09].forEach((vol, i) => {
-      setTimeout(() => playBounceThud(vol), t0ms[i + 1] - LAT);
+      setTimeout(() => playBounceThud(vol), arcStarts[i + 1] - LAT);
     });
+    // Timber knock + P animation at impact (arcStarts[6])
     setTimeout(() => {
       playTimberKnock();
       pEl.classList.add('logo-p-pinged');
       const logo = document.getElementById('homeLogo');
       if (logo) { logo.classList.remove('logo-sharpen'); void logo.offsetWidth; logo.classList.add('logo-sharpen'); }
-    }, TOTAL - LAT);
+    }, arcStarts[6] - LAT);
+    // Soft thud: ball lands after bouncing back (arcStarts[8])
+    setTimeout(() => playBounceThud(0.07), arcStarts[8] - LAT);
+    // Micro thud: settle (arcStarts[9])
+    setTimeout(() => playBounceThud(0.04), arcStarts[9] - LAT);
 
     // ── Clean-up ───────────────────────────────────────────────────
+    // Ball fades and corner ball restores after full sequence
     setTimeout(() => {
-      ball.style.transition = 'opacity .3s';
+      ball.style.transition = 'opacity .4s';
       ball.style.opacity = '0';
       if (cornerBall) { cornerBall.style.transition = 'opacity .5s'; cornerBall.style.opacity = '1'; }
     }, TOTAL + 200);
-    setTimeout(() => { pEl.classList.remove('logo-p-pinged'); ball.style.transition = ''; }, TOTAL + 1000);
+    setTimeout(() => { ball.style.transition = ''; }, TOTAL + 700);
+    // Note: logo-p-pinged is NOT removed — P stays straight (knocked into shape permanently)
 
     // ── rAF animation loop ─────────────────────────────────────────
     let startTime = null;
     function frame(now) {
-      if (!startTime) { startTime = now; ball.style.opacity = '1'; } // reveal at first frame
+      if (!startTime) { startTime = now; ball.style.opacity = '1'; }
       const elapsed = now - startTime;
       if (elapsed >= TOTAL) {
-        // Hold final squash at P
-        ball.style.transform = `translate(${endX}px,${floorY}px) scaleX(1.38) scaleY(0.62)`;
+        ball.style.transform = `translate(${SETTLE_X.toFixed(1)}px,${floorY}px) scaleX(1) scaleY(1)`;
         return;
       }
-      // Locate current arc
-      let ai = dur.length - 1;
-      for (let i = 0; i < t0ms.length - 2; i++) {
-        if (elapsed < t0ms[i + 1]) { ai = i; break; }
+
+      // Find current arc index
+      let ai = 9;
+      for (let i = 0; i < arcStarts.length - 1; i++) {
+        if (elapsed < arcStarts[i + 1]) { ai = i; break; }
       }
-      const at = Math.min((elapsed - t0ms[ai]) / dur[ai], 1); // 0→1 within arc
+      const arcDur = arcStarts[ai + 1] - arcStarts[ai];
+      const at = Math.min((elapsed - arcStarts[ai]) / arcDur, 1);
 
-      // Horizontal: constant velocity per arc segment
-      const xFrom = startX - wp[ai]     * dist;
-      const xTo   = startX - wp[ai + 1] * dist;
-      const cx    = xFrom + (xTo - xFrom) * at;
+      let cx, cy, sx = 1, sy = 1;
 
-      // Vertical: parabola with physics bias (ease-out up, ease-in down)
-      let yOff;
-      if (at <= 0.5) {
-        const tr = at / 0.5;
-        yOff = ht[ai] * (1 - (1 - tr) * (1 - tr)); // quadratic ease-out (decelerates going up)
+      if (ai <= 5) {
+        // ── Main travel arcs 0–5: constant horizontal speed ──
+        const xFrom = startX - (ai / 6) * dist;
+        const xTo   = startX - ((ai + 1) / 6) * dist;
+        cx = xFrom + (xTo - xFrom) * at;
+        // Parabola: ease-out rise, ease-in fall
+        let yOff;
+        if (at <= 0.5) {
+          const tr = at / 0.5;
+          yOff = HT[ai] * (1 - (1 - tr) * (1 - tr));
+        } else {
+          const tf = (at - 0.5) / 0.5;
+          yOff = HT[ai] * (1 - tf) * (1 - tf);
+        }
+        cy = floorY - yOff;
+        // Squash & stretch
+        if (at < 0.12) {
+          const s = 1 - at / 0.12;
+          sx = 1 - 0.15 * s; sy = 1 + 0.15 * s;
+        } else if (at > 0.86) {
+          const s = (at - 0.86) / 0.14;
+          sx = 1 + 0.36 * s; sy = 1 - 0.36 * s;
+        }
+
+      } else if (ai === 6) {
+        // ── Arc 6: impact hold — un-squash (ball was squashed at landing) ──
+        cx = endX;
+        cy = floorY;
+        // Ease squash back to round over hold duration
+        const s = 1 - at;
+        sx = 1 + 0.36 * s; sy = 1 - 0.36 * s;
+
+      } else if (ai === 7) {
+        // ── Arc 7: bounce-back right — affirmative pop ──
+        cx = endX + (BOUNCE_X - endX) * at;
+        let yOff;
+        if (at <= 0.5) {
+          const tr = at / 0.5;
+          yOff = 20 * (1 - (1 - tr) * (1 - tr));
+        } else {
+          const tf = (at - 0.5) / 0.5;
+          yOff = 20 * (1 - tf) * (1 - tf);
+        }
+        cy = floorY - yOff;
+        // Gentle squash/stretch
+        if (at < 0.12) {
+          const s = 1 - at / 0.12;
+          sx = 1 - 0.10 * s; sy = 1 + 0.10 * s;
+        } else if (at > 0.88) {
+          const s = (at - 0.88) / 0.12;
+          sx = 1 + 0.18 * s; sy = 1 - 0.18 * s;
+        }
+
+      } else if (ai === 8) {
+        // ── Arc 8: roll back left — affectionate, low ──
+        cx = BOUNCE_X + (ROLL_X - BOUNCE_X) * at;
+        let yOff;
+        if (at <= 0.5) {
+          const tr = at / 0.5;
+          yOff = 5 * (1 - (1 - tr) * (1 - tr));
+        } else {
+          const tf = (at - 0.5) / 0.5;
+          yOff = 5 * (1 - tf) * (1 - tf);
+        }
+        cy = floorY - yOff;
+        // Subtle squash on landing
+        if (at > 0.88) {
+          const s = (at - 0.88) / 0.12;
+          sx = 1 + 0.09 * s; sy = 1 - 0.09 * s;
+        }
+
       } else {
-        const tf = (at - 0.5) / 0.5;
-        yOff = ht[ai] * (1 - tf) * (1 - tf);        // quadratic ease-in (accelerates falling)
-      }
-      const cy = floorY - yOff;
-
-      // Squash & stretch
-      let sx = 1, sy = 1;
-      if (at < 0.12) {
-        const s = 1 - at / 0.12;  // 1→0 during launch phase
-        sx = 1 - 0.15 * s; sy = 1 + 0.15 * s; // stretch vertical on launch
-      } else if (at > 0.86) {
-        const s = (at - 0.86) / 0.14; // 0→1 during landing
-        sx = 1 + 0.36 * s; sy = 1 - 0.36 * s; // squash horizontal on landing
+        // ── Arc 9: micro-settle ──
+        cx = ROLL_X + (SETTLE_X - ROLL_X) * at;
+        cy = floorY;
+        // Residual squash easing to round
+        const s = 1 - at;
+        sx = 1 + 0.04 * s; sy = 1 - 0.04 * s;
       }
 
       ball.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) scaleX(${sx.toFixed(3)}) scaleY(${sy.toFixed(3)})`;
