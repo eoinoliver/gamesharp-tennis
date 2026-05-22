@@ -409,8 +409,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .pro-lens-icon{width:26px;height:26px;border-radius:8px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
 .pro-lens-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:700;}
 .pro-lens-body{padding:0 14px 14px;}
-.pl-visual{width:100%;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.03);margin-bottom:10px;}
+.pl-visual{width:100%;border-radius:14px;overflow:hidden;margin-bottom:12px;box-shadow:0 4px 24px rgba(0,0,0,.35);}
 .pl-visual svg{width:100%;height:auto;display:block;}
+.pl-caption{font-size:11px;color:rgba(255,255,255,.38);font-style:italic;text-align:center;margin:-4px 0 10px;letter-spacing:.3px;}
 .pl-text{font-size:13.5px;line-height:1.7;color:rgba(255,255,255,.88);margin-bottom:10px;}
 .pl-insight{background:rgba(200,168,75,.08);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:9px 12px;font-size:13px;line-height:1.6;color:rgba(255,255,255,.78);font-style:italic;}
 .pl-tip{display:flex;align-items:flex-start;gap:8px;margin-top:9px;background:rgba(91,186,111,.08);border-radius:8px;padding:9px 12px;}
@@ -3771,119 +3772,160 @@ function buildProLens(q, wasCorrect) {
   `;
 }
 
+// ── PRO LENS SCENE BUILDER ─────────────────────────────────────────────────
+// Unified court renderer — matches Legendary Exchange quality.
+// cfg: { you:{x,y}, youLabel, opp:{x,y}|null, oppLabel, paths:[], extras, caption }
+// paths[]: { d, len, color, delay?, glow?, endX?, endY?, dashed? }
+function buildProLensScene(cfg) {
+  const you = cfg.you || {x:160, y:172};
+  const opp = cfg.opp || null;
+  const youLabel = cfg.youLabel || 'Y';
+  const oppLabel = cfg.oppLabel || 'O';
+
+  const pathsSvg = (cfg.paths||[]).map((p,i)=>{
+    const d = typeof p.delay==='number' ? p.delay : (i*0.14+0.06);
+    const ring = (p.glow && p.endX!=null) ? `<circle cx="${p.endX}" cy="${p.endY}" r="18" fill="${p.color}22" stroke="${p.color}" stroke-width="1.5" stroke-opacity=".45" opacity="0" style="animation:ballBloom .55s ${(d+0.42).toFixed(2)}s ease forwards"/>` : '';
+    const landing = (p.endX!=null && !p.dashed) ? `<circle cx="${p.endX}" cy="${p.endY}" r="6" fill="#d4e84a" opacity="0" style="animation:tpop .22s ${(d+0.38).toFixed(2)}s cubic-bezier(.34,1.5,.64,1) both"/>` : '';
+    const pathAttr = p.dashed
+      ? `stroke-dasharray="4,4" opacity="0.3"`
+      : `stroke-dasharray="${p.len}" stroke-dashoffset="${p.len}" style="animation:drawPath .44s ${d.toFixed(2)}s ease forwards"`;
+    return `<path d="${p.d}" stroke="${p.color}" stroke-width="${p.dashed?1.5:2.8}" fill="none" stroke-linecap="round" ${pathAttr}/>${ring}${landing}`;
+  }).join('');
+
+  const oppSvg = opp ? `<circle cx="${opp.x}" cy="${opp.y}" r="10" fill="#ef5350" opacity="0.88"/>
+  <text x="${opp.x}" y="${opp.y+4}" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle" font-family="DM Sans,sans-serif">${oppLabel}</text>` : '';
+
+  return `<svg viewBox="0 0 320 195" style="width:100%;display:block;">
+  <rect width="320" height="195" fill="#1a4a1e"/>
+  <rect width="320" height="195" fill="url(#plGrass)" opacity="0.4"/>
+  <defs>
+    <pattern id="plGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)">
+      <rect width="3" height="6" fill="rgba(0,0,0,.12)"/>
+    </pattern>
+  </defs>
+  <ellipse cx="160" cy="188" rx="148" ry="22" fill="rgba(200,168,75,.06)"/>
+  <rect x="22" y="14" width="276" height="167" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
+  <line x1="22" y1="97" x2="298" y2="97" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
+  <line x1="160" y1="94" x2="160" y2="100" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="22" y1="137" x2="298" y2="137" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
+  <line x1="160" y1="97" x2="160" y2="137" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
+  <line x1="45" y1="14" x2="45" y2="181" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="275" y1="14" x2="275" y2="181" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <text x="30" y="26" fill="rgba(255,255,255,.2)" font-size="6.5" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="30" y="191" fill="rgba(200,168,75,.28)" font-size="6.5" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
+  ${cfg.extras||''}
+  ${pathsSvg}
+  ${oppSvg}
+  <circle cx="${you.x}" cy="${you.y}" r="11" fill="#c8a84b" opacity="0.95"/>
+  <text x="${you.x}" y="${you.y+4}" fill="#0a1509" font-size="9" font-weight="bold" text-anchor="middle" font-family="DM Sans,sans-serif">${youLabel}</text>
+  ${cfg.caption ? `<text x="160" y="193" text-anchor="middle" fill="rgba(255,255,255,.26)" font-size="6.5" font-family="DM Sans,sans-serif" letter-spacing=".4">${cfg.caption}</text>` : ''}
+</svg>`;
+}
+
+// ── PRO LENS DIAGRAM FUNCTIONS ────────────────────────────────────────────
+
 function proLensCrosscourtDiagram(q) {
-  return `<svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
-    <rect x="20" y="10" width="240" height="140" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-    <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-    <line x1="140" y1="10" x2="140" y2="150" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="4,3"/>
-    <!-- crosscourt path (gold = correct) -->
-    <path d="M38,138 Q100,60 242,28" stroke="${q.correct_answer==='B'||q.correct_answer==='A'?'#c8a84b':'#5b9bd5'}" stroke-width="2.5" fill="none" stroke-linecap="round"
-      stroke-dasharray="280" stroke-dashoffset="280" style="animation:drawPath 1s .3s ease forwards"/>
-    <text x="248" y="26" fill="#c8a84b" font-size="8" font-weight="700" font-family="DM Sans" style="animation:popIn .3s 1.3s ease both;opacity:0">✓ CC</text>
-    <!-- DTL path (muted) -->
-    <path d="M38,138 Q38,60 38,20" stroke="rgba(224,82,82,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-dasharray="3,4"/>
-    <text x="20" y="18" fill="rgba(224,82,82,0.7)" font-size="8" font-family="DM Sans">DTL</text>
-    <circle cx="38" cy="138" r="5" fill="#c8a84b"/>
-    <text x="140" y="155" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7" font-family="DM Sans">Crosscourt = more court, lower net</text>
-  </svg>`;
+  // You: bottom-right deuce baseline. Opponent: stretched far left.
+  // Correct play: big diagonal CC. Wrong: risky DTL (muted).
+  return buildProLensScene({
+    you: { x:260, y:172 },
+    opp: { x:44, y:30 },
+    paths: [
+      { d:'M260,172 Q145,95 44,28', len:245, color:'#c8a84b', delay:0.1, glow:true, endX:44, endY:28 },
+      { d:'M260,172 Q272,100 278,26', len:155, color:'#ef5350', dashed:true },
+    ],
+    extras: `<text x="190" y="78" fill="rgba(200,168,75,.55)" font-size="7" font-weight="700" font-family="DM Sans" opacity="0" style="animation:tpop .3s .58s ease both">CROSSCOURT</text>
+    <text x="272" y="44" fill="rgba(224,82,82,.5)" font-size="6.5" font-family="DM Sans" opacity="0" style="animation:tpop .3s .15s ease both">DTL</text>`,
+    caption: 'More court · lower net · opponent already stretched',
+  });
 }
 
 function proLensServeDiagram(q) {
-  return `<svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
-    <rect x="30" y="10" width="220" height="140" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-    <line x1="140" y1="10" x2="140" y2="150" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="4,3"/>
-    <line x1="30" y1="80" x2="250" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-    <!-- Service boxes -->
-    <rect x="30" y="10" width="110" height="70" fill="rgba(91,155,213,0.06)" stroke="rgba(91,155,213,0.2)" stroke-width="1"/>
-    <rect x="140" y="10" width="110" height="70" fill="rgba(200,168,75,0.06)" stroke="rgba(200,168,75,0.15)" stroke-width="1"/>
-    <!-- Wide zone -->
-    <circle cx="48" cy="45" r="20" fill="rgba(200,168,75,0.12)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="4,3" style="animation:popIn .4s .4s ease both;opacity:0"/>
-    <text x="48" y="49" text-anchor="middle" fill="#c8a84b" font-size="8" font-weight="700" font-family="DM Sans" style="animation:popIn .4s .4s ease both;opacity:0">WIDE</text>
-    <!-- T zone -->
-    <circle cx="145" cy="45" r="20" fill="rgba(91,155,213,0.12)" stroke="#5b9bd5" stroke-width="1.5" stroke-dasharray="4,3" style="animation:popIn .4s .7s ease both;opacity:0"/>
-    <text x="145" y="49" text-anchor="middle" fill="#5b9bd5" font-size="10" font-weight="700" font-family="DM Sans" style="animation:popIn .4s .7s ease both;opacity:0">T</text>
-    <!-- Body zone -->
-    <circle cx="220" cy="52" r="16" fill="rgba(91,186,111,0.12)" stroke="#5bba6f" stroke-width="1.5" stroke-dasharray="4,3" style="animation:popIn .4s 1s ease both;opacity:0"/>
-    <text x="220" y="56" text-anchor="middle" fill="#5bba6f" font-size="7" font-weight="700" font-family="DM Sans" style="animation:popIn .4s 1s ease both;opacity:0">BODY</text>
-    <!-- Server position -->
-    <circle cx="140" cy="145" r="5" fill="rgba(255,255,255,0.6)"/>
-    <text x="140" y="157" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="7" font-family="DM Sans">Server (deuce)</text>
-  </svg>`;
+  // Server (S) at bottom-centre. Wide serve opens the court.
+  const isAd = q && q.tags && q.tags.includes('ad-side');
+  const wideX = isAd ? 278 : 44;
+  const wideY = 62;
+  const pathD = isAd ? `M160,181 Q225,115 ${wideX},${wideY}` : `M160,181 Q92,115 ${wideX},${wideY}`;
+  return buildProLensScene({
+    you: { x:160, y:181 },
+    youLabel: 'S',
+    paths: [
+      { d:pathD, len:188, color:'#c8a84b', delay:0.1, glow:true, endX:wideX, endY:wideY },
+    ],
+    extras: `
+    <rect x="${isAd?228:22}" y="${isAd?14:14}" width="47" height="83" rx="3" fill="rgba(200,168,75,.07)" stroke="rgba(200,168,75,.3)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0" style="animation:tpop .4s .6s ease both"/>
+    <text x="${isAd?252:46}" y="60" text-anchor="middle" fill="rgba(200,168,75,.7)" font-size="7" font-weight="700" font-family="DM Sans" opacity="0" style="animation:tpop .3s .68s ease both">WIDE</text>
+    <text x="${isAd?252:46}" y="71" text-anchor="middle" fill="rgba(200,168,75,.45)" font-size="6" font-family="DM Sans" opacity="0" style="animation:tpop .3s .75s ease both">ZONE</text>`,
+    caption: 'Wide serve — jams the return, creates angle off the court',
+  });
 }
 
 function proLensCourtPositionDiagram(q) {
-  return `<svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
-    <rect x="20" y="10" width="240" height="140" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-    <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-    <!-- Baseline -->
-    <line x1="20" y1="140" x2="260" y2="140" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
-    <text x="140" y="154" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7" font-family="DM Sans">BASELINE</text>
-    <!-- Wrong position (behind baseline) -->
-    <circle cx="140" cy="150" r="7" fill="rgba(224,82,82,0.3)" stroke="#e05252" stroke-width="1.5" style="animation:popIn .3s .3s ease both;opacity:0"/>
-    <text x="140" y="148" text-anchor="middle" fill="#e05252" font-size="6" font-family="DM Sans" style="animation:popIn .3s .3s ease both;opacity:0">✕ TOO DEEP</text>
-    <!-- Correct position (inside baseline) -->
-    <circle cx="140" cy="118" r="7" fill="rgba(76,175,80,0.3)" stroke="#4caf50" stroke-width="1.5" style="animation:popIn .3s .7s ease both;opacity:0"/>
-    <text x="140" y="116" text-anchor="middle" fill="#4caf50" font-size="6" font-family="DM Sans" style="animation:popIn .3s .7s ease both;opacity:0">✓ STEP IN</text>
-    <!-- Arrow -->
-    <line x1="140" y1="143" x2="140" y2="126" stroke="#c8a84b" stroke-width="2" stroke-dasharray="100" stroke-dashoffset="100" style="animation:drawPath .4s 1s ease forwards" marker-end="url(#arr)"/>
-    <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#c8a84b"/></marker></defs>
-    <text x="140" y="104" text-anchor="middle" fill="rgba(200,168,75,0.8)" font-size="8" font-family="DM Sans" style="animation:fadeUp .4s 1.2s ease both;opacity:0">Intercept before it climbs</text>
-  </svg>`;
+  // Shows wrong (behind baseline) vs correct (inside baseline) positioning.
+  return buildProLensScene({
+    you: { x:160, y:158 },
+    paths: [
+      { d:'M160,22 Q162,88 160,150', len:140, color:'rgba(255,255,255,.22)', delay:0.08, dashed:true },
+    ],
+    extras: `
+    <defs><marker id="plArr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#c8a84b"/></marker></defs>
+    <circle cx="160" cy="182" r="10" fill="rgba(224,82,82,.18)" stroke="#e05252" stroke-width="1.5" stroke-dasharray="3,2" opacity="0" style="animation:tpop .3s .1s ease both"/>
+    <text x="160" y="186" text-anchor="middle" fill="#e05252" font-size="6" font-weight="700" font-family="DM Sans" opacity="0" style="animation:tpop .3s .12s ease both">TOO DEEP</text>
+    <line x1="160" y1="179" x2="160" y2="163" stroke="#c8a84b" stroke-width="2" stroke-dasharray="18" stroke-dashoffset="18" style="animation:drawPath .28s .52s ease forwards" marker-end="url(#plArr)"/>
+    <text x="178" y="144" fill="rgba(91,186,111,.75)" font-size="7" font-weight="700" font-family="DM Sans" opacity="0" style="animation:tpop .3s .95s ease both">STEP IN</text>`,
+    caption: 'Inside the baseline — intercept before the ball kicks',
+  });
 }
 
 function proLensNetApproachDiagram(q) {
-  return `<svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
-    <rect x="20" y="10" width="240" height="140" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-    <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-    <!-- Service line -->
-    <line x1="20" y1="115" x2="260" y2="115" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="4,3"/>
-    <text x="265" y="118" fill="rgba(255,255,255,0.25)" font-size="6" font-family="DM Sans">SL</text>
-    <!-- Short ball landing zone -->
-    <rect x="80" y="90" width="120" height="24" rx="4" fill="rgba(200,168,75,0.1)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="4,3" style="animation:popIn .4s .3s ease both;opacity:0"/>
-    <text x="140" y="105" text-anchor="middle" fill="#c8a84b" font-size="8" font-weight="700" font-family="DM Sans" style="animation:popIn .4s .3s ease both;opacity:0">SHORT BALL — ATTACK</text>
-    <!-- Player moving forward -->
-    <path d="M140,140 L140,95" stroke="#4caf50" stroke-width="2" fill="none" stroke-dasharray="60" stroke-dashoffset="60" style="animation:drawPath .5s .8s ease forwards"/>
-    <text x="155" y="120" fill="#4caf50" font-size="8" font-family="DM Sans" style="animation:fadeUp .3s 1.4s ease both;opacity:0">Move in</text>
-    <!-- Opponent deep -->
-    <circle cx="140" cy="25" r="6" fill="rgba(224,82,82,0.4)" stroke="#e05252" stroke-width="1.5" style="animation:popIn .3s 1.6s ease both;opacity:0"/>
-    <text x="140" y="23" text-anchor="middle" fill="#e05252" font-size="6" font-family="DM Sans" style="animation:popIn .3s 1.6s ease both;opacity:0">Opp deep</text>
-  </svg>`;
+  // You move forward off short ball, approach into open court.
+  return buildProLensScene({
+    you: { x:160, y:148 },
+    opp: { x:160, y:25 },
+    paths: [
+      { d:'M160,148 Q88,112 46,88', len:162, color:'#5bba6f', delay:0.38, glow:true, endX:46, endY:88 },
+    ],
+    extras: `
+    <defs><marker id="plArr2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="rgba(91,186,111,.7)"/></marker></defs>
+    <rect x="80" y="103" width="120" height="34" rx="4" fill="rgba(200,168,75,.07)" stroke="rgba(200,168,75,.3)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0" style="animation:tpop .4s .06s ease both"/>
+    <text x="140" y="124" text-anchor="middle" fill="rgba(200,168,75,.7)" font-size="7" font-weight="700" font-family="DM Sans" opacity="0" style="animation:tpop .3s .1s ease both">SHORT BALL</text>
+    <line x1="160" y1="172" x2="160" y2="153" stroke="rgba(91,186,111,.6)" stroke-width="2" stroke-dasharray="20" stroke-dashoffset="20" style="animation:drawPath .28s .2s ease forwards" marker-end="url(#plArr2)"/>`,
+    caption: 'Short ball = move in · take the net · force the pass',
+  });
 }
 
 function proLensReturnDiagram(q) {
-  return `<svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
-    <rect x="20" y="10" width="240" height="140" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-    <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-    <!-- Server -->
-    <circle cx="140" cy="18" r="6" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-    <text x="140" y="16" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="6" font-family="DM Sans">Server</text>
-    <!-- Serve path -->
-    <path d="M140,18 Q100,60 60,100" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
-    <!-- Returner positions -->
-    <circle cx="60" cy="148" r="6" fill="rgba(224,82,82,0.3)" stroke="#e05252" stroke-width="1.5" style="animation:popIn .3s .3s ease both;opacity:0"/>
-    <text x="60" y="157" text-anchor="middle" fill="#e05252" font-size="6" font-family="DM Sans" style="animation:popIn .3s .3s ease both;opacity:0">✕ Too far</text>
-    <circle cx="60" cy="128" r="6" fill="rgba(76,175,80,0.3)" stroke="#4caf50" stroke-width="1.5" style="animation:popIn .3s .7s ease both;opacity:0"/>
-    <text x="60" y="120" text-anchor="middle" fill="#4caf50" font-size="6" font-family="DM Sans" style="animation:popIn .3s .7s ease both;opacity:0">✓ Step in</text>
-    <!-- Return path (deep middle) -->
-    <path d="M60,128 Q140,80 220,28" stroke="#c8a84b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="240" stroke-dashoffset="240" style="animation:drawPath .8s 1s ease forwards"/>
-    <text x="230" y="26" fill="#c8a84b" font-size="8" font-weight="700" font-family="DM Sans" style="animation:popIn .3s 1.8s ease both;opacity:0">Deep middle</text>
-  </svg>`;
+  // Returner (R) inside baseline, deep crosscourt return.
+  return buildProLensScene({
+    you: { x:58, y:158 },
+    youLabel: 'R',
+    opp: { x:160, y:22 },
+    oppLabel: 'S',
+    paths: [
+      { d:'M160,22 Q104,72 60,148', len:182, color:'rgba(255,255,255,.22)', dashed:true },
+      { d:'M58,158 Q148,95 248,28', len:246, color:'#c8a84b', delay:0.55, glow:true, endX:248, endY:28 },
+    ],
+    extras: `
+    <circle cx="58" cy="180" r="9" fill="rgba(224,82,82,.15)" stroke="#e05252" stroke-width="1.5" stroke-dasharray="3,2" opacity="0" style="animation:tpop .3s .1s ease both"/>
+    <text x="58" y="184" text-anchor="middle" fill="#e05252" font-size="5.5" font-family="DM Sans" opacity="0" style="animation:tpop .3s .12s ease both">TOO BACK</text>`,
+    caption: 'Step in on second serves — own the baseline, neutralise depth',
+  });
 }
 
 function proLensPatternDiagram(q) {
-  // Generic court pattern diagram for tactical questions
-  return `<svg viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
-    <rect x="20" y="10" width="240" height="140" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-    <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-    <line x1="140" y1="10" x2="140" y2="150" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="4,3"/>
-    <!-- Build crosscourt -->
-    <path d="M50,138 Q130,80 220,30" stroke="#c8a84b" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="250" stroke-dashoffset="250" style="animation:drawPath 1s .3s ease forwards"/>
-    <!-- Attack short ball -->
-    <path d="M220,30 Q180,60 80,95" stroke="#5bba6f" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200" style="animation:drawPath .8s 1.4s ease forwards"/>
-    <text x="50" y="148" fill="#c8a84b" font-size="7" font-family="DM Sans" style="animation:fadeUp .3s .3s ease both;opacity:0">Build</text>
-    <text x="80" y="108" fill="#5bba6f" font-size="7" font-family="DM Sans" style="animation:fadeUp .3s 2.2s ease both;opacity:0">Attack</text>
-    <circle cx="50" cy="138" r="4" fill="#c8a84b"/>
-  </svg>`;
+  // Two-shot pattern: CC to stretch, then DTL to finish.
+  return buildProLensScene({
+    you: { x:258, y:172 },
+    opp: { x:44, y:30 },
+    paths: [
+      { d:'M258,172 Q145,95 44,28', len:245, color:'#c8a84b', delay:0.08, endX:44, endY:28 },
+      { d:'M258,172 Q272,100 278,26', len:154, color:'#5bba6f', delay:0.82, glow:true, endX:278, endY:26 },
+    ],
+    extras: `
+    <text x="148" y="75" fill="rgba(200,168,75,.6)" font-size="7" font-weight="700" font-family="DM Sans" opacity="0" style="animation:tpop .3s .52s ease both">① BUILD CC</text>
+    <text x="272" y="50" fill="rgba(91,186,111,.7)" font-size="7" font-weight="700" font-family="DM Sans" text-anchor="middle" opacity="0" style="animation:tpop .3s 1.32s ease both">② DTL</text>`,
+    caption: 'Build crosscourt · wait for the short ball · finish down the line',
+  });
 }
 
 function initProLensMoments() {
