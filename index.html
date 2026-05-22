@@ -137,6 +137,8 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ta-ph-sep{font-size:9px;color:rgba(255,255,255,.15);padding:0 2px;}
 .ta-court-wrap{margin:0 14px;border-radius:12px;overflow:hidden;background:rgba(0,0,0,.2);position:relative;}
 .ta-court-wrap svg{width:100%;height:auto;display:block;max-height:160px;}
+/* Freeze all CSS animations in the court SVG while waiting for user answer */
+#taCourt.ta-static [style*="animation"]{animation-play-state:paused!important;}
 .ta-caption{font-size:12px;color:rgba(255,255,255,.6);line-height:1.5;padding:8px 14px 2px;min-height:36px;font-style:italic;}
 .ta-controls{display:flex;gap:8px;padding:8px 14px 14px;}
 .ta-replay-btn{font-size:11px;color:rgba(255,255,255,.4);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;cursor:pointer;letter-spacing:.04em;}
@@ -3452,7 +3454,7 @@ function toggleTechMistake() {
   if (_taCurrentKey) mountTechAnim(_taCurrentKey, null, _taMistakeMode);
 }
 
-function mountTechAnim(key, params, mistakeMode) {
+function mountTechAnim(key, params, mistakeMode, staticOnly) {
   _taCurrentKey = key;
   _taMistakeMode = !!mistakeMode;
   const box = document.getElementById('techAnimBox');
@@ -3469,8 +3471,10 @@ function mountTechAnim(key, params, mistakeMode) {
   const mBtn = document.getElementById('taMistakeBtn');
   if (mBtn) mBtn.style.display = a.hasMistakeToggle ? 'block' : 'none';
 
-  // Inject SVG
+  // Inject SVG — freeze CSS animations immediately if static (pre-answer) mode
   const svgMarkup = (mistakeMode && a.mistakeSvg) ? a.mistakeSvg : (a.svg || '');
+  if (staticOnly) court.classList.add('ta-static');
+  else court.classList.remove('ta-static');
   court.innerHTML = svgMarkup;
 
   // Caption
@@ -3478,6 +3482,9 @@ function mountTechAnim(key, params, mistakeMode) {
   setAnimCaption(captions.setup || '');
 
   box.style.display = 'block';
+
+  // Static mode: show frozen first frame only — animation fires after user answers
+  if (staticOnly) return;
 
   // Run init with phase/caption callbacks
   setTimeout(() => {
@@ -3488,6 +3495,30 @@ function mountTechAnim(key, params, mistakeMode) {
     };
     stopAnim = a.init ? (a.init(params||{}, cbs) || null) : null;
   }, 60);
+}
+
+// Unfreeze the pre-answer static frame and play the full animation as the post-answer reward
+function releaseTechAnim() {
+  if (!_taCurrentKey || !TECH_ANIMS[_taCurrentKey]) return false;
+  const court = document.getElementById('taCourt');
+  if (!court) return false;
+  if (stopAnim) { stopAnim(); stopAnim = null; }
+  // Remove the freeze — CSS animations resume from t=0 (initial hidden state → play forward)
+  court.classList.remove('ta-static');
+  // Trigger JS-driven phases and captions
+  const a = TECH_ANIMS[_taCurrentKey];
+  const captions = (_taMistakeMode && a.mistakeCaptions) ? a.mistakeCaptions : (a.captions || {});
+  setAnimPhase(1);
+  setAnimCaption(captions.setup || '');
+  setTimeout(() => {
+    const cbs = {
+      phase: (n) => setAnimPhase(n),
+      caption: (t) => setAnimCaption(t),
+      captions: captions
+    };
+    stopAnim = a.init ? (a.init({}, cbs) || null) : null;
+  }, 60);
+  return true;
 }
 
 function clearTechAnim() {
@@ -3741,6 +3772,9 @@ function startHereSession() {
 // ── CONSEQUENCE ANIMATION ──
 // 1-second CSS-only post-answer sequence: ball → target → opponent reaction
 function buildConsequenceAnim(q, ok) {
+  // techAnim now plays post-answer in-place as the cinematic reward —
+  // suppress the separate conseqAnim to avoid a duplicate/redundant visual
+  if (q.techAnim && TECH_ANIMS[q.techAnim]) return '';
   // Custom per-animation consequence
   if (q.visual && TECH_ANIMS[q.visual] && typeof TECH_ANIMS[q.visual].conseqAnim === 'function') {
     const inner = TECH_ANIMS[q.visual].conseqAnim(ok);
@@ -4520,7 +4554,7 @@ function loadQ() {
       preTypeLbl.style.display = 'none';
     }
   }
-  mountTechAnim(q.techAnim || null);
+  mountTechAnim(q.techAnim || null, q.techAnimParams || {}, false, true);
   const list = document.getElementById('optList'); list.innerHTML = '';
   ['A','B','C','D'].forEach((l,i) => {
     const optKey = 'option_'+l.toLowerCase();
@@ -4609,7 +4643,10 @@ function pickAnswer(letter) {
   const dot = document.getElementById('sdot-'+state.qIdx);
   if (dot) { dot.classList.add(ok?'ok':'miss','dot-pop'); }
   setTimeout(() => arcAnim(ok), 150);
-  clearTechAnim();
+  // Release the frozen pre-answer animation — it now plays as the reward for answering.
+  // Falls back to clearTechAnim for questions with no techAnim.
+  const animReleased = releaseTechAnim();
+  if (!animReleased) clearTechAnim();
 
   // Explanation + Pro Lens
   const ec = document.getElementById('explainCard');
@@ -4666,7 +4703,14 @@ function pickAnswer(letter) {
   } else {
     nb.textContent = isLast ? 'See Score →' : 'Next →';
   }
-  setTimeout(() => ec.scrollIntoView({behavior:'smooth',block:'nearest'}), 300);
+  if (animReleased) {
+    // Scroll to keep the animation in view while it plays, then reveal the explanation
+    const box = document.getElementById('techAnimBox');
+    if (box) box.scrollIntoView({behavior:'smooth', block:'nearest'});
+    setTimeout(() => ec.scrollIntoView({behavior:'smooth', block:'nearest'}), 2800);
+  } else {
+    setTimeout(() => ec.scrollIntoView({behavior:'smooth', block:'nearest'}), 300);
+  }
 }
 
 function nextQ() {
