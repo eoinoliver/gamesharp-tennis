@@ -4663,7 +4663,7 @@ function initHome() {
   const pillars = [...new Set(QBANK.map(q=>q.pillar))];
   const doneCount = parseInt(localStorage.getItem('gamesharp_challenges_done') || '0');
   pillars.forEach((p, i) => {
-    if (p === 'The Debate' && doneCount < 3) return;
+    // The Locker Room (The Debate) is always visible — it's a core pillar in the 5-pillar row
     const meta = PILLAR_META[p] || { icon:'🎾', color:'#c8a84b', desc:'' };
     const displayName = PILLAR_DISPLAY[p] || p;
     const count = QBANK.filter(q=>q.pillar===p).length;
