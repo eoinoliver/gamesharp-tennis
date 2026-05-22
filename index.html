@@ -2455,13 +2455,23 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: true,
     svg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <path id="mb-arc" d="M50,130 Q120,20 200,80 Q230,110 260,155" stroke="#e07070" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="380" stroke-dashoffset="380" style="animation:drawPath 1.1s .1s ease forwards"/>
   <line x1="260" y1="155" x2="260" y2="85" stroke="#e07070" stroke-width="2" stroke-dasharray="5,4" stroke-dashoffset="75" style="animation:drawPath .4s 1.3s ease forwards"/>
   <circle cx="260" cy="85" r="10" fill="rgba(224,112,112,.2)" stroke="#e07070" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 1.75s ease both"/>
@@ -2481,13 +2491,23 @@ const TECH_ANIMS = {
   <circle id="mb-ball" cx="50" cy="130" r="6" fill="#a8c032" opacity="0"/>
 </svg>`,
     mistakeSvg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <path id="mb-arc" d="M50,130 Q120,20 200,80 Q230,110 260,155" stroke="#e07070" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="380" stroke-dashoffset="380" style="animation:drawPath 1.1s .1s ease forwards"/>
   <line x1="260" y1="155" x2="260" y2="85" stroke="#e07070" stroke-width="2" stroke-dasharray="5,4" stroke-dashoffset="75" style="animation:drawPath .4s 1.3s ease forwards"/>
   <circle cx="260" cy="85" r="10" fill="rgba(224,112,112,.2)" stroke="#e07070" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 1.75s ease both"/>
@@ -2630,13 +2650,23 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: false,
     svg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <circle cx="160" cy="175" r="8" fill="#c8a84b"/>
   <circle id="bs-ret" cx="215" cy="40" r="8" fill="rgba(255,255,255,.55)" opacity="0" style="animation:tpop .4s .3s ease both"/>
   <g opacity="0" style="animation:tpop .3s .5s ease both">
@@ -2785,13 +2815,23 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: false,
     svg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <circle cx="40" cy="165" r="8" fill="#c8a84b"/>
   <path d="M40,165 Q40,90 40,25" stroke="#e05252" stroke-width="2" fill="none" stroke-dasharray="5,4" opacity="0" style="animation:tpop .3s 1.4s ease both"/>
   <circle cx="40" cy="25" r="12" fill="rgba(224,82,82,.08)" stroke="#e05252" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .26s 1.5s ease both"/>
@@ -2875,13 +2915,23 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: false,
     svg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <circle cx="160" cy="175" r="8" fill="#c8a84b"/>
   <circle id="ws-ret" cx="290" cy="40" r="8" fill="rgba(255,255,255,.55)"/>
   <g opacity="0" style="animation:tpop .3s .5s ease both">
@@ -3074,13 +3124,23 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: true,
     svg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <rect x="20" y="10" width="280" height="45" fill="rgba(76,175,80,.12)" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="5,3"/>
   <text x="160" y="36" text-anchor="middle" fill="rgba(76,175,80,.7)" font-size="8" font-weight="700">ATTACK</text>
   <rect x="20" y="55" width="280" height="35" fill="rgba(200,168,75,.1)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="5,3"/>
@@ -3096,13 +3156,23 @@ const TECH_ANIMS = {
   <circle cx="285" cy="30" r="8" fill="rgba(255,255,255,.55)" opacity="0" style="animation:tpop .3s 3.3s ease both"/>
 </svg>`,
     mistakeSvg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <rect x="20" y="10" width="280" height="45" fill="rgba(76,175,80,.1)" stroke="#4caf50" stroke-width="1" stroke-dasharray="5,3" opacity="0.4"/>
   <rect x="20" y="55" width="280" height="35" fill="rgba(200,168,75,.1)" stroke="#c8a84b" stroke-width="1" stroke-dasharray="5,3" opacity="0.4"/>
   <circle cx="160" cy="68" r="7" fill="#a8c032" opacity="0" style="animation:tpop .32s .6s ease both"/>
@@ -3171,13 +3241,23 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: true,
     svg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <circle cx="160" cy="15" r="8" fill="rgba(255,255,255,.55)"/>
   <text x="174" y="19" fill="rgba(255,255,255,.4)" font-size="7">SERVER</text>
   <line x1="20" y1="155" x2="300" y2="155" stroke="rgba(200,168,75,.2)" stroke-width="1" stroke-dasharray="4,3"/>
@@ -3191,13 +3271,23 @@ const TECH_ANIMS = {
   <circle cx="55" cy="50" r="18" fill="rgba(76,175,80,.08)" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 3.1s ease both"/>
 </svg>`,
     mistakeSvg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <circle cx="160" cy="15" r="8" fill="rgba(255,255,255,.55)"/>
   <line x1="20" y1="155" x2="300" y2="155" stroke="rgba(200,168,75,.2)" stroke-width="1" stroke-dasharray="4,3"/>
   <circle cx="160" cy="175" r="8" fill="rgba(224,82,82,.2)" stroke="#e07070" stroke-width="2"/>
@@ -3242,13 +3332,23 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: true,
     svg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <circle cx="160" cy="170" r="8" fill="#c8a84b"/>
   <circle cx="160" cy="20" r="8" fill="rgba(255,255,255,.55)"/>
   <text x="174" y="24" fill="rgba(255,255,255,.35)" font-size="7">PUSHER</text>
@@ -3262,13 +3362,23 @@ const TECH_ANIMS = {
   <circle cx="295" cy="25" r="30" fill="rgba(76,175,80,.07)" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 3.8s ease both"/>
 </svg>`,
     mistakeSvg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="rgba(28,60,24,.4)" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>
+  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
+  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
+  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
+  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4,3"/>
-  <line x1="160" y1="10" x2="160" y2="180" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="30" y="22" fill="rgba(255,255,255,.3)" font-size="8">OPPONENT</text>
-  <text x="30" y="182" fill="rgba(200,168,75,.55)" font-size="8">YOUR SIDE</text>
+  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="20" y1="55" x2="300" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="20" y1="125" x2="300" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   <circle cx="160" cy="170" r="8" fill="#c8a84b"/>
   <circle cx="160" cy="20" r="8" fill="rgba(255,255,255,.55)"/>
   <text x="174" y="24" fill="rgba(255,255,255,.35)" font-size="7">PUSHER</text>
@@ -3807,12 +3917,14 @@ function buildProLensScene(cfg) {
   <rect x="22" y="14" width="276" height="167" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
   <line x1="22" y1="97" x2="298" y2="97" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
   <line x1="160" y1="94" x2="160" y2="100" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
-  <line x1="22" y1="137" x2="298" y2="137" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
-  <line x1="160" y1="97" x2="160" y2="137" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
-  <line x1="45" y1="14" x2="45" y2="181" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
-  <line x1="275" y1="14" x2="275" y2="181" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
-  <text x="30" y="26" fill="rgba(255,255,255,.2)" font-size="6.5" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
-  <text x="30" y="191" fill="rgba(200,168,75,.28)" font-size="6.5" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
+  <line x1="22" y1="137" x2="298" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="97" x2="160" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="45" y1="14" x2="45" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="275" y1="14" x2="275" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="157" y1="181" x2="163" y2="181" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>
+  <line x1="157" y1="14" x2="163" y2="14" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+  <text x="30" y="26" fill="rgba(255,255,255,.25)" font-size="6.5" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
+  <text x="30" y="191" fill="rgba(200,168,75,.32)" font-size="6.5" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
   ${cfg.extras||''}
   ${pathsSvg}
   ${oppSvg}
