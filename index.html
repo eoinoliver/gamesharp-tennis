@@ -31,15 +31,28 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .court-bg{position:fixed;inset:0;pointer-events:none;z-index:0;}
 
 /* ── HOME ── */
-.home-inner{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;}
-.home-header{padding:54px 22px 16px;position:relative;}
+.home-inner{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;padding-bottom:36px;}
+.home-header{padding:38px 22px 10px;position:relative;}
 .home-hbg{position:absolute;inset:0;background:linear-gradient(150deg,rgba(28,60,24,.6) 0%,transparent 60%);pointer-events:none;}
-.home-logo{font-family:'Bebas Neue',sans-serif;font-size:58px;letter-spacing:5px;line-height:1;position:relative;}
+.home-logo{font-family:'Bebas Neue',sans-serif;font-size:46px;letter-spacing:5px;line-height:1;position:relative;}
 .home-logo span{color:var(--gold);}
-.home-tag{font-size:11px;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;margin-top:5px;position:relative;}
-.home-ball{position:absolute;right:22px;top:48px;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 34% 34%,#d8f04e,#9eb528);box-shadow:0 6px 28px rgba(158,181,40,.5),inset 0 -3px 10px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;font-size:32px;animation:hball 3s ease-in-out infinite;}
+.home-ball{position:absolute;right:22px;top:32px;width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 34% 34%,#d8f04e,#9eb528);box-shadow:0 6px 28px rgba(158,181,40,.5),inset 0 -3px 10px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;font-size:26px;animation:hball 3s ease-in-out infinite;}
 @keyframes hball{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-7px) rotate(10deg)}}
-.section-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.65);font-weight:700;padding:24px 22px 10px;position:relative;z-index:1;}
+/* ── HOME HERO ROW ── */
+.home-hero-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 14px 0;position:relative;z-index:1;align-items:stretch;}
+.home-hero-row .daily-card,.home-hero-row .start-here-card{margin:0!important;display:flex;flex-direction:column;}
+.home-hero-row .daily-inner{padding:13px 13px;flex:1;display:flex;flex-direction:column;}
+.home-hero-row .daily-top{margin-bottom:6px;}
+.home-hero-row .daily-label{font-size:8px;letter-spacing:2px;}
+.home-hero-row .daily-streak{font-size:10px;padding:2px 7px;}
+.home-hero-row .daily-q{font-size:12px;line-height:1.45;margin-bottom:9px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1;}
+.home-hero-row .daily-cta{font-size:10px;}
+.home-hero-row .start-here-inner{padding:13px 13px 11px!important;height:100%;display:flex;flex-direction:column;}
+.home-hero-row .sh-eyebrow{font-size:8px;letter-spacing:2px;margin-bottom:5px;}
+.home-hero-row .sh-headline{font-size:19px;margin-bottom:5px;}
+.home-hero-row .sh-sub{font-size:11px;line-height:1.4;margin-bottom:10px;flex:1;}
+.home-hero-row .sh-cta{font-size:10px;padding:7px 11px;align-self:flex-start;}
+.section-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.65);font-weight:700;padding:22px 22px 10px;position:relative;z-index:1;}
 .pillar-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;padding:0 22px 32px;position:relative;z-index:1;}
 .card-enter{opacity:0;transform:translateY(16px) scale(.95);}
 .card-visible{opacity:1;transform:translateY(0) scale(1);transition:all .34s cubic-bezier(.34,1.4,.64,1);}
@@ -290,7 +303,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .daily-cta{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:700;}
 .daily-done{font-size:12px;color:var(--correct);font-weight:600;}
 /* ── PLAY A POINT CARD ── */
-.pap-card{margin:14px 22px 0;background:linear-gradient(135deg,rgba(22,68,30,.95) 0%,rgba(14,42,18,.98) 100%);border:1px solid rgba(91,186,111,.3);border-radius:18px;padding:20px 20px 18px;position:relative;z-index:1;overflow:hidden;}
+.pap-card{margin:0 22px 0;background:linear-gradient(135deg,rgba(22,68,30,.95) 0%,rgba(14,42,18,.98) 100%);border:1px solid rgba(91,186,111,.3);border-radius:18px;padding:20px 20px 18px;position:relative;z-index:1;overflow:hidden;}
 .pap-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#5bba6f,#a8c850,#5bba6f);background-size:200%;animation:shimmer 2.5s linear infinite;}
 .pap-eyebrow{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#5bba6f;font-weight:700;margin-bottom:7px;}
 .pap-headline{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1.5px;color:var(--white);line-height:1.15;margin-bottom:14px;}
@@ -301,13 +314,17 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .pap-cta{width:100%;background:#5bba6f;color:#0d1a0f;border:none;border-radius:13px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .18s;}
 .pap-cta:active{transform:scale(.97);background:#4da85f;}
 /* ── LEGENDARY EXCHANGE HOME CARD ── */
-.leg-home-card{margin:14px 22px 0;background:linear-gradient(135deg,#0e1a0f 0%,#070d08 100%);border:1px solid rgba(200,168,75,.3);border-radius:18px;padding:20px;position:relative;z-index:1;overflow:hidden;cursor:pointer;transition:transform .18s;}
+.leg-home-card{margin:4px 22px 0;background:linear-gradient(155deg,#0e1a0f 0%,#070d08 100%);border:1px solid rgba(200,168,75,.3);border-radius:18px;padding:24px 20px 20px;position:relative;z-index:1;overflow:hidden;cursor:pointer;transition:transform .18s;}
 .leg-home-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,rgba(200,168,75,.15),var(--gold),rgba(200,168,75,.15));background-size:200%;animation:shimmer 4s linear infinite;}
 .leg-home-card:active{transform:scale(.98);}
 .leg-home-eyebrow{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:7px;}
-.leg-home-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1.5px;color:var(--white);line-height:1.1;margin-bottom:5px;}
-.leg-home-sub{font-size:13px;color:rgba(255,255,255,.45);line-height:1.4;}
+.leg-home-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1.5px;color:var(--white);line-height:1.1;margin-bottom:6px;}
+.leg-home-sub{font-size:13px;color:rgba(255,255,255,.45);line-height:1.4;margin-bottom:16px;}
 .leg-home-badge{position:absolute;top:18px;right:18px;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.22);border-radius:20px;padding:4px 10px;font-size:9px;color:var(--gold);font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+/* Premium variant */
+.leg-home-premium{background:linear-gradient(155deg,#0d1c0e 0%,#060c07 50%,#0a1208 100%);border-color:rgba(200,168,75,.4);box-shadow:0 4px 32px rgba(200,168,75,.08);}
+.leg-home-premium-bg{position:absolute;inset:0;background:radial-gradient(ellipse 120% 60% at 50% 100%,rgba(200,168,75,.07) 0%,transparent 65%),repeating-linear-gradient(175deg,rgba(91,186,111,.025) 0,rgba(91,186,111,.025) 1px,transparent 1px,transparent 26px);pointer-events:none;}
+.leg-home-premium-cta{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#0a1509;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;padding:9px 16px;border-radius:30px;}
 /* ── LEGENDARY EXCHANGE SCREEN ── */
 .leg-screen-bg{min-height:100vh;background:#070d08;position:relative;}
 /* intro */
@@ -604,28 +621,42 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     <rect x="152" y="265" width="16" height="10" rx="2" fill="rgba(255,255,255,0.04)"/>
   </svg>
   <div class="home-inner">
+
+    <!-- HEADER — slim wordmark only -->
     <div class="home-header">
       <div class="home-hbg"></div>
       <div class="home-logo">Game<span>Sharp</span></div>
-      <div class="home-tag">Become a sharper student of the game</div>
-      <div class="home-subtitle">Daily tennis decisions. Better match play.</div>
       <div class="home-ball">&#127934;</div>
       <div class="home-streak-badge" id="homeStreakBadge"></div>
     </div>
 
-    <!-- 1. Daily Challenge card — PRIMARY ACTION -->
-    <div class="daily-card" id="dailyCard" onclick="startDailyChallenge()">
-      <div class="daily-inner">
-        <div class="daily-top">
-          <div class="daily-label">TODAY'S CHALLENGE</div>
-          <div class="daily-streak" id="dailyStreak">🔥 <span id="streakCount">0</span></div>
+    <!-- ROW 1: SPLIT HERO — Challenge | Profile -->
+    <div class="home-hero-row">
+      <div class="daily-card" id="dailyCard" onclick="startDailyChallenge()">
+        <div class="daily-inner">
+          <div class="daily-top">
+            <div class="daily-label">TODAY'S CHALLENGE</div>
+            <div class="daily-streak" id="dailyStreak">🔥 <span id="streakCount">0</span></div>
+          </div>
+          <div class="daily-q" id="dailyQ">Loading today's pressure point…</div>
+          <div class="daily-cta" id="dailyCta">Start →</div>
         </div>
-        <div class="daily-q" id="dailyQ">Loading today's pressure point…</div>
-        <div class="daily-cta" id="dailyCta">Start Challenge →</div>
+      </div>
+      <div class="start-here-card" id="startHereCard" onclick="handleStartHere()">
+        <div class="start-here-inner">
+          <div class="sh-eyebrow" id="shEyebrow">Start Here</div>
+          <div class="sh-headline" id="shHeadline">Build Your Profile</div>
+          <div class="sh-sub" id="shSub">60 sec. Personalised training.</div>
+          <div class="sh-cta"><span id="shCtaText">Get Started</span><span class="sh-cta-arrow">→</span></div>
+        </div>
       </div>
     </div>
 
-    <!-- 2. PLAY A POINT -->
+    <!-- ROW 2: TRAIN YOUR GAME — 4 Pillars -->
+    <div class="section-label">Train Your Game</div>
+    <div class="pillar-grid" id="pillarGrid"></div>
+
+    <!-- ROW 3: PLAY A POINT -->
     <div class="pap-card" id="papCard">
       <div class="pap-eyebrow">▶ PLAY A POINT</div>
       <div class="pap-headline">5 linked decisions.<br>One match situation.</div>
@@ -638,34 +669,23 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       <button class="pap-cta" id="papCta" onclick="startPlayAPoint()">Start Point →</button>
     </div>
 
-    <!-- 3. LEGENDARY EXCHANGE -->
-    <div class="leg-home-card" onclick="startLegendaryExchange('wim2008_exchange_001')">
-      <div class="leg-home-badge">NEW</div>
-      <div class="leg-home-eyebrow">🏆 Legendary Exchange</div>
-      <div class="leg-home-title">Step inside a famous<br>grass-court point.</div>
-      <div class="leg-home-sub">London 2008 Final-inspired. Federer vs Nadal. Fifth set.</div>
-    </div>
-
-    <!-- 4. START HERE / PROFILE FLOW -->
-    <div class="start-here-card" id="startHereCard" onclick="handleStartHere()">
-      <div class="start-here-inner">
-        <div class="sh-eyebrow" id="shEyebrow">🎾 Start Here</div>
-        <div class="sh-headline" id="shHeadline">Build Your Player Profile</div>
-        <div class="sh-sub" id="shSub">60 seconds. Then we personalise your training.</div>
-        <div class="sh-cta"><span id="shCtaText">Get Started</span><span class="sh-cta-arrow">→</span></div>
-      </div>
-    </div>
-
-    <!-- 3. TODAY'S PERSONAL SESSION -->
-    <div id="personalSessionWrap"></div>
-
-    <!-- 4. Pro Lens Moments -->
+    <!-- ROW 4: PRO LENS MOMENTS -->
     <div class="section-label" style="margin-top:4px">✨ Pro Lens Moments</div>
     <div class="plm-scroll" id="plmScroll"></div>
 
-    <!-- 5. Train Your Game pillars -->
-    <div class="section-label">Train Your Game</div>
-    <div class="pillar-grid" id="pillarGrid"></div>
+    <!-- ROW 5: LEGENDARY EXPERIENCES — cinematic premium -->
+    <div class="leg-home-card leg-home-premium" onclick="startLegendaryExchange('wim2008_exchange_001')">
+      <div class="leg-home-premium-bg"></div>
+      <div class="leg-home-badge">PREMIUM</div>
+      <div class="leg-home-eyebrow">🏆 Legendary Experiences</div>
+      <div class="leg-home-title">Step inside a famous<br>grass-court point.</div>
+      <div class="leg-home-sub">London 2008 Final-inspired. Federer vs Nadal. Fifth set.</div>
+      <div class="leg-home-premium-cta">Enter the Exchange →</div>
+    </div>
+
+    <!-- Personal Session (populated if match focus set) -->
+    <div id="personalSessionWrap"></div>
+
   </div>
 </div>
 
@@ -4219,19 +4239,6 @@ function initHome() {
   state.screen = 'home';
   showScreen('homeScreen');
   updateStartHereCard();
-  // Reduce profile card visual weight when profile already set
-  try {
-    const profileData = localStorage.getItem('gamesharp_profile');
-    const startHereCard = document.getElementById('startHereCard');
-    if (startHereCard) {
-      if (profileData) {
-        startHereCard.style.marginTop = '10px';
-        startHereCard.querySelector('.start-here-inner').style.padding = '14px 20px 12px';
-      } else {
-        startHereCard.style.marginTop = '18px';
-      }
-    }
-  } catch(e) {}
   renderPersonalSessionCard();
   initDailyChallenge();
   initProLensMoments();
