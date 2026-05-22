@@ -534,31 +534,19 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 /* ── STREAK BADGE (home header) ── */
 .home-streak-badge{display:none;position:absolute;right:22px;top:118px;background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.3);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.3px;z-index:1;}
 
-/* ── LOGO DROP BALL ── */
-.logo-drop-ball{position:absolute;width:22px;height:22px;pointer-events:none;z-index:6;opacity:0;will-change:transform,opacity;transform-origin:50% 50%;filter:drop-shadow(0 0 6px rgba(210,240,40,.9)) drop-shadow(0 2px 4px rgba(0,0,0,.55));}
+/* ── LOGO INTRO BALL — JS-driven rAF animation, no CSS keyframes ── */
+.logo-drop-ball{position:absolute;left:0;top:0;width:22px;height:22px;pointer-events:none;z-index:6;opacity:0;will-change:transform,opacity;transform-origin:50% 50%;filter:drop-shadow(0 0 6px rgba(210,240,40,.9)) drop-shadow(0 2px 4px rgba(0,0,0,.55));}
 .logo-drop-ball svg{display:block;}
-/* bounce animation — trigger via class toggle */
-.logo-drop-ball.is-dropping{animation:ballDrop 2100ms linear forwards;}
-@keyframes ballDrop{
-  0%   {transform:translate(62px,-96px)scale(1,1);          animation-timing-function:cubic-bezier(.55,0,.45,.9)}
-  20%  {transform:translate(46px,0px)scaleX(1.45)scaleY(.58);animation-timing-function:cubic-bezier(.2,.8,.45,1)}
-  30%  {transform:translate(30px,-54px)scale(1,1);           animation-timing-function:cubic-bezier(.55,0,.45,.9)}
-  45%  {transform:translate(16px,0px)scaleX(1.32)scaleY(.66);animation-timing-function:cubic-bezier(.2,.8,.45,1)}
-  54%  {transform:translate(7px,-26px)scale(1,1);            animation-timing-function:cubic-bezier(.55,0,.45,.9)}
-  64%  {transform:translate(0px,0px)scaleX(1.22)scaleY(.72); animation-timing-function:cubic-bezier(.2,.8,.45,1)}
-  70%  {transform:translate(-4px,-10px)scale(1,1);           animation-timing-function:cubic-bezier(.55,0,.6,.9)}
-  77%  {transform:translate(-2px,0px)scale(1,1)}
-  88%  {transform:translate(-2px,0px)scale(1,1);opacity:1}
-  100% {transform:translate(-28px,0px)scale(1,1);opacity:0}
-}
-/* P lights up on strike */
-.home-logo em{font-style:normal;display:inline;}
+/* P: premium impact — pushed left by ball, warm gold glow, spring back */
+.home-logo em{font-style:normal;display:inline-block;}
 @keyframes pStrike{
-  0%  {color:#fffbe0;text-shadow:0 0 10px #fff7b0,0 0 28px rgba(200,168,75,1),0 0 60px rgba(200,168,75,.55);transform:scale(1.18)}
-  30% {color:#fff;   text-shadow:0 0 6px #fff4a0,0 0 16px rgba(200,168,75,.8);transform:scale(1.1)}
-  100%{color:var(--gold);text-shadow:none;transform:scale(1)}
+  0%   {color:#fff9e8;text-shadow:0 0 7px #fff5b0,0 0 20px rgba(200,168,75,.9),0 0 40px rgba(200,168,75,.4);transform:translateX(-4px) scaleX(.91) scaleY(1.09)}
+  16%  {transform:translateX(2px) scaleX(1.05) scaleY(.97);color:#ffd96e;text-shadow:0 0 5px rgba(200,168,75,.65)}
+  32%  {transform:translateX(-1px) scaleX(1.01);color:#e8b84b;text-shadow:0 0 2px rgba(200,168,75,.25)}
+  58%  {transform:translateX(0) scale(1);color:#d4a645}
+  100% {transform:translateX(0) scale(1);color:var(--gold);text-shadow:none}
 }
-.home-logo em.logo-p-pinged{animation:pStrike .75s cubic-bezier(.2,.8,.4,1) forwards;}
+.home-logo em.logo-p-pinged{animation:pStrike .85s cubic-bezier(.2,.8,.4,1) forwards;}
 /* Logo sharpens after impact */
 @keyframes logoFocus{
   0%  {filter:blur(0)brightness(1)contrast(1)}
@@ -4285,32 +4273,45 @@ function startPlayAPoint() {
   startQuiz(_papPillar, null);
 }
 
-// ── LOGO INTRO — ball drops, bounces toward P, strikes ──
+// ── LOGO INTRO — ball travels right→left across header, bounces to P ──
 function _audioCtx() {
   try { return new (window.AudioContext || window.webkitAudioContext)(); } catch(e) { return null; }
 }
+// Soft tennis-ball court thud: sine body + brief felt-noise transient
 function playBounceThud(volume) {
   const ctx = _audioCtx(); if (!ctx) return;
-  const osc = ctx.createOscillator(), gain = ctx.createGain();
-  osc.connect(gain); gain.connect(ctx.destination);
+  const osc = ctx.createOscillator(), og = ctx.createGain();
   osc.type = 'sine';
-  osc.frequency.setValueAtTime(160, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(38, ctx.currentTime + 0.14);
-  gain.gain.setValueAtTime(volume, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
-  osc.start(); osc.stop(ctx.currentTime + 0.22);
+  osc.frequency.setValueAtTime(175, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 0.09);
+  og.gain.setValueAtTime(volume * 0.85, ctx.currentTime);
+  og.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+  osc.connect(og); og.connect(ctx.destination);
+  osc.start(); osc.stop(ctx.currentTime + 0.19);
+  try {
+    const n = Math.floor(ctx.sampleRate * 0.032);
+    const buf = ctx.createBuffer(1, n, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/n, 3);
+    const src = ctx.createBufferSource(), bpf = ctx.createBiquadFilter(), ng = ctx.createGain();
+    src.buffer = buf; bpf.type = 'bandpass'; bpf.frequency.value = 260; bpf.Q.value = 1.4;
+    ng.gain.setValueAtTime(volume * 0.28, ctx.currentTime);
+    src.connect(bpf); bpf.connect(ng); ng.connect(ctx.destination);
+    src.start(); src.stop(ctx.currentTime + 0.04);
+  } catch(e) {}
 }
-function playImpactChime() {
+// Warm wooden timber knock: triangle resonance, not a chime
+function playTimberKnock() {
   const ctx = _audioCtx(); if (!ctx) return;
-  // Ascending C-G-C chord — brief but distinctive
-  [[523, 0, 0.16, 0.7], [784, 0.07, 0.13, 0.8], [1047, 0.13, 0.09, 0.9]].forEach(([f,d,v,dur]) => {
-    const osc = ctx.createOscillator(), gain = ctx.createGain();
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.type = 'sine';
+  [[400,'triangle',0,0.10,0.30],[800,'triangle',0,0.05,0.14],[190,'sine',0,0.09,0.07]].forEach(([f,type,d,v,dur]) => {
+    const osc = ctx.createOscillator(), g = ctx.createGain();
+    osc.type = type;
     osc.frequency.setValueAtTime(f, ctx.currentTime + d);
-    gain.gain.setValueAtTime(v, ctx.currentTime + d);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + d + dur);
-    osc.start(ctx.currentTime + d); osc.stop(ctx.currentTime + d + dur);
+    if (type === 'sine') osc.frequency.exponentialRampToValueAtTime(f * 0.6, ctx.currentTime + d + dur);
+    g.gain.setValueAtTime(v, ctx.currentTime + d);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + d + dur);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(ctx.currentTime + d); osc.stop(ctx.currentTime + d + dur + 0.01);
   });
 }
 
@@ -4322,41 +4323,111 @@ function triggerLogoIntro() {
   const header = document.querySelector('.home-header');
   if (!ball || !pEl || !header) return;
   const cornerBall = document.querySelector('.home-ball');
+
   setTimeout(() => {
     const hRect = header.getBoundingClientRect();
     const pRect = pEl.getBoundingClientRect();
-    // Position ball so translate(0,0) = resting at P center, on the baseline
-    const ballLeft = Math.round(pRect.left - hRect.left + pRect.width * 0.4 - 11);
-    const ballTop  = Math.round(pRect.bottom - hRect.top - 22); // sits on text baseline
-    // Hide corner ball while drop anim plays
+    const BALL_R = 11;
+    // Ground: ball center sits at text cap baseline
+    const floorY = Math.round(pRect.bottom - hRect.top) - BALL_R;
+    // Ball starts just off the right edge (clipped by overflow-x:hidden, naturally enters from right)
+    const startX = Math.round(hRect.width) + BALL_R + 2;
+    const endX   = Math.round(pRect.left - hRect.left + 1); // left face of P
+    const dist   = startX - endX;
+
+    // Anchor element at (0,0) inside header — all movement via transform only
+    ball.style.left      = '0px';
+    ball.style.top       = '0px';
+    ball.style.animation = 'none';
+    ball.style.opacity   = '0';
+    ball.style.transform = `translate(${startX}px,${floorY}px)`;
     if (cornerBall) { cornerBall.style.transition = 'none'; cornerBall.style.opacity = '0'; }
-    ball.style.left    = ballLeft + 'px';
-    ball.style.top     = ballTop  + 'px';
-    ball.style.opacity = '1';
-    ball.style.transform = '';          // clear any inline transform so CSS anim takes over
-    ball.classList.remove('is-dropping');
-    void ball.offsetWidth;              // force reflow — browser sees the removed state
-    // Total animation: 2.1s. Impact at 64% ≈ 1344ms. Exit fades at 88% ≈ 1848ms.
-    const TOTAL = 2100;
+
+    // ── Arc waypoints ──────────────────────────────────────────────
+    // wp[i]: fraction of total horizontal distance (0=start, 1=P)
+    // ht[i]: arc peak height in px — 6 arcs, diminishing
+    const wp = [0, 0.20, 0.38, 0.54, 0.67, 0.79, 1.0];
+    const ht = [70,  52,  36,  22,  12,   5       ];
+    const TOTAL = 2800;
+
+    // Arc durations: physics — time in air ∝ √height × horizontal span
+    const rawW = ht.map((h, i) => Math.sqrt(h) * (wp[i+1] - wp[i]));
+    const sumW  = rawW.reduce((a, b) => a + b, 0);
+    const dur   = rawW.map(w => (w / sumW) * TOTAL);
+
+    // Cumulative arc-start times + final (P contact) timestamp
+    const t0ms = [0];
+    for (let i = 0; i < dur.length - 1; i++) t0ms.push(t0ms[i] + dur[i]);
+    t0ms.push(TOTAL); // t0ms[6] = moment ball reaches P
+
+    // ── Pre-schedule sounds ────────────────────────────────────────
+    const LAT = 25; // ms lead — compensates AudioContext startup latency
+    [0.21, 0.17, 0.14, 0.11, 0.09].forEach((vol, i) => {
+      setTimeout(() => playBounceThud(vol), t0ms[i + 1] - LAT);
+    });
     setTimeout(() => {
-      ball.classList.add('is-dropping'); // start CSS animation (setTimeout(0) not rAF — more reliable)
-      // Bounce thuds — timed to keyframe hits (20% and 45% of TOTAL)
-      setTimeout(() => playBounceThud(0.24), TOTAL * 0.20);
-      setTimeout(() => playBounceThud(0.17), TOTAL * 0.45);
-      // Strike the P at 64%
-      setTimeout(() => {
-        playImpactChime();
-        pEl.classList.add('logo-p-pinged');
-        const logo = document.getElementById('homeLogo');
-        if (logo) { logo.classList.remove('logo-sharpen'); void logo.offsetWidth; logo.classList.add('logo-sharpen'); }
-      }, TOTAL * 0.64);
-      // Fade corner ball back in as drop ball exits (88% mark)
-      setTimeout(() => {
-        if (cornerBall) { cornerBall.style.transition = 'opacity .5s'; cornerBall.style.opacity = '1'; }
-        setTimeout(() => pEl.classList.remove('logo-p-pinged'), 700);
-      }, TOTAL * 0.88);
-    }, 0);
-  }, 280);
+      playTimberKnock();
+      pEl.classList.add('logo-p-pinged');
+      const logo = document.getElementById('homeLogo');
+      if (logo) { logo.classList.remove('logo-sharpen'); void logo.offsetWidth; logo.classList.add('logo-sharpen'); }
+    }, TOTAL - LAT);
+
+    // ── Clean-up ───────────────────────────────────────────────────
+    setTimeout(() => {
+      ball.style.transition = 'opacity .3s';
+      ball.style.opacity = '0';
+      if (cornerBall) { cornerBall.style.transition = 'opacity .5s'; cornerBall.style.opacity = '1'; }
+    }, TOTAL + 200);
+    setTimeout(() => { pEl.classList.remove('logo-p-pinged'); ball.style.transition = ''; }, TOTAL + 1000);
+
+    // ── rAF animation loop ─────────────────────────────────────────
+    let startTime = null;
+    function frame(now) {
+      if (!startTime) { startTime = now; ball.style.opacity = '1'; } // reveal at first frame
+      const elapsed = now - startTime;
+      if (elapsed >= TOTAL) {
+        // Hold final squash at P
+        ball.style.transform = `translate(${endX}px,${floorY}px) scaleX(1.38) scaleY(0.62)`;
+        return;
+      }
+      // Locate current arc
+      let ai = dur.length - 1;
+      for (let i = 0; i < t0ms.length - 2; i++) {
+        if (elapsed < t0ms[i + 1]) { ai = i; break; }
+      }
+      const at = Math.min((elapsed - t0ms[ai]) / dur[ai], 1); // 0→1 within arc
+
+      // Horizontal: constant velocity per arc segment
+      const xFrom = startX - wp[ai]     * dist;
+      const xTo   = startX - wp[ai + 1] * dist;
+      const cx    = xFrom + (xTo - xFrom) * at;
+
+      // Vertical: parabola with physics bias (ease-out up, ease-in down)
+      let yOff;
+      if (at <= 0.5) {
+        const tr = at / 0.5;
+        yOff = ht[ai] * (1 - (1 - tr) * (1 - tr)); // quadratic ease-out (decelerates going up)
+      } else {
+        const tf = (at - 0.5) / 0.5;
+        yOff = ht[ai] * (1 - tf) * (1 - tf);        // quadratic ease-in (accelerates falling)
+      }
+      const cy = floorY - yOff;
+
+      // Squash & stretch
+      let sx = 1, sy = 1;
+      if (at < 0.12) {
+        const s = 1 - at / 0.12;  // 1→0 during launch phase
+        sx = 1 - 0.15 * s; sy = 1 + 0.15 * s; // stretch vertical on launch
+      } else if (at > 0.86) {
+        const s = (at - 0.86) / 0.14; // 0→1 during landing
+        sx = 1 + 0.36 * s; sy = 1 - 0.36 * s; // squash horizontal on landing
+      }
+
+      ball.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) scaleX(${sx.toFixed(3)}) scaleY(${sy.toFixed(3)})`;
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }, 300);
 }
 
 function initHome() {
