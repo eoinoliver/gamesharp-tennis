@@ -2442,106 +2442,13 @@ function _taInitCourt(box) {
   return {NS,sv,lerp,cl01,eio,ein,eout,sa,qbez,mk,mkTxt,mkTrail,mkBurst};
 }
 
-// TECHNIQUE ANIMATIONS (from GameSharp v1)
+// TECHNIQUE ANIMATIONS
 const TECH_ANIMS = {
-  swing_forehand_lowtohigh: {
-    label: 'Topspin arc — clears high, kicks deep',
-    svg: `<svg id="ta-fh" viewBox="0 0 280 108" class="ta-svg">
-      <line x1="8" y1="93" x2="272" y2="93" stroke="#2a5425" stroke-width="3" stroke-linecap="round"/>
-      <line x1="140" y1="93" x2="140" y2="54" stroke="rgba(255,255,255,0.45)" stroke-width="2.5"/>
-      <line x1="134" y1="54" x2="146" y2="54" stroke="rgba(255,255,255,0.5)" stroke-width="2.5"/>
-      <path id="fh-path" d="M32,72 Q90,14 150,60 Q200,92 242,63"
-        stroke="#c8a84b" stroke-width="3.5" fill="none" stroke-linecap="round"
-        stroke-dasharray="350" stroke-dashoffset="350"
-        style="animation:drawPath 1.3s .15s ease forwards"/>
-      <path d="M242,63 Q250,80 258,63" stroke="#c8a84b" stroke-width="2.5" fill="none"
-        opacity="0" style="animation:tpop .3s 1.55s ease both"/>
-      <line x1="250" y1="63" x2="250" y2="28" stroke="#c8a84b" stroke-width="1.5"
-        stroke-dasharray="3,4" opacity="0" style="animation:drawPath .5s 1.85s ease forwards"/>
-      <text x="265" y="44" fill="rgba(200,168,75,0.85)" font-size="9" font-weight="700"
-        font-family="DM Sans" opacity="0" style="animation:tpop .3s 2.3s ease both">HIGH</text>
-      <circle cx="26" cy="88" r="6" fill="#c8a84b"/>
-      <circle cx="260" cy="88" r="8" fill="rgba(224,82,82,0.2)" stroke="#e05252" stroke-width="1.5"
-        opacity="0" style="animation:tpop .4s 2.1s ease both"/>
-      <circle id="fh-ball" cx="32" cy="72" r="8" fill="#a8c032" opacity="0"/>
-    </svg>`,
-    init: (params={},cbs={}) => {
-      const ball=document.getElementById('fh-ball'), path=document.getElementById('fh-path');
-      if(!ball||!path)return null;
-      const len=path.getTotalLength(); let t=0,raf;
-      setTimeout(()=>{
-        const loop=()=>{t=(t+0.009)%1;const pt=path.getPointAtLength(t*len);ball.setAttribute('cx',String(pt.x));ball.setAttribute('cy',String(pt.y));ball.setAttribute('opacity',t<0.06?String(t/0.06):t>0.88?String(Math.max(0,(1-t)/0.12)):'1');raf=requestAnimationFrame(loop);};
-        raf=requestAnimationFrame(loop);
-      },1400);
-      return ()=>cancelAnimationFrame(raf);
-    }
-  },
-  swing_serve_motion: {
-    label: 'Serve ball path — toss to landing',
-    svg: `<svg id="ta-sv" viewBox="0 0 280 108" class="ta-svg">
-      <line x1="8" y1="93" x2="272" y2="93" stroke="#2a5425" stroke-width="3" stroke-linecap="round"/>
-      <line x1="140" y1="93" x2="140" y2="54" stroke="rgba(255,255,255,0.45)" stroke-width="2.5"/>
-      <line x1="134" y1="54" x2="146" y2="54" stroke="rgba(255,255,255,0.5)" stroke-width="2.5"/>
-      <rect x="10" y="54" width="130" height="39" fill="rgba(91,155,213,0.05)" stroke="rgba(91,155,213,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
-      <text x="75" y="88" text-anchor="middle" fill="rgba(91,155,213,0.35)" font-size="7" font-family="DM Sans">service box</text>
-      <circle id="sv-toss" cx="252" cy="48" r="7" fill="#a8c032"
-        style="animation:tpop .4s .1s ease both;opacity:0"/>
-      <path id="sv-path" d="M252,48 Q195,18 108,64"
-        stroke="#e07070" stroke-width="3.5" fill="none" stroke-linecap="round"
-        stroke-dasharray="230" stroke-dashoffset="230"
-        style="animation:drawPath 1s .5s ease forwards"/>
-      <path d="M108,64 Q96,80 84,64" stroke="#e07070" stroke-width="2.5" fill="none"
-        opacity="0" style="animation:tpop .3s 1.6s ease both"/>
-      <circle cx="255" cy="88" r="6" fill="#c8a84b"/>
-      <circle cx="75" cy="88" r="8" fill="rgba(224,82,82,0.2)" stroke="#e05252" stroke-width="1.5"
-        opacity="0" style="animation:tpop .4s 1.9s ease both"/>
-      <circle id="sv-ball" cx="252" cy="48" r="8" fill="#a8c032" opacity="0"/>
-    </svg>`,
-    init: (params={},cbs={}) => {
-      const ball=document.getElementById('sv-ball'), path=document.getElementById('sv-path');
-      if(!ball||!path)return null;
-      const len=path.getTotalLength(); let t=0,raf;
-      setTimeout(()=>{
-        const loop=()=>{t=(t+0.011)%1;const pt=path.getPointAtLength(t*len);ball.setAttribute('cx',String(pt.x));ball.setAttribute('cy',String(pt.y));ball.setAttribute('opacity',t<0.05?String(t/0.05):t>0.9?String(Math.max(0,(1-t)/0.1)):'1');raf=requestAnimationFrame(loop);};
-        raf=requestAnimationFrame(loop);
-      },1100);
-      return ()=>cancelAnimationFrame(raf);
-    }
-  },
-  swing_volley_punch: {
-    label: 'Volley — redirect ball to open court',
-    svg: `<svg id="ta-vl" viewBox="0 0 280 160" class="ta-svg">
-      <rect x="20" y="10" width="240" height="140" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-      <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,0.4)" stroke-width="2.5"/>
-      <line x1="140" y1="10" x2="140" y2="150" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4,3"/>
-      <path d="M140,148 Q140,112 140,84"
-        stroke="rgba(224,82,82,0.55)" stroke-width="3" fill="none" stroke-linecap="round"
-        stroke-dasharray="6,4" opacity="0" style="animation:tpop .3s .2s ease both"/>
-      <path id="vl-path" d="M140,76 Q98,56 46,36"
-        stroke="#c8a84b" stroke-width="3.5" fill="none" stroke-linecap="round"
-        stroke-dasharray="210" stroke-dashoffset="210"
-        style="animation:drawPath 0.8s .8s ease forwards"/>
-      <circle cx="140" cy="148" r="9" fill="rgba(224,82,82,0.2)" stroke="#e05252" stroke-width="1.5"/>
-      <text x="140" y="152" text-anchor="middle" fill="rgba(224,82,82,0.6)" font-size="7" font-family="DM Sans" dy="8">OPP</text>
-      <circle cx="140" cy="68" r="6" fill="#c8a84b"/>
-      <text x="155" y="66" fill="rgba(200,168,75,0.8)" font-size="7" font-family="DM Sans">YOU</text>
-      <circle cx="46" cy="36" r="14" fill="rgba(91,186,111,0.1)" stroke="#5bba6f" stroke-width="1.5"
-        stroke-dasharray="4,3" opacity="0" style="animation:tpop .4s 1.7s ease both"/>
-      <text x="46" y="40" text-anchor="middle" fill="#5bba6f" font-size="8" font-weight="700"
-        font-family="DM Sans" opacity="0" style="animation:tpop .3s 1.9s ease both">OPEN</text>
-      <circle id="vl-ball" cx="140" cy="76" r="8" fill="#a8c032" opacity="0"/>
-    </svg>`,
-    init: (params={},cbs={}) => {
-      const ball=document.getElementById('vl-ball'), path=document.getElementById('vl-path');
-      if(!ball||!path)return null;
-      const len=path.getTotalLength(); let t=0,raf;
-      setTimeout(()=>{
-        const loop=()=>{t=(t+0.013)%1;const pt=path.getPointAtLength(t*len);ball.setAttribute('cx',String(pt.x));ball.setAttribute('cy',String(pt.y));ball.setAttribute('opacity',t<0.05?String(t/0.05):t>0.88?String(Math.max(0,(1-t)/0.12)):'1');raf=requestAnimationFrame(loop);};
-        raf=requestAnimationFrame(loop);
-      },900);
-      return ()=>cancelAnimationFrame(raf);
-    }
-  },
+  // ─── REMOVED (no QBANK references, violated no-loop / no-ambient rules): ───
+  // swing_forehand_lowtohigh, swing_serve_motion, swing_volley_punch
+  // (infinite-looping abstract swing paths — no YOU/OPP, no court, no decision)
+  // ─────────────────────────────────────────────────────────────────────────────
+
   // ════════════════════════════════════════════════════════════
   // TEMPLATE LIBRARY v1 — 15 parameterisable SVG animations
   // Call: ANIM.render(key, params)  or  mountTechAnim(key, params)
@@ -2550,6 +2457,11 @@ const TECH_ANIMS = {
   // T1 — Serve Zones (deuce | ad)
   court_serve_zones: {
     label: (p={})=>`Serve zones — ${p.side==='ad'?'Ad':'Deuce'} court`,
+    captions: {
+      setup: 'Three targets in the service box — every serve aims at one of them.',
+      decision: 'WIDE pulls the returner off the court. T jams them. BODY cramps the swing.',
+      result: 'Pick your target before you toss. Committed serves land in the box.'
+    },
     render: (p={})=>{
       const ad = p.side==='ad';
       // In deuce court: Wide=left, T=right-centre, Body=right
@@ -2586,18 +2498,29 @@ const TECH_ANIMS = {
   <rect x="10" y="8" width="160" height="95" fill="rgba(42,84,37,0.2)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" rx="2"/>
   <line x1="90" y1="8" x2="90" y2="103" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="3,3"/>
   <circle id="sz-w" cx="22" cy="58" r="18" fill="rgba(224,112,112,0.12)" stroke="#e07070" stroke-width="1.5" stroke-dasharray="5,3" style="animation:tpop .4s .2s cubic-bezier(.34,1.5,.64,1) both;opacity:0"/>
-  <text x="22" y="62" text-anchor="middle" fill="#e07070" font-size="8" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .2s cubic-bezier(.34,1.5,.64,1) both;opacity:0">W</text>
+  <text x="22" y="62" text-anchor="middle" fill="#e07070" font-size="6" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .2s cubic-bezier(.34,1.5,.64,1) both;opacity:0">WIDE</text>
   <circle cx="130" cy="72" r="18" fill="rgba(200,168,75,0.12)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="5,3" style="animation:tpop .4s .6s cubic-bezier(.34,1.5,.64,1) both;opacity:0"/>
   <text x="130" y="76" text-anchor="middle" fill="#c8a84b" font-size="7" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .6s cubic-bezier(.34,1.5,.64,1) both;opacity:0">BODY</text>
   <circle cx="95" cy="28" r="18" fill="rgba(91,155,213,0.12)" stroke="#5b9bd5" stroke-width="1.5" stroke-dasharray="5,3" style="animation:tpop .4s 1s cubic-bezier(.34,1.5,.64,1) both;opacity:0"/>
   <text x="95" y="32" text-anchor="middle" fill="#5b9bd5" font-size="11" font-weight="700" font-family="DM Sans" style="animation:tpop .4s 1s cubic-bezier(.34,1.5,.64,1) both;opacity:0">T</text>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1200);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2400);
+      return null;
+    }
   },
 
   // T2 — Rally Pattern (crosscourt | dtl | inside_out | angle)
   court_rally_pattern: {
     label: (p={})=>`Rally pattern: ${(p.pattern||'crosscourt').replace('_',' ')}`,
+    captions: {
+      setup: 'The rally is live — YOU have the ball and a decision to make.',
+      decision: 'Crosscourt: bigger target, lower net point. DTL: shorter court, higher net.',
+      result: 'Crosscourt is the highest-percentage rally shot. Use it to build the point.'
+    },
     render: (p={})=>{
       const pat = p.pattern || 'crosscourt';
       const paths = {
@@ -2625,7 +2548,13 @@ const TECH_ANIMS = {
   <path d="M22,100 Q22,50 22,15" stroke="rgba(91,155,213,0.5)" stroke-width="1.5" fill="none" stroke-dasharray="3,4"/>
   <circle cx="22" cy="100" r="4" fill="#c8a84b"/>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1200);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2400);
+      return null;
+    }
   },
 
   // T3 — Court Positions (where you and opponent stand)
@@ -2675,6 +2604,11 @@ const TECH_ANIMS = {
   // T4 — Return Position (step_in | normal | step_back)
   court_return_pos: {
     label: (p={})=>`Return position: ${p.depth||'normal'}`,
+    captions: {
+      setup: 'Server at the baseline — where YOU stand defines what return you can make.',
+      decision: 'Step inside the baseline on second serves. Stay deeper on big first serves.',
+      result: 'Step in on weak serves: earlier contact, more attack angles, less time for server.'
+    },
     render: (p={})=>{
       const depth = p.depth || 'normal';
       const positions = {step_in:{y:110,col:'#5bba6f',txt:'Step inside — pressure 2nd serve'},normal:{y:125,col:'#c8a84b',txt:'Normal return position'},step_back:{y:140,col:'#5b9bd5',txt:'Step back — buy reaction time'}};
@@ -2711,12 +2645,23 @@ const TECH_ANIMS = {
   <circle cx="180" cy="130" r="8" fill="rgba(91,155,213,0.15)" stroke="#5b9bd5" stroke-width="1.5"
     stroke-dasharray="3,3" opacity="0" style="animation:tpop .4s 1.8s ease both"/>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1300);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2500);
+      return null;
+    }
   },
 
   // T5 — Net Approach
   court_net_approach: {
     label: (p={})=>`Net approach — ${p.approach_side||'middle'}`,
+    captions: {
+      setup: 'Short ball inside the service line — a chance to come in.',
+      decision: 'Charge to the short ball. Approach and move to net.',
+      result: 'Deep approach shot, split step at the service line — you own the net.'
+    },
     render: (p={})=>{
       const side = p.approach_side || 'middle';
       const startX = side==='deuce'?70:side==='ad'?210:140;
@@ -2761,54 +2706,248 @@ const TECH_ANIMS = {
   <circle cx="110" cy="56" r="7" fill="#c8a84b"
     opacity="0" style="animation:tpop .3s 1.9s ease both"/>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1200);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2500);
+      return null;
+    }
   },
 
-  // T6 — Doubles Formation
+  // T6 — Doubles Formation (full cinematic rAF — the brief's #1 callout)
   court_doubles_formation: {
-    label: (p={})=>`Doubles: ${p.formation||'standard'}`,
-    render: (p={})=>{
-      const f = p.formation||'standard';
-      const configs = {
-        standard: {
-          players:[{x:80,y:130,c:'#c8a84b',l:'S'},{x:200,y:65,c:'#5bba6f',l:'NP'},{x:200,y:130,c:'rgba(200,168,75,0.4)',l:''},{x:80,y:22,c:'rgba(224,82,82,0.7)',l:''},{x:80,y:22,c:'rgba(224,82,82,0.7)',l:'OPP'}],
-          lbl:'Standard formation'
-        },
-        australian: {
-          players:[{x:80,y:130,c:'#c8a84b',l:'S'},{x:80,y:65,c:'#5bba6f',l:'NP'}],
-          lbl:'Australian formation — both same side'
-        },
-        both_back: {
-          players:[{x:80,y:130,c:'#c8a84b',l:'P1'},{x:200,y:130,c:'#5bba6f',l:'P2'}],
-          lbl:'Both back — defensive only'
-        }
-      };
-      const cfg = configs[f]||configs.standard;
-      const dots = cfg.players.map(p2=>`
-  <circle cx="${p2.x}" cy="${p2.y}" r="9" fill="rgba(200,168,75,0.15)" stroke="${p2.c}" stroke-width="1.5" style="animation:tpop .4s .3s ease both;opacity:0"/>
-  <text x="${p2.x}" y="${p2.y+4}" text-anchor="middle" fill="${p2.c}" font-size="7" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .3s ease both;opacity:0">${p2.l}</text>`).join('');
-      return `<div class="vis-wrap"><div class="vis-lbl">${cfg.lbl}</div>
-<svg viewBox="0 0 280 160" class="vis-svg">
-  <rect x="20" y="10" width="240" height="140" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-  <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-  <line x1="20" y1="107" x2="260" y2="107" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
-  ${dots}
-</svg></div>`;
+    label: ()=>'Doubles movement — shift together',
+    captions: {
+      setup: 'Standard deuce formation. Both teams in position.',
+      decision: 'Ball goes crosscourt to your side — do both of you shift?',
+      result: 'Both shift together. Gap closed. OPP NET has nowhere to poach.'
     },
-    svg:`<svg viewBox="0 0 180 120" class="ta-svg">
-  <rect x="10" y="8" width="160" height="100" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-  <line x1="10" y1="58" x2="170" y2="58" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-  <circle cx="45" cy="92" r="8" fill="rgba(200,168,75,0.15)" stroke="#c8a84b" stroke-width="1.5" style="animation:tpop .4s .2s ease both;opacity:0"/>
-  <text x="45" y="96" text-anchor="middle" fill="#c8a84b" font-size="7" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .2s ease both;opacity:0">S</text>
-  <circle cx="130" cy="45" r="8" fill="rgba(91,186,111,0.15)" stroke="#5bba6f" stroke-width="1.5" style="animation:tpop .4s .5s ease both;opacity:0"/>
-  <text x="130" y="49" text-anchor="middle" fill="#5bba6f" font-size="7" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .5s ease both;opacity:0">NP</text>
+    mistakeCaptions: {
+      setup: 'Standard deuce formation. Both teams in position.',
+      decision: 'Ball goes crosscourt — PARTNER moves but YOU stay frozen.',
+      result: 'YOU frozen → gap opens → OPP NET attacks the middle.'
+    },
+    hasMistakeToggle: true,
+    // Static thumbnail — portrait 200×310, 4 players
+    svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
+  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
+  <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
+  <line x1="33" y1="87" x2="167" y2="87" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="33" y1="222" x2="167" y2="222" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="100" y1="87" x2="100" y2="155" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="100" y1="155" x2="100" y2="222" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="33" y1="10" x2="33" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <line x1="167" y1="10" x2="167" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <text x="28" y="22" fill="rgba(255,255,255,.22)" font-size="7" letter-spacing="1">OPP</text>
+  <text x="28" y="293" fill="rgba(200,168,75,.3)" font-size="7" letter-spacing="1">YOU</text>
+  <!-- OPP baseline left -->
+  <circle cx="45" cy="22" r="8" fill="rgba(255,255,255,.6)" style="animation:tpop .4s .2s ease both;opacity:0"/>
+  <text x="45" y="26" text-anchor="middle" fill="rgba(255,255,255,.9)" font-size="6" font-weight="700" style="animation:tpop .4s .2s ease both;opacity:0">OPP</text>
+  <!-- OPP NET right -->
+  <circle cx="145" cy="75" r="8" fill="rgba(224,82,82,.85)" style="animation:tpop .4s .4s ease both;opacity:0"/>
+  <text x="145" y="66" text-anchor="middle" fill="#e05252" font-size="6" font-weight="700" style="animation:tpop .4s .4s ease both;opacity:0">OPP NET</text>
+  <!-- PARTNER at net left (your half) -->
+  <circle cx="55" cy="120" r="8" fill="#5bba6f" style="animation:tpop .4s .6s ease both;opacity:0"/>
+  <text x="55" y="111" text-anchor="middle" fill="#5bba6f" font-size="6" font-weight="700" style="animation:tpop .4s .6s ease both;opacity:0">PARTNER</text>
+  <!-- YOU at baseline right -->
+  <circle cx="145" cy="285" r="8" fill="#c8a84b" style="animation:tpop .4s .8s ease both;opacity:0"/>
+  <text x="145" y="295" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" style="animation:tpop .4s .8s ease both;opacity:0">YOU</text>
 </svg>`,
-    init:(params={},cbs={})=>null
+    render: (p={})=>`<div class="vis-wrap"><div class="vis-lbl">Doubles — shift together</div>
+<svg viewBox="0 0 200 310" class="vis-svg" style="height:220px">
+  <rect x="20" y="10" width="160" height="290" fill="rgba(28,60,24,0.35)" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+  <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+  <line x1="33" y1="87" x2="167" y2="87" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="33" y1="222" x2="167" y2="222" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+  <line x1="33" y1="10" x2="33" y2="300" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+  <line x1="167" y1="10" x2="167" y2="300" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+  <circle cx="45" cy="22" r="8" fill="rgba(255,255,255,.55)" style="animation:tpop .4s .1s ease both;opacity:0"/>
+  <text x="45" y="26" text-anchor="middle" fill="rgba(255,255,255,.8)" font-size="6" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .1s ease both;opacity:0">OPP</text>
+  <circle cx="145" cy="75" r="8" fill="rgba(224,82,82,.8)" style="animation:tpop .4s .3s ease both;opacity:0"/>
+  <text x="145" y="66" text-anchor="middle" fill="#e05252" font-size="6" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .3s ease both;opacity:0">OPP NET</text>
+  <circle cx="55" cy="120" r="8" fill="#5bba6f" style="animation:tpop .4s .5s ease both;opacity:0"/>
+  <text x="55" y="111" text-anchor="middle" fill="#5bba6f" font-size="6" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .5s ease both;opacity:0">PARTNER</text>
+  <circle cx="145" cy="285" r="8" fill="#c8a84b" style="animation:tpop .4s .7s ease both;opacity:0"/>
+  <text x="145" y="295" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .7s ease both;opacity:0">YOU</text>
+</svg></div>`,
+    init:(params={},cbs={})=>{
+      const box=document.getElementById('taCourt'); if(!box) return null;
+      const isMistake=_taMistakeMode;
+      const ph=cbs.phase||(()=>{}),cap=cbs.caption||(()=>{}),captions=cbs.captions||{};
+      const {sv,lerp,cl01,eio,ein,eout,sa,qbez,mk,mkTxt,mkTrail,mkBurst}=_taInitCourt(box);
+
+      // ── Build scene elements ──────────────────────────────────────────
+      // OPP baseline left (white)
+      const oppDot=mk('circle',{r:'8',fill:'rgba(255,255,255,.65)',opacity:'0'}); sv.appendChild(oppDot);
+      const oppLbl=mkTxt(45,18,'OPP','rgba(255,255,255,.7)',6,'700');
+
+      // OPP NET player (red) — top right
+      const oppNetDot=mk('circle',{r:'8',fill:'rgba(224,82,82,.85)',opacity:'0'}); sv.appendChild(oppNetDot);
+      const oppNetLbl=mkTxt(150,68,'OPP NET','#e05252',6,'700');
+
+      // PARTNER at net left (teal)
+      const partDot=mk('circle',{r:'9',fill:'#5bba6f',opacity:'0'}); sv.appendChild(partDot);
+      const partLbl=mkTxt(55,113,'PARTNER','#5bba6f',6,'700');
+
+      // YOU at baseline right (gold)
+      const youDot=mk('circle',{r:'9',fill:'#c8a84b',opacity:'0'}); sv.appendChild(youDot);
+      const youLbl=mkTxt(145,297,'YOU','#c8a84b',6,'700');
+
+      // Ball trail + ball
+      const tr=mkTrail(7,45,22);
+      const ballDot=mk('circle',{r:'7',fill:'#e8d068',opacity:'0'}); sv.appendChild(ballDot);
+
+      // Gap zone (mistake result only)
+      const gapZone=mk('rect',{x:'85',y:'115',width:'80',height:'125',fill:'rgba(224,82,82,.1)',stroke:'#e05252','stroke-width':'1.5','stroke-dasharray':'5,3',rx:'3',opacity:'0'}); sv.appendChild(gapZone);
+      const gapLbl=mkTxt(125,182,'GAP!','#e05252',11,'900');
+
+      // Correct: green sync indicator
+      const syncLbl=mkTxt(100,195,'SYNCHRONIZED','#4caf50',7,'700');
+      const syncLbl2=mkTxt(100,207,'gap closed','rgba(76,175,80,.6)',6,'normal');
+
+      const burst=mkBurst('#4caf50'); const burstR=mkBurst('#e05252');
+
+      // ── Positions ─────────────────────────────────────────────────────
+      const OPP={x:45,y:22}, OPPNET={x:145,y:75};
+      const PART_0={x:55,y:120}, YOU_0={x:145,y:285};
+      const BALL_LAND={x:145,y:240};
+      // Correct shift: both move toward centre
+      const PART_1={x:100,y:120}, YOU_1={x:100,y:285};
+      // Mistake: PARTNER moves, YOU frozen; OPP NET poaches through
+      const OPPNET_ATK={x:100,y:185};
+
+      let partX=PART_0.x,partY=PART_0.y;
+      let youX=YOU_0.x,youY=YOU_0.y;
+      let oppNetX=OPPNET.x,oppNetY=OPPNET.y;
+
+      // ── Timing (ms) ──────────────────────────────────────────────────
+      const T={dec:1600,ballEnd:2700,res:2900,moveEnd:4100,poach:3400,end:5200};
+
+      let rafId=null,startT=null,phase=0;
+      const frame=ts=>{
+        if(!startT) startT=ts;
+        const e=ts-startT;
+
+        if(phase<1){phase=1;ph(1);cap(captions.setup||'');}
+        if(phase<2&&e>=T.dec){phase=2;ph(2);cap(captions.decision||'');}
+        if(phase<3&&e>=T.res){phase=3;ph(3);cap(captions.result||'');}
+
+        // Players fade in (staggered)
+        sa(oppDot,'cx',String(OPP.x));sa(oppDot,'cy',String(OPP.y));
+        sa(oppDot,'opacity',String(eout(cl01(e/350))));
+        sa(oppLbl,'opacity',String(eout(cl01((e-100)/300))));
+
+        sa(oppNetDot,'cx',String(oppNetX));sa(oppNetDot,'cy',String(oppNetY));
+        sa(oppNetDot,'opacity',String(eout(cl01((e-150)/350))));
+        sa(oppNetLbl,'opacity',String(eout(cl01((e-250)/300))));
+        sa(oppNetLbl,'x',String(oppNetX+5));sa(oppNetLbl,'y',String(oppNetY-10));
+
+        sa(partDot,'cx',String(partX));sa(partDot,'cy',String(partY));
+        sa(partDot,'opacity',String(eout(cl01((e-200)/350))));
+        sa(partLbl,'opacity',String(eout(cl01((e-300)/300))));
+        sa(partLbl,'x',String(partX));sa(partLbl,'y',String(partY-9));
+
+        sa(youDot,'cx',String(youX));sa(youDot,'cy',String(youY));
+        sa(youDot,'opacity',String(eout(cl01((e-300)/350))));
+        sa(youLbl,'opacity',String(eout(cl01((e-400)/300))));
+        sa(youLbl,'x',String(youX));sa(youLbl,'y',String(youY+14));
+
+        // Ball: at OPP, then flies crosscourt, then rests at landing
+        if(e<T.dec){
+          sa(ballDot,'cx',String(OPP.x));sa(ballDot,'cy',String(OPP.y));
+          sa(ballDot,'opacity',String(eout(cl01((e-600)/300))));
+        } else if(e<T.ballEnd){
+          const t=eio((e-T.dec)/(T.ballEnd-T.dec));
+          const pos=qbez(OPP.x,OPP.y,100,155,BALL_LAND.x,BALL_LAND.y,t);
+          sa(ballDot,'cx',String(pos.x));sa(ballDot,'cy',String(pos.y));sa(ballDot,'opacity','1');
+          tr.update(pos);
+        } else {
+          sa(ballDot,'cx',String(BALL_LAND.x));sa(ballDot,'cy',String(BALL_LAND.y));
+        }
+
+        // Result phase: players move
+        if(e>=T.res){
+          const t=eio(cl01((e-T.res)/(T.moveEnd-T.res)));
+          if(!isMistake){
+            // CORRECT: both shift toward centre together
+            youX=lerp(YOU_0.x,YOU_1.x,t);
+            partX=lerp(PART_0.x,PART_1.x,t);
+            sa(youDot,'cx',String(youX));sa(youDot,'cy',String(youY));
+            sa(partDot,'cx',String(partX));sa(partDot,'cy',String(partY));
+            // Sync indicator fades in
+            if(e>T.moveEnd-400){
+              const sf=eout(cl01((e-(T.moveEnd-400))/600));
+              sa(syncLbl,'opacity',String(sf));sa(syncLbl2,'opacity',String(sf));
+            }
+          } else {
+            // MISTAKE: PARTNER shifts but YOU frozen
+            partX=lerp(PART_0.x,PART_1.x,t);
+            sa(partDot,'cx',String(partX));sa(partDot,'cy',String(partY));
+            // Gap zone appears
+            sa(gapZone,'opacity',String(eout(cl01((e-T.res)/700))));
+            sa(gapLbl,'opacity',String(eout(cl01((e-T.res-200)/600))));
+            // OPP NET poaches through the middle
+            if(e>=T.poach){
+              const tp=eio(cl01((e-T.poach)/900));
+              oppNetX=lerp(OPPNET.x,OPPNET_ATK.x,tp);
+              oppNetY=lerp(OPPNET.y,OPPNET_ATK.y,tp);
+              sa(oppNetDot,'cx',String(oppNetX));sa(oppNetDot,'cy',String(oppNetY));
+              sa(oppNetLbl,'x',String(oppNetX+5));sa(oppNetLbl,'y',String(oppNetY-10));
+              // Burst at arrival
+              if(e>T.poach+900) burstR.fire(OPPNET_ATK.x,OPPNET_ATK.y,cl01((e-T.poach-900)/600));
+            }
+          }
+        }
+
+        if(e<T.end) rafId=requestAnimationFrame(frame);
+      };
+      rafId=requestAnimationFrame(frame);
+      return()=>{if(rafId){cancelAnimationFrame(rafId);rafId=null;}box.classList.remove('ta-premium');};
+    },
+    conseqAnim:(ok)=>{
+      if(ok){
+        return `<svg viewBox="0 0 200 150" class="conseq-svg">
+  <rect x="20" y="10" width="160" height="130" fill="rgba(28,60,24,.3)" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <line x1="20" y1="75" x2="180" y2="75" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+  <!-- YOU and PARTNER aligned at centre — gap closed -->
+  <circle cx="100" cy="120" r="9" fill="#c8a84b" opacity="0" style="animation:tpop .28s .0s ease both"/>
+  <text x="100" y="124" text-anchor="middle" fill="#fff" font-size="6" font-weight="700" opacity="0" style="animation:tpop .28s .0s ease both">YOU</text>
+  <circle cx="100" cy="55" r="9" fill="#5bba6f" opacity="0" style="animation:tpop .28s .1s ease both"/>
+  <text x="100" y="46" text-anchor="middle" fill="#5bba6f" font-size="6" font-weight="700" opacity="0" style="animation:tpop .28s .1s ease both">PARTNER</text>
+  <line x1="100" y1="64" x2="100" y2="111" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="4,3" opacity="0" style="animation:tpop .28s .2s ease both"/>
+  <text x="100" y="92" text-anchor="middle" fill="#4caf50" font-size="8" font-weight="700" opacity="0" style="animation:tpop .28s .3s ease both">SYNCHRONIZED</text>
+  <text x="100" y="103" text-anchor="middle" fill="rgba(76,175,80,.6)" font-size="6" opacity="0" style="animation:tpop .28s .4s ease both">gap closed</text>
+</svg>`;
+      } else {
+        return `<svg viewBox="0 0 200 150" class="conseq-svg">
+  <rect x="20" y="10" width="160" height="130" fill="rgba(28,60,24,.3)" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <line x1="20" y1="75" x2="180" y2="75" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+  <!-- YOU frozen right, PARTNER shifted centre — huge gap -->
+  <circle cx="145" cy="120" r="9" fill="#c8a84b" opacity="0" style="animation:tpop .28s .0s ease both"/>
+  <text x="145" y="131" text-anchor="middle" fill="#c8a84b" font-size="6" opacity="0" style="animation:tpop .28s .0s ease both">YOU</text>
+  <text x="145" y="112" text-anchor="middle" fill="#e05252" font-size="7" font-weight="700" opacity="0" style="animation:tpop .28s .05s ease both">FROZEN</text>
+  <circle cx="100" cy="55" r="9" fill="#5bba6f" opacity="0" style="animation:tpop .28s .1s ease both"/>
+  <text x="100" y="46" text-anchor="middle" fill="#5bba6f" font-size="6" opacity="0" style="animation:tpop .28s .1s ease both">PARTNER</text>
+  <rect x="95" y="55" width="50" height="70" fill="rgba(224,82,82,.12)" stroke="#e05252" stroke-width="1.5" stroke-dasharray="5,3" rx="3" opacity="0" style="animation:tpop .3s .2s ease both"/>
+  <text x="120" y="93" text-anchor="middle" fill="#e05252" font-size="9" font-weight="900" opacity="0" style="animation:tpop .3s .25s ease both">GAP!</text>
+  <circle cx="120" cy="75" r="8" fill="rgba(224,82,82,.75)" opacity="0" style="animation:tpop .3s .5s ease both"/>
+  <text x="120" y="79" text-anchor="middle" fill="#fff" font-size="6" font-weight="700" opacity="0" style="animation:tpop .3s .5s ease both">OPP</text>
+  <path d="M120,67 Q120,50 120,30" stroke="#e05252" stroke-width="3" fill="none" stroke-dasharray="60" stroke-dashoffset="60" opacity="0" style="animation:drawPath .3s .6s ease forwards;opacity:1"/>
+</svg>`;
+      }
+    }
   },
 
   // T7 — Ball Trajectory (flat | topspin | slice | kick)
   ball_trajectory: {
     label: (p={})=>`Ball flight: ${p.type||'topspin'}`,
+    captions: {
+      setup: 'Same swing, different spin — the ball behaves completely differently.',
+      decision: 'Topspin dips into the court and kicks high. Flat stays low but risks the net.',
+      result: 'Topspin gives you net clearance AND lands in. It is the percentage shot.'
+    },
     render: (p={})=>{
       const type = p.type || 'topspin';
       const paths = {
@@ -2834,12 +2973,23 @@ const TECH_ANIMS = {
   <path d="M10,42 Q60,14 170,58" stroke="#c8a84b" stroke-width="2.5" fill="none" stroke-dasharray="220" stroke-dashoffset="220" style="animation:vdraw .9s .3s ease forwards"/>
   <path d="M10,42 Q90,40 170,44" stroke="#5b9bd5" stroke-width="1.5" fill="none" stroke-dasharray="3,4"/>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1200);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2400);
+      return null;
+    }
   },
 
   // T8 — Bounce Height Comparison
   ball_bounce_height: {
     label: (p={})=>'Bounce height comparison',
+    captions: {
+      setup: 'Different spin types produce completely different bounce heights.',
+      decision: 'Flat bounces through low. Topspin kicks high. Kick serve goes above shoulder.',
+      result: 'Know the bounce before it happens — your footwork starts before contact.'
+    },
     render: (p={})=>{
       const types = p.types || ['flat','topspin'];
       const cols = {'flat':'#5b9bd5','topspin':'#c8a84b','kick':'#e07070','slice':'#5bba6f'};
@@ -2864,12 +3014,23 @@ const TECH_ANIMS = {
   <rect x="110" y="30" width="35" height="42" fill="#c8a84b" opacity="0.35" rx="2" style="animation:tpop .4s .5s ease both;opacity:0"/>
   <text x="127" y="25" text-anchor="middle" fill="#c8a84b" font-size="7" font-family="DM Sans" style="animation:tpop .3s .9s ease both;opacity:0">TOPSPIN</text>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1200);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2400);
+      return null;
+    }
   },
 
   // T9 — Swing Path (uses existing animated logic but parametrised label)
   swing_path: {
     label: (p={})=>`Swing: ${p.shot||'forehand'}`,
+    captions: {
+      setup: 'Racket starts low — the swing path is what creates topspin and power.',
+      decision: 'Low-to-high arc: the racket brushes up the back of the ball.',
+      result: 'Finish high over the opposite shoulder — topspin locked in, ball dips in.'
+    },
     svg:`<svg id="ta-sp" viewBox="0 0 280 108" class="ta-svg">
   <line x1="8" y1="93" x2="272" y2="93" stroke="#2a5425" stroke-width="3" stroke-linecap="round"/>
   <line x1="140" y1="93" x2="140" y2="54" stroke="rgba(255,255,255,0.45)" stroke-width="2.5"/>
@@ -2893,10 +3054,15 @@ const TECH_ANIMS = {
     init: (params={},cbs={}) => {
       const ball=document.getElementById('sp-ball'), path=document.getElementById('sp-path');
       if(!ball||!path)return null;
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
       const len=path.getTotalLength(); let t=0,raf;
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1000);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2200);
       setTimeout(()=>{
-        const loop=()=>{t=(t+0.009)%1;const pt=path.getPointAtLength(t*len);ball.setAttribute('cx',String(pt.x));ball.setAttribute('cy',String(pt.y));ball.setAttribute('opacity',t<0.06?String(t/0.06):t>0.88?String(Math.max(0,(1-t)/0.12)):'1');raf=requestAnimationFrame(loop);};
-        raf=requestAnimationFrame(loop);
+        // Play once — t goes 0→1 then stops
+        const step=()=>{t+=0.009;if(t>=1){ball.setAttribute('opacity','0');return;}const pt=path.getPointAtLength(t*len);ball.setAttribute('cx',String(pt.x));ball.setAttribute('cy',String(pt.y));ball.setAttribute('opacity',t<0.06?String(t/0.06):t>0.88?String(Math.max(0,(1-t)/0.12)):'1');raf=requestAnimationFrame(step);};
+        raf=requestAnimationFrame(step);
       },1400);
       return ()=>cancelAnimationFrame(raf);
     }
@@ -2905,6 +3071,11 @@ const TECH_ANIMS = {
   // T10 — Contact Zone
   contact_zone: {
     label: (p={})=>`Contact zone: ${p.shot||'forehand'}`,
+    captions: {
+      setup: 'Every shot has an ideal contact point — too early or late costs control.',
+      decision: 'Waist height, slightly in front of the body — not late, not too far forward.',
+      result: 'Ideal contact = maximum leverage, consistent direction, repeatable power.'
+    },
     render: (p={})=>{
       const shot = p.shot||'forehand'; const h = p.height||'waist';
       const zones = {low:{y:130,lbl:'Low — bend knees'},waist:{y:100,lbl:'Ideal — waist height'},high:{y:65,lbl:'High — awkward for most'}};
@@ -2944,12 +3115,23 @@ const TECH_ANIMS = {
   <line x1="20" y1="40" x2="130" y2="40" stroke="rgba(224,82,82,0.3)" stroke-width="1" stroke-dasharray="3,3"
     opacity="0" style="animation:tpop .3s 1.8s ease both"/>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1200);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2400);
+      return null;
+    }
   },
 
   // T11 — Footwork Split Step
   footwork_split_step: {
     label: (p={})=>`Footwork: split step → ${p.direction||'left'}`,
+    captions: {
+      setup: 'OPPONENT is about to hit — your weight should be moving, not static.',
+      decision: 'Land the split step exactly as OPPONENT contacts the ball. Not before, not after.',
+      result: 'Correct timing: you explode toward the ball before it reaches you.'
+    },
     render: (p={})=>{
       const dir = p.direction||'left';
       const arrowX = dir==='left'?60:dir==='right'?220:140;
@@ -2991,7 +3173,13 @@ const TECH_ANIMS = {
   <text x="76" y="100" text-anchor="middle" fill="#5bba6f" font-size="8" font-weight="700"
     font-family="DM Sans" opacity="0" style="animation:tpop .3s 2.6s ease both">GO</text>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1300);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2500);
+      return null;
+    }
   },
 
   // T12 — Moonball Response (redesigned with 3-phase chrome)
@@ -3030,21 +3218,10 @@ const TECH_ANIMS = {
   <path id="mb-arc" d="M100,22 Q40,155 100,265" stroke="#e07070" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="380" stroke-dashoffset="380" style="animation:drawPath 1.1s .1s ease forwards"/>
   <!-- Landing bounce indicator -->
   <circle cx="100" cy="265" r="8" fill="rgba(200,168,75,.12)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="4,3" opacity="0" style="animation:tpop .3s 1.3s ease both"/>
-  <!-- Option ① STEP IN — attack before ball rises -->
-  <circle cx="100" cy="210" r="13" fill="rgba(200,168,75,.08)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 2.0s ease both"/>
-  <text x="100" y="214" text-anchor="middle" fill="rgba(200,168,75,.7)" font-size="7" font-weight="700" opacity="0" style="animation:tpop .3s 2.05s ease both">STEP IN</text>
-  <!-- Option ② HOLD BACK — ball rises to shoulder height (wrong) -->
-  <circle cx="100" cy="278" r="13" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.2)" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 2.2s ease both"/>
-  <text x="100" y="282" text-anchor="middle" fill="rgba(255,255,255,.38)" font-size="7" font-weight="700" opacity="0" style="animation:tpop .3s 2.25s ease both">HOLD BACK</text>
-  <!-- Number badges -->
-  <g opacity="0" style="animation:tpop .25s 2.05s ease both">
-    <circle cx="76" cy="210" r="11" fill="rgba(200,168,75,.9)"/>
-    <text x="76" y="214" text-anchor="middle" fill="#111" font-size="11" font-weight="900">1</text>
-  </g>
-  <g opacity="0" style="animation:tpop .25s 2.25s ease both">
-    <circle cx="76" cy="278" r="11" fill="rgba(255,255,255,.22)"/>
-    <text x="76" y="282" text-anchor="middle" fill="#555" font-size="11" font-weight="900">2</text>
-  </g>
+  <!-- STEP IN — intercept before ball peaks (the ONE correct response) -->
+  <circle cx="100" cy="210" r="16" fill="rgba(76,175,80,.1)" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 2.0s ease both"/>
+  <text x="100" y="207" text-anchor="middle" fill="#4caf50" font-size="7" font-weight="700" opacity="0" style="animation:tpop .3s 2.05s ease both">STEP IN</text>
+  <text x="100" y="218" text-anchor="middle" fill="rgba(76,175,80,.6)" font-size="6" opacity="0" style="animation:tpop .3s 2.1s ease both">waist contact</text>
   <!-- Animated ball dot travelling along arc -->
   <circle id="mb-ball" cx="100" cy="22" r="6" fill="#a8c032" opacity="0"/>
 </svg>`,
@@ -3104,8 +3281,9 @@ const TECH_ANIMS = {
       setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1400);
       setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2600);
       setTimeout(()=>{
-        const loop=()=>{t=(t+0.0065)%1;const pt=arc.getPointAtLength(t*len);ball.setAttribute('cx',String(pt.x));ball.setAttribute('cy',String(pt.y));ball.setAttribute('opacity',t<0.06?String(t/0.06):t>0.9?String(Math.max(0,(1-t)/0.1)):'1');raf=requestAnimationFrame(loop);};
-        raf=requestAnimationFrame(loop);
+        // Play once — stops when t reaches 1
+        const step=()=>{t+=0.0065;if(t>=1){ball.setAttribute('opacity','0');return;}const pt=arc.getPointAtLength(t*len);ball.setAttribute('cx',String(pt.x));ball.setAttribute('cy',String(pt.y));ball.setAttribute('opacity',t<0.06?String(t/0.06):t>0.9?String(Math.max(0,(1-t)/0.1)):'1');raf=requestAnimationFrame(step);};
+        raf=requestAnimationFrame(step);
       },1100);
       return ()=>cancelAnimationFrame(raf);
     },
@@ -3141,6 +3319,11 @@ const TECH_ANIMS = {
   // T13 — Score Pressure Map
   court_pressure_score: {
     label: (p={})=>`Score pressure: ${p.score||'bp'}`,
+    captions: {
+      setup: 'The score changes how much a missed shot costs — but the ball does not know the score.',
+      decision: 'Pressure point: do you swing freely or tighten up?',
+      result: 'Same routine, same target. Pressure is managed before you toss, not during the swing.'
+    },
     render: (p={})=>{
       const score = p.score||'bp';
       const configs = {
@@ -3162,35 +3345,52 @@ const TECH_ANIMS = {
   <text x="90" y="32" text-anchor="middle" fill="#e07070" font-size="20" font-weight="700" font-family="Bebas Neue,DM Sans" style="animation:tpop .5s .2s ease both;opacity:0">BP</text>
   <text x="90" y="50" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="7" font-family="DM Sans" style="animation:tpop .4s .6s ease both;opacity:0">Routine. Target. Commit.</text>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1200);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2400);
+      return null;
+    }
   },
 
   // T14 — Lob vs Pass Decision
   court_lob_vs_pass: {
     label: (p={})=>`Lob vs pass — net ${p.net_player_pos||'close'}`,
+    captions: {
+      setup: 'OPPONENT at the net, cutting off the passing lane — you need to go over.',
+      decision: 'Opponent is close to the net — lob, or risk the pass?',
+      result: 'Lob flies over the outstretched racket — OPPONENT scrambles back.'
+    },
+    mistakeCaptions: {
+      setup: 'OPPONENT is back from the net — the passing lane is open.',
+      decision: 'Lob goes up... but OPPONENT has time to retreat and smash.',
+      result: 'Passing shot low and fast when OPPONENT is deep is higher percentage.'
+    },
+    hasMistakeToggle: true,
     render: (p={})=>{
       const close = p.net_player_pos !== 'deep';
-      return `<div class="vis-wrap"><div class="vis-lbl">${close?'Net player close — lob is best':'Net player back — pass is available'}</div>
+      return `<div class="vis-wrap"><div class="vis-lbl">${close?'OPPONENT at net — lob over them':'OPPONENT deep — pass is on'}</div>
 <svg viewBox="0 0 280 160" class="vis-svg">
   <rect x="20" y="10" width="240" height="140" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
   <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-  <!-- net player -->
+  <!-- OPPONENT at net -->
   <circle cx="140" cy="${close?55:72}" r="9" fill="rgba(224,82,82,0.2)" stroke="#e05252" stroke-width="1.5" style="animation:tpop .4s .3s ease both;opacity:0"/>
-  <text x="140" y="${close?59:76}" text-anchor="middle" fill="#e05252" font-size="7" font-family="DM Sans" style="animation:tpop .4s .3s ease both;opacity:0">NP</text>
-  <!-- you -->
+  <text x="140" y="${close?49:66}" text-anchor="middle" fill="#e05252" font-size="7" font-family="DM Sans" style="animation:tpop .4s .3s ease both;opacity:0">OPPONENT</text>
+  <!-- YOU -->
   <circle cx="140" cy="138" r="8" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/>
   <text x="140" y="142" text-anchor="middle" fill="#c8a84b" font-size="7" font-family="DM Sans">YOU</text>
   ${close?`
   <!-- lob arc (correct) -->
   <path d="M140,130 Q80,20 200,22" stroke="#5bba6f" stroke-width="2.5" fill="none" stroke-dasharray="200" stroke-dashoffset="200" style="animation:drawPath .9s .8s ease forwards"/>
-  <text x="210" y="20" fill="#5bba6f" font-size="8" font-weight="700" font-family="DM Sans" style="animation:tpop .3s 1.8s ease both;opacity:0">✓ LOB</text>
+  <text x="210" y="20" fill="#5bba6f" font-size="8" font-weight="700" font-family="DM Sans" style="animation:tpop .3s 1.8s ease both;opacity:0">LOB ✓</text>
   <!-- pass (risky) -->
   <path d="M140,130 Q80,95 40,60" stroke="rgba(224,82,82,0.4)" stroke-width="1.5" fill="none" stroke-dasharray="3,4"/>
-  <text x="30" y="55" fill="rgba(224,82,82,0.5)" font-size="7" font-family="DM Sans">pass?</text>
+  <text x="30" y="55" fill="rgba(224,82,82,0.5)" font-size="7" font-family="DM Sans">pass? ✗</text>
   `:
   `<!-- pass (correct when back) -->
   <path d="M140,130 Q80,100 35,72" stroke="#5bba6f" stroke-width="2.5" fill="none" stroke-dasharray="160" stroke-dashoffset="160" style="animation:drawPath .8s .8s ease forwards"/>
-  <text x="25" y="68" fill="#5bba6f" font-size="8" font-weight="700" font-family="DM Sans" style="animation:tpop .3s 1.7s ease both;opacity:0">✓</text>
+  <text x="25" y="68" fill="#5bba6f" font-size="8" font-weight="700" font-family="DM Sans" style="animation:tpop .3s 1.7s ease both;opacity:0">PASS ✓</text>
   `}
 </svg></div>`;
     },
@@ -3198,11 +3398,18 @@ const TECH_ANIMS = {
   <rect x="10" y="8" width="160" height="100" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
   <line x1="10" y1="58" x2="170" y2="58" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
   <circle cx="90" cy="38" r="8" fill="rgba(224,82,82,0.2)" stroke="#e05252" stroke-width="1.5" style="animation:tpop .4s .3s ease both;opacity:0"/>
-  <text x="90" y="42" text-anchor="middle" fill="#e05252" font-size="7" font-family="DM Sans" style="animation:tpop .4s .3s ease both;opacity:0">NP</text>
+  <text x="90" y="32" text-anchor="middle" fill="#e05252" font-size="6" font-family="DM Sans" style="animation:tpop .4s .3s ease both;opacity:0">OPPONENT</text>
   <circle cx="90" cy="96" r="7" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/>
+  <text x="90" y="100" text-anchor="middle" fill="#c8a84b" font-size="6" font-family="DM Sans">YOU</text>
   <path d="M90,89 Q50,30 140,18" stroke="#5bba6f" stroke-width="2.5" fill="none" stroke-dasharray="140" stroke-dashoffset="140" style="animation:drawPath .9s .8s ease forwards"/>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1400);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2600);
+      return null;
+    }
   },
 
   // T16 — Body Serve Jam (redesigned with 3-phase chrome)
@@ -3301,6 +3508,11 @@ const TECH_ANIMS = {
   // T17 — Tiebreak serve order (makes score leverage tangible)
   court_tiebreak_order: {
     label: (p={})=>`Tiebreak serve order`,
+    captions: {
+      setup: 'Tiebreak: YOU serve first, then it alternates every 2 points.',
+      decision: 'At 6-all you change ends and the server alternates — who serves next?',
+      result: 'YOU serve pt 1, then OPP serves pts 2-3, YOU serves 4-5, OPP serves 6-7…'
+    },
     render: (p={})=>{
       const score = p.score || '4-5';
       return `<div class="vis-wrap"><div class="vis-lbl">Tiebreak serve order — who serves when?</div>
@@ -3312,59 +3524,65 @@ const TECH_ANIMS = {
   <g style="animation:tpop .4s .2s ease both;opacity:0">
     <text x="30" y="50" text-anchor="middle" fill="#c8a84b" font-size="8" font-weight="700" font-family="DM Sans">pt 1</text>
     <circle cx="30" cy="65" r="12" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/>
-    <text x="30" y="69" text-anchor="middle" fill="#c8a84b" font-size="9" font-weight="700" font-family="DM Sans">A</text>
+    <text x="30" y="69" text-anchor="middle" fill="#c8a84b" font-size="7" font-weight="700" font-family="DM Sans">YOU</text>
   </g>
   <g style="animation:tpop .4s .5s ease both;opacity:0">
     <text x="70" y="50" text-anchor="middle" fill="#5b9bd5" font-size="8" font-weight="700" font-family="DM Sans">pt 2</text>
     <circle cx="70" cy="65" r="12" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/>
-    <text x="70" y="69" text-anchor="middle" fill="#5b9bd5" font-size="9" font-weight="700" font-family="DM Sans">B</text>
+    <text x="70" y="69" text-anchor="middle" fill="#5b9bd5" font-size="7" font-weight="700" font-family="DM Sans">OPP</text>
   </g>
   <g style="animation:tpop .4s .7s ease both;opacity:0">
     <text x="105" y="50" text-anchor="middle" fill="#5b9bd5" font-size="8" font-weight="700" font-family="DM Sans">pt 3</text>
     <circle cx="105" cy="65" r="12" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/>
-    <text x="105" y="69" text-anchor="middle" fill="#5b9bd5" font-size="9" font-weight="700" font-family="DM Sans">B</text>
+    <text x="105" y="69" text-anchor="middle" fill="#5b9bd5" font-size="7" font-weight="700" font-family="DM Sans">OPP</text>
   </g>
   <g style="animation:tpop .4s .9s ease both;opacity:0">
     <text x="140" y="50" text-anchor="middle" fill="#c8a84b" font-size="8" font-weight="700" font-family="DM Sans">pt 4</text>
     <circle cx="140" cy="65" r="12" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/>
-    <text x="140" y="69" text-anchor="middle" fill="#c8a84b" font-size="9" font-weight="700" font-family="DM Sans">A</text>
+    <text x="140" y="69" text-anchor="middle" fill="#c8a84b" font-size="7" font-weight="700" font-family="DM Sans">YOU</text>
   </g>
   <g style="animation:tpop .4s 1.1s ease both;opacity:0">
     <text x="175" y="50" text-anchor="middle" fill="#c8a84b" font-size="8" font-weight="700" font-family="DM Sans">pt 5</text>
     <circle cx="175" cy="65" r="12" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/>
-    <text x="175" y="69" text-anchor="middle" fill="#c8a84b" font-size="9" font-weight="700" font-family="DM Sans">A</text>
+    <text x="175" y="69" text-anchor="middle" fill="#c8a84b" font-size="7" font-weight="700" font-family="DM Sans">YOU</text>
   </g>
   <g style="animation:tpop .4s 1.3s ease both;opacity:0">
     <text x="210" y="50" text-anchor="middle" fill="#5b9bd5" font-size="8" font-weight="700" font-family="DM Sans">pt 6</text>
     <circle cx="210" cy="65" r="12" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/>
-    <text x="210" y="69" text-anchor="middle" fill="#5b9bd5" font-size="9" font-weight="700" font-family="DM Sans">B</text>
+    <text x="210" y="69" text-anchor="middle" fill="#5b9bd5" font-size="7" font-weight="700" font-family="DM Sans">OPP</text>
   </g>
   <g style="animation:tpop .4s 1.5s ease both;opacity:0">
     <text x="250" y="50" text-anchor="middle" fill="#5b9bd5" font-size="8" font-weight="700" font-family="DM Sans">pt 7</text>
     <circle cx="250" cy="65" r="12" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/>
-    <text x="250" y="69" text-anchor="middle" fill="#5b9bd5" font-size="9" font-weight="700" font-family="DM Sans">B</text>
+    <text x="250" y="69" text-anchor="middle" fill="#5b9bd5" font-size="7" font-weight="700" font-family="DM Sans">OPP</text>
   </g>
   <!-- Rule label -->
-  <text x="140" y="95" text-anchor="middle" fill="rgba(200,168,75,0.8)" font-size="8" font-family="DM Sans" style="animation:tpop .4s 1.8s ease both;opacity:0">A serves 1st point · then alternate every 2 · change ends at 6</text>
+  <text x="140" y="95" text-anchor="middle" fill="rgba(200,168,75,0.8)" font-size="8" font-family="DM Sans" style="animation:tpop .4s 1.8s ease both;opacity:0">YOU serve 1st · then alternate every 2 points · change ends at 6</text>
   <g style="animation:tpop .4s 2s ease both;opacity:0">
-    <text x="30" y="115" text-anchor="middle" fill="#c8a84b" font-size="9" font-weight="700" font-family="DM Sans">A</text>
-    <text x="65" y="115" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="8" font-family="DM Sans">= You</text>
-    <text x="170" y="115" text-anchor="middle" fill="#5b9bd5" font-size="9" font-weight="700" font-family="DM Sans">B</text>
-    <text x="205" y="115" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="8" font-family="DM Sans">= Opponent</text>
+    <circle cx="25" cy="110" r="7" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/>
+    <text x="25" y="114" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" font-family="DM Sans">YOU</text>
+    <circle cx="170" cy="110" r="7" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/>
+    <text x="170" y="114" text-anchor="middle" fill="#5b9bd5" font-size="6" font-weight="700" font-family="DM Sans">OPP</text>
   </g>
 </svg></div>`;
     },
     svg:`<svg viewBox="0 0 180 90" class="ta-svg">
   <rect x="5" y="5" width="170" height="80" fill="rgba(20,20,20,0.4)" stroke="rgba(255,255,255,0.08)" stroke-width="1" rx="4"/>
   <text x="90" y="22" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="7" font-family="DM Sans" letter-spacing="1">TIEBREAK ROTATION</text>
-  <g style="animation:tpop .4s .3s ease both;opacity:0"><circle cx="25" cy="45" r="10" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/><text x="25" y="49" text-anchor="middle" fill="#c8a84b" font-size="8" font-weight="700" font-family="DM Sans">A</text></g>
-  <g style="animation:tpop .4s .5s ease both;opacity:0"><circle cx="55" cy="45" r="10" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/><text x="55" y="49" text-anchor="middle" fill="#5b9bd5" font-size="8" font-weight="700" font-family="DM Sans">B</text></g>
-  <g style="animation:tpop .4s .7s ease both;opacity:0"><circle cx="82" cy="45" r="10" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/><text x="82" y="49" text-anchor="middle" fill="#5b9bd5" font-size="8" font-weight="700" font-family="DM Sans">B</text></g>
-  <g style="animation:tpop .4s .9s ease both;opacity:0"><circle cx="109" cy="45" r="10" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/><text x="109" y="49" text-anchor="middle" fill="#c8a84b" font-size="8" font-weight="700" font-family="DM Sans">A</text></g>
-  <g style="animation:tpop .4s 1.1s ease both;opacity:0"><circle cx="136" cy="45" r="10" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/><text x="136" y="49" text-anchor="middle" fill="#c8a84b" font-size="8" font-weight="700" font-family="DM Sans">A</text></g>
-  <g style="animation:tpop .4s 1.3s ease both;opacity:0"><circle cx="158" cy="45" r="10" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/><text x="158" y="49" text-anchor="middle" fill="#5b9bd5" font-size="8" font-weight="700" font-family="DM Sans">B</text></g>
+  <g style="animation:tpop .4s .3s ease both;opacity:0"><circle cx="25" cy="45" r="10" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/><text x="25" y="49" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" font-family="DM Sans">YOU</text></g>
+  <g style="animation:tpop .4s .5s ease both;opacity:0"><circle cx="55" cy="45" r="10" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/><text x="55" y="49" text-anchor="middle" fill="#5b9bd5" font-size="6" font-weight="700" font-family="DM Sans">OPP</text></g>
+  <g style="animation:tpop .4s .7s ease both;opacity:0"><circle cx="82" cy="45" r="10" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/><text x="82" y="49" text-anchor="middle" fill="#5b9bd5" font-size="6" font-weight="700" font-family="DM Sans">OPP</text></g>
+  <g style="animation:tpop .4s .9s ease both;opacity:0"><circle cx="109" cy="45" r="10" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/><text x="109" y="49" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" font-family="DM Sans">YOU</text></g>
+  <g style="animation:tpop .4s 1.1s ease both;opacity:0"><circle cx="136" cy="45" r="10" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/><text x="136" y="49" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" font-family="DM Sans">YOU</text></g>
+  <g style="animation:tpop .4s 1.3s ease both;opacity:0"><circle cx="158" cy="45" r="10" fill="rgba(91,155,213,0.2)" stroke="#5b9bd5" stroke-width="1.5"/><text x="158" y="49" text-anchor="middle" fill="#5b9bd5" font-size="6" font-weight="700" font-family="DM Sans">OPP</text></g>
 </svg>`,
-    init:(params={},cbs={})=>null
+    init:(params={},cbs={})=>{
+      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
+      ph(1); cap(captions.setup||'');
+      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1400);
+      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2800);
+      return null;
+    }
   },
 
   // T18 — Crosscourt vs DTL geometry (redesigned with 3-phase chrome)
@@ -4346,110 +4564,8 @@ const TECH_ANIMS = {
     }
   },
 
-  // T16 — Ball Flight Physics: Topspin dip vs Flat risk (side-on court view)
-  // Shared base with Contact Height family
-  ball_flight_physics: {
-    label: (p={})=>`Ball flight: ${(p.type||'topspin')==='topspin'?'Topspin safe arc':'Flat risk'}`,
-    render: (p={})=>{
-      const type = p.type || 'compare'; // 'topspin' | 'flat' | 'compare'
-      return `<div class="vis-wrap"><div class="vis-lbl">Topspin vs Flat — same swing, different physics</div>
-<svg viewBox="0 0 280 160" class="vis-svg">
-  <rect x="10" y="10" width="260" height="140" rx="3" fill="rgba(28,60,24,0.35)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-  <!-- Net line -->
-  <line x1="140" y1="10" x2="140" y2="150" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-  <!-- Topspin arc: high clearance, dips in -->
-  <path d="M25,135 Q80,30 195,120" stroke="#c8a84b" stroke-width="2.5" fill="none"
-    stroke-dasharray="280" stroke-dashoffset="280" style="animation:drawPath 1.1s .2s ease forwards"/>
-  <!-- Flat arc: low, runs long -->
-  <path d="M25,135 Q80,75 265,72" stroke="#e05252" stroke-width="2" fill="none" stroke-dasharray="6,4"
-    stroke-dasharray="280" stroke-dashoffset="280" style="animation:drawPath 1s .8s ease forwards"/>
-  <!-- Net risk indicator -->
-  <circle cx="138" cy="72" r="5" fill="rgba(224,82,82,0.3)" stroke="#e05252" stroke-width="1.5"
-    style="animation:tpop .3s 1.7s ease both;opacity:0"/>
-  <!-- Out indicator -->
-  <circle cx="267" cy="70" r="5" fill="rgba(224,82,82,0.3)" stroke="#e05252" stroke-width="1.5"
-    style="animation:tpop .3s 1.9s ease both;opacity:0"/>
-  <text x="270" y="68" fill="#e05252" font-size="6" font-family="DM Sans" style="animation:fadeIn .3s 2s ease both;opacity:0">out</text>
-  <!-- Labels -->
-  <g style="animation:tpop .4s 2.2s ease both;opacity:0">
-    <rect x="198" y="106" width="60" height="14" rx="3" fill="rgba(200,168,75,0.15)" stroke="#c8a84b" stroke-width="1"/>
-    <text x="228" y="116" text-anchor="middle" fill="#c8a84b" font-size="7" font-weight="700" font-family="DM Sans">TOPSPIN ✓</text>
-  </g>
-  <g style="animation:tpop .4s 2.5s ease both;opacity:0">
-    <rect x="198" y="56" width="46" height="14" rx="3" fill="rgba(224,82,82,0.12)" stroke="#e05252" stroke-width="1"/>
-    <text x="221" y="66" text-anchor="middle" fill="#e05252" font-size="7" font-weight="700" font-family="DM Sans">FLAT ✗</text>
-  </g>
-  <text x="80" y="48" fill="rgba(91,155,213,0.7)" font-size="6" font-family="DM Sans"
-    style="animation:fadeIn .4s 2.8s ease both;opacity:0">Magnus force ↓</text>
-</svg>
-<div class="vis-leg" style="gap:8px 16px">
-  <span><span class="ldot" style="background:#c8a84b"></span>Topspin — clears net, dips in</span>
-  <span><span class="ldot" style="background:#e05252"></span>Flat — net or out risk</span>
-</div></div>`;
-    },
-    svg:`<svg viewBox="0 0 180 120" class="ta-svg">
-  <rect x="10" y="8" width="160" height="100" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-  <line x1="90" y1="8" x2="90" y2="108" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
-  <path d="M15,92 Q50,25 125,80" stroke="#c8a84b" stroke-width="2.5" fill="none" stroke-dasharray="200" stroke-dashoffset="200" style="animation:drawPath 1s .2s ease forwards"/>
-  <path d="M15,92 Q50,55 168,50" stroke="#e05252" stroke-width="2" fill="none" stroke-dasharray="5,4" stroke-dasharray="200" stroke-dashoffset="200" style="animation:drawPath .9s .7s ease forwards"/>
-</svg>`,
-    init:(params={},cbs={})=>null
-  },
-
-  // T17 — Lob Recovery Footwork (from Flagship 09)
-  court_lob_recovery: {
-    label: ()=>'Lob recovery: crossover step',
-    render: ()=>`<div class="vis-wrap"><div class="vis-lbl">Lob recovery — turn and crossover</div>
-<svg viewBox="0 0 280 165" class="vis-svg">
-  <rect x="10" y="10" width="260" height="145" rx="3" fill="rgba(28,60,24,0.35)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-  <line x1="10" y1="80" x2="270" y2="80" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
-  <!-- Lob arc -->
-  <path d="M230,135 Q140,20 60,120" stroke="#5b9bd5" stroke-width="2.5" fill="none"
-    stroke-dasharray="320" stroke-dashoffset="320" style="animation:drawPath 1s .2s ease forwards"/>
-  <text x="140" y="18" text-anchor="middle" fill="rgba(91,155,213,0.7)" font-size="6" font-family="DM Sans"
-    style="animation:fadeIn .3s .8s ease both;opacity:0">LOB</text>
-  <!-- You at net -->
-  <g style="animation:tpop .4s .3s ease both;opacity:0">
-    <circle cx="145" cy="62" r="8" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/>
-    <text x="145" y="66" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" font-family="DM Sans">YOU</text>
-  </g>
-  <!-- Ghost: BAD backpedal -->
-  <g opacity="0.3">
-    <circle cx="145" cy="115" r="7" fill="rgba(224,82,82,0.2)" stroke="#e05252" stroke-width="1.5" stroke-dasharray="3,2"/>
-    <text x="160" y="117" fill="#e05252" font-size="6" font-family="DM Sans">backpedal ✗</text>
-  </g>
-  <path d="M145,70 L145,108" stroke="#e05252" stroke-width="1.5" fill="none" stroke-dasharray="4,3"
-    style="animation:drawPath .5s 1.2s ease forwards"/>
-  <!-- GOOD: crossover -->
-  <path d="M138,68 Q105,95 72,118" stroke="#5bba6f" stroke-width="2.5" fill="none"
-    stroke-dasharray="120" stroke-dashoffset="120" style="animation:drawPath .7s 2s ease forwards"
-    marker-end="url(#arr-good-lr)"/>
-  <defs>
-    <marker id="arr-good-lr" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
-      <path d="M0,0 L6,2.5 L0,5Z" fill="#5bba6f"/>
-    </marker>
-  </defs>
-  <text x="65" y="135" fill="#5bba6f" font-size="6" font-weight="600" font-family="DM Sans"
-    style="animation:fadeIn .3s 2.6s ease both;opacity:0">crossover ✓</text>
-  <!-- SET position -->
-  <g style="animation:tpop .5s 2.9s cubic-bezier(.34,1.5,.64,1) both;opacity:0">
-    <circle cx="72" cy="118" r="9" fill="rgba(91,186,111,0.25)" stroke="#5bba6f" stroke-width="1.5"/>
-    <text x="72" y="122" text-anchor="middle" fill="#5bba6f" font-size="6" font-weight="700" font-family="DM Sans">SET</text>
-  </g>
-</svg>
-<div class="vis-leg" style="gap:8px 16px">
-  <span><span class="ldot" style="background:#5bba6f"></span>Turn + crossover = behind the ball</span>
-  <span><span class="ldot" style="background:#e05252"></span>Backpedal = always under it</span>
-</div></div>`,
-    svg:`<svg viewBox="0 0 180 120" class="ta-svg">
-  <rect x="10" y="8" width="160" height="100" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-  <line x1="10" y1="58" x2="170" y2="58" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-  <path d="M145,90 Q90,15 40,80" stroke="#5b9bd5" stroke-width="2" fill="none" stroke-dasharray="200" stroke-dashoffset="200" style="animation:drawPath .9s .2s ease forwards"/>
-  <circle cx="90" cy="45" r="6" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5" style="animation:tpop .3s .3s ease both;opacity:0"/>
-  <path d="M86,50 Q65,68 45,76" stroke="#5bba6f" stroke-width="2" fill="none" stroke-dasharray="60" stroke-dashoffset="60" style="animation:drawPath .6s 1.8s ease forwards"/>
-</svg>`,
-    init:(params={},cbs={})=>null
-  },
+  // REMOVED: ball_flight_physics (0 QBANK refs — abstract side-on physics view, no court/player context)
+  // REMOVED: court_lob_recovery (0 QBANK refs — landscape 280×165, wrong orientation, no rAF)
 
   // T18 — Short Ball Attack Zone (redesigned with 3-phase chrome)
   court_short_ball_attack: {
@@ -4481,9 +4597,8 @@ const TECH_ANIMS = {
   <text x="28" y="22" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP</text>
   <text x="28" y="293" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOU</text>
   <rect x="33" y="10" width="134" height="77" fill="rgba(76,175,80,.12)" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <text x="100" y="53" text-anchor="middle" fill="rgba(76,175,80,.7)" font-size="8" font-weight="700">ATTACK</text>
-  <rect x="33" y="87" width="134" height="68" fill="rgba(200,168,75,.1)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <text x="100" y="125" text-anchor="middle" fill="rgba(200,168,75,.7)" font-size="8" font-weight="700">BUILD</text>
+  <text x="100" y="49" text-anchor="middle" fill="rgba(76,175,80,.7)" font-size="8" font-weight="700">ATTACK ZONE</text>
+  <text x="100" y="60" text-anchor="middle" fill="rgba(76,175,80,.5)" font-size="6">short ball → attack</text>
   <circle cx="100" cy="115" r="7" fill="#a8c032" opacity="0" style="animation:tpop .32s .6s ease both"/>
   <circle id="sb-player" cx="100" cy="280" r="8" fill="#c8a84b"/>
   <circle cx="100" cy="176" r="9" fill="rgba(200,168,75,.15)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 2.1s ease both"/>
@@ -4651,94 +4766,7 @@ const TECH_ANIMS = {
     }
   },
 
-  // NEW — Pusher Pattern
-  court_pusher_pattern: {
-    label: 'Beat the Pusher — pattern',
-    captions: {
-      setup: 'Pusher returns everything safely from the baseline — nothing is wrong, nothing is a threat.',
-      decision: 'Go for the emotional winner, or build to a big target crosscourt?',
-      result: 'Three deep crosscourt balls create the opening — attack the right short ball.'
-    },
-    mistakeCaptions: {
-      setup: "Pusher is deep and solid. You're frustrated.",
-      decision: 'You go for a high-risk winner down the line too early.',
-      result: 'Net or wide. Pusher wins without missing a shot.'
-    },
-    hasMistakeToggle: true,
-    svg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
-  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
-  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
-  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
-  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
-  <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
-  <line x1="43" y1="55" x2="277" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-  <line x1="43" y1="125" x2="277" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
-  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
-  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
-  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
-  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
-  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
-  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
-  <circle cx="160" cy="170" r="8" fill="#c8a84b"/>
-  <circle cx="160" cy="20" r="8" fill="rgba(255,255,255,.55)"/>
-  <text x="174" y="24" fill="rgba(255,255,255,.35)" font-size="7">PUSHER</text>
-  <path d="M160,170 Q248,108 270,28" stroke="#4caf50" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="250" stroke-dashoffset="250" opacity="0" style="animation:drawPath .6s .4s ease forwards;opacity:1"/>
-  <path d="M270,28 Q100,90 46,158" stroke="rgba(255,255,255,.4)" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="290" stroke-dashoffset="290" opacity="0" style="animation:drawPath .6s 1.1s ease forwards;opacity:1"/>
-  <path d="M46,158 Q248,108 270,28" stroke="#4caf50" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="285" stroke-dashoffset="285" opacity="0" style="animation:drawPath .6s 1.8s ease forwards;opacity:1"/>
-  <circle cx="160" cy="80" r="8" fill="#a8c032" opacity="0" style="animation:tpop .35s 2.5s cubic-bezier(.34,1.5,.64,1) both"/>
-  <text x="178" y="84" fill="rgba(200,168,75,.9)" font-size="7" font-weight="700" opacity="0" style="animation:tpop .3s 2.55s ease both">SHORT BALL!</text>
-  <circle cx="160" cy="115" r="9" fill="rgba(200,168,75,.15)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 3.1s ease both"/>
-  <path d="M160,115 Q248,58 268,22" stroke="#4caf50" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="250" stroke-dashoffset="250" opacity="0" style="animation:drawPath .6s 3.2s ease forwards;opacity:1"/>
-  <circle cx="268" cy="22" r="26" fill="rgba(76,175,80,.07)" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 3.8s ease both"/>
-</svg>`,
-    mistakeSvg: `<svg viewBox="0 0 320 190" font-family="DM Sans,sans-serif">
-  <rect x="20" y="10" width="280" height="170" fill="#1a4a1e"/>
-  <rect x="20" y="10" width="280" height="170" fill="url(#taGrass)" opacity="0.4"/>
-  <defs><pattern id="taGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern></defs>
-  <ellipse cx="160" cy="183" rx="138" ry="14" fill="rgba(200,168,75,.05)"/>
-  <rect x="20" y="10" width="280" height="170" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
-  <line x1="20" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-  <line x1="160" y1="88" x2="160" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
-  <line x1="43" y1="55" x2="277" y2="55" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-  <line x1="43" y1="125" x2="277" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-  <line x1="160" y1="55" x2="160" y2="90" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
-  <line x1="160" y1="90" x2="160" y2="125" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-  <line x1="43" y1="10" x2="43" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
-  <line x1="277" y1="10" x2="277" y2="180" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
-  <line x1="157" y1="180" x2="163" y2="180" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
-  <line x1="157" y1="10" x2="163" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
-  <text x="28" y="21" fill="rgba(255,255,255,.22)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">OPP END</text>
-  <text x="28" y="184" fill="rgba(200,168,75,.3)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">YOUR END</text>
-  <circle cx="160" cy="170" r="8" fill="#c8a84b"/>
-  <circle cx="160" cy="20" r="8" fill="rgba(255,255,255,.55)"/>
-  <text x="174" y="24" fill="rgba(255,255,255,.35)" font-size="7">PUSHER</text>
-  <path d="M160,170 Q268,88 268,28" stroke="#e07070" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="245" stroke-dashoffset="245" opacity="0" style="animation:drawPath .6s 1.4s ease forwards;opacity:1"/>
-  <line x1="261" y1="21" x2="275" y2="35" stroke="#e07070" stroke-width="2.5" opacity="0" style="animation:tpop .26s 2.1s ease both"/>
-  <line x1="275" y1="21" x2="261" y2="35" stroke="#e07070" stroke-width="2.5" opacity="0" style="animation:tpop .26s 2.1s ease both"/>
-  <text x="248" y="52" fill="#e07070" font-size="8" font-weight="700" opacity="0" style="animation:tpop .3s 2.2s ease both">OUT!</text>
-  <circle cx="160" cy="20" r="20" fill="rgba(76,175,80,.1)" stroke="#4caf50" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .3s 2.4s ease both"/>
-  <text x="160" y="24" text-anchor="middle" fill="#4caf50" font-size="7" opacity="0" style="animation:tpop .3s 2.45s ease both">pusher wins</text>
-</svg>`,
-    render: (p={})=>`<div class="vis-wrap"><div class="vis-lbl">Pusher rally pattern</div>
-<svg viewBox="0 0 280 160" class="vis-svg">
-  <rect x="20" y="10" width="240" height="140" fill="rgba(28,60,24,0.3)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-  <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-  <circle cx="140" cy="140" r="8" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.5"/>
-  <circle cx="140" cy="22" r="8" fill="rgba(224,82,82,0.2)" stroke="#e05252" stroke-width="1.5"/>
-  <path d="M140,140 Q235,90 250,30" stroke="#4caf50" stroke-width="2.5" fill="none" stroke-dasharray="220" stroke-dashoffset="220" style="animation:drawPath .8s .3s ease forwards"/>
-</svg></div>`,
-    init:(params={},cbs={})=>{
-      const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
-      ph(1); cap(captions.setup||'');
-      setTimeout(()=>{ ph(2); cap(captions.decision||''); }, 1400);
-      setTimeout(()=>{ ph(3); cap(captions.result||''); }, 2600);
-      return null;
-    }
-  },
+  // REMOVED: court_pusher_pattern (0 QBANK refs — landscape 320×190, no rAF, wrong orientation)
 
 };
 
