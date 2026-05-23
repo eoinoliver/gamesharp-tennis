@@ -6132,9 +6132,98 @@ function buildPlayAPoint(pillar, module, isDailyPool) {
   return bundle;
 }
 
+// ── MODULE ALIAS MAP ──
+// PILLAR_DISCOVERY uses display-friendly module names; QBANK uses canonical module names.
+// This map resolves display names to the matching QBANK module for question filtering.
+const MODULE_ALIAS = {
+  // Win More — opponent types
+  'Beat Pushers':              'Beat Opponent Types',
+  'Beat the Moonballer':       'Beat Opponent Types',
+  'Beat the Retriever':        'Beat Opponent Types',
+  // Win More — pressure / closing
+  'Tiebreak Mastery':          'Pressure Points',
+  'Closing Matches':           'Pressure Points',
+  'Attack Short Balls':        'Rally Tactics',
+  // Win More — return game
+  'Return Better':             'Return of Serve',
+  'Crosscourt Return':         'Return of Serve',
+  'Low Returns':               'Return of Serve',
+  'Lob Return':                'Return of Serve',
+  // Win More — serve weapons
+  'Serve +1':                  'Serve Strategy',
+  'Wide Serve':                'Serve Strategy',
+  'Body Serve':                'Serve Strategy',
+  'Break Point Serve':         'Serve Strategy',
+  // Game IQ — court intelligence
+  'Court Geometry':            'Rally Tactics',
+  'Percentage Tennis':         'Rally Tactics',
+  'Depth':                     'Rally Tactics',
+  'Pace Variation':            'Rally Tactics',
+  // Game IQ — reading opponents
+  'Momentum':                  'Reading the Game',
+  'Pressure Clue':             'Reading the Game',
+  'Pressure Patterns':         'Reading the Game',
+  'Hot Opponent':              'Beat Opponent Types',
+  'Low Ball Weakness':         'Beat Opponent Types',
+  'Counterpuncher':            'Beat Opponent Types',
+  'Scouting':                  'Match Preparation',
+  // Game IQ — score intelligence
+  'Scoring':                   'Rules & Scoring',
+  '40-0 Trap':                 'Pressure Points',
+  'Consolidation':             'Pressure Points',
+  // Technique
+  'Movement':                  'Movement & Footwork',
+  'Movement Efficiency':       'Movement & Footwork',
+  'Movement Endurance':        'Physical Preparation',
+  'Net':                       'Net Play',
+  'Overhead':                  'Net Play',
+  'Pressure Technique':        'Serve Mechanics',
+  'Return Mechanics':          'Serve Mechanics',
+  'Serve Under Pressure':      'Serve Mechanics',
+  'Changeover Recovery':       'Between-Point Routine',
+  'Clay Courts':               'Equipment & Physics',
+  'String Tension':            'Equipment & Physics',
+  'Playing in Heat':           'Physical Preparation',
+  // Mental — pressure toolkit
+  'Tiebreak Routine':          'Pressure Points',
+  'Double Fault Reset':        'Pressure Points',
+  'Clutch':                    'Competing Up a Level',
+  'Choking':                   'Competing Up a Level',
+  // Mental — match situations
+  'Comebacks':                 'Match Mindset',
+  'Confidence':                'Match Mindset',
+  'Anger':                     'Match Mindset',
+  'Body Language':             'Match Mindset',
+  'Competitive Mindset':       'Match Mindset',
+  'Resilience':                'Match Mindset',
+  // Mental — between-point
+  'Reset Skills':              'Between-Point Routine',
+  'Breathing':                 'Between-Point Routine',
+  'Serve Routine':             'Between-Point Routine',
+  // Mental — practice mindset
+  'Deliberate Practice':       'Practice & Development',
+  'Practising Under Pressure': 'Practice & Development',
+  // The Debate — GOAT debates
+  'Rivalries':                 'Tennis History & GOATs',
+  'Greatest Matches':          'Tennis History & GOATs',
+  'Clay Greatness':            'Tennis History & GOATs',
+  'Serve Legacy':              'Tennis History & GOATs',
+  'Mentality GOAT':            'Tennis History & GOATs',
+  // The Debate — surface wars + the game
+  'Grass Court':               'Modern Tennis Debates',
+  'Fast Courts':               'Modern Tennis Debates',
+  'Slow Courts':               'Modern Tennis Debates',
+  'Green Clay vs Red Clay':    'Modern Tennis Debates',
+  'Best of Five':              'Modern Tennis Debates',
+  'One-Handed Backhand':       'Modern Tennis Debates',
+  'Analytics':                 'Modern Tennis Debates',
+  'Consistency vs Genius':     'Modern Tennis Debates',
+};
+
 // ── QUIZ ──
 function startQuiz(pillar, module) {
-  const bundle = buildPlayAPoint(pillar, module);
+  const resolvedModule = (module && MODULE_ALIAS[module]) ? MODULE_ALIAS[module] : module;
+  const bundle = buildPlayAPoint(pillar, resolvedModule);
   if (!bundle || !bundle.length) { alert('No questions for this selection. Try a different filter.'); return; }
   state.quiz = bundle;
   state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
