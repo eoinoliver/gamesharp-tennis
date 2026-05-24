@@ -217,7 +217,10 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ta-ph-sep{font-size:9px;color:rgba(255,255,255,.15);padding:0 2px;}
 .ta-court-wrap{margin:0 14px;border-radius:12px;overflow:hidden;background:rgba(0,0,0,.2);position:relative;}
 .ta-court-wrap svg{width:100%;height:auto;display:block;max-height:160px;}
-.ta-court-wrap.ta-premium svg{height:280px;width:auto;display:block;margin:0 auto;max-width:100%;}
+/* Portrait cinematic courts (200×310) — width-first, no height cap, no side margins */
+.ta-court-wrap svg[viewBox="0 0 200 310"]{max-height:none;}
+.ta-court-wrap:has(svg[viewBox="0 0 200 310"]){margin:0;border-radius:8px;}
+.ta-court-wrap.ta-premium svg{width:100%;height:auto;display:block;max-height:none;}
 @keyframes wsGlow{0%,100%{opacity:.72}50%{opacity:1;filter:drop-shadow(0 0 5px rgba(200,168,75,.85))}}
 @keyframes wsZonePulse{0%,100%{opacity:.15}50%{opacity:.35}}
 .ws-pulse{animation:wsGlow 1.6s ease-in-out infinite;}
@@ -2424,7 +2427,7 @@ function _taInitCourt(box) {
   const NS='http://www.w3.org/2000/svg';
   const sv=document.createElementNS(NS,'svg');
   sv.setAttribute('viewBox','0 0 200 310');
-  sv.style.cssText='height:280px;width:auto;display:block;margin:0 auto;max-width:100%;';
+  sv.style.cssText='width:100%;height:auto;display:block;';
   sv.setAttribute('font-family','DM Sans,sans-serif');
   sv.innerHTML=`<defs><pattern id="taGp" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern><radialGradient id="taGbg" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#1e5a22"/><stop offset="100%" stop-color="#132914"/></radialGradient></defs><rect x="20" y="10" width="160" height="290" fill="url(#taGbg)"/><rect x="20" y="10" width="160" height="290" fill="url(#taGp)" opacity="0.3"/><rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/><line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/><line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/><line x1="33" y1="87" x2="167" y2="87" stroke="rgba(255,255,255,.3)" stroke-width="1"/><line x1="33" y1="222" x2="167" y2="222" stroke="rgba(255,255,255,.3)" stroke-width="1"/><line x1="100" y1="87" x2="100" y2="155" stroke="rgba(255,255,255,.2)" stroke-width="1"/><line x1="100" y1="155" x2="100" y2="222" stroke="rgba(255,255,255,.3)" stroke-width="1"/><line x1="33" y1="10" x2="33" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/><line x1="167" y1="10" x2="167" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/><line x1="98" y1="10" x2="102" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><line x1="98" y1="300" x2="102" y2="300" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/><text x="28" y="22" fill="rgba(255,255,255,.22)" font-size="7" letter-spacing="1">OPP</text><text x="28" y="293" fill="rgba(200,168,75,.3)" font-size="7" letter-spacing="1">YOU</text>`;
   box.innerHTML=''; box.appendChild(sv);
@@ -4818,6 +4821,7 @@ function mountTechAnim(key, params, mistakeMode, staticOnly) {
 
   // Inject SVG — freeze CSS animations immediately if static (pre-answer) mode
   const svgMarkup = (mistakeMode && a.mistakeSvg) ? a.mistakeSvg : (a.svg || '');
+  court.classList.remove('ta-premium'); // cleared here; _taInitCourt re-adds it for cinematic courts
   if (staticOnly) court.classList.add('ta-static');
   else court.classList.remove('ta-static');
   court.innerHTML = svgMarkup;
@@ -4872,7 +4876,7 @@ function clearTechAnim() {
   const box = document.getElementById('techAnimBox');
   if (box) { box.style.display='none'; }
   const court = document.getElementById('taCourt');
-  if (court) court.innerHTML = '';
+  if (court) { court.innerHTML = ''; court.classList.remove('ta-premium','ta-static'); }
   setAnimPhase(0);
 }
 
