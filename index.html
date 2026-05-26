@@ -6261,29 +6261,29 @@ function _esc(s) { return s ? s.replace(/'/g,"\\'") : ''; }
 // ── PLAY A POINT — SCENARIO CONTEXTS ──
 const POINT_CONTEXTS = {
   'Win More': [
-    { score: '5-4 · 3rd Set · Break Point', context: 'Win this and you close the set. Every shot is a decision.', icon: '🔥' },
-    { score: '4-4 · Deuce · Your Serve', context: "You've held three times already. Keep the pattern going.", icon: '⚡' },
-    { score: 'Tiebreak · 5-5', context: 'Six points to the set. Build your decisions from here.', icon: '⚡' },
-    { score: '3-1 · Club Match · Ad Side', context: "You're ahead. Don't invite them back with loose decisions.", icon: '🎯' },
-    { score: '6-5 · Serving for the Set', context: 'One hold wins it. Play the right shot, not the hero shot.', icon: '🏆' },
+    { score: '5-4 · 3rd Set · Break Point', context: 'Win this and you close the set. Every shot is a decision.', icon: '🔥', modules: ['Pressure Points','Rally Tactics'] },
+    { score: '4-4 · Deuce · Your Serve', context: "You've held three times already. Keep the pattern going.", icon: '⚡', modules: ['Serve Strategy'] },
+    { score: 'Tiebreak · 5-5', context: 'Six points to the set. Build your decisions from here.', icon: '⚡', modules: ['Pressure Points'] },
+    { score: '3-1 · Club Match · Ad Side', context: "You're ahead. Don't invite them back with loose decisions.", icon: '🎯', modules: ['Beat Opponent Types','Rally Tactics'] },
+    { score: '6-5 · Serving for the Set', context: 'One hold wins it. Play the right shot, not the hero shot.', icon: '🏆', modules: ['Serve Strategy','Pressure Points'] },
   ],
   'Mental': [
-    { score: '4-5 · Serving to Stay In', context: 'Down a break and facing elimination. This is the moment.', icon: '🧠' },
-    { score: 'After a Double Fault · 30-30', context: "Don't let one mistake become two. Reset your process.", icon: '🧠' },
-    { score: 'Tiebreak · 6-6 · Two Points Left', context: 'Calm beats chaos. Make one decision at a time.', icon: '🔥' },
-    { score: 'Just Broke · Start of 3rd Set', context: 'Momentum is yours. Lock it in with the right approach now.', icon: '⚡' },
+    { score: '4-5 · Serving to Stay In', context: 'Down a break and facing elimination. This is the moment.', icon: '🧠', modules: ['Competing Up a Level','Pressure Points','Match Mindset'] },
+    { score: 'After a Double Fault · 30-30', context: "Don't let one mistake become two. Reset your process.", icon: '🧠', modules: ['Match Mindset','Between-Point Routine','Competing Up a Level'] },
+    { score: 'Tiebreak · 6-6 · Two Points Left', context: 'Calm beats chaos. Make one decision at a time.', icon: '🔥', modules: ['Pressure Points','Match Mindset'] },
+    { score: 'Just Broke · Start of 3rd Set', context: 'Momentum is yours. Lock it in with the right approach now.', icon: '⚡', modules: ['Match Mindset','Competing Up a Level'] },
   ],
   'Game IQ': [
-    { score: '3-2 · Your Serve · Deuce Side', context: 'Build the point from shot one. No guessing — read and decide.', icon: '🎯' },
-    { score: '4-3 · Return Game · 15-30', context: 'You have a chance to break. Apply the right pressure here.', icon: '🎯' },
-    { score: '2-2 · Third Set · Ad Court', context: 'Tight match, big tactical moment. What does the situation call for?', icon: '🧩' },
+    { score: '3-2 · Your Serve · Deuce Side', context: 'Build the point from shot one. No guessing — read and decide.', icon: '🎯', modules: ['Serve Strategy','Reading the Game','Rally Tactics'] },
+    { score: '4-3 · Return Game · 15-30', context: 'You have a chance to break. Apply the right pressure here.', icon: '🎯', modules: ['Return of Serve','Pressure Points','Beat Opponent Types'] },
+    { score: '2-2 · Third Set · Ad Court', context: 'Tight match, big tactical moment. What does the situation call for?', icon: '🧩', modules: ['Beat Opponent Types','Reading the Game','Rally Tactics'] },
   ],
   'Technique': [
-    { score: 'Practice Set · 3-3', context: 'Build good habits under match-like pressure.', icon: '⚙️' },
-    { score: 'Warm-Up Game · 4-3', context: 'The technique you use here becomes the technique you use in pressure.', icon: '⚙️' },
+    { score: 'Practice Set · 3-3', context: 'Build good habits under match-like pressure.', icon: '⚙️', modules: ['Forehand','Backhand','Movement & Footwork'] },
+    { score: 'Warm-Up Game · 4-3', context: 'The technique you use here becomes the technique you use in pressure.', icon: '⚙️', modules: ['Serve Mechanics','Net Play'] },
   ],
   'The Debate': [
-    { score: 'Post-Match Review', context: "The point's over. Now think about what you would do differently.", icon: '💬' },
+    { score: 'Post-Match Review', context: "The point's over. Now think about what you would do differently.", icon: '💬', modules: ['Modern Tennis Debates','Tennis History & GOATs'] },
   ],
 };
 
@@ -6497,7 +6497,10 @@ function buildPlayAPoint(pillar, module, isDailyPool) {
 
   // Pick scenario context
   const ctxPool = POINT_CONTEXTS[pillar] || POINT_CONTEXTS['Win More'];
-  const ctx = ctxPool[Math.floor(Math.random() * ctxPool.length)];
+  // Prefer a context whose modules thematically match the bundle's questions
+  const bundleModules = bundle.map(q => q.module).filter(Boolean);
+  const matchedCtx = ctxPool.find(c => c.modules && c.modules.some(m => bundleModules.includes(m)));
+  const ctx = matchedCtx || ctxPool[Math.floor(Math.random() * ctxPool.length)];
 
   // Inject bundle metadata onto each question (non-destructive — uses _bundle prefix)
   bundle.forEach((q, i) => {
