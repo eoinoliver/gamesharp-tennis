@@ -494,19 +494,20 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .sh-cta-arrow{font-size:14px;}
 
 /* ── PRO LENS ── */
-.plm-scroll{display:flex;gap:12px;overflow-x:auto;padding:0 22px 12px;scrollbar-width:none;-ms-overflow-style:none;}
+.plm-scroll{display:flex;gap:14px;overflow-x:auto;padding:0 16px 18px;scrollbar-width:none;-ms-overflow-style:none;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
 .plm-scroll::-webkit-scrollbar{display:none;}
-.plm-card{flex-shrink:0;width:220px;background:var(--card);border:1px solid rgba(200,168,75,0.25);border-radius:16px;overflow:hidden;cursor:pointer;position:relative;transition:transform .15s ease,box-shadow .15s ease;}
+.plm-card{flex-shrink:0;width:256px;background:var(--card);border:1px solid rgba(200,168,75,0.22);border-radius:20px;overflow:hidden;cursor:pointer;position:relative;transition:transform .18s ease,box-shadow .18s ease;scroll-snap-align:start;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+.plm-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.55),0 0 0 1px rgba(200,168,75,.38);}
 .plm-card:active{transform:scale(.96);}
-.plm-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
-.plm-visual{padding:10px 10px 0;pointer-events:none;border-radius:10px;overflow:hidden;background:rgba(0,0,0,.15);}
-.plm-visual .ta-svg{height:160px;width:auto;display:block;margin:0 auto;max-width:100%;}
-.plm-visual .vis-wrap{margin:0;border-radius:10px;overflow:hidden;}
-.plm-visual .vis-svg{height:90px;}
-.plm-foot{padding:10px 12px 12px;}
-.plm-title{font-size:12px;font-weight:700;color:var(--text);line-height:1.3;}
-.plm-sub{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4;}
-.plm-tag{display:inline-block;font-size:9px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.2);border-radius:20px;padding:2px 8px;margin-top:6px;}
+.plm-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;background:linear-gradient(90deg,var(--gold) 40%,transparent);}
+.plm-visual{padding:14px 14px 0;pointer-events:none;background:linear-gradient(160deg,rgba(20,40,18,.9) 0%,rgba(8,18,8,.95) 100%);}
+.plm-visual .ta-svg{height:190px;width:auto;display:block;margin:0 auto;max-width:100%;}
+.plm-visual .vis-wrap{margin:0;border-radius:8px;overflow:hidden;}
+.plm-visual .vis-svg{height:110px;}
+.plm-foot{padding:12px 14px 14px;}
+.plm-title{font-size:14px;font-weight:700;color:var(--white);line-height:1.3;}
+.plm-sub{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:4px;line-height:1.45;}
+.plm-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.22);border-radius:20px;padding:3px 9px;margin-top:8px;}
 
 .pro-lens-header{display:flex;align-items:center;gap:8px;padding:12px 14px 8px;}
 .pro-lens-icon{width:26px;height:26px;border-radius:8px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
@@ -729,15 +730,68 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .court-ping{transform-box:fill-box;transform-origin:center;animation:courtPing 2s ease-out infinite;}
 
 /* ── SECTION HEADERS ── */
-.gs-section-hdr{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.4);font-weight:700;padding:20px 22px 10px;}
+.gs-section-hdr{padding:26px 16px 12px;position:relative;z-index:1;}
+.gs-section-eyebrow{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:700;opacity:.7;margin-bottom:4px;}
+.gs-section-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--white);line-height:1;}
 
 /* ── PILLARS ROW — horizontal scroll mobile, 5-col desktop ── */
-.gs-pillars-row{display:flex;gap:10px;overflow-x:auto;padding:0 14px 14px;scrollbar-width:none;-ms-overflow-style:none;}
+.gs-pillars-row{display:flex;gap:12px;overflow-x:auto;padding:0 16px 18px;scrollbar-width:none;-ms-overflow-style:none;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
 .gs-pillars-row::-webkit-scrollbar{display:none;}
-.gs-pillars-row .pillar-card{min-width:148px;flex-shrink:0;min-height:168px;transition:transform .22s cubic-bezier(.34,1.2,.64,1),box-shadow .22s;}
-.gs-pillars-row .pillar-card:hover{transform:translateY(-5px);box-shadow:0 12px 36px rgba(0,0,0,.5),0 0 0 1.5px var(--pc,rgba(200,168,75,.4));}
+
+/* Cinematic pillar card */
+.gs-pillars-row .pillar-card{
+  min-width:195px;flex-shrink:0;min-height:248px;
+  border-radius:22px;padding:0;overflow:hidden;
+  transition:transform .25s cubic-bezier(.34,1.2,.64,1),box-shadow .25s;
+  scroll-snap-align:start;
+  border:1px solid rgba(var(--pc-rgb,200,168,75),.22);
+  box-shadow:0 4px 24px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);
+  display:flex;flex-direction:column;justify-content:space-between;
+  position:relative;
+}
+.gs-pillars-row .pillar-card:hover{
+  transform:translateY(-6px) scale(1.015);
+  box-shadow:0 16px 44px rgba(0,0,0,.55),0 0 0 1.5px var(--pc,rgba(200,168,75,.5)),0 0 32px -4px var(--pc-glow,rgba(200,168,75,.18));
+}
+.gs-pillars-row .pillar-card:active{transform:scale(.96);}
+
+/* Suppress the generic orb — colour-wash handles the bottom identity */
+.gs-pillars-row .pillar-card::before{display:none;}
+
+/* Color bar top — 4px, full opacity */
+.gs-pillars-row .pillar-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--pc,var(--gold)) 0%,rgba(var(--pc-rgb,200,168,75),.3) 70%,transparent 100%);
+  z-index:2;
+}
+/* Bottom colour wash — per-pillar identity gradient */
+.gs-pillars-row .pillar-card .prow-color-wash{
+  position:absolute;bottom:0;left:0;right:0;height:55%;
+  background:linear-gradient(0deg,rgba(var(--pc-rgb,200,168,75),.12) 0%,transparent 100%);
+  pointer-events:none;z-index:0;border-radius:0 0 22px 22px;
+}
+
+/* Inner sections */
+.prow-top{padding:22px 18px 0;position:relative;z-index:1;}
+.prow-icon{font-size:32px;margin-bottom:12px;display:block;line-height:1;}
+.prow-name{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2px;color:var(--white);line-height:1;margin-bottom:8px;}
+.prow-desc{font-size:12px;color:rgba(255,255,255,.52);line-height:1.55;font-weight:400;}
+.prow-bottom{padding:16px 18px 20px;position:relative;z-index:1;margin-top:auto;}
+.prow-count{font-size:10px;color:rgba(255,255,255,.28);letter-spacing:.5px;margin-bottom:7px;}
+.prow-bar{height:2px;border-radius:1px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:12px;}
+.prow-bar-fill{height:100%;border-radius:1px;background:var(--pc,var(--gold));width:0%;transition:width .7s cubic-bezier(.34,1.1,.64,1);}
+.prow-cta{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--pc,var(--gold));letter-spacing:.3px;}
+
+/* Right-edge scroll hint — hides on desktop when all 5 are visible */
+.gs-pillars-wrap{position:relative;}
+.gs-pillars-wrap::after{
+  content:'';position:absolute;top:0;right:0;bottom:18px;width:48px;
+  background:linear-gradient(90deg,transparent,rgba(17,17,17,.82));
+  pointer-events:none;z-index:2;border-radius:0 22px 22px 0;
+}
 @media(min-width:768px){
-  .gs-pillars-row{display:grid;grid-template-columns:repeat(5,1fr);overflow-x:visible;padding:0 14px 14px;}
+  .gs-pillars-wrap::after{display:none;}
+  .gs-pillars-row{display:grid;grid-template-columns:repeat(5,1fr);overflow-x:visible;padding:0 16px 16px;}
   .gs-pillars-row .pillar-card{min-width:0;}
 }
 
@@ -775,7 +829,11 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 
   /* Pillar grid — switch from 2-col to 5-col, wider gutters */
   .pillar-grid{grid-template-columns:repeat(5,1fr);gap:16px;padding:0 32px 32px;}
-  .gs-pillars-row{padding:0 32px 20px;gap:16px;}
+  .gs-pillars-row{padding:0 32px 24px;gap:18px;}
+  .gs-pillars-row .pillar-card{min-height:260px;}
+  .prow-name{font-size:32px;}
+  .gs-section-hdr{padding:32px 32px 14px;}
+  .gs-section-title{font-size:30px;}
 }
 /* Continue / Enter button */
 .pc-btn{display:block;margin-top:9px;width:100%;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:7px 0;color:rgba(255,255,255,.6);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;text-align:center;cursor:pointer;transition:background .18s;}
@@ -1023,15 +1081,24 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     </div>
 
     <!-- THE 5 PILLARS -->
-    <div class="gs-section-hdr">THE 5 PILLARS OF GAMESHARP</div>
-    <div class="gs-pillars-row" id="pillarGrid"></div>
+    <div class="gs-section-hdr">
+      <div class="gs-section-eyebrow">GameSharp Training</div>
+      <div class="gs-section-title">The 5 Pillars</div>
+    </div>
+    <div class="gs-pillars-wrap"><div class="gs-pillars-row" id="pillarGrid"></div></div>
 
     <!-- PRO LENS MOMENTS -->
-    <div class="gs-section-hdr">✨ Pro Lens Moments</div>
-    <div class="plm-scroll" id="plmScroll"></div>
+    <div class="gs-section-hdr">
+      <div class="gs-section-eyebrow">Animated Breakdowns</div>
+      <div class="gs-section-title">Pro Lens Moments</div>
+    </div>
+    <div class="gs-pillars-wrap"><div class="plm-scroll" id="plmScroll"></div></div>
 
     <!-- LEGENDARY EXPERIENCES -->
-    <div class="gs-section-hdr">🏆 Legendary Experiences</div>
+    <div class="gs-section-hdr">
+      <div class="gs-section-eyebrow">Signature Experiences</div>
+      <div class="gs-section-title">Legendary Exchanges</div>
+    </div>
     <div class="leg-home-card leg-home-premium" style="margin:0 14px 0;" onclick="startLegendaryExchange('wim2008_exchange_001')">
       <div class="leg-home-premium-bg"></div>
       <div class="leg-home-badge">PREMIUM</div>
@@ -6017,19 +6084,25 @@ function initHome() {
     const barPct = Math.round(progress * 100);
     const progressLabel = barPct > 0 ? `${barPct}% explored` : `${count} scenarios`;
     const btnLabel = p === 'The Debate' ? 'Enter' : 'Continue';
+    // Derive RGB components for glow effects
+    const hex = meta.color.replace('#','');
+    const r = parseInt(hex.slice(0,2),16), g = parseInt(hex.slice(2,4),16), b = parseInt(hex.slice(4,6),16);
     const card = document.createElement('div');
     card.className = 'pillar-card card-enter';
     card.style.setProperty('--pc', meta.color);
+    card.style.setProperty('--pc-rgb', `${r},${g},${b}`);
+    card.style.setProperty('--pc-glow', `rgba(${r},${g},${b},0.22)`);
     card.innerHTML = `
-      <div>
-        <div class="pc-icon">${meta.icon}</div>
-        <div class="pc-name">${displayName}</div>
-        <div class="pc-desc">${meta.desc}</div>
+      <div class="prow-color-wash"></div>
+      <div class="prow-top">
+        <span class="prow-icon">${meta.icon}</span>
+        <div class="prow-name">${displayName}</div>
+        <div class="prow-desc">${meta.desc}</div>
       </div>
-      <div>
-        <div class="pc-count">${progressLabel}</div>
-        <div class="pc-bar"><div class="pc-bar-fill" style="width:${barPct}%"></div></div>
-        <div class="pc-btn">${btnLabel} →</div>
+      <div class="prow-bottom">
+        <div class="prow-count">${progressLabel}</div>
+        <div class="prow-bar"><div class="prow-bar-fill" style="width:${barPct}%"></div></div>
+        <div class="prow-cta">Enter →</div>
       </div>
     `;
     card.onclick = () => initPillarScreen(p);
