@@ -2240,11 +2240,15 @@ function startPersonalSession() {
       pool = [...pool, ...extra];
     }
   } else {
-    // Generic session
-    pool = shuffle(QBANK.filter(q => q.pillar === 'Win More' && q.tier === 'Free' && Number(q.engagement_score) >= 4)).slice(0, 5);
+    // Generic session — pass the full eligible pool; selectSessionQuestions will pick 5
+    pool = QBANK.filter(q => q.pillar === 'Win More' && q.tier === 'Free' && Number(q.engagement_score) >= 4);
   }
 
-  state.quiz = shuffle(pool).slice(0, 5);
+  // Apply anti-repeat selection and record seen questions
+  const selected = selectSessionQuestions({ pool, count: 5 });
+  if (!selected.length) return;
+  recordSeenQuestions(selected);
+  state.quiz = selected;
   state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
   state.isDailyMode = false;
   state.screen = 'quiz';
@@ -5653,6 +5657,7 @@ function initProLensMoments() {
       if (q) {
         state.selectedPillar = q.pillar;
         state.quiz = [q];
+        recordSeenQuestions([q]); // mark seen even for single-question preview
         state.qIdx = 0;
         state.score = 0;
         state.results = [];
@@ -6167,40 +6172,127 @@ function getSeenData() {
   try { return JSON.parse(localStorage.getItem('gamesharp_seen') || '{}'); } catch(e) { return {}; }
 }
 
-function recordSeenQuestions(questions) {
+// One-time migration: convert legacy ids[] array to timestamps{} map
+function migrateSeenData() {
   try {
     const seen = getSeenData();
-    const newIds = questions.map(q => q.id);
-    seen.ids = [...new Set([...(seen.ids||[]), ...newIds])];
-    seen.modules = seen.modules || {};
-    seen.hooks = seen.hooks || {};
-    seen.skills = seen.skills || {};
-    questions.forEach(q => {
-      seen.modules[q.module] = (seen.modules[q.module]||0)+1;
-      if (q.hook_type) seen.hooks[q.hook_type] = (seen.hooks[q.hook_type]||0)+1;
-      if (q.skill_target) seen.skills[q.skill_target] = (seen.skills[q.skill_target]||0)+1;
-    });
-    // Keep last 300 IDs (80% of the bank) — enough memory to avoid repetition meaningfully
-    if (seen.ids.length > 300) seen.ids = seen.ids.slice(-300);
-    localStorage.setItem('gamesharp_seen', JSON.stringify(seen));
+    if ((seen.ids || []).length && !seen.timestamps) {
+      const oldTs = Date.now() - 30 * 24 * 3600 * 1000; // treat old history as 30 days ago
+      seen.timestamps = {};
+      seen.ids.forEach((id, i) => { seen.timestamps[id] = oldTs + i * 1000; });
+      localStorage.setItem('gamesharp_seen', JSON.stringify(seen));
+    }
   } catch(e) {}
 }
 
-function getAntiRepeatPool(pool) {
+function recordSeenQuestions(questions) {
+  try {
+    const seen = getSeenData();
+    seen.timestamps = seen.timestamps || {};
+    seen.modules   = seen.modules   || {};
+    seen.hooks     = seen.hooks     || {};
+    seen.skills    = seen.skills    || {};
+    const now = Date.now();
+    questions.forEach(q => {
+      seen.timestamps[q.id] = now;
+      seen.modules[q.module] = (seen.modules[q.module]||0) + 1;
+      if (q.hook_type)    seen.hooks[q.hook_type]   = (seen.hooks[q.hook_type]  ||0) + 1;
+      if (q.skill_target) seen.skills[q.skill_target]= (seen.skills[q.skill_target]||0) + 1;
+    });
+    // Cap at 400 entries; evict oldest first (spaced-repetition reuse)
+    const entries = Object.entries(seen.timestamps).sort((a,b) => a[1]-b[1]);
+    if (entries.length > 400) seen.timestamps = Object.fromEntries(entries.slice(-400));
+    seen.ids = Object.keys(seen.timestamps); // backward-compat
+    localStorage.setItem('gamesharp_seen', JSON.stringify(seen));
+    console.log(`[GameSharp] Seen recorded: ${questions.map(q=>q.id).join(', ')} | Total seen: ${seen.ids.length}`);
+  } catch(e) {}
+}
+
+// Returns the pool sorted with unseen questions first (engagement-ranked),
+// then oldest-seen last. Caller passes the session size so the threshold is accurate.
+function getAntiRepeatPool(pool, count) {
+  count = count || 5;
   const seen = getSeenData();
-  const seenIds = new Set(seen.ids || []);
-  const seenModules = seen.modules || {};
-  const byEng = (a, b) => (parseFloat(b.engagement_score)||3) - (parseFloat(a.engagement_score)||3);
+  const seenTs  = seen.timestamps || {};
+  const seenIds = new Set([...Object.keys(seenTs), ...(seen.ids || [])]);
+  const byEng   = (a,b) => (parseFloat(b.engagement_score)||3) - (parseFloat(a.engagement_score)||3);
 
-  // Hard split: unseen first, seen only as fallback
   const unseen = pool.filter(q => !seenIds.has(q.id)).sort(byEng);
-  if (unseen.length >= 3) return unseen;
+  console.log(`[GameSharp] Eligible: ${pool.length} | Unseen: ${unseen.length} | Need: ${count}`);
 
-  // Pool exhausted — return all, least-revisited modules first
-  return [...pool].sort((a, b) => {
-    const diff = (seenModules[a.module]||0) - (seenModules[b.module]||0);
-    return diff !== 0 ? diff : byEng(a, b);
+  if (unseen.length >= count) return unseen;
+
+  // Pool exhausted — append seen questions oldest-first (spaced repetition fallback)
+  const seenPool = pool.filter(q => seenIds.has(q.id)).sort((a,b) => {
+    const at = seenTs[a.id] || 0, bt = seenTs[b.id] || 0;
+    return at - bt; // oldest seen bubbles up first
   });
+  console.log(`[GameSharp] Pool exhausted — using ${seenPool.length} seen questions (oldest first)`);
+  return [...unseen, ...seenPool];
+}
+
+// Validate a built session. Logs warnings; returns boolean.
+function validateSessionQuestions(questions, poolSize) {
+  const ids = questions.map(q => q.id);
+  const unique = new Set(ids);
+  if (unique.size !== ids.length) {
+    const dupes = ids.filter((id,i) => ids.indexOf(id) !== i);
+    console.warn('[GameSharp VALIDATION] Duplicate IDs in session:', dupes);
+    return false;
+  }
+  if (questions.some(q => !q.id)) {
+    console.warn('[GameSharp VALIDATION] Question(s) missing id field');
+    return false;
+  }
+  if (!questions.length) {
+    console.warn('[GameSharp VALIDATION] Empty session');
+    return false;
+  }
+  const seenIds = new Set(Object.keys((getSeenData().timestamps || {})));
+  const usingSeen = questions.filter(q => seenIds.has(q.id));
+  if (usingSeen.length && poolSize - usingSeen.length >= questions.length) {
+    console.warn('[GameSharp VALIDATION] Used seen Qs when unseen were available:', usingSeen.map(q=>q.id));
+  }
+  console.log('[GameSharp] Validation OK. Selected IDs:', ids);
+  return true;
+}
+
+// ── CENTRAL SESSION SELECTOR — every session type must call this ──
+// Returns `count` questions from `pool`, unseen-first with oldest-seen fallback.
+// Hard dedup guarantees no repeated ID within one session.
+function selectSessionQuestions({ pool, count, allowSeenFallback }) {
+  count = Math.min(count || 5, pool.length);
+  allowSeenFallback = allowSeenFallback !== false;
+  if (!pool.length) return [];
+
+  const antiPool = getAntiRepeatPool(pool, count);
+  // If not enough unseen AND fallback is allowed, use the full pool as safety net
+  const workPool = antiPool.length >= count ? antiPool
+    : (allowSeenFallback ? [...pool] : antiPool);
+
+  // Sort easiest-first within work pool before handing to pickVariedBundle
+  const diffRank = { 'Rookie': 0, 'Club': 1, 'Competitor': 2 };
+  const sorted = [...workPool].sort((a,b) => (diffRank[a.difficulty]||1)-(diffRank[b.difficulty]||1));
+  let picked = pickVariedBundle(sorted, count);
+
+  // Hard dedup safety net (pickVariedBundle uses reference equality; this catches edge cases)
+  const usedIds = new Map();
+  picked = picked.filter(q => {
+    if (usedIds.has(q.id)) return false;
+    usedIds.set(q.id, true);
+    return true;
+  });
+  // Refill any slots lost to dedup
+  if (picked.length < count) {
+    for (const q of shuffle(workPool)) {
+      if (picked.length >= count) break;
+      if (!usedIds.has(q.id)) { picked.push(q); usedIds.set(q.id, true); }
+    }
+  }
+
+  console.log(`[GameSharp] selectSessionQuestions: picked ${picked.length}/${count}:`, picked.map(q=>q.id));
+  validateSessionQuestions(picked, pool.length);
+  return picked;
 }
 
 // ── FORMAT LABELS ──
@@ -6251,18 +6343,10 @@ function buildPlayAPoint(pillar, module, isDailyPool) {
   if (state.selectedDifficulty !== 'all') pool = pool.filter(q => q.difficulty === state.selectedDifficulty);
   if (!pool.length) return null;
 
-  // Anti-repeat filter
-  const fresh = getAntiRepeatPool(pool);
-  const workPool = fresh.length >= 3 ? fresh : pool;
-
-  // Bundle size: 3–5 questions
-  const maxBundle = Math.min(workPool.length, 5);
-  const bundleSize = Math.max(3, maxBundle);
-
-  // Sort easiest first, then pick varied bundle
-  const diffRank = { 'Rookie': 0, 'Club': 1, 'Competitor': 2 };
-  const sortedPool = [...workPool].sort((a,b) => (diffRank[a.difficulty]||1)-(diffRank[b.difficulty]||1));
-  const bundle = pickVariedBundle(sortedPool, bundleSize);
+  // Central selector: unseen-first, oldest-seen fallback, hard dedup
+  const bundleSize = Math.min(pool.length, 5);
+  const bundle = selectSessionQuestions({ pool, count: bundleSize });
+  if (!bundle.length) return null;
 
   // Pick scenario context
   const ctxPool = POINT_CONTEXTS[pillar] || POINT_CONTEXTS['Win More'];
@@ -7403,6 +7487,7 @@ function buildLegContinue() {
 }
 
 // Boot
+migrateSeenData(); // one-time migration: ids[] → timestamps{}
 initHome();
 
 </script>
