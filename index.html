@@ -2245,7 +2245,7 @@ function startPersonalSession() {
   }
 
   // Apply anti-repeat selection and record seen questions
-  const selected = selectSessionQuestions({ pool, count: 5 });
+  const selected = selectSessionQuestions({ pool, count: 5, mode: 'personal' });
   if (!selected.length) return;
   recordSeenQuestions(selected);
   state.quiz = selected;
@@ -5094,10 +5094,11 @@ function showScreen(id) {
 // ── HOME ──
 // ── DAILY CHALLENGE ──
 function getDailyQuestion() {
-  // Pick a deterministic question based on day of year so everyone gets the same Q
-  const day = Math.floor(Date.now() / 86400000); // days since epoch
+  // Anti-repeat: pick the best unseen Club question; oldest-seen fallback when pool exhausted
   const pool = QBANK.filter(q => q.difficulty === 'Club' && q.share_prompt);
-  return pool[day % pool.length];
+  if (!pool.length) return null;
+  const antiPool = getAntiRepeatPool(pool, 1);
+  return antiPool[0] || pool[0];
 }
 
 function getTodayKey() {
@@ -5166,8 +5167,8 @@ const TOMORROW_TEASERS = {
 function pickDailyChallengePool(n) {
   n = n || 5;
   const pool = QBANK.filter(q => q.tier === 'Free' || !q.tier);
-  // Apply anti-repeat first — strict unseen preference
-  const fresh = getAntiRepeatPool(pool);
+  // Apply anti-repeat first — strict unseen preference; pass n so threshold is correct
+  const fresh = getAntiRepeatPool(pool, n);
   // Among fresh, prefer high engagement+utility, then shuffle top tier for variety
   const scored = fresh.map(q => ({
     q,
@@ -5228,9 +5229,24 @@ function startDailyChallenge() {
 function startHereSession() {
   // Curated "Start Here" — best Win More questions for club players, as a Play a Point bundle
   const CURATED_IDS = ['Q001','Q004','Q009','Q022','Q031','Q008','Q025','Q002','Q007','Q003'];
-  let pool = QBANK.filter(q => CURATED_IDS.includes(q.id));
-  if (pool.length < 5) {
-    pool = QBANK.filter(q => q.pillar === 'Win More' && q.tier === 'Free' && Number(q.engagement_score) >= 5);
+  const curatedPool = QBANK.filter(q => CURATED_IDS.includes(q.id));
+  const seenData = getSeenData();
+  const seenIds = new Set(Object.keys(seenData.timestamps || {}));
+  const unseenCurated = curatedPool.filter(q => !seenIds.has(q.id));
+
+  let pool;
+  if (unseenCurated.length >= 5) {
+    // Enough unseen curated questions — stay within the curated set
+    pool = curatedPool;
+  } else {
+    // Most curated IDs seen — expand to broader Win More quality pool
+    console.log(`[GameSharp] startHereSession: only ${unseenCurated.length} unseen curated, expanding pool`);
+    const expanded = QBANK.filter(q =>
+      q.pillar === 'Win More' && q.tier === 'Free' &&
+      (Number(q.engagement_score) >= 4 || Number(q.utility_score) >= 4)
+    );
+    // Curated first so pickVariedBundle gives them priority
+    pool = [...curatedPool, ...expanded.filter(q => !CURATED_IDS.includes(q.id))];
   }
   const bundle = buildPlayAPoint('Win More', null, pool);
   if (!bundle || !bundle.length) return;
@@ -6232,41 +6248,63 @@ function getAntiRepeatPool(pool, count) {
 }
 
 // Validate a built session. Logs warnings; returns boolean.
-function validateSessionQuestions(questions, poolSize) {
+// unseenInPool: how many unseen questions existed in the source pool at selection time.
+function validateSessionQuestions(questions, poolSize, unseenInPool) {
   const ids = questions.map(q => q.id);
   const unique = new Set(ids);
-  if (unique.size !== ids.length) {
-    const dupes = ids.filter((id,i) => ids.indexOf(id) !== i);
-    console.warn('[GameSharp VALIDATION] Duplicate IDs in session:', dupes);
+  if (!questions.length) {
+    console.warn('[GameSharp VALIDATION] ❌ Empty session');
     return false;
   }
   if (questions.some(q => !q.id)) {
-    console.warn('[GameSharp VALIDATION] Question(s) missing id field');
+    console.warn('[GameSharp VALIDATION] ❌ Question(s) missing id field');
     return false;
   }
-  if (!questions.length) {
-    console.warn('[GameSharp VALIDATION] Empty session');
+  if (unique.size !== ids.length) {
+    const dupes = ids.filter((id,i) => ids.indexOf(id) !== i);
+    console.warn('[GameSharp VALIDATION] ❌ Duplicate IDs in session:', dupes);
     return false;
+  }
+  if (questions.length < Math.min(poolSize, 5)) {
+    console.warn(`[GameSharp VALIDATION] ⚠ Short session: got ${questions.length}, pool has ${poolSize}`);
   }
   const seenIds = new Set(Object.keys((getSeenData().timestamps || {})));
-  const usingSeen = questions.filter(q => seenIds.has(q.id));
-  if (usingSeen.length && poolSize - usingSeen.length >= questions.length) {
-    console.warn('[GameSharp VALIDATION] Used seen Qs when unseen were available:', usingSeen.map(q=>q.id));
+  const seenUsed = questions.filter(q => seenIds.has(q.id));
+  const effectiveUnseen = (unseenInPool !== undefined) ? unseenInPool : 0;
+  if (seenUsed.length > 0 && effectiveUnseen >= questions.length) {
+    console.warn(
+      `[GameSharp VALIDATION] ⚠ ANTI-REPEAT FAILED: ${seenUsed.length} seen question(s) selected while ${effectiveUnseen} unseen were available.`,
+      'Seen IDs used:', seenUsed.map(q => q.id)
+    );
   }
-  console.log('[GameSharp] Validation OK. Selected IDs:', ids);
+  console.log(`[GameSharp] ✓ Validation OK — IDs: [${ids.join(', ')}]`);
   return true;
 }
 
 // ── CENTRAL SESSION SELECTOR — every session type must call this ──
 // Returns `count` questions from `pool`, unseen-first with oldest-seen fallback.
 // Hard dedup guarantees no repeated ID within one session.
-function selectSessionQuestions({ pool, count, allowSeenFallback }) {
+// `mode` is an optional label for debug logs (e.g. 'daily', 'play-a-point', 'personal').
+function selectSessionQuestions({ pool, count, allowSeenFallback, mode }) {
   count = Math.min(count || 5, pool.length);
   allowSeenFallback = allowSeenFallback !== false;
   if (!pool.length) return [];
 
+  // Compute unseen count before any selection (used for validation + logging)
+  const seenData = getSeenData();
+  const seenIdSet = new Set([...Object.keys(seenData.timestamps || {}), ...(seenData.ids || [])]);
+  const unseenInPool = pool.filter(q => !seenIdSet.has(q.id)).length;
+  const fallbackTriggered = unseenInPool < count;
+
+  console.log(
+    `[GameSharp] selectSessionQuestions [${mode || 'default'}] — ` +
+    `eligible: ${pool.length} | unseen: ${unseenInPool} | need: ${count} | ` +
+    `fallback: ${fallbackTriggered ? 'YES (pool exhausted)' : 'no'}`
+  );
+
   const antiPool = getAntiRepeatPool(pool, count);
-  // If not enough unseen AND fallback is allowed, use the full pool as safety net
+  // When unseen >= count, antiPool contains ONLY unseen — seen questions cannot enter.
+  // When pool is exhausted, antiPool is [unseen..., oldest-seen...] — fallback is intended.
   const workPool = antiPool.length >= count ? antiPool
     : (allowSeenFallback ? [...pool] : antiPool);
 
@@ -6290,8 +6328,12 @@ function selectSessionQuestions({ pool, count, allowSeenFallback }) {
     }
   }
 
-  console.log(`[GameSharp] selectSessionQuestions: picked ${picked.length}/${count}:`, picked.map(q=>q.id));
-  validateSessionQuestions(picked, pool.length);
+  const seenUsed = picked.filter(q => seenIdSet.has(q.id));
+  console.log(
+    `[GameSharp] selectSessionQuestions — selected: [${picked.map(q=>q.id).join(', ')}]` +
+    (seenUsed.length ? ` | seen IDs used (fallback): [${seenUsed.map(q=>q.id).join(', ')}]` : '')
+  );
+  validateSessionQuestions(picked, pool.length, unseenInPool);
   return picked;
 }
 
@@ -6345,7 +6387,8 @@ function buildPlayAPoint(pillar, module, isDailyPool) {
 
   // Central selector: unseen-first, oldest-seen fallback, hard dedup
   const bundleSize = Math.min(pool.length, 5);
-  const bundle = selectSessionQuestions({ pool, count: bundleSize });
+  const sessionMode = isDailyPool ? 'daily' : (module ? `module:${module}` : `pillar:${pillar}`);
+  const bundle = selectSessionQuestions({ pool, count: bundleSize, mode: sessionMode });
   if (!bundle.length) return null;
 
   // Pick scenario context
