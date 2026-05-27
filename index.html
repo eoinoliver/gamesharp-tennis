@@ -181,8 +181,8 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 /* ── FORMAT BADGE ── */
 .q-format-badge{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:9px;}
 .fmt-scenario{background:rgba(200,168,75,.15);color:var(--gold);}
-.fmt-trap{background:rgba(224,82,82,.15);color:#ef5350;}
-.fmt-trap::before{content:'⚠';font-size:9px;}
+.fmt-common-mistake{background:rgba(224,82,82,.15);color:#ef5350;}
+.fmt-common-mistake::before{content:'⚠';font-size:9px;}
 .fmt-pattern-choice{background:rgba(66,165,245,.15);color:#64b5f6;}
 .fmt-pressure-moment{background:rgba(255,152,0,.15);color:#ffa726;}
 .fmt-pressure-moment::before{content:'⚡';font-size:9px;}
@@ -2988,6 +2988,7 @@ const TECH_ANIMS = {
     svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
   <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
+  <text x="100" y="8" text-anchor="middle" font-size="9" font-weight="bold" fill="#c8a84b" opacity="0.8" letter-spacing="2">DOUBLES</text>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="33" y1="87" x2="167" y2="87" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
   <line x1="33" y1="222" x2="167" y2="222" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
@@ -3003,9 +3004,9 @@ const TECH_ANIMS = {
   <!-- OPP NET right -->
   <circle cx="145" cy="75" r="8" fill="rgba(224,82,82,.85)" style="animation:tpop .4s .4s ease both;opacity:0"/>
   <text x="145" y="66" text-anchor="middle" fill="#e05252" font-size="6" font-weight="700" style="animation:tpop .4s .4s ease both;opacity:0">OPP NET</text>
-  <!-- PARTNER at net left (your half) -->
-  <circle cx="55" cy="120" r="8" fill="#5bba6f" style="animation:tpop .4s .6s ease both;opacity:0"/>
-  <text x="55" y="111" text-anchor="middle" fill="#5bba6f" font-size="6" font-weight="700" style="animation:tpop .4s .6s ease both;opacity:0">PARTNER</text>
+  <!-- PARTNER at net left (your half, inside the net) -->
+  <circle cx="55" cy="185" r="8" fill="#5bba6f" style="animation:tpop .4s .6s ease both;opacity:0"/>
+  <text x="55" y="176" text-anchor="middle" fill="#5bba6f" font-size="6" font-weight="700" style="animation:tpop .4s .6s ease both;opacity:0">PARTNER</text>
   <!-- YOU at baseline right -->
   <circle cx="145" cy="285" r="8" fill="#c8a84b" style="animation:tpop .4s .8s ease both;opacity:0"/>
   <text x="145" y="295" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" style="animation:tpop .4s .8s ease both;opacity:0">YOU</text>
@@ -3013,6 +3014,7 @@ const TECH_ANIMS = {
     render: (p={})=>`<div class="vis-wrap"><div class="vis-lbl">Doubles — shift together</div>
 <svg viewBox="0 0 200 310" class="vis-svg" style="height:220px">
   <rect x="20" y="10" width="160" height="290" fill="rgba(28,60,24,0.35)" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+  <text x="100" y="8" text-anchor="middle" font-size="9" font-weight="bold" fill="#c8a84b" opacity="0.8" letter-spacing="2">DOUBLES</text>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
   <line x1="33" y1="87" x2="167" y2="87" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
   <line x1="33" y1="222" x2="167" y2="222" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
@@ -3022,8 +3024,8 @@ const TECH_ANIMS = {
   <text x="45" y="26" text-anchor="middle" fill="rgba(255,255,255,.8)" font-size="6" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .1s ease both;opacity:0">OPP</text>
   <circle cx="145" cy="75" r="8" fill="rgba(224,82,82,.8)" style="animation:tpop .4s .3s ease both;opacity:0"/>
   <text x="145" y="66" text-anchor="middle" fill="#e05252" font-size="6" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .3s ease both;opacity:0">OPP NET</text>
-  <circle cx="55" cy="120" r="8" fill="#5bba6f" style="animation:tpop .4s .5s ease both;opacity:0"/>
-  <text x="55" y="111" text-anchor="middle" fill="#5bba6f" font-size="6" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .5s ease both;opacity:0">PARTNER</text>
+  <circle cx="55" cy="185" r="8" fill="#5bba6f" style="animation:tpop .4s .5s ease both;opacity:0"/>
+  <text x="55" y="176" text-anchor="middle" fill="#5bba6f" font-size="6" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .5s ease both;opacity:0">PARTNER</text>
   <circle cx="145" cy="285" r="8" fill="#c8a84b" style="animation:tpop .4s .7s ease both;opacity:0"/>
   <text x="145" y="295" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" font-family="DM Sans" style="animation:tpop .4s .7s ease both;opacity:0">YOU</text>
 </svg></div>`,
@@ -3066,10 +3068,10 @@ const TECH_ANIMS = {
 
       // ── Positions ─────────────────────────────────────────────────────
       const OPP={x:45,y:22}, OPPNET={x:145,y:75};
-      const PART_0={x:55,y:120}, YOU_0={x:145,y:285};
+      const PART_0={x:55,y:185}, YOU_0={x:145,y:285};
       const BALL_LAND={x:145,y:240};
       // Correct shift: both move toward centre
-      const PART_1={x:100,y:120}, YOU_1={x:100,y:285};
+      const PART_1={x:100,y:185}, YOU_1={x:100,y:285};
       // Mistake: PARTNER moves, YOU frozen; OPP NET poaches through
       const OPPNET_ATK={x:100,y:185};
 
@@ -6444,7 +6446,7 @@ function selectSessionQuestions({ pool, count, allowSeenFallback, mode }) {
 // ── FORMAT LABELS ──
 function getFormatLabel(q, position) {
   if (position === 0) return 'scenario';
-  if (q.common_pitfall && position === 1) return 'trap';
+  if (q.common_pitfall && position === 1) return 'common-mistake';
   if (q.pro_insight && position >= 2) return 'pro-replay';
   if (q.difficulty === 'Competitor') return 'pressure-moment';
   const tags = (q.tags||'').toLowerCase();
@@ -6453,7 +6455,7 @@ function getFormatLabel(q, position) {
 }
 
 function fmtLabel(key) {
-  return { 'scenario':'Scenario', 'trap':'Trap', 'pro-replay':'Pro Replay',
+  return { 'scenario':'Scenario', 'common-mistake':'What Most Players Miss', 'pro-replay':'Pro Replay',
            'pressure-moment':'Pressure Moment', 'pattern-choice':'Pattern Choice', 'decision':'Decision' }[key] || 'Decision';
 }
 
@@ -6461,15 +6463,15 @@ function fmtLabel(key) {
 function pickVariedBundle(pool, size) {
   // Shuffle within each category so picks vary across sessions
   const withPro  = shuffle(pool.filter(q => q.pro_insight));
-  const withTrap = shuffle(pool.filter(q => q.common_pitfall));
+  const withCommonMistake = shuffle(pool.filter(q => q.common_pitfall));
   const picked = [];
   // First slot: pick from the easiest tier (bottom 20% by difficulty rank) at random
   const easyTier = pool.slice(0, Math.max(1, Math.ceil(pool.length * 0.2)));
   const opener = shuffle(easyTier)[0];
   if (opener) picked.push(opener);
-  // Inject a trap
-  const trapQ = withTrap.find(q => !picked.includes(q));
-  if (trapQ && picked.length < size) picked.push(trapQ);
+  // Inject a "What Most Players Miss" question
+  const commonMistakeQ = withCommonMistake.find(q => !picked.includes(q));
+  if (commonMistakeQ && picked.length < size) picked.push(commonMistakeQ);
   // Inject a pro-replay
   const proQ = withPro.find(q => !picked.includes(q));
   if (proQ && picked.length < size) picked.push(proQ);
