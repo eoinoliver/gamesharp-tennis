@@ -170,14 +170,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .q-meta{margin:11px 20px 0;display:flex;align-items:center;gap:8px;}
 .q-pillar-badge{font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--gold);background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.25);border-radius:20px;padding:4px 12px;}
 .q-diff-badge{font-size:11px;color:var(--muted);background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;}
-/* ── POINT HEADER ── */
-.point-header{margin:10px 20px 0;background:rgba(200,168,75,.07);border:1px solid rgba(200,168,75,.2);border-radius:13px;padding:11px 14px;animation:exin .32s cubic-bezier(.34,1.1,.64,1);}
-.ph-live{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
-.ph-pip{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pipPulse 1.6s ease-in-out infinite;}
-@keyframes pipPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.7)}}
-.ph-score{font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);}
-.ph-context{font-size:13px;color:rgba(255,255,255,.6);line-height:1.4;}
-.ph-shot{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(200,168,75,.7);margin-top:5px;}
+
 /* ── FORMAT BADGE ── */
 .q-format-badge{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:9px;}
 .fmt-scenario{background:rgba(200,168,75,.15);color:var(--gold);}
@@ -1209,11 +1202,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     <div class="qnum" id="qNum">1/10</div>
   </div>
   <div class="streak-dots" id="streakDots"></div>
-  <div id="pointHeader" class="point-header" style="display:none;">
-    <div class="ph-live"><div class="ph-pip"></div><div class="ph-score" id="phScore"></div></div>
-    <div class="ph-context" id="phContext"></div>
-    <div class="ph-shot" id="phShot"></div>
-  </div>
+
   <div class="q-meta">
     <div class="q-pillar-badge" id="qPillar"></div>
     <div class="q-diff-badge" id="qDiff"></div>
@@ -6643,25 +6632,6 @@ function loadQ() {
     ? `Shot ${bundle.shotNum} of ${bundle.total}`
     : `${state.qIdx+1}/${total}`;
 
-  // Point header — shown when bundle metadata exists
-  const ph = document.getElementById('pointHeader');
-  if (ph) {
-    if (bundle) {
-      document.getElementById('phScore').textContent = bundle.icon + '  ' + bundle.score;
-      document.getElementById('phContext').textContent = bundle.context;
-      // Only show on first shot; update shot label for subsequent shots
-      if (bundle.shotNum === 1) {
-        document.getElementById('phShot').textContent = '';
-      } else {
-        document.getElementById('phShot').textContent = '· ' + bundle.fmtLabel + ' ·';
-      }
-      ph.style.display = 'block';
-      // Animate re-entry on shot change
-      ph.style.animation = 'none'; void ph.offsetWidth; ph.style.animation = '';
-    } else {
-      ph.style.display = 'none';
-    }
-  }
 
   // Pillar / difficulty meta bar
   document.getElementById('qPillar').textContent = q.pillar + (q.module ? ' · '+q.module : '');
