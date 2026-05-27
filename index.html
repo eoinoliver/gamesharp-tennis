@@ -474,6 +474,89 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .leg-mom-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;position:relative;}
 .leg-mom-fill{position:absolute;right:0;top:0;height:100%;background:linear-gradient(90deg,rgba(91,186,111,.3),#5bba6f,#d4e84a);border-radius:3px;animation:momSlide .9s .1s cubic-bezier(.34,1.1,.64,1) both;}
 @keyframes momSlide{from{width:50%}to{width:var(--mom-w,60%)}}
+/* ── PLAY THE SEQUENCE — HOME CARD ── */
+.seq-home-card{margin:10px 14px 0;background:linear-gradient(155deg,#0a1b0c 0%,#060e07 100%);border:1px solid rgba(200,168,75,.38);border-radius:18px;padding:18px 20px 16px;position:relative;overflow:hidden;cursor:pointer;transition:transform .18s;box-shadow:0 4px 24px rgba(0,0,0,.4);}
+.seq-home-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);background-size:200%;animation:shimmer 4s linear infinite;}
+.seq-home-card:active{transform:scale(.98);}
+.seq-home-eyebrow{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;}
+.seq-home-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1.5px;color:var(--white);line-height:1.1;margin-bottom:4px;}
+.seq-home-sub{font-size:13px;color:rgba(255,255,255,.42);line-height:1.4;margin-bottom:14px;}
+.seq-home-chain{display:flex;align-items:center;margin-bottom:14px;}
+.seq-chain-dot{width:8px;height:8px;border-radius:50%;background:rgba(200,168,75,.35);flex-shrink:0;}
+.seq-chain-dot.scd-lit{background:var(--gold);box-shadow:0 0 6px rgba(200,168,75,.5);}
+.seq-chain-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(200,168,75,.4),rgba(200,168,75,.1));}
+.seq-home-cta{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#0a1509;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;padding:9px 16px;border-radius:30px;}
+.seq-home-seq-name{font-size:11px;color:rgba(255,255,255,.3);margin-bottom:10px;font-style:italic;}
+/* ── PLAY THE SEQUENCE — SCREEN ── */
+.seq-screen-bg{min-height:100vh;background:#070d08;position:relative;overflow-x:hidden;}
+.seq-glow{position:absolute;inset:0;background:radial-gradient(ellipse 100% 50% at 50% 90%,rgba(180,140,40,.08) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.seq-intro-wrap{position:relative;z-index:1;padding:52px 24px 40px;min-height:100vh;display:flex;flex-direction:column;}
+.seq-intro-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+.seq-back-btn{width:40px;height:40px;background:rgba(255,255,255,.06);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:rgba(255,255,255,.6);}
+.seq-diff-badge{background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.25);border-radius:20px;padding:5px 12px;font-size:9px;color:var(--gold);font-weight:700;letter-spacing:1.2px;text-transform:uppercase;}
+.seq-intro-eyebrow{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;}
+.seq-intro-title{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;color:var(--white);line-height:1.05;margin-bottom:5px;}
+.seq-intro-pillar{font-size:11px;color:rgba(255,255,255,.32);letter-spacing:.5px;margin-bottom:22px;}
+.seq-intro-setup{font-size:15px;line-height:1.72;color:rgba(255,255,255,.75);border-left:2px solid rgba(200,168,75,.35);padding-left:14px;margin-bottom:28px;}
+.seq-chain-preview{display:flex;align-items:flex-start;gap:0;margin-bottom:32px;}
+.seq-chain-node{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;}
+.seq-chain-num{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(200,168,75,.4);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:rgba(200,168,75,.7);}
+.seq-chain-lbl{font-size:9px;letter-spacing:.3px;color:rgba(255,255,255,.28);text-align:center;line-height:1.3;}
+.seq-chain-conn{flex:1;height:1px;background:linear-gradient(90deg,rgba(200,168,75,.35),rgba(200,168,75,.1));margin-top:14px;}
+.seq-start-btn{margin-top:auto;background:var(--gold);color:#0a1509;border:none;border-radius:13px;padding:16px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;letter-spacing:.3px;width:100%;cursor:pointer;transition:all .2s;}
+.seq-start-btn:active{transform:scale(.97);}
+/* step */
+.seq-step-wrap{padding:16px 22px 56px;position:relative;z-index:1;}
+.seq-step-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.seq-progress-dots{display:flex;gap:6px;align-items:center;}
+.seq-prog-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.1);transition:all .3s;}
+.seq-prog-dot.spd-done{background:#5bba6f;}
+.seq-prog-dot.spd-cur{background:var(--gold);box-shadow:0 0 7px rgba(200,168,75,.55);}
+.seq-step-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:700;}
+.seq-situation{font-size:15px;line-height:1.65;color:rgba(255,255,255,.88);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:15px 17px;margin-bottom:18px;}
+.seq-question{font-size:18px;font-weight:600;color:var(--white);line-height:1.45;margin-bottom:14px;}
+.seq-opt{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.09);border-radius:14px;padding:13px 16px;cursor:pointer;margin-bottom:9px;display:flex;align-items:flex-start;gap:12px;transition:all .18s;position:relative;overflow:hidden;}
+.seq-opt:hover:not(.seq-locked){border-color:rgba(200,168,75,.32);background:rgba(200,168,75,.04);transform:translateX(3px);}
+.seq-opt.seq-correct{border-color:#4caf50;background:rgba(76,175,80,.1);animation:optLift .28s ease both;}
+.seq-opt.seq-wrong{border-color:rgba(224,82,82,.4);background:rgba(224,82,82,.06);animation:optDrop .22s ease both;}
+.seq-opt.seq-other{opacity:.45;}
+.seq-opt.seq-locked{cursor:default;}
+.seq-opt-ltr{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:rgba(255,255,255,.7);flex-shrink:0;transition:all .22s;}
+.seq-opt.seq-correct .seq-opt-ltr{background:#4caf50;color:#fff;}
+.seq-opt.seq-wrong .seq-opt-ltr{background:#e05252;color:#fff;}
+.seq-opt-label{font-size:14px;color:rgba(255,255,255,.88);line-height:1.45;}
+.seq-consequence-card{margin-top:14px;border-radius:14px;padding:16px 18px;opacity:0;transform:translateY(8px);transition:opacity .4s cubic-bezier(.34,1.1,.64,1),transform .4s cubic-bezier(.34,1.1,.64,1);}
+.seq-consequence-card.scc-show{opacity:1;transform:none;}
+.seq-consequence-card.scc-good{background:rgba(28,60,24,.5);border:1px solid rgba(76,175,80,.22);}
+.seq-consequence-card.scc-bad{background:rgba(60,16,16,.5);border:1px solid rgba(224,82,82,.22);}
+.seq-cons-tag{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:800;margin-bottom:8px;}
+.scc-good .seq-cons-tag{color:#5bba6f;}.scc-bad .seq-cons-tag{color:#ef5350;}
+.seq-cons-text{font-size:14px;line-height:1.65;color:rgba(255,255,255,.85);margin-bottom:10px;}
+.seq-why-right{font-size:13px;color:rgba(255,255,255,.52);line-height:1.6;font-style:italic;border-left:2px solid rgba(200,168,75,.28);padding-left:12px;}
+.seq-next-btn{width:100%;background:var(--gold);color:#0a1509;border:none;border-radius:13px;padding:15px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:16px;display:none;transition:all .2s;}
+.seq-next-btn.snb-show{display:block;animation:nxin .28s cubic-bezier(.34,1.3,.64,1);}
+.seq-next-btn:active{transform:scale(.97);}
+.seq-court-wrap{margin:16px 0 4px;border-radius:14px;overflow:hidden;}
+/* result */
+.seq-result-wrap{position:relative;z-index:1;padding:52px 24px 48px;min-height:100vh;display:flex;flex-direction:column;}
+.seq-result-score-row{display:flex;align-items:flex-end;gap:16px;margin-bottom:8px;}
+.seq-result-big-score{font-family:'Bebas Neue',sans-serif;font-size:72px;letter-spacing:2px;color:var(--gold);line-height:1;}
+.seq-result-score-meta{padding-bottom:8px;}
+.seq-result-score-label{font-size:13px;color:rgba(255,255,255,.35);line-height:1.4;}
+.seq-result-stars{display:flex;gap:5px;margin-top:6px;}
+.seq-star{font-size:22px;opacity:.15;transition:opacity .3s;color:var(--gold);}
+.seq-star.ss-lit{opacity:1;}
+.seq-result-title{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1.5px;color:var(--white);line-height:1.1;margin-bottom:20px;}
+.seq-result-section{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px 18px;margin-bottom:12px;}
+.seq-result-sec-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;}
+.seq-result-sec-text{font-size:14px;line-height:1.65;color:rgba(255,255,255,.75);}
+.seq-result-next-cue{background:rgba(200,168,75,.07);border:1px solid rgba(200,168,75,.2);border-radius:16px;padding:16px 18px;margin-bottom:24px;}
+.seq-result-cue-text{font-size:14px;line-height:1.65;color:rgba(255,255,255,.72);font-style:italic;}
+.seq-result-btns{display:flex;gap:10px;margin-top:auto;}
+.seq-replay-btn{flex:1;background:rgba(200,168,75,.1);color:var(--gold);border:1px solid rgba(200,168,75,.28);border-radius:13px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.seq-replay-btn:active{transform:scale(.97);}
+.seq-home-btn{flex:1;background:var(--gold);color:#0a1509;border:none;border-radius:13px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.seq-home-btn:active{transform:scale(.97);}
 /* ── START HERE CARD ── */
 .start-here-card{margin:18px 22px 0;cursor:pointer;position:relative;z-index:1;}
 .start-here-inner{background:linear-gradient(135deg,var(--gold) 0%,#b8932a 100%);border-radius:18px;padding:20px 20px 18px;position:relative;overflow:hidden;active-transform:scale(.98);}
@@ -1126,6 +1209,21 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       </div>
     </div>
 
+    <!-- PLAY THE SEQUENCE -->
+    <div class="seq-home-card" id="seqHomeCard" onclick="openSequenceLibrary()">
+      <div class="seq-home-eyebrow">Tactical Training</div>
+      <div class="seq-home-title">Play the Sequence</div>
+      <div class="seq-home-seq-name" id="seqCardName">3 linked decisions. One tactical pattern.</div>
+      <div class="seq-home-chain">
+        <div class="seq-chain-dot scd-lit"></div>
+        <div class="seq-chain-line"></div>
+        <div class="seq-chain-dot scd-lit"></div>
+        <div class="seq-chain-line"></div>
+        <div class="seq-chain-dot scd-lit"></div>
+      </div>
+      <div class="seq-home-cta">Start Sequence →</div>
+    </div>
+
     <!-- PROFILE CARD — new users only, hidden when profiled -->
     <div class="start-here-card gs-sh-compact" id="startHereCard" onclick="handleStartHere()">
       <div class="start-here-inner">
@@ -1359,6 +1457,11 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 <!-- LEGENDARY EXCHANGE SCREEN -->
 <div class="screen" id="legendaryScreen">
   <div class="leg-screen-bg" id="legContent"></div>
+</div>
+
+<!-- PLAY THE SEQUENCE SCREEN -->
+<div class="screen" id="sequenceScreen">
+  <div class="seq-screen-bg" id="seqContent"></div>
 </div>
 
 <script>
@@ -6165,6 +6268,7 @@ function initHome() {
   showScreen('homeScreen');
   updateStartHereCard();
   initDailyChallenge();
+  initSeqCard();
   initProLensMoments();
 
   // Streak badge
@@ -7274,6 +7378,489 @@ function recordFeedback(key, val) {
     if (fq2) fq2.style.display = 'none';
     if (ft) ft.style.display = 'block';
   }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// PLAY THE SEQUENCE
+// ══════════════════════════════════════════════════════════════════
+
+const LINKED_SEQUENCES = [
+  {
+    id: 'seq_001', title: 'Wide Serve Pattern', pillar: 'Win More', module: 'Serve Patterns', difficulty: 'Club',
+    setup: 'You\'re serving at 30-30, third set. Deuce court. You\'ve noticed your opponent crowds the centre to protect their backhand — the wide angle is open.',
+    tacticalTakeaway: 'The wide serve isn\'t a gamble — it\'s a pattern opener. Serve wide, attack the space it creates, take the ball early, and close the net.',
+    nextTimeCue: 'Before you toss: look at where your opponent stands. If they\'re protecting the T, the wide serve sets up the whole point. Build it from that first decision.',
+    steps: [
+      { situation: 'You serve wide to the deuce court. Your opponent stretches and blocks a weak reply — short, floating into mid-court.', question: 'You have a short mid-court ball. Where do you go with your +1?', options: ['Down the line to the open court', 'Heavy crosscourt to their backhand corner', 'Reset deep down the middle', 'Drop shot — wrong-foot them'], correct: 0, whyRight: 'The wide serve dragged your opponent off court. The open court is down the line. Going there punishes the exact pattern you set up — this is the combination the serve was designed to create.', tacticalConsequence: 'Your opponent is on the full run toward the far corner. They barely reach it and float a high, defensive ball to the centre of the court.', court: { you: {x:125,y:148}, opp: {x:55,y:22}, optTargets: [{x:220,y:18},{x:35,y:18},{x:125,y:18},{x:125,y:72}] } },
+      { situation: 'Their defensive float sits up in the middle of the court. Your opponent is scrambling to recover from the wide ball — still moving back toward the centre.', question: 'How do you convert this advantage?', options: ['Step in early — drive to the open backhand corner', 'Go for the outright winner down the line', 'Keep the rally going deep crosscourt', 'Drop shot to wrong-foot them'], correct: 0, whyRight: 'Step inside the baseline and take the ball early. This prevents your opponent from recovering while driving the ball into the space they just vacated. Don\'t wait for perfection — take the time away.', tacticalConsequence: 'You connect early, driving to their backhand. They are jammed and barely chip it back — a weak, short ball inside your service line.', court: { you: {x:125,y:125}, opp: {x:200,y:38}, optTargets: [{x:35,y:18},{x:220,y:18},{x:125,y:18},{x:35,y:78}] } },
+      { situation: 'A weak chip sits invitingly short, inside your service line. Your opponent is scrambling back to the centre. You have an approach shot.', question: 'What\'s the right approach shot play?', options: ['Slice deep to their backhand and follow to net', 'Smash a topspin winner crosscourt', 'Go for the outright winner down the line', 'Drop shot — wrong-foot them again'], correct: 0, whyRight: 'A deep slice approach keeps the ball low, limits passing angles, and gives you time to close the net in good position. You\'ve already done the hard work — discipline beats aggression now.', tacticalConsequence: 'You slice deep to their backhand and advance to the net. They have no angle — you put away the volley.', court: { you: {x:125,y:115}, opp: {x:125,y:28}, optTargets: [{x:35,y:16},{x:30,y:58},{x:220,y:16},{x:125,y:76}] } }
+    ]
+  },
+  {
+    id: 'seq_002', title: 'Weak Second Serve Attack', pillar: 'Win More', module: 'Return Game', difficulty: 'Club',
+    setup: 'At 15-40, your opponent pushes in a nervous 78mph second serve that lands high in the service box. You have time and position — this is your chance to take control.',
+    tacticalTakeaway: 'Second serve attacks aren\'t about power — they\'re about stepping in, targeting the weakness, and following through to the net in one committed sequence.',
+    nextTimeCue: 'When you see a weak second serve: move forward before the ball bounces. Your first decision is made by your feet, not your racket.',
+    steps: [
+      { situation: 'A slow, high-bouncing second serve sits up at 78mph. Your opponent is bracing for the attack. You have time and position.', question: 'How do you take control of this second serve?', options: ['Step in and drive deep to their backhand wing', 'Go for the big forehand winner down the line', 'Chip and charge the net immediately', 'Play safe crosscourt and wait for a better ball'], correct: 0, whyRight: 'Stepping inside the baseline and driving to their weaker wing applies maximum pressure without gambling on a winner. You take time away AND force them to defend from their weaker side.', tacticalConsequence: 'Your deep drive forces a weak, defensive reply — a shallow slice that sits up just inside the baseline.', court: { you: {x:125,y:132}, opp: {x:125,y:28}, optTargets: [{x:35,y:18},{x:220,y:18},{x:30,y:62},{x:125,y:18}] } },
+      { situation: 'Their defensive slice drifts short, inside your service line. Your opponent is backing up, waiting to defend.', question: 'You have a mid-court ball. What\'s the smart play?', options: ['Approach down the line and follow to net', 'Go for the outright crosscourt winner', 'Attack their backhand again from the baseline', 'Play safe and reset the rally'], correct: 0, whyRight: 'A short ball inside the service line is an approach shot, not a groundstroke. Going down the line narrows their passing angle. Always follow your approach to the net — you\'ve earned this position.', tacticalConsequence: 'You approach cleanly down the line and advance to the net. Your opponent must attempt a passing shot from a defensive position.', court: { you: {x:125,y:115}, opp: {x:125,y:28}, optTargets: [{x:220,y:16},{x:35,y:16},{x:35,y:18},{x:125,y:18}] } },
+      { situation: 'You\'re at the net. Your opponent flicks a rushed backhand pass down the line. You\'ve positioned correctly and can see it early.', question: 'How do you finish this point?', options: ['Angle the volley sharply crosscourt to the open court', 'Punch the volley hard back down the line', 'Swing volley aggressively for the winner', 'Block and wait for another ball'], correct: 0, whyRight: 'When your opponent goes down the line, the open court is diagonally opposite — crosscourt. The angled volley to the open court is geometrically correct and wins the point cleanly.', tacticalConsequence: 'The angled volley lands in the open court. Pattern executed perfectly.', court: { you: {x:125,y:92}, opp: {x:220,y:38}, optTargets: [{x:35,y:18},{x:220,y:16},{x:30,y:52},{x:125,y:78}] } }
+    ]
+  },
+  {
+    id: 'seq_003', title: 'Beat the Pusher', pillar: 'Win More', module: 'Tactics', difficulty: 'Club',
+    setup: 'You\'re playing a pusher who returns everything. They stand 2 metres behind the baseline and send every ball back safely crosscourt. You\'ve been stuck in this pattern for six games.',
+    tacticalTakeaway: 'Beating a pusher isn\'t about hitting harder — it\'s about changing the game they want to play. Pull them forward, force them to hit under pressure.',
+    nextTimeCue: 'Next time you face a pusher: don\'t try to hit winners from the baseline. Pull them forward with a drop shot, then attack the space they left behind.',
+    steps: [
+      { situation: 'The pusher sends another safe, high looping ball crosscourt. They\'re settled three metres behind their baseline. You\'ve had this exact ball ten times this set.', question: 'How do you break out of this pusher pattern?', options: ['Drop shot — pull them out of their comfort zone', 'Hit even harder and go for the baseline winner', 'Slice deep to their backhand and restart', 'Play the same crosscourt and wait for their error'], correct: 0, whyRight: 'Pushers are comfortable at the baseline — they hate being pulled forward. The drop shot forces them into a situation they haven\'t prepared for. It changes the game being played.', tacticalConsequence: 'The drop shot is perfect. The pusher sprints forward — they get to it but the ball pops up short inside their service box. They\'re completely out of position.', court: { you: {x:125,y:145}, opp: {x:125,y:12}, optTargets: [{x:125,y:78},{x:35,y:18},{x:35,y:16},{x:125,y:18}] } },
+      { situation: 'The pusher scrambled to reach your drop shot and popped it up — a waist-high ball in the middle of the service box. They\'re still recovering from the sprint forward.', question: 'You have a sitter mid-court. How do you convert?', options: ['Approach down the line and follow to net', 'Go for the outright winner crosscourt', 'Drop shot again to the other side', 'Reset deep to rebuild the rally'], correct: 0, whyRight: 'A mid-court ball when your opponent is recovering is an approach shot trigger. Attack down the line and close the net — the pusher\'s greatest weakness is being forced to pass under pressure.', tacticalConsequence: 'You approach cleanly down the line and take the net. The pusher sprints back and loops a topspin lob over your head — deep and high.', court: { you: {x:125,y:112}, opp: {x:125,y:68}, optTargets: [{x:220,y:16},{x:35,y:16},{x:35,y:78},{x:125,y:18}] } },
+      { situation: 'You\'re at the net. The pusher has looped a defensive topspin lob — it\'s deep and high, sailing over your head toward the baseline.', question: 'The lob is deep and high. What\'s your response?', options: ['Track it back, let it bounce, then put away the overhead', 'Try to smash it from the air before it bounces', 'Let it bounce and retrieve from the baseline', 'Abandon the net and reset the point'], correct: 0, whyRight: 'Don\'t panic. Track it back — a deep lob that bounces gives you more time and a more powerful overhead. Hitting overheads after the bounce from inside the baseline is the most reliable response.', tacticalConsequence: 'You track it back, let it bounce, and put away the overhead. The pusher can\'t retrieve it.', court: { you: {x:125,y:148}, opp: {x:125,y:12}, optTargets: [{x:220,y:18},{x:125,y:18},{x:35,y:18},{x:125,y:88}] } }
+    ]
+  },
+  {
+    id: 'seq_004', title: 'Beat the Moonballer', pillar: 'Win More', module: 'Tactics', difficulty: 'Club',
+    setup: 'Your opponent hits heavy, high-bouncing topspin to your backhand — the ball kicks above shoulder height. You\'ve been retreating and making errors under the ball\'s weight.',
+    tacticalTakeaway: 'High topspin loses its danger when you step in early. The moonball is designed to make you retreat — when you do the opposite, it becomes a normal ball.',
+    nextTimeCue: 'When you see the high looper coming: move forward two steps before it peaks. Take it at the top of the bounce — don\'t let it drop below your shoulder.',
+    steps: [
+      { situation: 'A heavy topspin ball is rising high to your backhand — it will kick above your shoulder if you let it bounce at the baseline. You\'re standing on the baseline.', question: 'How do you handle this high, heavy topspin moonball?', options: ['Step in — take it at the top of the bounce', 'Back up and let it drop to waist height first', 'Move around it and take it as a forehand', 'Slice it defensively and reset'], correct: 0, whyRight: 'Stepping in and taking the ball at the top of the bounce neutralises the kick. You get a waist-to-shoulder ball instead of a shoulder-to-head ball. This is where you take the moonball\'s power back.', tacticalConsequence: 'You connect cleanly at the top of the bounce, driving a flat ball back crosscourt. The moonballer is surprised — their ball came back with unexpected pace.', court: { you: {x:125,y:132}, opp: {x:125,y:12}, optTargets: [{x:35,y:18},{x:125,y:152},{x:220,y:18},{x:35,y:16}] } },
+      { situation: 'The moonballer, surprised by your early ball, floats a shorter reply — still with topspin but landing inside your service line. A transitional opportunity.', question: 'You\'ve got a shorter, softer ball inside your service line. What do you do?', options: ['Approach shot — hit deep to the backhand and close the net', 'Attack it aggressively for an outright winner', 'Slice it back to their feet and reset', 'Stay at the baseline and hit another forcing ball'], correct: 0, whyRight: 'A short ball when your opponent is back and defensive is a green light to approach. Hit it deep and follow it to the net — the moonballer hates having to pass under pressure.', tacticalConsequence: 'You approach cleanly and advance to the net. The moonballer floats a high defensive lob in response.', court: { you: {x:125,y:115}, opp: {x:125,y:12}, optTargets: [{x:35,y:16},{x:35,y:18},{x:125,y:18},{x:125,y:138}] } },
+      { situation: 'You\'re at the net. The moonballer sends up a high, defensive lob — but it\'s short and will land just inside your service line.', question: 'The defensive lob is short. How do you finish?', options: ['Controlled overhead to the open court', 'Let it bounce and hit a groundstroke winner', 'Retreat to the baseline and restart', 'Try an angled drop shot overhead'], correct: 0, whyRight: 'A short lob is an invitation to put the ball away. Move into position, don\'t overhit — a controlled, placed overhead to the open court is enough. The moonballer cannot retrieve everything.', tacticalConsequence: 'You smash it cleanly into the open court. Unreachable. The moonballer is beaten by the exact pattern they set up.', court: { you: {x:125,y:95}, opp: {x:125,y:18}, optTargets: [{x:35,y:16},{x:125,y:152},{x:125,y:142},{x:220,y:16}] } }
+    ]
+  },
+  {
+    id: 'seq_005', title: 'Closing Out a Set', pillar: 'Mental', module: 'Pressure Points', difficulty: 'Club',
+    setup: 'You\'re serving at 5-4, 40-30 in the third set. One point wins the set. You can feel the moment — your heart rate has jumped and your opponent is suddenly very alert.',
+    tacticalTakeaway: 'Closing out sets is about process, not outcome. Commit to the right tactical decision and trust it — over-thinking is where sets slip away.',
+    nextTimeCue: 'Serving for the set: decide your serve BEFORE you step to the line. One clear plan, no hesitation, full commitment.',
+    steps: [
+      { situation: 'Serving at 5-4, 40-30. Set point. You can feel the pressure. Your opponent looks ready to scratch and claw their way back.', question: 'What\'s your serve strategy on set point?', options: ['Your trusted high-percentage serve — the one you\'ve hit well all match', 'Go for a big first serve ace — maximum pace', 'Spin a kick serve wide to wrong-foot them', 'Toss it in safely just to start the rally'], correct: 0, whyRight: 'Big points call for your best shot, not your most desperate shot. Your trusted, high-percentage serve is the right call — it\'s the serve you hit best. Trying to do something special under pressure usually backfires.', tacticalConsequence: 'Your trusted serve lands cleanly. The return comes back deep and crosscourt — a good return but not a winner.', court: { you: {x:125,y:152}, opp: {x:125,y:12}, optTargets: [{x:35,y:18},{x:220,y:18},{x:35,y:18},{x:125,y:18}] } },
+      { situation: 'The return comes back deep to your backhand. You\'re not in danger but the court is neutral. Set point is still live. You need to play smart here.', question: 'You have a deep neutral ball on set point. What\'s the right mentality?', options: ['Play your normal game — a heavy ball to their weaker side', 'Go for an early winner — end it here', 'Play defensively and just keep it in', 'Try something new — they won\'t expect it'], correct: 0, whyRight: 'On a closing point, playing your normal high-quality ball is the best decision. Trying to end it early creates errors. Playing defensively gives them the rally they want. Trust the process.', tacticalConsequence: 'You drive a heavy ball to their weaker side. They are forced into a slightly defensive, mid-depth reply.', court: { you: {x:125,y:142}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:220,y:18},{x:125,y:16},{x:220,y:16}] } },
+      { situation: 'Their defensive reply sits up in the middle — chest height, pace-free. Set point is still alive. You have a ball to put pressure on.', question: 'You have a comfortable mid-court ball on set point. How do you finish?', options: ['Controlled, well-placed attack to the open court', 'Screaming winner — maximum power', 'Reset safely — don\'t risk it on set point', 'Drop shot — they won\'t expect it'], correct: 0, whyRight: 'Controlled aggression beats blind power on big points. You don\'t need a winner — you need a ball good enough that your opponent can\'t hurt you. A well-placed, clean ball is enough.', tacticalConsequence: 'Your controlled ball to the open court is too good. They can\'t reach it. Set won.', court: { you: {x:125,y:128}, opp: {x:125,y:18}, optTargets: [{x:220,y:16},{x:35,y:16},{x:125,y:16},{x:125,y:76}] } }
+    ]
+  },
+  {
+    id: 'seq_006', title: 'Return Pressure Sequence', pillar: 'Win More', module: 'Return Game', difficulty: 'Performance',
+    setup: 'You\'re returning against a player with a 125mph first serve who has been holding comfortably all set. Their service game looks automatic — you need a different approach.',
+    tacticalTakeaway: 'Against big servers, the return game is about positioning, neutralising, and waiting for your first real opportunity — not trying to win the point on the return.',
+    nextTimeCue: 'Against pace: stand 1.5 metres further back. Block deep to their backhand. The point starts on the second shot.',
+    steps: [
+      { situation: 'Your opponent winds up for a first serve at 125mph. You\'re standing on the baseline. The T serve is coming.', question: 'Where should you stand to return a 125mph first serve?', options: ['Move 1.5 metres behind the baseline — use their pace', 'Stay right on the baseline and take it early', 'Move inside the court — they won\'t expect it', 'Stay exactly where you are — read and react'], correct: 0, whyRight: 'Against 125mph+ serves, depth buys time. Moving back gives you an extra half-second to read and react — you\'re borrowing their pace instead of fighting it.', tacticalConsequence: 'You\'re back and ready. The T serve fires in and you block a solid, deep return to their backhand side.', court: { you: {x:125,y:162}, opp: {x:125,y:12}, optTargets: [{x:35,y:18},{x:125,y:152},{x:125,y:112},{x:125,y:152}] } },
+      { situation: 'Your return landed deep to their backhand. They drive a heavy reply down the middle. You\'re behind your baseline — this is your first proper ball of the rally.', question: 'The server comes back with a heavy +1. First rally ball decision:', options: ['Drive a solid crosscourt ball — start building the rally', 'Go for the early attack winner', 'Play it short to invite them to the net', 'Slice defensively to neutralise'], correct: 0, whyRight: 'On the first rally ball against a big server, your goal is to neutralise, not attack. Drive it crosscourt with depth and consistency — you\'re building toward your first real attacking opportunity.', tacticalConsequence: 'You drive it crosscourt with depth. The server is pushed to their backhand corner and their reply is shorter than before.', court: { you: {x:125,y:148}, opp: {x:35,y:18}, optTargets: [{x:35,y:18},{x:220,y:18},{x:125,y:76},{x:125,y:16}] } },
+      { situation: 'Their shorter reply sits up mid-court. You\'ve forced them out of their comfort zone. This is your first real attacking ball of the rally.', question: 'You finally have a ball to attack. What\'s the right play?', options: ['Step in and drive to their open backhand corner — take the ball early', 'Go for the outright winner immediately', 'Drop shot — they\'re deep and won\'t expect it', 'Reset deep to keep building'], correct: 0, whyRight: 'This is the moment you were working towards. The ball is short, their position is compromised — step in and drive to their open backhand corner. Take control, not the winning shot.', tacticalConsequence: 'You take the ball early and drive to the open court. Their scrambling reply is defensive and the point is in your hands.', court: { you: {x:125,y:122}, opp: {x:35,y:18}, optTargets: [{x:220,y:18},{x:220,y:16},{x:125,y:76},{x:125,y:18}] } }
+    ]
+  },
+  {
+    id: 'seq_007', title: 'Doubles Poach Sequence', pillar: 'Win More', module: 'Doubles', difficulty: 'Club',
+    setup: 'You\'re serving in doubles. Your net partner has been too static — the opponents keep ignoring them. You\'ve agreed: on the next point, your partner poaches the crosscourt return.',
+    tacticalTakeaway: 'The poach only works when the serve sets it up. Serve to create a predictable return, then your net partner ambushes the crosscourt ball they always play.',
+    nextTimeCue: 'Before you serve: give your partner the signal. Serve to the T or body to force the crosscourt. Your partner moves when you toss.',
+    steps: [
+      { situation: 'You\'re serving in doubles. Your net partner is ready to poach. You need to serve to the right place to set it up.', question: 'Where do you serve to maximise the poach opportunity?', options: ['T serve — forces a predictable crosscourt return', 'Wide serve — opens the court', 'Body serve — jam them into their torso', 'Kick serve high to their backhand'], correct: 0, whyRight: 'The T serve forces a crosscourt return — your net partner knows exactly where the ball will go. That predictability is what makes the poach work. The wide serve takes the return away from the poach lane.', tacticalConsequence: 'Your T serve lands cleanly. The opponent is forced to block a crosscourt return — exactly where your partner is waiting.', court: { you: {x:125,y:152}, opp: {x:220,y:22}, optTargets: [{x:220,y:18},{x:35,y:18},{x:125,y:18},{x:35,y:18}] } },
+      { situation: 'The crosscourt return is coming. Your net partner is moving across to intercept. The ball is at knee-to-waist height. When should they commit?', question: 'When does your net partner commit to the poach?', options: ['When the serve is tossed — early movement creates the angle', 'Just as the opponent contacts the ball', 'After they see where the ball is going', 'Only if the return looks short'], correct: 0, whyRight: 'The poach must start when the server tosses. If the net player waits to "see where the ball goes," they arrive late. Early movement creates the interception angle — it\'s a commitment, not a reaction.', tacticalConsequence: 'Your partner moves early and intercepts the crosscourt return cleanly. They\'re at the net with a high ball. The point is theirs to finish.', court: { you: {x:125,y:152}, opp: {x:220,y:22}, optTargets: [{x:35,y:155},{x:125,y:32},{x:35,y:32},{x:35,y:58}] } },
+      { situation: 'Your net partner has intercepted the return and has a high ball at the net. The opponents are scrambling. How do they finish?', question: 'Your net partner has the high ball. Where do they put it?', options: ['Angle to the open court between them', 'Drive it hard at the closer opponent', 'Punch it down the middle to split them', 'Lob over them to the back court'], correct: 0, whyRight: 'When you have the high ball at net after a poach, the open court angle is the highest-percentage finish. The opponents can\'t cover both the angle and the body — make the geometry work.', tacticalConsequence: 'The angled volley into the open court is unreachable. Point won from a perfectly executed sequence.', court: { you: {x:125,y:92}, opp: {x:220,y:52}, optTargets: [{x:35,y:28},{x:220,y:42},{x:125,y:48},{x:125,y:12}] } }
+    ]
+  },
+  {
+    id: 'seq_008', title: 'Defending Under Pressure', pillar: 'Stay In', module: 'Defense', difficulty: 'Club',
+    setup: 'You\'ve been pulled wide off the court — your opponent has an easy ball in the middle while you\'re scrambling back to the centre. Most players lose this point. You won\'t.',
+    tacticalTakeaway: 'Defense is a decision sequence, not just survival. Choose the right recovery shot, get back to position, and earn the next ball.',
+    nextTimeCue: 'When you\'re pulled off court: your first thought is your next position, not your current shot. Play the shot that gets you home.',
+    steps: [
+      { situation: 'You\'ve been pulled wide off the deuce side. You barely reach the ball. Your opponent has a comfortable ball to attack in the middle. You\'re sprinting back.', question: 'You\'re off court, scrambling. What\'s the smart defensive shot?', options: ['High, deep crosscourt lob — buys maximum recovery time', 'Drive flat down the line — surprise attack', 'Short slice crosscourt — at least it\'s in', 'Go for a winner — nothing to lose'], correct: 0, whyRight: 'A high crosscourt lob is your best ally from wide off court. It lands deep, buys maximum time to recover, and forces your opponent to back up — giving you 2-3 extra seconds to sprint back.', tacticalConsequence: 'Your deep lob is good — it pushes them behind their baseline. You sprint back to the centre in time.', court: { you: {x:28,y:148}, opp: {x:125,y:22}, optTargets: [{x:125,y:16},{x:220,y:18},{x:35,y:58},{x:220,y:16}] } },
+      { situation: 'You\'ve recovered to the centre. Your lob was good — your opponent drove it back deep crosscourt. The rally is neutral again. Your legs are burning.', question: 'You\'re back at the centre, slightly tired. Neutral rally ball incoming. What\'s your priority?', options: ['Solid deep rally ball — rebuild to neutral, wait for your chance', 'Attack immediately — end this rally now', 'Slice defensively and reset your breathing', 'Short angle to catch them off guard'], correct: 0, whyRight: 'You just ran 6 metres to survive. The smart play is a solid, deep neutral ball that re-establishes the rally on equal footing. There\'s no prize for attacking after exhausting yourself — wait for the right ball.', tacticalConsequence: 'Your deep, heavy rally ball pins them behind the baseline. The reply comes back mid-depth — a manageable ball.', court: { you: {x:125,y:148}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:220,y:16},{x:35,y:16},{x:35,y:58}] } },
+      { situation: 'Two balls later, you\'re settled again. A mid-depth ball sits up inside the baseline — you have position and time. Your defense created this opportunity.', question: 'You\'ve rebuilt from defense to attack. How do you take control?', options: ['Take the ball early — drive to their weaker wing', 'Go for the winner — you\'ve worked hard enough', 'Drop shot — they won\'t see it coming', 'Reset again — you\'re still not sure'], correct: 0, whyRight: 'You\'ve earned this. Take the ball slightly early, drive to their weaker wing — controlled aggression. Not a forced winner, but a ball good enough to create pressure and put you back in control.', tacticalConsequence: 'You drive it early to their backhand corner. They\'re pushed behind the baseline. You\'ve turned a near-disaster into a winning position.', court: { you: {x:125,y:132}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:220,y:16},{x:125,y:76},{x:125,y:18}] } }
+    ]
+  },
+  {
+    id: 'seq_009', title: 'Approach Shot Sequence', pillar: 'Win More', module: 'Net Play', difficulty: 'Club',
+    setup: 'Your opponent\'s slice lands short — ball inside the service line, sitting up at waist height. You\'re inside the baseline and moving forward. This is your net approach opportunity.',
+    tacticalTakeaway: 'The approach shot is the bridge between baseline and net. Hit it to the right target, follow it in correctly, and the volley becomes easy.',
+    nextTimeCue: 'Approach trigger: ball inside the service line. Direction: down the line. Always follow the ball to the net — never stop at no-man\'s-land.',
+    steps: [
+      { situation: 'The ball sits up inside the service line at waist height. You\'re moving forward. Your opponent is back at their baseline.', question: 'Where do you direct your approach shot?', options: ['Deep down the line — narrows their passing angle', 'Deep crosscourt — more margin, easier ball', 'Sharp angle crosscourt — try to win outright', 'Drop shot — catch them going the wrong way'], correct: 0, whyRight: 'Going down the line gives you two advantages: it narrows their crosscourt passing angle and positions you at the T for your first volley. Crosscourt opens the court for their pass.', tacticalConsequence: 'Your down-the-line approach is deep and clean. You advance to the net. Your opponent has to pass from a difficult angle.', court: { you: {x:125,y:115}, opp: {x:125,y:18}, optTargets: [{x:220,y:16},{x:35,y:16},{x:30,y:52},{x:125,y:78}] } },
+      { situation: 'You\'re at the T, net position. Your opponent attempts a crosscourt pass — the ball is coming at knee height. Where should your first volley go?', question: 'You have a knee-high crosscourt volley. How do you play it?', options: ['Deep angle into the open court — continue pressing', 'Drive it hard back the same direction', 'Drop volley to wrong-foot them', 'Punch it deep to the centre and hold position'], correct: 0, whyRight: 'A knee-high volley is a consolidating volley, not a finishing volley. Play it deep into the open court to maintain pressure and hold your net position for the next, easier ball.', tacticalConsequence: 'Your deep angled volley is too good to attack cleanly. They get their racket on it but the ball floats back high to the middle.', court: { you: {x:125,y:90}, opp: {x:35,y:32}, optTargets: [{x:35,y:16},{x:35,y:28},{x:220,y:78},{x:125,y:22}] } },
+      { situation: 'The high, floating ball comes back to the middle. You\'re well positioned at the net. This is your put-away volley.', question: 'You have a high volley, well-positioned. How do you finish?', options: ['Crisp angle volley to the open court — controlled and decisive', 'Smash it with maximum power', 'Drop volley — they\'re scrambling and won\'t reach it', 'Punch it deep to pin them on the baseline'], correct: 0, whyRight: 'On a finishing volley, controlled placement beats brute force. A crisp angle volley to the open court is unreachable — you win the point, not the power contest.', tacticalConsequence: 'Controlled angle volley to the open court. Unreachable. Approach → volley sequence complete.', court: { you: {x:125,y:83}, opp: {x:125,y:32}, optTargets: [{x:35,y:18},{x:220,y:16},{x:220,y:72},{x:125,y:16}] } }
+    ]
+  },
+  {
+    id: 'seq_010', title: 'T Serve + 1 Pattern', pillar: 'Win More', module: 'Serve Patterns', difficulty: 'Performance',
+    setup: 'You\'re serving in the deuce court. Your T serve has been working all day — it jams your opponent into their body and forces a predictable, central reply.',
+    tacticalTakeaway: 'The T serve +1 is one of tennis\'s most reliable patterns. Serve T, attack the predictable reply, finish with authority. Three shots, one point.',
+    nextTimeCue: 'Before you serve to the T: know where the +1 is going. The decision is made before you toss — serve, move, attack.',
+    steps: [
+      { situation: 'Deuce court. You hit a T serve that jams your opponent. They block a weak, central reply — the ball drifts to the middle of the court, knee height.', question: 'Your opponent\'s jammed reply sits up centrally. Your +1 decision:', options: ['Inside-out forehand to the open backhand corner', 'Crosscourt forehand to the safe side', 'Drive it down the line for the winner', 'Come to net immediately behind the +1'], correct: 0, whyRight: 'The inside-out forehand to the open backhand corner exploits the space your T serve created. Your opponent was jammed — they can\'t cover the opposite corner. This is the +1 the T serve is designed to set up.', tacticalConsequence: 'Your inside-out forehand to the open backhand is too good. They scramble and float a high, defensive reply.', court: { you: {x:125,y:148}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:35,y:16},{x:220,y:16},{x:125,y:98}] } },
+      { situation: 'The defensive float comes back high and centrally — a sitting ball inside your baseline. Your opponent is still recovering from the backhand corner.', question: 'Another comfortable ball. How do you continue the pattern?', options: ['Take the ball early — drive deep to the same backhand corner again', 'Go for the outright winner down the line', 'Drop shot — they\'re deep and won\'t reach it', 'Reset safe crosscourt and regroup'], correct: 0, whyRight: 'Keep them on the same side if they\'re struggling there. Taking the ball early and driving to the same backhand again maintains relentless pressure. Make them earn every neutral ball.', tacticalConsequence: 'Another early ball to the backhand. They are forced into a desperate shot — a weak, short reply lands inside the service line.', court: { you: {x:125,y:132}, opp: {x:35,y:18}, optTargets: [{x:35,y:18},{x:220,y:16},{x:125,y:76},{x:125,y:18}] } },
+      { situation: 'A weak, short ball lands inside the service line. Your opponent is completely out of position, scrambling to recover from the backhand corner.', question: 'Short ball, opponent wide off court. How do you finish the pattern?', options: ['Approach down the line to the open court and close the net', 'Go for the clean winner crosscourt', 'Drop shot to win immediately', 'Drive deep to the middle to hold the rally'], correct: 0, whyRight: 'Short ball when the opponent is out of position: approach shot time. Down the line to the open court — that\'s the court farthest from their body. Close the net and finish.', tacticalConsequence: 'Approach down the line. Net. Clean volley winner. T serve +1 pattern executed from start to finish.', court: { you: {x:125,y:115}, opp: {x:35,y:32}, optTargets: [{x:220,y:16},{x:35,y:16},{x:125,y:76},{x:125,y:18}] } }
+    ]
+  },
+  {
+    id: 'seq_011', title: 'Tiebreak Discipline', pillar: 'Mental', module: 'Tiebreaks', difficulty: 'Performance',
+    setup: 'You\'re in a tiebreak at 6-6. Every point feels enormous. Your opponent just won two straight points and is riding momentum. This is the moment most matches are decided.',
+    tacticalTakeaway: 'Tiebreaks are won by the player who executes their game plan, not by the one who abandons it. Pattern tennis beats hero tennis every time.',
+    nextTimeCue: 'Tiebreak rule: play your highest-percentage serve, play your best rally ball, make your opponent beat you. Don\'t beat yourself.',
+    steps: [
+      { situation: 'You\'re serving at 6-6 in the tiebreak. Your opponent has won two straight. You\'re feeling the nerves.', question: 'Under tiebreak pressure, what\'s your serve strategy?', options: ['Your highest-percentage serve to their backhand — the one you\'ve hit all match', 'Go for an ace — this point is too important to play safe', 'Spin it in conservatively just to start the rally', 'Try a new serve variation to surprise them'], correct: 0, whyRight: 'In a tiebreak, your highest-percentage serve is always the right choice. Trying for aces under pressure leads to double faults. Spinning it in just to start a rally gives them free confidence. Play your game.', tacticalConsequence: 'Your high-percentage serve lands cleanly. The return comes back to your forehand side — a neutral ball.', court: { you: {x:125,y:152}, opp: {x:125,y:12}, optTargets: [{x:35,y:18},{x:220,y:18},{x:125,y:18},{x:220,y:18}] } },
+      { situation: 'The return is neutral — back to your forehand at the baseline. The score is 6-6 in the tiebreak. You need to make something happen but can\'t afford an error.', question: 'Neutral ball, 6-6 tiebreak. What\'s the right decision?', options: ['Your best rally ball to their weaker side — committed and decisive', 'Go for an aggressive winner — points count more here', 'Play safe and wait for a shorter ball', 'Come to net to take the initiative'], correct: 0, whyRight: 'Your best rally ball to their weakness is the correct tiebreak play. It\'s decisive without being reckless. "Points count more" thinking leads to forced errors — that logic is a trap.', tacticalConsequence: 'Your heavy crosscourt ball pins them deep. They reply short — a genuine attacking opportunity.', court: { you: {x:125,y:148}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:220,y:16},{x:125,y:18},{x:125,y:92}] } },
+      { situation: 'Short ball, mid-court. 6-6 tiebreak. Your opponent is out of position. You have a real opportunity to win the mini-break.', question: 'You have a clear chance in the tiebreak. How do you convert?', options: ['Controlled approach down the line — close the net cleanly', 'Smash an outright winner — you\'ve got them', 'Slow down and be careful — it\'s a very big point', 'Play it safe back to the middle'], correct: 0, whyRight: 'Controlled aggression, not reckless power. Approach the net cleanly — the point is yours if you execute the right shot. Overcooking it is the most common tiebreak mistake.', tacticalConsequence: 'Clean approach to the net. Simple volley winner. Mini-break secured — 7-6, set point.', court: { you: {x:125,y:115}, opp: {x:125,y:18}, optTargets: [{x:220,y:16},{x:35,y:16},{x:125,y:18},{x:125,y:18}] } }
+    ]
+  },
+  {
+    id: 'seq_012', title: 'Passing Shot Sequence', pillar: 'Win More', module: 'Passing Shots', difficulty: 'Performance',
+    setup: 'Your opponent has come to the net after an approach shot. You\'re back at the baseline with a passing shot decision. One of the options wins this point — but only if you read their position correctly.',
+    tacticalTakeaway: 'Passing shots are about geometry, not power. Read net position first, then choose the right line.',
+    nextTimeCue: 'Before you swing at a passing shot: check their position. Hands high = they\'re ready for the low pass. Crowding forward = lob over them.',
+    steps: [
+      { situation: 'Your opponent has approached to the net and taken a good position at the T. You have a backhand passing shot at waist height.', question: 'Opponent at the T, you have a passing shot. First play:', options: ['Deep crosscourt — high margin, forces them to stretch', 'Drive it hard down the line — they\'ve committed to the T', 'Topspin lob — they\'re too close to the net', 'Short angle crosscourt — jam the sideline'], correct: 0, whyRight: 'When your opponent is well-positioned at the T, a deep crosscourt ball is the safest pass with the most net clearance. Down the line has less margin. The lob is for when they crowd forward.', tacticalConsequence: 'Your crosscourt ball is deep and forces a low, defensive half-volley. They get it back but it floats up mid-court.', court: { you: {x:125,y:148}, opp: {x:125,y:88}, optTargets: [{x:35,y:18},{x:220,y:16},{x:125,y:12},{x:35,y:48}] } },
+      { situation: 'Their half-volley floats up mid-court — a comfortable ball. But your opponent recovers and is still at the net. They\'ve now moved slightly toward the crosscourt side.', question: 'They\'ve covered crosscourt. Your second passing ball:', options: ['Change direction — drive down the line to the open court', 'Topspin lob over their backhand side', 'Repeat crosscourt — keep them honest', 'Short angle to jam the sideline'], correct: 0, whyRight: 'When they lean to cover crosscourt, the down-the-line is open. Changing direction here is correct — you\'ve earned the right after building with your first pass.', tacticalConsequence: 'Your down-the-line drive catches them leaning. They stretch for a volley reply but the ball is slightly short — they pop it up high.', court: { you: {x:125,y:142}, opp: {x:35,y:78}, optTargets: [{x:220,y:18},{x:125,y:12},{x:35,y:18},{x:220,y:52}] } },
+      { situation: 'They\'ve stretched for the volley and popped the ball up high — chest height in front of you. Your opponent is scrambling to recover position.', question: 'They\'ve popped the volley up. How do you finish?', options: ['Smash it confidently to the open court', 'Wait for it to bounce and hit a groundstroke', 'Lob it back over them again', 'Try a half-volley'], correct: 0, whyRight: 'A high popped-up volley is a gift — step in, coil, and smash confidently to the open court. Don\'t let it bounce (they recover). Don\'t be tentative (it goes out). Commit.', tacticalConsequence: 'Overhead to the open court. Unreachable. Three-ball passing sequence executed.', court: { you: {x:125,y:115}, opp: {x:35,y:78}, optTargets: [{x:220,y:18},{x:125,y:158},{x:125,y:12},{x:220,y:52}] } }
+    ]
+  },
+  {
+    id: 'seq_013', title: 'Attack the Short Ball', pillar: 'Win More', module: 'Attack', difficulty: 'Club',
+    setup: 'Your opponent\'s defensive slice sits up short inside the service line. This is the opportunity you\'ve been waiting for — but short balls are more complex than they look. A poor decision gifts them the point.',
+    tacticalTakeaway: 'Short balls aren\'t just about power — they\'re about recognising the right shot, placing it correctly, and following through to the net.',
+    nextTimeCue: 'Short ball checklist: ball inside the service line? Approach down the line. Follow to the net. Win the point with the volley, not the approach.',
+    steps: [
+      { situation: 'A defensive slice sits up short inside the service line, chest height. Your opponent is deep behind their baseline.', question: 'Short ball inside the service line. What\'s the right shot?', options: ['Approach shot down the line — follow to the net', 'Go for the outright winner crosscourt', 'Aggressive attack crosscourt and stay back', 'Reset it safely to the baseline'], correct: 0, whyRight: 'A ball inside the service line is an approach shot, not a winner attempt. Go down the line — this narrows their passing angle — and follow it to the net. Trying to win from inside the service line usually ends in errors.', tacticalConsequence: 'Your down-the-line approach is deep and low. Your opponent attempts a crosscourt pass on the run.', court: { you: {x:125,y:115}, opp: {x:125,y:18}, optTargets: [{x:220,y:16},{x:35,y:16},{x:35,y:18},{x:125,y:18}] } },
+      { situation: 'You\'re at the net. Your opponent\'s crosscourt pass is coming at knee height — fast and low.', question: 'Fast, low crosscourt volley at knee height. How do you play it?', options: ['Deep angle — punch it back low and maintain pressure', 'Try to finish the point with an aggressive angle', 'Drop volley — they\'re running and won\'t reach it', 'Block it back to the middle and hold position'], correct: 0, whyRight: 'A low, fast volley at knee height is a "keep-it-alive" volley, not a finishing volley. Punch it back deep with angle — you\'re maintaining position and making them hit one more ball from a worse position.', tacticalConsequence: 'Your deep-angle volley keeps them running. Their next ball is defensive — a floated, mid-court ball.', court: { you: {x:125,y:90}, opp: {x:35,y:32}, optTargets: [{x:35,y:18},{x:35,y:52},{x:220,y:72},{x:125,y:18}] } },
+      { situation: 'A floated, mid-court ball comes back to you at the net at waist height. Your opponent is scrambling. This is your finishing ball.', question: 'Waist-high ball at the net — your finish. Where do you put it?', options: ['Clean angle volley to the open court', 'Drive it hard at their feet as they scramble', 'Drop volley tight to the net', 'Punch it deep to the middle'], correct: 0, whyRight: 'Waist-high at the net is your finishing opportunity. An angled volley into the open court is geometrically the most difficult ball to retrieve. Clean and precise beats power.', tacticalConsequence: 'Clean angle volley into the open court. Untouchable. Short ball pattern complete.', court: { you: {x:125,y:85}, opp: {x:35,y:38}, optTargets: [{x:220,y:18},{x:35,y:52},{x:125,y:76},{x:125,y:16}] } }
+    ]
+  },
+  {
+    id: 'seq_014', title: 'Body Serve Sequence', pillar: 'Win More', module: 'Serve Patterns', difficulty: 'Club',
+    setup: 'The body serve is one of the most underused weapons in club tennis. When your opponent stands wide to protect the sideline, jamming them into their hip is often more effective than going wide.',
+    tacticalTakeaway: 'A body serve that jams the hip creates a cramped, short, floating reply. The +1 after a good body serve is often easier than after any other serve.',
+    nextTimeCue: 'Against players who stand wide: serve to the body. They have nowhere to move. Then step in and attack the short, cramped reply.',
+    steps: [
+      { situation: 'Your opponent stands wide on the ad side, crowding to protect the wide serve. You\'re serving from the ad court. Their body is exposed.', question: 'Your opponent is standing wide in the ad court. Your serve:', options: ['Body serve — directly at their hip', 'Go wide — they\'re standing wide but the angle is still there', 'T serve down the middle', 'Kick serve high to their backhand'], correct: 0, whyRight: 'When they stand wide to protect the sideline, the body is exposed. A serve directly at their hip jams their swing — they can\'t step away and can\'t pull the racket through. The reply will be short and weak.', tacticalConsequence: 'The body serve hits exactly where you aimed. They are completely jammed — their reply is a short, cramped ball that lands mid-court.', court: { you: {x:125,y:152}, opp: {x:35,y:18}, optTargets: [{x:35,y:18},{x:35,y:18},{x:220,y:18},{x:35,y:18}] } },
+      { situation: 'A short, cramped reply sits up at mid-court. Your opponent is completely out of rhythm, scrambling back to position.', question: 'Short, weak reply sits up mid-court. Your +1:', options: ['Approach down the line — they were jammed into crosscourt', 'Go for the outright winner deep crosscourt', 'Attack to the opposite wide corner', 'Reset into the rally'], correct: 0, whyRight: 'A body serve on the ad side jams the forehand and forces a cramped crosscourt reply. The line is open. Approach down the line, follow the ball to the net.', tacticalConsequence: 'You approach cleanly down the line. Your opponent lunges from the wrong corner — their pass is desperate and short.', court: { you: {x:125,y:115}, opp: {x:35,y:38}, optTargets: [{x:220,y:16},{x:35,y:16},{x:35,y:18},{x:125,y:18}] } },
+      { situation: 'You\'re at the net. Their desperate pass is short and knee-high — floating to the T. They\'re still scrambling back to the baseline.', question: 'Short, knee-high volley at the T. Close the point:', options: ['Deep angle volley to the widest point of the court', 'Drop volley tight to the net', 'Drive it hard down the middle', 'Punch it to their recovering position'], correct: 0, whyRight: 'Short ball, you\'re at the net, they\'re scrambling. The widest angle is geometrically the hardest ball to retrieve. Make the angle, put it away.', tacticalConsequence: 'Deep angle volley. They can\'t get there. Body serve sequence complete.', court: { you: {x:125,y:88}, opp: {x:220,y:42}, optTargets: [{x:35,y:18},{x:125,y:76},{x:125,y:16},{x:220,y:42}] } }
+    ]
+  },
+  {
+    id: 'seq_015', title: 'Change Direction Sequence', pillar: 'Win More', module: 'Rally Tactics', difficulty: 'Club',
+    setup: 'You\'ve been in a long crosscourt backhand exchange. Your opponent is comfortable — they keep sending it back crosscourt with depth. You need to break the pattern at the right moment.',
+    tacticalTakeaway: 'Changing direction in a rally is a high-risk, high-reward play. You must change direction from a position of strength — never when under pressure.',
+    nextTimeCue: 'Change direction when: the ball is inside the baseline, above the net cord, and you have time. Never change direction from behind the baseline under pressure.',
+    steps: [
+      { situation: 'You\'re in a crosscourt backhand exchange. The latest ball is at your baseline — mid-height, neutral. You\'ve been in this pattern for four balls.', question: 'Should you change direction on this ball?', options: ['No — send another heavy crosscourt and wait for a shorter ball', 'Yes — take it inside-in and drive it down the line now', 'Go for the drop shot change-up', 'Drive the ball at their body to jam them'], correct: 0, whyRight: 'The ball is at your baseline — not short enough to change direction safely. Changing direction from a neutral ball gives your opponent too much time. One more heavy crosscourt will push them further out of position.', tacticalConsequence: 'Your heavy crosscourt pushes them further back. The next ball bounces up slightly shorter — inside their baseline. Now you have the ball you need.', court: { you: {x:125,y:148}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:220,y:18},{x:125,y:76},{x:125,y:18}] } },
+      { situation: 'The next ball bounces up shorter — inside your baseline, mid-height. Your opponent is slightly off-centre. This is the ball you waited for.', question: 'Now you have the right ball to change direction. How?', options: ['Drive it down the line — change direction decisively', 'Inside-out to the open court', 'Drop shot — they won\'t expect it now', 'Go crosscourt again — you\'re comfortable there'], correct: 0, whyRight: 'Ball inside your baseline, mid-height, opponent slightly off-centre — this is the trigger. Drive it decisively down the line. Change direction with commitment, not hesitation.', tacticalConsequence: 'Your down-the-line drive catches them wrong-footed. They scramble across but only get a weak defensive slice back.', court: { you: {x:125,y:132}, opp: {x:35,y:18}, optTargets: [{x:220,y:18},{x:35,y:18},{x:125,y:76},{x:35,y:18}] } },
+      { situation: 'Your opponent\'s defensive slice sits up short. They\'ve scrambled from backhand to forehand side and are out of position, still recovering.', question: 'The change of direction worked. How do you finish?', options: ['Approach down the line to the open court and close the net', 'Go back crosscourt — the other corner is now open', 'Go for the outright winner immediately', 'Wait and see where they recover to'], correct: 0, whyRight: 'You\'ve done the hard work. They\'re scrambling from the wrong side. Approach the net down the line — they can\'t cover the open court AND attempt a pass. Close it out.', tacticalConsequence: 'Approach down the line. Net. Simple volley to the open court. Patience led to the change, and the change led to the finish.', court: { you: {x:125,y:115}, opp: {x:35,y:38}, optTargets: [{x:220,y:16},{x:35,y:16},{x:220,y:18},{x:125,y:18}] } }
+    ]
+  },
+  {
+    id: 'seq_016', title: 'Drag Forward, Then Lob', pillar: 'Win More', module: 'Rally Tactics', difficulty: 'Performance',
+    setup: 'Your opponent is sitting two metres behind their baseline, comfortable and defensive. They have excellent groundstrokes from deep. You need to pull them out of position.',
+    tacticalTakeaway: 'The drop shot → lob combination is one of tennis\'s most beautiful patterns. The drop shot is the trap; the lob is the execution.',
+    nextTimeCue: 'Use drop shot → lob when your opponent is far behind their baseline AND slow to move forward. Watch their movement speed before you commit.',
+    steps: [
+      { situation: 'Your opponent is sitting 2.5 metres behind the baseline. They\'ve been comfortable for six games. You have a comfortable mid-court ball.', question: 'How do you pull this deep player out of their comfort zone?', options: ['Drop shot — pull them out of their 2.5m comfort zone', 'Hit hard and deep to keep them there', 'Come to net yourself to change the dynamic', 'Drive a hard crosscourt and follow it in'], correct: 0, whyRight: 'A player sitting deep behind the baseline is vulnerable to the drop shot. It immediately removes their positioning advantage and forces them to sprint forward into unfamiliar territory.', tacticalConsequence: 'Drop shot is perfect. They sprint hard but get to it — just. They pop it up short, inside their own service line.', court: { you: {x:125,y:132}, opp: {x:125,y:12}, optTargets: [{x:125,y:76},{x:125,y:16},{x:125,y:93},{x:35,y:18}] } },
+      { situation: 'They\'ve retrieved the drop shot and popped it up short inside their own service line. They\'re still running forward, out of position.', question: 'They got the drop shot — now what?', options: ['Topspin lob over them — use the baseline space they just left', 'Go for the passing shot crosscourt', 'Attack the open court they left behind them', 'Drop shot again to the other side'], correct: 0, whyRight: 'This is the combination. They sprinted forward and now the entire baseline behind them is open. A topspin lob sails over their head and bounces deep into the open court they just vacated.', tacticalConsequence: 'The topspin lob sails over their head perfectly. They slam on the brakes and try to chase it — it bounces deep into the corner.', court: { you: {x:125,y:115}, opp: {x:125,y:72}, optTargets: [{x:125,y:16},{x:35,y:16},{x:220,y:16},{x:35,y:76}] } },
+      { situation: 'The topspin lob is deep in the corner. They\'ve turned and sprinted back — barely reaching it. They chip a desperate defensive ball that sits up mid-court.', question: 'They got the lob back. You have a mid-court ball. How do you finish?', options: ['Clean approach to the net and finish with the volley', 'Drop shot again — they\'re exhausted now', 'Go for the outright winner crosscourt', 'Drive deep to pin them behind the baseline again'], correct: 0, whyRight: 'Two massive running shots later, they\'re physically and mentally beaten. A clean, controlled approach to the net is all you need. Don\'t over-hit — the point is already won by the pattern.', tacticalConsequence: 'Clean approach. Simple volley. They can\'t get there. Drop shot → lob → close: the most satisfying sequence in tennis.', court: { you: {x:125,y:115}, opp: {x:220,y:38}, optTargets: [{x:220,y:16},{x:125,y:76},{x:35,y:16},{x:125,y:18}] } }
+    ]
+  },
+  {
+    id: 'seq_017', title: 'Recovery After Being Pulled Wide', pillar: 'Stay In', module: 'Defense', difficulty: 'Club',
+    setup: 'A wide crosscourt winner pulled you 3 metres off the court. You barely reached it. Your opponent has an easy ball while you\'re sprinting back. This is the moment most club players lose the point.',
+    tacticalTakeaway: 'When you\'re off court, your only job is to buy time and get home. The shot that buys the most recovery time is the right shot.',
+    nextTimeCue: 'Pulled wide? Think: high, deep, and crosscourt. The ball that crosses the middle of the net buys you the most time to sprint back to position.',
+    steps: [
+      { situation: 'You\'re 3 metres off the deuce side. You barely reach the ball. Your opponent has a comfortable ball to attack in the middle. You\'re sprinting back.', question: 'You\'re off court, barely reaching the ball. What do you do with it?', options: ['High, deep crosscourt lob — buys maximum time to recover', 'Drive it flat down the line — surprise attack', 'Short slice crosscourt — at least it\'s in', 'Go for the winner — nothing to lose'], correct: 0, whyRight: 'A high, deep crosscourt lob is the only logical choice from wide off court. It travels the longest distance, takes the most time to land, and pushes your opponent deep — buying you 2-3 extra seconds to sprint back.', tacticalConsequence: 'Your high lob is deep and heavy. Your opponent has to back up — you sprint back to the centre in time.', court: { you: {x:28,y:148}, opp: {x:125,y:22}, optTargets: [{x:125,y:16},{x:220,y:18},{x:35,y:58},{x:220,y:16}] } },
+      { situation: 'You\'ve recovered to the centre. Your lob was good — your opponent drove it back deep crosscourt. The rally is neutral again. Your legs are burning.', question: 'You\'re back at centre, slightly tired. Neutral ball incoming. What\'s your priority?', options: ['Solid deep rally ball — rebuild from neutral and wait for your chance', 'Attack immediately — end this rally', 'Slice defensively and reset your breathing', 'Short angle to catch them off guard'], correct: 0, whyRight: 'You just ran 6 metres to survive. The smart play is a solid, deep neutral ball that re-establishes the rally on equal footing. There\'s no prize for attacking after exhausting yourself.', tacticalConsequence: 'Your deep, heavy rally ball pins them behind the baseline. The reply comes back mid-depth — a more manageable ball.', court: { you: {x:125,y:148}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:220,y:16},{x:35,y:16},{x:35,y:58}] } },
+      { situation: 'Two balls later, you\'re settled again. A mid-depth ball sits up inside the baseline — you have position and time.', question: 'You\'ve rebuilt from defense to opportunity. How do you build on it?', options: ['Take the ball early — drive to their weaker wing', 'Go for the winner — you\'ve worked hard enough', 'Drop shot — they\'re not expecting it', 'Reset again — you\'re still not confident'], correct: 0, whyRight: 'You\'ve earned this. Take the ball slightly early, drive to their weaker wing — controlled aggression. Not a forced winner, but a ball good enough to create pressure and put you back in control.', tacticalConsequence: 'You drive it early to their backhand corner. They\'re pushed behind the baseline. You\'ve turned a near-disaster into a winning position.', court: { you: {x:125,y:132}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:220,y:16},{x:125,y:76},{x:125,y:18}] } }
+    ]
+  },
+  {
+    id: 'seq_018', title: 'Attack the Backhand Pattern', pillar: 'Win More', module: 'Rally Tactics', difficulty: 'Club',
+    setup: 'You\'ve identified your opponent\'s backhand as their weaker wing. But simply hitting to the backhand every ball gives them time to adjust. You need to set it up first.',
+    tacticalTakeaway: 'To exploit a weak wing, you first have to create the angle. Open the court to the forehand, then attack the backhand with pace they can\'t absorb.',
+    nextTimeCue: 'The pattern: wide to forehand → get the crosscourt reply → attack the backhand with pace. The first ball is a setup, not an attack.',
+    steps: [
+      { situation: 'You\'re in a neutral rally. Your opponent is centred. Their backhand is weaker but you can\'t attack it directly from a centred position without telegraphing.', question: 'How do you set up the backhand attack?', options: ['Forehand wide to their deuce side — open the court and get the crosscourt reply', 'Go straight at their backhand immediately', 'Drop shot to drag them forward first', 'Drive deep to the middle and wait'], correct: 0, whyRight: 'Attacking the backhand directly from neutral is telegraphed and low-margin. First hit wide to their forehand side — this opens the backhand corner and creates the angle you need for a decisive attack.', tacticalConsequence: 'Your wide forehand pulls them out wide. They return crosscourt, opening up their entire backhand side.', court: { you: {x:125,y:148}, opp: {x:125,y:18}, optTargets: [{x:220,y:18},{x:35,y:18},{x:125,y:76},{x:125,y:18}] } },
+      { situation: 'Their crosscourt return has opened up the backhand corner. The ball comes back to your forehand side. The backhand is wide open.', question: 'The backhand corner is open. How do you attack it?', options: ['Inside-in forehand — heavy topspin drive to their backhand corner', 'Inside-out forehand to the wide open corner', 'Go for the outright winner crosscourt', 'Reset and build the pattern again'], correct: 0, whyRight: 'Inside-in forehand to the open backhand corner is the correct execution. It\'s the highest-percentage ball and directly targets the weakness you\'ve created. The inside-out gives them the crosscourt they like.', tacticalConsequence: 'Your inside-in forehand is heavy and perfectly targeted. They scramble to the backhand and block a weak, defensive reply.', court: { you: {x:180,y:148}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:220,y:18},{x:35,y:16},{x:125,y:18}] } },
+      { situation: 'Their weak backhand reply sits up short inside the service line. They\'re still recovering from the corner. The backhand pattern has broken completely.', question: 'Short ball after exploiting the backhand. How do you finish?', options: ['Approach down the line to the same backhand corner and close the net', 'Go for the outright winner crosscourt', 'Drive deep back to the backhand again', 'Drop shot — they can\'t read you now'], correct: 0, whyRight: 'They\'re already scrambling from the backhand corner. Approach down the line keeps them defending the same weakness while you close the net. Continue the pressure on the weakness until the point is won.', tacticalConsequence: 'Approach down the line. Net position. Volley into the open court. Backhand exploitation pattern complete.', court: { you: {x:125,y:115}, opp: {x:35,y:38}, optTargets: [{x:35,y:16},{x:220,y:16},{x:35,y:18},{x:125,y:76}] } }
+    ]
+  },
+  {
+    id: 'seq_019', title: 'Playing the Big Server', pillar: 'Stay In', module: 'Return Game', difficulty: 'Performance',
+    setup: 'You\'re returning against a player with a huge first serve — 130mph, consistent, accurate. They\'ve held serve 8 straight games. You haven\'t had a return game yet. Something needs to change.',
+    tacticalTakeaway: 'Against a big server, breaking serve is about patience and pattern disruption — not trying to win on the return. Neutralise, build, strike when the opening appears.',
+    nextTimeCue: 'Against big servers: stand back, chip deep to the backhand, make them play 4+ balls. Your chance will come — usually on ball 3 or 4.',
+    steps: [
+      { situation: 'Another 130mph first serve comes at you down the T. You\'re currently standing on the baseline.', question: 'Return positioning against a 130mph server:', options: ['Move 1 metre behind the baseline — chip or block deep to their backhand', 'Stand on the baseline and drive an aggressive return', 'Move inside the baseline and attack early', 'Stay on the baseline and go for broke down the line'], correct: 0, whyRight: 'A 130mph serve gives you 0.6 seconds to respond. Moving back and chipping or blocking to their backhand is the highest-percentage strategy. You\'re using their pace, not fighting it.', tacticalConsequence: 'You chip a solid deep return to their backhand. They drive it back aggressively — a heavy ball to your forehand corner.', court: { you: {x:125,y:162}, opp: {x:125,y:12}, optTargets: [{x:35,y:18},{x:125,y:152},{x:125,y:115},{x:220,y:18}] } },
+      { situation: 'Their first rally ball is heavy and deep — a big forehand to your corner. You\'re pushed back behind the baseline. This is the tricky second ball.', question: 'Big server hits a heavy +1. You\'re pushed back. What\'s the right call?', options: ['Defend deep crosscourt — survive and build from neutral', 'Go for a winner immediately to show you\'re a threat', 'Slice defensively short to slow the pace', 'Come to net to disrupt their rhythm'], correct: 0, whyRight: 'The big server\'s second ball is designed to win the point immediately. The correct response is to defend with depth, force them to hit a third ball, and wait for the pace to naturally decrease.', tacticalConsequence: 'Your deep crosscourt defense is good. They have to move to their backhand for the third ball — the pace is dropping.', court: { you: {x:220,y:152}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:35,y:16},{x:125,y:76},{x:125,y:93}] } },
+      { situation: 'On the third ball, they\'ve had to move — a backhand reply comes back slightly shorter and less aggressive. The serve power has been neutralised.', question: 'The big server is on the run for the third ball. How do you take control?', options: ['Step in and drive to the open court — the serve pattern is broken', 'Continue defending and building from neutral', 'Drop shot — they\'re not expecting it after your defending', 'Big forehand attack immediately'], correct: 0, whyRight: 'This is what you were waiting for. They\'ve moved, the pace has dropped, and the court is open. Step in and drive to the open court decisively — this is the break opportunity.', tacticalConsequence: 'You step in, drive it to the open court. They can\'t recover. Break point. The patience pattern worked.', court: { you: {x:125,y:132}, opp: {x:35,y:28}, optTargets: [{x:220,y:18},{x:125,y:18},{x:125,y:76},{x:220,y:16}] } }
+    ]
+  },
+  {
+    id: 'seq_020', title: 'Exploit the Serve and Volley', pillar: 'Win More', module: 'Return Game', difficulty: 'Performance',
+    setup: 'Your opponent keeps serve-and-volleying — they serve and charge the net every single point. You\'ve been passing them but then missing the next ball. You need a consistent return pattern.',
+    tacticalTakeaway: 'Against serve-and-volleyers: return low to their feet. A volley from below the net is nearly impossible to attack — they\'ll float it back and you finish it.',
+    nextTimeCue: 'Against serve-and-volley: aim for their shoe-laces, not the sidelines. Low returns create high volleys. High volleys are easy to finish.',
+    steps: [
+      { situation: 'Your opponent serve-and-volleys. They\'re charging the net behind every serve. Their first serve comes in at 110mph.', question: 'Against a serve-and-volleyer, where do you return?', options: ['Low, at their feet — force a difficult half-volley', 'Hard passing shot crosscourt', 'Lob over them immediately', 'Go for the winner down the line while they\'re running in'], correct: 0, whyRight: 'A ball returned directly to their feet forces a half-volley below the net cord — one of the hardest shots in tennis. They\'ll float it back up to you, and that\'s your easy finish.', tacticalConsequence: 'Your low return catches them mid-run. They have to half-volley from around their ankles — the ball pops up to waist height at mid-court.', court: { you: {x:125,y:152}, opp: {x:125,y:78}, optTargets: [{x:125,y:88},{x:35,y:16},{x:125,y:12},{x:220,y:18}] } },
+      { situation: 'Their half-volley has popped up to waist height — just as you predicted. They\'re still moving forward and are now inside the service line.', question: 'Their half-volley has popped up. You have the comfortable ball. How do you play it?', options: ['Topspin lob over their shoulder — they\'ve crowded forward', 'Low angled passing shot to the open court', 'Drive hard at their body — jam them', 'Crosscourt winner — go for it now'], correct: 0, whyRight: 'They\'re now crowding forward after the half-volley. A topspin lob over their shoulder is the correct geometry here — they\'ve moved in too far to cover it, and the court is wide open behind them.', tacticalConsequence: 'The topspin lob sails over their shoulder perfectly. They cannot reach it — it bounces deep in the corner.', court: { you: {x:125,y:142}, opp: {x:125,y:78}, optTargets: [{x:125,y:12},{x:35,y:52},{x:125,y:78},{x:35,y:16}] } },
+      { situation: 'The topspin lob is deep. They\'ve retreated to their baseline to retrieve it — the net they just charged is now empty. Their reply is a weak, defensive float.', question: 'They\'ve retreated. A weak ball comes back. Open court, compromised opponent. How do you finish?', options: ['Approach the now-empty net and put away the volley', 'Go for the outright winner from the baseline', 'Drop shot — they just ran all the way back', 'Topspin lob again — they might be coming in again'], correct: 0, whyRight: 'The net is empty, their defensive float is weak, and you have the initiative. Walk into the net and put away the volley. You\'ve perfectly reversed the serve-and-volley against them.', tacticalConsequence: 'You walk to the net and volley cleanly into the open court. Serve-and-volley reversed. Pattern complete.', court: { you: {x:125,y:115}, opp: {x:125,y:18}, optTargets: [{x:220,y:16},{x:35,y:16},{x:125,y:76},{x:125,y:12}] } }
+    ]
+  }
+];
+
+// ── STATE ──
+let seqState = { seq: null, stepIdx: 0, answered: false, answers: [], score: 0 };
+
+// ── ENTRY ──
+function openSequenceLibrary() {
+  const day = Math.floor(Date.now() / 86400000);
+  const seq = LINKED_SEQUENCES[day % LINKED_SEQUENCES.length];
+  startLinkedSequence(seq.id);
+}
+
+function startLinkedSequence(id) {
+  const seq = LINKED_SEQUENCES.find(s => s.id === id) || LINKED_SEQUENCES[0];
+  seqState = { seq, stepIdx: 0, answered: false, answers: [], score: 0 };
+  showScreen('sequenceScreen');
+  window.scrollTo(0, 0);
+  renderSeq('intro');
+}
+
+function renderSeq(phase) {
+  const el = document.getElementById('seqContent');
+  if (!el) return;
+  if (phase === 'intro') el.innerHTML = buildSeqIntro();
+  else if (phase === 'step') el.innerHTML = buildSeqStep();
+  else if (phase === 'result') el.innerHTML = buildSeqResult();
+  window.scrollTo(0, 0);
+}
+
+// ── INTRO ──
+function buildSeqIntro() {
+  const s = seqState.seq;
+  return `
+    <div class="seq-glow"></div>
+    <div class="seq-intro-wrap">
+      <div class="seq-intro-top">
+        <div class="seq-back-btn" onclick="initHome()">←</div>
+        <div class="seq-diff-badge">${s.difficulty}</div>
+      </div>
+      <div class="seq-intro-eyebrow">Play the Sequence</div>
+      <div class="seq-intro-title">${s.title}</div>
+      <div class="seq-intro-pillar">${s.pillar} · ${s.module}</div>
+      <div class="seq-intro-setup">${s.setup}</div>
+      <div class="seq-chain-preview">
+        <div class="seq-chain-node">
+          <div class="seq-chain-num">1</div>
+          <div class="seq-chain-lbl">Set the<br>Pattern</div>
+        </div>
+        <div class="seq-chain-conn"></div>
+        <div class="seq-chain-node">
+          <div class="seq-chain-num">2</div>
+          <div class="seq-chain-lbl">Apply<br>Pressure</div>
+        </div>
+        <div class="seq-chain-conn"></div>
+        <div class="seq-chain-node">
+          <div class="seq-chain-num">3</div>
+          <div class="seq-chain-lbl">Close the<br>Point</div>
+        </div>
+      </div>
+      <button class="seq-start-btn" onclick="renderSeq('step')">Start Sequence →</button>
+    </div>`;
+}
+
+// ── STEP ──
+function buildSeqStep() {
+  const s = seqState.seq;
+  const stepIdx = seqState.stepIdx;
+  const step = s.steps[stepIdx];
+  const letters = ['A','B','C','D'];
+
+  const dots = s.steps.map((_, i) => {
+    let cls = 'seq-prog-dot';
+    if (i < stepIdx) cls += ' spd-done';
+    else if (i === stepIdx) cls += ' spd-cur';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+
+  const opts = step.options.map((opt, i) => `
+    <div class="seq-opt" id="seqOpt${i}" onclick="pickSeqAnswer(${i})">
+      <div class="seq-opt-ltr">${letters[i]}</div>
+      <div class="seq-opt-label">${opt}</div>
+    </div>`).join('');
+
+  return `
+    <div class="seq-glow"></div>
+    <div class="seq-step-wrap">
+      <div class="seq-step-header">
+        <div class="seq-back-btn" onclick="startLinkedSequence('${s.id}')">←</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+          <div class="seq-progress-dots">${dots}</div>
+          <div class="seq-step-label">Decision ${stepIdx+1} of ${s.steps.length}</div>
+        </div>
+        <div style="width:40px;"></div>
+      </div>
+      <div class="seq-situation">${step.situation}</div>
+      <div class="seq-question">${step.question}</div>
+      ${opts}
+      <div class="seq-court-wrap" id="seqCourtWrap" style="display:none;"></div>
+      <div id="seqConsequence" class="seq-consequence-card"></div>
+      <button class="seq-next-btn" id="seqNextBtn" onclick="nextSeqStep()">
+        ${stepIdx < s.steps.length - 1 ? 'Next Decision →' : 'See Result →'}
+      </button>
+    </div>`;
+}
+
+// ── PICK ANSWER ──
+function pickSeqAnswer(idx) {
+  if (seqState.answered) return;
+  seqState.answered = true;
+  const step = seqState.seq.steps[seqState.stepIdx];
+  const correct = step.correct;
+  const isRight = idx === correct;
+  seqState.answers.push({ idx, correct, isRight });
+  if (isRight) seqState.score++;
+
+  // Lock options
+  const letters = ['A','B','C','D'];
+  step.options.forEach((_, i) => {
+    const el = document.getElementById('seqOpt' + i);
+    if (!el) return;
+    el.classList.add('seq-locked');
+    if (i === correct) el.classList.add('seq-correct');
+    else if (i === idx) el.classList.add('seq-wrong');
+    else el.classList.add('seq-other');
+  });
+
+  // Court animation
+  const courtEl = document.getElementById('seqCourtWrap');
+  if (courtEl && step.court) {
+    courtEl.innerHTML = buildSeqCourtAnim(step, idx);
+    courtEl.style.display = 'block';
+  }
+
+  // Consequence card
+  setTimeout(() => {
+    const consEl = document.getElementById('seqConsequence');
+    if (consEl) {
+      const qual = isRight ? 'scc-good' : 'scc-bad';
+      const tag = isRight ? '✓ RIGHT CALL' : '✗ BETTER OPTION';
+      consEl.className = `seq-consequence-card ${qual}`;
+      consEl.innerHTML = `
+        <div class="seq-cons-tag">${tag}</div>
+        <div class="seq-cons-text">${step.tacticalConsequence}</div>
+        <div class="seq-why-right">${isRight ? step.whyRight : step.whyRight}</div>`;
+      requestAnimationFrame(() => {
+        consEl.classList.add('scc-show');
+        consEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+    setTimeout(() => {
+      const nb = document.getElementById('seqNextBtn');
+      if (nb) nb.classList.add('snb-show');
+    }, 320);
+  }, 550);
+}
+
+// ── COURT ANIMATION ──
+function buildSeqCourtAnim(step, choiceIdx) {
+  const c = step.court;
+  const you = c.you;
+  const opp = c.opp;
+  const target = c.optTargets[choiceIdx] || c.optTargets[step.correct];
+  const midX = (you.x + target.x) / 2;
+  const midY = Math.min(you.y, target.y) - 18;
+  const courtLines = `
+    <rect x="0" y="0" width="250" height="170" fill="#060e06"/>
+    <rect x="20" y="14" width="210" height="144" fill="#0c2210" rx="1"/>
+    <line x1="20" y1="14" x2="230" y2="14" stroke="rgba(255,255,255,.22)" stroke-width=".8"/>
+    <line x1="20" y1="158" x2="230" y2="158" stroke="rgba(255,255,255,.22)" stroke-width=".8"/>
+    <line x1="20" y1="46" x2="230" y2="46" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
+    <line x1="20" y1="122" x2="230" y2="122" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
+    <line x1="125" y1="14" x2="125" y2="78" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
+    <line x1="125" y1="78" x2="125" y2="158" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
+    <line x1="20" y1="14" x2="20" y2="158" stroke="rgba(255,255,255,.2)" stroke-width=".8"/>
+    <line x1="230" y1="14" x2="230" y2="158" stroke="rgba(255,255,255,.2)" stroke-width=".8"/>
+    <rect x="17" y="74" width="6" height="8" fill="rgba(200,168,75,.45)" rx="1"/>
+    <rect x="227" y="74" width="6" height="8" fill="rgba(200,168,75,.45)" rx="1"/>
+    <line x1="20" y1="78" x2="230" y2="78" stroke="rgba(255,255,255,.38)" stroke-width="1.8"/>`;
+  const players = `
+    <circle cx="${opp.x}" cy="${opp.y}" r="5.5" fill="rgba(255,255,255,.55)"/>
+    <text x="${opp.x}" y="${opp.y + 13}" text-anchor="middle" font-size="6.5" fill="rgba(255,255,255,.35)" font-family="DM Sans,sans-serif">OPP</text>
+    <circle cx="${you.x}" cy="${you.y}" r="6.5" fill="rgba(200,168,75,.9)"/>
+    <text x="${you.x}" y="${you.y + 14}" text-anchor="middle" font-size="6.5" fill="rgba(200,168,75,.55)" font-family="DM Sans,sans-serif">YOU</text>`;
+  const path = `
+    <path d="M ${you.x},${you.y} Q ${midX},${midY} ${target.x},${target.y}"
+      stroke="rgba(200,168,75,.65)" stroke-width="1.6" fill="none" stroke-dasharray="4,3"
+      opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.35s" fill="freeze"/>
+    </path>
+    <circle cx="${target.x}" cy="${target.y}" r="4.5" fill="rgba(200,168,75,.85)" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" begin="0.3s" dur="0.2s" fill="freeze"/>
+    </circle>`;
+  return `<svg viewBox="0 0 250 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">${courtLines}${players}${path}</svg>`;
+}
+
+// ── NEXT STEP ──
+function nextSeqStep() {
+  seqState.answered = false;
+  if (seqState.stepIdx < seqState.seq.steps.length - 1) {
+    seqState.stepIdx++;
+    renderSeq('step');
+  } else {
+    renderSeq('result');
+  }
+}
+
+// ── RESULT ──
+function buildSeqResult() {
+  const s = seqState.seq;
+  const score = seqState.score;
+  const total = s.steps.length;
+  const pct = score / total;
+  const stars = [pct >= 0.34, pct >= 0.67, pct >= 1.0].map((lit, i) =>
+    `<span class="seq-star${lit ? ' ss-lit' : ''}">★</span>`).join('');
+  const headline = pct === 1 ? 'Perfect Execution' : pct >= 0.67 ? 'Strong Tactical Read' : pct >= 0.34 ? 'Good Instincts' : 'Keep Practising';
+  return `
+    <div class="seq-glow"></div>
+    <div class="seq-result-wrap">
+      <div class="seq-result-score-row">
+        <div class="seq-result-big-score">${score}/${total}</div>
+        <div class="seq-result-score-meta">
+          <div class="seq-result-score-label">Decisions correct<br>${s.title}</div>
+          <div class="seq-result-stars">${stars}</div>
+        </div>
+      </div>
+      <div class="seq-result-title">${headline}</div>
+      <div class="seq-result-section">
+        <div class="seq-result-sec-label">What this teaches</div>
+        <div class="seq-result-sec-text">${s.tacticalTakeaway}</div>
+      </div>
+      <div class="seq-result-next-cue">
+        <div class="seq-result-sec-label" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;">Next time you play</div>
+        <div class="seq-result-cue-text">${s.nextTimeCue}</div>
+      </div>
+      <div class="seq-result-btns">
+        <button class="seq-replay-btn" onclick="replayLinkedSequence()">Replay ↩</button>
+        <button class="seq-home-btn" onclick="initHome()">Home →</button>
+      </div>
+    </div>`;
+}
+
+// ── REPLAY ──
+function replayLinkedSequence() {
+  seqState.stepIdx = 0;
+  seqState.answered = false;
+  seqState.answers = [];
+  seqState.score = 0;
+  renderSeq('intro');
+}
+
+// ── INIT CARD ──
+function initSeqCard() {
+  const day = Math.floor(Date.now() / 86400000);
+  const seq = LINKED_SEQUENCES[day % LINKED_SEQUENCES.length];
+  const el = document.getElementById('seqCardName');
+  if (el) el.textContent = seq.title + ' — ' + seq.pillar;
 }
 
 // ══════════════════════════════════════════════════════════════════
