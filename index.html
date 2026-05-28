@@ -820,11 +820,19 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .gs-top-cards .sh-headline{font-size:18px;}
 .gs-top-cards .sh-sub{font-size:11px;line-height:1.4;}
 
-/* ── CINEMATIC HERO ── */
-.gs-hero-cinema{position:relative;width:100%;height:56vw;min-height:220px;max-height:275px;overflow:hidden;flex-shrink:0;background:#060e06;}
-.gs-hero-court{position:absolute;inset:0;width:100%;height:100%;}
-.gs-hero-veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,14,6,.0) 0%,rgba(6,14,6,.0) 28%,rgba(6,14,6,.65) 68%,rgba(6,14,6,.97) 100%);pointer-events:none;}
-.gs-hero-content{position:absolute;bottom:0;left:0;right:0;padding:0 20px 18px;z-index:2;}
+/* ── HERO HEADER — logo + slogan, ball animation container ── */
+.gs-hero-cinema{display:none;}/* kept for compat, replaced by gs-hero-header + gs-hero-panel */
+.gs-hero-header{position:relative;overflow:hidden;padding:20px 0 16px;background:transparent;}
+.gs-hero-header .gs-hero-wordmark{padding-left:20px;}
+.gs-hero-header .gs-hero-slogan{padding-left:20px;}
+.gs-hero-header .gs-hero-streak-wrap{position:absolute;top:16px;right:16px;z-index:2;}
+
+/* ── HERO PANEL — cinematic court SVG below header ── */
+.gs-hero-panel{margin:0 14px 0;border-radius:16px;overflow:hidden;position:relative;height:46vw;min-height:155px;max-height:205px;box-shadow:0 6px 28px rgba(0,0,0,.55);background:#060e06;border:1px solid rgba(255,255,255,.08);}
+.gs-hero-panel .gs-hero-court{position:absolute;inset:0;width:100%;height:100%;}
+.gs-hero-panel .gs-hero-veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,14,6,.0) 0%,rgba(6,14,6,.0) 40%,rgba(6,14,6,.35) 80%,rgba(6,14,6,.55) 100%);pointer-events:none;}
+
+/* Shared wordmark + slogan styles */
 .gs-hero-wordmark{display:flex;align-items:center;gap:0;position:relative;line-height:1;}
 .gs-hero-logo{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:4px;line-height:1;color:var(--white);position:relative;display:inline-block;}
 .gs-hero-logo span{color:var(--gold);}
@@ -841,7 +849,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .gs-daily-situation{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:600;margin-top:10px;}
 
 /* ── ACTION ZONE — side-by-side: Today's Challenge (dominant left) + Play the Sequence (right) ── */
-.gs-action-zone{display:grid;grid-template-columns:1fr 138px;gap:8px;margin:14px 14px 0;}
+.gs-action-zone{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 14px 0;}
 .gs-action-zone .gs-daily-dominant{margin:0!important;}
 .gs-action-zone .seq-home-card{margin:0;display:flex;flex-direction:column;justify-content:space-between;}
 .gs-az-daily .daily-inner{padding:14px 14px 14px;}
@@ -850,16 +858,13 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .gs-az-daily .daily-streak{font-size:11px;}
 .gs-az-daily .daily-q{font-size:13px;line-height:1.44;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;font-weight:600;margin-bottom:12px;}
 .gs-az-daily .daily-cta{font-size:10px;padding:7px 13px;border-radius:9px;}
-.gs-az-seq{padding:15px 13px 14px!important;}
+.gs-az-daily .gs-daily-situation{display:none;}
+.gs-az-seq{padding:15px 14px 14px!important;}
 .gs-az-seq .seq-home-eyebrow{font-size:8px;letter-spacing:2px;}
-.gs-az-seq .seq-home-title{font-size:17px;letter-spacing:1px;margin-bottom:6px;}
+.gs-az-seq .seq-home-title{font-size:19px;letter-spacing:1px;margin-bottom:6px;}
 .gs-az-seq .seq-home-seq-name{font-size:10px;line-height:1.35;margin-bottom:10px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;}
-.gs-az-seq .seq-home-cta{font-size:10px;letter-spacing:.3px;margin-top:auto;}
-@media(min-width:768px){
-  .gs-action-zone{grid-template-columns:1fr 220px;}
-  .gs-az-seq .seq-home-title{font-size:22px;}
-  .gs-az-seq .seq-home-seq-name{display:block;}
-}
+.gs-az-seq .seq-home-chain{margin-bottom:10px;}
+.gs-az-seq .seq-home-cta{font-size:10px;letter-spacing:.3px;}
 
 /* ── START HERE CARD — compact secondary variant ── */
 .gs-sh-compact{margin:10px 14px 0!important;}
@@ -1127,9 +1132,28 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   <!-- ── MAIN SCROLL CONTENT ── -->
   <div class="gs-main">
 
-    <!-- CINEMATIC HERO -->
-    <div class="gs-hero-cinema">
-      <!-- Full-court SVG background with animated crosscourt ball -->
+    <!-- HERO HEADER — logo + slogan (ball animation anchor) -->
+    <div class="gs-hero gs-hero-header">
+      <div class="gs-hero-wordmark">
+        <div class="gs-hero-logo home-logo" id="homeLogo">GAME<span>SHAR<em class="logo-p-target">P</em></span></div>
+        <div class="logo-drop-ball" id="logoBallRoll" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22">
+            <defs><radialGradient id="lbgrad" cx="34%" cy="31%" r="65%"><stop offset="0%" stop-color="#f8ff68"/><stop offset="60%" stop-color="#d2e83a"/><stop offset="100%" stop-color="#8aab20"/></radialGradient></defs>
+            <circle cx="11" cy="11" r="9.5" fill="url(#lbgrad)"/>
+            <path d="M4.5,8 Q11,10 17.5,8" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M4,13.5 Q11,11.5 18,13.5" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="gs-hero-slogan">See Sharper, Think Clearer</div>
+      <!-- Streak chip -->
+      <div class="gs-hero-streak-wrap">
+        <div class="gs-streak-chip" id="homeStreakBadge"></div>
+      </div>
+    </div>
+
+    <!-- HERO PANEL — cinematic court, rounded, embedded -->
+    <div class="gs-hero-panel">
       <svg class="gs-hero-court" viewBox="0 0 375 245" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="cgrad" cx="50%" cy="50%" r="65%">
@@ -1144,77 +1168,40 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
             <feGaussianBlur in="SourceGraphic" stdDeviation="2.5"/>
           </filter>
         </defs>
-        <!-- Background -->
         <rect width="375" height="245" fill="url(#cgrad)"/>
-        <!-- Court surface -->
         <rect x="32" y="6" width="311" height="233" fill="#0c2210" rx="1"/>
-        <!-- Doubles sidelines -->
         <line x1="32" y1="6" x2="32" y2="239" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
         <line x1="343" y1="6" x2="343" y2="239" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
-        <!-- Singles sidelines -->
         <line x1="74" y1="6" x2="74" y2="239" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
         <line x1="301" y1="6" x2="301" y2="239" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
-        <!-- Baselines -->
         <line x1="32" y1="6" x2="343" y2="6" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
         <line x1="32" y1="239" x2="343" y2="239" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
-        <!-- Net glow -->
         <line x1="32" y1="122" x2="343" y2="122" stroke="rgba(200,168,75,.2)" stroke-width="8" filter="url(#nglow)"/>
-        <!-- Net -->
         <line x1="32" y1="122" x2="343" y2="122" stroke="rgba(200,168,75,.72)" stroke-width="2.2"/>
-        <!-- Net posts -->
         <rect x="27" y="119" width="5" height="7" rx="1" fill="rgba(255,255,255,.3)"/>
         <rect x="343" y="119" width="5" height="7" rx="1" fill="rgba(255,255,255,.3)"/>
-        <!-- Service lines -->
         <line x1="74" y1="79" x2="301" y2="79" stroke="rgba(255,255,255,.26)" stroke-width="1"/>
         <line x1="74" y1="165" x2="301" y2="165" stroke="rgba(255,255,255,.26)" stroke-width="1"/>
-        <!-- Centre service line -->
         <line x1="187" y1="79" x2="187" y2="165" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
-        <!-- Score badge top-right -->
         <text x="335" y="24" text-anchor="end" font-family="DM Sans,sans-serif" font-size="8.5" font-weight="700" fill="rgba(200,168,75,.5)" letter-spacing="1.5">AD IN</text>
-        <!-- Player: YOU — bottom right, pre-contact position -->
         <circle cx="266" cy="212" r="5.5" fill="#5bba6f" opacity=".65"/>
         <circle cx="266" cy="212" r="10" fill="none" stroke="#5bba6f" stroke-width="1" opacity=".25"/>
-        <!-- Player: OPP — top left baseline -->
         <circle cx="109" cy="30" r="5" fill="rgba(255,255,255,.35)" opacity=".7"/>
-        <!-- Tactical arrow at YOU position — pointing crosscourt -->
         <path d="M 278,204 L 268,214 L 258,204" stroke="rgba(200,168,75,.5)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- Ball trail 3 -->
         <circle r="2.5" fill="rgba(210,232,58,.14)">
           <animateMotion dur="2.8s" repeatCount="indefinite" begin="-0.28s"
             path="M 266,210 Q 187,122 109,33" calcMode="spline" keyTimes="0;1" keySplines="0.42 0 0.58 1"/>
         </circle>
-        <!-- Ball trail 2 -->
         <circle r="3.2" fill="rgba(210,232,58,.26)">
           <animateMotion dur="2.8s" repeatCount="indefinite" begin="-0.14s"
             path="M 266,210 Q 187,122 109,33" calcMode="spline" keyTimes="0;1" keySplines="0.42 0 0.58 1"/>
         </circle>
-        <!-- Main ball -->
         <circle r="5.5" fill="#d2e83a" filter="url(#bglow)">
           <animateMotion dur="2.8s" repeatCount="indefinite"
             path="M 266,210 Q 187,122 109,33" calcMode="spline" keyTimes="0;1" keySplines="0.42 0 0.58 1"/>
         </circle>
       </svg>
-      <!-- Bottom veil for text legibility -->
       <div class="gs-hero-veil"></div>
-      <!-- Logo + slogan -->
-      <div class="gs-hero-content">
-        <div class="gs-hero-wordmark">
-          <div class="gs-hero-logo home-logo" id="homeLogo">GAME<span>SHAR<em class="logo-p-target">P</em></span></div>
-          <div class="logo-drop-ball" id="logoBallRoll" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 22 22">
-              <defs><radialGradient id="lbgrad" cx="34%" cy="31%" r="65%"><stop offset="0%" stop-color="#f8ff68"/><stop offset="60%" stop-color="#d2e83a"/><stop offset="100%" stop-color="#8aab20"/></radialGradient></defs>
-              <circle cx="11" cy="11" r="9.5" fill="url(#lbgrad)"/>
-              <path d="M4.5,8 Q11,10 17.5,8" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linecap="round"/>
-              <path d="M4,13.5 Q11,11.5 18,13.5" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linecap="round"/>
-            </svg>
-          </div>
-        </div>
-        <div class="gs-hero-slogan">See Sharper, Think Clearer</div>
-      </div>
-      <!-- Streak chip -->
-      <div class="gs-hero-streak-wrap">
-        <div class="gs-streak-chip" id="homeStreakBadge"></div>
-      </div>
     </div>
 
     <!-- ACTION ZONE — Today's Challenge (dominant left) + Play the Sequence (right) -->
