@@ -7554,7 +7554,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v7';
+const CACHE = 'gamesharp-v8';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
@@ -7836,8 +7836,28 @@ function openSequenceLibrary() {
   startLinkedSequence(seq.id);
 }
 
+// Shuffle a step's options + remap correct index + remap court optTargets
+function _shuffleStepOptions(step) {
+  const n = (step.options || []).length;
+  if (n < 2) return step;
+  const perm = Array.from({ length: n }, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [perm[i], perm[j]] = [perm[j], perm[i]];
+  }
+  // perm[newIdx] = oldIdx
+  const newOptions = perm.map(oldI => step.options[oldI]);
+  const newCorrect = perm.indexOf(step.correct);
+  const newCourt = (step.court && Array.isArray(step.court.optTargets))
+    ? { ...step.court, optTargets: perm.map(oldI => step.court.optTargets[oldI]) }
+    : step.court;
+  return { ...step, options: newOptions, correct: newCorrect, court: newCourt };
+}
+
 function startLinkedSequence(id) {
-  const seq = LINKED_SEQUENCES.find(s => s.id === id) || LINKED_SEQUENCES[0];
+  const orig = LINKED_SEQUENCES.find(s => s.id === id) || LINKED_SEQUENCES[0];
+  // Clone with shuffled options per step so the correct answer isn't always 'A'
+  const seq = { ...orig, steps: (orig.steps || []).map(_shuffleStepOptions) };
   seqState = { seq, stepIdx: 0, answered: false, answers: [], score: 0 };
   trackEvent('read_the_game_started', { id: seq.id });
   showScreen('sequenceScreen');
@@ -7971,12 +7991,18 @@ function pickSeqAnswer(idx) {
         <div class="seq-why-right">${isRight ? step.whyRight : step.whyRight}</div>`;
       requestAnimationFrame(() => {
         consEl.classList.add('scc-show');
-        consEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     }
     setTimeout(() => {
       const nb = document.getElementById('seqNextBtn');
-      if (nb) nb.classList.add('snb-show');
+      if (nb) {
+        nb.classList.add('snb-show');
+        // Wait for layout (display:block → height computed) then scroll into view
+        setTimeout(() => {
+          // Plain scrollIntoView (no 'smooth' — that silently no-ops in some engines)
+          try { nb.scrollIntoView({ block: 'center' }); } catch (e) {}
+        }, 80);
+      }
     }, 320);
   }, 550);
 }
