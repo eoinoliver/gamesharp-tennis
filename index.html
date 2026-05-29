@@ -892,15 +892,17 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .rtg-home-body{position:relative;z-index:1;max-width:calc(100% - 96px);}
 .rtg-home-art{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:90px;height:auto;pointer-events:none;z-index:0;opacity:.95;}
 .rtg-zone{fill:#d2e83a;stroke:#d2e83a;stroke-width:.8;fill-opacity:.1;stroke-opacity:.25;}
-.rtg-z1{animation:rtgZone 3.6s infinite;}
-.rtg-z2{animation:rtgZone 3.6s infinite 1.2s;}
-.rtg-z3{animation:rtgZone 3.6s infinite 2.4s;}
+.rtg-z1{animation:rtgZone 5s infinite;}
+.rtg-z2{animation:rtgZone 5s infinite 1s;}
+.rtg-z3{animation:rtgZone 5s infinite 2s;}
+.rtg-z4{animation:rtgZone 5s infinite 3s;}
+.rtg-z5{animation:rtgZone 5s infinite 4s;}
 @keyframes rtgZone{
   0%,100%{fill-opacity:.1;stroke-opacity:.25;}
-  16%{fill-opacity:.36;stroke-opacity:.75;}
-  33%{fill-opacity:.1;stroke-opacity:.25;}
+  10%{fill-opacity:.38;stroke-opacity:.8;}
+  20%{fill-opacity:.1;stroke-opacity:.25;}
 }
-@media(prefers-reduced-motion:reduce){.rtg-z1,.rtg-z2,.rtg-z3{animation:none;}}
+@media(prefers-reduced-motion:reduce){.rtg-z1,.rtg-z2,.rtg-z3,.rtg-z4,.rtg-z5{animation:none;}}
 .rtg-home-card:active{transform:scale(.99);}
 .rtg-home-card:hover{border-color:rgba(200,168,75,.32);}
 .rtg-home-eyebrow{font-size:10px;letter-spacing:.5px;color:rgba(255,255,255,.42);font-weight:500;line-height:1.45;margin-bottom:8px;font-style:italic;}
@@ -1331,6 +1333,8 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
         <rect class="rtg-zone rtg-z1" x="21.5" y="11" width="17" height="26" rx="2"/>
         <rect class="rtg-zone rtg-z2" x="39.5" y="39" width="17" height="15" rx="2"/>
         <rect class="rtg-zone rtg-z3" x="57.5" y="11" width="17" height="26" rx="2"/>
+        <rect class="rtg-zone rtg-z4" x="21.5" y="75" width="17" height="23" rx="2"/>
+        <rect class="rtg-zone rtg-z5" x="57.5" y="75" width="17" height="23" rx="2"/>
       </svg>
       <div class="rtg-home-body">
         <div class="rtg-home-eyebrow">When you're ready — three linked decisions from one match pattern.</div>
@@ -7678,7 +7682,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v24';
+const CACHE = 'gamesharp-v25';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
