@@ -2191,8 +2191,8 @@ function showProfileHub() {
       ${builderCard}
     </div>
     <div class="phub-section">
-      <div class="phub-section-eyebrow">Tailored to You</div>
-      <div class="phub-section-title">Personal Sessions</div>
+      <div class="phub-section-eyebrow">Built from your answers.</div>
+      <div class="phub-section-title">Recommended Sessions</div>
       ${sessionCard}
     </div>
     <div class="phub-cta-wrap">
@@ -7682,7 +7682,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v25';
+const CACHE = 'gamesharp-v26';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
