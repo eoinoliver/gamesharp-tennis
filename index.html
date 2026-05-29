@@ -514,6 +514,8 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .seq-prog-dot.spd-cur{background:var(--gold);box-shadow:0 0 7px rgba(200,168,75,.55);}
 .seq-step-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:700;}
 .seq-situation{font-size:15px;line-height:1.65;color:rgba(255,255,255,.88);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:15px 17px;margin-bottom:18px;}
+.seq-carryover{font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.62);border-left:2px solid var(--gold);background:rgba(200,168,75,.05);border-radius:0 8px 8px 0;padding:9px 13px;margin-bottom:12px;}
+.seq-carry-tag{display:block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:700;opacity:.8;margin-bottom:3px;}
 .seq-question{font-size:18px;font-weight:600;color:var(--white);line-height:1.45;margin-bottom:14px;}
 .seq-opt{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.09);border-radius:14px;padding:13px 16px;cursor:pointer;margin-bottom:9px;display:flex;align-items:flex-start;gap:12px;transition:all .18s;position:relative;overflow:hidden;}
 .seq-opt:hover:not(.seq-locked){border-color:rgba(200,168,75,.32);background:rgba(200,168,75,.04);transform:translateX(3px);}
@@ -5732,74 +5734,91 @@ function buildConsequenceAnim(q, ok) {
 
   let inner = '';
 
+  // Every generic court is explicitly oriented: YOU (near/bottom), OPP (far/top), NET.
+  const NET_LBL = '<text x="248" y="76" fill="rgba(255,255,255,.5)" font-size="6" letter-spacing="1.5">NET</text>';
+  const youLbl = (x,y)=>`<text x="${x}" y="${y}" text-anchor="middle" fill="#c8a84b" font-size="6.5" font-weight="700" opacity=".9">YOU</text>`;
+  const oppLbl = (x,y)=>`<text x="${x}" y="${y}" text-anchor="middle" fill="${oppC}" font-size="6.5" font-weight="700" opacity=".9">OPP</text>`;
+
   if (type === 'serve') {
-    // Server at bottom, ball to the question's verified target (correct) or central (wrong)
-    const _d = serveTarget==='t' ? {x:120,y:26} : serveTarget==='body' ? {x:92,y:40} : {x:44,y:30};
-    const bX = ok ? _d.x : 140, bY = ok ? _d.y : 44;
+    // Top-down: YOU serve from the near baseline (bottom) to a target in the far box (top)
+    const _d = serveTarget==='t' ? {x:124,y:38} : serveTarget==='body' ? {x:100,y:46} : {x:54,y:40};
+    const bX = ok ? _d.x : 140, bY = ok ? _d.y : 46;
     const _cx = ok ? (140+_d.x)/2 : 140;
-    const bp = ok ? `M140,148 Q${_cx},95 ${bX},${bY}` : `M140,148 Q140,100 ${bX},${bY}`;
-    const oX = ok ? 228 : 140, oY = ok ? 130 : 30;
-    const oa = ok ? `<path d="M${oX},${oY} L${oX+24},${oY+18}" stroke="${oppC}" stroke-width="2" fill="none" stroke-dasharray="35" stroke-dashoffset="35" style="animation:drawPath .24s .88s ease forwards"/>` : '';
-    inner = `<svg viewBox="0 0 280 165" class="conseq-svg">
+    const bp = ok ? `M140,150 Q${_cx},100 ${bX},${bY}` : `M140,150 Q140,105 ${bX},${bY}`;
+    const oX = ok ? 150 : 140, oY = 40; // returner, far side (above the net)
+    const oa = ok ? `<path d="M${oX},${oY+5} L${bX+(bX<140?14:-14)},${bY+18}" stroke="${oppC}" stroke-width="2" fill="none" stroke-dasharray="44" stroke-dashoffset="44" style="animation:drawPath .26s .9s ease forwards"/>` : '';
+    inner = `<svg viewBox="0 0 280 168" class="conseq-svg">
   <rect x="20" y="10" width="240" height="145" fill="rgba(28,60,24,.35)" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
-  <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
-  <line x1="140" y1="10" x2="140" y2="155" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <path d="${bp}" stroke="${col}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="225" stroke-dashoffset="225" style="animation:drawPath .36s .0s ease forwards"/>
+  <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,.22)" stroke-width="2"/>
+  <line x1="140" y1="80" x2="140" y2="155" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
+  ${NET_LBL}
+  <path d="${bp}" stroke="${col}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="225" stroke-dashoffset="225" style="animation:drawPath .36s 0s ease forwards"/>
   <circle cx="${bX}" cy="${bY}" r="9" fill="${ball}" opacity="0" style="animation:tpop .22s .38s cubic-bezier(.34,1.5,.64,1) both"/>
-  <circle cx="${bX}" cy="${bY}" r="22" fill="${colA}.1)" stroke="${col}" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .26s .52s ease both"/>
+  <circle cx="${bX}" cy="${bY}" r="20" fill="${colA}.1)" stroke="${col}" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .26s .52s ease both"/>
+  <circle cx="140" cy="150" r="7" fill="#c8a84b"/>
+  ${youLbl(140,164)}
   <circle cx="${oX}" cy="${oY}" r="9" fill="${colA}.15)" stroke="${oppC}" stroke-width="1.5" opacity="0" style="animation:tpop .26s .70s ease both"/>
+  ${oppLbl(oX,oY-13)}
   ${oa}
 </svg>`;
   } else if (type === 'net') {
-    // Player at net, volley to sharp angle (correct) or straight (wrong)
-    const bX = ok ? 36 : 140, bY = ok ? 26 : 48;
-    const bp = ok ? `M140,88 Q86,58 ${bX},${bY}` : `M140,88 Q140,70 ${bX},${bY}`;
-    const oX = ok ? 242 : 140, oY = ok ? 148 : 148;
-    const oa = ok ? `<path d="M${oX},138 Q${oX-20},110 ${bX+28},${bY+24}" stroke="${oppC}" stroke-width="2" fill="none" stroke-dasharray="85" stroke-dashoffset="85" style="animation:drawPath .28s .84s ease forwards"/>` : '';
-    inner = `<svg viewBox="0 0 280 165" class="conseq-svg">
+    // Top-down: YOU at the net (near side of the line); volley to a sharp far angle (ok) or straight (wrong)
+    const bX = ok ? 40 : 150, bY = 30;
+    const bp = ok ? `M140,96 Q86,60 ${bX},${bY}` : `M140,96 Q145,60 ${bX},${bY}`;
+    const oX = ok ? 212 : 150, oY = 36; // opponent deep on the far side
+    const oa = ok ? `<path d="M${oX},${oY+6} Q${oX-30},72 ${bX+24},${bY+22}" stroke="${oppC}" stroke-width="2" fill="none" stroke-dasharray="130" stroke-dashoffset="130" style="animation:drawPath .3s .86s ease forwards"/>` : '';
+    inner = `<svg viewBox="0 0 280 168" class="conseq-svg">
   <rect x="20" y="10" width="240" height="145" fill="rgba(28,60,24,.35)" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
   <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,.24)" stroke-width="2.5"/>
-  <line x1="140" y1="10" x2="140" y2="155" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <path d="${bp}" stroke="${col}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="185" stroke-dashoffset="185" style="animation:drawPath .32s .0s ease forwards"/>
+  <line x1="140" y1="10" x2="140" y2="80" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
+  ${NET_LBL}
+  <path d="${bp}" stroke="${col}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="185" stroke-dashoffset="185" style="animation:drawPath .32s 0s ease forwards"/>
   <circle cx="${bX}" cy="${bY}" r="9" fill="${ball}" opacity="0" style="animation:tpop .22s .35s cubic-bezier(.34,1.5,.64,1) both"/>
-  <circle cx="${bX}" cy="${bY}" r="20" fill="${colA}.1)" stroke="${col}" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .26s .48s ease both"/>
-  <circle cx="140" cy="68" r="7" fill="#c8a84b"/>
+  <circle cx="${bX}" cy="${bY}" r="18" fill="${colA}.1)" stroke="${col}" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .26s .48s ease both"/>
+  <circle cx="140" cy="96" r="7" fill="#c8a84b"/>
+  ${youLbl(140,110)}
   <circle cx="${oX}" cy="${oY}" r="9" fill="${colA}.15)" stroke="${oppC}" stroke-width="1.5" opacity="0" style="animation:tpop .26s .65s ease both"/>
+  ${oppLbl(oX,oY-13)}
   ${oa}
 </svg>`;
   } else if (type === 'position') {
-    // Side-on: step in and intercept (correct) vs ball climbs past you (wrong)
-    const pX = ok ? 105 : 218;
+    // Side-on: ball comes over the net from the left; step in & intercept early (ok) vs it climbs past you (wrong)
+    const pX = ok ? 120 : 218;
     const bounceY = ok ? 62 : 95;
     const arc = ok
-      ? `<path d="M${pX},82 Q165,62 208,${bounceY}" stroke="${col}" stroke-width="3" fill="none" stroke-dasharray="120" stroke-dashoffset="120" style="animation:drawPath .32s .72s ease forwards"/>`
-      : `<path d="M208,${bounceY} Q208,55 208,28" stroke="${col}" stroke-width="2.5" fill="none" stroke-dasharray="70" stroke-dashoffset="70" style="animation:drawPath .28s .68s ease forwards"/>`;
-    inner = `<svg viewBox="0 0 280 115" class="conseq-svg">
+      ? `<path d="M${pX},82 Q165,60 210,${bounceY}" stroke="${col}" stroke-width="3" fill="none" stroke-dasharray="120" stroke-dashoffset="120" style="animation:drawPath .32s .72s ease forwards"/>`
+      : `<path d="M210,${bounceY} Q212,52 214,26" stroke="${col}" stroke-width="2.5" fill="none" stroke-dasharray="74" stroke-dashoffset="74" style="animation:drawPath .28s .68s ease forwards"/>`;
+    inner = `<svg viewBox="0 0 280 120" class="conseq-svg">
   <line x1="8" y1="98" x2="272" y2="98" stroke="#2a5425" stroke-width="3" stroke-linecap="round"/>
-  <line x1="140" y1="98" x2="140" y2="56" stroke="rgba(255,255,255,.45)" stroke-width="2.5"/>
-  <line x1="134" y1="56" x2="146" y2="56" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
-  <path d="M70,22 Q140,5 208,22" stroke="${col}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200" style="animation:drawPath .36s .0s ease forwards"/>
-  <path d="M208,22 Q208,52 208,${bounceY}" stroke="${col}" stroke-width="2" fill="none" stroke-dasharray="3,4" opacity="0" style="animation:tpop .3s .38s ease both"/>
-  <circle cx="70" cy="22" r="8" fill="${ball}" opacity="0" style="animation:tpop .2s .0s ease both"/>
+  <line x1="140" y1="98" x2="140" y2="54" stroke="rgba(255,255,255,.45)" stroke-width="2.5"/>
+  <line x1="134" y1="54" x2="146" y2="54" stroke="rgba(255,255,255,.5)" stroke-width="2.5"/>
+  <text x="150" y="52" fill="rgba(255,255,255,.5)" font-size="6" letter-spacing="1.5">NET</text>
+  <path d="M70,22 Q140,4 208,22" stroke="${col}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200" style="animation:drawPath .36s 0s ease forwards"/>
+  <circle cx="70" cy="22" r="7" fill="${ball}" opacity="0" style="animation:tpop .2s 0s ease both"/>
+  <text x="70" y="13" text-anchor="middle" fill="${oppC}" font-size="6" font-weight="700" opacity=".85">OPP</text>
   <circle cx="${pX}" cy="90" r="9" fill="${colA}.2)" stroke="${col}" stroke-width="2" opacity="0" style="animation:tpop .26s .58s cubic-bezier(.34,1.5,.64,1) both"/>
+  <text x="${pX}" y="114" text-anchor="middle" fill="${col}" font-size="6.5" font-weight="700" opacity=".9">YOU</text>
   ${arc}
 </svg>`;
   } else {
-    // Rally: crosscourt winner (correct) vs DTL/central safe ball (wrong)
-    const fromX = 44;
-    const bX = ok ? 242 : 44, bY = ok ? 22 : 22;
-    const bp = ok ? `M${fromX},148 Q140,80 ${bX},${bY}` : `M${fromX},148 Q${fromX},80 ${fromX},${bY}`;
-    const oX = ok ? 44 : 242, oY = 148;
-    const oa = ok ? `<path d="M${oX},138 L${bX-28},${bY+30}" stroke="${oppC}" stroke-width="2" fill="none" stroke-dasharray="90" stroke-dashoffset="90" style="animation:drawPath .28s .85s ease forwards"/>` : '';
-    inner = `<svg viewBox="0 0 280 165" class="conseq-svg">
+    // Top-down rally: YOU bottom-left; crosscourt winner (ok) vs DTL/central safe ball (wrong)
+    const fromX = 54;
+    const bX = ok ? 236 : 54, bY = 30;
+    const bp = ok ? `M${fromX},150 Q150,82 ${bX},${bY}` : `M${fromX},150 Q${fromX},82 ${fromX},${bY}`;
+    const oX = ok ? 80 : 230, oY = 36; // opponent on the far side: wrong-footed (ok) or set (wrong)
+    const oa = ok ? `<path d="M${oX},${oY+6} L${bX-30},${bY+24}" stroke="${oppC}" stroke-width="2" fill="none" stroke-dasharray="160" stroke-dashoffset="160" style="animation:drawPath .3s .85s ease forwards"/>` : '';
+    inner = `<svg viewBox="0 0 280 168" class="conseq-svg">
   <rect x="20" y="10" width="240" height="145" fill="rgba(28,60,24,.35)" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
   <line x1="20" y1="80" x2="260" y2="80" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
   <line x1="140" y1="10" x2="140" y2="155" stroke="rgba(255,255,255,.06)" stroke-width="1" stroke-dasharray="4,3"/>
-  <path d="${bp}" stroke="${col}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="265" stroke-dashoffset="265" style="animation:drawPath .38s .0s ease forwards"/>
+  ${NET_LBL}
+  <path d="${bp}" stroke="${col}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="265" stroke-dashoffset="265" style="animation:drawPath .38s 0s ease forwards"/>
   <circle cx="${bX}" cy="${bY}" r="9" fill="${ball}" opacity="0" style="animation:tpop .22s .41s cubic-bezier(.34,1.5,.64,1) both"/>
-  <circle cx="${bX}" cy="${bY}" r="22" fill="${colA}.1)" stroke="${col}" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .26s .54s ease both"/>
-  <circle cx="${fromX}" cy="148" r="7" fill="#c8a84b"/>
+  <circle cx="${bX}" cy="${bY}" r="20" fill="${colA}.1)" stroke="${col}" stroke-width="1.5" stroke-dasharray="5,3" opacity="0" style="animation:tpop .26s .54s ease both"/>
+  <circle cx="${fromX}" cy="150" r="7" fill="#c8a84b"/>
+  ${youLbl(fromX,164)}
   <circle cx="${oX}" cy="${oY}" r="9" fill="${colA}.15)" stroke="${oppC}" stroke-width="1.5" opacity="0" style="animation:tpop .26s .70s ease both"/>
+  ${oppLbl(oX,oY-13)}
   ${oa}
 </svg>`;
   }
@@ -7708,7 +7727,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v28';
+const CACHE = 'gamesharp-v29';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
@@ -8082,6 +8101,12 @@ function buildSeqStep() {
       <div class="seq-opt-label">${opt}</div>
     </div>`).join('');
 
+  // Causal carry-over: surface what the previous decision produced so the steps read as one point
+  const prev = stepIdx > 0 ? s.steps[stepIdx-1] : null;
+  const carry = (prev && prev.tacticalConsequence)
+    ? `<div class="seq-carryover"><span class="seq-carry-tag">Continuing the point →</span>${prev.tacticalConsequence}</div>`
+    : '';
+
   return `
     <div class="seq-glow"></div>
     <div class="seq-step-wrap">
@@ -8093,6 +8118,7 @@ function buildSeqStep() {
         </div>
         <div style="width:40px;"></div>
       </div>
+      ${carry}
       <div class="seq-situation">${step.situation}</div>
       <div class="seq-question">${step.question}</div>
       ${opts}
