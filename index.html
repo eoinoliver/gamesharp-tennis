@@ -940,6 +940,14 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .hub-card-arrow{color:rgba(200,168,75,.55);font-size:18px;flex-shrink:0;}
 .hub-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.55);padding:6px 0;cursor:pointer;margin-bottom:6px;}
 .hub-back:hover{color:var(--gold);}
+/* Vertical pillar tiles (Sharpen) */
+.hub-pillar{display:flex;flex-direction:column;align-items:stretch;text-align:left;gap:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:15px 16px;margin-bottom:10px;cursor:pointer;transition:transform .15s,border-color .2s;}
+.hub-pillar:active{transform:scale(.99);}
+.hub-pillar:hover{border-color:rgba(200,168,75,.32);}
+.hub-pillar-icon{font-size:24px;line-height:1;margin-bottom:5px;display:block;}
+.hub-pillar-eyebrow{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);font-weight:700;opacity:.8;}
+.hub-pillar-title{font-size:16px;font-weight:700;color:var(--white);line-height:1.3;width:100%;overflow-wrap:break-word;}
+.hub-pillar-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:1px;}
 
 /* ── V5.2 FEEDBACK PROMPTS ── */
 .fb-prompt{margin:18px 14px 8px;padding:14px 18px;background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.2);border-radius:12px;text-align:center;}
@@ -6576,14 +6584,11 @@ function initLearnHub() {
     const displayName = (typeof PILLAR_DISPLAY !== 'undefined' && PILLAR_DISPLAY[p]) || p;
     const count = QBANK.filter(q => q.pillar === p).length;
     pillarsHtml += `
-      <div class="hub-card" onclick="initPillarScreen('${_esc(p)}')">
-        <div class="hub-card-icon">${meta.icon || '🎾'}</div>
-        <div class="hub-card-body">
-          <div class="hub-card-eyebrow">${displayName}</div>
-          <div class="hub-card-title">${(meta.desc || '').slice(0, 64) || 'Train the pillar'}</div>
-          <div class="hub-card-sub">${count} scenarios</div>
-        </div>
-        <div class="hub-card-arrow">→</div>
+      <div class="hub-pillar" onclick="initPillarScreen('${_esc(p)}')">
+        <span class="hub-pillar-icon">${meta.icon || '🎾'}</span>
+        <div class="hub-pillar-eyebrow">${displayName}</div>
+        <div class="hub-pillar-title">${meta.desc || 'Train the pillar'}</div>
+        <div class="hub-pillar-sub">${count} scenarios</div>
       </div>`;
   });
 
@@ -6620,19 +6625,7 @@ function initLearnHub() {
       <div class="hub-card-arrow">→</div>
     </div>
 
-    <div class="hub-section-hdr">
-      <div class="hub-section-eyebrow">Foundations</div>
-      <div class="hub-section-title">Crash Course</div>
-    </div>
-    <div class="hub-card" onclick="showCrashCourse && showCrashCourse()">
-      <div class="hub-card-icon">📚</div>
-      <div class="hub-card-body">
-        <div class="hub-card-eyebrow">Crash Course</div>
-        <div class="hub-card-title">The fundamentals in one place.</div>
-        <div class="hub-card-sub">Short lessons. Plain language.</div>
-      </div>
-      <div class="hub-card-arrow">→</div>
-    </div>
+    
   `;
 
   // Populate Pro Lens row using existing function
@@ -7665,7 +7658,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v14';
+const CACHE = 'gamesharp-v16';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
