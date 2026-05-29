@@ -945,8 +945,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .hub-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.55);padding:6px 0;cursor:pointer;margin-bottom:6px;}
 .hub-back:hover{color:var(--gold);}
 /* Five pillar columns across the page (Sharpen) — tall, bold */
-.hub-pillars-row{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;}
-.hub-pcol{display:flex;flex-direction:column;align-items:center;min-width:0;text-align:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:17px 5px 14px;min-height:170px;cursor:pointer;transition:transform .15s,border-color .2s;}
+.hub-pillars-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:4px;}
+.hub-pillars-row::-webkit-scrollbar{display:none;}
+.hub-pcol{flex:1 0 0;min-width:122px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;text-align:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:17px 8px 14px;min-height:170px;cursor:pointer;transition:transform .15s,border-color .2s;}
 .hub-pcol:active{transform:scale(.97);}
 .hub-pcol:hover{border-color:rgba(200,168,75,.45);}
 .hub-pcol-icon{font-size:27px;line-height:1;}
@@ -7727,7 +7728,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v30';
+const CACHE = 'gamesharp-v31';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
