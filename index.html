@@ -22,7 +22,7 @@
   --court:#1c3c18;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM Sans',sans-serif;overscroll-behavior:none;}
+html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM Sans',sans-serif;overscroll-behavior:none;overflow-x:hidden;max-width:100%;}
 .screen{display:none;min-height:100vh;flex-direction:column;}
 .screen.active{display:flex;animation:scIn .28s ease;}
 @keyframes scIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -792,7 +792,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 @media(min-width:768px){.gs-main{padding-bottom:36px;}}
 
 /* ── BOTTOM NAV — mobile only ── */
-.gs-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:500;display:flex;height:56px;background:rgba(9,14,7,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.07);}
+.gs-bottom-nav{position:fixed;bottom:0;left:0;right:0;width:100vw;max-width:100%;z-index:500;display:flex;height:56px;background:rgba(9,14,7,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.07);}
 @media(min-width:768px){.gs-bottom-nav{display:none!important;}}
 .gs-bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:rgba(255,255,255,.3);font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:color .18s;}
 .gs-bnav-item.gs-bnav-active{color:#5bba6f;}
@@ -922,7 +922,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .gs-hero-header .gs-hero-slogan{font-size:11px;letter-spacing:1.5px;margin-top:5px;color:rgba(255,255,255,.62);font-weight:600;}
 
 /* ── V5.2 HUB SCREENS (Play / Learn) ── */
-.hub-screen{padding:20px 14px 90px;max-width:920px;margin:0 auto;}
+.hub-screen{padding:20px 14px 90px;max-width:920px;margin:0 auto;overflow-x:hidden;}
 .hub-header{padding:8px 4px 18px;}
 .hub-title{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2px;color:var(--white);line-height:1;margin-bottom:4px;}
 .hub-sub{font-size:12px;color:rgba(255,255,255,.45);letter-spacing:.3px;}
@@ -7678,7 +7678,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v22';
+const CACHE = 'gamesharp-v23';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
