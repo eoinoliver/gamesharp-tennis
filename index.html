@@ -940,16 +940,14 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .hub-card-arrow{color:rgba(200,168,75,.55);font-size:18px;flex-shrink:0;}
 .hub-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.55);padding:6px 0;cursor:pointer;margin-bottom:6px;}
 .hub-back:hover{color:var(--gold);}
-/* Pillar tiles laid out in a 2-column grid (Sharpen) */
-.hub-pillars-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
-.hub-ph{display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:13px 14px;cursor:pointer;transition:transform .15s,border-color .2s;min-height:104px;}
-.hub-ph:active{transform:scale(.98);}
-.hub-ph:hover{border-color:rgba(200,168,75,.35);}
-.hub-ph-icon{font-size:23px;line-height:1;margin-bottom:5px;}
-.hub-ph-eyebrow{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--gold);font-weight:800;width:100%;}
-.hub-ph-title{font-size:13.5px;font-weight:700;color:var(--white);line-height:1.25;width:100%;overflow-wrap:break-word;}
-.hub-ph-count{font-size:10px;color:rgba(255,255,255,.42);font-weight:600;margin-top:auto;padding-top:6px;width:100%;}
-.hub-ph:last-child:nth-child(odd){grid-column:1 / -1;}
+/* Five pillar columns across the page (Sharpen) */
+.hub-pillars-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.hub-pcol{display:flex;flex-direction:column;align-items:center;min-width:0;text-align:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:11px 4px 9px;cursor:pointer;transition:transform .15s,border-color .2s;}
+.hub-pcol:active{transform:scale(.97);}
+.hub-pcol:hover{border-color:rgba(200,168,75,.4);}
+.hub-pcol-icon{font-size:21px;line-height:1;}
+.hub-pcol-name{font-size:10.5px;font-weight:800;color:var(--white);line-height:1.15;letter-spacing:.1px;}
+.hub-pcol-count{font-size:10px;font-weight:800;color:var(--gold);opacity:.85;margin-top:auto;padding-top:3px;}
 
 /* ── V5.2 FEEDBACK PROMPTS ── */
 .fb-prompt{margin:18px 14px 8px;padding:14px 18px;background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.2);border-radius:12px;text-align:center;}
@@ -6586,11 +6584,10 @@ function initLearnHub() {
     const displayName = (typeof PILLAR_DISPLAY !== 'undefined' && PILLAR_DISPLAY[p]) || p;
     const count = QBANK.filter(q => q.pillar === p).length;
     pillarsHtml += `
-      <div class="hub-ph" onclick="initPillarScreen('${_esc(p)}')">
-        <span class="hub-ph-icon">${meta.icon || '🎾'}</span>
-        <div class="hub-ph-eyebrow">${displayName}</div>
-        <div class="hub-ph-title">${meta.desc || 'Train the pillar'}</div>
-        <div class="hub-ph-count">${count} scenarios</div>
+      <div class="hub-pcol" onclick="initPillarScreen('${_esc(p)}')">
+        <span class="hub-pcol-icon">${meta.icon || '🎾'}</span>
+        <div class="hub-pcol-name">${displayName}</div>
+        <div class="hub-pcol-count">${count}</div>
       </div>`;
   });
 
@@ -6605,7 +6602,7 @@ function initLearnHub() {
       <div class="hub-section-eyebrow">GameSharp Training</div>
       <div class="hub-section-title">The 5 Pillars</div>
     </div>
-    <div class="hub-pillars-grid">${pillarsHtml}</div>
+    <div class="hub-pillars-row">${pillarsHtml}</div>
 
     <div class="hub-section-hdr">
       <div class="hub-section-eyebrow">Animated Breakdowns</div>
@@ -7660,7 +7657,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v18';
+const CACHE = 'gamesharp-v19';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
