@@ -1328,9 +1328,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
         <!-- net -->
         <line x1="8" y1="56" x2="88" y2="56" stroke="rgba(200,168,75,.6)" stroke-width="1.8"/>
         <!-- option zones on the opponent half -->
-        <rect class="rtg-zone rtg-z1" x="21.5" y="10" width="17" height="44" rx="2"/>
-        <rect class="rtg-zone rtg-z2" x="39.5" y="10" width="17" height="44" rx="2"/>
-        <rect class="rtg-zone rtg-z3" x="57.5" y="10" width="17" height="44" rx="2"/>
+        <rect class="rtg-zone rtg-z1" x="21.5" y="11" width="17" height="26" rx="2"/>
+        <rect class="rtg-zone rtg-z2" x="39.5" y="39" width="17" height="15" rx="2"/>
+        <rect class="rtg-zone rtg-z3" x="57.5" y="11" width="17" height="26" rx="2"/>
       </svg>
       <div class="rtg-home-body">
         <div class="rtg-home-eyebrow">When you're ready — three linked decisions from one match pattern.</div>
@@ -7678,7 +7678,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v23';
+const CACHE = 'gamesharp-v24';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
