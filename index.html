@@ -643,7 +643,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ob-skip{text-align:center;margin-top:10px;font-size:12px;color:var(--muted);cursor:pointer;text-decoration:underline;opacity:.6;}
 
 /* ── PROFILE RESULT SCREEN ── */
-.profile-screen-wrap{flex:1;display:flex;flex-direction:column;align-items:center;padding:32px 22px 44px;overflow-y:auto;}
+.profile-screen-wrap{flex:1;display:flex;flex-direction:column;align-items:center;padding:32px 22px 80px;overflow-y:auto;}
 .profile-badge{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#b8932a);display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:14px;box-shadow:0 8px 32px rgba(200,168,75,.35);}
 .profile-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--gold);margin-bottom:6px;text-align:center;}
 .profile-subtitle{font-size:13px;color:var(--muted);text-align:center;margin-bottom:24px;line-height:1.5;}
@@ -1355,25 +1355,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 
   </div><!-- /gs-main -->
 
-  <!-- ── BOTTOM NAV (mobile ≤767px) ── -->
-  <nav class="gs-bottom-nav">
-    <div class="gs-bnav-item gs-bnav-active" onclick="initHome()">
-      <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span>Home</span>
-    </div>
-    <div class="gs-bnav-item" onclick="initPlayHub()">
-      <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      <span>Play</span>
-    </div>
-    <div class="gs-bnav-item" onclick="initLearnHub()">
-      <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      <span>Sharpen</span>
-    </div>
-    <div class="gs-bnav-item" onclick="showProfileHub()">
-      <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>Profile</span>
-    </div>
-  </nav>
+
 
 </div>
 
@@ -1570,6 +1552,27 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 <div class="screen" id="sequenceScreen">
   <div class="seq-screen-bg" id="seqContent"></div>
 </div>
+
+<!-- ── GLOBAL BOTTOM NAV (mobile ≤767px) — persists on every screen ── -->
+<nav class="gs-bottom-nav" id="gsBottomNav">
+  <div class="gs-bnav-item gs-bnav-active" onclick="initHome()">
+    <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Home</span>
+  </div>
+  <div class="gs-bnav-item" onclick="initPlayHub()">
+    <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    <span>Play</span>
+  </div>
+  <div class="gs-bnav-item" onclick="initLearnHub()">
+    <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    <span>Sharpen</span>
+  </div>
+  <div class="gs-bnav-item" onclick="showProfileHub()">
+    <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profile</span>
+  </div>
+</nav>
+
 
 <script>
 
@@ -5469,9 +5472,25 @@ function arcAnim(ok) {
 }
 
 // ── SCREENS ──
+// Which bottom-nav tab is active per screen (browsing pages show the nav)
+const NAV_TAB_INDEX = { homeScreen:0, playScreen:1, learnScreen:2, pillarScreen:2, profileScreen:3 };
+function updateBottomNav(id) {
+  const nav = document.getElementById('gsBottomNav');
+  if (!nav) return;
+  if (id in NAV_TAB_INDEX) {
+    nav.style.display = 'flex';
+    const items = nav.querySelectorAll('.gs-bnav-item');
+    items.forEach((el, i) => el.classList.toggle('gs-bnav-active', i === NAV_TAB_INDEX[id]));
+  } else {
+    // Focused flows (quiz, score, sequence, legendary, onboarding, crash course) hide the tab bar
+    nav.style.display = 'none';
+  }
+}
+
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none';});
   const t=document.getElementById(id); t.style.display='flex'; void t.offsetWidth; t.classList.add('active');
+  updateBottomNav(id);
   window.scrollTo(0,0);
 }
 
@@ -7659,7 +7678,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v21';
+const CACHE = 'gamesharp-v22';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
