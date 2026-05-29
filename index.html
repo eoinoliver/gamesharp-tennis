@@ -940,15 +940,16 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .hub-card-arrow{color:rgba(200,168,75,.55);font-size:18px;flex-shrink:0;}
 .hub-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.55);padding:6px 0;cursor:pointer;margin-bottom:6px;}
 .hub-back:hover{color:var(--gold);}
-/* Compact horizontal pillar rows (Sharpen) */
-.hub-ph{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:12px 15px;margin-bottom:9px;cursor:pointer;transition:transform .15s,border-color .2s;}
-.hub-ph:active{transform:scale(.99);}
+/* Pillar tiles laid out in a 2-column grid (Sharpen) */
+.hub-pillars-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.hub-ph{display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:13px 14px;cursor:pointer;transition:transform .15s,border-color .2s;min-height:104px;}
+.hub-ph:active{transform:scale(.98);}
 .hub-ph:hover{border-color:rgba(200,168,75,.35);}
-.hub-ph-icon{font-size:25px;line-height:1;flex-shrink:0;}
-.hub-ph-body{flex:1;min-width:0;}
-.hub-ph-eyebrow{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:2px;}
-.hub-ph-title{font-size:16px;font-weight:800;color:var(--white);line-height:1.2;overflow-wrap:break-word;}
-.hub-ph-count{flex-shrink:0;font-size:14px;font-weight:800;color:rgba(255,255,255,.38);}
+.hub-ph-icon{font-size:23px;line-height:1;margin-bottom:5px;}
+.hub-ph-eyebrow{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--gold);font-weight:800;width:100%;}
+.hub-ph-title{font-size:13.5px;font-weight:700;color:var(--white);line-height:1.25;width:100%;overflow-wrap:break-word;}
+.hub-ph-count{font-size:10px;color:rgba(255,255,255,.42);font-weight:600;margin-top:auto;padding-top:6px;width:100%;}
+.hub-ph:last-child:nth-child(odd){grid-column:1 / -1;}
 
 /* ── V5.2 FEEDBACK PROMPTS ── */
 .fb-prompt{margin:18px 14px 8px;padding:14px 18px;background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.2);border-radius:12px;text-align:center;}
@@ -6587,11 +6588,9 @@ function initLearnHub() {
     pillarsHtml += `
       <div class="hub-ph" onclick="initPillarScreen('${_esc(p)}')">
         <span class="hub-ph-icon">${meta.icon || '🎾'}</span>
-        <div class="hub-ph-body">
-          <div class="hub-ph-eyebrow">${displayName}</div>
-          <div class="hub-ph-title">${meta.desc || 'Train the pillar'}</div>
-        </div>
-        <span class="hub-ph-count">${count}</span>
+        <div class="hub-ph-eyebrow">${displayName}</div>
+        <div class="hub-ph-title">${meta.desc || 'Train the pillar'}</div>
+        <div class="hub-ph-count">${count} scenarios</div>
       </div>`;
   });
 
@@ -6606,7 +6605,7 @@ function initLearnHub() {
       <div class="hub-section-eyebrow">GameSharp Training</div>
       <div class="hub-section-title">The 5 Pillars</div>
     </div>
-    ${pillarsHtml}
+    <div class="hub-pillars-grid">${pillarsHtml}</div>
 
     <div class="hub-section-hdr">
       <div class="hub-section-eyebrow">Animated Breakdowns</div>
@@ -7661,7 +7660,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v17';
+const CACHE = 'gamesharp-v18';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
