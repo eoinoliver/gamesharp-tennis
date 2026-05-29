@@ -2978,20 +2978,25 @@ const TECH_ANIMS = {
       const {sv,mk}=_taInitCourt(box);
       const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
       const mkEl=(tag,attrs,style,txt)=>{const el=mk(tag,attrs);if(style)el.setAttribute('style',style);if(txt!=null)el.textContent=txt;sv.appendChild(el);return el;};
-      // YOU serving
-      mkEl('circle',{cx:'130',cy:'291',r:'9',fill:'#c8a84b'});
-      mkEl('text',{x:'130',y:'295','text-anchor':'middle',fill:'#0a1509','font-size':'7','font-weight':'bold'},'','YOU');
-      // T zone
-      mkEl('circle',{cx:'108',cy:'102',r:'13',fill:'rgba(91,155,213,.2)',stroke:'#5b9bd5','stroke-width':'1.5','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .4s .3s ease both');
-      mkEl('text',{x:'108',y:'106','text-anchor':'middle',fill:'#5b9bd5','font-size':'8','font-weight':'bold',opacity:'0'},'animation:tpop .4s .3s ease both','T');
-      // BODY zone
-      mkEl('circle',{cx:'130',cy:'118',r:'11',fill:'rgba(200,168,75,.2)',stroke:'#c8a84b','stroke-width':'1.5','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .4s .7s ease both');
-      mkEl('text',{x:'130',y:'122','text-anchor':'middle',fill:'#c8a84b','font-size':'6.5','font-weight':'bold',opacity:'0'},'animation:tpop .4s .7s ease both','BODY');
-      // WIDE zone
-      mkEl('circle',{cx:'158',cy:'96',r:'13',fill:'rgba(224,112,112,.2)',stroke:'#e07070','stroke-width':'1.5','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .4s 1.1s ease both');
-      mkEl('text',{x:'158',y:'100','text-anchor':'middle',fill:'#e07070','font-size':'6.5','font-weight':'bold',opacity:'0'},'animation:tpop .4s 1.1s ease both','WIDE');
-      // Serve arc to WIDE
-      mkEl('path',{d:'M130,291 Q144,188 158,96',stroke:'#e07070','stroke-width':'3',fill:'none','stroke-linecap':'round','stroke-dasharray':'220','stroke-dashoffset':'220'},'animation:drawPath .65s 1.6s ease forwards;opacity:1');
+      // Court side: deuce (default) or ad — mirror x across the centre line (x=100)
+      const ad = params.side==='ad';
+      const mx = v => ad ? 200 - v : v;
+      // YOU serving (deuce: bottom-right / ad: bottom-left)
+      const youX = mx(130);
+      mkEl('circle',{cx:String(youX),cy:'291',r:'9',fill:'#c8a84b'});
+      mkEl('text',{x:String(youX),y:'295','text-anchor':'middle',fill:'#0a1509','font-size':'7','font-weight':'bold'},'','YOU');
+      // Target zones (mirrored for ad court)
+      const tXz=mx(108), bXz=mx(130), wXz=mx(158);
+      mkEl('circle',{cx:String(tXz),cy:'102',r:'13',fill:'rgba(91,155,213,.2)',stroke:'#5b9bd5','stroke-width':'1.5','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .4s .3s ease both');
+      mkEl('text',{x:String(tXz),y:'106','text-anchor':'middle',fill:'#5b9bd5','font-size':'8','font-weight':'bold',opacity:'0'},'animation:tpop .4s .3s ease both','T');
+      mkEl('circle',{cx:String(bXz),cy:'118',r:'11',fill:'rgba(200,168,75,.2)',stroke:'#c8a84b','stroke-width':'1.5','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .4s .7s ease both');
+      mkEl('text',{x:String(bXz),y:'122','text-anchor':'middle',fill:'#c8a84b','font-size':'6.5','font-weight':'bold',opacity:'0'},'animation:tpop .4s .7s ease both','BODY');
+      mkEl('circle',{cx:String(wXz),cy:'96',r:'13',fill:'rgba(224,112,112,.2)',stroke:'#e07070','stroke-width':'1.5','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .4s 1.1s ease both');
+      mkEl('text',{x:String(wXz),y:'100','text-anchor':'middle',fill:'#e07070','font-size':'6.5','font-weight':'bold',opacity:'0'},'animation:tpop .4s 1.1s ease both','WIDE');
+      // Serve arc ONLY when the question declares a verified target — never assume 'wide'
+      const _tgt=(params.target||'').toLowerCase();
+      const _dest=_tgt==='t'?{x:tXz,y:102,c:'#5b9bd5'}:_tgt==='body'?{x:bXz,y:118,c:'#c8a84b'}:_tgt==='wide'?{x:wXz,y:96,c:'#e07070'}:null;
+      if(_dest){const _cx=(youX+_dest.x)/2;mkEl('path',{d:'M'+youX+',291 Q'+_cx+',188 '+_dest.x+','+_dest.y,stroke:_dest.c,'stroke-width':'3',fill:'none','stroke-linecap':'round','stroke-dasharray':'220','stroke-dashoffset':'220'},'animation:drawPath .65s 1.6s ease forwards;opacity:1');}
       ph(1); cap(captions.setup||'');
       const t2=setTimeout(()=>{ ph(2); cap(captions.decision||''); },1300);
       const t3=setTimeout(()=>{ ph(3); cap(captions.result||''); },2500);
@@ -5701,6 +5706,25 @@ function buildConsequenceAnim(q, ok) {
   else if (tags.includes('net')||tags.includes('volley')||tags.includes('approach')) type='net';
   else if (tags.includes('moonball')||tags.includes('lob')) type='position';
 
+  // ── Accuracy gate: only draw a court when the geometry can be verified ──
+  // Serve: infer the target from tags; if none is declared, show no court (the
+  // text consequence card still appears) rather than guessing a wide serve.
+  let serveTarget = null;
+  if (type === 'serve') {
+    if (tags.includes('t-serve')) serveTarget = 't';
+    else if (tags.includes('body')) serveTarget = 'body';
+    else if (tags.includes('wide')) serveTarget = 'wide';
+    if (!serveTarget) return '';
+  }
+  // Position (moonball/lob): the generic visual always shows "step in & intercept".
+  // Only render it when the lesson actually is to step in — otherwise (reset / back
+  // up / let it descend) the visual would contradict the explanation, so suppress it.
+  if (type === 'position') {
+    const lesson = ((q.why_right||'')+' '+(q.action_tip||'')).toLowerCase();
+    const stepIn = /step in|step inside|take it earl|earlier|on the rise|inside the baseline|take the ball earl/.test(lesson);
+    if (!stepIn) return '';
+  }
+
   const col   = ok ? '#4caf50' : '#e07070';
   const colA  = ok ? 'rgba(76,175,80,'  : 'rgba(224,112,112,';
   const oppC  = ok ? '#e05252' : '#5bba6f';  // stressed vs comfortable
@@ -5709,9 +5733,11 @@ function buildConsequenceAnim(q, ok) {
   let inner = '';
 
   if (type === 'serve') {
-    // Server at bottom, ball to wide corner (correct) or central (wrong)
-    const bX = ok ? 44 : 140, bY = ok ? 30 : 44;
-    const bp = ok ? `M140,148 Q88,95 ${bX},${bY}` : `M140,148 Q140,100 ${bX},${bY}`;
+    // Server at bottom, ball to the question's verified target (correct) or central (wrong)
+    const _d = serveTarget==='t' ? {x:120,y:26} : serveTarget==='body' ? {x:92,y:40} : {x:44,y:30};
+    const bX = ok ? _d.x : 140, bY = ok ? _d.y : 44;
+    const _cx = ok ? (140+_d.x)/2 : 140;
+    const bp = ok ? `M140,148 Q${_cx},95 ${bX},${bY}` : `M140,148 Q140,100 ${bX},${bY}`;
     const oX = ok ? 228 : 140, oY = ok ? 130 : 30;
     const oa = ok ? `<path d="M${oX},${oY} L${oX+24},${oY+18}" stroke="${oppC}" stroke-width="2" fill="none" stroke-dasharray="35" stroke-dashoffset="35" style="animation:drawPath .24s .88s ease forwards"/>` : '';
     inner = `<svg viewBox="0 0 280 165" class="conseq-svg">
@@ -7682,7 +7708,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v26';
+const CACHE = 'gamesharp-v27';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
