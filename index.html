@@ -6663,6 +6663,18 @@ function initLearnHub() {
     </div>
 
     <div class="hub-section-hdr">
+      <div class="hub-section-eyebrow">GameSharp Training</div>
+      <div class="hub-section-title">The 5 Pillars</div>
+    </div>
+    <div class="hub-pillars-row">${pillarsHtml}</div>
+
+    <div class="hub-section-hdr">
+      <div class="hub-section-eyebrow">Animated Breakdowns</div>
+      <div class="hub-section-title">Pro Lens Moments</div>
+    </div>
+    <div class="gs-pillars-wrap"><div class="plm-scroll" id="plmScroll"></div></div>
+
+    <div class="hub-section-hdr">
       <div class="hub-section-eyebrow">Open Practice</div>
       <div class="hub-section-title">Play a Point</div>
     </div>
@@ -6675,18 +6687,6 @@ function initLearnHub() {
       </div>
       <div class="hub-card-arrow">→</div>
     </div>
-
-    <div class="hub-section-hdr">
-      <div class="hub-section-eyebrow">GameSharp Training</div>
-      <div class="hub-section-title">The 5 Pillars</div>
-    </div>
-    <div class="hub-pillars-row">${pillarsHtml}</div>
-
-    <div class="hub-section-hdr">
-      <div class="hub-section-eyebrow">Animated Breakdowns</div>
-      <div class="hub-section-title">Pro Lens Moments</div>
-    </div>
-    <div class="gs-pillars-wrap"><div class="plm-scroll" id="plmScroll"></div></div>
 
     <div class="hub-section-hdr">
       <div class="hub-section-eyebrow">Signature Experiences</div>
@@ -7735,7 +7735,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v33';
+const CACHE = 'gamesharp-v34';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
