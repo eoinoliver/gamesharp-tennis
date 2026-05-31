@@ -625,6 +625,8 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .seq-replay-btn:active{transform:scale(.97);}
 .seq-home-btn{flex:1;background:var(--gold);color:#0a1509;border:none;border-radius:13px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
 .seq-home-btn:active{transform:scale(.97);}
+.seq-keep-btn{flex:1;background:var(--gold);color:#0a1509;border:none;border-radius:13px;padding:16px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:800;letter-spacing:.4px;cursor:pointer;transition:all .2s;}
+.seq-keep-btn:active{transform:scale(.97);}
 /* ── START HERE CARD ── */
 .start-here-card{margin:18px 22px 0;cursor:pointer;position:relative;z-index:1;}
 .start-here-inner{background:linear-gradient(135deg,var(--gold) 0%,#b8932a 100%);border-radius:18px;padding:20px 20px 18px;position:relative;overflow:hidden;active-transform:scale(.98);}
@@ -8192,11 +8194,26 @@ const LINKED_SEQUENCES = [
 let seqState = { seq: null, stepIdx: 0, answered: false, answers: [], score: 0 };
 
 // ── ENTRY ──
+// Rotate through the linked sequences so Read the Game varies every play
+// instead of repeating the same day-keyed pattern.
+function _nextRtgSequence() {
+  let idx = -1;
+  try { idx = parseInt(localStorage.getItem('gamesharp_rtg_idx'), 10); } catch (e) {}
+  if (!Number.isFinite(idx)) idx = -1;
+  idx = (idx + 1) % LINKED_SEQUENCES.length;
+  try { localStorage.setItem('gamesharp_rtg_idx', String(idx)); } catch (e) {}
+  return LINKED_SEQUENCES[idx];
+}
+
 function openSequenceLibrary() {
   trackEvent('read_the_game_card_clicked');
-  const day = Math.floor(Date.now() / 86400000);
-  const seq = LINKED_SEQUENCES[day % LINKED_SEQUENCES.length];
-  startLinkedSequence(seq.id);
+  startLinkedSequence(_nextRtgSequence().id);
+}
+
+// Frictionless "keep playing" from the result screen → straight into the next pattern.
+function playNextSequence() {
+  trackEvent('read_the_game_next_clicked');
+  startLinkedSequence(_nextRtgSequence().id);
 }
 
 // Shuffle a step's options + remap correct index + remap court optTargets
@@ -8456,16 +8473,8 @@ function buildSeqResult() {
         <div class="seq-result-sec-label" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;">Next time you play</div>
         <div class="seq-result-cue-text">${s.nextTimeCue}</div>
       </div>
-      <div class="fb-prompt" id="seqFbPrompt">
-        <div class="fb-q">Did this help you see the pattern?</div>
-        <div class="fb-btns">
-          <button class="fb-btn" onclick="recordSeqFeedback('yes')">Yes</button>
-          <button class="fb-btn fb-btn-no" onclick="recordSeqFeedback('no')">Not yet</button>
-        </div>
-      </div>
       <div class="seq-result-btns">
-        <button class="seq-replay-btn" onclick="replayLinkedSequence()">Replay ↩</button>
-        <button class="seq-home-btn" onclick="initHome()">Home →</button>
+        <button class="seq-keep-btn" onclick="playNextSequence()">Next Pattern →</button>
       </div>
     </div>`;
 }
