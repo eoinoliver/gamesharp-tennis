@@ -343,8 +343,11 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   #quizScreen .ta-controls{flex:0 0 auto;}
   /* Replay / Show-mistake belong to the post-answer reward, not the question */
   #quizScreen:not(.quiz-answered) .ta-controls{display:none;}
-  #quizScreen .options{flex:0 0 auto;padding-top:8px;}
-  #quizScreen .next-btn{flex:0 0 auto;margin:8px 20px 12px;}
+  /* ballArc is empty until an answer plays its consequence — reclaim its space pre-answer */
+  #quizScreen:not(.quiz-answered) #ballArc:empty{display:none;}
+  #quizScreen .opt{padding:12px 15px;}
+  #quizScreen .options{flex:0 0 auto;gap:7px;padding-top:8px;padding-bottom:calc(14px + env(safe-area-inset-bottom));}
+  #quizScreen .next-btn{flex:0 0 auto;margin:8px 20px calc(12px + env(safe-area-inset-bottom));}
   /* Result phase: scroll allowed for the learning payload; verdict + Next pinned */
   #quizScreen.quiz-answered{overflow-y:auto;-webkit-overflow-scrolling:touch;}
   #quizScreen.quiz-answered #techAnimBox{flex:0 0 auto;}
@@ -7919,7 +7922,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v37';
+const CACHE = 'gamesharp-v38';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
