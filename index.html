@@ -319,6 +319,72 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 @keyframes nxin{from{opacity:0;transform:translateY(9px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
 .next-btn:active{transform:scale(.97);}
 
+/* ── MOBILE SINGLE-VIEWPORT EXERCISE LOCK ──
+   Question phase: where-you-are + question + visual + ALL options + next must
+   fit one viewport with no scroll. Result phase: verdict + reward + sticky Next
+   stay visible; the deep "why" is allowed to scroll as the learning reward. */
+@media(max-width:767px){
+  #quizScreen.active{height:100vh;height:100dvh;overflow:hidden;}
+  #quizScreen .quiz-header{padding-top:12px;}
+  #quizScreen .streak-dots{padding-top:6px;padding-bottom:0;}
+  #quizScreen .q-meta{margin-top:6px;}
+  #quizScreen .question-wrap{padding-top:7px;flex:0 0 auto;}
+  #quizScreen .q-card{padding:13px 15px;}
+  #quizScreen .qtext{font-size:15.5px;line-height:1.4;}
+  #quizScreen .q-format-badge{margin-bottom:6px;}
+  /* visual zone flexes to fill leftover space, never pushing options off-screen */
+  #quizScreen #techAnimBox{flex:1 1 auto;min-height:0;display:flex!important;flex-direction:column;overflow:hidden;margin-top:2px;}
+  #quizScreen .ta-phase-bar{flex:0 0 auto;margin-top:6px;padding-bottom:4px;}
+  #quizScreen .ta-court-wrap{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;background:transparent;}
+  #quizScreen .ta-court-wrap svg,
+  #quizScreen .ta-court-wrap svg[viewBox="0 0 200 310"],
+  #quizScreen .ta-court-wrap.ta-premium svg{max-height:100%!important;height:100%!important;width:auto!important;max-width:100%!important;}
+  #quizScreen .ta-caption{flex:0 0 auto;padding:3px 14px 2px;min-height:0;}
+  #quizScreen .ta-controls{flex:0 0 auto;}
+  /* Replay / Show-mistake belong to the post-answer reward, not the question */
+  #quizScreen:not(.quiz-answered) .ta-controls{display:none;}
+  #quizScreen .options{flex:0 0 auto;padding-top:8px;}
+  #quizScreen .next-btn{flex:0 0 auto;margin:8px 20px 12px;}
+  /* Result phase: scroll allowed for the learning payload; verdict + Next pinned */
+  #quizScreen.quiz-answered{overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  #quizScreen.quiz-answered #techAnimBox{flex:0 0 auto;}
+  #quizScreen.quiz-answered .ta-court-wrap{flex:0 0 auto;display:block;}
+  #quizScreen.quiz-answered .ta-court-wrap svg{max-height:30vh!important;height:auto!important;width:100%!important;}
+  #quizScreen.quiz-answered .next-btn.show{position:sticky;bottom:8px;z-index:6;box-shadow:0 8px 22px rgba(0,0,0,.55);}
+  /* Progressive disclosure: verdict + one-liner show by default, deep why behind toggle */
+  .why-detail{display:none;}
+  .explain-card.why-open .why-detail{display:block;}
+  .explain-card.why-open .why-caret{transform:rotate(180deg);}
+
+  /* ── HOME: fit logo + Today's Challenge + Read the Game + Sharpen cue above the nav.
+     Scoped to #homeScreen so these beat the later base rules at equal class specificity. */
+  #homeScreen .gs-main{padding-bottom:74px;}
+  #homeScreen .gs-hero-header{padding:12px 0 6px;}
+  #homeScreen .gs-hero-panel{height:34vw;min-height:104px;max-height:140px;margin-bottom:0;}
+  #homeScreen .gs-daily-dominant{margin:10px 14px 0!important;}
+  #homeScreen .gs-daily-dominant .daily-inner{padding:15px 18px;}
+  #homeScreen .gs-daily-dominant .daily-q{font-size:15.5px;line-height:1.4;margin-bottom:11px;}
+  #homeScreen .gs-daily-dominant .daily-cta{padding:8px 16px;}
+  #homeScreen .rtg-home-card{margin:10px 14px 0;padding:14px 18px 13px;}
+  #homeScreen .ott-cue{margin:10px 14px 10px;padding:11px 16px;}
+
+  /* ── SHARPEN: lead with Recommended + compact pillar carousel; rest is "browse" ── */
+  #learnScreen .hub-header{padding-top:6px;padding-bottom:4px;}
+  #learnScreen .hub-rec-card{margin:8px 14px 2px;padding:15px 18px 14px;}
+  #learnScreen .hub-rec-title{font-size:17px;}
+  #learnScreen .hub-section-hdr{margin-top:14px;}
+  #learnScreen .hub-more-hdr{margin-top:18px;}
+}
+.ex-oneline{font-size:14px;line-height:1.55;color:rgba(255,255,255,.92);font-weight:600;margin-bottom:10px;}
+.why-toggle{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:8px 13px;border-radius:9px;cursor:pointer;margin-bottom:4px;}
+.why-toggle:active{transform:scale(.97);}
+.why-caret{transition:transform .2s;font-size:10px;}
+@media(min-width:768px){
+  .why-toggle{display:none;}
+  .why-detail{display:block!important;}
+  .ex-oneline{display:none;}
+}
+
 /* ── SCORE ── */
 .score-wrap{flex:1;display:flex;flex-direction:column;align-items:center;padding:28px 20px 40px;overflow-y:auto;}
 
@@ -921,6 +987,14 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ott-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;opacity:.75;margin-bottom:5px;}
 .ott-text{font-size:13px;line-height:1.5;color:rgba(255,255,255,.78);font-weight:400;}
 
+/* ── SHARPEN: Recommended-next dominant card ── */
+.hub-rec-card{margin:14px 14px 4px;padding:18px 20px 16px;border-radius:18px;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(155deg,rgba(20,40,18,.95) 0%,rgba(8,18,10,.98) 100%);border:1px solid rgba(200,168,75,.5);box-shadow:0 8px 30px rgba(0,0,0,.5);transition:transform .15s,border-color .2s;}
+.hub-rec-card:active{transform:scale(.99);}
+.hub-rec-eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;}
+.hub-rec-title{font-size:19px;line-height:1.3;font-weight:700;color:var(--white);margin-bottom:5px;}
+.hub-rec-sub{font-size:12px;color:rgba(255,255,255,.55);margin-bottom:14px;}
+.hub-rec-cta{display:inline-flex;align-items:center;background:var(--gold);color:#0a1509;padding:9px 18px;border-radius:10px;font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;}
+
 /* ── V5.2 Compact hero header (no large image) ── */
 .gs-hero-header{padding:18px 0 10px;}
 .gs-hero-header .gs-hero-logo{font-size:34px;letter-spacing:3px;}
@@ -1454,15 +1528,19 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       <span id="explainIcon" style="font-size:16px"></span>
       <span class="ext" id="explainTitle"></span>
     </div>
-    <div class="exbody" id="explainBody"></div>
-    <div id="playerTypeWrap" style="display:none">
-      <div id="playerTypeDef"></div>
+    <div class="ex-oneline" id="explainOneLine"></div>
+    <button class="why-toggle" id="whyToggle" onclick="toggleWhy()">Why? <span class="why-caret">▾</span></button>
+    <div class="why-detail" id="whyDetail">
+      <div class="exbody" id="explainBody"></div>
+      <div id="playerTypeWrap" style="display:none">
+        <div id="playerTypeDef"></div>
+      </div>
+      <div id="actionTipWrap" style="display:none">
+        <div id="actionTipText"></div>
+        <div id="pitfallText"></div>
+      </div>
+      <div id="visualContainer"></div>
     </div>
-    <div id="actionTipWrap" style="display:none">
-      <div id="actionTipText"></div>
-      <div id="pitfallText"></div>
-    </div>
-    <div id="visualContainer"></div>
     <div id="tryTodayWrap" style="margin-top:14px;display:none;">
       <button id="tryTodayBtn" class="try-today-btn" onclick="handleTryToday()">🎾 I'll try this today</button>
     </div>
@@ -6702,6 +6780,22 @@ function initLearnHub() {
 
   const pillars = [...new Set(QBANK.map(q => q.pillar))];
 
+  // ── Recommended next module (progressive disclosure: lead with one clear action) ──
+  let _seen = {}; try { _seen = JSON.parse(localStorage.getItem('gamesharp_seen') || '{}'); } catch (e) {}
+  const _seenMods = new Set(Array.isArray(_seen.modules) ? _seen.modules : (_seen.modules ? Object.keys(_seen.modules) : []));
+  const _modMap = {};
+  QBANK.forEach(q => { if (q.module) { const k = q.pillar + '||' + q.module; if (!_modMap[k]) _modMap[k] = { pillar: q.pillar, module: q.module, count: 0 }; _modMap[k].count++; } });
+  const _allMods = Object.values(_modMap);
+  const _rec = _allMods.find(m => !_seenMods.has(m.module)) || _allMods[Math.floor(Math.random() * _allMods.length)] || { pillar: pillars[0], module: '', count: 0 };
+  const _recPillarName = (typeof PILLAR_DISPLAY !== 'undefined' && PILLAR_DISPLAY[_rec.pillar]) || _rec.pillar;
+  const recHtml = `
+    <div class="hub-rec-card" onclick="startQuiz('${_esc(_rec.pillar)}','${_esc(_rec.module)}')">
+      <div class="hub-rec-eyebrow">◆ Recommended next</div>
+      <div class="hub-rec-title">${_rec.module || _recPillarName}</div>
+      <div class="hub-rec-sub">${_recPillarName} · ${_rec.count} scenario${_rec.count===1?'':'s'}</div>
+      <div class="hub-rec-cta">Train this →</div>
+    </div>`;
+
   let pillarsHtml = '';
   pillars.forEach(p => {
     const meta = (typeof PILLAR_META !== 'undefined' && PILLAR_META[p]) || { icon: '🎾', desc: '' };
@@ -6723,14 +6817,16 @@ function initLearnHub() {
       <div class="hub-sub">Train deeper. Go again.</div>
     </div>
 
+    ${recHtml}
+
     <div class="hub-section-hdr">
       <div class="hub-section-eyebrow">GameSharp Training</div>
       <div class="hub-section-title">The 5 Pillars</div>
     </div>
     <div class="hub-pillars-row">${pillarsHtml}</div>
 
-    <div class="hub-section-hdr">
-      <div class="hub-section-eyebrow">Animated Breakdowns</div>
+    <div class="hub-section-hdr hub-more-hdr">
+      <div class="hub-section-eyebrow">More ways to train</div>
       <div class="hub-section-title">Pro Lens Moments</div>
     </div>
     <div class="gs-pillars-wrap"><div class="plm-scroll" id="plmScroll"></div></div>
@@ -7310,6 +7406,8 @@ function loadQ() {
   document.getElementById('explainCard').style.display = 'none';
   document.getElementById('explainCard').className = 'explain-card';
   document.getElementById('nextBtn').className = 'next-btn';
+  const _qsr = document.getElementById('quizScreen');
+  if (_qsr) _qsr.classList.remove('quiz-answered');
   const ttwReset = document.getElementById('tryTodayWrap');
   if (ttwReset) ttwReset.style.display = 'none';
   const arc = document.getElementById('ballArc'); if(arc){arc.style.opacity='0';arc.innerHTML='';}
@@ -7335,6 +7433,20 @@ const PLAYER_TYPE_DEFS = {
   'lefty': 'left-handed player whose spin and angles are reversed to most',
 };
 
+function toggleWhy() {
+  const ec = document.getElementById('explainCard');
+  if (!ec) return;
+  const opening = !ec.classList.contains('why-open');
+  ec.classList.toggle('why-open');
+  if (opening) {
+    // Reveal the deep explanation in place
+    setTimeout(() => {
+      const wd = document.getElementById('whyDetail');
+      if (wd) wd.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }, 60);
+  }
+}
+
 function handleTryToday() {
   const q = state.quiz[state.qIdx];
   if (!q) return;
@@ -7351,6 +7463,8 @@ function handleTryToday() {
 function pickAnswer(letter) {
   if (state.answered) return;
   state.answered = true;
+  const _qs = document.getElementById('quizScreen');
+  if (_qs) _qs.classList.add('quiz-answered');
   const q = state.quiz[state.qIdx];
   const ok = letter === q.correct_answer;
   if (ok) state.score++;
@@ -7397,6 +7511,13 @@ function pickAnswer(letter) {
   document.getElementById('explainIcon').textContent = ok ? '✓' : '✗';
   document.getElementById('explainTitle').textContent = ok ? 'Correct' : 'Not quite';
   document.getElementById('explainBody').textContent = q.why_right || '';
+  // Compact one-line takeaway shown above the "Why?" toggle on mobile
+  const _one = document.getElementById('explainOneLine');
+  if (_one) {
+    let oneTxt = q.action_tip || '';
+    if (!oneTxt && q.why_right) { const m = q.why_right.match(/^[^.!?]+[.!?]/); oneTxt = m ? m[0] : q.why_right; }
+    _one.textContent = oneTxt;
+  }
 
   // Player type definition
   const ptWrap = document.getElementById('playerTypeWrap');
@@ -7796,7 +7917,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v36';
+const CACHE = 'gamesharp-v37';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
