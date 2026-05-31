@@ -2942,7 +2942,14 @@ const TECH_ANIMS = {
   <span><span class="ldot" style="background:#5b9bd5"></span>T</span>
 </div></div>`;
     },
-    svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
+    svg:(p={})=>{
+      const ad = p.side==='ad';
+      const mx = v => ad ? 200 - v : v;
+      const youX=mx(130), tXz=mx(108), bXz=mx(130), wXz=mx(158);
+      const tgt=(p.target||'').toLowerCase();
+      const dest = tgt==='t'?{x:tXz,y:102,c:'#5b9bd5'}:tgt==='body'?{x:bXz,y:118,c:'#c8a84b'}:tgt==='wide'?{x:wXz,y:96,c:'#e07070'}:null;
+      const arc = dest ? `<path d="M${youX},291 Q${(youX+dest.x)/2},188 ${dest.x},${dest.y}" stroke="${dest.c}" stroke-width="3" fill="none" stroke-linecap="round" class="ta-reveal"/>` : '';
+      return `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
   <defs><radialGradient id="sz1" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#1e5a22"/><stop offset="100%" stop-color="#132914"/></radialGradient></defs>
   <rect x="20" y="10" width="160" height="290" fill="url(#sz1)"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
@@ -2956,19 +2963,17 @@ const TECH_ANIMS = {
   <line x1="167" y1="10" x2="167" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
   <text x="28" y="22" fill="rgba(255,255,255,.22)" font-size="7" letter-spacing="1">OPP</text>
   <text x="28" y="293" fill="rgba(200,168,75,.3)" font-size="7" letter-spacing="1">YOU</text>
-  <!-- YOU serving from bottom-right (deuce) -->
-  <circle cx="130" cy="291" r="9" fill="#c8a84b"/>
-  <text x="130" y="295" text-anchor="middle" fill="#0a1509" font-size="7" font-weight="700">YOU</text>
-  <!-- Three targets in OPP deuce service box (x=100-167, y=87-155) -->
-  <circle cx="108" cy="102" r="13" fill="rgba(91,155,213,.2)" stroke="#5b9bd5" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <text x="108" y="106" text-anchor="middle" fill="#5b9bd5" font-size="8" font-weight="700">T</text>
-  <circle cx="158" cy="96" r="13" fill="rgba(224,112,112,.2)" stroke="#e07070" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <text x="158" y="100" text-anchor="middle" fill="#e07070" font-size="6.5" font-weight="700">WIDE</text>
-  <circle cx="130" cy="118" r="11" fill="rgba(200,168,75,.2)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <text x="130" y="122" text-anchor="middle" fill="#c8a84b" font-size="6.5" font-weight="700">BODY</text>
-  <!-- Serve arc to WIDE -->
-  <path d="M130,291 Q144,188 158,96" stroke="#e07070" stroke-width="3" fill="none" stroke-linecap="round" class="ta-reveal"/>
-</svg>`,
+  <circle cx="${youX}" cy="291" r="9" fill="#c8a84b"/>
+  <text x="${youX}" y="295" text-anchor="middle" fill="#0a1509" font-size="7" font-weight="700">YOU</text>
+  <circle cx="${tXz}" cy="102" r="13" fill="rgba(91,155,213,.2)" stroke="#5b9bd5" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="${tXz}" y="106" text-anchor="middle" fill="#5b9bd5" font-size="8" font-weight="700">T</text>
+  <circle cx="${wXz}" cy="96" r="13" fill="rgba(224,112,112,.2)" stroke="#e07070" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="${wXz}" y="100" text-anchor="middle" fill="#e07070" font-size="6.5" font-weight="700">WIDE</text>
+  <circle cx="${bXz}" cy="118" r="11" fill="rgba(200,168,75,.2)" stroke="#c8a84b" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="${bXz}" y="122" text-anchor="middle" fill="#c8a84b" font-size="6.5" font-weight="700">BODY</text>
+  ${arc}
+</svg>`;
+    },
     init:(params={},cbs={})=>{
       const box=document.getElementById('taCourt'); if(!box) return null;
       const {sv,mk}=_taInitCourt(box);
@@ -3008,6 +3013,24 @@ const TECH_ANIMS = {
       decision: 'Crosscourt: bigger target, lower net point. DTL: shorter court, higher net.',
       result: 'Crosscourt is the highest-percentage rally shot. Use it to build the point.'
     },
+    _patCfg:(p={})=>{
+      const pat=(p.pattern||'crosscourt').toLowerCase();
+      const cfgs={
+        crosscourt:{sx:55, d:'M55,280 Q100,155 155,22', ex:155,ey:22, col:'#c8a84b', lbl:'CC',  llx:149,
+          ref:'M55,280 Q55,155 55,22', refLbl:'DTL', rlx:42,
+          cap:'Crosscourt is the highest-percentage rally shot — bigger target, lower net. Build the point.'},
+        dtl:{sx:55, d:'M55,280 Q55,155 55,22', ex:55,ey:22, col:'#5b9bd5', lbl:'DTL', llx:44,
+          ref:'M55,280 Q100,155 155,22', refLbl:'CC', rlx:149,
+          cap:'Down the line is flatter and riskier, but it changes direction and opens the court.'},
+        inside_out:{sx:72, d:'M72,280 Q120,150 150,30', ex:150,ey:30, col:'#5bba6f', lbl:'I-O', llx:142,
+          ref:'', refLbl:'', rlx:0,
+          cap:'The inside-out forehand attacks the backhand from the middle — dictate on your terms.'},
+        angle:{sx:55, d:'M55,280 Q95,170 172,120', ex:172,ey:120, col:'#e07070', lbl:'ANGLE', llx:158,
+          ref:'', refLbl:'', rlx:0,
+          cap:'The short angle drags them off the court — earn it first, then finish into the space.'}
+      };
+      return cfgs[pat]||cfgs.crosscourt;
+    },
     render: (p={})=>{
       const pat = p.pattern || 'crosscourt';
       const paths = {
@@ -3027,7 +3050,12 @@ const TECH_ANIMS = {
   <circle cx="${pat==='inside_out'?230:42}" cy="138" r="5" fill="${col}"/>
 </svg></div>`;
     },
-    svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
+    svg:function(p={}){
+      const c=this._patCfg(p);
+      const refMarkup = c.ref
+        ? `<path d="${c.ref}" stroke="rgba(255,255,255,.28)" stroke-width="1.5" fill="none" stroke-dasharray="4,3" class="ta-reveal"/>
+  <text x="${c.rlx}" y="18" fill="rgba(255,255,255,.35)" font-size="6" class="ta-reveal">${c.refLbl}</text>` : '';
+      return `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
   <defs><radialGradient id="crp1" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#1e5a22"/><stop offset="100%" stop-color="#132914"/></radialGradient></defs>
   <rect x="20" y="10" width="160" height="290" fill="url(#crp1)"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
@@ -3041,29 +3069,32 @@ const TECH_ANIMS = {
   <line x1="167" y1="10" x2="167" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
   <text x="28" y="22" fill="rgba(255,255,255,.22)" font-size="7" letter-spacing="1">OPP</text>
   <text x="28" y="293" fill="rgba(200,168,75,.3)" font-size="7" letter-spacing="1">YOU</text>
-  <path d="M55,280 Q55,155 55,22" stroke="rgba(91,155,213,.4)" stroke-width="1.5" fill="none" stroke-dasharray="4,3" class="ta-reveal"/>
-  <text x="42" y="18" fill="rgba(91,155,213,.5)" font-size="6" class="ta-reveal">DTL</text>
-  <path d="M55,280 Q100,155 155,22" stroke="#c8a84b" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="290" stroke-dashoffset="290" style="animation:drawPath 1s .3s ease forwards" class="ta-reveal"/>
-  <circle cx="155" cy="22" r="7" fill="rgba(200,168,75,.2)" stroke="#c8a84b" stroke-width="1.5" opacity="0" style="animation:tpop .3s 1.4s ease both" class="ta-reveal"/>
-  <text x="149" y="17" fill="#c8a84b" font-size="6" font-weight="700" opacity="0" style="animation:tpop .3s 1.4s ease both" class="ta-reveal">CC</text>
-  <circle cx="55" cy="280" r="9" fill="#c8a84b"/>
-  <text x="55" y="284" text-anchor="middle" fill="#0a1509" font-size="7" font-weight="700">YOU</text>
-</svg>`,
-    init:(params={},cbs={})=>{
+  ${refMarkup}
+  <path d="${c.d}" stroke="${c.col}" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="290" stroke-dashoffset="290" style="animation:drawPath 1s .3s ease forwards" class="ta-reveal"/>
+  <circle cx="${c.ex}" cy="${c.ey}" r="7" fill="${c.col}" fill-opacity=".2" stroke="${c.col}" stroke-width="1.5" opacity="0" style="animation:tpop .3s 1.4s ease both" class="ta-reveal"/>
+  <text x="${c.llx}" y="${c.ey-5}" fill="${c.col}" font-size="6" font-weight="700" opacity="0" style="animation:tpop .3s 1.4s ease both" class="ta-reveal">${c.lbl}</text>
+  <circle cx="${c.sx}" cy="280" r="9" fill="#c8a84b"/>
+  <text x="${c.sx}" y="284" text-anchor="middle" fill="#0a1509" font-size="7" font-weight="700">YOU</text>
+</svg>`;
+    },
+    init:function(params={},cbs={}){
       const box=document.getElementById('taCourt'); if(!box) return null;
       const {sv,mk}=_taInitCourt(box);
       const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
       const mkEl=(tag,attrs,style,txt)=>{const el=mk(tag,attrs);if(style)el.setAttribute('style',style);if(txt!=null)el.textContent=txt;sv.appendChild(el);return el;};
-      mkEl('path',{d:'M55,280 Q55,155 55,22',stroke:'rgba(91,155,213,.4)','stroke-width':'1.5',fill:'none','stroke-dasharray':'4,3'});
-      mkEl('text',{x:'42',y:'18',fill:'rgba(91,155,213,.5)','font-size':'6'},'','DTL');
-      mkEl('path',{d:'M55,280 Q100,155 155,22',stroke:'#c8a84b','stroke-width':'3',fill:'none','stroke-linecap':'round','stroke-dasharray':'290','stroke-dashoffset':'290'},'animation:drawPath 1s .3s ease forwards;opacity:1');
-      mkEl('circle',{cx:'155',cy:'22',r:'7',fill:'rgba(200,168,75,.2)',stroke:'#c8a84b','stroke-width':'1.5',opacity:'0'},'animation:tpop .3s 1.4s ease both');
-      mkEl('text',{x:'149',y:'17',fill:'#c8a84b','font-size':'6','font-weight':'bold',opacity:'0'},'animation:tpop .3s 1.4s ease both','CC');
-      mkEl('circle',{cx:'55',cy:'280',r:'9',fill:'#c8a84b'});
-      mkEl('text',{x:'55',y:'284','text-anchor':'middle',fill:'#0a1509','font-size':'7','font-weight':'bold'},'','YOU');
+      const c=this._patCfg(params);
+      if(c.ref){
+        mkEl('path',{d:c.ref,stroke:'rgba(255,255,255,.28)','stroke-width':'1.5',fill:'none','stroke-dasharray':'4,3'});
+        mkEl('text',{x:String(c.rlx),y:'18',fill:'rgba(255,255,255,.35)','font-size':'6'},'',c.refLbl);
+      }
+      mkEl('path',{d:c.d,stroke:c.col,'stroke-width':'3',fill:'none','stroke-linecap':'round','stroke-dasharray':'290','stroke-dashoffset':'290'},'animation:drawPath 1s .3s ease forwards;opacity:1');
+      mkEl('circle',{cx:String(c.ex),cy:String(c.ey),r:'7',fill:c.col,'fill-opacity':'.2',stroke:c.col,'stroke-width':'1.5',opacity:'0'},'animation:tpop .3s 1.4s ease both');
+      mkEl('text',{x:String(c.llx),y:String(c.ey-5),fill:c.col,'font-size':'6','font-weight':'bold',opacity:'0'},'animation:tpop .3s 1.4s ease both',c.lbl);
+      mkEl('circle',{cx:String(c.sx),cy:'280',r:'9',fill:'#c8a84b'});
+      mkEl('text',{x:String(c.sx),y:'284','text-anchor':'middle',fill:'#0a1509','font-size':'7','font-weight':'bold'},'','YOU');
       ph(1); cap(captions.setup||'');
       const t2=setTimeout(()=>{ ph(2); cap(captions.decision||''); },1200);
-      const t3=setTimeout(()=>{ ph(3); cap(captions.result||''); },2400);
+      const t3=setTimeout(()=>{ ph(3); cap(c.cap||captions.result||''); },2400);
       return ()=>{ clearTimeout(t2); clearTimeout(t3); };
     }
   },
@@ -3139,7 +3170,21 @@ const TECH_ANIMS = {
   <text x="70" y="26" text-anchor="middle" fill="#e05252" font-size="7" font-family="DM Sans">SERVER</text>
 </svg></div>`;
     },
-    svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
+    _depthCfg:(p={})=>{
+      const d=(p.depth||'neutral').toLowerCase();
+      if(d==='step_in'||d==='in')   return {y:242,col:'#5bba6f',lbl:'STEP IN'};
+      if(d==='back'||d==='step_back')return {y:296,col:'#5b9bd5',lbl:'DEEP'};
+      return {y:278,col:'#c8a84b',lbl:'BASELINE'};
+    },
+    _depthCap:(p={})=>{
+      const d=(p.depth||'neutral').toLowerCase();
+      if(d==='step_in'||d==='in')   return 'Step in: earlier contact, more attack angles, less time for the server.';
+      if(d==='back'||d==='step_back')return 'Give ground on a big first serve: buy reaction time, then reset and rebuild.';
+      return 'A balanced baseline position covers both the wide and the body serve.';
+    },
+    svg:function(p={}){
+      const c=this._depthCfg(p);
+      return `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
   <defs><radialGradient id="rp1" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#1e5a22"/><stop offset="100%" stop-color="#132914"/></radialGradient></defs>
   <rect x="20" y="10" width="160" height="290" fill="url(#rp1)"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
@@ -3153,40 +3198,37 @@ const TECH_ANIMS = {
   <line x1="167" y1="10" x2="167" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
   <text x="28" y="22" fill="rgba(255,255,255,.22)" font-size="7" letter-spacing="1">OPP</text>
   <text x="28" y="293" fill="rgba(200,168,75,.3)" font-size="7" letter-spacing="1">YOU</text>
-  <!-- Server (OPP) at top -->
   <circle cx="100" cy="22" r="8" fill="rgba(255,255,255,.6)"/>
   <text x="116" y="26" fill="rgba(255,255,255,.4)" font-size="6">SERVER</text>
-  <!-- Serve arc into YOUR service box -->
   <path d="M100,22 Q106,100 142,188" stroke="#e07070" stroke-width="3" fill="none" stroke-linecap="round" class="ta-reveal"/>
-  <!-- Ball landing spot -->
   <circle cx="142" cy="188" r="5" fill="#c8a84b" class="ta-reveal"/>
-  <!-- Step-back reference line -->
-  <line x1="20" y1="265" x2="180" y2="265" stroke="rgba(200,168,75,.4)" stroke-width="1" stroke-dasharray="4,3" class="ta-reveal"/>
-  <text x="100" y="262" text-anchor="middle" fill="rgba(200,168,75,.6)" font-size="6.5" class="ta-reveal">STEP BACK</text>
-  <!-- YOU at step-back position -->
-  <circle cx="100" cy="277" r="9" fill="#c8a84b" class="ta-reveal"/>
-  <text x="100" y="281" text-anchor="middle" fill="#0a1509" font-size="7" font-weight="700" class="ta-reveal">YOU</text>
-</svg>`,
-    init:(params={},cbs={})=>{
+  <line x1="20" y1="${c.y-12}" x2="180" y2="${c.y-12}" stroke="${c.col}" stroke-opacity=".4" stroke-width="1" stroke-dasharray="4,3" class="ta-reveal"/>
+  <text x="100" y="${c.y-15}" text-anchor="middle" fill="${c.col}" fill-opacity=".7" font-size="6.5" class="ta-reveal">${c.lbl}</text>
+  <circle cx="100" cy="${c.y}" r="9" fill="${c.col}" class="ta-reveal"/>
+  <text x="100" y="${c.y+4}" text-anchor="middle" fill="#0a1509" font-size="7" font-weight="700" class="ta-reveal">YOU</text>
+</svg>`;
+    },
+    init:function(params={},cbs={}){
       const box=document.getElementById('taCourt'); if(!box) return null;
       const {sv,mk,sa}=_taInitCourt(box);
       const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
       const mkEl=(tag,attrs,style,txt)=>{const el=mk(tag,attrs);if(style)el.setAttribute('style',style);if(txt!=null)el.textContent=txt;sv.appendChild(el);return el;};
+      const c=this._depthCfg(params);
       // Server at top
       mkEl('circle',{cx:'100',cy:'22',r:'8',fill:'rgba(255,255,255,.6)'});
       mkEl('text',{x:'116',y:'26',fill:'rgba(255,255,255,.4)','font-size':'6'},'','SERVER');
       // Serve arc
       mkEl('path',{d:'M100,22 Q106,100 142,188',stroke:'#e07070','stroke-width':'3',fill:'none','stroke-linecap':'round','stroke-dasharray':'200','stroke-dashoffset':'200'},'animation:drawPath .8s .4s ease forwards;opacity:1');
       mkEl('circle',{cx:'142',cy:'188',r:'5',fill:'#c8a84b',opacity:'0'},'animation:tpop .3s 1.3s ease both');
-      // Step-back indicator
-      mkEl('line',{x1:'20',y1:'265',x2:'180',y2:'265',stroke:'rgba(200,168,75,.4)','stroke-width':'1','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .3s 1.8s ease both');
-      mkEl('text',{x:'100',y:'262','text-anchor':'middle',fill:'rgba(200,168,75,.6)','font-size':'6.5',opacity:'0'},'animation:tpop .3s 1.85s ease both','STEP BACK');
-      // YOU at step-back
-      mkEl('circle',{cx:'100',cy:'277',r:'9',fill:'#c8a84b',opacity:'0'},'animation:tpop .4s 2.1s ease both');
-      mkEl('text',{x:'100',y:'281','text-anchor':'middle',fill:'#0a1509','font-size':'7','font-weight':'bold',opacity:'0'},'animation:tpop .4s 2.1s ease both','YOU');
+      // Return-position reference line + label
+      mkEl('line',{x1:'20',y1:String(c.y-12),x2:'180',y2:String(c.y-12),stroke:c.col,'stroke-opacity':'.4','stroke-width':'1','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .3s 1.8s ease both');
+      mkEl('text',{x:'100',y:String(c.y-15),'text-anchor':'middle',fill:c.col,'fill-opacity':'.7','font-size':'6.5',opacity:'0'},'animation:tpop .3s 1.85s ease both',c.lbl);
+      // YOU at the chosen depth
+      mkEl('circle',{cx:'100',cy:String(c.y),r:'9',fill:c.col,opacity:'0'},'animation:tpop .4s 2.1s ease both');
+      mkEl('text',{x:'100',y:String(c.y+4),'text-anchor':'middle',fill:'#0a1509','font-size':'7','font-weight':'bold',opacity:'0'},'animation:tpop .4s 2.1s ease both','YOU');
       ph(1); cap(captions.setup||'');
       const t2=setTimeout(()=>{ ph(2); cap(captions.decision||''); },1400);
-      const t3=setTimeout(()=>{ ph(3); cap(captions.result||''); },2700);
+      const t3=setTimeout(()=>{ ph(3); cap(this._depthCap(params)||captions.result||''); },2700);
       return ()=>{ clearTimeout(t2); clearTimeout(t3); };
     }
   },
@@ -3921,14 +3963,27 @@ const TECH_ANIMS = {
   <text x="140" y="52" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="8" font-family="DM Sans" style="animation:tpop .4s .6s ease both;opacity:0">${cfg.lbl}</text>
 </svg></div>`;
     },
-    svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
+    svg:(p={})=>{
+      const sc=String(p.score||'bp');
+      let big='BP', sub='Routine. Target. Commit.', col='#e07070';
+      if(/^\d{4}$/.test(sc)){
+        const f=v=>v==='00'?'0':v;
+        big=f(sc.slice(0,2))+'–'+f(sc.slice(2));
+        const me=parseInt(sc.slice(0,2),10), op=parseInt(sc.slice(2),10);
+        if(me>op){col='#c8a84b'; sub='Game point — trust your patterns';}
+        else if(op>me){col='#e07070'; sub='Behind — simplify and commit';}
+        else {col='#5b9bd5'; sub='Level — same routine, same target';}
+      }
+      const fs=big.length>2?42:56;
+      return `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
   <defs><radialGradient id="cps1" cx="50%" cy="35%" r="65%"><stop offset="0%" stop-color="#1a1824"/><stop offset="100%" stop-color="#0d0c14"/></radialGradient></defs>
   <rect x="0" y="0" width="200" height="310" fill="url(#cps1)"/>
-  <rect x="18" y="95" width="164" height="120" fill="rgba(15,15,20,.65)" stroke="#e07070" stroke-width="1.5" rx="8"/>
-  <text x="100" y="153" text-anchor="middle" fill="#e07070" font-size="56" font-weight="700" style="animation:tpop .5s .2s ease both;opacity:0">BP</text>
-  <text x="100" y="192" text-anchor="middle" fill="rgba(255,255,255,.45)" font-size="8.5" style="animation:tpop .4s .6s ease both;opacity:0">Routine. Target. Commit.</text>
+  <rect x="18" y="95" width="164" height="120" fill="rgba(15,15,20,.65)" stroke="${col}" stroke-width="1.5" rx="8"/>
+  <text x="100" y="153" text-anchor="middle" fill="${col}" font-size="${fs}" font-weight="700" style="animation:tpop .5s .2s ease both;opacity:0">${big}</text>
+  <text x="100" y="192" text-anchor="middle" fill="rgba(255,255,255,.45)" font-size="8.5" style="animation:tpop .4s .6s ease both;opacity:0">${sub}</text>
   <text x="100" y="248" text-anchor="middle" fill="rgba(200,168,75,.32)" font-size="8" style="animation:tpop .3s 1.1s ease both;opacity:0">The ball doesn&#39;t know the score</text>
-</svg>`,
+</svg>`;
+    },
     init:(params={},cbs={})=>{
       const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
       ph(1); cap(captions.setup||'');
@@ -5295,6 +5350,7 @@ const TECH_ANIMS = {
 // ── ANIMATION PHASE CONTROLLER ──
 let stopAnim = null;
 let _taCurrentKey = null;
+let _taCurrentParams = {};
 let _taMistakeMode = false;
 
 function setAnimPhase(n) {
@@ -5311,7 +5367,7 @@ function setAnimCaption(text) {
 }
 
 function replayTechAnim() {
-  if (_taCurrentKey) mountTechAnim(_taCurrentKey, null, _taMistakeMode);
+  if (_taCurrentKey) mountTechAnim(_taCurrentKey, _taCurrentParams, _taMistakeMode);
 }
 
 function toggleTechMistake() {
@@ -5323,6 +5379,7 @@ function toggleTechMistake() {
 
 function mountTechAnim(key, params, mistakeMode, staticOnly) {
   _taCurrentKey = key;
+  _taCurrentParams = params || {};
   _taMistakeMode = !!mistakeMode;
   const box = document.getElementById('techAnimBox');
   const court = document.getElementById('taCourt');
@@ -5339,7 +5396,9 @@ function mountTechAnim(key, params, mistakeMode, staticOnly) {
   if (mBtn) mBtn.style.display = a.hasMistakeToggle ? 'block' : 'none';
 
   // Inject SVG — freeze CSS animations immediately if static (pre-answer) mode
-  const svgMarkup = (mistakeMode && a.mistakeSvg) ? a.mistakeSvg : (a.svg || '');
+  // svg may be a static string or a (params)=>string function for param-aware frames
+  const _svgSrc = (mistakeMode && a.mistakeSvg) ? a.mistakeSvg : a.svg;
+  const svgMarkup = (typeof _svgSrc === 'function') ? (_svgSrc.call(a, params||{}) || '') : (_svgSrc || '');
   court.classList.remove('ta-premium'); // cleared here; _taInitCourt re-adds it for cinematic courts
   if (staticOnly) court.classList.add('ta-static');
   else court.classList.remove('ta-static');
@@ -5384,7 +5443,7 @@ function releaseTechAnim() {
       caption: (t) => setAnimCaption(t),
       captions: captions
     };
-    stopAnim = a.init ? (a.init({}, cbs) || null) : null;
+    stopAnim = a.init ? (a.init(_taCurrentParams || {}, cbs) || null) : null;
   }, 60);
   return true;
 }
@@ -6107,7 +6166,7 @@ function initProLensMoments() {
     const anim = TECH_ANIMS[card.animKey];
     // Use the clean Tier 2 svg (numbered markers, ball path, no text labels)
     // Fall back to render() only if no svg property exists
-    const svgMarkup = (anim && anim.svg) ? anim.svg
+    const svgMarkup = (anim && anim.svg) ? (typeof anim.svg === 'function' ? (anim.svg(card.animParams||{}) || '') : anim.svg)
       : (anim && typeof anim.render === 'function') ? anim.render(card.animParams||{}) : '';
     const el = document.createElement('div');
     el.className = 'plm-card';
@@ -7735,7 +7794,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v35';
+const CACHE = 'gamesharp-v36';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
