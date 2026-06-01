@@ -365,11 +365,20 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   #homeScreen .gs-hero-header{padding:12px 0 6px;}
   #homeScreen .gs-hero-panel{height:34vw;min-height:104px;max-height:140px;margin-bottom:0;}
   #homeScreen .gs-daily-dominant{margin:10px 14px 0!important;}
-  #homeScreen .gs-daily-dominant .daily-inner{padding:15px 18px;}
-  #homeScreen .gs-daily-dominant .daily-q{font-size:15.5px;line-height:1.4;margin-bottom:11px;}
-  #homeScreen .gs-daily-dominant .daily-cta{padding:8px 16px;}
-  #homeScreen .rtg-home-card{margin:10px 14px 0;padding:14px 18px 13px;}
-  #homeScreen .ott-cue{margin:10px 14px 10px;padding:11px 16px;}
+  #homeScreen .gs-daily-dominant .daily-inner{padding:19px 19px 20px;}
+  #homeScreen .gs-daily-dominant .daily-q{font-size:16.5px;line-height:1.42;margin-bottom:17px;}
+  #homeScreen .gs-daily-dominant .daily-cta{padding:11px 18px;}
+  #homeScreen .gs-connector{margin:9px 14px 0;height:42px;}
+  #homeScreen .ptp-card{margin:8px 14px 0;padding:11px 18px 10px;}
+  #homeScreen .ptp-eyebrow{font-size:19px;}
+  #homeScreen .ptp-sub{margin-top:3px;}
+  #homeScreen .ptp-dots{margin:5px 0 0;}
+  #homeScreen .ptp-viz{margin:5px 0 3px;}
+  #homeScreen .ptp-node-goal{width:20px;height:20px;}
+  #homeScreen .ptp-question{margin:3px 0 8px;font-size:13px;}
+  #homeScreen .ptp-cta{padding:9px 20px;}
+  #homeScreen .ptp-skip{margin-top:7px;}
+  #homeScreen .ptp-lockmsg{margin:-4px 0 8px;}
 
   /* ── SHARPEN: compress every section so all five (Recommended, Pillars,
      Pro Lens, Play a Point, Legendary Exchanges) are glanceable in one viewport ── */
@@ -1025,6 +1034,41 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ott-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;opacity:.75;margin-bottom:5px;}
 .ott-text{font-size:13px;line-height:1.5;color:rgba(255,255,255,.78);font-weight:400;}
 
+/* ── TODAY'S CHALLENGE teaser headline ── */
+.daily-q-head{display:block;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:7px;line-height:1;}
+
+/* ── HOME MOMENTUM: connector strip ── */
+.gs-connector{margin:11px 14px 0;height:46px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:11px;}
+.gs-connector-text{font-size:12px;font-weight:700;letter-spacing:.6px;color:rgba(255,255,255,.6);}
+.gs-connector.locked .gs-connector-text{color:rgba(255,255,255,.42);}
+
+/* ── PREDICT THE POINT — secondary card (~20-25% smaller than Today's Challenge) ── */
+.ptp-card{margin:9px 14px 0;background:rgba(255,255,255,.03);border:1px solid rgba(200,168,75,.28);border-radius:18px;padding:16px 18px 15px;cursor:pointer;position:relative;overflow:hidden;transition:transform .18s,border-color .2s;text-align:center;}
+.ptp-card:active{transform:scale(.99);}
+.ptp-card:hover{border-color:rgba(200,168,75,.45);}
+.ptp-eyebrow{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1.5px;color:var(--white);line-height:1;}
+.ptp-sub{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:5px;}
+.ptp-dots{display:flex;gap:7px;justify-content:center;margin:9px 0 2px;}
+.ptp-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18);}
+.ptp-dot-on{background:var(--gold);}
+.ptp-viz{display:flex;align-items:center;justify-content:center;gap:9px;margin:10px 0 8px;}
+.ptp-node{width:13px;height:13px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:10px;}
+.ptp-node-done{background:rgba(200,168,75,.55);}
+.ptp-node-goal{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle,#fbffb4 0%,var(--gold) 60%,#7a9714 100%);color:#0a1509;font-size:12px;font-weight:900;box-shadow:0 0 14px 2px rgba(200,168,75,.55);animation:ptpGoalGlow 2.2s ease-in-out infinite;}
+@keyframes ptpGoalGlow{0%,100%{box-shadow:0 0 11px 1px rgba(200,168,75,.4);}50%{box-shadow:0 0 20px 4px rgba(200,168,75,.7);}}
+@media(prefers-reduced-motion:reduce){.ptp-node-goal{animation:none;}}
+.ptp-line{width:24px;height:2px;background:linear-gradient(90deg,rgba(200,168,75,.5),rgba(200,168,75,.2));}
+.ptp-question{font-size:14px;font-weight:600;color:rgba(255,255,255,.9);margin:6px 0 13px;}
+.ptp-lockmsg{display:none;font-size:11px;color:rgba(255,255,255,.4);margin:-6px 0 12px;}
+.ptp-cta{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#0a1509;border:none;padding:11px 22px;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;letter-spacing:.6px;cursor:pointer;transition:transform .15s;}
+.ptp-cta:active{transform:scale(.97);}
+.ptp-skip{display:none;margin-top:10px;font-size:12px;color:rgba(255,255,255,.45);font-weight:600;cursor:pointer;}
+.ptp-skip:hover{color:var(--gold);}
+.ptp-card.ptp-locked{border-color:rgba(255,255,255,.1);}
+.ptp-card.ptp-locked .ptp-lockmsg{display:block;}
+.ptp-card.ptp-locked .ptp-skip{display:block;}
+@media(min-width:768px){.ptp-card{max-width:460px;margin-left:auto;margin-right:auto;}}
+
 /* ── SHARPEN: Recommended-next dominant card ── */
 .hub-rec-card{margin:14px 14px 4px;padding:18px 20px 16px;border-radius:18px;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(155deg,rgba(20,40,18,.95) 0%,rgba(8,18,10,.98) 100%);border:1px solid rgba(200,168,75,.5);box-shadow:0 8px 30px rgba(0,0,0,.5);transition:transform .15s,border-color .2s;}
 .hub-rec-card:active{transform:scale(.99);}
@@ -1430,48 +1474,31 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       </div>
     </div>
 
-    <!-- READ THE GAME — secondary card -->
-    <div class="rtg-home-card" id="seqHomeCard" onclick="openSequenceLibrary()">
-      <!-- Imagery: half-court with player + three ball-placement options -->
-      <svg class="rtg-home-art" viewBox="0 0 96 112" fill="none" aria-hidden="true">
-        <!-- court surface -->
-        <rect x="8" y="8" width="80" height="96" rx="2" fill="#0e2a12" fill-opacity=".45" stroke="rgba(255,255,255,.28)" stroke-width="1.2"/>
-        <!-- singles sidelines -->
-        <line x1="21" y1="8" x2="21" y2="104" stroke="rgba(255,255,255,.13)" stroke-width="1"/>
-        <line x1="75" y1="8" x2="75" y2="104" stroke="rgba(255,255,255,.13)" stroke-width="1"/>
-        <!-- service lines -->
-        <line x1="21" y1="38" x2="75" y2="38" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-        <line x1="21" y1="74" x2="75" y2="74" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-        <!-- center service line -->
-        <line x1="48" y1="38" x2="48" y2="74" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-        <!-- net -->
-        <line x1="8" y1="56" x2="88" y2="56" stroke="rgba(200,168,75,.6)" stroke-width="1.8"/>
-        <!-- option zones on the opponent half -->
-        <rect class="rtg-zone rtg-z1" x="21.5" y="11" width="17" height="26" rx="2"/>
-        <rect class="rtg-zone rtg-z2" x="39.5" y="39" width="17" height="15" rx="2"/>
-        <rect class="rtg-zone rtg-z3" x="57.5" y="11" width="17" height="26" rx="2"/>
-        <rect class="rtg-zone rtg-z4" x="21.5" y="75" width="17" height="23" rx="2"/>
-        <rect class="rtg-zone rtg-z5" x="57.5" y="75" width="17" height="23" rx="2"/>
-      </svg>
-      <div class="rtg-home-body">
-        <div class="rtg-home-eyebrow">When you're ready — three linked decisions from one match pattern.</div>
-        <div class="rtg-home-title">Read The Game</div>
-        <div class="rtg-home-seq-name" id="seqCardName">3 linked decisions. One pattern.</div>
-        <div class="rtg-home-chain">
-          <div class="seq-chain-dot scd-lit"></div>
-          <div class="seq-chain-line"></div>
-          <div class="seq-chain-dot scd-lit"></div>
-          <div class="seq-chain-line"></div>
-          <div class="seq-chain-dot scd-lit"></div>
-        </div>
-        <div class="rtg-home-cta">Read The Pattern →</div>
-      </div>
+    <!-- CONNECTOR STRIP — links Today's Challenge into Predict the Point -->
+    <div class="gs-connector" id="homeConnector">
+      <span class="gs-connector-text" id="connectorText">⚡ Continue today's lesson</span>
     </div>
 
-    <!-- ONE THING TO REMEMBER — adaptive cue -->
-    <div class="ott-cue" id="oneThingCue">
-      <div class="ott-label">One thing to remember:</div>
-      <div class="ott-text" id="oneThingText">Margin beats emotion — go to your patterns first.</div>
+    <!-- PREDICT THE POINT — secondary card (the natural next episode) -->
+    <div class="ptp-card" id="seqHomeCard">
+      <div class="ptp-eyebrow">Predict the Point</div>
+      <div class="ptp-sub" id="ptpSub">Decision 1 of 3</div>
+      <div class="ptp-dots" aria-hidden="true">
+        <span class="ptp-dot ptp-dot-on"></span>
+        <span class="ptp-dot"></span>
+        <span class="ptp-dot"></span>
+      </div>
+      <div class="ptp-viz" aria-hidden="true">
+        <span class="ptp-node ptp-node-done"></span>
+        <span class="ptp-line"></span>
+        <span class="ptp-node ptp-node-done"></span>
+        <span class="ptp-line"></span>
+        <span class="ptp-node ptp-node-goal">★</span>
+      </div>
+      <div class="ptp-question" id="ptpQuestion">What happens next?</div>
+      <div class="ptp-lockmsg" id="ptpLockMsg">Complete Today's Challenge first</div>
+      <button class="ptp-cta" id="ptpCta" type="button">Predict the Point →</button>
+      <div class="ptp-skip" id="ptpSkip">Skip →</div>
     </div>
 
   </div><!-- /gs-main -->
@@ -5782,17 +5809,18 @@ function initDailyChallenge() {
     const dailyStreakEl = document.getElementById('dailyStreak');
     if (dailyStreakEl) applyStreakTier(dailyStreakEl, streak);
   }
-  if (qEl && q) qEl.textContent = q.question.length > 120 ? q.question.substring(0,117)+'…' : q.question;
+  // Fixed, reduced teaser copy — the card sells the moment, not the question text
+  if (qEl) qEl.innerHTML = '<span class="daily-q-head">Match Point</span>You have one forehand. What’s the smartest swing?';
 
-  // Populate match situation label (pillar · module)
+  // Reduce copy: drop the pillar · module situation line
   const situationEl = document.getElementById('dailySituation');
-  if (situationEl && q) situationEl.textContent = [q.pillar, q.module].filter(Boolean).join(' · ');
+  if (situationEl) situationEl.textContent = '';
 
   if (done && ctaEl) {
     ctaEl.innerHTML = '<span class="daily-done">✓ Completed today</span>';
     if (card) { card.style.opacity = '0.7'; card.classList.remove('daily-card-active'); }
   } else if (ctaEl) {
-    ctaEl.textContent = "Start Challenge →";
+    ctaEl.textContent = "Start Today's Challenge →";
     if (card) card.classList.add('daily-card-active');
   }
 }
@@ -7961,7 +7989,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v40';
+const CACHE = 'gamesharp-v41';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
@@ -8537,11 +8565,44 @@ function replayLinkedSequence() {
 }
 
 // ── INIT CARD ──
+const PTP_LINES = [
+  'What happens next?',
+  'Can you see the winning pattern?',
+  'Most players miss Decision 2.',
+  'Spot the opening.'
+];
+
 function initSeqCard() {
-  const day = Math.floor(Date.now() / 86400000);
-  const seq = LINKED_SEQUENCES[day % LINKED_SEQUENCES.length];
-  const el = document.getElementById('seqCardName');
-  if (el) el.textContent = seq.title + ' — ' + seq.pillar;
+  const card = document.getElementById('seqHomeCard');
+  const qEl = document.getElementById('ptpQuestion');
+  const ctaEl = document.getElementById('ptpCta');
+  const skipEl = document.getElementById('ptpSkip');
+  const connector = document.getElementById('homeConnector');
+  const connectorText = document.getElementById('connectorText');
+
+  // Rotate the prompt line between sessions
+  if (qEl) qEl.textContent = PTP_LINES[Math.floor(Math.random() * PTP_LINES.length)];
+
+  const done = isDailyDone();
+  if (connectorText) connectorText.textContent = (done ? '⚡' : '🔒') + " Continue today's lesson";
+  if (connector) connector.classList.toggle('locked', !done);
+
+  if (!card) return;
+
+  if (done) {
+    // Unlocked — Predict the Point is the natural next episode
+    card.classList.remove('ptp-locked');
+    if (ctaEl) ctaEl.textContent = 'Predict the Point →';
+    card.onclick = openSequenceLibrary;
+    if (ctaEl) ctaEl.onclick = function (e) { e.stopPropagation(); openSequenceLibrary(); };
+  } else {
+    // Behavioural nudge — steer to Today's Challenge first, but Skip still works
+    card.classList.add('ptp-locked');
+    if (ctaEl) ctaEl.textContent = "Start Today's Challenge →";
+    card.onclick = startDailyChallenge;
+    if (ctaEl) ctaEl.onclick = function (e) { e.stopPropagation(); startDailyChallenge(); };
+    if (skipEl) skipEl.onclick = function (e) { e.stopPropagation(); openSequenceLibrary(); };
+  }
 }
 
 // ── V5.2 TODAY'S CHALLENGE FEEDBACK ──
