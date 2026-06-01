@@ -359,7 +359,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   .explain-card.why-open .why-detail{display:block;}
   .explain-card.why-open .why-caret{transform:rotate(180deg);}
 
-  /* ── HOME: fit logo + Today's Challenge + Read the Game + Sharpen cue above the nav.
+  /* ── HOME: fit logo + Today's Challenge + Predict the Point + Sharpen cue above the nav.
      Scoped to #homeScreen so these beat the later base rules at equal class specificity. */
   #homeScreen .gs-main{padding-bottom:74px;}
   #homeScreen .gs-hero-header{padding:12px 0 6px;}
@@ -6841,7 +6841,7 @@ function initPlayHub() {
     <div class="hub-card" onclick="openSequenceLibrary()">
       <div class="hub-card-icon">🧩</div>
       <div class="hub-card-body">
-        <div class="hub-card-eyebrow">Read The Game</div>
+        <div class="hub-card-eyebrow">Predict the Point</div>
         <div class="hub-card-title">Three linked decisions, one pattern.</div>
         <div class="hub-card-sub">See how the point unfolds.</div>
       </div>
@@ -6927,6 +6927,7 @@ function initLearnHub() {
     </div>
     <div class="gs-pillars-wrap"><div class="plm-scroll" id="plmScroll"></div></div>
 
+    <!-- ARCHIVED: Play a Point (Open Practice) — removed from Sharpen for now; may restore later.
     <div class="hub-section-hdr">
       <div class="hub-section-eyebrow">Open Practice</div>
       <div class="hub-section-title">Play a Point</div>
@@ -6940,6 +6941,7 @@ function initLearnHub() {
       </div>
       <div class="hub-card-arrow">→</div>
     </div>
+    -->
 
     <div class="hub-section-hdr">
       <div class="hub-section-eyebrow">Signature Experiences</div>
@@ -8017,7 +8019,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v42';
+const CACHE = 'gamesharp-v43';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
@@ -8292,7 +8294,7 @@ const LINKED_SEQUENCES = [
 let seqState = { seq: null, stepIdx: 0, answered: false, answers: [], score: 0 };
 
 // ── ENTRY ──
-// Rotate through the linked sequences so Read the Game varies every play
+// Rotate through the linked sequences so Predict the Point varies every play
 // instead of repeating the same day-keyed pattern.
 function _nextRtgSequence() {
   let idx = -1;
@@ -8362,7 +8364,7 @@ function buildSeqIntro() {
         <div class="seq-back-btn" onclick="initHome()">←</div>
         <div class="seq-diff-badge">${s.difficulty}</div>
       </div>
-      <div class="seq-intro-eyebrow">Read The Game</div>
+      <div class="seq-intro-eyebrow">Predict the Point</div>
       <div class="seq-intro-title">${s.title}</div>
       <div class="seq-intro-pillar">${s.pillar} · ${s.module}</div>
       <div class="seq-intro-setup">${s.setup}</div>
