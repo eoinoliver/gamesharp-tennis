@@ -970,6 +970,12 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .gs-hero-panel .gs-hero-court{position:absolute;inset:0;width:100%;height:100%;}
 .gs-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%;display:block;}
 .gs-hero-panel .gs-hero-veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,14,6,.0) 0%,rgba(6,14,6,.0) 30%,rgba(6,14,6,.28) 72%,rgba(6,14,6,.52) 100%);pointer-events:none;}
+/* Desktop: the panel gets very wide, so the 205px letterbox crops the player's head.
+   Cap the width and give it a taller, less extreme aspect so the full player shows. */
+@media(min-width:768px){
+  .gs-hero-panel{height:auto;min-height:0;aspect-ratio:1400/720;max-height:360px;max-width:720px;margin-left:auto;margin-right:auto;}
+  .gs-hero-img{object-position:center 22%;}
+}
 
 /* Shared wordmark + slogan styles */
 .gs-hero-wordmark{display:flex;align-items:center;gap:0;position:relative;line-height:1;}
@@ -8019,7 +8025,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v43';
+const CACHE = 'gamesharp-v44';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
