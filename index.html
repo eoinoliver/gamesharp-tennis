@@ -3338,7 +3338,9 @@ const TECH_ANIMS = {
     svg:(p={})=>{
       const ad = p.side==='ad';
       const mx = v => ad ? 200 - v : v;
-      const youX=mx(130), tXz=mx(108), bXz=mx(130), wXz=mx(158);
+      // Server stands deuce-right (x=130); the serve crosses DIAGONALLY into the
+      // opposite (left) service box, so targets sit left of centre.
+      const youX=mx(130), tXz=mx(92), bXz=mx(70), wXz=mx(42);
       const tgt=(p.target||'').toLowerCase();
       const dest = tgt==='t'?{x:tXz,y:102,c:'#5b9bd5'}:tgt==='body'?{x:bXz,y:118,c:'#c8a84b'}:tgt==='wide'?{x:wXz,y:96,c:'#e07070'}:null;
       const arc = dest ? `<path d="M${youX},291 Q${(youX+dest.x)/2},188 ${dest.x},${dest.y}" stroke="${dest.c}" stroke-width="3" fill="none" stroke-linecap="round" class="ta-reveal"/>` : '';
@@ -3379,8 +3381,8 @@ const TECH_ANIMS = {
       const youX = mx(130);
       mkEl('circle',{cx:String(youX),cy:'291',r:'9',fill:'#c8a84b'});
       mkEl('text',{x:String(youX),y:'295','text-anchor':'middle',fill:'#0a1509','font-size':'7','font-weight':'bold'},'','YOU');
-      // Target zones (mirrored for ad court)
-      const tXz=mx(108), bXz=mx(130), wXz=mx(158);
+      // Target zones — DIAGONAL service box (opposite side from the server)
+      const tXz=mx(92), bXz=mx(70), wXz=mx(42);
       mkEl('circle',{cx:String(tXz),cy:'102',r:'13',fill:'rgba(91,155,213,.2)',stroke:'#5b9bd5','stroke-width':'1.5','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .4s .3s ease both');
       mkEl('text',{x:String(tXz),y:'106','text-anchor':'middle',fill:'#5b9bd5','font-size':'8','font-weight':'bold',opacity:'0'},'animation:tpop .4s .3s ease both','T');
       mkEl('circle',{cx:String(bXz),cy:'118',r:'11',fill:'rgba(200,168,75,.2)',stroke:'#c8a84b','stroke-width':'1.5','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .4s .7s ease both');
@@ -8332,7 +8334,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v53';
+const CACHE = 'gamesharp-v54';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
