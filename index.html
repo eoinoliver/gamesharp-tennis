@@ -6105,9 +6105,37 @@ function startHereSession() {
   }
   const bundle = buildPlayAPoint('Win More', null, pool);
   if (!bundle || !bundle.length) return;
-  // Override context for the "start here" intro session
+
+  // Lean into the pillar the user chose in welcome onboarding — a flavour, not a
+  // takeover. Weave up to 2 chosen-pillar questions into a balanced match-play base,
+  // keeping the base opener (slot 0) and three match-play questions for balance.
+  const _tags = getPlayerTags();
+  const _focusMap = { game_iq: 'Game IQ', technique: 'Technique', mental: 'Mental' };
+  const focusPillar = _focusMap[_tags.sharpen_focus]; // win_more/the_debate/none → no separate flavour
+  let focusLabel = 'Win More';
+  if (focusPillar) {
+    const flavour = QBANK.filter(q =>
+      q.pillar === focusPillar && (q.tier === 'Free' || !q.tier) &&
+      (Number(q.engagement_score) >= 4 || Number(q.utility_score) >= 4) &&
+      !bundle.some(b => b.id === q.id)
+    );
+    const qual = q => (Number(q.engagement_score) || 3) + (Number(q.utility_score) || 3);
+    const flavourPick = flavour
+      .sort((a, b) => (seenIds.has(a.id) - seenIds.has(b.id)) || (qual(b) - qual(a)))
+      .slice(0, 2);
+    if (flavourPick.length) {
+      // Weave at slots 1 and 3 so the session opens on familiar match play, then
+      // brings in their focus — a 3 (match play) / 2 (focus) balance.
+      [1, 3].forEach((slot, k) => { if (flavourPick[k] && slot < bundle.length) bundle[slot] = flavourPick[k]; });
+      recordSeenQuestions(flavourPick);
+      focusLabel = `${focusPillar} + Match Play`;
+    }
+  }
+
+  // Override context for the "start here" intro session (format label recomputed per slot)
   bundle.forEach((q, i) => {
-    q._bundle = { ...q._bundle, score: 'First Match · Win More', context: 'Five decisions that improve your match play immediately.', icon: '🎾', shotNum: i+1, total: bundle.length };
+    const fmtKey = getFormatLabel(q, i);
+    q._bundle = { ...q._bundle, score: `Your First Session · ${focusLabel}`, context: 'Five decisions personalised to your game.', icon: '🎾', shotNum: i+1, total: bundle.length, fmtKey, fmtLabel: fmtLabel(fmtKey) };
   });
   state.quiz = bundle;
   state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
@@ -8229,7 +8257,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v45';
+const CACHE = 'gamesharp-v46';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
