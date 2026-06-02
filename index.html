@@ -6416,7 +6416,6 @@ function buildProLens(q, wasCorrect) {
         <span class="mot-tag">${tagLabel}</span>
       </div>
       <div class="pro-lens-body">
-        ${diagram ? `<div class="pl-visual">${diagram}</div>` : ''}
         ${insight ? `<div class="pl-insight">${insight}</div>` : ''}
         ${tip ? `<div class="pl-tip"><span class="pl-tip-arrow">→</span><span class="pl-tip-text">${tip}</span></div>` : ''}
       </div>
@@ -8334,7 +8333,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v55';
+const CACHE = 'gamesharp-v56';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
