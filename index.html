@@ -215,7 +215,12 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ta-court-wrap svg{position:relative;z-index:3;width:100%;height:auto;display:block;max-height:160px;filter:drop-shadow(0 5px 14px rgba(0,0,0,.5));}
 /* Portrait cinematic courts (200×310) — width-first, no height cap, no side margins */
 .ta-court-wrap svg[viewBox="0 0 200 310"]{max-height:none;}
-.ta-court-wrap:has(svg[viewBox="0 0 200 310"]){margin:0;border-radius:8px;}
+/* Landscape courts fill the width (no 160px cap) */
+.ta-court-wrap svg[viewBox="0 0 310 200"]{max-height:none;width:100%;height:auto;}
+/* Side-on diagrams (swing/contact/bounce, tiebreak/pressure) stay portrait on a neutral
+   dark surface — the green court panel is for actual courts only. */
+.ta-court-wrap.ta-diagram{background:rgba(0,0,0,.2);box-shadow:none;}
+.ta-court-wrap.ta-diagram::after{display:none;}
 .ta-court-wrap.ta-premium svg{width:100%;height:auto;display:block;max-height:none;}
 @keyframes wsGlow{0%,100%{opacity:.72}50%{opacity:1;filter:drop-shadow(0 0 5px rgba(200,168,75,.85))}}
 @keyframes wsZonePulse{0%,100%{opacity:.15}50%{opacity:.35}}
@@ -347,6 +352,11 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   #quizScreen .ta-court-wrap svg,
   #quizScreen .ta-court-wrap svg[viewBox="0 0 200 310"],
   #quizScreen .ta-court-wrap.ta-premium svg{position:relative;z-index:3;max-height:100%!important;height:100%!important;width:auto!important;max-width:100%!important;filter:drop-shadow(0 5px 14px rgba(0,0,0,.5));}
+  /* Landscape courts fill the full width — that's the whole point */
+  #quizScreen .ta-court-wrap svg[viewBox="0 0 310 200"]{width:100%!important;height:auto!important;max-width:100%!important;max-height:100%!important;}
+  /* Diagrams keep the neutral dark surface (no green panel / vignette) */
+  #quizScreen .ta-court-wrap.ta-diagram{background:rgba(0,0,0,.2);box-shadow:none;}
+  #quizScreen .ta-court-wrap.ta-diagram::after{display:none;}
   #quizScreen .ta-caption{flex:0 0 auto;padding:3px 14px 2px;min-height:0;}
   #quizScreen .ta-controls{flex:0 0 auto;}
   /* Replay / Show-mistake belong to the post-answer reward, not the question */
@@ -454,6 +464,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 #quizScreen.pro-lens-moment .ta-court-wrap::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 42%,transparent 56%,rgba(0,0,0,.46) 100%);z-index:2;}
 /* Show the whole court at maximum height — the green surround fills the width (no dead space) */
 #quizScreen.pro-lens-moment .ta-court-wrap svg{position:relative;z-index:3;height:100%!important;width:auto!important;max-height:100%!important;max-width:100%!important;filter:drop-shadow(0 6px 16px rgba(0,0,0,.5));}
+#quizScreen.pro-lens-moment .ta-court-wrap svg[viewBox="0 0 310 200"]{width:100%!important;height:auto!important;}
 #quizScreen.pro-lens-moment .ta-caption{position:absolute;left:0;right:0;bottom:0;z-index:4;margin:0 4px;text-align:center;font-style:italic;padding:18px 16px 9px;font-size:12.5px;color:#fff;background:linear-gradient(to top,rgba(5,12,6,.92) 0%,rgba(5,12,6,.6) 55%,transparent 100%);border-radius:0 0 16px 16px;}
 /* Once answered the panel can scroll with the result — drop the caption back into flow */
 #quizScreen.pro-lens-moment.quiz-answered .ta-caption{position:static;background:none;padding:7px 16px 2px;color:rgba(255,255,255,.82);}
@@ -5754,6 +5765,43 @@ function toggleTechMistake() {
   if (_taCurrentKey) mountTechAnim(_taCurrentKey, null, _taMistakeMode);
 }
 
+// Turn a portrait top-down court SVG (viewBox 0 0 200 310) into a landscape one
+// (0 0 310 200) so it fills the screen width. The whole drawing is rotated 90° via a
+// wrapping group; text labels are counter-rotated so they still read horizontally.
+// Only real courts (green surface rect at x=20,y=10) are rotated — side-on technique
+// diagrams (swing/contact/bounce, full x=0,y=0 background) are left untouched.
+function landscapeCourtSvg(court) {
+  try {
+    if (court) court.classList.remove('ta-diagram');
+    const svg = court && court.querySelector('svg');
+    if (!svg) return;
+    if (svg.getAttribute('viewBox') !== '0 0 200 310') return; // already landscape / other
+    if (!svg.querySelector('rect[x="20"][y="10"]')) {
+      // Portrait side-on diagram (swing/contact/bounce, tiebreak/pressure scoreboards) —
+      // can't be landscape; flag it so the panel uses a neutral dark surface, not green.
+      court.classList.add('ta-diagram');
+      return;
+    }
+    if (svg.dataset.landscaped === '1') return;
+    const H = 310;
+    // Counter-rotate every text/tspan anchor so labels stay upright after the group spin
+    svg.querySelectorAll('text').forEach(t => {
+      const x = parseFloat(t.getAttribute('x') || '0');
+      const y = parseFloat(t.getAttribute('y') || '0');
+      const prev = t.getAttribute('transform');
+      const rot = `rotate(-90 ${x} ${y})`;
+      t.setAttribute('transform', prev ? `${rot} ${prev}` : rot);
+    });
+    const NS = 'http://www.w3.org/2000/svg';
+    const g = document.createElementNS(NS, 'g');
+    g.setAttribute('transform', `translate(${H},0) rotate(90)`);
+    while (svg.firstChild) g.appendChild(svg.firstChild);
+    svg.appendChild(g);
+    svg.setAttribute('viewBox', `0 0 ${H} 200`);
+    svg.dataset.landscaped = '1';
+  } catch (e) { /* leave portrait on any failure */ }
+}
+
 function mountTechAnim(key, params, mistakeMode, staticOnly) {
   _taCurrentKey = key;
   _taCurrentParams = params || {};
@@ -5788,6 +5836,9 @@ function mountTechAnim(key, params, mistakeMode, staticOnly) {
   if (staticOnly) court.classList.add('ta-static');
   else court.classList.remove('ta-static');
   court.innerHTML = svgMarkup;
+  // Rotate top-down portrait courts to landscape so they fill the screen width
+  // instead of sitting as a narrow strip. (Technique side-diagrams are left alone.)
+  landscapeCourtSvg(court);
 
   // Caption
   const captions = (mistakeMode && a.mistakeCaptions) ? a.mistakeCaptions : (a.captions || {});
@@ -8273,7 +8324,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v49';
+const CACHE = 'gamesharp-v50';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
