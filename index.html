@@ -6462,8 +6462,11 @@ function buildProLensScene(cfg) {
   <rect x="22" y="14" width="276" height="167" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
   <line x1="22" y1="97" x2="298" y2="97" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
   <line x1="160" y1="94" x2="160" y2="100" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="45" y1="57" x2="275" y2="57" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
   <line x1="45" y1="137" x2="275" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-  <line x1="160" y1="97" x2="160" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="57" x2="160" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="14" x2="160" y2="19" stroke="rgba(255,255,255,.4)" stroke-width="1.2"/>
+  <line x1="160" y1="176" x2="160" y2="181" stroke="rgba(255,255,255,.4)" stroke-width="1.2"/>
   <line x1="45" y1="14" x2="45" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
   <line x1="275" y1="14" x2="275" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
   <line x1="157" y1="181" x2="163" y2="181" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>
@@ -8337,7 +8340,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v57';
+const CACHE = 'gamesharp-v58';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
@@ -8823,17 +8826,26 @@ function buildSeqCourtAnim(step, choiceIdx) {
   const courtLines = `
     <rect x="0" y="0" width="250" height="170" fill="#060e06"/>
     <rect x="20" y="14" width="210" height="144" fill="#0c2210" rx="1"/>
-    <line x1="20" y1="14" x2="230" y2="14" stroke="rgba(255,255,255,.22)" stroke-width=".8"/>
-    <line x1="20" y1="158" x2="230" y2="158" stroke="rgba(255,255,255,.22)" stroke-width=".8"/>
-    <line x1="20" y1="46" x2="230" y2="46" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
-    <line x1="20" y1="122" x2="230" y2="122" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
-    <line x1="125" y1="14" x2="125" y2="78" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
-    <line x1="125" y1="78" x2="125" y2="158" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
-    <line x1="20" y1="14" x2="20" y2="158" stroke="rgba(255,255,255,.2)" stroke-width=".8"/>
-    <line x1="230" y1="14" x2="230" y2="158" stroke="rgba(255,255,255,.2)" stroke-width=".8"/>
+    <!-- baselines + doubles sidelines -->
+    <line x1="20" y1="14" x2="230" y2="14" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+    <line x1="20" y1="158" x2="230" y2="158" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+    <line x1="20" y1="14" x2="20" y2="158" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+    <line x1="230" y1="14" x2="230" y2="158" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+    <!-- singles sidelines -->
+    <line x1="46" y1="14" x2="46" y2="158" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+    <line x1="204" y1="14" x2="204" y2="158" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+    <!-- service lines (singles width) -->
+    <line x1="46" y1="46" x2="204" y2="46" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+    <line x1="46" y1="122" x2="204" y2="122" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+    <!-- centre service line — only between the two service lines (through the net) -->
+    <line x1="125" y1="46" x2="125" y2="122" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
+    <!-- centre marks on the baselines -->
+    <line x1="125" y1="14" x2="125" y2="19" stroke="rgba(255,255,255,.45)" stroke-width="1.2"/>
+    <line x1="125" y1="153" x2="125" y2="158" stroke="rgba(255,255,255,.45)" stroke-width="1.2"/>
+    <!-- net -->
     <rect x="17" y="74" width="6" height="8" fill="rgba(200,168,75,.45)" rx="1"/>
     <rect x="227" y="74" width="6" height="8" fill="rgba(200,168,75,.45)" rx="1"/>
-    <line x1="20" y1="78" x2="230" y2="78" stroke="rgba(255,255,255,.38)" stroke-width="1.8"/>`;
+    <line x1="20" y1="78" x2="230" y2="78" stroke="rgba(255,255,255,.7)" stroke-width="1.8"/>`;
   const players = `
     <circle cx="${opp.x}" cy="${opp.y}" r="5.5" fill="rgba(255,255,255,.55)"/>
     <text x="${opp.x}" y="${opp.y + 13}" text-anchor="middle" font-size="6.5" fill="rgba(255,255,255,.35)" font-family="DM Sans,sans-serif">OPP</text>
@@ -9255,8 +9267,11 @@ function buildLegCourtAnim(ansIdx, step) {
   ${netGlow}
   <line x1="22" y1="97" x2="298" y2="97" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
   <line x1="160" y1="94" x2="160" y2="100" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="45" y1="57" x2="275" y2="57" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
   <line x1="45" y1="137" x2="275" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-  <line x1="160" y1="97" x2="160" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="57" x2="160" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="14" x2="160" y2="19" stroke="rgba(255,255,255,.4)" stroke-width="1.2"/>
+  <line x1="160" y1="176" x2="160" y2="181" stroke="rgba(255,255,255,.4)" stroke-width="1.2"/>
   <line x1="45" y1="14" x2="45" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
   <line x1="275" y1="14" x2="275" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
   <text x="30" y="27" fill="rgba(255,255,255,.28)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">NADAL END</text>
@@ -9308,8 +9323,11 @@ function buildLegCourtAnim(ansIdx, step) {
   <rect x="22" y="14" width="276" height="167" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
   <line x1="22" y1="97" x2="298" y2="97" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
   <line x1="160" y1="94" x2="160" y2="100" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+  <line x1="45" y1="57" x2="275" y2="57" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
   <line x1="45" y1="137" x2="275" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-  <line x1="160" y1="97" x2="160" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="57" x2="160" y2="137" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+  <line x1="160" y1="14" x2="160" y2="19" stroke="rgba(255,255,255,.4)" stroke-width="1.2"/>
+  <line x1="160" y1="176" x2="160" y2="181" stroke="rgba(255,255,255,.4)" stroke-width="1.2"/>
   <line x1="45" y1="14" x2="45" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
   <line x1="275" y1="14" x2="275" y2="181" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
   <text x="30" y="27" fill="rgba(255,255,255,.28)" font-size="7" font-family="DM Sans,sans-serif" letter-spacing="1">NADAL END</text>
