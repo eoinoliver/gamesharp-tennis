@@ -4998,7 +4998,7 @@ const TECH_ANIMS = {
 
       // ── Court positions (portrait 200×310) ───────────────────────────────
       const SVR     = {x:47,y:295};  // server/YOU at ad baseline (serves diagonally to the right box)
-      const SL      = {x:176,y:56};  // wide serve landing (past singles line right)
+      const SL      = {x:162,y:56};  // wide serve landing — just inside the singles line (in play)
       const OPP_I   = {x:120,y:41};  // OPP centre start
       const OPP_W   = {x:181,y:58};  // OPP off court (wide right)
       const RTN     = {x:133,y:244}; // return ball landing (YOUR strike zone)
@@ -8340,7 +8340,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v58';
+const CACHE = 'gamesharp-v59';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
@@ -8818,9 +8818,16 @@ function pickSeqAnswer(idx) {
 // ── COURT ANIMATION ──
 function buildSeqCourtAnim(step, choiceIdx) {
   const c = step.court;
-  const you = c.you;
-  const opp = c.opp;
-  const target = c.optTargets[choiceIdx] || c.optTargets[step.correct];
+  // Confine all play to the SINGLES court — targets were authored at the doubles
+  // corners (x≈35/220), which sit in the doubles alley (out of play for singles).
+  // Remap the doubles x-range [20,230] into the singles range [46,204] and keep
+  // landings inside the baselines, so no ball lands in the tramlines.
+  const _sx = x => 46 + (x - 20) * (158 / 210);
+  const _sy = y => Math.max(17, Math.min(155, y));
+  const you = { x: _sx(c.you.x), y: _sy(c.you.y) };
+  const opp = { x: _sx(c.opp.x), y: _sy(c.opp.y) };
+  const _t = c.optTargets[choiceIdx] || c.optTargets[step.correct];
+  const target = { x: _sx(_t.x), y: _sy(_t.y) };
   const midX = (you.x + target.x) / 2;
   const midY = Math.min(you.y, target.y) - 18;
   const courtLines = `
@@ -9227,8 +9234,8 @@ function buildLegCourtAnim(ansIdx, step) {
     const ghostF = `<circle cx="242" cy="158" r="10" fill="none" stroke="rgba(200,168,75,.25)" stroke-width="1.5" stroke-dasharray="3,2"/>`;
 
     const paths2 = [
-      { d:`M${fX},${fY} Q285,108 288,28`, len:170, color:'#ef5350', endX:288, endY:28,  nRX:280, nRY:38 },  // A DTL backhand (red)
-      { d:`M${fX},${fY} Q100,88 38,28`,   len:200, color:'#ffa726', endX:38,  endY:28,  nRX:42,  nRY:55 },  // B Heavy CC (amber)
+      { d:`M${fX},${fY} Q278,104 268,28`, len:170, color:'#ef5350', endX:268, endY:28,  nRX:262, nRY:38 },  // A DTL backhand (red)
+      { d:`M${fX},${fY} Q96,84 52,28`,    len:200, color:'#ffa726', endX:52,  endY:28,  nRX:56,  nRY:55 },  // B Heavy CC (amber)
       { d:`M${fX},${fY} Q118,90 82,22`,   len:168, color:'#5bba6f', endX:82,  endY:22,  nRX:78,  nRY:48 },  // C Approach backhand side (green BEST)
       { d:`M${fX},${fY} Q175,108 160,28`, len:152, color:'#90caf9', endX:160, endY:28,  nRX:155, nRY:40 },  // D Retreat deep center (blue)
     ];
@@ -9295,8 +9302,8 @@ function buildLegCourtAnim(ansIdx, step) {
     const nX = 52,  nY = 42;
 
     const paths = [
-      { d:`M${fX},${fY} Q278,88 285,28`,  len:175, color:'#ef5350', endX:285, endY:28,  nRX:278, nRY:35 },  // A DTL
-      { d:`M${fX},${fY} Q140,90 38,28`,   len:210, color:'#5bba6f', endX:38,  endY:28,  nRX:42,  nRY:58 },  // B Inside-out BEST
+      { d:`M${fX},${fY} Q270,86 266,28`,  len:175, color:'#ef5350', endX:266, endY:28,  nRX:260, nRY:35 },  // A DTL
+      { d:`M${fX},${fY} Q132,86 52,28`,   len:210, color:'#5bba6f', endX:52,  endY:28,  nRX:56,  nRY:58 },  // B Inside-out BEST
       { d:`M${fX},${fY} Q205,118 178,112`,len:120, color:'#ffa726', endX:178, endY:112, nRX:155, nRY:75 },  // C Drop shot
       { d:`M${fX},${fY} Q195,88 158,28`,  len:165, color:'#90caf9', endX:158, endY:28,  nRX:152, nRY:38 },  // D Deep middle
     ];
