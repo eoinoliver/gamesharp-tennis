@@ -607,7 +607,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .leg-opt.leg-other .leg-consequence{color:rgba(255,255,255,.3);opacity:1;}
 /* court anim */
 /* Broadcast camera angle (matches the quiz court) */
-.leg-anim-wrap{margin:20px 0 6px;border-radius:14px;overflow:hidden;position:relative;height:210px;perspective:760px;perspective-origin:50% 22%;background:radial-gradient(125% 105% at 50% 16%,#176022 0%,#10330f 55%,#06140a 100%);box-shadow:inset 0 0 55px rgba(0,0,0,.45);}
+.leg-anim-wrap{margin:20px 0 6px;border-radius:14px;overflow:hidden;position:relative;height:210px;perspective:760px;perspective-origin:50% 22%;background:radial-gradient(150% 135% at 50% 40%,#22682c 0%,#185322 42%,#103c18 74%,#0a2510 100%);box-shadow:inset 0 0 55px rgba(0,0,0,.4);}
 .leg-anim-wrap svg{position:absolute!important;left:50%;bottom:0;width:104%!important;height:auto!important;transform:translateX(-50%) rotateX(46deg);transform-origin:50% 100%;filter:drop-shadow(0 10px 16px rgba(0,0,0,.5));}
 /* result */
 .leg-result-card{margin:4px 0 0;border-radius:16px;padding:18px;animation:exin .38s cubic-bezier(.34,1.1,.64,1);}
@@ -706,7 +706,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .seq-next-btn.snb-show{display:block;animation:nxin .28s cubic-bezier(.34,1.3,.64,1);}
 .seq-next-btn:active{transform:scale(.97);}
 /* Broadcast camera angle (matches the quiz court) — tilt the down-the-court view into perspective */
-.seq-court-wrap{margin:16px auto 4px;max-width:560px;aspect-ratio:1.3/1;border-radius:14px;overflow:hidden;position:relative;perspective:780px;perspective-origin:50% 30%;background:radial-gradient(125% 110% at 50% 28%,#176022 0%,#10330f 58%,#06140a 100%);box-shadow:inset 0 0 50px rgba(0,0,0,.45);}
+.seq-court-wrap{margin:16px auto 4px;max-width:560px;aspect-ratio:1.3/1;border-radius:14px;overflow:hidden;position:relative;perspective:780px;perspective-origin:50% 30%;background:radial-gradient(150% 130% at 50% 42%,#22682c 0%,#185322 40%,#103c18 72%,#0a2510 100%);box-shadow:inset 0 0 50px rgba(0,0,0,.4);}
 .seq-court-wrap svg{position:absolute!important;left:50%;bottom:0;width:128%!important;max-width:none!important;height:auto!important;transform:translateX(-50%) rotateX(47deg);transform-origin:50% 100%;filter:drop-shadow(0 10px 16px rgba(0,0,0,.5));}
 /* result */
 .seq-result-wrap{position:relative;z-index:1;padding:52px 24px 48px;min-height:100vh;display:flex;flex-direction:column;}
@@ -8349,7 +8349,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v63';
+const CACHE = 'gamesharp-v64';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
