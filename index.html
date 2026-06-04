@@ -2023,11 +2023,34 @@ function buildProfileDiagnosis(answers) {
     }
   };
 
+  // ── Welcome-onboarding adapter ──────────────────────────────────────
+  // The first-visit welcome flow (WELCOME_QUESTIONS) saves a thin set of tags
+  // (player_level / play_format / sharpen_focus / use_context) under a
+  // different vocabulary than the deep archetype flow this function was
+  // originally written for. Without translation, every welcome-onboarded user
+  // falls through to the same defaults (Win More / singles / vs-pushers) no
+  // matter what they picked. Translate it so their choices actually drive the
+  // session pool.
+  const isWelcome = !!(answers && answers.sharpen_focus && !answers.improve);
+  const WELCOME_FOCUS = {
+    win_more:   { focus: 'Winning more of the points you already reach', session: 'Win More Matches',  pillars: ['Win More'],              tags: ['patterns', 'court-position', 'shot-selection'] },
+    game_iq:    { focus: 'Reading the game and making smarter decisions', session: 'Smart Decisions',   pillars: ['Game IQ'],               tags: ['decision', 'tactics', 'court-geometry'] },
+    technique:  { focus: 'Cleaner mechanics, movement and shot-making',   session: 'Technique Tune-Up', pillars: ['Technique'],             tags: ['technique', 'footwork', 'contact'] },
+    mental:     { focus: 'Competing better when points matter most',      session: 'Pressure Tennis',   pillars: ['Mental'],                tags: ['pressure', 'closing', 'reset', 'mental'] },
+    the_debate: { focus: 'Sharpening tennis IQ through the big debates',  session: 'The Debate',        pillars: ['The Debate', 'Game IQ'], tags: ['tactics', 'history', 'debate'] }
+  };
+  const WELCOME_FORMAT = { singles: 'Mostly singles', doubles: 'Mostly doubles', both: 'Mostly singles' };
+
   const styleData = styleMap[answers.style] || { style: 'Developing Player', icon: '🎾', weakness: 'Consistency under pressure' };
   const leak = leakMap[answers.leak] || 'a pattern worth studying';
   const pressurePattern = pressureMap[answers.pressure] || 'You\'re still finding your pressure response.';
-  const focusData = focusMap[answers.improve] || { focus: 'Sharpening your overall game', session: 'Win More Matches', pillars: ['Win More'], tags: ['patterns'] };
-  const rivalData = rivalMap[answers.biggest_rival] || rivalMap['Pushers & retrievers'];
+  const focusData = (isWelcome ? WELCOME_FOCUS[answers.sharpen_focus] : focusMap[answers.improve])
+    || { focus: 'Sharpening your overall game', session: 'Win More Matches', pillars: ['Win More'], tags: ['patterns'] };
+  // Only apply a rival "crash filter" when the player actually named a rival —
+  // otherwise welcome users get silently skewed toward pusher content.
+  const rivalData = answers.biggest_rival
+    ? (rivalMap[answers.biggest_rival] || rivalMap['Pushers & retrievers'])
+    : { weaknessLabel: 'Building an all-round game', crashFilter: [], mission: 'Sharpen one decision at a time — depth, targets and shot selection.', courtMission: 'This week: pick one pattern per match and commit to it fully.' };
 
   // Compute ranked weakness
   const weaknesses = [];
@@ -2065,7 +2088,8 @@ function buildProfileDiagnosis(answers) {
     recommendedSession: focusData.session,
     sessionPillars: focusData.pillars,
     sessionTags: focusData.tags,
-    format: answers.format || 'Mostly singles',
+    format: (isWelcome ? WELCOME_FORMAT[answers.play_format] : answers.format) || 'Mostly singles',
+    playerLevel: answers.player_level || null,
     hand: answers.hand || 'Right-handed',
     backhand: answers.backhand || 'Two-handed',
     serveConfidence: answers.serve_confidence || null,
@@ -3013,9 +3037,23 @@ function startPersonalSession() {
         if (qtags.includes('serve') || qtags.includes('pressure')) s += 3;
       }
 
+      // Difficulty alignment to the player's stated level (player_level was
+      // collected at onboarding but never influenced the pool before).
+      if (profile.playerLevel) {
+        const wantDiff = {
+          beginner:   ['Rookie', 'Club'],
+          rookie:     ['Rookie', 'Club'],
+          club:       ['Club', 'Tactician'],
+          competitor: ['Competitor', 'Tactician', 'Club']
+        }[profile.playerLevel] || [];
+        if (wantDiff.includes(q.difficulty)) s += 2;
+        // Don't throw Competitor-level scenarios at newer players.
+        if ((profile.playerLevel === 'beginner' || profile.playerLevel === 'rookie') && q.difficulty === 'Competitor') s -= 3;
+      }
+
       // Engagement quality floor
       if (Number(q.engagement_score) >= 5) s += 1;
-      if (Number(q.tier) === 'Pro') s -= 1;
+      if (q.tier === 'Pro') s -= 1;
 
       return s;
     }
@@ -7824,12 +7862,27 @@ function loadQ() {
   }
   mountTechAnim(q.techAnim || null, q.techAnimParams || {}, false, true);
   const list = document.getElementById('optList'); list.innerHTML = '';
-  ['A','B','C','D'].forEach((l,i) => {
-    const optKey = 'option_'+l.toLowerCase();
-    if (!q[optKey]) return;
+  // Shuffle answer positions so the correct answer isn't biased to one letter
+  // (authoring skew made "B" correct ~45% of the time — a visible tell on a
+  // decision-training app). Display letters stay in A/B/C/D order; only the
+  // content behind them is permuted, and correctness is remapped to whichever
+  // slot the correct text lands in (state.displayCorrect).
+  const _present = ['A','B','C','D'].filter(l => q['option_'+l.toLowerCase()]);
+  const _order = _present.slice();
+  for (let i = _order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [_order[i], _order[j]] = [_order[j], _order[i]];
+  }
+  const _slots = ['A','B','C','D'];
+  state.optMap = {};            // displayLetter -> sourceLetter
+  state.displayCorrect = null;  // displayLetter holding the correct answer
+  _order.forEach((srcL, i) => {
+    const dispL = _slots[i];
+    state.optMap[dispL] = srcL;
+    if (srcL === q.correct_answer) state.displayCorrect = dispL;
     const el = document.createElement('div'); el.className = 'opt opt-enter';
-    el.innerHTML = `<div class="opt-ltr">${l}</div><div class="opt-txt">${q[optKey]}</div><div class="opt-ico"></div>`;
-    el.onclick = () => pickAnswer(l);
+    el.innerHTML = `<div class="opt-ltr">${dispL}</div><div class="opt-txt">${q['option_'+srcL.toLowerCase()]}</div><div class="opt-ico"></div>`;
+    el.onclick = () => pickAnswer(dispL);
     list.appendChild(el);
     setTimeout(() => el.classList.add('opt-visible'), 70 + i*50);
   });
@@ -7898,14 +7951,16 @@ function pickAnswer(letter) {
   const _qs = document.getElementById('quizScreen');
   if (_qs) _qs.classList.add('quiz-answered');
   const q = state.quiz[state.qIdx];
-  const ok = letter === q.correct_answer;
+  // Correctness is keyed to the shuffled display slot, not the original letter.
+  const correctDisplay = state.displayCorrect || q.correct_answer;
+  const ok = letter === correctDisplay;
   if (ok) state.score++;
   state.results.push(ok);
 
   document.querySelectorAll('.opt').forEach(el => {
     const ltr = el.querySelector('.opt-ltr').textContent;
     el.classList.add('locked');
-    if (ltr === q.correct_answer) {
+    if (ltr === correctDisplay) {
       el.classList.add('correct'); el.querySelector('.opt-ico').textContent='✓';
       if (ltr === letter) {
         spawnP(el, true);
@@ -8349,7 +8404,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v66';
+const CACHE = 'gamesharp-v67';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
