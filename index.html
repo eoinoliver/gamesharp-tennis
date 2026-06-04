@@ -2630,19 +2630,19 @@ function showWelcomeOnboarding() {
 // One real decision on the broadcast court BEFORE any questions, so the very
 // first thing a new player does is feel the product — not fill in a form.
 const COLD_OPEN = {
-  situation: "Your opponent's serve drags you wide off the court. You stretch and reach it — but you're off balance.",
-  question: "What's the highest-percentage play?",
-  you: { x: 150, y: 128 },
-  opp: { x: 100, y: 30 },
+  situation: "You're trading crosscourt backhands. The rally is even — neither of you is in control — and you get another ball at a comfortable height.",
+  question: "Where do you go with it?",
+  you: { x: 56, y: 128 },
+  opp: { x: 138, y: 38 },
   options: [
-    { label: 'Down the line', sub: 'Go for the winner', target: { x: 150, y: 30 }, correct: false,
-      verdict: "Tempting — but you're stretched and off balance. Down-the-line from way out wide is the lowest-percentage shot on the court, and if you miss it the point's gone anyway." },
-    { label: 'High, deep crosscourt', sub: 'Reset and recover', target: { x: 58, y: 30 }, correct: true,
-      verdict: "Exactly. Pulled this wide, the job isn't to win the point — it's to neutralise it. A high, deep crosscourt ball gives you the time to recover your position and reset the rally." },
-    { label: 'Drop shot', sub: 'Catch them off guard', target: { x: 104, y: 88 }, correct: false,
-      verdict: "Risky from defence — a drop shot hit on the stretch tends to sit up, and your opponent is already in control of the point. You'd be gambling from the worst position to gamble." }
+    { label: 'Down the line', sub: 'Into the open court', target: { x: 58, y: 28 }, correct: false,
+      verdict: "This is the shot most club players take — and miss. From a neutral, even ball you haven't earned the line yet: it's the highest-risk shot on the court, and you're not balanced and moving forward enough to justify it." },
+    { label: 'Heavy crosscourt again', sub: 'Keep building the rally', target: { x: 150, y: 26 }, correct: true,
+      verdict: "Right. Keep loading the crosscourt — more depth, more pace — until your opponent floats a shorter ball. THEN you change direction, balanced and moving in. You earn the line before you go for it." },
+    { label: 'Drop shot', sub: 'Change it up', target: { x: 80, y: 88 }, correct: false,
+      verdict: "From an even, deep rally the drop just sits up — your opponent is balanced and reads it early. There's no opening here yet to exploit." }
   ],
-  insight: "Better players don't just read the ball — they read the situation. That's what GameSharp trains."
+  insight: "Roger Federer called the down-the-line the most expensive shot in tennis: “The crosscourt gives you the match. The line ends the point — you need the match before you can end the point.”"
 };
 
 function coldCourtMarkings() {
@@ -2695,7 +2695,8 @@ function coldOpenCourt(chosenIdx) {
       action += `<path d="M${you.x},${you.y} Q${ccx},${ccy} ${ct.x},${ct.y}" stroke="rgba(91,186,111,.75)" stroke-width="1.6" fill="none" stroke-dasharray="4,3" opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.45s" dur="0.4s" fill="freeze"/></path>`;
     }
   } else {
-    action = `<path d="M95,42 Q150,72 ${you.x},${you.y - 8}" stroke="rgba(200,168,75,.45)" stroke-width="1.3" fill="none" stroke-dasharray="3,3"/>`;
+    // Incoming crosscourt ball arriving to your backhand corner.
+    action = `<path d="M${opp.x - 4},${opp.y + 8} Q92,80 ${you.x + 8},${you.y - 8}" stroke="rgba(200,168,75,.45)" stroke-width="1.3" fill="none" stroke-dasharray="3,3"/>`;
   }
 
   return `<div class="wob-court cold-court"><svg viewBox="0 0 200 150">
@@ -8889,7 +8890,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v76';
+const CACHE = 'gamesharp-v77';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
