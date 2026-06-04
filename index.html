@@ -1439,6 +1439,12 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .cv-body{ font-size:14.5px; color:#fff; line-height:1.55; margin-bottom:12px; }
 .cv-insight{ font-size:13px; color:rgba(255,255,255,.55); line-height:1.55; font-style:italic; }
 
+/* derived diagnosis on the build screen + habit commit */
+.wob-diag{ background:rgba(91,186,111,.08); border:1px solid rgba(91,186,111,.22); border-radius:12px; padding:13px 15px; margin-bottom:20px; }
+.wob-diag-eyebrow{ font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#5bba6f; font-weight:800; margin-bottom:6px; }
+.wob-diag-text{ font-size:14.5px; color:#fff; line-height:1.55; }
+.wob-streak-badge{ display:inline-flex; align-items:center; gap:7px; background:rgba(200,168,75,.12); border:1px solid rgba(200,168,75,.3); color:#e3c878; font-size:12px; font-weight:700; letter-spacing:.3px; padding:7px 13px; border-radius:20px; margin-top:2px; }
+
 /* progress track + travelling ball */
 .wob-track{ position:relative; display:flex; align-items:center; gap:6px; margin:0 0 30px; height:12px; }
 .wob-dot{ flex:1; height:6px; border-radius:3px; background:rgba(255,255,255,.15); transition:all .4s var(--ease-out-quint); }
@@ -2547,10 +2553,10 @@ const WELCOME_QUESTIONS = [
     subtext: 'This sets your starting level — every situation is tuned to your game.',
     confirm: "Got it — we'll meet you where your game is now.",
     opts: [
-      { emoji: '🌱', label: 'Beginner', sublabel: 'Just finding my feet', tag: 'beginner' },
-      { emoji: '🎯', label: 'Rookie', sublabel: 'Getting the basics together', tag: 'rookie' },
-      { emoji: '🎾', label: 'Club Player', sublabel: 'Regular league or social tennis', tag: 'club' },
-      { emoji: '⚡', label: 'Competitor', sublabel: 'I train and take matches seriously', tag: 'competitor' }
+      { emoji: '🌱', label: 'Beginner', sublabel: 'Just finding my feet', tag: 'beginner', confirm: "Perfect — at this stage one clear idea a day beats ten you can't use. We'll keep it simple." },
+      { emoji: '🎯', label: 'Rookie', sublabel: 'Getting the basics together', tag: 'rookie', confirm: "Good — most of your points are decided by a handful of repeat mistakes. We'll find them first." },
+      { emoji: '🎾', label: 'Club Player', sublabel: 'Regular league or social tennis', tag: 'club', confirm: "This is the level where tactics start deciding matches more than strokes — exactly where we'll sharpen." },
+      { emoji: '⚡', label: 'Competitor', sublabel: 'I train and take matches seriously', tag: 'competitor', confirm: "At your level the margins are tiny. We'll hunt the 1%-ers that flip tight matches." }
     ]
   },
   {
@@ -2560,9 +2566,9 @@ const WELCOME_QUESTIONS = [
     subtextSm: "We'll show more situations that match how you actually play.",
     special: 'court',
     opts: [
-      { emoji: '👤', label: 'Singles', sublabel: 'A one-on-one battle', tag: 'singles', confirm: "Singles — we'll sharpen your one-on-one court craft." },
-      { emoji: '👥', label: 'Doubles', sublabel: 'I love the team element', tag: 'doubles', confirm: "Doubles — we'll lean into net play, returns and partner patterns." },
-      { emoji: '⚡', label: 'Both', sublabel: 'Depends on the day', tag: 'both', confirm: "Both — we'll mix singles and doubles situations." }
+      { emoji: '👤', label: 'Singles', sublabel: 'A one-on-one battle', tag: 'singles', confirm: "Singles is a movement and patience game — we'll drill court coverage and building points, not just hitting them." },
+      { emoji: '👥', label: 'Doubles', sublabel: 'I love the team element', tag: 'doubles', confirm: "Doubles is won at the net and on the return — we'll weight your situations toward positioning and the first two shots." },
+      { emoji: '⚡', label: 'Both', sublabel: 'Depends on the day', tag: 'both', confirm: "Smart — the players who switch well think in patterns, not habits. We'll keep both sharp." }
     ]
   },
   {
@@ -2570,11 +2576,11 @@ const WELCOME_QUESTIONS = [
     headline: 'What do you most want to sharpen?',
     subtext: 'GameSharp has five pillars. Pick the one that matters most right now.',
     opts: [
-      { emoji: '🏆', label: 'Win More', sublabel: 'Tactics, patterns and court strategy', tag: 'win_more', confirm: 'Excellent choice — tactics are where smart players steal points.' },
-      { emoji: '🧠', label: 'Game IQ', sublabel: 'Reading the game and smarter decisions', tag: 'game_iq', confirm: 'Excellent choice — better players see patterns earlier.' },
-      { emoji: '🎾', label: 'Technique', sublabel: 'Mechanics, movement and shot-making', tag: 'technique', confirm: 'Excellent choice — cleaner decisions make cleaner strokes.' },
-      { emoji: '🧘', label: 'Mental', sublabel: 'Pressure, resilience and match mindset', tag: 'mental', confirm: 'Excellent choice — pressure gets easier when your plan gets simpler.' },
-      { emoji: '🔥', label: 'The Debate', sublabel: 'History, tactics debates and tennis IQ', tag: 'the_debate', confirm: 'Excellent choice — tennis history is full of lessons hiding in plain sight.' }
+      { emoji: '🏆', label: 'Win More', sublabel: 'Tactics, patterns and court strategy', tag: 'win_more', confirm: "Here's the truth: club matches are lost, not won. We'll start by plugging the leaks that hand games away." },
+      { emoji: '🧠', label: 'Game IQ', sublabel: 'Reading the game and smarter decisions', tag: 'game_iq', confirm: "The gap at most levels isn't the shots — it's reading the point a beat earlier. That's fully trainable." },
+      { emoji: '🎾', label: 'Technique', sublabel: 'Mechanics, movement and shot-making', tag: 'technique', confirm: "Clean technique with no pressure is easy. We'll build decisions that hold up when the swing tightens." },
+      { emoji: '🧘', label: 'Mental', sublabel: 'Pressure, resilience and match mindset', tag: 'mental', confirm: "Most tight matches turn on two or three points. We'll train your head to win the ones that decide it." },
+      { emoji: '🔥', label: 'The Debate', sublabel: 'History, tactics debates and tennis IQ', tag: 'the_debate', confirm: "The sharpest tactical minds steal from the game's history. We'll mine it for what actually works on court." }
     ]
   },
   {
@@ -2583,11 +2589,11 @@ const WELCOME_QUESTIONS = [
     subtext: "Pick the outcome you'd most like GameSharp to help with.",
     confirm: "Good target — we'll build your daily challenges around that.",
     opts: [
-      { emoji: '🏆', label: 'Win more matches', sublabel: 'Turn practice into results', tag: 'win_matches' },
-      { emoji: '🧠', label: 'Read patterns quicker', sublabel: 'See the point before it happens', tag: 'read_patterns' },
-      { emoji: '🎾', label: 'Improve shot selection', sublabel: 'Right shot, right moment', tag: 'shot_selection' },
-      { emoji: '⚡', label: 'Stay calm under pressure', sublabel: 'Play your best on big points', tag: 'stay_calm' },
-      { emoji: '🔥', label: 'Learn something new daily', sublabel: 'A sharper mind every day', tag: 'learn_daily' }
+      { emoji: '🏆', label: 'Win more matches', sublabel: 'Turn practice into results', tag: 'win_matches', confirm: "Then we'll bias your challenges toward the patterns that actually convert close matches — not highlight-reel shots." },
+      { emoji: '🧠', label: 'Read patterns quicker', sublabel: 'See the point before it happens', tag: 'read_patterns', confirm: "Then we'll train anticipation — reading position and shape so you're moving before the ball is hit." },
+      { emoji: '🎾', label: 'Improve shot selection', sublabel: 'Right shot, right moment', tag: 'shot_selection', confirm: "Then we'll drill 'right shot, right moment' until the smart choice is the automatic one." },
+      { emoji: '⚡', label: 'Stay calm under pressure', sublabel: 'Play your best on big points', tag: 'stay_calm', confirm: "Then we'll rehearse the big points again and again, so they feel routine by the time they arrive." },
+      { emoji: '🔥', label: 'Learn something new daily', sublabel: 'A sharper mind every day', tag: 'learn_daily', confirm: "Then we'll feed you one sharp, memorable idea a day — small enough to use the very next time you play." }
     ]
   }
 ];
@@ -2975,9 +2981,12 @@ function showBuildingProfile() {
     <div class="wob-sub solo">You can change this anytime under Player.</div>
     <div id="wobRows" style="margin-top:6px;">${rows}</div>
     <div class="wob-ready" id="wobReady" style="margin-top:18px;">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1.5px;color:#5bba6f;margin-bottom:8px;">Profile ready.</div>
-      <div style="font-size:14px;color:rgba(255,255,255,.62);line-height:1.6;margin-bottom:22px;">We'll tailor your challenges around how you play, what you want to sharpen, and the kind of progress you want to feel.</div>
-      <button class="wob-cta" onclick="showFirstInsight()">Start Today's Challenge →</button>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1.5px;color:#5bba6f;margin-bottom:12px;">Profile ready.</div>
+      <div class="wob-diag">
+        <div class="wob-diag-eyebrow">Your edge</div>
+        <div class="wob-diag-text">${wobDiagnosis(wObState.answers)}</div>
+      </div>
+      <button class="wob-cta" onclick="showHabitCommit()">One last thing →</button>
     </div>
   `;
 
@@ -2987,20 +2996,74 @@ function showBuildingProfile() {
   setTimeout(() => { const rd = document.getElementById('wobReady'); if (rd) rd.classList.add('show'); }, 350 + present.length * 480 + 250);
 }
 
-function showFirstInsight() {
-  wObState.stage = 'insight';
+// Derive a specific "biggest lever" from the player's answers — a computed
+// insight, not a read-back of what they typed.
+function wobDiagnosis(a) {
+  const leverByPillar = {
+    win_more:   "cutting the unforced errors that quietly hand games away",
+    game_iq:    "reading the point a beat earlier, so you stop getting rushed",
+    technique:  "keeping clean decisions when your swing tightens under pressure",
+    mental:     "winning the two or three big points that actually decide tight matches",
+    the_debate: "turning the game's best tactical ideas into shots you can use"
+  };
+  const lever = leverByPillar[a.sharpen_focus] || "making sharper decisions under match pressure";
+  const fmtBit = a.play_format === 'doubles' ? ", weighted toward your doubles net and return situations"
+              : a.play_format === 'singles' ? ", weighted toward singles movement and point construction"
+              : "";
+  return `Your biggest lever right now is ${lever}${fmtBit}. Your first week of challenges will go straight at it.`;
+}
+
+const WOB_HABIT_TIMES = [
+  { emoji: '🌅', label: 'Morning', sub: 'Start the day sharp', tag: 'morning' },
+  { emoji: '🌞', label: 'Midday', sub: 'A mid-day reset', tag: 'midday' },
+  { emoji: '🌙', label: 'Evening', sub: 'Wind down with a rep', tag: 'evening' }
+];
+
+function showHabitCommit() {
+  wObState.stage = 'habit';
+  wObState.habitChosen = false;
   const inner = document.getElementById('wObInner');
   const skip = document.getElementById('wObSkip'); if (skip) skip.style.display = 'none';
   if (!inner) return;
+  const opts = WOB_HABIT_TIMES.map(o =>
+    `<button class="wob-card" data-tag="${o.tag}" onclick="habitChoose('${o.tag}')">
+      <span class="wob-emoji">${o.emoji}</span>
+      <span style="flex:1;"><span class="wob-label">${o.label}</span><span class="wob-sublabel">${o.sub}</span></span>
+      <span class="wob-chev">›</span><span class="wob-cardtick">✓</span>
+    </button>`).join('');
   inner.innerHTML = `
-    <div class="wob-center" style="justify-content:center;">
-      <div style="font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#5bba6f;font-weight:700;margin-bottom:22px;">You're already sharper</div>
-      <div class="wob-insight-line" style="font-size:30px;color:rgba(255,255,255,.5);margin-bottom:5px;">Most club players focus on shots.</div>
-      <div class="wob-insight-line" style="font-size:30px;color:#fff;margin-bottom:5px;">Better players focus on situations.</div>
-      <div class="wob-insight-line" style="font-size:30px;color:#5bba6f;margin-bottom:32px;">That's what GameSharp trains.</div>
-      <button class="wob-cta" onclick="finishWelcome()">Start sharpening →</button>
-    </div>
+    <div class="cold-eyebrow">One last thing</div>
+    <div class="wob-headline">Lock in your daily habit</div>
+    <div class="wob-sub solo">Sharpening sticks when it's a quick daily rep. When fits your day best?</div>
+    <div id="habitOpts">${opts}</div>
+    <div id="habitConfirm"></div>
+    <div id="habitNext"></div>
   `;
+}
+
+function habitChoose(tag) {
+  wObState.habitChosen = true;
+  wobHaptic();
+  try {
+    localStorage.setItem('gs_daily_time', tag);
+    localStorage.setItem('gs_goal_days', '30');
+    if (!localStorage.getItem('gs_commit_start')) localStorage.setItem('gs_commit_start', getTodayKey());
+  } catch (e) {}
+
+  document.querySelectorAll('#habitOpts .wob-card').forEach(c => {
+    const isSel = c.getAttribute('data-tag') === tag;
+    c.classList.toggle('sel', isSel);
+    c.classList.toggle('dim', !isSel);
+  });
+
+  const cc = document.getElementById('habitConfirm');
+  if (cc) cc.innerHTML = `<div class="wob-confirm show"><span class="ck">✓</span><span>Day 1 starts now. Show up daily and you'll feel the difference inside two weeks.</span></div>
+    <div style="margin-top:12px;"><span class="wob-streak-badge">🔥 Day 1 of your 30-day streak</span></div>`;
+
+  const nx = document.getElementById('habitNext');
+  if (nx) nx.innerHTML = `<button class="wob-cta wob-next" onclick="finishWelcome()">Start Day 1 →</button>`;
+
+  setTimeout(() => { const c = document.getElementById('habitConfirm'); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 80);
 }
 
 function finishWelcome() {
@@ -8890,7 +8953,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v77';
+const CACHE = 'gamesharp-v78';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
