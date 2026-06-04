@@ -2654,7 +2654,7 @@ function renderWelcomeQuestion() {
     const heroEl = document.querySelector('.gs-hero-img');
     const heroSrc = heroEl ? heroEl.getAttribute('src') : '';
     if (heroSrc) {
-      hero = `<div class="wob-hero"><img src="${heroSrc}" alt=""><div class="wob-hero-tag"><div class="t2">Train the decisions that win matches.</div></div></div>`;
+      hero = `<div class="wob-hero"><img src="${heroSrc}" alt=""><div class="wob-hero-tag"><div class="t2">See Clearer, Think Sharper.</div></div></div>`;
     }
   }
 
@@ -8730,7 +8730,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v74';
+const CACHE = 'gamesharp-v75';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
