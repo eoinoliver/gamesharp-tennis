@@ -22,9 +22,10 @@ body{margin:0;background:var(--dark);color:#fff;font-family:'DM Sans',sans-serif
 .tc-poc{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,.28);font-weight:700;}
 
 /* stroke switcher */
-.stroke-nav{display:flex;gap:8px;margin:20px 0 4px;}
-.sn-chip{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;
-  padding:11px 6px 9px;text-align:center;cursor:pointer;transition:.18s;}
+.stroke-nav{display:flex;gap:8px;margin:20px -20px 4px;padding:0 20px 4px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.stroke-nav::-webkit-scrollbar{display:none;}
+.sn-chip{flex:0 0 auto;min-width:92px;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;
+  padding:11px 12px 9px;text-align:center;cursor:pointer;transition:.18s;}
 .sn-chip .si{font-size:18px;line-height:1;}
 .sn-chip .sl{display:block;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.6px;margin-top:4px;color:rgba(255,255,255,.6);}
 .sn-chip.on{border-color:var(--green);background:rgba(91,186,111,.13);box-shadow:0 0 0 1px var(--green);}
@@ -160,6 +161,8 @@ function oBalance(x){ return `<line x1="${x-16}" y1="306" x2="${x+16}" y2="306" 
   <text x="${x}" y="320" fill="rgba(91,186,111,.7)" font-size="8" font-family="DM Sans" text-anchor="middle">balanced</text>`; }
 function oCatch(p,label){ return `<circle cx="${p.oWr[0]}" cy="${p.oWr[1]}" r="7" fill="none" stroke="var(--green)" stroke-width="1.8"/>
   <text x="${p.oWr[0]-12}" y="${p.oWr[1]-6}" fill="rgba(91,186,111,.9)" font-size="8.5" font-weight="700" font-family="DM Sans" text-anchor="end">${label||'catch it'}</text>`; }
+function oBall(x,y){ return `<circle cx="${x}" cy="${y}" r="7" fill="#eaff96" stroke="rgba(0,0,0,.25)" stroke-width="1"/>`; }
+function oLabel(x,y,txt,col,anchor){ return `<text x="${x}" y="${y}" fill="${col||'rgba(91,186,111,.85)'}" font-size="8.5" font-weight="700" font-family="DM Sans" text-anchor="${anchor||'middle'}">${txt}</text>`; }
 
 /* ════════════════ STROKE LIBRARY ════════════════ */
 const STROKES = {
@@ -248,6 +251,154 @@ const STROKES = {
     ],
     drill:{dt:'Top-Hand Forehands — 3 × 10', db:"Righties: drop-feed and hit forehands with your <strong>left hand only</strong>. This is the hand that should be driving your two-hander. Wake it up here, then put both hands back on and feel the difference."},
     bridge:{e:'Now put it to work', t:'Redirecting Pace — turning their power into yours'}
+  },
+
+  serve:{
+    nav:{icon:'🎯', label:'Serve'},
+    cat:'Strike · Serve', name:'The Serve',
+    intent:"The serve is the only shot nobody can rush — and the one that hands out free points all match long. Own it, and every service game starts in your favour.",
+    poses:{
+      toss:{head:[148,74],sh:[150,106],hip:[150,178],elb:[128,128],wr:[112,150],rkt:[92,174],oElb:[174,92],oWr:[196,54],bKnee:[136,240],bAnk:[126,302],fKnee:[174,242],fAnk:[188,302]},
+      trophy:{head:[150,76],sh:[150,108],hip:[150,180],elb:[128,98],wr:[122,70],rkt:[110,44],oElb:[176,86],oWr:[194,46],bKnee:[132,248],bAnk:[122,302],fKnee:[176,248],fAnk:[192,302]},
+      contact:{head:[152,80],sh:[152,108],hip:[150,174],elb:[158,74],wr:[162,46],rkt:[168,18],oElb:[142,112],oWr:[132,136],bKnee:[150,242],bAnk:[150,302],fKnee:[160,242],fAnk:[168,302]},
+      finish:{head:[154,82],sh:[152,110],hip:[150,178],elb:[122,132],wr:[102,160],rkt:[80,186],oElb:[162,122],oWr:[178,142],bKnee:[172,244],bAnk:[184,302],fKnee:[136,242],fAnk:[126,302]}
+    },
+    frames:[
+      {key:'toss',label:'Toss',sub:'Place it, up & forward',cue:"Lift the ball — don't throw it. Release at eye level, into the court.",cap:'The toss is the one part of the serve you fully control. It sets everything.',
+        overlay:p=>oBall(202,32)+oLabel(202,18,'place it')},
+      {key:'trophy',label:'Trophy',sub:'Loaded & coiled',cue:'Racket up behind you, knees bent, toss arm pointing at the ball.',cap:'This is the trophy. Power is loading in your legs — let it.',
+        overlay:p=>oBall(198,30)+oPower(p)},
+      {key:'contact',label:'Contact',sub:'Reach the sky',cue:'Explode up and snap at full stretch — hit it at the very top of your reach.',cap:'A serve struck at full extension drops into the box on its own. Bent-armed, you fight physics.',
+        overlay:p=>oContact(168,16,false)+oLabel(192,22,'REACH','rgba(234,255,150,.9)','start')},
+      {key:'finish',label:'Finish',sub:'Across & land',cue:'Let the racket swing down across your body and land on your front foot.',cap:'A free serve looks effortless because the whole body did the work, then got out of the way.',
+        overlay:p=>oBalance(p.fAnk[0])}
+    ],
+    hero:{txt:'Toss · Load · Reach · Snap', sub:'No one rushes your serve. Slow your routine, place your toss, and the rest takes care of itself.'},
+    coach:{title:'The toss never lies', body:`A coach in Lyon had a player who double-faulted every time the score got tight. He filmed it. <em>"Your serve is fine,"</em> he said. <em>"Watch your toss."</em> Under pressure, the toss crept lower and the serve followed it down. <em>"The serve is the only shot you hit on your own terms — no one can rush it. The toss is your tell. Fix the toss, and you fix the nerve."</em> The player learned to take an extra breath and place the ball the same way every time. The double faults didn't fade slowly. They stopped.`},
+    faults:[
+      {symptom:'I double-fault under pressure',cause:'When the nerves come, you rush — the toss drops and gets pulled in, and the serve has nowhere to go.',fix:'Build a routine you repeat every time: bounce, breath, place the toss to the same spot. Same ritual, big point or not.',train:'Toss-and-catch: toss 10 balls and let each land. They must all land in a dinner-plate spot in front of your front foot.',coach:"The double fault isn't your serve failing — it's your trust failing. Rebuild the toss and you rebuild the trust."},
+      {symptom:'No power on it',cause:"You're muscling it with the arm and shoulder — the legs and the wrist-snap (pronation) never get involved.",fix:'Drive UP with your legs, then let the arm and wrist snap at the top. Power on a serve falls from the sky.',train:'Serve focusing only on pushing up off both legs into the ball. Land inside the baseline on your front foot.',coach:"Power on the serve comes from the ground and the snap, not the bicep. Muscle it and you'll be sore, slow, and short."},
+      {symptom:'My serves keep going long',cause:"You're contacting the ball too low, in front of your face, so the racket face sends it out instead of down.",fix:'Toss a touch higher and hit UP at full stretch. The higher contact angles the ball down into the box.',train:'Reach drill: serve trying to scrape an imaginary ceiling. Full extension every time.',coach:"Reach for the sky and the ball goes down. Hit it bent-armed at your forehead and you're aiming up and praying."},
+      {symptom:'My toss is all over the place',cause:"You're flicking the ball up with your wrist and fingers, so it spins off in a new direction every time.",fix:'Lift with a straight arm from the shoulder and release at the top, fingers open. No wrist.',train:'Place the toss against a wall or fence line and groove the same release 30 times. Boring on purpose.',coach:"The toss is the one variable you own completely. Master this and the whole serve gets simple."}
+    ],
+    drill:{dt:'Toss-and-Catch — 3 × 10', db:"No racket. Toss the ball with a straight arm and let it drop — it must land in a small spot just inside your front foot, the same place every time. You're grooving the one thing that decides your whole serve."},
+    bridge:{e:'Now put it to work', t:'Serve +1 — the pattern after the serve'}
+  },
+
+  volley:{
+    nav:{icon:'✋', label:'Volley'},
+    cat:'Strike · Net Play', name:'The Volley',
+    intent:"The net is where points end. Built right, the volley is the simplest shot in tennis — a catch, not a swing. Let's make you the player who finishes.",
+    poses:{
+      set:{head:[150,74],sh:[150,106],hip:[150,176],elb:[176,116],wr:[200,108],rkt:[224,92],oElb:[168,120],oWr:[186,116],bKnee:[132,238],bAnk:[122,302],fKnee:[176,240],fAnk:[190,302]},
+      contact:{head:[150,74],sh:[150,104],hip:[148,172],elb:[186,112],wr:[214,108],rkt:[240,92],oElb:[160,124],oWr:[150,150],bKnee:[142,240],bAnk:[128,302],fKnee:[182,240],fAnk:[198,302]},
+      finish:{head:[150,74],sh:[150,104],hip:[150,172],elb:[192,108],wr:[222,104],rkt:[248,90],oElb:[158,126],oWr:[146,150],bKnee:[150,240],bAnk:[140,302],fKnee:[184,238],fAnk:[202,302]}
+    },
+    frames:[
+      {key:'set',label:'Set',sub:'Split & racket up',cue:'Split-step, racket up and out in front — short, no backswing.',cap:'At the net, the racket lives in front of you. Be early or be eaten.',
+        overlay:p=>oLabel(p.fAnk[0]-6,322,'split-step','rgba(255,255,255,.45)')},
+      {key:'contact',label:'Contact',sub:'Catch it in front',cue:'Step in and catch the ball out in front — firm wrist, no swing.',cap:'A volley is a catch with strings. The swing is the enemy.',
+        overlay:p=>oContact(p.rkt[0]+2,p.wr[1]+2,false)+oLabel(p.rkt[0]+2,p.wr[1]-22,'firm wrist','rgba(234,255,150,.9)')},
+      {key:'finish',label:'Finish',sub:'Punch & forward',cue:'Punch through with your legs — a tiny finish, weight into the court.',cap:'The pace comes from stepping in, not from swinging. Less is more.',
+        overlay:p=>arrow(170,250,210,238,'rgba(91,186,111,.6)',4)+oLabel(206,232,'step in')}
+    ],
+    hero:{txt:'Split · Step · Catch · Punch', sub:"Almost no swing. The volley rewards the calm hand and the brave step forward, not the big motion."},
+    coach:{title:'Hands taped to the frame', body:`A coach in Melbourne had a junior who swung at every volley and missed half of them. So he taped the kid's hand to the throat of the racket — no wrist, no backswing possible. <em>"A volley is a catch,"</em> he said. <em>"You wouldn't take a backswing to catch a ball with your hand. Don't take one with the racket."</em> The kid hated it for a week. Then he stopped missing. <em>"The net is where doubt goes to die,"</em> the coach told him. <em>"But only for the player who keeps it simple."</em>`},
+    faults:[
+      {symptom:'I swing and mis-hit',cause:'Too much backswing. By the time the racket comes through, the fast ball has already gone past your timing.',fix:'Start the racket in front of you and just catch the ball. The contact is the whole stroke.',train:'Stand a step from a wall and volley — there is literally no room to swing. Forces the catch.',coach:"A volley is a catch with strings on it. Every inch of backswing is an inch of trouble."},
+      {symptom:'My volleys sit up short',cause:"You're decelerating and stabbing — no forward momentum behind the ball.",fix:'Step in as you hit. The depth comes from your legs moving into the court, not the wrist.',train:'Volley only while walking forward through the ball. If your feet stop, start the rep again.',coach:"The punch comes from the legs, not the wrist. Move in, and the ball goes deep on its own."},
+      {symptom:"I'm always late on fast balls",cause:'Your racket is down or beside you between shots, so you start every volley from behind.',fix:'Split-step as they hit, and keep the racket up and in front the entire time you are at net.',train:'Shadow at the net: split, racket up, reset — never let the racket drop below your hands.',coach:"Be early or be eaten. At the net the racket lives in front of you, always ready."},
+      {symptom:'My wrist collapses',cause:'A loose wrist at contact folds under the pace and dumps the ball down.',fix:'Lock the wrist firm and meet the ball in front with a stable frame. Strong, not stiff.',train:'Volley a slightly heavier ball (or against pace) and focus only on the wrist staying firm.',coach:"A floppy wrist at the net is a free point handed back. Firm hand, brave step, simple shot."}
+    ],
+    drill:{dt:'Wall Volleys — 3 minutes', db:"Stand one step from a wall and volley continuously. There's no room to swing — so you can't. You're grooving the catch: racket in front, firm wrist, no backswing. Then carry that exact feel to the net."},
+    bridge:{e:'Now put it to work', t:'Closing the Net — when to come forward'}
+  },
+
+  ret:{
+    nav:{icon:'🛡️', label:'Return'},
+    cat:'Strike · Return', name:'The Return',
+    intent:"The return is the second-most important shot in tennis, and the most neglected. Get it back with quality and the server's easy hold becomes a fight.",
+    poses:{
+      ready:{head:[150,76],sh:[150,108],hip:[150,178],elb:[170,116],wr:[190,110],rkt:[210,94],oElb:[130,116],oWr:[110,110],bKnee:[124,238],bAnk:[110,302],fKnee:[176,238],fAnk:[190,302]},
+      contact:{head:[150,74],sh:[150,104],hip:[150,172],elb:[182,118],wr:[210,118],rkt:[234,100],oElb:[150,124],oWr:[176,124],bKnee:[136,240],bAnk:[122,302],fKnee:[178,240],fAnk:[192,302]},
+      finish:{head:[150,74],sh:[150,104],hip:[150,172],elb:[172,110],wr:[196,104],rkt:[218,90],oElb:[150,122],oWr:[172,118],bKnee:[150,238],bAnk:[144,302],fKnee:[176,238],fAnk:[190,302]}
+    },
+    frames:[
+      {key:'ready',label:'Ready',sub:'Wide base, racket up',cue:'Wide, low base — racket up in front, and split-step on their toss.',cap:'You can\'t out-muscle a big serve. You can be ready for it.',
+        overlay:p=>oLabel(150,322,'split on their toss','rgba(255,255,255,.45)')},
+      {key:'contact',label:'Block',sub:'Short & in front',cue:'Shorten the takeback — meet it out in front and use their pace.',cap:'A short, firm block beats a full, late swing every single time.',
+        overlay:p=>oContact(p.rkt[0]+2,p.wr[1]+2,false)+oLabel(p.rkt[0]+2,p.wr[1]-22,'use their pace','rgba(234,255,150,.9)')},
+      {key:'finish',label:'Deep',sub:'Controlled & back',cue:'Send it deep and central, then recover — make them play another ball.',cap:'Deep and boring beats short and fancy. Just make them earn it.',
+        overlay:p=>arrow(160,250,200,240,'rgba(91,186,111,.55)',4)+oLabel(196,234,'recover')}
+    ],
+    hero:{txt:'Split · Read · Block · Deep', sub:"You don't have to win the point on the return. You have to make the big serve play one more ball."},
+    coach:{title:'Make them earn it', body:`A coach in Newcastle had a player terrified of a rival's huge serve. <em>"Stop trying to crush it back,"</em> he said. <em>"Shorten your swing. Just get it deep and make him hit again."</em> The player did nothing flashy — short blocks, deep, down the middle, ball after ball. By the third game the big server was overhitting, pressing for more. <em>"A return is a refusal,"</em> the coach said afterwards. <em>"You refused to give him the free point. That's all it takes to turn a serve from a weapon into a worry."</em>`},
+    faults:[
+      {symptom:'I keep getting aced or overpowered',cause:'Too big a backswing and a late split-step, so you simply never catch up to the ball.',fix:'Split-step exactly as they strike, and shorten your takeback to a compact block. Borrow their pace.',train:'Return practice with a rule: racket cannot go behind your back shoulder. Block only.',coach:"You don't have to out-hit a big serve. You have to make it play one more ball — and most servers hate that."},
+      {symptom:'My returns float short',cause:"You're blocking upward with no follow-through, so the ball lands soft and short — a gift.",fix:'Drive the block forward through the ball and aim deep and central. Depth takes away their angle.',train:'Return into the back third of the court only. Anything short of the service line doesn\'t count.',coach:"Deep and boring beats short and fancy. A short return is the server's reward for serving at you."},
+      {symptom:'I guess and get it wrong',cause:"You're reacting blind instead of reading the toss and the server's patterns.",fix:'Watch the toss and where they\'ve served before. Anticipation is reading, not gambling.',train:'Spend a return game just calling "wide / body / T" out loud off the toss before the ball lands.',coach:"Anticipation isn't guessing — it's reading. The toss and their habits tell you where it's going before it's hit."},
+      {symptom:'My second-serve returns are passive',cause:"You stay back and block the second serve the same as the first, handing the initiative back.",fix:'Step in on the weaker second serve and take it earlier — turn the return into an attack.',train:'On every second serve, your first step must be forward, inside the baseline. Then strike.',coach:"A weak second serve is a gift. Stop politely handing it back and start taking the court."}
+    ],
+    drill:{dt:'Block-and-Recover — 3 × 10', db:"Have someone serve (or feed) firm. Rule: no backswing past your shoulder, return deep and central, then split-step and recover to centre. You're grooving the compact block and the reset that wins the next ball."},
+    bridge:{e:'Now put it to work', t:'Reading the Serve — where to stand and why'}
+  },
+
+  overhead:{
+    nav:{icon:'☄️', label:'Overhead'},
+    cat:'Strike · Net Play', name:'The Overhead',
+    intent:"The overhead should be the easiest point you play — which is exactly why it's so easy to choke. Let's make it boring, and boring wins.",
+    poses:{
+      prep:{head:[150,76],sh:[150,108],hip:[150,180],elb:[126,98],wr:[120,72],rkt:[110,46],oElb:[176,88],oWr:[196,58],bKnee:[176,242],bAnk:[192,302],fKnee:[132,242],fAnk:[122,302]},
+      contact:{head:[152,80],sh:[152,108],hip:[150,174],elb:[158,74],wr:[162,46],rkt:[168,18],oElb:[140,110],oWr:[130,134],bKnee:[150,242],bAnk:[150,302],fKnee:[160,242],fAnk:[170,302]},
+      finish:{head:[154,82],sh:[152,110],hip:[150,178],elb:[126,128],wr:[106,156],rkt:[84,182],oElb:[160,120],oWr:[176,140],bKnee:[168,244],bAnk:[180,302],fKnee:[138,242],fAnk:[128,302]}
+    },
+    frames:[
+      {key:'prep',label:'Prep',sub:'Turn & point',cue:'Turn sideways early, racket up behind you, point at the ball with your other hand.',cap:'The smash misses because it looks easy. Prepare it like a serve and it stops being scary.',
+        overlay:p=>oBall(202,36)+oLabel(202,22,'point at it')+`<circle cx="${p.oWr[0]}" cy="${p.oWr[1]}" r="6" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/>`},
+      {key:'contact',label:'Contact',sub:'Up & in front',cue:'Reach up and hit it high and in front — just like a serve.',cap:'Contact in front, not behind your head. Lean back and it sails long.',
+        overlay:p=>oContact(168,16,false)+oLabel(192,22,'REACH','rgba(234,255,150,.9)','start')},
+      {key:'finish',label:'Finish',sub:'Down & balanced',cue:'Swing down across your body and stay balanced — point\'s over.',cap:'Slow your feet and the smash slows down with them. Calm hands finish.',
+        overlay:p=>oBalance(p.fAnk[0])}
+    ],
+    hero:{txt:'Turn · Point · Reach · Punch', sub:"Treat the easy ball like the serve you've grooved a thousand times. Routine beats adrenaline."},
+    coach:{title:'The easy ones are the hard ones', body:`A coach in Cádiz watched a player put away every hard volley — then shank a sitting overhead into the back fence. <em>"You froze,"</em> he said, <em>"because it looked easy, so you waited, and then you rushed."</em> He made the player treat every overhead like a serve: turn sideways, point at the ball, reach up. <em>"The smash isn't a different shot. It's your serve, with someone else doing the toss."</em> Once it became routine, the easy points stopped being terrifying — and started being free.`},
+    faults:[
+      {symptom:'I shank the easy one',cause:"You watch the ball drop without preparing, then rush a panicked swing at the last second.",fix:'Turn sideways and get the racket up the instant you see the lob. Point at the ball. Then it\'s just a serve.',train:'Practise overheads from feeds, preparing the racket before the ball even peaks. Slow feet, early racket.',coach:"The smash misses because it looks easy. Treat it like the serve you've hit a thousand times and it stops being scary."},
+      {symptom:'I let it drop too low',cause:'You back up late and flat-footed, so the ball falls below your strike zone.',fix:'Move back early with small, quick steps and get behind the ball. Take it high, out in front.',train:'Have someone lob deep; you must shuffle back and contact every ball above your head.',coach:"Get behind it early. A high contact is a confident smash; a low one is a hopeful slap."},
+      {symptom:'It flies long',cause:"You're leaning back and hitting flat, contacting the ball behind your head.",fix:'Stay over the ball, contact it in front of you, and snap slightly down and through.',train:'Aim every overhead to land inside the service line. Punishes the lean-back.',coach:"Contact in front, not behind your head. Lean back and you're serving to the back fence."},
+      {symptom:'I panic and rush it',cause:'No routine — adrenaline takes over on the "easy" ball and your feet and hands speed up.',fix:'Slow down. Same routine as your serve: set, breathe, reach. The ball is waiting for you.',train:'Say "turn… point… reach" out loud on every practice smash to force the routine.',coach:"Slow your feet, and the smash slows down with them. The easy ball only punishes the player in a hurry."}
+    ],
+    drill:{dt:'Serve-the-Lob — 3 × 8', db:"Have someone feed lobs. Treat each one exactly like a serve: turn sideways, point at the ball, reach up and punch. The goal isn't power — it's making the easy ball feel as routine as your service motion."},
+    bridge:{e:'Now put it to work', t:'Net Pressure — forcing the weak lob'}
+  },
+
+  slice:{
+    nav:{icon:'🔪', label:'Slice'},
+    cat:'Strike · Groundstrokes', name:'The Backhand Slice',
+    intent:"The slice is craft. It defends, it approaches, it disrupts — the shot that changes the conversation when power isn't working. Every complete player owns one.",
+    poses:{
+      load:{head:[150,72],sh:[150,104],hip:[150,174],elb:[128,96],wr:[110,80],rkt:[88,62],oElb:[132,104],oWr:[112,86],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},
+      contact:{head:[151,72],sh:[151,104],hip:[150,172],elb:[178,118],wr:[206,124],rkt:[232,114],oElb:[128,118],oWr:[106,138],bKnee:[176,240],bAnk:[188,302],fKnee:[132,240],fAnk:[120,302]},
+      finish:{head:[150,72],sh:[150,102],hip:[150,170],elb:[196,108],wr:[226,104],rkt:[252,98],oElb:[120,120],oWr:[96,140],bKnee:[170,240],bAnk:[182,302],fKnee:[138,240],fAnk:[130,302]}
+    },
+    frames:[
+      {key:'load',label:'Load',sub:'High & back',cue:'Turn sideways and set the racket high — above the ball, knees bent.',cap:'The slice starts above the ball. You\'re about to carve down and through it.',
+        overlay:p=>oLabel(p.rkt[0],p.rkt[1]-16,'start high')+arrow(96,74,120,118,'rgba(91,186,111,.5)',3)},
+      {key:'contact',label:'Carve',sub:'High to low, in front',cue:'Carve down and forward under the ball — face slightly open, stay sideways.',cap:'A slice is a carve, not a chop. Let the shoulder do the cutting, not the wrist.',
+        overlay:p=>oContact(p.rkt[0]+2,p.wr[1]+2,false)+oLabel(p.rkt[0]+2,p.wr[1]-22,'carve under','rgba(234,255,150,.9)')},
+      {key:'finish',label:'Extend',sub:'Out toward target',cue:'Extend the racket forward toward your target and stay down through it.',cap:'Stay down with the ball. Stand up out of it, and the slice floats up too.',
+        overlay:p=>arrow(206,126,250,108,'rgba(91,186,111,.6)',4)+oLabel(250,98,'toward target')+oBalance(p.fAnk[0])}
+    ],
+    hero:{txt:'Turn · High · Carve · Out', sub:"Patience and craft, not power. The slice stays low, buys you time, and quietly drives opponents mad."},
+    coach:{title:'The shot that changes the conversation', body:`A coach in Geneva taught the slice to a player who only knew how to hit hard. <em>"When the power game stops working,"</em> he said, <em>"you need another language. The slice is it."</em> He drilled the carve until the ball skidded low and stayed down. The player started using it to approach, to defend, to break an opponent's rhythm. <em>"A slice is a conversation,"</em> the coach said. <em>"It asks the other player a different question — and most of them don't have an answer."</em> It became the most beautiful, and most annoying, shot the player owned.`},
+    faults:[
+      {symptom:'It floats and sits up',cause:'You\'re chopping straight down with an open face and no forward drive, so the ball balloons.',fix:'Carve high-to-low but extend FORWARD through the ball, toward your target. Out, not just down.',train:'Slice over a low target (a row of cones) — the ball must stay below head height and land deep.',coach:"A slice is a carve, not a chop. Cut forward through it and the ball knifes low instead of floating up."},
+      {symptom:'I have no control over it',cause:"You're slicing with a flicky wrist instead of a firm hand and a turning shoulder.",fix:'Keep the wrist firm and let the shoulder and arm carve as a unit. Stay sideways through contact.',train:'Slice with your off-hand staying back the whole time — it keeps you sideways and steady.',coach:"Let the shoulder do the cutting, not the wrist. A steady frame gives the slice its bite."},
+      {symptom:'It dies short in the net',cause:'No follow-through — the racket stops at contact instead of extending out toward the target.',fix:'Finish with the racket reaching forward, out in front, toward where you want the ball to go.',train:'Exaggerate the extension: every slice must finish with the arm long and the racket pointing at your target.',coach:"Finish out front, toward your target. A slice with no follow-through is a shot that changed its mind."},
+      {symptom:'It pops up off low balls',cause:'You open the face too much and stand up out of the shot, lifting the ball instead of driving it.',fix:'Keep the face firmer and stay down with the ball through contact. Bend the knees, stay level.',train:'Slice low feeds from a deep knee bend, keeping your head and chest down past contact.',coach:"Stay down with the ball. The moment you stand up out of it, the slice stands up too — and sits up for them."}
+    ],
+    drill:{dt:'Carve-and-Stay-Low — 3 × 10', db:"Slice feeds over a low barrier (a net of cones at knee height). Every ball must stay below it and land deep. You're grooving the forward carve and the discipline to stay down through the shot."},
+    bridge:{e:'Now put it to work', t:'The Slice Approach — changing rhythm and coming in'}
   }
 };
 
@@ -291,7 +442,7 @@ function renderTabs(){
 function renderStage(){
   const s=STROKES[curStroke], f=s.frames[current], p=s.poses[f.key];
   document.getElementById('stage').innerHTML = `
-    <div class="phase-tag">${current+1}/3 · ${f.label}</div>
+    <div class="phase-tag">${current+1}/${s.frames.length} · ${f.label}</div>
     <svg viewBox="0 0 ${VIEW.w} ${VIEW.h}">${floor()}${f.overlay(p)}${figure(p)}</svg>
     <div class="frame-cue"><div class="fc-cue">${f.cue}</div><div class="fc-cap">${f.cap}</div></div>`;
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on', i===current));
@@ -322,15 +473,15 @@ function lerpPose(A,B,t){ const o={}; for(const k in A) o[k]=[lerp(A[k][0],B[k][
 function easeInOut(t){ return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2; }
 function playSwing(){
   if(playing) return; playing=true;
-  const s=STROKES[curStroke], seq=s.frames.map(f=>f.key), stage=document.getElementById('stage');
-  const dur=1500, t0=performance.now();
-  clearTimeout(playSwing._t); playSwing._t=setTimeout(()=>{ if(playing){playing=false;current=2;renderStage();} }, dur+400);
+  const s=STROKES[curStroke], keys=s.frames.map(f=>f.key), N=keys.length, segs=Math.max(1,N-1);
+  const stage=document.getElementById('stage'), dur=400+segs*420, t0=performance.now();
+  clearTimeout(playSwing._t); playSwing._t=setTimeout(()=>{ if(playing){playing=false;current=N-1;renderStage();} }, dur+400);
   function step(now){
     let u=(now-t0)/dur; if(u>1)u=1;
-    const seg=Math.min(1,Math.floor(u*2)), local=easeInOut((u*2)-seg);
-    const p=lerpPose(s.poses[seq[seg]], s.poses[seq[Math.min(2,seg+1)]], local);
+    const fpos=u*segs, seg=Math.min(segs-1,Math.floor(fpos)), local=easeInOut(fpos-seg);
+    const p=lerpPose(s.poses[keys[seg]], s.poses[keys[seg+1]], local);
     stage.innerHTML=`<div class="phase-tag">Swing</div><svg viewBox="0 0 ${VIEW.w} ${VIEW.h}">${floor()}${figure(p)}</svg>`;
-    if(u<1) requestAnimationFrame(step); else { playing=false; current=2; renderStage(); }
+    if(u<1) requestAnimationFrame(step); else { playing=false; current=N-1; renderStage(); }
   }
   requestAnimationFrame(step);
 }
