@@ -1450,6 +1450,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 
 .wob-court-wrap{ margin:18px 0 2px; }
 .wob-court-wrap.show{ animation:wobFadeUp .5s var(--ease-out-quint) .08s both; }
+/* Broadcast camera angle — consistent with every other court in the app */
+.wob-court{ position:relative; height:154px; max-width:300px; margin:6px auto 0; border-radius:12px; overflow:hidden; perspective:560px; perspective-origin:50% 34%; background:#0a160c; box-shadow:inset 0 0 26px rgba(0,0,0,.5); }
+.wob-court svg{ position:absolute; left:50%; bottom:-2px; width:120%; transform:translateX(-50%) rotateX(47deg); transform-origin:50% 100%; filter:drop-shadow(0 8px 14px rgba(0,0,0,.5)); }
 .wob-mini-alley{ transition:fill .5s; }
 .wob-mini-alley.glow{ animation:wobAlley 1.7s ease-in-out; }
 
@@ -2700,26 +2703,47 @@ function selectWelcomeAnswer(key, tag, btn) {
 
 function wobMiniCourt(fmt) {
   const dbl = (fmt === 'doubles' || fmt === 'both');
-  const alleyFill = dbl ? 'rgba(91,186,111,.30)' : 'rgba(255,255,255,.03)';
-  const singlesStroke = dbl ? '.3' : '.72';
+  const alleyFill = dbl ? 'rgba(91,186,111,.30)' : 'rgba(255,255,255,.025)';
+  const singlesStroke = dbl ? '.28' : '.7';
+  // Broadcast view: YOU near (bottom, larger), OPP far (top, smaller), net horizontal.
   const players = dbl
-    ? `<circle cx="42" cy="40" r="5" fill="#b6d736"/><circle cx="42" cy="80" r="5" fill="#b6d736"/>
-       <circle cx="158" cy="40" r="5" fill="rgba(255,255,255,.55)"/><circle cx="158" cy="80" r="5" fill="rgba(255,255,255,.55)"/>`
-    : `<circle cx="40" cy="60" r="5.5" fill="#b6d736"/><circle cx="160" cy="60" r="5.5" fill="rgba(255,255,255,.55)"/>`;
-  return `<svg viewBox="0 0 200 120" style="width:100%;max-width:280px;display:block;margin:2px auto 0;border-radius:12px;background:radial-gradient(120% 120% at 50% 50%,#15441c,#0a230f);box-shadow:inset 0 0 28px rgba(0,0,0,.45);">
-    <rect x="10" y="10" width="180" height="100" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.4"/>
-    <rect class="wob-mini-alley${dbl ? ' glow' : ''}" x="10" y="10" width="180" height="15" fill="${alleyFill}"/>
-    <rect class="wob-mini-alley${dbl ? ' glow' : ''}" x="10" y="95" width="180" height="15" fill="${alleyFill}"/>
-    <line x1="10" y1="25" x2="190" y2="25" stroke="rgba(255,255,255,${singlesStroke})" stroke-width="1.2"/>
-    <line x1="10" y1="95" x2="190" y2="95" stroke="rgba(255,255,255,${singlesStroke})" stroke-width="1.2"/>
-    <line x1="100" y1="10" x2="100" y2="110" stroke="rgba(255,255,255,.7)" stroke-width="1.6"/>
-    <line x1="55" y1="25" x2="55" y2="95" stroke="rgba(255,255,255,.22)" stroke-width="1"/>
-    <line x1="145" y1="25" x2="145" y2="95" stroke="rgba(255,255,255,.22)" stroke-width="1"/>
-    ${players}
-    <circle r="3.5" fill="#eaff96">
-      <animate attributeName="cx" values="58;142;58" dur="2.6s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" keyTimes="0;0.5;1"/>
-    </circle>
-  </svg>`;
+    ? `<circle cx="66" cy="124" r="6" fill="#b6d736"/><circle cx="134" cy="124" r="6" fill="#b6d736"/>
+       <circle cx="70" cy="26" r="4.5" fill="rgba(255,255,255,.5)"/><circle cx="130" cy="26" r="4.5" fill="rgba(255,255,255,.5)"/>`
+    : `<circle cx="100" cy="126" r="6.5" fill="#b6d736"/><circle cx="100" cy="24" r="5" fill="rgba(255,255,255,.5)"/>`;
+  const ballCx = dbl ? '72;130;72' : '94;106;94';
+  const ballCy = dbl ? '116;32;116' : '120;30;120';
+  return `<div class="wob-court">
+    <svg viewBox="0 0 200 150">
+      <defs><linearGradient id="wobSurf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d5f29"/><stop offset="1" stop-color="#15461f"/></linearGradient></defs>
+      <rect x="0" y="0" width="200" height="150" fill="#0a160c"/>
+      <rect x="20" y="12" width="160" height="126" fill="url(#wobSurf)"/>
+      <!-- doubles alleys -->
+      <rect class="wob-mini-alley${dbl ? ' glow' : ''}" x="20" y="12" width="22" height="126" fill="${alleyFill}"/>
+      <rect class="wob-mini-alley${dbl ? ' glow' : ''}" x="158" y="12" width="22" height="126" fill="${alleyFill}"/>
+      <!-- baselines + doubles sidelines -->
+      <line x1="20" y1="12" x2="180" y2="12" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+      <line x1="20" y1="138" x2="180" y2="138" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+      <line x1="20" y1="12" x2="20" y2="138" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+      <line x1="180" y1="12" x2="180" y2="138" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+      <!-- singles sidelines -->
+      <line x1="42" y1="12" x2="42" y2="138" stroke="rgba(255,255,255,${singlesStroke})" stroke-width="1"/>
+      <line x1="158" y1="12" x2="158" y2="138" stroke="rgba(255,255,255,${singlesStroke})" stroke-width="1"/>
+      <!-- service lines (singles width) -->
+      <line x1="42" y1="41" x2="158" y2="41" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
+      <line x1="42" y1="109" x2="158" y2="109" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
+      <!-- centre service line -->
+      <line x1="100" y1="41" x2="100" y2="109" stroke="rgba(255,255,255,.26)" stroke-width="1"/>
+      <!-- net -->
+      <rect x="17" y="71" width="6" height="8" fill="rgba(200,168,75,.4)" rx="1"/>
+      <rect x="177" y="71" width="6" height="8" fill="rgba(200,168,75,.4)" rx="1"/>
+      <line x1="20" y1="75" x2="180" y2="75" stroke="rgba(255,255,255,.7)" stroke-width="1.7"/>
+      ${players}
+      <circle r="3.2" fill="#eaff96">
+        <animate attributeName="cx" values="${ballCx}" dur="2.6s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" keyTimes="0;0.5;1"/>
+        <animate attributeName="cy" values="${ballCy}" dur="2.6s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" keyTimes="0;0.5;1"/>
+      </circle>
+    </svg>
+  </div>`;
 }
 
 function completeWelcomeOnboarding() {
@@ -8666,7 +8690,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v71';
+const CACHE = 'gamesharp-v72';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
