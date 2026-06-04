@@ -1418,6 +1418,16 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .wob-brand{ font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:3px; color:#5bba6f; }
 .wob-step{ font-size:10px; letter-spacing:1.6px; color:rgba(255,255,255,.26); text-transform:uppercase; font-weight:600; }
 
+/* hero banner on the first screen — branding */
+.wob-hero{ position:relative; width:100%; height:158px; border-radius:16px; overflow:hidden; margin:2px 0 22px; box-shadow:0 10px 30px rgba(0,0,0,.4); animation:wobFadeUp .55s var(--ease-out-quint) both; }
+.wob-hero img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 24%; }
+.wob-hero::after{ content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(13,26,15,0) 26%,rgba(13,26,15,.5) 64%,rgba(13,26,15,.94) 100%); }
+.wob-hero-tag{ position:absolute; left:17px; right:17px; bottom:13px; z-index:2; }
+.wob-hero-tag .t1{ font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:3px; color:#5bba6f; }
+.wob-hero-tag .t2{ font-family:'Bebas Neue',sans-serif; font-size:23px; letter-spacing:.6px; color:#fff; line-height:1.04; margin-top:2px; }
+
+.wob-next{ margin-top:18px; animation:wobFadeUp .4s var(--ease-out-quint) .12s both; }
+
 /* progress track + travelling ball */
 .wob-track{ position:relative; display:flex; align-items:center; gap:6px; margin:0 0 30px; height:12px; }
 .wob-dot{ flex:1; height:6px; border-radius:3px; background:rgba(255,255,255,.15); transition:all .4s var(--ease-out-quint); }
@@ -2637,6 +2647,17 @@ function renderWelcomeQuestion() {
   const subSm = q.subtextSm ? `<div class="wob-sub-sm">${q.subtextSm}</div>` : '';
   const subCls = q.subtextSm ? 'wob-sub' : 'wob-sub solo';
 
+  // Hero banner on the first screen — branding front and centre. Reuse the
+  // existing homepage hero image (data URI) rather than duplicating the base64.
+  let hero = '';
+  if (wObState.idx === 0) {
+    const heroEl = document.querySelector('.gs-hero-img');
+    const heroSrc = heroEl ? heroEl.getAttribute('src') : '';
+    if (heroSrc) {
+      hero = `<div class="wob-hero"><img src="${heroSrc}" alt=""><div class="wob-hero-tag"><div class="t1">GAMESHARP TENNIS</div><div class="t2">Train the decisions that win matches.</div></div></div>`;
+    }
+  }
+
   const opts = q.opts.map(o =>
     `<button class="wob-card" data-tag="${o.tag}" onclick="selectWelcomeAnswer('${q.key}','${o.tag}',this)">
       <span class="wob-emoji">${o.emoji}</span>
@@ -2651,30 +2672,38 @@ function renderWelcomeQuestion() {
 
   inner.innerHTML = `
     ${wobTrack(wObState.idx)}
+    ${hero}
     <div class="wob-headline">${q.headline}</div>
     <div class="${subCls}">${q.subtext}</div>
     ${subSm}
     <div id="wobOpts">${opts}</div>
     <div id="wobCourt"></div>
     <div id="wobConfirm"></div>
+    <div id="wobNext"></div>
   `;
+
+  // Restore prior selection if returning to this question.
+  if (wObState.answers[q.key]) renderWelcomeSelection(wObState.answers[q.key]);
 }
 
+// Apply the selected-state visuals (glow, dim, court, confirm, Continue button)
+// without advancing — lets the player read what was announced and choose to move on.
 function selectWelcomeAnswer(key, tag, btn) {
-  if (wObState.locked) return;
-  wObState.locked = true;
   wObState.answers[key] = tag;
   wobHaptic();
+  renderWelcomeSelection(tag);
+}
 
+function renderWelcomeSelection(tag) {
   const q = WELCOME_QUESTIONS[wObState.idx];
   const opt = q.opts.find(o => o.tag === tag);
 
-  // Once committed, hide the skip footer so the confirmation/court has room.
   const skip = document.getElementById('wObSkip'); if (skip) skip.style.display = 'none';
 
   document.querySelectorAll('#wobOpts .wob-card').forEach(c => {
-    if (c.getAttribute('data-tag') === tag) c.classList.add('sel');
-    else c.classList.add('dim');
+    const isSel = c.getAttribute('data-tag') === tag;
+    c.classList.toggle('sel', isSel);
+    c.classList.toggle('dim', !isSel);
   });
 
   // Mini-court delight on the format question
@@ -2685,20 +2714,31 @@ function selectWelcomeAnswer(key, tag, btn) {
 
   // Confirmation microcopy
   const msg = (opt && opt.confirm) || q.confirm || '';
-  if (msg) {
-    const cc = document.getElementById('wobConfirm');
-    if (cc) cc.innerHTML = `<div class="wob-confirm show"><span class="ck">✓</span><span>${msg}</span></div>`;
+  const cc = document.getElementById('wobConfirm');
+  if (cc) cc.innerHTML = msg ? `<div class="wob-confirm show"><span class="ck">✓</span><span>${msg}</span></div>` : '';
+
+  // Continue button — the player advances when they're ready, at their own pace.
+  const nx = document.getElementById('wobNext');
+  if (nx) {
+    const last = wObState.idx >= WELCOME_QUESTIONS.length - 1;
+    nx.innerHTML = `<button class="wob-cta wob-next" onclick="advanceWelcome()">${last ? 'Build my profile' : 'Continue'} →</button>`;
   }
 
-  moveWobBall(wObState.idx + 1);
-
-  const delay = q.special === 'court' ? 1500 : 1050;
+  // Bring the confirmation + Continue into view so nothing the app "says" is missed.
   setTimeout(() => {
-    wObState.locked = false;
+    const cc = document.getElementById('wobConfirm');
+    if (cc) cc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 80);
+}
+
+function advanceWelcome() {
+  // Glide the ball forward, then move to the next screen.
+  moveWobBall(wObState.idx + 1);
+  setTimeout(() => {
     wObState.idx++;
     if (wObState.idx >= WELCOME_QUESTIONS.length) completeWelcomeOnboarding();
     else renderWelcomeQuestion();
-  }, delay);
+  }, 260);
 }
 
 function wobMiniCourt(fmt) {
@@ -8690,7 +8730,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v72';
+const CACHE = 'gamesharp-v73';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
