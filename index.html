@@ -7113,6 +7113,67 @@ function trackEvent(name, data) {
   } catch (e) { /* swallow */ }
 }
 
+// ── Answer analytics ──────────────────────────────────────────────
+// Per-question accuracy + distractor distribution, so content quality can be
+// audited from real usage: "which questions does everyone get wrong, and which
+// wrong option do they pick?" A question with low accuracy where players
+// converge on ONE wrong option is the signature of a bad answer key or an
+// ambiguous prompt — exactly what the content audit needs to find.
+//
+// Stored as a durable aggregate (never rolls off), plus an event in the capped
+// stream, plus an optional beacon for when a cross-device endpoint is set.
+const ANALYTICS_ENDPOINT = null; // set to a collection URL to aggregate across devices
+
+function recordAnswerStat(q, ok, sourceLetter) {
+  if (!q || !q.id) return;
+  try {
+    const key = 'gamesharp_qstats';
+    const stats = JSON.parse(localStorage.getItem(key) || '{}');
+    const s = stats[q.id] || { q: 0, c: 0, picks: {} };
+    s.q += 1;
+    if (ok) s.c += 1;
+    if (sourceLetter) s.picks[sourceLetter] = (s.picks[sourceLetter] || 0) + 1;
+    stats[q.id] = s;
+    localStorage.setItem(key, JSON.stringify(stats));
+  } catch (e) { /* swallow */ }
+  trackEvent('question_answered', { qid: q.id, pillar: q.pillar, difficulty: q.difficulty, ok: ok, chose: sourceLetter, correct: q.correct_answer });
+  if (ANALYTICS_ENDPOINT) {
+    try { navigator.sendBeacon(ANALYTICS_ENDPOINT, JSON.stringify({ qid: q.id, ok: ok, chose: sourceLetter, correct: q.correct_answer, ts: Date.now() })); } catch (e) { /* swallow */ }
+  }
+}
+
+// Console-friendly content audit. qStatsReport() → worst-performing questions
+// first; flags likely-bad keys (low accuracy AND most players converging on one
+// wrong option). exportQStats() → raw JSON to copy off-device.
+function qStatsReport(minAttempts) {
+  minAttempts = minAttempts || 1;
+  let stats = {};
+  try { stats = JSON.parse(localStorage.getItem('gamesharp_qstats') || '{}'); } catch (e) {}
+  const byId = {};
+  (typeof QBANK !== 'undefined' ? QBANK : []).forEach(q => { byId[q.id] = q; });
+  const rows = Object.keys(stats).map(id => {
+    const s = stats[id], q = byId[id] || {};
+    const acc = s.q ? s.c / s.q : 0;
+    let topWrong = null, topWrongN = 0;
+    Object.keys(s.picks || {}).forEach(L => {
+      if (L !== q.correct_answer && s.picks[L] > topWrongN) { topWrong = L; topWrongN = s.picks[L]; }
+    });
+    return {
+      id, attempts: s.q, accuracy: +(acc * 100).toFixed(0),
+      correctKey: q.correct_answer, topWrong,
+      topWrongPct: s.q ? +((topWrongN / s.q) * 100).toFixed(0) : 0,
+      suspectKey: acc < 0.4 && topWrongN > s.c, // more people pick one wrong option than the "right" one
+      pillar: q.pillar, question: (q.question || '').slice(0, 60)
+    };
+  }).filter(r => r.attempts >= minAttempts).sort((a, b) => a.accuracy - b.accuracy);
+  try { console.table(rows); } catch (e) {}
+  return rows;
+}
+
+function exportQStats() {
+  try { return localStorage.getItem('gamesharp_qstats') || '{}'; } catch (e) { return '{}'; }
+}
+
 // ── V5.2 ONE THING TO REMEMBER ────────────────────────────────────
 const OTT_FALLBACK_CUES = [
   "Margin beats emotion — go to your patterns first.",
@@ -7956,6 +8017,9 @@ function pickAnswer(letter) {
   const ok = letter === correctDisplay;
   if (ok) state.score++;
   state.results.push(ok);
+  // Record per-question accuracy + which ORIGINAL option was chosen (stable
+  // across the answer-shuffle) for the content audit.
+  recordAnswerStat(q, ok, (state.optMap && state.optMap[letter]) || letter);
 
   document.querySelectorAll('.opt').forEach(el => {
     const ltr = el.querySelector('.opt-ltr').textContent;
@@ -8404,7 +8468,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v67';
+const CACHE = 'gamesharp-v68';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
