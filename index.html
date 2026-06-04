@@ -2635,21 +2635,57 @@ function showWelcomeOnboarding() {
 // ── COLD OPEN ──────────────────────────────────────────────────────
 // One real decision on the broadcast court BEFORE any questions, so the very
 // first thing a new player does is feel the product — not fill in a form.
-const COLD_OPEN = {
-  situation: "You're trading crosscourt backhands. The rally is even — neither of you is in control — and you get another ball at a comfortable height.",
-  question: "Where do you go with it?",
-  you: { x: 56, y: 128 },
-  opp: { x: 138, y: 38 },
-  options: [
-    { label: 'Down the line', sub: 'Into the open court', target: { x: 58, y: 28 }, correct: false,
-      verdict: "This is the shot most club players take — and miss. From a neutral, even ball you haven't earned the line yet: it's the highest-risk shot on the court, and you're not balanced and moving forward enough to justify it." },
-    { label: 'Heavy crosscourt again', sub: 'Keep building the rally', target: { x: 150, y: 26 }, correct: true,
-      verdict: "Right. Keep loading the crosscourt — more depth, more pace — until your opponent floats a shorter ball. THEN you change direction, balanced and moving in. You earn the line before you go for it." },
-    { label: 'Drop shot', sub: 'Change it up', target: { x: 80, y: 88 }, correct: false,
-      verdict: "From an even, deep rally the drop just sits up — your opponent is balanced and reads it early. There's no opening here yet to exploit." }
-  ],
-  insight: "Roger Federer called the down-the-line the most expensive shot in tennis: “The crosscourt gives you the match. The line ends the point — you need the match before you can end the point.”"
-};
+const COLD_OPENS = [
+  {
+    // Federer — earn the line
+    situation: "You're trading crosscourt backhands. The rally is even — neither of you is in control — and you get another ball at a comfortable height.",
+    question: "Where do you go with it?",
+    you: { x: 56, y: 128 }, opp: { x: 138, y: 38 },
+    incoming: { from: { x: 132, y: 48 }, to: { x: 64, y: 120 } },
+    options: [
+      { label: 'Down the line', sub: 'Into the open court', target: { x: 58, y: 28 }, correct: false,
+        verdict: "This is the shot most club players take — and miss. From a neutral, even ball you haven't earned the line yet: it's the highest-risk shot on the court, and you're not balanced and moving forward enough to justify it." },
+      { label: 'Heavy crosscourt again', sub: 'Keep building the rally', target: { x: 150, y: 26 }, correct: true,
+        verdict: "Right. Keep loading the crosscourt — more depth, more pace — until your opponent floats a shorter ball. THEN you change direction, balanced and moving in. You earn the line before you go for it." },
+      { label: 'Drop shot', sub: 'Change it up', target: { x: 80, y: 88 }, correct: false,
+        verdict: "From an even, deep rally the drop just sits up — your opponent is balanced and reads it early. There's no opening here yet to exploit." }
+    ],
+    insight: "Roger Federer called the down-the-line the most expensive shot in tennis: “The crosscourt gives you the match. The line ends the point — you need the match before you can end the point.”"
+  },
+  {
+    // Alcaraz — read the short ball, controlled attack
+    situation: "Your opponent's ball lands short and sits up near your service line. You've got time to step in and set your feet.",
+    question: "How do you play the sitter?",
+    you: { x: 100, y: 104 }, opp: { x: 100, y: 32 },
+    incoming: { from: { x: 100, y: 46 }, to: { x: 100, y: 96 } },
+    options: [
+      { label: 'Flat winner down the line', sub: 'Full pace, end it now', target: { x: 150, y: 24 }, correct: false,
+        verdict: "Going flat-out for the line is how easy short balls get missed. You don't need the spectacular shot here — you need the one that lands. Max pace into a small target is the lowest-percentage choice." },
+      { label: 'Drive to the open corner', sub: 'Controlled, big target', target: { x: 52, y: 28 }, correct: true,
+        verdict: "Yes. Step in, set your feet, and drive to a big target with margin. Controlled aggression into space wins this point far more often than a flat-out winner — and sets up the next ball if it comes back." },
+      { label: 'Cheeky drop shot', sub: 'Catch them napping', target: { x: 110, y: 60 }, correct: false,
+        verdict: "A drop shot off a sitter throws away your biggest advantage. You're set up to attack from inside the court — so attack." }
+    ],
+    insight: "Carlos Alcaraz's coach Juan Carlos Ferrero found the skill wasn't the swing — it was the read. “He was half a second late,” Ferrero said. “When we fixed the read, the shot fixed itself.” Move first, hit second."
+  },
+  {
+    // Venus — wide serve + 1 into the open court
+    situation: "You crack a serve out wide on the deuce side and drag the returner off the court. Their reply floats back short and central.",
+    question: "Where's your plus-one?",
+    you: { x: 100, y: 118 }, opp: { x: 28, y: 44 },
+    incoming: { from: { x: 42, y: 52 }, to: { x: 100, y: 110 } },
+    options: [
+      { label: 'Behind them', sub: 'Back where they came', target: { x: 40, y: 28 }, correct: false,
+        verdict: "Wrong-footing has its moments — but here they're already scrambling back to the middle, so hitting behind them sends the ball straight to where they're heading. The space is the other way." },
+      { label: 'Into the open court', sub: 'Punish the space', target: { x: 150, y: 30 }, correct: true,
+        verdict: "Yes. The wide serve's whole job was to open that court — the plus-one just collects the space it created. The serve and the forehand are one pattern, not two separate decisions." },
+      { label: 'Drop shot', sub: 'Take their legs', target: { x: 104, y: 60 }, correct: false,
+        verdict: "A drop shot throws away the opening your serve just built. You've earned a wide-open court — use it before they recover." }
+    ],
+    insight: "Venus Williams's wide serve on the deuce court was a rehearsed setup: the serve's job was to displace the returner; the forehand's job was to punish the space. Two shots, one pattern."
+  }
+];
+let COLD_OPEN = COLD_OPENS[0];
 
 function coldCourtMarkings() {
   return `
@@ -2701,8 +2737,10 @@ function coldOpenCourt(chosenIdx) {
       action += `<path d="M${you.x},${you.y} Q${ccx},${ccy} ${ct.x},${ct.y}" stroke="rgba(91,186,111,.75)" stroke-width="1.6" fill="none" stroke-dasharray="4,3" opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.45s" dur="0.4s" fill="freeze"/></path>`;
     }
   } else {
-    // Incoming crosscourt ball arriving to your backhand corner.
-    action = `<path d="M${opp.x - 4},${opp.y + 8} Q92,80 ${you.x + 8},${you.y - 8}" stroke="rgba(200,168,75,.45)" stroke-width="1.3" fill="none" stroke-dasharray="3,3"/>`;
+    // Incoming ball that sets up the decision (data-driven per scenario).
+    const inc = COLD_OPEN.incoming || { from: { x: opp.x, y: opp.y + 10 }, to: { x: you.x, y: you.y - 10 } };
+    const mx = (inc.from.x + inc.to.x) / 2, my = Math.min(inc.from.y, inc.to.y) + 18;
+    action = `<path d="M${inc.from.x},${inc.from.y} Q${mx},${my} ${inc.to.x},${inc.to.y}" stroke="rgba(200,168,75,.45)" stroke-width="1.3" fill="none" stroke-dasharray="3,3"/>`;
   }
 
   return `<div class="wob-court cold-court"><svg viewBox="0 0 200 150">
@@ -2719,6 +2757,8 @@ function coldOpenCourt(chosenIdx) {
 function showColdOpen() {
   wObState.stage = 'cold';
   wObState.coldAnswered = false;
+  // Rotate the entry scenario so it varies on repeat / shared opens.
+  COLD_OPEN = COLD_OPENS[Math.floor(Math.random() * COLD_OPENS.length)];
   const inner = document.getElementById('wObInner');
   if (!inner) return;
   const step = document.getElementById('wObStep'); if (step) step.textContent = '';
@@ -8987,7 +9027,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v80';
+const CACHE = 'gamesharp-v81';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
