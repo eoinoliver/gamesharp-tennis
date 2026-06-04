@@ -1428,6 +1428,17 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 
 .wob-next{ margin-top:18px; animation:wobFadeUp .4s var(--ease-out-quint) .12s both; }
 
+/* cold open — a live decision before any questions */
+.cold-eyebrow{ font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:#5bba6f; font-weight:700; margin-bottom:12px; }
+.wob-court.cold-court{ height:196px; max-width:340px; }
+.wob-card.cold-wrong{ border-color:#e07070; background:rgba(224,112,112,.12); box-shadow:0 0 0 1px #e07070; }
+.wob-card.cold-wrong .wob-cardtick{ display:flex; background:#e07070; }
+.cold-verdict{ margin-top:18px; border-left:3px solid rgba(91,186,111,.5); padding:2px 0 2px 14px; opacity:0; }
+.cold-verdict.show{ animation:wobFadeUp .5s var(--ease-out-quint) both; }
+.cv-tag{ font-size:12px; letter-spacing:1.5px; text-transform:uppercase; font-weight:800; margin-bottom:8px; }
+.cv-body{ font-size:14.5px; color:#fff; line-height:1.55; margin-bottom:12px; }
+.cv-insight{ font-size:13px; color:rgba(255,255,255,.55); line-height:1.55; font-style:italic; }
+
 /* progress track + travelling ball */
 .wob-track{ position:relative; display:flex; align-items:center; gap:6px; margin:0 0 30px; height:12px; }
 .wob-dot{ flex:1; height:6px; border-radius:3px; background:rgba(255,255,255,.15); transition:all .4s var(--ease-out-quint); }
@@ -2607,12 +2618,160 @@ let wObCompleteTimer = null;
 let wObDismissed = false;
 
 function showWelcomeOnboarding() {
-  wObState = { idx: 0, answers: {}, stage: 'q', locked: false };
+  wObState = { idx: 0, answers: {}, stage: 'cold', locked: false, coldAnswered: false };
   wObDismissed = false;
   const el = document.getElementById('welcomeOnboardScreen');
   if (el) { el.style.display = 'flex'; }
   const skip = document.getElementById('wObSkip'); if (skip) skip.style.display = 'block';
+  showColdOpen();
+}
+
+// ── COLD OPEN ──────────────────────────────────────────────────────
+// One real decision on the broadcast court BEFORE any questions, so the very
+// first thing a new player does is feel the product — not fill in a form.
+const COLD_OPEN = {
+  situation: "Your opponent's serve drags you wide off the court. You stretch and reach it — but you're off balance.",
+  question: "What's the highest-percentage play?",
+  you: { x: 150, y: 128 },
+  opp: { x: 100, y: 30 },
+  options: [
+    { label: 'Down the line', sub: 'Go for the winner', target: { x: 150, y: 30 }, correct: false,
+      verdict: "Tempting — but you're stretched and off balance. Down-the-line from way out wide is the lowest-percentage shot on the court, and if you miss it the point's gone anyway." },
+    { label: 'High, deep crosscourt', sub: 'Reset and recover', target: { x: 58, y: 30 }, correct: true,
+      verdict: "Exactly. Pulled this wide, the job isn't to win the point — it's to neutralise it. A high, deep crosscourt ball gives you the time to recover your position and reset the rally." },
+    { label: 'Drop shot', sub: 'Catch them off guard', target: { x: 104, y: 88 }, correct: false,
+      verdict: "Risky from defence — a drop shot hit on the stretch tends to sit up, and your opponent is already in control of the point. You'd be gambling from the worst position to gamble." }
+  ],
+  insight: "Better players don't just read the ball — they read the situation. That's what GameSharp trains."
+};
+
+function coldCourtMarkings() {
+  return `
+    <defs><linearGradient id="coldSurf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d5f29"/><stop offset="1" stop-color="#15461f"/></linearGradient></defs>
+    <rect x="0" y="0" width="200" height="150" fill="#0a160c"/>
+    <rect x="20" y="12" width="160" height="126" fill="url(#coldSurf)"/>
+    <rect x="20" y="12" width="22" height="126" fill="rgba(255,255,255,.025)"/>
+    <rect x="158" y="12" width="22" height="126" fill="rgba(255,255,255,.025)"/>
+    <line x1="20" y1="12" x2="180" y2="12" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+    <line x1="20" y1="138" x2="180" y2="138" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+    <line x1="20" y1="12" x2="20" y2="138" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+    <line x1="180" y1="12" x2="180" y2="138" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+    <line x1="42" y1="12" x2="42" y2="138" stroke="rgba(255,255,255,.5)" stroke-width="1"/>
+    <line x1="158" y1="12" x2="158" y2="138" stroke="rgba(255,255,255,.5)" stroke-width="1"/>
+    <line x1="42" y1="41" x2="158" y2="41" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
+    <line x1="42" y1="109" x2="158" y2="109" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
+    <line x1="100" y1="41" x2="100" y2="109" stroke="rgba(255,255,255,.26)" stroke-width="1"/>
+    <rect x="17" y="71" width="6" height="8" fill="rgba(200,168,75,.4)" rx="1"/>
+    <rect x="177" y="71" width="6" height="8" fill="rgba(200,168,75,.4)" rx="1"/>
+    <line x1="20" y1="75" x2="180" y2="75" stroke="rgba(255,255,255,.7)" stroke-width="1.7"/>`;
+}
+
+function coldOpenCourt(chosenIdx) {
+  const you = COLD_OPEN.you, opp = COLD_OPEN.opp, opts = COLD_OPEN.options;
+  const revealed = chosenIdx != null;
+  const correctIdx = opts.findIndex(o => o.correct);
+
+  const markers = opts.map((o, i) => {
+    let fill = 'rgba(255,255,255,.16)', stroke = 'rgba(255,255,255,.4)', txt = 'rgba(255,255,255,.6)';
+    if (revealed) {
+      if (i === chosenIdx) { fill = o.correct ? 'rgba(91,186,111,.95)' : 'rgba(224,82,82,.95)'; stroke = '#fff'; txt = '#06140a'; }
+      else if (i === correctIdx) { fill = 'rgba(91,186,111,.9)'; stroke = '#fff'; txt = '#06140a'; }
+      else { fill = 'rgba(255,255,255,.07)'; stroke = 'rgba(255,255,255,.18)'; txt = 'rgba(255,255,255,.28)'; }
+    }
+    const pulse = (revealed && i === correctIdx && chosenIdx !== correctIdx) ? `<animate attributeName="r" values="7;9;7" dur="1s" repeatCount="indefinite"/>` : '';
+    const L = String.fromCharCode(65 + i);
+    return `<circle cx="${o.target.x}" cy="${o.target.y}" r="7" fill="${fill}" stroke="${stroke}" stroke-width="1">${pulse}</circle>
+      <text x="${o.target.x}" y="${o.target.y + 2.6}" text-anchor="middle" font-size="6.5" font-weight="700" fill="${txt}" font-family="DM Sans,sans-serif">${L}</text>`;
+  }).join('');
+
+  let action = '';
+  if (revealed) {
+    const o = opts[chosenIdx], t = o.target;
+    const cx = (you.x + t.x) / 2, cy = Math.min(you.y, t.y) - 16;
+    const col = o.correct ? '#b6ff8a' : '#ff8a8a';
+    action = `<circle r="3.4" fill="${col}"><animateMotion dur="0.75s" fill="freeze" path="M${you.x},${you.y} Q${cx},${cy} ${t.x},${t.y}" calcMode="spline" keySplines="0.3 0 0.2 1" keyTimes="0;1"/></circle>`;
+    if (!o.correct) {
+      const ct = opts[correctIdx].target, ccx = (you.x + ct.x) / 2, ccy = Math.min(you.y, ct.y) - 16;
+      action += `<path d="M${you.x},${you.y} Q${ccx},${ccy} ${ct.x},${ct.y}" stroke="rgba(91,186,111,.75)" stroke-width="1.6" fill="none" stroke-dasharray="4,3" opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.45s" dur="0.4s" fill="freeze"/></path>`;
+    }
+  } else {
+    action = `<path d="M95,42 Q150,72 ${you.x},${you.y - 8}" stroke="rgba(200,168,75,.45)" stroke-width="1.3" fill="none" stroke-dasharray="3,3"/>`;
+  }
+
+  return `<div class="wob-court cold-court"><svg viewBox="0 0 200 150">
+    ${coldCourtMarkings()}
+    ${action}
+    ${markers}
+    <circle cx="${opp.x}" cy="${opp.y}" r="5" fill="rgba(255,255,255,.55)"/>
+    <text x="${opp.x}" y="${opp.y + 12}" text-anchor="middle" font-size="6" fill="rgba(255,255,255,.4)" font-family="DM Sans,sans-serif">OPP</text>
+    <circle cx="${you.x}" cy="${you.y}" r="6" fill="rgba(200,168,75,.95)"/>
+    <text x="${you.x}" y="${you.y + 13}" text-anchor="middle" font-size="6" fill="rgba(200,168,75,.6)" font-family="DM Sans,sans-serif">YOU</text>
+  </svg></div>`;
+}
+
+function showColdOpen() {
+  wObState.stage = 'cold';
+  wObState.coldAnswered = false;
+  const inner = document.getElementById('wObInner');
+  if (!inner) return;
+  const step = document.getElementById('wObStep'); if (step) step.textContent = '';
+  const skip = document.getElementById('wObSkip'); if (skip) skip.style.display = 'block';
+
+  const opts = COLD_OPEN.options.map((o, i) =>
+    `<button class="wob-card cold-opt" data-i="${i}" onclick="coldChoose(${i})">
+      <span class="wob-emoji" style="font-size:15px;font-weight:800;color:#5bba6f;">${String.fromCharCode(65 + i)}</span>
+      <span style="flex:1;"><span class="wob-label">${o.label}</span><span class="wob-sublabel">${o.sub}</span></span>
+      <span class="wob-chev">›</span><span class="wob-cardtick">✓</span>
+    </button>`).join('');
+
+  inner.innerHTML = `
+    <div class="cold-eyebrow">Quick read · no setup needed</div>
+    <div class="wob-headline" style="font-size:27px;">${COLD_OPEN.question}</div>
+    <div class="wob-sub solo">${COLD_OPEN.situation}</div>
+    <div id="coldCourt">${coldOpenCourt(null)}</div>
+    <div id="coldOpts" style="margin-top:14px;">${opts}</div>
+    <div id="coldReveal"></div>
+  `;
+}
+
+function coldChoose(i) {
+  if (wObState.coldAnswered) return;
+  wObState.coldAnswered = true;
+  wobHaptic();
+  const o = COLD_OPEN.options[i];
+
+  const cc = document.getElementById('coldCourt');
+  if (cc) cc.innerHTML = coldOpenCourt(i);
+
+  document.querySelectorAll('#coldOpts .cold-opt').forEach(c => {
+    const idx = +c.getAttribute('data-i');
+    if (idx === i) c.classList.add(o.correct ? 'sel' : 'cold-wrong');
+    else if (COLD_OPEN.options[idx].correct) c.classList.add('sel');
+    else c.classList.add('dim');
+  });
+
+  const rv = document.getElementById('coldReveal');
+  const tagTxt = o.correct ? 'Nice read' : 'Not quite';
+  const tagCol = o.correct ? '#5bba6f' : '#e07070';
+  if (rv) {
+    rv.innerHTML = `
+      <div class="cold-verdict show">
+        <div class="cv-tag" style="color:${tagCol};">${o.correct ? '✓' : '✗'} ${tagTxt}</div>
+        <div class="cv-body">${o.verdict}</div>
+        <div class="cv-insight">${COLD_OPEN.insight}</div>
+      </div>
+      <button class="wob-cta wob-next" onclick="coldContinue()">Tune this to my game →</button>
+    `;
+  }
+  const skip = document.getElementById('wObSkip'); if (skip) skip.style.display = 'none';
+  setTimeout(() => { const r = document.getElementById('coldReveal'); if (r) r.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 120);
+}
+
+function coldContinue() {
+  wObState.idx = 0;
+  wObState.stage = 'q';
   renderWelcomeQuestion();
+  const inner = document.getElementById('wObInner'); if (inner) inner.scrollTop = 0;
 }
 
 function wobHaptic() { try { if (navigator.vibrate) navigator.vibrate(9); } catch(e) {} }
@@ -8730,7 +8889,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v75';
+const CACHE = 'gamesharp-v76';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
