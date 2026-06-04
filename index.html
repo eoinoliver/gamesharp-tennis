@@ -2666,6 +2666,9 @@ function selectWelcomeAnswer(key, tag, btn) {
   const q = WELCOME_QUESTIONS[wObState.idx];
   const opt = q.opts.find(o => o.tag === tag);
 
+  // Once committed, hide the skip footer so the confirmation/court has room.
+  const skip = document.getElementById('wObSkip'); if (skip) skip.style.display = 'none';
+
   document.querySelectorAll('#wobOpts .wob-card').forEach(c => {
     if (c.getAttribute('data-tag') === tag) c.classList.add('sel');
     else c.classList.add('dim');
@@ -2703,7 +2706,7 @@ function wobMiniCourt(fmt) {
     ? `<circle cx="42" cy="40" r="5" fill="#b6d736"/><circle cx="42" cy="80" r="5" fill="#b6d736"/>
        <circle cx="158" cy="40" r="5" fill="rgba(255,255,255,.55)"/><circle cx="158" cy="80" r="5" fill="rgba(255,255,255,.55)"/>`
     : `<circle cx="40" cy="60" r="5.5" fill="#b6d736"/><circle cx="160" cy="60" r="5.5" fill="rgba(255,255,255,.55)"/>`;
-  return `<svg viewBox="0 0 200 120" style="width:100%;max-width:330px;display:block;margin:2px auto 0;border-radius:12px;background:radial-gradient(120% 120% at 50% 50%,#15441c,#0a230f);box-shadow:inset 0 0 28px rgba(0,0,0,.45);">
+  return `<svg viewBox="0 0 200 120" style="width:100%;max-width:280px;display:block;margin:2px auto 0;border-radius:12px;background:radial-gradient(120% 120% at 50% 50%,#15441c,#0a230f);box-shadow:inset 0 0 28px rgba(0,0,0,.45);">
     <rect x="10" y="10" width="180" height="100" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.4"/>
     <rect class="wob-mini-alley${dbl ? ' glow' : ''}" x="10" y="10" width="180" height="15" fill="${alleyFill}"/>
     <rect class="wob-mini-alley${dbl ? ' glow' : ''}" x="10" y="95" width="180" height="15" fill="${alleyFill}"/>
@@ -8663,7 +8666,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v70';
+const CACHE = 'gamesharp-v71';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
