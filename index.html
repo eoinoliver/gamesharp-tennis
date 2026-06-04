@@ -1656,6 +1656,13 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       <div class="ptp-skip" id="ptpSkip">Skip →</div>
     </div>
 
+    <!-- Technique Coach (beta) — discreet entry to the standalone module -->
+    <a href="/technique.html" style="display:block;text-align:center;margin:18px 14px 30px;padding:15px;border:1px solid rgba(91,186,111,.22);border-radius:14px;background:rgba(91,186,111,.05);text-decoration:none;-webkit-tap-highlight-color:transparent;">
+      <span style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#5bba6f;font-weight:800;">New · Beta</span>
+      <span style="display:block;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:#fff;margin-top:3px;">Technique Coach →</span>
+      <span style="display:block;font-size:11px;color:rgba(255,255,255,.42);margin-top:3px;">Master every stroke — with the coach's eye</span>
+    </a>
+
   </div><!-- /gs-main -->
 
 
@@ -9027,7 +9034,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v81';
+const CACHE = 'gamesharp-v82';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
