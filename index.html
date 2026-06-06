@@ -1518,6 +1518,8 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .dtc-intro{font-size:15px;line-height:1.6;color:rgba(255,255,255,.66);margin:0 0 26px;}
 .dtc-cta{width:100%;background:#5bba6f;color:#06140a;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.4px;border:none;border-radius:14px;padding:16px;cursor:pointer;box-shadow:0 6px 22px rgba(91,186,111,.28);}
 .dtc-cta:active{transform:scale(.98);} .dtc-cta.gold{background:#c8a84b;box-shadow:0 6px 22px rgba(200,168,75,.28);}
+.dtc-cta-ghost{width:100%;background:transparent;color:rgba(255,255,255,.5);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.4px;border:none;border-radius:12px;padding:12px;cursor:pointer;}
+.dtc-cta-ghost:active{transform:scale(.98);color:rgba(255,255,255,.8);}
 .dtc-qtag{display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:12px;}
 .dtc-qtag.tac{color:#5bba6f;background:rgba(91,186,111,.12);} .dtc-qtag.exe{color:#c8a84b;background:rgba(200,168,75,.14);}
 .dtc-sit{font-size:14px;line-height:1.55;color:rgba(255,255,255,.6);margin-bottom:6px;}
@@ -6819,14 +6821,20 @@ function startDailyChallenge() {
   trackEvent('today_challenge_card_clicked');
   // Live daily loop is now the themed brain+body challenge.
   if (typeof startThemedDaily === 'function') { startThemedDaily(); return; }
+  runStandardDaily();
+}
+
+// The original 5-decision daily (Play a Point). Reused as the second half of the
+// themed daily so the session flows: 4 themed reads → 5 match decisions → finish.
+function runStandardDaily() {
   trackEvent('today_challenge_started');
   const rawPool = pickDailyChallengePool(20); // larger pool so Play a Point can pick well
-  if (!rawPool.length) return;
+  if (!rawPool.length) return false;
   const pillar = rawPool[0]?.pillar || 'Win More';
   state.selectedPillar = pillar;
   state.selectedModule = 'Daily Challenge';
   const bundle = buildPlayAPoint(pillar, null, rawPool);
-  if (!bundle || !bundle.length) return;
+  if (!bundle || !bundle.length) return false;
   // Override scenario context for daily — use a consistent daily header
   const dailyCtx = POINT_CONTEXTS[pillar]?.[0] || POINT_CONTEXTS['Win More'][0];
   bundle.forEach((q, i) => {
@@ -6839,6 +6847,7 @@ function startDailyChallenge() {
   showScreen('quizScreen');
   buildDots();
   loadQ();
+  return true;
 }
 
 /* ════════ THEMED DAILY CHALLENGE (live brain+body loop) ════════ */
@@ -7436,10 +7445,19 @@ function dtcRenderEnd(){
   dtcApp().innerHTML=`${dtcTopBar()}<div class="dtc-fade" style="padding-top:10px;">
     <div class="dtc-endcard"><div class="dtc-score">${dtcScore}/${n}</div><div class="dtc-scsub">Reads correct today</div></div>
     <div class="dtc-cuebig"><div class="dtc-cbl">Today's court cue</div><div class="dtc-cbt">${T.endCue}</div><div class="dtc-cbb">${T.endBody}</div></div>
-    <button class="dtc-cta" onclick="dtcExit()">Back to home →</button>
-    <div style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,.4);">🔥 ${streak}-day streak alive</div>
+    <div style="text-align:center;margin:6px 0 12px;font-size:12px;color:rgba(255,255,255,.4);">🔥 ${streak}-day streak alive · halfway through today's session</div>
+    <button class="dtc-cta gold" onclick="dtcContinueToDaily()">Now play the point → 5 match decisions</button>
+    <button class="dtc-cta-ghost" onclick="dtcExit()" style="margin-top:10px;">I'm done for today</button>
   </div>`;
   dtcScroll();
+}
+
+// Auto-chain: hand off from the themed reads into the standard 5-decision daily.
+function dtcContinueToDaily(){
+  try{ trackEvent('themed_daily_continue_to_point',{}); }catch(e){}
+  const ov=document.getElementById('dailyThemed'); if(ov) ov.style.display='none';
+  let ok=false; try{ ok=runStandardDaily(); }catch(e){}
+  if(!ok){ if(typeof initHome==='function') initHome(); }
 }
 
 function startHereSession() {
@@ -9718,7 +9736,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v87';
+const CACHE = 'gamesharp-v88';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
