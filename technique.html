@@ -172,15 +172,18 @@ const STROKES = {
     intent:"Your forehand is your weapon. Built right, it's free power. Built wrong, it's your biggest source of errors. Let's build it right.",
     poses:{
       load:{head:[150,70],sh:[150,102],hip:[152,172],elb:[124,130],wr:[108,156],rkt:[84,186],oElb:[180,120],oWr:[210,130],bKnee:[130,236],bAnk:[124,302],fKnee:[178,240],fAnk:[194,302]},
+      drop:{head:[150,70],sh:[150,102],hip:[150,170],elb:[150,126],wr:[172,150],rkt:[160,188],oElb:[136,116],oWr:[116,134],bKnee:[132,237],bAnk:[122,301],fKnee:[178,239],fAnk:[193,301]},
       contact:{head:[152,70],sh:[152,102],hip:[150,170],elb:[184,124],wr:[214,128],rkt:[242,108],oElb:[124,124],oWr:[100,146],bKnee:[134,238],bAnk:[118,302],fKnee:[178,240],fAnk:[190,302]},
       finish:{head:[150,70],sh:[150,100],hip:[150,168],elb:[138,96],wr:[114,78],rkt:[94,56],oElb:[126,108],oWr:[102,72],bKnee:[150,242],bAnk:[150,302],fKnee:[172,238],fAnk:[184,302]}
     },
     frames:[
       {key:'load',label:'Load',sub:'Coil & weight back',cue:'Turn your shoulders before the ball bounces.',cap:"Power doesn't start in your arm. It starts in the ground.",
         overlay:p=>oPower(p)+`<circle cx="${p.oWr[0]}" cy="${p.oWr[1]}" r="6" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/><text x="${p.oWr[0]+12}" y="${p.oWr[1]+3}" fill="rgba(255,255,255,.5)" font-size="8.5" font-family="DM Sans">point at the ball</text>`},
+      {key:'drop',label:'Drop',sub:'Lag & whip',cue:'Let the racket head drop below the ball — that lag is your topspin.',cap:"Don't muscle it from the top. Let the racket fall, then whip up through the ball.",
+        overlay:p=>oLabel(p.rkt[0]-2,p.rkt[1]+20,'racket drops below','rgba(91,186,111,.85)')+arrow(p.rkt[0]+6,p.rkt[1]-8,p.rkt[0]+44,p.rkt[1]-72,'rgba(91,186,111,.7)',3)},
       {key:'contact',label:'Contact',sub:'Out in front',cue:'Meet it in front of your hip — brush up the back of the ball.',cap:'Late is weak. In front is free power.',
         overlay:p=>oContact(p.rkt[0]+2,p.wr[1]+4,true)},
-      {key:'finish',label:'Finish',sub:'High & balanced',cue:'Finish high — catch the racket over your shoulder.',cap:'Hold your finish for a second. If you can, you were balanced.',
+      {key:'finish',label:'Finish',sub:'High & balanced',cue:'Finish high — catch the racket over your shoulder.',cap:'Catch it over the shoulder for a clean drive — that\'s your balance baseline. For heavy topspin off a low or fast ball, let it wrap across your body instead — the "windshield wiper".',
         overlay:p=>`<path d="M 238,140 Q 200,60 ${p.rkt[0]+6},${p.rkt[1]+6}" fill="none" stroke="rgba(91,186,111,.5)" stroke-width="2.5" stroke-dasharray="5,4"/>`+oCatch(p)+oBalance(p.fAnk[0])}
     ],
     hero:{txt:'Turn · Step · Brush · Catch', sub:'Four beats. The whole forehand, in a rhythm you can say to yourself before you swing.'},
@@ -201,12 +204,15 @@ const STROKES = {
     intent:"The one-hander is a signature — beautiful, penetrating, and unforgiving. Hit it right and it's the best ball you own. Hit it late and it's the first thing to break. Let's make it reliable.",
     poses:{
       load:{head:[150,70],sh:[150,102],hip:[150,172],elb:[126,128],wr:[106,152],rkt:[82,180],oElb:[122,138],oWr:[100,160],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},
+      drop:{head:[150,70],sh:[150,102],hip:[150,170],elb:[142,126],wr:[150,152],rkt:[138,188],oElb:[140,134],oWr:[118,156],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},
       contact:{head:[152,70],sh:[152,102],hip:[150,170],elb:[186,118],wr:[216,118],rkt:[246,98],oElb:[126,130],oWr:[104,152],bKnee:[178,240],bAnk:[190,302],fKnee:[130,240],fAnk:[118,302]},
       finish:{head:[150,68],sh:[150,100],hip:[150,168],elb:[188,94],wr:[220,76],rkt:[248,56],oElb:[118,122],oWr:[88,144],bKnee:[170,240],bAnk:[182,302],fKnee:[140,240],fAnk:[132,302]}
     },
     frames:[
       {key:'load',label:'Load',sub:'Turn your back',cue:'Show your back to the net — both hands take it back and low.',cap:'The one-hander lives or dies on the turn. Coil early.',
         overlay:p=>`<text x="${p.rkt[0]-4}" y="${p.rkt[1]+24}" fill="rgba(91,186,111,.8)" font-size="8.5" font-weight="700" font-family="DM Sans" text-anchor="middle">low & back</text>`+oPower(p)},
+      {key:'drop',label:'Drop',sub:'Lag & whip',cue:'Let the racket drop below the ball, then drive low-to-high through it.',cap:"The lag loads the topspin. Don't yank it from the top — let it fall, then climb.",
+        overlay:p=>oLabel(p.rkt[0],p.rkt[1]+20,'racket drops','rgba(91,186,111,.85)')+arrow(p.rkt[0]+6,p.rkt[1]-8,p.rkt[0]+48,p.rkt[1]-70,'rgba(91,186,111,.7)',3)},
       {key:'contact',label:'Contact',sub:'Way out in front',cue:'Strike it further in front than feels natural — the one-hander demands it.',cap:'Forehands forgive late. One-handers punish it.',
         overlay:p=>oContact(p.rkt[0]+2,p.wr[1]+4,true)},
       {key:'finish',label:'Finish',sub:'Spread the wings',cue:'Drive up and through — let the off-hand fly back behind you.',cap:'The spread isn\'t for show. It\'s the proof you stayed sideways and balanced.',
@@ -230,12 +236,15 @@ const STROKES = {
     intent:"The two-hander is your fortress — compact, stable, and hard to rush. The shot that holds when everything else is shaking. Let's make it a weapon, not just a wall.",
     poses:{
       load:{head:[150,70],sh:[150,102],hip:[150,172],elb:[126,130],wr:[108,152],rkt:[84,178],oElb:[132,134],oWr:[112,150],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},
+      drop:{head:[150,70],sh:[150,102],hip:[150,170],elb:[142,128],wr:[152,152],rkt:[140,188],oElb:[148,132],oWr:[128,152],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},
       contact:{head:[151,70],sh:[151,102],hip:[150,170],elb:[178,124],wr:[208,126],rkt:[236,106],oElb:[162,132],oWr:[200,130],bKnee:[176,240],bAnk:[188,302],fKnee:[132,240],fAnk:[120,302]},
       finish:{head:[150,70],sh:[150,100],hip:[150,168],elb:[140,98],wr:[120,80],rkt:[100,60],oElb:[146,104],oWr:[126,84],bKnee:[168,240],bAnk:[178,302],fKnee:[140,240],fAnk:[132,302]}
     },
     frames:[
       {key:'load',label:'Load',sub:'Coil, both hands',cue:'Coil with both hands — your top hand is about to do the work.',cap:'A righty\'s two-hander is really a left-handed forehand. Load it like one.',
         overlay:p=>oPower(p)+`<text x="${p.rkt[0]-2}" y="${p.rkt[1]+24}" fill="rgba(91,186,111,.8)" font-size="8.5" font-weight="700" font-family="DM Sans" text-anchor="middle">both hands</text>`},
+      {key:'drop',label:'Drop',sub:'Lag & whip',cue:'Let the racket drop below the ball — the top hand whips it up from there.',cap:'Even the compact two-hander loads from a drop. Let it fall, then drive low-to-high.',
+        overlay:p=>oLabel(p.rkt[0],p.rkt[1]+20,'racket drops','rgba(91,186,111,.85)')+arrow(p.rkt[0]+6,p.rkt[1]-8,p.rkt[0]+48,p.rkt[1]-70,'rgba(91,186,111,.7)',3)},
       {key:'contact',label:'Contact',sub:'Drive in front',cue:'Drive through the ball in front of you — let the non-dominant hand lead.',cap:'Two hands, two chances to be right. Use them both.',
         overlay:p=>oContact(p.rkt[0]+2,p.wr[1]+4,true)},
       {key:'finish',label:'Finish',sub:'Compact & high',cue:'Finish high over your shoulder — short, stable, both hands still on.',cap:'It isn\'t the prettiest shot in the building. It\'s the one still standing at the end.',
@@ -268,16 +277,16 @@ const STROKES = {
         overlay:p=>oBall(202,32)+oLabel(202,18,'place it')},
       {key:'trophy',label:'Trophy',sub:'Loaded & coiled',cue:'Racket up behind you, knees bent, toss arm pointing at the ball.',cap:'This is the trophy. Power is loading in your legs — let it.',
         overlay:p=>oBall(198,30)+oPower(p)},
-      {key:'contact',label:'Contact',sub:'Reach the sky',cue:'Explode up and snap at full stretch — hit it at the very top of your reach.',cap:'A serve struck at full extension drops into the box on its own. Bent-armed, you fight physics.',
+      {key:'contact',label:'Contact',sub:'Reach the sky',cue:'Explode up to full stretch — let the racket roll up and over the ball (the forearm pronates).',cap:'A serve struck at full extension drops into the box on its own. Bent-armed, you fight physics.',
         overlay:p=>oContact(168,16,false)+oLabel(192,22,'REACH','rgba(234,255,150,.9)','start')},
       {key:'finish',label:'Finish',sub:'Across & land',cue:'Let the racket swing down across your body and land on your front foot.',cap:'A free serve looks effortless because the whole body did the work, then got out of the way.',
         overlay:p=>oBalance(p.fAnk[0])}
     ],
-    hero:{txt:'Toss · Load · Reach · Snap', sub:'No one rushes your serve. Slow your routine, place your toss, and the rest takes care of itself.'},
+    hero:{txt:'Toss · Load · Reach · Roll', sub:'No one rushes your serve. Slow your routine, place your toss, drive up and let the racket roll over — the rest takes care of itself.'},
     coach:{title:'The toss never lies', body:`A coach in Lyon had a player who double-faulted every time the score got tight. He filmed it. <em>"Your serve is fine,"</em> he said. <em>"Watch your toss."</em> Under pressure, the toss crept lower and the serve followed it down. <em>"The serve is the only shot you hit on your own terms — no one can rush it. The toss is your tell. Fix the toss, and you fix the nerve."</em> The player learned to take an extra breath and place the ball the same way every time. The double faults didn't fade slowly. They stopped.`},
     faults:[
       {symptom:'I double-fault under pressure',cause:'When the nerves come, you rush — the toss drops and gets pulled in, and the serve has nowhere to go.',fix:'Build a routine you repeat every time: bounce, breath, place the toss to the same spot. Same ritual, big point or not.',train:'Toss-and-catch: toss 10 balls and let each land. They must all land in a dinner-plate spot in front of your front foot.',coach:"The double fault isn't your serve failing — it's your trust failing. Rebuild the toss and you rebuild the trust."},
-      {symptom:'No power on it',cause:"You're muscling it with the arm and shoulder — the legs and the wrist-snap (pronation) never get involved.",fix:'Drive UP with your legs, then let the arm and wrist snap at the top. Power on a serve falls from the sky.',train:'Serve focusing only on pushing up off both legs into the ball. Land inside the baseline on your front foot.',coach:"Power on the serve comes from the ground and the snap, not the bicep. Muscle it and you'll be sore, slow, and short."},
+      {symptom:'No power on it',cause:"You're muscling it with the arm and shoulder — the legs and the forearm pronation (the racket face rolling over) never get involved.",fix:'Drive UP with your legs, then let the forearm pronate — the racket rolls up and over the ball — at the top. (Don\'t consciously "snap" the wrist; that just hurts it.)',train:'Serve focusing only on pushing up off both legs into the ball. Land inside the baseline on your front foot.',coach:"Power on the serve comes from the ground and the forearm rolling over, not the bicep — and never from a forced wrist flick."},
       {symptom:'My serves keep going long',cause:"You're contacting the ball too low, in front of your face, so the racket face sends it out instead of down.",fix:'Toss a touch higher and hit UP at full stretch. The higher contact angles the ball down into the box.',train:'Reach drill: serve trying to scrape an imaginary ceiling. Full extension every time.',coach:"Reach for the sky and the ball goes down. Hit it bent-armed at your forehead and you're aiming up and praying."},
       {symptom:'My toss is all over the place',cause:"You're flicking the ball up with your wrist and fingers, so it spins off in a new direction every time.",fix:'Lift with a straight arm from the shoulder and release at the top, fingers open. No wrist.',train:'Place the toss against a wall or fence line and groove the same release 30 times. Boring on purpose.',coach:"The toss is the one variable you own completely. Master this and the whole serve gets simple."}
     ],
@@ -324,8 +333,8 @@ const STROKES = {
       finish:{head:[150,74],sh:[150,104],hip:[150,172],elb:[172,110],wr:[196,104],rkt:[218,90],oElb:[150,122],oWr:[172,118],bKnee:[150,238],bAnk:[144,302],fKnee:[176,238],fAnk:[190,302]}
     },
     frames:[
-      {key:'ready',label:'Ready',sub:'Wide base, racket up',cue:'Wide, low base — racket up in front, and split-step on their toss.',cap:'You can\'t out-muscle a big serve. You can be ready for it.',
-        overlay:p=>oLabel(150,322,'split on their toss','rgba(255,255,255,.45)')},
+      {key:'ready',label:'Ready',sub:'Wide base, racket up',cue:'Wide, low base — racket up in front, and split-step as the server strikes (not on the toss).',cap:'You can\'t out-muscle a big serve. You can be ready for it — land as they hit, then spring.',
+        overlay:p=>oLabel(150,322,'split as they strike','rgba(255,255,255,.45)')},
       {key:'contact',label:'Block',sub:'Short & in front',cue:'Shorten the takeback — meet it out in front and use their pace.',cap:'A short, firm block beats a full, late swing every single time.',
         overlay:p=>oContact(p.rkt[0]+2,p.wr[1]+2,false)+oLabel(p.rkt[0]+2,p.wr[1]-22,'use their pace','rgba(234,255,150,.9)')},
       {key:'finish',label:'Deep',sub:'Controlled & back',cue:'Send it deep and central, then recover — make them play another ball.',cap:'Deep and boring beats short and fancy. Just make them earn it.',

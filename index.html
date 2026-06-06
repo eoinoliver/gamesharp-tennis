@@ -7059,7 +7059,7 @@ const DTC_THEMES = [
         insight:"Anticipation isn't guessing — it's reading. The pattern told you where the serve is going."},
       {type:'technique',tag:'Execution check',render:dtcReturnTech,situation:"Three smart reads — but the big first serves kept handcuffing you, late and jammed. Same miss.",prompt:"What's the usual culprit?",
         options:[{label:"You stand too close",correct:false,verdict:"Position helps, but you're getting beaten on timing — even from the right spot, a big backswing arrives late."},
-          {label:"Your backswing is too big, so you're late",correct:true,verdict:"This is it — the usual culprit. Against pace, a full takeback never catches up. Shorten it to a compact block, split-step on their toss, and borrow their power. Your read was right; the swing was too long."},
+          {label:"Your backswing is too big, so you're late",correct:true,verdict:"This is it — the usual culprit. Against pace, a full takeback never catches up. Shorten it to a compact block, split-step as the server strikes (not on the toss), and borrow their power. Your read was right; the swing was too long."},
           {label:"Wrong grip",correct:false,verdict:"Grip isn't it — the same grip blocks cleanly when the swing is short. Length is the leak."},
           {label:"You don't watch the ball",correct:false,verdict:"You're watching it — you just can't get a big swing there in time. Compact is the fix."}],
         cue:{title:"Shorten the takeback — block it, use their pace",drill:"Return practice with one rule: the racket can't go behind your back shoulder. Block only, deep and central."},
@@ -7206,10 +7206,10 @@ const DTC_EXTRA_FAULTS={
   serve:[
     {...DTC_EX0,render:r=>dtcServeScene(r,{sym:'no sting',fault:'no leg drive',fix:'explode up',badOut:'weak'}),situation:"Three smart serve reads — but your first serve had no sting on the big points, easy to step in on.",
       options:[{label:"You toss too high",correct:false,verdict:"Toss height isn't draining the pace — the power never left the ground."},
-        {label:"You muscle it — no leg drive or wrist snap",correct:true,verdict:"This is it. You serve with the arm and shoulder, so the legs and the wrist-snap never get involved and the ball has nothing on it. Drive UP with the legs, then snap at the top — serve power falls from the sky."},
-        {label:"Gripping too tight",correct:false,verdict:"A tight grip slows you, but the missing sting is the missing leg drive and snap."},
-        {label:"Standing too far back",correct:false,verdict:"Where you stand doesn't add pace. The legs and the snap do."}],
-      cue:{title:"Drive up with the legs — then snap the wrist at the top",drill:"Serve focusing only on pushing up off both legs into the ball. Land inside the baseline."},insight:"Serve power comes from the ground and the snap, not the bicep. Muscle it and you're sore, slow and short."},
+        {label:"You muscle it — no leg drive or forearm pronation",correct:true,verdict:"This is it. You serve with the arm and shoulder, so the legs and the forearm pronation (the racket face rolling over) never get involved and the ball has nothing on it. Drive UP with the legs, then let the forearm roll the racket over at the top — serve power falls from the sky. (Don't force a wrist 'snap' — that just hurts it.)"},
+        {label:"Gripping too tight",correct:false,verdict:"A tight grip slows you, but the missing sting is the missing leg drive and forearm roll."},
+        {label:"Standing too far back",correct:false,verdict:"Where you stand doesn't add pace. The legs and the forearm rolling over do."}],
+      cue:{title:"Drive up with the legs — then let the forearm pronate at the top",drill:"Serve focusing only on pushing up off both legs into the ball. Land inside the baseline."},insight:"Serve power comes from the ground and the forearm rolling over, not the bicep — never a forced wrist flick."},
     {...DTC_EX0,render:r=>dtcServeScene(r,{sym:'sails long',fault:'low contact',fix:'full stretch',badOut:'long'}),situation:"Three smart serve reads — but your first serves kept sailing long, past the service line.",
       options:[{label:"Too much spin",correct:false,verdict:"Spin brings it down. A serve that flies long is hit too low, not too spinny."},
         {label:"You contact it too low, in front of your face",correct:true,verdict:"This is it. Hitting it low and bent-armed, the racket face sends the ball out instead of down. Toss a touch higher and hit UP at full stretch — a serve struck at full extension drops into the box on its own."},
@@ -7272,7 +7272,7 @@ const DTC_EXTRA_FAULTS={
       cue:{title:"Drive the block forward — deep and central",drill:"Returns into the back third only. Anything short of the service line doesn't count."},insight:"Deep and boring beats short and fancy. A short return is the server's reward for serving at you."},
     {...DTC_EX0,render:r=>dtcSwingTech(r,'jammed','a step of room'),situation:"Three smart return reads — but the big first serve kept jamming you, cramped with no room.",
       options:[{label:"You don't watch the ball",correct:false,verdict:"You're watching — there's just no room to meet it cleanly where you're standing."},
-        {label:"You stand too close, so the serve jams you",correct:true,verdict:"This is it. Stand a touch too close and a heavy serve is on top of you before you can meet it. Give yourself a step back — room to take it clean — and split-step on their toss."},
+        {label:"You stand too close, so the serve jams you",correct:true,verdict:"This is it. Stand a touch too close and a heavy serve is on top of you before you can meet it. Give yourself a step back — room to take it clean — and split-step as the server strikes, not on the toss."},
         {label:"Wrong grip",correct:false,verdict:"Grip's the same when you have room. Space is the fix, not the grip."},
         {label:"You swing too hard",correct:false,verdict:"You can't even swing — you're jammed. The fix is room, not effort."}],
       cue:{title:"Give yourself a step back — room to meet it clean",drill:"Return from a step deeper; let the ball come to you, then block forward."},insight:"Against a bomb, half a step of room turns a jam into a clean block."},
@@ -9694,7 +9694,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v85';
+const CACHE = 'gamesharp-v86';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
