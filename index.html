@@ -1531,6 +1531,26 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .dtc-cta:active{transform:scale(.98);} .dtc-cta.gold{background:#c8a84b;box-shadow:0 6px 22px rgba(200,168,75,.28);}
 .dtc-cta-ghost{width:100%;background:transparent;color:rgba(255,255,255,.5);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.4px;border:none;border-radius:12px;padding:12px;cursor:pointer;}
 .dtc-cta-ghost:active{transform:scale(.98);color:rgba(255,255,255,.8);}
+/* ── Fix a Shot — browsable library of the 32 stroke-fault scenarios ── */
+.fix-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;padding-bottom:34px;}
+.fix-card{display:flex;flex-direction:column;align-items:flex-start;gap:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:15px 14px;cursor:pointer;text-align:left;position:relative;transition:border-color .18s,transform .12s;}
+.fix-card:active{transform:scale(.97);}
+.fix-card:hover{border-color:rgba(91,186,111,.4);}
+.fix-card-name{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:.5px;color:#fff;line-height:1.05;}
+.fix-card-meta{font-size:11px;color:rgba(255,255,255,.42);}
+.fix-card-arrow{position:absolute;top:12px;right:13px;color:rgba(91,186,111,.6);font-size:14px;}
+.fix-dots{display:flex;gap:6px;justify-content:center;margin:4px 0 14px;}
+.fix-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);}
+.fix-dot.now{background:#c8a84b;}.fix-dot.done{background:#5bba6f;}
+/* Fix a Shot entry card in the Train Your Game pillar */
+.pd-fixashot{display:flex;align-items:center;gap:13px;margin:0 18px 4px;padding:15px 16px;background:linear-gradient(135deg,rgba(91,186,111,.13),rgba(91,186,111,.04));border:1px solid rgba(91,186,111,.32);border-radius:16px;cursor:pointer;transition:transform .12s,border-color .18s;}
+.pd-fixashot:active{transform:scale(.99);}
+.pd-fix-glyph{font-size:25px;line-height:1;}
+.pd-fix-body{flex:1;min-width:0;}
+.pd-fix-eyebrow{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:#5bba6f;font-weight:800;margin-bottom:3px;}
+.pd-fix-title{font-size:14px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:3px;}
+.pd-fix-sub{font-size:11px;color:rgba(255,255,255,.45);}
+.pd-fix-arrow{color:#5bba6f;font-size:18px;}
 .dtc-qtag{display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:12px;}
 .dtc-qtag.tac{color:#5bba6f;background:rgba(91,186,111,.12);} .dtc-qtag.exe{color:#c8a84b;background:rgba(200,168,75,.14);}
 .dtc-sit{font-size:14px;line-height:1.55;color:rgba(255,255,255,.6);margin-bottom:6px;}
@@ -6997,6 +7017,86 @@ function dtcDailyTechFinish(ok) {
   showScore();
 }
 
+/* ════════ FIX A SHOT — browsable library of the 32 stroke-fault scenarios ════════
+   Houses the DTC fault questions inside the Train Your Game pillar: pick a stroke,
+   play its common faults ("find the culprit" + coach cue). Reuses the dtc renderers. */
+const FIX_STROKE_LABELS = { forehand:'Forehand', serve:'Serve', oneHand:'One-Hand Backhand', twoHand:'Two-Hand Backhand', ret:'Return', volley:'Volley', overhead:'Overhead', slice:'Slice' };
+let fixStrokeIdx = -1, fixFaultIdx = 0, fixAnswered = false, _fixGroups = null;
+function fixGroups() {
+  if (_fixGroups) return _fixGroups;
+  _fixGroups = DTC_STROKE_KEYS.map((stroke, i) => {
+    const t = DTC_THEMES[i], faults = [];
+    if (t && t.questions && t.questions[3]) faults.push(t.questions[3]);
+    const ex = DTC_EXTRA_FAULTS[stroke]; if (ex) ex.forEach(f => faults.push(f));
+    return { key: stroke, label: FIX_STROKE_LABELS[stroke] || stroke, faults };
+  });
+  return _fixGroups;
+}
+function openFixAShot() {
+  _fixGroups = null; fixStrokeIdx = -1;
+  const ov = document.getElementById('dailyThemed'); if (ov) ov.style.display = 'block';
+  fixRenderHome();
+  try { trackEvent('fix_a_shot_opened', {}); } catch (e) {}
+}
+function fixExit() {
+  const ov = document.getElementById('dailyThemed'); if (ov) ov.style.display = 'none';
+  if (typeof initPillarScreen === 'function') initPillarScreen('Technique');
+}
+function fixTopBar(label, onClick) {
+  return `<div class="dtc-top"><div class="dtc-brand" style="cursor:pointer;font-size:13px;letter-spacing:.5px;" onclick="${onClick}">‹ ${label}</div><div class="dtc-close" onclick="fixExit()">✕</div></div>`;
+}
+function fixRenderHome() {
+  fixStrokeIdx = -1;
+  const cards = fixGroups().map((g, i) =>
+    `<button class="fix-card" onclick="fixOpenStroke(${i})"><div class="fix-card-arrow">→</div><div class="fix-card-name">${g.label}</div><div class="fix-card-meta">${g.faults.length} common faults</div></button>`
+  ).join('');
+  dtcApp().innerHTML = `${fixTopBar('Train Your Game', 'fixExit()')}<div class="dtc-fade" style="padding-top:18px;">
+    <div class="dtc-eyebrow">Fix a Shot</div><h1 class="dtc-h1">Find the culprit</h1>
+    <p class="dtc-intro">Pick a stroke. We'll show the misses you actually make under pressure — and the one cue that fixes each.</p>
+    <div class="fix-grid">${cards}</div></div>`;
+  dtcScroll();
+}
+function fixOpenStroke(i) { fixStrokeIdx = i; fixFaultIdx = 0; fixRenderFault(); }
+function fixRenderFault() {
+  fixAnswered = false;
+  const g = fixGroups()[fixStrokeIdx], q = g.faults[fixFaultIdx];
+  const scene = q.render ? q.render(false) : '';
+  const opts = q.options.map((o, k) =>
+    `<button class="dtc-opt" id="dtcOpt${k}" onclick="fixAnswer(${k})"><div class="dtc-ol">${String.fromCharCode(65 + k)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
+  ).join('');
+  let dots = '';
+  for (let d = 0; d < g.faults.length; d++) dots += `<div class="fix-dot${d < fixFaultIdx ? ' done' : (d === fixFaultIdx ? ' now' : '')}"></div>`;
+  dtcApp().innerHTML = `${fixTopBar('Strokes', 'fixRenderHome()')}<div class="dtc-fade">
+    <div class="fix-dots">${dots}</div>
+    <div class="dtc-qtag exe">${g.label} · fault ${fixFaultIdx + 1} of ${g.faults.length}</div>
+    <div class="dtc-sit">${q.situation}</div>
+    <div class="dtc-prompt">${q.prompt || "What's the usual culprit?"}</div>
+    <div id="dtcScene">${scene}</div>
+    <div class="dtc-opts">${opts}</div>
+    <div id="dtcReveal"></div></div>`;
+  dtcScroll();
+}
+function fixAnswer(k) {
+  if (fixAnswered) return; fixAnswered = true;
+  const g = fixGroups()[fixStrokeIdx], q = g.faults[fixFaultIdx];
+  const o = q.options[k], ci = q.options.findIndex(x => x.correct);
+  const sc = document.getElementById('dtcScene'); if (sc && q.render) sc.innerHTML = q.render(true);
+  document.querySelectorAll('.dtc-opt').forEach((el, idx) => {
+    if (idx === k) el.classList.add(o.correct ? 'sel' : 'wrong');
+    else if (idx === ci) el.classList.add('sel');
+    else el.classList.add('dim');
+    el.onclick = null;
+  });
+  const cue = q.cue ? `<div class="dtc-cue"><div class="dtc-cl">Your cue</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>` : '';
+  const last = fixFaultIdx >= g.faults.length - 1;
+  document.getElementById('dtcReveal').innerHTML = `<div class="dtc-reveal show">
+    <div class="dtc-rtag" style="color:${o.correct ? '#5bba6f' : '#e07070'}">${o.correct ? '✓ Nailed it' : '✗ Not quite'}</div>
+    <div class="dtc-rbody">${o.verdict}</div>${q.insight ? `<div class="dtc-rins">${q.insight}</div>` : ''}${cue}
+    <button class="dtc-cta gold" style="margin-top:18px;" onclick="${last ? 'fixRenderHome()' : 'fixNextFault()'}">${last ? 'Back to strokes →' : 'Next fault →'}</button></div>`;
+  setTimeout(() => { const r = document.getElementById('dtcReveal'); if (r) r.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 120);
+}
+function fixNextFault() { fixFaultIdx++; if (fixFaultIdx >= fixGroups()[fixStrokeIdx].faults.length) fixRenderHome(); else fixRenderFault(); }
+
 /* ════════ THEMED DAILY CHALLENGE (live brain+body loop) ════════ */
 function dtcLimb(a,b,w){return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#e9f0e1" stroke-width="${w||11}" stroke-linecap="round"/>`;}
 function dtcArrow(x1,y1,x2,y2,col,w){const a=Math.atan2(y2-y1,x2-x1),L=9;
@@ -8780,6 +8880,19 @@ function initPillarScreen(pillar) {
     <div class="pd-hero-count">${qCount} scenarios · all levels</div>
   </div>`;
 
+  // ── Fix a Shot — the 32 stroke-fault "find the culprit" scenarios (Technique only) ──
+  if (pillar === 'Technique') {
+    html += `<div class="pd-fixashot" onclick="openFixAShot()">
+      <div class="pd-fix-glyph">🔧</div>
+      <div class="pd-fix-body">
+        <div class="pd-fix-eyebrow">Fix a Shot · Find the culprit</div>
+        <div class="pd-fix-title">Same miss, every time? Spot the fault, get the cue.</div>
+        <div class="pd-fix-sub">8 strokes · 32 common faults · a coach's read on each</div>
+      </div>
+      <div class="pd-fix-arrow">→</div>
+    </div>`;
+  }
+
   // ── Featured Now ──
   html += `<div class="pd-section-hdr"><div class="pd-section-title">Featured Now</div></div>`;
   html += `<div class="pd-featured-scroll">`;
@@ -9832,7 +9945,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v97';
+const CACHE = 'gamesharp-v98';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
