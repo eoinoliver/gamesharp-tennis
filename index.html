@@ -226,6 +226,17 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ta-court-wrap.ta-diagram{background:rgba(0,0,0,.2);box-shadow:none;}
 .ta-court-wrap.ta-diagram::after{display:none;}
 .ta-court-wrap.ta-premium svg{width:100%;height:auto;display:block;max-height:none;}
+/* ── Concept motif — signature visual for text-only (knowledge/mindset) questions.
+   Not a court (would be a false "teacher"); a deliberate, branded "this is a read" beat. */
+.ta-court-wrap.cm-court{background:radial-gradient(130% 105% at 50% 0%,rgba(255,255,255,.05) 0%,rgba(12,18,12,.65) 60%,rgba(8,12,8,.85) 100%)!important;box-shadow:inset 0 0 40px rgba(0,0,0,.35),0 5px 18px rgba(0,0,0,.4)!important;min-height:150px;perspective:none!important;}
+.ta-court-wrap.cm-court::after{display:none!important;}
+.concept-motif{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 18px;gap:7px;}
+.cm-glow{position:absolute;top:34%;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,var(--cm-accent,#5bba6f) 0%,transparent 62%);opacity:.16;filter:blur(6px);animation:cmPulse 3.4s ease-in-out infinite;pointer-events:none;}
+@keyframes cmPulse{0%,100%{transform:scale(.82);opacity:.10}50%{transform:scale(1.10);opacity:.22}}
+.cm-glyph{font-size:40px;line-height:1;position:relative;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5));animation:cmFloat 4.2s ease-in-out infinite;}
+@keyframes cmFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.cm-label{font-family:'Bebas Neue',sans-serif;font-size:23px;letter-spacing:2.2px;color:var(--cm-accent,#5bba6f);position:relative;line-height:1;}
+.cm-sub{font-size:12px;color:rgba(255,255,255,.5);max-width:250px;position:relative;line-height:1.35;}
 /* Desktop: broadcast camera angle too (court-wrap needs a defined height for the tilted svg) */
 @media(min-width:768px){
   .ta-court-wrap{height:340px;perspective:1000px;perspective-origin:50% 26%;}
@@ -6487,6 +6498,38 @@ function landscapeCourtSvg(court) {
   } catch (e) { /* leave portrait on any failure */ }
 }
 
+// Concept motif: pick a signature identity for a text-only (no-animation) question.
+function conceptCategory(q) {
+  const m = q.module || '', p = q.pillar || '';
+  const rules = [
+    { re: /Match Mindset|Between-Point/i,                glyph: '🧠', label: 'Mindset',        accent: '#5bba6f', sub: 'Win the moment before the ball.' },
+    { re: /Rules & Scoring/i,                            glyph: '📏', label: 'Know the Rules',  accent: '#c8a84b', sub: 'Know the rules cold — they win close matches.' },
+    { re: /Tennis History|GOAT|Modern Tennis Debates/i,  glyph: '🏆', label: 'The Game',        accent: '#c8a84b', sub: 'The game behind the game.' },
+    { re: /Physical Preparation|Practice & Development/i, glyph: '💪', label: 'The Body',        accent: '#e0894e', sub: 'Train the engine behind every shot.' },
+    { re: /Playing Conditions|Court Conditions/i,        glyph: '🌤️', label: 'Conditions',      accent: '#5aa7d8', sub: 'Read the day, adjust the plan.' },
+    { re: /Equipment & Physics/i,                        glyph: '🎾', label: 'Gear & Physics',  accent: '#9b8cd0', sub: 'The physics behind the shot.' },
+    { re: /Competing Up/i,                               glyph: '🧠', label: 'Mindset',        accent: '#5bba6f', sub: 'Rise to the level — one decision at a time.' },
+  ];
+  for (const r of rules) if (r.re.test(m)) return r;
+  if (p === 'Mental')    return { glyph: '🧠', label: 'Mindset',    accent: '#5bba6f', sub: 'Win the moment before the ball.' };
+  if (p === 'The Debate')return { glyph: '💬', label: 'The Debate', accent: '#c8a84b', sub: 'Where smart players disagree.' };
+  return { glyph: '🎾', label: 'The Read', accent: '#5bba6f', sub: 'No court needed — just the call.' };
+}
+function renderConceptMotif(q) {
+  const box = document.getElementById('techAnimBox');
+  const court = document.getElementById('taCourt');
+  const phase = document.getElementById('taPhaseBar');
+  const cap = document.getElementById('taCaption');
+  if (!box || !court) return;
+  const c = conceptCategory(q);
+  court.classList.add('cm-court');
+  court.classList.remove('ta-static', 'ta-premium', 'ta-diagram');
+  court.innerHTML = `<div class="concept-motif" style="--cm-accent:${c.accent};"><div class="cm-glow"></div><div class="cm-glyph">${c.glyph}</div><div class="cm-label">${c.label}</div><div class="cm-sub">${c.sub}</div></div>`;
+  if (phase) phase.style.display = 'none';
+  if (cap) { cap.textContent = ''; cap.style.display = 'none'; }  // motif has its own sub-line
+  box.classList.remove('ta-empty');
+  box.style.display = 'block';
+}
 function mountTechAnim(key, params, mistakeMode, staticOnly) {
   _taCurrentKey = key;
   _taCurrentParams = params || {};
@@ -9215,6 +9258,18 @@ function loadQ() {
     }
   }
   mountTechAnim(q.techAnim || null, q.techAnimParams || {}, false, true);
+  // Text-only questions get a signature concept motif instead of an empty slot;
+  // tactical questions restore the court + 3-phase bar.
+  const _hasAnim = q.techAnim && q.techAnim !== 'none' && typeof TECH_ANIMS !== 'undefined' && TECH_ANIMS[q.techAnim];
+  const _phaseBar = document.getElementById('taPhaseBar');
+  const _taCourt = document.getElementById('taCourt');
+  if (_hasAnim) {
+    if (_phaseBar) _phaseBar.style.display = '';
+    if (_taCourt) _taCourt.classList.remove('cm-court');
+    const _cap = document.getElementById('taCaption'); if (_cap) _cap.style.display = '';
+  } else {
+    renderConceptMotif(q);
+  }
   const list = document.getElementById('optList'); list.innerHTML = '';
   // Shuffle answer positions so the correct answer isn't biased to one letter
   // (authoring skew made "B" correct ~45% of the time — a visible tell on a
@@ -9777,7 +9832,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v95';
+const CACHE = 'gamesharp-v97';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
