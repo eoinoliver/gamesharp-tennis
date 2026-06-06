@@ -6911,8 +6911,16 @@ function dtcRenderDailyTech() {
   const opts = q.options.map((o, i) =>
     `<button class="dtc-opt" id="dtcOpt${i}" onclick="dtcDailyTechAnswer(${i})"><div class="dtc-ol">${String.fromCharCode(65 + i)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
   ).join('');
-  dtcApp().innerHTML = `${dtcTopBar()}<div class="dtc-fade">
-    <div class="dtc-qtag exe">Final · your stroke</div>
+  // Mirror the quiz top (full progress bar + "4 of 4") so this reads as the final
+  // step of the same session, not a separate screen.
+  const total = (state.quiz && state.quiz.length) || 4;
+  const seamTop = `<div class="dtc-top" style="padding-top:40px;gap:14px;align-items:center;">
+      <div class="qpw"><div class="qpb" style="width:100%;"></div></div>
+      <div style="font-size:12px;font-weight:800;letter-spacing:.5px;color:rgba(255,255,255,.4);white-space:nowrap;">${total} / ${total}</div>
+      <div class="dtc-close" onclick="dtcExit()" style="margin-left:2px;">✕</div>
+    </div>`;
+  dtcApp().innerHTML = `${seamTop}<div class="dtc-fade">
+    <div class="dtc-qtag exe">Final shot · your stroke</div>
     <div class="dtc-sit">${q.situation}</div>
     <div class="dtc-prompt">${q.prompt || "What's the usual culprit?"}</div>
     <div id="dtcScene">${scene}</div>
@@ -9535,11 +9543,11 @@ function showScore() {
   // Verdict — slightly different framing for Play a Point mode
   const isPointMode = !!firstQ?._bundle;
   const msgs = isPointMode ? [
-    [1,    'POINT WON',      'Perfect reads. You played every shot right.'],
-    [0.8,  'SHARP DECISIONS','Strong point. That decision-making wins matches.'],
-    [0.6,  'GOOD INSTINCTS', 'Mostly right. Review the missed shots to sharpen your reads.'],
-    [0.4,  'DECISION LAG',   'A few reads missed. Replay the point and see what changed.'],
-    [0,    'BACK TO BASICS', 'The decisions are learnable — review the explanations and go again.']
+    [1,    'LOCKED IN',      'Every call sharp — a complete session.'],
+    [0.8,  'SHARP',          'Strong decisions. That\'s how matches are won.'],
+    [0.6,  'SOLID READ',     'Mostly right — review the misses to sharpen up.'],
+    [0.4,  'GETTING THERE',  'A few calls off. See what changed and go again.'],
+    [0,    'KEEP BUILDING',  'The decisions are learnable — review and run it back.']
   ] : [
     [1,    'FLAWLESS',     'Perfect score. You know your tennis.'],
     [0.8,  'SHARP GAME',   'Strong result. That knowledge is match-ready.'],
@@ -9614,7 +9622,20 @@ function showScore() {
       learnings = sorted.slice(1, 3).map(getReminder).filter(Boolean);
     }
 
-    if (ntpAction) {
+    // Daily always surfaces its stroke-fix "Your Cue" — the most memorable takeaway —
+    // regardless of whether the stroke question was answered correctly.
+    let strokeCueHtml = '';
+    const techM = state.quiz.find(q => q.__dailyTech);
+    const techCue = techM && techM._dtc && techM._dtc.cue ? techM._dtc.cue : null;
+    if (techCue) {
+      strokeCueHtml = `
+        <div class="cc-kl-section">
+          <div class="cc-kl-label">Your stroke cue</div>
+          <div class="cc-kl-row"><div class="cc-kl-pip" style="background:var(--gold);"></div><div class="cc-kl-text"><strong>${techCue.title}</strong>${techCue.drill ? ` — ${techCue.drill}` : ''}</div></div>
+        </div>`;
+    }
+
+    if (ntpAction || strokeCueHtml) {
       const klHtml = learnings.length ? `
         <div class="cc-kl-section">
           <div class="cc-kl-label">Key Learnings</div>
@@ -9623,10 +9644,11 @@ function showScore() {
 
       matchFocusWrap.innerHTML = `
         <div class="coaching-card" id="coachingCard">
-          <div class="cc-ntp-label">Next Time You Play</div>
+          ${ntpAction ? `<div class="cc-ntp-label">Next Time You Play</div>
           <div class="cc-ntp-action">${ntpAction}</div>
-          <div class="cc-ntp-helper">Try this in your next match.</div>
+          <div class="cc-ntp-helper">Try this in your next match.</div>` : ''}
           ${klHtml}
+          ${strokeCueHtml}
         </div>`;
 
       setTimeout(() => {
@@ -9755,7 +9777,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v94';
+const CACHE = 'gamesharp-v95';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
