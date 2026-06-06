@@ -76,7 +76,7 @@ function openFault(i){
     +'<div class="row"><div class="k fix">The fix</div><div class="v">'+f.fix+'</div></div>'
     +'<div class="row train-card"><div class="k train">Train it</div><div class="v">'+f.train+'</div></div>'
     +'<div class="coach">“'+f.coach+'”</div>'
-    +'<button class="cta" onclick="alert(\'In the app this loads a '+s.name.replace('The ','')+' challenge built around this fix.\')">Test it in a challenge →</button>'
+    +'<button class="cta" onclick="location.href=\'/?challenge=daily\'">Test it in a challenge →</button>'
     +'<button class="secondary" onclick="openStroke(curStroke)">← Try another '+s.name.replace('The ','').toLowerCase()+' miss</button></div>';
   window.scrollTo({top:0,behavior:'smooth'});
 }

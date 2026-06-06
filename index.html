@@ -3193,6 +3193,16 @@ function skipWelcomeOnboarding() {
 
 // First-visit gate — called at boot in place of initHome().
 function checkFirstVisit() {
+  // Cross-page deep link: /?challenge=daily (e.g. from Fix a Shot) → land Home, launch the daily loop.
+  try {
+    const _p = new URLSearchParams(location.search);
+    if (_p.get('challenge') === 'daily') {
+      initHome();
+      if (typeof startThemedDaily === 'function') { startThemedDaily(); }
+      else if (typeof startDailyChallenge === 'function') { startDailyChallenge(); }
+      return;
+    }
+  } catch(e) {}
   try {
     if (localStorage.getItem('gs_onboard_seen') !== '1') {
       showWelcomeOnboarding();
@@ -8576,6 +8586,20 @@ function initLearnHub() {
     </div>
     <div class="hub-pillars-row">${pillarsHtml}</div>
 
+    <div class="hub-section-hdr">
+      <div class="hub-section-eyebrow">Diagnose &amp; fix</div>
+      <div class="hub-section-title">Fix a Shot</div>
+    </div>
+    <div class="hub-card" onclick="location.href='/fixashot.html'">
+      <div class="hub-card-icon">🔧</div>
+      <div class="hub-card-body">
+        <div class="hub-card-eyebrow">Stroke technique clinic</div>
+        <div class="hub-card-title">Something off in a stroke? Find the fault, get the fix.</div>
+        <div class="hub-card-sub">8 strokes · a coach's read · one drill to groove it.</div>
+      </div>
+      <div class="hub-card-arrow">→</div>
+    </div>
+
     <div class="hub-section-hdr hub-more-hdr">
       <div class="hub-section-eyebrow">More ways to train</div>
       <div class="hub-section-title">Pro Lens Moments</div>
@@ -9694,7 +9718,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v86';
+const CACHE = 'gamesharp-v87';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
