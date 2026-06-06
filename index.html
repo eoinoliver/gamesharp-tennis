@@ -6820,30 +6820,45 @@ function startDailyChallenge() {
 function runStandardDaily() {
   trackEvent('today_challenge_started');
   const free = QBANK.filter(q => q.tier === 'Free' || !q.tier);
-  const techPool = free.filter(q => q.pillar === 'Technique');
-  const tacPool  = free.filter(q => q.pillar !== 'Technique');
+  const tacPool = free.filter(q => q.pillar !== 'Technique');
 
-  // 3 tactical reads + 1 guaranteed technique question (placed last → "now the body").
-  const tac  = selectSessionQuestions({ pool: tacPool,  count: 3, mode: 'daily-tactical' });
-  const tech = selectSessionQuestions({ pool: techPool, count: 1, mode: 'daily-technique' });
-  let bundle = tac.concat(tech).filter(Boolean);
-  if (bundle.length < 2) return false;
+  // 3 tactical reads (standard quiz engine)...
+  const tac = selectSessionQuestions({ pool: tacPool, count: 3, mode: 'daily-tactical' });
+  if (!tac.length) return false;
 
-  state.selectedPillar = bundle[0].pillar || 'Win More';
+  // ...+ a 4th "body" question: one Fix-a-Shot stroke-fault, shown in its native
+  // stroke-figure style. Stored as a marker entry that loadQ never renders — nextQ
+  // hands it off to the stroke-fix renderer (Option B).
+  const fault = pickDailyFault();
+  let bundle = tac.slice();
+  if (fault) {
+    const correct = (fault.options.find(o => o.correct) || {});
+    bundle.push({
+      __dailyTech: true,
+      _dtc: fault,
+      pillar: 'Technique',
+      module: 'Stroke Fix',
+      action_tip: fault.cue ? fault.cue.title : '',
+      why_right: correct.verdict || '',
+    });
+  }
+
+  state.selectedPillar = tac[0].pillar || 'Win More';
   state.selectedModule = 'Daily Challenge';
+  const total = bundle.length;
   bundle.forEach((q, i) => {
-    const fmtKey = getFormatLabel(q, i);
+    const fmtKey = q.__dailyTech ? '' : getFormatLabel(q, i);
     q._bundle = {
       score: "Today's Challenge",
       context: "4 quick calls · 3 reads + 1 on your strokes.",
       icon: '🎾',
       shotNum: i + 1,
-      total: bundle.length,
+      total,
       fmtKey,
-      fmtLabel: fmtLabel(fmtKey),
+      fmtLabel: q.__dailyTech ? 'Stroke Fix' : fmtLabel(fmtKey),
     };
   });
-  recordSeenQuestions(bundle);
+  recordSeenQuestions(tac);
   state.quiz = bundle;
   state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
   state.isDailyMode = true;
@@ -6852,6 +6867,83 @@ function runStandardDaily() {
   buildDots();
   loadQ();
   return true;
+}
+
+// ── Daily "body" question: one Fix-a-Shot stroke-fault, in its native stroke-figure
+// style. Reuses the (otherwise dormant) DTC renderers for a single question, then
+// folds the result into the daily score. ──
+function dtcAllFaults() {
+  const out = [];
+  try {
+    DTC_STROKE_KEYS.forEach((stroke, i) => {
+      const t = DTC_THEMES[i];
+      if (t && t.questions && t.questions[3]) out.push(t.questions[3]);
+      const ex = DTC_EXTRA_FAULTS[stroke];
+      if (ex && ex.length) ex.forEach(f => out.push(f));
+    });
+  } catch (e) {}
+  return out;
+}
+function pickDailyFault() {
+  const all = dtcAllFaults();
+  if (!all.length) return null;
+  const key = f => (f.situation || f.tag || '').slice(0, 40);
+  let last = '';
+  try { last = localStorage.getItem('gs_daily_fault_last') || ''; } catch (e) {}
+  let pool = all.filter(f => key(f) !== last);
+  if (!pool.length) pool = all;
+  const f = pool[Math.floor(Math.random() * pool.length)];
+  try { localStorage.setItem('gs_daily_fault_last', key(f)); } catch (e) {}
+  return f;
+}
+function startDailyTechQ() {
+  const m = state.quiz[state.qIdx];
+  if (!m || !m._dtc) { showScore(); return; }
+  const ov = document.getElementById('dailyThemed');
+  if (ov) ov.style.display = 'block';
+  dtcRenderDailyTech();
+  dtcScroll();
+  try { trackEvent('daily_stroke_fix_shown', {}); } catch (e) {}
+}
+function dtcRenderDailyTech() {
+  const q = state.quiz[state.qIdx]._dtc;
+  const scene = q.render ? q.render(false) : '';
+  const opts = q.options.map((o, i) =>
+    `<button class="dtc-opt" id="dtcOpt${i}" onclick="dtcDailyTechAnswer(${i})"><div class="dtc-ol">${String.fromCharCode(65 + i)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
+  ).join('');
+  dtcApp().innerHTML = `${dtcTopBar()}<div class="dtc-fade">
+    <div class="dtc-qtag exe">Final · your stroke</div>
+    <div class="dtc-sit">${q.situation}</div>
+    <div class="dtc-prompt">${q.prompt || "What's the usual culprit?"}</div>
+    <div id="dtcScene">${scene}</div>
+    <div class="dtc-opts">${opts}</div>
+    <div id="dtcReveal"></div></div>`;
+}
+function dtcDailyTechAnswer(i) {
+  const q = state.quiz[state.qIdx]._dtc;
+  const o = q.options[i], ci = q.options.findIndex(x => x.correct);
+  const sc = document.getElementById('dtcScene');
+  if (sc && q.render) sc.innerHTML = q.render(true);
+  document.querySelectorAll('.dtc-opt').forEach((el, idx) => {
+    if (idx === i) el.classList.add(o.correct ? 'sel' : 'wrong');
+    else if (idx === ci) el.classList.add('sel');
+    else el.classList.add('dim');
+    el.onclick = null;
+  });
+  const cueBlock = q.cue ? `<div class="dtc-cue"><div class="dtc-cl">Your cue</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>` : '';
+  document.getElementById('dtcReveal').innerHTML = `<div class="dtc-reveal show">
+    <div class="dtc-rtag" style="color:${o.correct ? '#5bba6f' : '#e07070'}">${o.correct ? '✓ Nailed it' : '✗ Not quite'}</div>
+    <div class="dtc-rbody">${o.verdict}</div>${q.insight ? `<div class="dtc-rins">${q.insight}</div>` : ''}${cueBlock}
+    <button class="dtc-cta gold" style="margin-top:18px;" onclick="dtcDailyTechFinish(${o.correct ? 1 : 0})">See your results →</button></div>`;
+  setTimeout(() => { const r = document.getElementById('dtcReveal'); if (r) r.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 120);
+}
+function dtcDailyTechFinish(ok) {
+  const ov = document.getElementById('dailyThemed');
+  if (ov) ov.style.display = 'none';
+  state.results.push(!!ok);
+  if (ok) state.score++;
+  state.answered = true;
+  showScore();
 }
 
 /* ════════ THEMED DAILY CHALLENGE (live brain+body loop) ════════ */
@@ -9388,8 +9480,10 @@ function pickAnswer(letter) {
 function nextQ() {
   clearTechAnim();
   state.qIdx++;
-  if (state.qIdx >= state.quiz.length) showScore();
-  else { loadQ(); window.scrollTo({top:0,behavior:'smooth'}); }
+  if (state.qIdx >= state.quiz.length) { showScore(); return; }
+  const nq = state.quiz[state.qIdx];
+  if (nq && nq.__dailyTech) { startDailyTechQ(); return; }  // hand off the stroke-fix question
+  loadQ(); window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ── ARCHETYPES ──
@@ -9726,7 +9820,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v90';
+const CACHE = 'gamesharp-v91';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
