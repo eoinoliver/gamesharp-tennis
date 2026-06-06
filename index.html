@@ -6875,6 +6875,37 @@ function dtcServeTech(rev){const g=`<line x1="34" y1="302" x2="266" y2="302" str
   if(!rev)return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${g}${dtcServeFig(false)}<circle class="dtc-cdot" cx="214" cy="78" r="8" fill="rgba(224,112,112,.95)"/><text x="214" y="62" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">toss drops low &amp; in</text><path d="M214,92 Q244,150 250,250" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="262" y="240" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">into the net</text></svg></div>`;
   return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${g}${dtcServeFig(true)}<circle cx="214" cy="78" r="7" fill="none" stroke="rgba(224,112,112,.85)" stroke-width="2"/><text x="246" y="82" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">too low</text><circle cx="178" cy="24" r="8" fill="rgba(91,186,111,.95)"/><text x="178" y="14" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">place it here</text><path d="M174,28 Q150,120 196,250" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="214" y="232" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">in</text></svg></div>`;}
 
+/* ── fault scenes for the remaining strokes (reuse figure builders) ── */
+const DTC_FLOOR=`<line x1="34" y1="302" x2="266" y2="302" stroke="rgba(255,255,255,.18)" stroke-width="2"/><ellipse cx="150" cy="306" rx="116" ry="9" fill="rgba(0,0,0,.25)"/>`;
+const DTC_HIPLINE=`<line x1="150" y1="20" x2="150" y2="300" stroke="rgba(255,255,255,.13)" stroke-width="1" stroke-dasharray="3,4"/><text x="150" y="16" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.3)" font-family="DM Sans">your hip</text>`;
+/* groundstroke contact fault (1H / 2H backhand) */
+function dtcGTech(rev,fa,fx,sym){
+  if(!rev)return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${DTC_HIPLINE}${dtcFhFig(150)}<circle class="dtc-cdot" cx="148" cy="106" r="8" fill="rgba(224,112,112,.95)"/><path d="M148,106 Q208,84 278,70" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="246" y="62" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${sym}</text></svg></div>`;
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${DTC_HIPLINE}${dtcFhFig(214)}<circle cx="148" cy="106" r="8" fill="none" stroke="rgba(224,112,112,.85)" stroke-width="2"/><text x="116" y="92" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${fa}</text><circle cx="214" cy="106" r="8" fill="rgba(91,186,111,.95)"/><text x="214" y="88" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">${fx}</text><path d="M214,106 Q236,150 226,236" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="248" y="210" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">controlled</text></svg></div>`;
+}
+function dtc1hTech(rev){return dtcGTech(rev,'LATE / open','stay in front','floats weak');}
+function dtc2hTech(rev){return dtcGTech(rev,'steering','drive through','pops up');}
+/* swing fault (return / volley): big backswing vs compact catch in front */
+function dtcSwingFig(back){const head=[150,72],sh=[150,104],hip=[150,172];
+  const elb=back?[120,110]:[178,112],wr=back?[98,98]:[206,108],rkt=back?[78,82]:[232,96],oElb=[168,118],oWr=[188,116],bKnee=[134,238],bAnk=[122,300],fKnee=[176,240],fAnk=[192,300];
+  return `<g opacity="0.96">${dtcLimb(hip,bKnee)}${dtcLimb(bKnee,bAnk)}${dtcLimb(hip,fKnee)}${dtcLimb(fKnee,fAnk)}${dtcLimb(sh,hip,12)}${dtcLimb(sh,oElb)}${dtcLimb(oElb,oWr)}${dtcLimb(sh,elb)}${dtcLimb(elb,wr)}<line x1="${wr[0]}" y1="${wr[1]}" x2="${rkt[0]}" y2="${rkt[1]}" stroke="#c8a84b" stroke-width="5" stroke-linecap="round"/><circle cx="${rkt[0]}" cy="${rkt[1]}" r="13" fill="none" stroke="#c8a84b" stroke-width="3"/><line x1="${sh[0]}" y1="${sh[1]}" x2="${head[0]}" y2="${head[1]+12}" stroke="#e9f0e1" stroke-width="10" stroke-linecap="round"/><circle cx="${head[0]}" cy="${head[1]}" r="15" fill="#e9f0e1"/></g>`;}
+function dtcSwingTech(rev,sym,fix){
+  if(!rev)return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcSwingFig(true)}<path d="M96,92 Q66,130 84,178" stroke="rgba(224,112,112,.6)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="84" y="198" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${sym}</text></svg></div>`;
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcSwingFig(false)}<circle cx="232" cy="96" r="8" fill="rgba(91,186,111,.95)"/><text x="232" y="78" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">${fix}</text><path d="M232,96 Q252,150 240,236" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="262" y="210" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">deep</text></svg></div>`;}
+function dtcReturnTech(rev){return dtcSwingTech(rev,'too big a swing','block in front');}
+function dtcVolleyTech(rev){return dtcSwingTech(rev,'you swing at it','catch in front');}
+/* overhead: reuse serve reach (cramped/behind vs full reach in front) */
+function dtcOverheadTech(rev){
+  if(!rev)return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcServeFig(false)}<circle class="dtc-cdot" cx="214" cy="78" r="8" fill="rgba(224,112,112,.95)"/><text x="214" y="62" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">let it drop / behind</text><path d="M214,92 Q250,150 256,250" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="264" y="240" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">shank / long</text></svg></div>`;
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcServeFig(true)}<circle cx="178" cy="24" r="8" fill="rgba(91,186,111,.95)"/><text x="178" y="14" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">up &amp; in front</text><path d="M174,28 Q150,120 200,250" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="216" y="232" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">put away</text></svg></div>`;}
+/* slice: chop straight down (floats up) vs carve forward (stays low) */
+function dtcSliceFig(carve){const head=[150,72],sh=[150,104],hip=[150,172];
+  const elb=carve?[186,108]:[170,108],wr=carve?[214,104]:[196,116],rkt=carve?[240,98]:[214,124],oElb=[126,118],oWr=[104,138],bKnee=[176,238],bAnk=[192,300],fKnee=[130,238],fAnk=[122,300];
+  return `<g opacity="0.96">${dtcLimb(hip,bKnee)}${dtcLimb(bKnee,bAnk)}${dtcLimb(hip,fKnee)}${dtcLimb(fKnee,fAnk)}${dtcLimb(sh,hip,12)}${dtcLimb(sh,oElb)}${dtcLimb(oElb,oWr)}${dtcLimb(sh,elb)}${dtcLimb(elb,wr)}<line x1="${wr[0]}" y1="${wr[1]}" x2="${rkt[0]}" y2="${rkt[1]}" stroke="#c8a84b" stroke-width="5" stroke-linecap="round"/><circle cx="${rkt[0]}" cy="${rkt[1]}" r="13" fill="none" stroke="#c8a84b" stroke-width="3"/><line x1="${sh[0]}" y1="${sh[1]}" x2="${head[0]}" y2="${head[1]+12}" stroke="#e9f0e1" stroke-width="10" stroke-linecap="round"/><circle cx="${head[0]}" cy="${head[1]}" r="15" fill="#e9f0e1"/></g>`;}
+function dtcSliceTech(rev){
+  if(!rev)return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcSliceFig(false)}<path d="M214,124 Q230,86 252,38" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/>${dtcArrow(240,58,253,36,'rgba(224,112,112,.85)',3)}<text x="236" y="78" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">chops up &amp; floats</text></svg></div>`;
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcSliceFig(true)}<path d="M240,98 Q262,124 284,156" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/>${dtcArrow(266,134,284,156,'rgba(91,186,111,.85)',3)}<text x="250" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">carve forward</text><text x="284" y="172" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">stays low</text></svg></div>`;}
+
 const DTC_THEMES = [
   { theme:{eyebrow:"Today's Challenge · Themed", title:"The Forehand Under Pressure",
       intro:"Four tight forehand moments from one close game. Read them right — then find out why the good decisions still missed.",
@@ -6937,6 +6968,198 @@ const DTC_THEMES = [
           {label:"You don't follow through",correct:false,verdict:"The follow-through breaks down because the contact was already cramped. Fix the toss and the rest of the motion frees up on its own."}],
         cue:{title:'Place the toss — high, slightly in front, same spot every time',drill:"Toss-and-catch: 10 tosses, no racket. Each must land on the same coin-sized spot just inside your front foot. Groove the one thing the nerves steal."},
         insight:"The double fault is rarely the serve — it's the toss losing its nerve. Groove the toss and the serve holds."}
+    ]},
+
+  { theme:{eyebrow:"Today's Challenge · Themed", title:"The One-Hand Backhand",
+      intro:"Four tight backhand moments from one close game. Read them right — then find out why the one-hander kept letting you down.",
+      endCue:"Stay sideways — then pick your moment.",
+      endBody:"Your backhand reads were sharp. The misses came when you opened too early and the ball floated — <strong>the one-hander gives no second chances on timing.</strong> Stay sideways a beat longer, and the backhand you trust shows up. Brain and body, finally on the same team."},
+    questions:[
+      {type:'court',tag:'Read 1 of 4',situation:"Backhand crosscourt rally, even. You get a clean ball at a comfortable height.",prompt:"Where do you go?",
+        you:{x:56,y:128},opp:{x:138,y:38},incoming:{from:{x:132,y:48},to:{x:64,y:120}},
+        options:[{label:"Down the line",sub:"The pretty one",target:{x:58,y:28},correct:false,verdict:"Gorgeous — and the most-missed change of direction in the game. From a neutral ball you haven't earned the line yet."},
+          {label:"Heavy crosscourt",sub:"Keep building",target:{x:150,y:26},correct:true,verdict:"Right. Build the crosscourt until a shorter ball appears, then change direction balanced and moving in. The one-hander rewards patience."},
+          {label:"Slice it short",sub:"Change it up",target:{x:80,y:88},correct:false,verdict:"From an even, deep rally a short slice just invites them in. Save the slice for when you're stretched or want to approach."}],
+        insight:"The one-handed down-the-line is a signature shot — but you have to earn it first."},
+      {type:'court',tag:'Read 2 of 4',situation:"A high, kicking ball climbs toward your backhand shoulder. Awkward and rising.",prompt:"Best response?",
+        you:{x:60,y:124},opp:{x:120,y:36},incoming:{from:{x:120,y:46},to:{x:66,y:108}},
+        options:[{label:"Flat drive at shoulder height",sub:"Hit through it",target:{x:150,y:28},correct:false,verdict:"Fighting a one-hander at shoulder height is a recipe for a spray. Almost nobody controls that ball cleanly under pressure."},
+          {label:"Slice it back deep",sub:"Take the height off",target:{x:150,y:34},correct:true,verdict:"Yes. The slice is the one-hander's escape hatch on the high ball — knife it deep, take the kick off, and reset to neutral."},
+          {label:"Let it drop and loop",sub:"Wait it out",target:{x:90,y:90},correct:false,verdict:"Backing up to let it drop just gives them time and hands you an even more awkward ball. Take it earlier with slice."}],
+        insight:"High to the one-hander? Don't fight it. Slice it deep and live to play the next ball."},
+      {type:'court',tag:'Read 3 of 4',situation:"Break point. They keep attacking your backhand, expecting it to crack under the pressure.",prompt:"What's the smart play?",
+        you:{x:62,y:122},opp:{x:150,y:40},incoming:{from:{x:140,y:48},to:{x:68,y:112}},
+        options:[{label:"Backhand winner down the line",sub:"Prove it holds",target:{x:58,y:28},correct:false,verdict:"Trying to prove your backhand on the biggest point is exactly when it breaks. Brave, not smart."},
+          {label:"Solid deep crosscourt",sub:"Make them play again",target:{x:150,y:26},correct:true,verdict:"Right. When they target your backhand on a big point, the answer is a reliable ball, not a brave one. Make them hit one more."},
+          {label:"Slice short",sub:"Surprise them",target:{x:78,y:88},correct:false,verdict:"A short slice under pressure floats and sits up — you'd be handing the aggressor exactly the ball they want."}],
+        insight:"When they hunt your backhand on a big point, reliability beats heroics every time."},
+      {type:'technique',tag:'Execution check',render:dtc1hTech,situation:"Three smart reads — but on the big points your backhand kept floating weak and spraying. Same miss.",prompt:"What's the usual culprit?",
+        options:[{label:"Your grip is too weak",correct:false,verdict:"Your grip is the same on the backhands that land — it doesn't change between points. The timing does."},
+          {label:"You open your chest too early and meet it late",correct:true,verdict:"This is it — the usual culprit. Under pressure you open toward the net too soon and arrive late, so the ball leaks off the strings. Your read was right; staying sideways a beat longer fixes the shot."},
+          {label:"Too much slice",correct:false,verdict:"Slice isn't the issue here — these were drives that floated. The leak is the body opening early."},
+          {label:"Not enough topspin",correct:false,verdict:"Spin isn't the problem. A one-hander that opens early sprays no matter how much topspin you try to add."}],
+        cue:{title:"Stay sideways — and meet it further in front",drill:"Shadow backhands with a ball tucked under your hitting arm; it must stay pinned until contact. Keeps your chest closed."},
+        insight:"The one-hander doesn't get worse under pressure — it gets early. Stay shut a beat longer and it sings."}
+    ]},
+
+  { theme:{eyebrow:"Today's Challenge · Themed", title:"The Two-Hand Backhand",
+      intro:"Four tight backhand moments from one close game. Read them right — then find out why the two-hander kept misfiring.",
+      endCue:"Drive it with the top hand — then play your pattern.",
+      endBody:"Your backhand reads were sharp. The misses came when you steered it under pressure — shortening the swing and letting the bottom hand take over. <strong>Drive through with the top hand</strong> and the two-hander holds. Brain and body, finally on the same team."},
+    questions:[
+      {type:'court',tag:'Read 1 of 4',situation:"Backhand crosscourt exchange, even. You get a comfortable ball in your strike zone.",prompt:"Where do you go?",
+        you:{x:56,y:128},opp:{x:138,y:38},incoming:{from:{x:132,y:48},to:{x:64,y:120}},
+        options:[{label:"Flatten it down the line",sub:"Take the line",target:{x:58,y:28},correct:false,verdict:"From a neutral ball the line is high-risk. The two-hander can redirect, but only once you've earned the short reply."},
+          {label:"Heavy crosscourt again",sub:"Build the point",target:{x:150,y:26},correct:true,verdict:"Right. Load the crosscourt and wait for the short ball — then the down-the-line opens up with margin to spare."},
+          {label:"Drop shot",sub:"Mix it",target:{x:80,y:88},correct:false,verdict:"From a deep, even rally the drop sits up — they're balanced and read it early."}],
+        insight:"The two-hander's strength is its stability — use it to build, not to gamble early."},
+      {type:'court',tag:'Read 2 of 4',situation:"They pull you wide on the backhand and you're stretched, reaching at full extension.",prompt:"Best response?",
+        you:{x:34,y:120},opp:{x:120,y:38},incoming:{from:{x:120,y:46},to:{x:42,y:110}},
+        options:[{label:"Go for a two-hander winner",sub:"Swing for it",target:{x:150,y:28},correct:false,verdict:"Stretched and off balance, a winner attempt is the lowest-percentage shot you own. You're not set to hit it."},
+          {label:"High, deep crosscourt reset",sub:"Buy recovery time",target:{x:150,y:36},correct:true,verdict:"Yes. Stretched, the job is to neutralise — a high, deep ball gives you the time to get back to the middle and reset."},
+          {label:"Quick drop",sub:"Catch them out",target:{x:90,y:90},correct:false,verdict:"A drop off a stretched two-hander floats and sits up — you have no control from there. Reset instead."}],
+        insight:"Stretched wide, the two-hander's job is to neutralise, not to win the point on the spot."},
+      {type:'court',tag:'Read 3 of 4',situation:"Break point. A mid-depth ball lands on your backhand — the shot you trust under pressure.",prompt:"What's the smart play?",
+        you:{x:58,y:122},opp:{x:150,y:40},incoming:{from:{x:140,y:48},to:{x:64,y:112}},
+        options:[{label:"Flat winner cross-court",sub:"End it now",target:{x:150,y:24},correct:false,verdict:"Pressure shrinks the target. A flat winner on break point is when the two-hander tightens and dumps it."},
+          {label:"Heavy, deep to their backhand",sub:"Your pattern",target:{x:54,y:28},correct:true,verdict:"Right. The two-hander holds under pressure precisely because it's built for the reliable, full drive — go to your pattern, deep with margin."},
+          {label:"Take the pace off",sub:"Just get it in",target:{x:104,y:62},correct:false,verdict:"Steering it soft on a big point invites the attack. Commit to the full drive — that's the two-hander's whole gift."}],
+        insight:"The two-hander is the shot that doesn't panic — on the big point, give it the full swing."},
+      {type:'technique',tag:'Execution check',render:dtc2hTech,situation:"Three smart reads — but on the big points your backhand kept popping up short. Same miss.",prompt:"What's the usual culprit?",
+        options:[{label:"You swing too hard",correct:false,verdict:"It's not power — the short pop-ups come from a swing that died, not one that was too big."},
+          {label:"You steer it with the bottom hand and shorten the swing",correct:true,verdict:"This is it — the usual culprit. Under pressure you tighten, the swing shrinks, and the dominant hand takes over from the top hand that should drive it. The ball pops up short. Drive through with the top hand and it stays heavy."},
+          {label:"Wrong grip",correct:false,verdict:"Your grip is the same on the ones that land. The leak is the swing shortening under nerves."},
+          {label:"You don't bend your knees",correct:false,verdict:"Knees help, but the pop-up is the swing steering and stopping — not the legs."}],
+        cue:{title:"Let the top hand lead — drive through, full rotation",drill:"Hit a bucket of left-hand-only forehands (righties). Wake up the hand that should be driving your two-hander."},
+        insight:"Most two-handers are one good hand and one passenger under pressure. Wake the sleeping one."}
+    ]},
+
+  { theme:{eyebrow:"Today's Challenge · Themed", title:"The Return Under Pressure",
+      intro:"Four tight return moments from one close game. Read them right — then find out why the big serves kept beating you.",
+      endCue:"Shorten the swing — then make them play.",
+      endBody:"Your return reads were sharp. The misses came when the swing got big and late — <strong>against pace, the compact block is the weapon.</strong> Borrow their power, send it deep, make them earn it. Brain and body, finally on the same team."},
+    questions:[
+      {type:'court',tag:'Read 1 of 4',situation:"They hammer a big first serve out wide and pull you off the court. You just reach it.",prompt:"What's the return goal?",
+        you:{x:40,y:126},opp:{x:120,y:36},incoming:{from:{x:112,y:30},to:{x:46,y:118}},
+        options:[{label:"Return winner down the line",sub:"Go for it",target:{x:58,y:28},correct:false,verdict:"Stretched off a big serve, a winner is a fantasy. Miss it and the point was over anyway."},
+          {label:"Deep block, back through the middle",sub:"Neutralise",target:{x:104,y:30},correct:true,verdict:"Yes. Block it deep and central, take the angle away, and make the server play another ball. A return is a refusal."},
+          {label:"Chip it short",sub:"Take their legs",target:{x:90,y:90},correct:false,verdict:"A short chip off a big serve floats and sits up — you're handing them an easy first strike."}],
+        insight:"You can't out-hit a big serve. You can make it play one more ball — and most servers hate that."},
+      {type:'court',tag:'Read 2 of 4',situation:"Second serve. It's a soft, sitting-up kick to your forehand — the server's weakest ball.",prompt:"How do you return it?",
+        you:{x:100,y:122},opp:{x:100,y:34},incoming:{from:{x:100,y:46},to:{x:100,y:112}},
+        options:[{label:"Block it back safely",sub:"Just start the point",target:{x:104,y:62},correct:false,verdict:"Blocking a weak second serve hands the initiative straight back. This ball is a gift — don't return it politely."},
+          {label:"Step in and drive to the open court",sub:"Take the court",target:{x:52,y:28},correct:true,verdict:"Yes. Step inside the baseline and take it early into the open court. The weak second serve is where you seize control of the point."},
+          {label:"Drop shot the return",sub:"Catch them off guard",target:{x:110,y:60},correct:false,verdict:"A return drop is a low-percentage gamble that throws away a free attacking chance. Drive it instead."}],
+        insight:"A weak second serve is a gift. Stop handing it back and start taking the court."},
+      {type:'court',tag:'Read 3 of 4',situation:"Big point. All game, this server has gone out wide to your forehand. Their toss looks identical again.",prompt:"How do you play it?",
+        you:{x:118,y:128},opp:{x:120,y:30},
+        options:[{label:"Stand neutral, react to the ball",sub:"Play it safe",target:{x:100,y:62},correct:false,verdict:"Pure reaction against a known pattern is how you keep getting aced. They've told you where it's going."},
+          {label:"Cheat wide and step around the forehand",sub:"Anticipate",target:{x:150,y:30},correct:true,verdict:"Yes. They've shown the pattern all game — cheat toward the wide ball and turn a hard serve into an attackable forehand return."},
+          {label:"Back up for more time",sub:"Give yourself room",target:{x:104,y:88},correct:false,verdict:"Backing up gives the serve more time to do damage and weakens your return. Anticipate forward, not back."}],
+        insight:"Anticipation isn't guessing — it's reading. The pattern told you where the serve is going."},
+      {type:'technique',tag:'Execution check',render:dtcReturnTech,situation:"Three smart reads — but the big first serves kept handcuffing you, late and jammed. Same miss.",prompt:"What's the usual culprit?",
+        options:[{label:"You stand too close",correct:false,verdict:"Position helps, but you're getting beaten on timing — even from the right spot, a big backswing arrives late."},
+          {label:"Your backswing is too big, so you're late",correct:true,verdict:"This is it — the usual culprit. Against pace, a full takeback never catches up. Shorten it to a compact block, split-step on their toss, and borrow their power. Your read was right; the swing was too long."},
+          {label:"Wrong grip",correct:false,verdict:"Grip isn't it — the same grip blocks cleanly when the swing is short. Length is the leak."},
+          {label:"You don't watch the ball",correct:false,verdict:"You're watching it — you just can't get a big swing there in time. Compact is the fix."}],
+        cue:{title:"Shorten the takeback — block it, use their pace",drill:"Return practice with one rule: the racket can't go behind your back shoulder. Block only, deep and central."},
+        insight:"You don't beat a big serve by swinging harder. You beat it by being early — and short is early."}
+    ]},
+
+  { theme:{eyebrow:"Today's Challenge · Themed", title:"The Volley Under Pressure",
+      intro:"Four tight net moments from one close game. Read them right — then find out why the volleys kept letting you down.",
+      endCue:"Catch it — then step into the court.",
+      endBody:"Your net reads were sharp. The misses came when you swung at the volley instead of catching it. <strong>A volley is a punch from the legs, not a swing from the arm.</strong> Keep it short, step in, and the net becomes where points end in your favour. Brain and body, finally on the same team."},
+    questions:[
+      {type:'court',tag:'Read 1 of 4',situation:"You hit a deep approach and close in. Their pass floats back to you at a comfortable height, and they're scrambling.",prompt:"Where's your first volley?",
+        you:{x:100,y:96},opp:{x:60,y:30},
+        options:[{label:"Sharp-angle drop volley",sub:"Show off",target:{x:120,y:58},correct:false,verdict:"A delicate angle off your first volley is the lowest-percentage choice with them already on the run. Keep it simple."},
+          {label:"Deep volley to the open corner",sub:"Set up the next one",target:{x:150,y:30},correct:true,verdict:"Yes. The first volley's job is to set up the second — drive it deep into the open court, push them back, and finish the next ball."},
+          {label:"Soft volley behind them",sub:"Wrong-foot",target:{x:54,y:30},correct:false,verdict:"They're scrambling to the middle — behind them runs the ball into their path. The open court is the punish."}],
+        insight:"The first volley sets up the second. Deep and simple beats fancy."},
+      {type:'court',tag:'Read 2 of 4',situation:"You're at the net and the ball dips low — you have to volley up from below the net cord.",prompt:"Best play?",
+        you:{x:100,y:92},opp:{x:100,y:34},
+        options:[{label:"Sharp angle winner",sub:"Go for it",target:{x:150,y:30},correct:false,verdict:"From below the net you can't hit down — a sharp angle from there is a coin flip. Wrong moment to gamble."},
+          {label:"Controlled, deep down the middle",sub:"Take no risk",target:{x:100,y:30},correct:true,verdict:"Yes. The low volley is a defensive volley — lift it deep down the middle, take the angle away, and stay in the point for a better ball."},
+          {label:"Drop volley",sub:"Soften it",target:{x:104,y:60},correct:false,verdict:"A drop from a low, defensive volley sits up and invites the pass. Get it deep instead."}],
+        insight:"Low volley = defensive. Get it deep, don't go for the line."},
+      {type:'court',tag:'Read 3 of 4',situation:"They throw up a weak, floating ball right at the net — a sitting volley putaway.",prompt:"How do you finish it?",
+        you:{x:100,y:90},opp:{x:70,y:34},
+        options:[{label:"Tap it softly, play it safe",sub:"Don't miss",target:{x:90,y:60},correct:false,verdict:"Babying a putaway gives them time to recover and turns a free point into a live one. This ball is yours — take it."},
+          {label:"Punch it into the open court",sub:"Finish",target:{x:150,y:30},correct:true,verdict:"Yes. The high floater is a gift — a firm, controlled punch into the open space ends it. No swing needed, just step and place."},
+          {label:"Smash it as hard as you can",sub:"Crush it",target:{x:120,y:28},correct:false,verdict:"Max power on a volley is how easy putaways get framed. Controlled placement into space beats brute force."}],
+        insight:"The high one is a gift — put it away into space, firm not wild."},
+      {type:'technique',tag:'Execution check',render:dtcVolleyTech,situation:"Three smart reads — but on the volleys that mattered you kept mishitting and floating them. Same miss.",prompt:"What's the usual culprit?",
+        options:[{label:"Your grip is too tight",correct:false,verdict:"A firm grip is good at the net — that's not the leak. The miss is the motion."},
+          {label:"You take a backswing and swing at it",correct:true,verdict:"This is it — the usual culprit. Under pressure you wind up and swing, and the fast ball is past your timing. A volley is a catch with strings — start the racket in front, no backswing, and punch with your legs."},
+          {label:"Wrong footwork",correct:false,verdict:"Footwork matters, but the mishit comes from the swing — the racket going back, not the feet."},
+          {label:"You take your eye off it",correct:false,verdict:"You're watching it — you just can't time a swing on a fast volley. Shorten to a catch and it cleans up."}],
+        cue:{title:"Catch it in front — no swing, punch with the legs",drill:"Stand one step from a wall and volley continuously. There's no room to swing — so you can't."},
+        insight:"A volley is a catch with strings. Every inch of backswing is an inch of trouble."}
+    ]},
+
+  { theme:{eyebrow:"Today's Challenge · Themed", title:"The Overhead Under Pressure",
+      intro:"Four tight smash moments from one close game. Read them right — then find out why the easy ones kept getting away.",
+      endCue:"Get behind it — then put it away.",
+      endBody:"Your reads were sharp. The misses came on the 'easy' overheads — you let the ball drop and rushed. <strong>Treat it like a serve:</strong> turn, point, reach, punch. Make the easy ball boring and it stops being scary. Brain and body, finally on the same team."},
+    questions:[
+      {type:'court',tag:'Read 1 of 4',situation:"They throw up a lob you can comfortably take out of the air. They're stranded on one side.",prompt:"Where do you put the smash?",
+        you:{x:100,y:80},opp:{x:60,y:34},
+        options:[{label:"Flat winner down the line",sub:"Pinpoint it",target:{x:150,y:28},correct:false,verdict:"Aiming a smash at a sideline is needless risk — you already have the whole open court. Don't make the easy ball hard."},
+          {label:"Into the open court",sub:"Use the space",target:{x:140,y:34},correct:true,verdict:"Yes. They've stranded themselves — a controlled overhead into the open space is the highest-percentage finish on the court."},
+          {label:"Let it bounce and rally",sub:"Play safe",target:{x:100,y:62},correct:false,verdict:"Letting a comfortable overhead bounce throws away a free putaway and lets them recover. Take it in the air."}],
+        insight:"Take the easy overhead into the open space — don't manufacture risk."},
+      {type:'court',tag:'Read 2 of 4',situation:"A deep, well-judged lob sails over your head. You're backpedalling fast and off balance.",prompt:"Best response?",
+        you:{x:100,y:70},opp:{x:100,y:36},
+        options:[{label:"Leap and smash it off balance",sub:"Go for the hero shot",target:{x:150,y:28},correct:false,verdict:"A smash hit off balance, falling backward, is a near-guaranteed miss. A lob that beats you isn't a smash anymore."},
+          {label:"Let it bounce, reset with a deep ball",sub:"Live to fight",target:{x:104,y:30},correct:true,verdict:"Yes. When the lob beats you, the smart play is to let it bounce and reset deep — don't gamble a low-percentage overhead from a bad position."},
+          {label:"Scramble and flick it back",sub:"Improvise",target:{x:90,y:58},correct:false,verdict:"A desperate flick from behind you floats and sits up. Resetting with a controlled deep ball keeps you in the point."}],
+        insight:"A lob that beats you isn't a smash — reset, don't gamble."},
+      {type:'court',tag:'Read 3 of 4',situation:"A short, weak lob sits up invitingly right in your wheelhouse. A genuine sitter.",prompt:"How do you finish it?",
+        you:{x:100,y:82},opp:{x:80,y:34},
+        options:[{label:"Murder it flat, maximum power",sub:"End it emphatically",target:{x:120,y:28},correct:false,verdict:"Max power on a sitter is how the 'easy' ones get shanked into the back fence. You don't need to crush it."},
+          {label:"Firm, controlled, into the open court",sub:"Place it",target:{x:150,y:30},correct:true,verdict:"Yes. A controlled overhead into space wins this every time. Power is not the goal — placement and a clean strike are."},
+          {label:"Angle drop overhead",sub:"Be cute",target:{x:60,y:58},correct:false,verdict:"A cute angle on a sitter is unnecessary risk. The open court is right there — use it."}],
+        insight:"Controlled into space beats max power — especially on the 'easy' one."},
+      {type:'technique',tag:'Execution check',render:dtcOverheadTech,situation:"Three smart reads — but you kept shanking the easy overheads. Same heartbreaking miss.",prompt:"What's the usual culprit?",
+        options:[{label:"You hit it too hard",correct:false,verdict:"Power isn't the root cause — the shank comes from where you contact it, not how hard."},
+          {label:"You let it drop and contact it behind your head",correct:true,verdict:"This is it — the usual culprit. The easy ball looks easy, so you wait, it drops, and you contact it late behind your head. Get behind it early and hit it up and in front — exactly like a serve. Your read was right; the contact point was late."},
+          {label:"Wrong grip",correct:false,verdict:"Grip isn't it — the same grip puts away the ones you set up early. Late contact is the leak."},
+          {label:"Pure nerves",correct:false,verdict:"Nerves feed it, but the fix is mechanical: prepare early, contact in front. Make it routine and the nerves fade."}],
+        cue:{title:"Get behind it early — contact up and in front, like a serve",drill:"Serve-the-lob: have someone feed lobs and treat each like a serve — turn sideways, point, reach, punch."},
+        insight:"The smash misses because it looks easy. Treat it like your serve and it stops being scary."}
+    ]},
+
+  { theme:{eyebrow:"Today's Challenge · Themed", title:"The Slice Under Pressure",
+      intro:"Four tight slice moments from one close game. Read them right — then find out why the slice kept floating up on you.",
+      endCue:"Carve it forward — then change the rhythm.",
+      endBody:"Your reads were sharp. The misses came when you chopped down at the slice and it floated up and sat. <strong>Carve down AND forward, stay low</strong> — and the slice knifes through, the shot that quietly drives opponents mad. Brain and body, finally on the same team."},
+    questions:[
+      {type:'court',tag:'Read 1 of 4',situation:"A low, skidding ball arrives fast and you've no time to set up for a full drive.",prompt:"How do you handle it?",
+        you:{x:60,y:126},opp:{x:130,y:38},incoming:{from:{x:124,y:44},to:{x:66,y:118}},
+        options:[{label:"Force a flat drive anyway",sub:"Hit through it",target:{x:150,y:28},correct:false,verdict:"Forcing a drive off a low, rushed ball is how errors pile up. You're not set — fighting it loses more than it wins."},
+          {label:"Slice it deep crosscourt",sub:"Reset and stay low",target:{x:150,y:34},correct:true,verdict:"Yes. On a low, awkward ball the slice is the escape — carve it deep and low, buy time, and reset to neutral."},
+          {label:"Drop shot it",sub:"Take a risk",target:{x:80,y:88},correct:false,verdict:"A drop off a fast, low ball is a gamble with no margin. Slice deep and live to play the next one."}],
+        insight:"On a low, rushed ball the slice is the escape — stay low and deep."},
+      {type:'court',tag:'Read 2 of 4',situation:"They give you a short ball — a clear chance to come forward and take the net.",prompt:"What's the approach?",
+        you:{x:90,y:104},opp:{x:120,y:36},
+        options:[{label:"Slice short crosscourt",sub:"Open the angle",target:{x:60,y:60},correct:false,verdict:"A short crosscourt slice gives them an easy angle to pass you. The approach should pin them, not open the court."},
+          {label:"Slice deep down the line, follow it in",sub:"Pin and close",target:{x:62,y:28},correct:true,verdict:"Yes. The slice approach stays low and buys you time to get to the net — down the line pins them in the corner and shrinks their passing angles."},
+          {label:"Flat drive crosscourt",sub:"Blast through",target:{x:150,y:28},correct:false,verdict:"A flat drive off a low short ball is risky and fast — you won't have time to follow it to net. The slice approach is the controlled play."}],
+        insight:"The slice approach stays low and buys time to get in — down the line pins them."},
+      {type:'court',tag:'Read 3 of 4',situation:"Break point. You're pushed wide and stretched, scrambling to stay in the rally.",prompt:"Best slice here?",
+        you:{x:38,y:120},opp:{x:120,y:38},incoming:{from:{x:118,y:46},to:{x:44,y:112}},
+        options:[{label:"Slice winner down the line",sub:"Go for it",target:{x:58,y:28},correct:false,verdict:"A slice winner from a full stretch on break point is a fantasy — you're not balanced enough to thread it."},
+          {label:"High, deep defensive slice",sub:"Buy recovery time",target:{x:150,y:36},correct:true,verdict:"Yes. Stretched on a big point, the slice's job is to float it high and deep, take their attack away, and buy the time to recover."},
+          {label:"Quick slice drop",sub:"Surprise them",target:{x:90,y:90},correct:false,verdict:"A drop from a stretched, defensive position sits up perfectly for them. Height and depth, not touch."}],
+        insight:"Defensive slice = height plus depth, to buy the time to recover."},
+      {type:'technique',tag:'Execution check',render:dtcSliceTech,situation:"Three smart reads — but your slice kept floating up and sitting for them. Same soft miss.",prompt:"What's the usual culprit?",
+        options:[{label:"Too much wrist",correct:false,verdict:"Wrist plays a part, but the floating ball is a path problem — where the racket goes, not just the hand."},
+          {label:"You chop straight down instead of carving forward",correct:true,verdict:"This is it — the usual culprit. Under pressure you chop down at the ball with an open face and no forward drive, so it balloons up and sits. Carve down AND forward, extending the racket toward your target, and it knifes low."},
+          {label:"Wrong grip",correct:false,verdict:"Grip isn't the leak — the same grip stays low when you carve forward instead of chopping."},
+          {label:"You stand up out of the shot",correct:false,verdict:"Standing up makes it worse, but the core fault is the chop. Carve forward and stay down and it stops floating."}],
+        cue:{title:"Carve down AND forward — extend toward your target",drill:"Slice over a low barrier (cones at knee height). Every ball must stay below it and land deep."},
+        insight:"A slice is a carve, not a chop. Cut forward through it and it knifes low instead of floating up."}
     ]}
 ];
 
@@ -9272,7 +9495,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v83';
+const CACHE = 'gamesharp-v84';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
