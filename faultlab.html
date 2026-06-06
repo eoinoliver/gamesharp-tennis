@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>GameSharp · Fault Lab (stress test)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{background:#070d07;color:#fff;font-family:'DM Sans',sans-serif;min-height:100vh;}
+#app{max-width:560px;margin:0 auto;padding:0 20px 60px;}
+.lab-flag{position:fixed;top:0;left:0;right:0;text-align:center;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#06140a;background:#c8a84b;font-weight:800;padding:4px;z-index:50;}
+/* ── copied dtc styles ── */
+.dtc-top{display:flex;align-items:center;justify-content:space-between;padding:40px 0 0;}
+.dtc-brand{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:#5bba6f;cursor:pointer;}
+.dtc-close{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6);width:30px;height:30px;border-radius:50%;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.dtc-fade{animation:dtcFade .42s cubic-bezier(.22,1,.36,1);}
+@keyframes dtcFade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.dtc-eyebrow{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#c8a84b;font-weight:800;margin-bottom:12px;}
+.dtc-h1{font-family:'Bebas Neue',sans-serif;font-size:46px;letter-spacing:1px;line-height:.96;margin:0 0 14px;color:#fff;}
+.dtc-intro{font-size:15px;line-height:1.6;color:rgba(255,255,255,.66);margin:0 0 26px;}
+.dtc-cta{width:100%;background:#5bba6f;color:#06140a;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.4px;border:none;border-radius:14px;padding:16px;cursor:pointer;box-shadow:0 6px 22px rgba(91,186,111,.28);}
+.dtc-cta:active{transform:scale(.98);} .dtc-cta.gold{background:#c8a84b;box-shadow:0 6px 22px rgba(200,168,75,.28);}
+.dtc-cta-ghost{width:100%;background:transparent;color:rgba(255,255,255,.5);font-size:13px;font-weight:700;letter-spacing:.4px;border:none;border-radius:12px;padding:12px;cursor:pointer;}
+.fix-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;padding-bottom:18px;}
+.fix-card{display:flex;flex-direction:column;align-items:flex-start;gap:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:15px 14px;cursor:pointer;text-align:left;position:relative;}
+.fix-card:active{transform:scale(.97);}
+.fix-card-name{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:.5px;color:#fff;line-height:1.05;}
+.fix-card-meta{font-size:11px;color:rgba(255,255,255,.42);}
+.fix-card-arrow{position:absolute;top:12px;right:13px;color:rgba(91,186,111,.6);font-size:14px;}
+.fix-dots{display:flex;gap:6px;justify-content:center;margin:4px 0 14px;}
+.fix-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);}
+.fix-dot.now{background:#c8a84b;}.fix-dot.done{background:#5bba6f;}
+.dtc-qtag{display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:800;padding:4px 10px;border-radius:6px;margin-bottom:12px;color:#c8a84b;background:rgba(200,168,75,.14);}
+.dtc-sit{font-size:14px;line-height:1.55;color:rgba(255,255,255,.6);margin-bottom:6px;}
+.dtc-prompt{font-family:'Bebas Neue',sans-serif;font-size:27px;letter-spacing:.6px;line-height:1.05;margin:6px 0 16px;color:#fff;}
+.dtc-fig{position:relative;background:radial-gradient(130% 120% at 50% 30%,#16401d,#0e2913 55%,#081710);border-radius:14px;overflow:hidden;box-shadow:inset 0 0 40px rgba(0,0,0,.5);}
+.dtc-fig svg{display:block;width:100%;height:auto;}
+.dtc-opts{margin-top:16px;}
+.dtc-opt{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:14px 15px;display:flex;align-items:center;gap:12px;margin-bottom:10px;cursor:pointer;text-align:left;transition:.18s;}
+.dtc-opt:active{transform:scale(.99);}
+.dtc-opt .dtc-ol{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#5bba6f;flex-shrink:0;}
+.dtc-opt .dtc-otx{flex:1;} .dtc-opt .dtc-otl{font-size:14.5px;font-weight:600;color:#fff;}
+.dtc-opt.sel{border-color:#5bba6f;background:rgba(91,186,111,.12);box-shadow:0 0 0 1px #5bba6f;}
+.dtc-opt.wrong{border-color:#e07070;background:rgba(224,112,112,.1);box-shadow:0 0 0 1px #e07070;}
+.dtc-opt.dim{opacity:.34;} .dtc-opt.sel .dtc-ol{background:#5bba6f;color:#06140a;} .dtc-opt.wrong .dtc-ol{background:#e07070;color:#fff;}
+.dtc-reveal.show{animation:dtcFade .5s cubic-bezier(.22,1,.36,1) both;}
+.dtc-rtag{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;margin-bottom:8px;}
+.dtc-rbody{font-size:14.5px;line-height:1.55;color:#fff;}
+.dtc-rins{font-size:13px;font-style:italic;color:rgba(255,255,255,.56);line-height:1.5;margin-top:11px;padding-left:12px;border-left:2px solid rgba(200,168,75,.4);}
+.dtc-cue{margin-top:14px;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.26);border-radius:12px;padding:12px 14px;}
+.dtc-cue .dtc-cl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#c8a84b;font-weight:800;margin-bottom:4px;}
+.dtc-cue .dtc-ct{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.6px;color:#fff;}
+.dtc-cue .dtc-cd{font-size:12px;color:rgba(255,255,255,.55);margin-top:4px;line-height:1.4;}
+@keyframes dtcCdot{0%,100%{r:8;opacity:.95;}50%{r:12;opacity:.5;}}
+.dtc-cdot{animation:dtcCdot 1.5s ease-in-out infinite;}
+/* audit mode */
+.aud-cat{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#5bba6f;margin:22px 0 8px;letter-spacing:.5px;}
+.aud-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:13px 15px;margin-bottom:10px;}
+.aud-sit{font-size:13px;color:rgba(255,255,255,.55);line-height:1.5;}
+.aud-ans{font-size:14px;color:#5bba6f;font-weight:700;margin:7px 0 4px;}
+.aud-ver{font-size:13px;color:rgba(255,255,255,.8);line-height:1.5;}
+.aud-cue{font-size:12.5px;color:#c8a84b;margin-top:7px;}
+.aud-ins{font-size:12.5px;font-style:italic;color:rgba(255,255,255,.5);margin-top:5px;}
+</style>
+</head>
+<body>
+<div class="lab-flag">⚠ Fault Lab — stress-test sandbox · not wired to the live app</div>
+<div id="app"></div>
+
+<script>
+/* ════════ FIGURE ENGINE (copied verbatim from index.html DTC) ════════ */
+function dtcLimb(a,b,w){return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#e9f0e1" stroke-width="${w||11}" stroke-linecap="round"/>`;}
+function dtcArrow(x1,y1,x2,y2,col,w){const a=Math.atan2(y2-y1,x2-x1),L=9;
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="${w||4}" stroke-linecap="round"/><path d="M${x2},${y2} L${x2-L*Math.cos(a-0.5)},${y2-L*Math.sin(a-0.5)} M${x2},${y2} L${x2-L*Math.cos(a+0.5)},${y2-L*Math.sin(a+0.5)}" stroke="${col}" stroke-width="${w||4}" fill="none" stroke-linecap="round"/>`;}
+const DTC_FLOOR=`<line x1="34" y1="302" x2="266" y2="302" stroke="rgba(255,255,255,.18)" stroke-width="2"/><ellipse cx="150" cy="306" rx="116" ry="9" fill="rgba(0,0,0,.25)"/>`;
+const DTC_HIPLINE=`<line x1="150" y1="20" x2="150" y2="300" stroke="rgba(255,255,255,.13)" stroke-width="1" stroke-dasharray="3,4"/><text x="150" y="16" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.3)" font-family="DM Sans">your hip</text>`;
+function dtcFhFig(cx){const sh=[150,102],hip=[150,170],wr=[cx-26,118],elb=[(sh[0]+wr[0])/2+6,116],rkt=[cx,108],oElb=[122,124],oWr=[100,148],bKnee=[134,236],bAnk=[120,300],fKnee=[180,238],fAnk=[196,300],head=[150,70];
+  return `<g opacity="0.96">${dtcLimb(hip,bKnee)}${dtcLimb(bKnee,bAnk)}${dtcLimb(hip,fKnee)}${dtcLimb(fKnee,fAnk)}${dtcLimb(sh,hip,12)}${dtcLimb(sh,oElb)}${dtcLimb(oElb,oWr)}${dtcLimb(sh,elb)}${dtcLimb(elb,wr)}<line x1="${wr[0]}" y1="${wr[1]}" x2="${rkt[0]}" y2="${rkt[1]}" stroke="#c8a84b" stroke-width="5" stroke-linecap="round"/><circle cx="${rkt[0]}" cy="${rkt[1]}" r="13" fill="none" stroke="#c8a84b" stroke-width="3"/><line x1="${sh[0]}" y1="${sh[1]}" x2="${head[0]}" y2="${head[1]+12}" stroke="#e9f0e1" stroke-width="10" stroke-linecap="round"/><circle cx="${head[0]}" cy="${head[1]}" r="15" fill="#e9f0e1"/></g>`;}
+function dtcServeFig(reach){const head=reach?[150,84]:[150,92],sh=reach?[150,110]:[150,116],hip=[150,176],elb=reach?[160,80]:[172,100],wr=reach?[164,52]:[192,104],rkt=reach?[170,24]:[212,92],oElb=reach?[140,98]:[136,108],oWr=reach?[126,62]:[120,96],bKnee=reach?[150,242]:[146,236],bAnk=reach?[150,300]:[138,300],fKnee=reach?[160,242]:[166,238],fAnk=reach?[168,300]:[182,300];
+  return `<g opacity="0.96">${dtcLimb(hip,bKnee)}${dtcLimb(bKnee,bAnk)}${dtcLimb(hip,fKnee)}${dtcLimb(fKnee,fAnk)}${dtcLimb(sh,hip,12)}${dtcLimb(sh,oElb)}${dtcLimb(oElb,oWr)}${dtcLimb(sh,elb)}${dtcLimb(elb,wr)}<line x1="${wr[0]}" y1="${wr[1]}" x2="${rkt[0]}" y2="${rkt[1]}" stroke="#c8a84b" stroke-width="5" stroke-linecap="round"/><circle cx="${rkt[0]}" cy="${rkt[1]}" r="13" fill="none" stroke="#c8a84b" stroke-width="3"/><line x1="${sh[0]}" y1="${sh[1]}" x2="${head[0]}" y2="${head[1]+12}" stroke="#e9f0e1" stroke-width="10" stroke-linecap="round"/><circle cx="${head[0]}" cy="${head[1]}" r="15" fill="#e9f0e1"/></g>`;}
+
+/* Ground-stroke contact scene (out: long | net | weak) */
+function dtcContactScene(rev,c){
+  const M={long:{p:"M148,106 Q208,84 278,70",lx:244,ly:62},net:{p:"M148,106 Q198,150 232,250",lx:248,ly:226},weak:{p:"M148,106 Q188,120 200,200",lx:214,ly:212}}[c.out||'long'];
+  if(!rev)return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${DTC_HIPLINE}${dtcFhFig(150)}<circle class="dtc-cdot" cx="148" cy="106" r="8" fill="rgba(224,112,112,.95)"/><path d="${M.p}" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="${M.lx}" y="${M.ly}" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${c.sym}</text></svg></div>`;
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${DTC_HIPLINE}${dtcFhFig(214)}<circle cx="148" cy="106" r="8" fill="none" stroke="rgba(224,112,112,.85)" stroke-width="2"/><text x="116" y="92" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${c.fault}</text><circle cx="214" cy="106" r="8" fill="rgba(91,186,111,.95)"/><text x="214" y="88" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">${c.fix}</text><path d="M214,106 Q236,150 226,236" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="248" y="210" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">in</text></svg></div>`;
+}
+/* Serve scene (badOut: net | long | weak | scatter) */
+function dtcServeScene(rev,c){
+  const B={net:{p:"M214,92 Q244,150 250,250",lx:262,ly:240,t:"into the net"},long:{p:"M214,92 Q250,120 280,40",lx:262,ly:120,t:"sails long"},weak:{p:"M214,92 Q236,140 240,210",lx:256,ly:198,t:"no sting"},scatter:{p:"",lx:0,ly:0,t:""}}[c.badOut||'net'];
+  if(!rev){
+    const extra = (c.badOut==='scatter') ? `<circle cx="186" cy="60" r="6" fill="rgba(224,112,112,.6)"/><circle cx="234" cy="44" r="6" fill="rgba(224,112,112,.6)"/><circle cx="210" cy="86" r="6" fill="rgba(224,112,112,.6)"/>` : `<path d="${B.p}" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="${B.lx}" y="${B.ly}" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${B.t}</text>`;
+    return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcServeFig(false)}<circle class="dtc-cdot" cx="214" cy="78" r="8" fill="rgba(224,112,112,.95)"/><text x="214" y="62" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${c.sym}</text>${extra}</svg></div>`;
+  }
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcServeFig(true)}<circle cx="214" cy="78" r="7" fill="none" stroke="rgba(224,112,112,.85)" stroke-width="2"/><text x="246" y="82" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${c.fault}</text><circle cx="178" cy="24" r="8" fill="rgba(91,186,111,.95)"/><text x="178" y="14" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">${c.fix}</text><path d="M174,28 Q150,120 196,250" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="214" y="232" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">in</text></svg></div>`;
+}
+
+/* ════════ NEW FIGURES for the lab ════════ */
+/* Low-ball posture: bent=true => knees bent, hips low (good); false => legs straight, bent at waist (fault). Contact low & out front. */
+function labLowFig(bent){
+  const head=[150, bent?122:92], sh=[150, bent?150:120], hip=[150, bent?196:178];
+  const bKnee=[126, bent?232:252], bAnk=[116,300], fKnee=[178, bent?232:252], fAnk=[188,300];
+  const wr=[182,212], rkt=[208,216], elb=[168,184], oElb=[128,168], oWr=[110,200];
+  return `<g opacity="0.96">${dtcLimb(hip,bKnee)}${dtcLimb(bKnee,bAnk)}${dtcLimb(hip,fKnee)}${dtcLimb(fKnee,fAnk)}${dtcLimb(sh,hip,12)}${dtcLimb(sh,oElb)}${dtcLimb(oElb,oWr)}${dtcLimb(sh,elb)}${dtcLimb(elb,wr)}<line x1="${wr[0]}" y1="${wr[1]}" x2="${rkt[0]}" y2="${rkt[1]}" stroke="#c8a84b" stroke-width="5" stroke-linecap="round"/><circle cx="${rkt[0]}" cy="${rkt[1]}" r="12" fill="none" stroke="#c8a84b" stroke-width="3"/><line x1="${sh[0]}" y1="${sh[1]}" x2="${head[0]}" y2="${head[1]+12}" stroke="#e9f0e1" stroke-width="10" stroke-linecap="round"/><circle cx="${head[0]}" cy="${head[1]}" r="15" fill="#e9f0e1"/></g>`;
+}
+function labLowScene(rev,c){
+  const O={net:{p:"M208,216 Q230,256 238,294",lx:256,ly:282,t:"into the net"},pop:{p:"M208,216 Q214,150 244,118",lx:262,ly:128,t:"pops up"},weak:{p:"M208,216 Q236,214 262,224",lx:268,ly:236,t:"no depth"}}[c.out||'net'];
+  if(!rev)return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${labLowFig(false)}<text x="150" y="118" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(224,112,112,.85)" font-family="DM Sans">standing tall</text><circle class="dtc-cdot" cx="208" cy="216" r="8" fill="rgba(224,112,112,.95)"/><path d="${O.p}" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="${O.lx}" y="${O.ly}" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${c.sym}</text></svg></div>`;
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${labLowFig(true)}<text x="150" y="148" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">knees bent</text><circle cx="208" cy="216" r="8" fill="rgba(91,186,111,.95)"/><path d="M208,216 Q224,180 244,150" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="262" y="160" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">lifts &amp; lands</text></svg></div>`;
+}
+/* Spacing: reuse dtcFhFig with contact x. jam => contact crowded (small cx); reach => stretched (large cx); fix => out in front (cx 200). */
+function labSpaceScene(rev,c){
+  const cx = rev ? 200 : (c.mode==='jam' ? 122 : 256);
+  const fig = dtcFhFig(cx);
+  const dot = cx; // racket x ~ contact
+  if(!rev){
+    const lbl = c.mode==='jam' ? 'jammed — too close' : 'reaching — too far';
+    const lblX = c.mode==='jam' ? 96 : 250;
+    const traj = c.mode==='jam' ? "M122,108 Q150,150 150,250" : "M256,108 Q260,150 250,236";
+    const tlbl = c.mode==='jam' ? {x:150,y:232,t:'frame / weak'} : {x:262,y:222,t:'weak floater'};
+    return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${fig}<circle class="dtc-cdot" cx="${dot}" cy="108" r="8" fill="rgba(224,112,112,.95)"/><text x="${lblX}" y="94" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${lbl}</text><path d="${traj}" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="${tlbl.x}" y="${tlbl.y}" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${tlbl.t}</text></svg></div>`;
+  }
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}<line x1="150" y1="108" x2="200" y2="108" stroke="rgba(91,186,111,.5)" stroke-width="2" stroke-dasharray="3,3"/><text x="176" y="100" text-anchor="middle" font-size="8" fill="rgba(91,186,111,.8)" font-family="DM Sans">arm's length</text>${fig}<circle cx="200" cy="108" r="8" fill="rgba(91,186,111,.95)"/><text x="200" y="90" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">out in front</text><path d="M200,108 Q224,150 220,236" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="244" y="214" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">clean &amp; deep</text></svg></div>`;
+}
+
+/* ════════ SCENARIO DATA — 5 categories × 4 faults ════════ */
+const PROMPT = "What's the usual culprit?";
+const LAB_CATS = [
+{ key:'secondServe', label:'Second Serve', blurb:'The most pressure-exposed shot in tennis.', faults:[
+  { sit:"You held all match — then on break point your second serve floated up soft, and they teed off on it.",
+    render:r=>dtcServeScene(r,{badOut:'weak',sym:'sits up, no kick',fault:'guided / slow',fix:'accelerate up'}),
+    options:[
+      {label:"You aimed too close to the line",correct:false,verdict:"Placement isn't the leak — that ball sat up begging to be hit wherever it landed."},
+      {label:"You decelerate — you guide it in instead of hitting up on the ball",correct:true,verdict:"This is it. Scared of the double, you slow the racket and 'place' the serve — so it lands soft, no spin, no kick, and a club returner steps in and crushes it. A second serve is still a hit: accelerate up the back of the ball and let the spin bring it down."},
+      {label:"Too much topspin",correct:false,verdict:"Almost the opposite — topspin is what would have saved you. It sat up because there wasn't enough."},
+      {label:"Wrong grip",correct:false,verdict:"The grip's fine on the second serves you commit to. The leak is the swing slowing down."}],
+    cue:{title:"Spin is the margin — accelerate up the back of the ball",drill:"Hit 20 second serves clearing the net by 3 feet with heavy kick. Never flatten or slow it under pressure."},
+    insight:"The safe second serve isn't the slow one — it's the spinny one. Slow is what gets attacked."},
+  { sit:"Set point on your serve. First serve missed. You pushed the second long and tight — double fault, set gone.",
+    render:r=>dtcServeScene(r,{badOut:'long',sym:'flat, no drop',fault:'no spin window',fix:'brush up — let it dip'}),
+    options:[
+      {label:"You flatten it to feel safe — with no spin, it has to sail long to clear the net",correct:true,verdict:"This is it. Under pressure you hit flat 'to be safe' — but a flat ball has no margin: clear the net and it flies the baseline. Spin is what lets you swing up AND land it in. The flat second serve is the riskiest ball in tennis."},
+      {label:"You aimed for too fine a target",correct:false,verdict:"A factor — but even at a fat target, a flat second serve sails. The spin is the real margin."},
+      {label:"Toss was too high",correct:false,verdict:"Toss height isn't why it flew long; the missing spin is."},
+      {label:"You followed through too much",correct:false,verdict:"You can't over-finish a serve — the ball sailed because it had no topspin to drop it."}],
+    cue:{title:"More spin, fatter target — let the kick drop it in",drill:"Serve to the whole service box, not a corner. Brush up the back of the ball so it dips. Margin first."},
+    insight:"Under pressure, players aim smaller and swing flatter — both shrink the margin. Do the opposite."},
+  { sit:"30–40 down. First serve missed. The second clipped the tape and dropped — you froze on the swing.",
+    render:r=>dtcServeScene(r,{badOut:'net',sym:'swing quit',fault:'decelerated',fix:'commit — swing up'}),
+    options:[
+      {label:"Toss drifted behind you",correct:false,verdict:"Even with a fine toss, a swing that stops nets the ball. The deceleration is the culprit."},
+      {label:"You decelerate — the racket stops at contact instead of driving up",correct:true,verdict:"This is it. The nerves tighten your arm and the swing dies right at the ball, so it has no lift and dumps into the net. Commit and swing UP through it — a decelerating serve can't carry spin or clear the net."},
+      {label:"Too much knee bend",correct:false,verdict:"Knee bend adds power; it doesn't net the ball. The swing quitting does."},
+      {label:"You looked up early",correct:false,verdict:"Head-up costs a little accuracy, but the net ball is the swing stopping."}],
+    cue:{title:"Commit and swing UP — the brave serve is the spinny one",drill:"Shadow 15 second serves finishing with the racket fully up and around. No abbreviated swings."},
+    insight:"You can't 'place' a second serve gently — gentle is what stops it dropping in. Spin is the safety."},
+  { sit:"You get every second serve in — but it's the same low, flat ball, and good returners step in and take it on the rise.",
+    render:r=>dtcServeScene(r,{badOut:'weak',sym:'stays low & flat',fault:'brushed flat',fix:'brush low-to-high'}),
+    options:[
+      {label:"You serve too softly",correct:false,verdict:"Pace isn't the fix — a slow ball with kick is still hard to attack. The missing ingredient is height/jump, not speed."},
+      {label:"No kick — you brush across the ball, not up it, so it never jumps",correct:true,verdict:"This is it. A flat second serve stays in the returner's strike zone, so they step in and time it. Brush from low to high to put kick on it — the bounce jumps up and out of their comfort zone, and now the same speed is far harder to attack."},
+      {label:"You stand too close to the line",correct:false,verdict:"Stance position doesn't make the ball sit up — the flat brush does."},
+      {label:"Your grip is too western",correct:false,verdict:"A more continental/eastern-backhand grip actually helps kick — the leak is brushing across instead of up."}],
+    cue:{title:"Brush low-to-high for kick — make the bounce jump",drill:"Serve into the back fence focusing only on the ball jumping up off the bounce. Up the back, not across."},
+    insight:"A kick second serve buys you time and pushes the returner back. Flat-and-in just feeds their forehand."}
+]},
+{ key:'approach', label:'Approach Shot', blurb:'The shot that gets you to the net — and where most points are lost.', faults:[
+  { sit:"You got a short ball, drove it hard, came in — and they passed you clean. Same pattern all match.",
+    render:r=>dtcContactScene(r,{out:'weak',sym:'sits up',fault:'hit flat & hard',fix:'low slice, deep'}),
+    options:[
+      {label:"You came in too fast",correct:false,verdict:"Speed in isn't the problem — the approach shot itself gave them a clean look."},
+      {label:"You drove it flat and hard — it sat up at a hittable height for the pass",correct:true,verdict:"This is it. A hard, flat approach bounces up into their strike zone and gives them pace to redirect. A low, sliced approach stays under the net cord — they have to lift it, which kills the pass and gives you an easy volley. The approach is a setup, not a winner."},
+      {label:"You approached to the wrong side",correct:false,verdict:"Direction matters, but a ball that sits up gets passed to either side. Height is the leak."},
+      {label:"You didn't hit it hard enough",correct:false,verdict:"More pace makes it sit up faster — the opposite of what you want on an approach."}],
+    cue:{title:"Low and deep — slice the approach so it stays under the net",drill:"Feed yourself short balls; approach with slice, aiming to land it deep with the ball skidding low. Then close."},
+    insight:"The approach doesn't win the point — it forces the weak pass. Make them hit up from their shoelaces."},
+  { sit:"Your approach landed short in the service box. They stepped in, took time away, and ripped the pass.",
+    render:r=>dtcContactScene(r,{out:'weak',sym:'lands short',fault:'aimed too safe',fix:'deep to the corner'}),
+    options:[
+      {label:"You sliced it instead of driving",correct:false,verdict:"Slice is right — the problem is it landed short, which lets them step in. Depth, not spin, is the fix."},
+      {label:"You played it too safe and short — depth is what keeps them pinned back",correct:true,verdict:"This is it. A short approach lets them move forward and hit down on the pass with time. A deep approach pushes them behind the baseline so they're hitting up and on the stretch. Same shot — just commit to the back third of the court."},
+      {label:"You didn't follow it to the net",correct:false,verdict:"Closing matters next, but the short ball is what got punished here — they had time before you ever arrived."},
+      {label:"Wrong grip on the slice",correct:false,verdict:"The slice was fine; the depth was the miss."}],
+    cue:{title:"Approach deep — back third of the court, then close",drill:"Approach drill: every ball must land within 3 feet of the baseline. Short approaches don't count."},
+    insight:"Depth buys you the net. Short approaches invite the very pass you're trying to prevent."},
+  { sit:"You hit a great approach, got to the net — then froze as they passed you, feet stuck.",
+    render:r=>dtcContactScene(r,{out:'long',sym:'caught flat-footed',fault:'still moving in',fix:'split as they hit'}),
+    options:[
+      {label:"You approached too deep",correct:false,verdict:"The approach was good — the leak was at the net, not the approach."},
+      {label:"You never split-stepped — you were still running when they hit, so you couldn't change direction",correct:true,verdict:"This is it. If you're still moving forward at their contact, you can't push off either way — you're a statue. Split-step (a small hop to balanced, ready feet) just as they strike, and now you can explode to the volley on either side."},
+      {label:"You stood too close to the net",correct:false,verdict:"Position is secondary — without a split-step you can't react from anywhere."},
+      {label:"You watched the ball too long",correct:false,verdict:"The frozen feet, not the eyes, lost the point."}],
+    cue:{title:"Split-step as they strike — land balanced, then explode",drill:"Approach and split exactly on their contact. Practice the timing until the hop is automatic."},
+    insight:"A great approach is wasted if your feet are still moving when they hit. Split, then attack."},
+  { sit:"You changed direction and approached down the line off a low ball — and they ripped the crosscourt pass.",
+    render:r=>dtcContactScene(r,{out:'long',sym:'opened the angle',fault:'changed direction low',fix:'approach down the middle'}),
+    options:[
+      {label:"You hit it too soft",correct:false,verdict:"Pace isn't it — the geometry opened the whole court for the pass."},
+      {label:"You changed direction off a low ball — that opens the crosscourt pass and you can't cover it",correct:true,verdict:"This is it. Going down the line off a low or wide ball is high-risk: you give them the long crosscourt diagonal, and you have the most court to cover at the net. Off an awkward ball, approach back behind them or down the middle — it cuts their angles and buys you time to set up."},
+      {label:"You didn't slice it",correct:false,verdict:"Spin wasn't the issue — the direction handed them the pass."},
+      {label:"You approached too early",correct:false,verdict:"Timing wasn't the leak; the angle you opened was."}],
+    cue:{title:"Down the middle off a tough ball — cut the angles",drill:"From low/wide balls, approach through the middle. Save the line approach for the high, easy ball."},
+    insight:"Change direction only off a ball you've earned. Off defense, the middle approach is the percentage play."}
+]},
+{ key:'defensive', label:'Defensive Reset', blurb:'The biggest source of unforced errors at club level.', faults:[
+  { sit:"Pulled wide and stretched, you went for a winner down the line — and missed. Again.",
+    render:r=>dtcContactScene(r,{out:'long',sym:'goes for a winner',fault:'tried to flatten it',fix:'height + depth'}),
+    options:[
+      {label:"You didn't run fast enough",correct:false,verdict:"You got there — the shot choice from the stretch is what missed, not the speed."},
+      {label:"You tried to hit a winner from a losing position instead of resetting the point",correct:true,verdict:"This is it. From a full stretch you have no balance and no margin — going for the line is a coin-flip you lose most of the time. The pro move is to buy time: a high, deep, heavy ball that lands near their baseline, so you can recover to the middle and start the point again. Defense first, then attack the next ball."},
+      {label:"Wrong grip on the stretch",correct:false,verdict:"Grip isn't the leak — the decision to gamble from defense is."},
+      {label:"You should have hit it harder",correct:false,verdict:"More pace from a stretch = bigger miss. The fix is height and margin, not power."}],
+    cue:{title:"From defense, buy time — high, deep, heavy to the middle",drill:"On the run, aim 6+ feet over the net to land deep. Recover to the centre. No winners from the stretch."},
+    insight:"Pros defend to neutral, then attack. Club players try the miracle — and feed the error count."},
+  { sit:"Scrambling, you blocked the ball back short and floaty — they moved in and put it away.",
+    render:r=>dtcContactScene(r,{out:'weak',sym:'lands short',fault:'just patted it back',fix:'drive depth'}),
+    options:[
+      {label:"You added too much spin",correct:false,verdict:"Spin is fine — the issue is the ball landed short and sat up. Depth is the fix."},
+      {label:"You just blocked it — no depth, so they got an easy mid-court attack",correct:true,verdict:"This is it. A short, soft reset hands them the initiative. The defensive ball still needs to travel — drive it deep with height and margin so they have to hit from behind the baseline. Deep defense buys you the time to recover; short defense just delays the put-away."},
+      {label:"You hit it too flat",correct:false,verdict:"Flatness isn't the leak — the lack of depth is. A deep flat ball still resets."},
+      {label:"You changed direction",correct:false,verdict:"Direction wasn't it — the short landing was."}],
+    cue:{title:"Defend with depth — drive it back deep, not soft and short",drill:"Reset drill: every defensive ball must land in the back quarter. Height + depth beats a short block."},
+    insight:"A reset is only a reset if it's deep. Short 'defense' just postpones the point you're losing."},
+  { sit:"Way out of position, you went for a low-percentage drop shot to 'change it up' — it sat up and they crushed it.",
+    render:r=>dtcContactScene(r,{out:'weak',sym:'sits up',fault:'drop from defense',fix:'high heavy reset'}),
+    options:[
+      {label:"Your touch was off",correct:false,verdict:"Touch isn't the issue — a drop shot from a defensive position is the wrong choice, however soft your hands."},
+      {label:"You played a low-percentage drop from defense instead of resetting",correct:true,verdict:"This is it. A drop shot needs balance, time, and a ball you can shape — none of which you have on the run. From defense it floats up and invites the put-away. Reset high and deep, recover, and look for the drop later from a neutral or attacking position."},
+      {label:"You disguised it badly",correct:false,verdict:"Disguise wouldn't save it — the situation was wrong for a drop at all."},
+      {label:"You hit it too hard",correct:false,verdict:"Pace wasn't the leak; the shot selection from defense was."}],
+    cue:{title:"No drops from defense — reset first, create later",drill:"On the stretch, default to high-and-deep. Only drop from inside the baseline with balance."},
+    insight:"Fancy from defense is how points get thrown away. Boring-and-deep is how they get saved."},
+  { sit:"Caught deep behind the baseline, you took a big flat swing to 'fight fire with fire' — and netted it.",
+    render:r=>dtcContactScene(r,{out:'net',sym:'no clearance',fault:'flat from deep',fix:'lift — heavy & high'}),
+    options:[
+      {label:"You were too far back",correct:false,verdict:"Court position alone didn't net it — the flat, low-margin swing did."},
+      {label:"You hit flat with no net clearance instead of lifting it with margin",correct:true,verdict:"This is it. From deep, a flat drive has to thread a tiny window — clear the net and land in. Under pressure that window closes and you net it. Lift the ball: more net clearance and topspin gives you a huge margin and still lands deep, buying you time to recover."},
+      {label:"You used too much wrist",correct:false,verdict:"Wrist isn't the culprit — the flat, low trajectory is."},
+      {label:"You should have come to the net",correct:false,verdict:"Approaching off a deep defensive ball is even riskier — the fix is margin, not aggression."}],
+    cue:{title:"From deep, lift it — clear the net by 5+ feet with topspin",drill:"Hit 20 balls from behind the baseline aiming high over the net, landing deep. Margin buys time."},
+    insight:"The deeper you are, the higher you should aim. Flat-from-deep is a net ball waiting to happen."}
+]},
+{ key:'lowBall', label:'Low Ball', blurb:'The great separator — low balls expose your posture.', faults:[
+  { sit:"A low, skidding ball to your feet — you reached down with your arm and dumped it into the net.",
+    render:r=>labLowScene(r,{out:'net',sym:'into the net'}),
+    options:[
+      {label:"You used the wrong grip",correct:false,verdict:"Grip isn't the leak — you can clear the net with any grip if you get down to the ball."},
+      {label:"You bent at the waist and reached with the arm instead of bending your knees",correct:true,verdict:"This is it. Reaching down with the arm drops the racket head and your eyes, and you scoop the ball into the net. Bend the KNEES to bring your whole body down to the ball — now the racket can travel low-to-high and lift it cleanly. Lift comes from the legs, not a flick of the wrist."},
+      {label:"You hit it too hard",correct:false,verdict:"Pace isn't it — even a soft ball nets if you don't get down to it."},
+      {label:"You watched the ball too long",correct:false,verdict:"The posture, not the eyes, dumped it in the net."}],
+    cue:{title:"Bend the knees — get your body down, lift with the legs",drill:"Shadow low balls touching your knee to near-ground each rep. Racket below the ball, finish high."},
+    insight:"On low balls, the legs do the work. Reaching with the arm is how the ball ends up in the net."},
+  { sit:"You got to the low ball but popped it straight up — and they put away the sitter.",
+    render:r=>labLowScene(r,{out:'pop',sym:'pops up'}),
+    options:[
+      {label:"You bent your knees too much",correct:false,verdict:"Knee bend is good — the pop-up comes from scooping under with the racket, not from the legs."},
+      {label:"You scooped under it with an open face instead of brushing up the back",correct:true,verdict:"This is it. An open racket face under the ball launches it skyward — a free sitter for them. Get down with your legs, keep the face more vertical, and brush from low to high THROUGH the ball. That gives lift with forward drive, not a balloon."},
+      {label:"You stood too tall",correct:false,verdict:"Here you got down — but the open face still ballooned it. Face control is the leak."},
+      {label:"You hit it too late",correct:false,verdict:"Timing wasn't it — the open-faced scoop sent it up."}],
+    cue:{title:"Brush up the BACK of the ball — face vertical, drive through",drill:"Low feeds: keep the face square, finish out toward your target, not straight up."},
+    insight:"Getting down is half of it — the other half is a square face brushing up and through, not scooping under."},
+  { sit:"Low ball at your feet in the rally — you blocked it back short and they stepped in to attack.",
+    render:r=>labLowScene(r,{out:'weak',sym:'no depth'}),
+    options:[
+      {label:"You should have let it bounce higher",correct:false,verdict:"You can't wait on a ball at your feet — and backing up makes it worse. The leak is no drive through it."},
+      {label:"You decelerated and just blocked it — no drive, so it landed short",correct:true,verdict:"This is it. Out of self-preservation you stop the swing and pat the low ball back, so it floats short and gets attacked. Once you're down with your legs, accelerate THROUGH the ball with topspin — a low ball can still be hit deep and heavy if you commit to the lift."},
+      {label:"You hit it too flat",correct:false,verdict:"Flatness isn't the leak — the lack of drive and depth is."},
+      {label:"Wrong footwork pattern",correct:false,verdict:"Footwork helps you get down, but the short ball came from quitting on the swing."}],
+    cue:{title:"Get down AND drive through — low balls can still go deep",drill:"From low feeds, hit deep with topspin. No patting — accelerate up and through."},
+    insight:"Low doesn't have to mean defensive. Down with the legs, then drive — depth turns defense into neutral."},
+  { sit:"You stretched for a low wide ball and framed it — the ball flew off the edge of the racket.",
+    render:r=>labLowScene(r,{out:'pop',sym:'framed it'}),
+    options:[
+      {label:"Your strings are too loose",correct:false,verdict:"Equipment isn't the culprit — you framed it because your body wasn't down to the ball's level."},
+      {label:"Your eyes and head came up early because you didn't get your body down",correct:true,verdict:"This is it. When you don't bend the knees, your head lifts as you reach, your eyes leave the ball, and you catch it off the frame. Get the whole body down so your head stays level and still over the ball — you can only middle what you're truly down to."},
+      {label:"You swung too hard",correct:false,verdict:"Pace isn't it — the frame came from being above the ball, not from speed."},
+      {label:"Wrong grip",correct:false,verdict:"Grip won't stop a frame if your head is rising off the ball."}],
+    cue:{title:"Get down, head still — you can only middle what you're level with",drill:"Low wide feeds: load the outside leg, drop the hips, keep your chin down through contact."},
+    insight:"Framing a low ball is almost always a head that came up. Stay down, eyes level, and you'll find the strings."}
+]},
+{ key:'spacing', label:'Spacing / Jam', blurb:'The most misattributed fault in tennis — it\'s your feet, not your swing.', faults:[
+  { sit:"Your forehand keeps getting jammed — cramped, off the frame, no power. You blame the swing every time.",
+    render:r=>labSpaceScene(r,{mode:'jam'}),
+    options:[
+      {label:"Your swing is too long",correct:false,verdict:"It's not the swing — you'd swing fine with room. You ran out of space to swing into."},
+      {label:"You don't take adjustment steps — you let the ball come into your body",correct:true,verdict:"This is it. You watch the ball, plant, and it arrives on top of you — jammed, with no room to extend. The fix is small, quick adjustment steps as the ball approaches, so you set up at arm's length and meet it out in front. Good contact is a footwork outcome, not a hand fix."},
+      {label:"You grip too tightly",correct:false,verdict:"A tight grip tires you, but the jam is about space — your feet, not your hand."},
+      {label:"You take the racket back too late",correct:false,verdict:"Prep helps, but even with an early backswing you'll be jammed if your feet don't make room."}],
+    cue:{title:"Small adjustment steps — make room, meet it out front",drill:"Shadow rallies stutter-stepping into every ball. Never let the ball arrive at your body."},
+    insight:"Most 'bad swings' are bad spacing. Fix the feet and the swing fixes itself."},
+  { sit:"You keep reaching and lunging for the ball — weak, floaty shots with no balance.",
+    render:r=>labSpaceScene(r,{mode:'reach'}),
+    options:[
+      {label:"You're not strong enough",correct:false,verdict:"Strength isn't it — a balanced, well-spaced shot needs no extra power. You're leaking it through the stretch."},
+      {label:"Lazy first step — you don't move early, so you arrive late and have to reach",correct:true,verdict:"This is it. A slow or late first step means you never get to the ball, so you stretch and arm it from off-balance — weak and floaty. Explode on the FIRST step the moment you read the ball, get all the way there, and set up balanced. Distance covered early buys you a clean, grounded contact."},
+      {label:"Your backswing is too small",correct:false,verdict:"Backswing isn't the issue — you're reaching because your feet arrived late."},
+      {label:"You hit too early",correct:false,verdict:"You're actually late to the ball — the reach is the symptom of slow feet."}],
+    cue:{title:"Explode on the first step — get all the way to the ball",drill:"React-and-sprint drill: first step fires the instant you read direction. Beat the ball there, then set up."},
+    insight:"Reaching is a feet problem wearing a swing disguise. Move early, arrive balanced, never stretch."},
+  { sit:"On the run you hit while still sprinting — the ball sprays and you can't recover.",
+    render:r=>labSpaceScene(r,{mode:'reach'}),
+    options:[
+      {label:"You ran too fast",correct:false,verdict:"Speed's good — the issue is you never planted. You hit mid-stride instead of off a set foot."},
+      {label:"You hit while still moving — no outside foot to plant and push off",correct:true,verdict:"This is it. Hitting in full stride means no base, no balance, and no recovery — the ball sprays and you're stranded. Plant the OUTSIDE foot to stop your momentum, hit off that stable base, and push back off it to recover. Set, hit, recover — not hit-on-the-run."},
+      {label:"Wrong grip for running shots",correct:false,verdict:"Grip isn't the leak — the missing plant step is."},
+      {label:"You watched the ball too long",correct:false,verdict:"The lack of a base, not the eyes, sprayed it."}],
+    cue:{title:"Plant the outside foot — set, hit, push back to recover",drill:"Wide feeds: stop hard on the outside leg, hit, and explode back to centre. No hitting mid-stride."},
+    insight:"The outside foot is your brake AND your launch pad. Plant it, hit, and it sends you back into the point."},
+  { sit:"On a deep heavy ball you backed straight up — and ended up cramped, hitting off your back foot.",
+    render:r=>labSpaceScene(r,{mode:'jam'}),
+    options:[
+      {label:"The ball was just too good",correct:false,verdict:"Deep balls are handleable — backing straight up is what cramped you, not the ball's quality."},
+      {label:"You back-pedalled instead of moving up or taking small steps to adjust",correct:true,verdict:"This is it. Drifting straight back lets the ball chase you and jams you on your heels with no base. Either step IN and take it earlier on the rise, or move back with quick crossover steps and set up — but don't back-pedal flat-footed. Meet the deep ball with a plan, not a retreat."},
+      {label:"You should have hit it harder",correct:false,verdict:"Power off the back foot just sprays — the leak is the backward drift, not effort."},
+      {label:"Wrong grip",correct:false,verdict:"Grip isn't it — the footwork retreat cramped you."}],
+    cue:{title:"Step in or set up — don't back-pedal off your heels",drill:"Deep feeds: either take it early stepping in, or recover back with crossover steps and a planted base."},
+    insight:"Backing straight up hands the ball the initiative. Step in and rob their time, or reset with real steps."}
+]}
+];
+
+/* ════════ PLAYER ════════ */
+const app = () => document.getElementById('app');
+let catIdx=-1, fIdx=0, answered=false;
+
+function topBar(label,onClick){
+  return `<div class="dtc-top"><div class="dtc-brand" onclick="${onClick}">‹ ${label}</div><div class="dtc-close" onclick="renderHome()">✕</div></div>`;
+}
+function renderHome(){
+  catIdx=-1;
+  const cards = LAB_CATS.map((c,i)=>`<button class="fix-card" onclick="openCat(${i})"><div class="fix-card-arrow">→</div><div class="fix-card-name">${c.label}</div><div class="fix-card-meta">${c.faults.length} faults</div></button>`).join('');
+  app().innerHTML = `<div class="dtc-top"><div class="dtc-brand" style="cursor:default;">FAULT LAB</div><div></div></div>
+    <div class="dtc-fade" style="padding-top:14px;">
+      <div class="dtc-eyebrow">New Fault Mirror · stress test</div>
+      <h1 class="dtc-h1">Find the culprit</h1>
+      <p class="dtc-intro">5 new candidate categories · 20 scenarios. Play them, or audit all the content + cues at once.</p>
+      <div class="fix-grid">${cards}</div>
+      <button class="dtc-cta gold" onclick="renderAudit()" style="margin-top:6px;">Audit all content →</button>
+    </div>`;
+  window.scrollTo(0,0);
+}
+function openCat(i){ catIdx=i; fIdx=0; renderFault(); }
+function renderFault(){
+  answered=false;
+  const c=LAB_CATS[catIdx], q=c.faults[fIdx];
+  const opts=q.options.map((o,k)=>`<button class="dtc-opt" id="opt${k}" onclick="answer(${k})"><div class="dtc-ol">${String.fromCharCode(65+k)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div></div></button>`).join('');
+  let dots=''; for(let d=0;d<c.faults.length;d++) dots+=`<div class="fix-dot${d<fIdx?' done':(d===fIdx?' now':'')}"></div>`;
+  app().innerHTML = `${topBar('Categories','renderHome()')}<div class="dtc-fade">
+    <div class="fix-dots">${dots}</div>
+    <div class="dtc-qtag">${c.label} · fault ${fIdx+1} of ${c.faults.length}</div>
+    <div class="dtc-sit">${q.sit}</div>
+    <div class="dtc-prompt">${PROMPT}</div>
+    <div id="scene">${q.render(false)}</div>
+    <div class="dtc-opts">${opts}</div>
+    <div id="reveal"></div></div>`;
+  window.scrollTo(0,0);
+}
+function answer(k){
+  if(answered) return; answered=true;
+  const c=LAB_CATS[catIdx], q=c.faults[fIdx], o=q.options[k], ci=q.options.findIndex(x=>x.correct);
+  document.getElementById('scene').innerHTML=q.render(true);
+  document.querySelectorAll('.dtc-opt').forEach((el,idx)=>{ if(idx===k) el.classList.add(o.correct?'sel':'wrong'); else if(idx===ci) el.classList.add('sel'); else el.classList.add('dim'); el.onclick=null; });
+  const cue=q.cue?`<div class="dtc-cue"><div class="dtc-cl">Your cue</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>`:'';
+  const last=fIdx>=c.faults.length-1;
+  document.getElementById('reveal').innerHTML=`<div class="dtc-reveal show">
+    <div class="dtc-rtag" style="color:${o.correct?'#5bba6f':'#e07070'}">${o.correct?'✓ Nailed it':'✗ Not quite'}</div>
+    <div class="dtc-rbody">${o.verdict}</div>${q.insight?`<div class="dtc-rins">${q.insight}</div>`:''}${cue}
+    <button class="dtc-cta gold" style="margin-top:18px;" onclick="${last?'renderHome()':'nextFault()'}">${last?'Back to categories →':'Next fault →'}</button></div>`;
+  setTimeout(()=>{const r=document.getElementById('reveal'); if(r) r.scrollIntoView({behavior:'smooth',block:'nearest'});},120);
+}
+function nextFault(){ fIdx++; if(fIdx>=LAB_CATS[catIdx].faults.length) renderHome(); else renderFault(); }
+
+function renderAudit(){
+  let h=`<div class="dtc-top"><div class="dtc-brand" onclick="renderHome()">‹ Lab</div><div class="dtc-close" onclick="renderHome()">✕</div></div>
+    <div class="dtc-fade"><div class="dtc-eyebrow">Content audit</div><h1 class="dtc-h1" style="font-size:34px;">All 20 scenarios</h1>`;
+  LAB_CATS.forEach(c=>{
+    h+=`<div class="aud-cat">${c.label}</div>`;
+    c.faults.forEach((q,i)=>{
+      const correct=q.options.find(o=>o.correct)||{};
+      h+=`<div class="aud-card"><div class="aud-sit">${i+1}. ${q.sit}</div>
+        <div class="aud-ans">✓ ${correct.label}</div>
+        <div class="aud-ver">${correct.verdict}</div>
+        <div class="aud-cue">🎾 Cue: ${q.cue.title}</div>
+        <div class="aud-ins">${q.insight}</div></div>`;
+    });
+  });
+  h+=`</div>`;
+  app().innerHTML=h; window.scrollTo(0,0);
+}
+renderHome();
+</script>
+</body>
+</html>
