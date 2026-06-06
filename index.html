@@ -3696,7 +3696,7 @@ const PILLAR_DISPLAY = {
   'Win More':   'Win More',
   'Game IQ':    'See Better',
   'Technique':  'Train Your Game',
-  'Mental':     'Play the Point',
+  'Mental':     'Hold Your Nerve',
   'The Debate': 'Locker Room',
 };
 
@@ -3706,7 +3706,7 @@ const PILLAR_DISCOVERY = {
   'Win More': {
     promise: 'Solve the match problems that keep beating you.',
     accent: '#c8a84b', glow: 'rgba(200,168,75,.07)',
-    heroCta: 'Play a Point →',
+    heroCta: 'Train this pillar →',
     featured: [
       { title: 'Beat the Human Wall', promise: 'Use width and patience to dismantle pushers and retrievers.', badge: 'Match Problem', time: '4 min', module: 'Beat Pushers', isNew: false },
       { title: 'Tiebreak Mastery', promise: 'Win the moments that decide the match.', badge: 'Pressure', time: '5 min', module: 'Tiebreak Mastery', isNew: false },
@@ -3825,7 +3825,7 @@ const PILLAR_DISCOVERY = {
   'Mental': {
     promise: 'Execute under pressure. Make the right call when it counts.',
     accent: '#7c6fcd', glow: 'rgba(124,111,205,.07)',
-    heroCta: 'Play a Point →',
+    heroCta: 'Train this pillar →',
     featured: [
       { title: 'Tiebreak Mind',      promise: 'Stay process-focused when the match is on the line.',  badge: 'Pressure',  time: '4 min', module: 'Tiebreak Routine',   isNew: true },
       { title: 'Clutch Moments',     promise: 'What separates players when stakes are highest.',       badge: 'Elite',     time: '4 min', module: 'Clutch',             isNew: false },
@@ -8591,57 +8591,8 @@ function initOneThingToRemember() {
 }
 
 // ── V5.2 PLAY HUB ─────────────────────────────────────────────────
-function initPlayHub() {
-  state.screen = 'playHub';
-  showScreen('playScreen');
-  trackEvent('nav_play_clicked');
-  const wrap = document.getElementById('playHubWrap');
-  if (!wrap) return;
-  wrap.innerHTML = `
-    <div class="hub-back" onclick="initHome()">← Home</div>
-    <div class="hub-header">
-      <div class="hub-title">Play</div>
-      <div class="hub-sub">Active decision-training modes.</div>
-    </div>
-
-    <div class="hub-section-hdr">
-      <div class="hub-section-eyebrow">Today</div>
-      <div class="hub-section-title">Daily</div>
-    </div>
-    <div class="hub-card" onclick="startDailyChallenge()">
-      <div class="hub-card-icon">🎯</div>
-      <div class="hub-card-body">
-        <div class="hub-card-eyebrow">Today's Challenge</div>
-        <div class="hub-card-title">One pressure point. Today.</div>
-        <div class="hub-card-sub">Make the right call. Build the streak.</div>
-      </div>
-      <div class="hub-card-arrow">→</div>
-    </div>
-    <div class="hub-card" onclick="openSequenceLibrary()">
-      <div class="hub-card-icon">🧩</div>
-      <div class="hub-card-body">
-        <div class="hub-card-eyebrow">Predict the Point</div>
-        <div class="hub-card-title">Three linked decisions, one pattern.</div>
-        <div class="hub-card-sub">See how the point unfolds.</div>
-      </div>
-      <div class="hub-card-arrow">→</div>
-    </div>
-
-    <div class="hub-section-hdr">
-      <div class="hub-section-eyebrow">Sessions</div>
-      <div class="hub-section-title">Open Modes</div>
-    </div>
-    <div class="hub-card" onclick="startPlayAPoint()">
-      <div class="hub-card-icon">▶︎</div>
-      <div class="hub-card-body">
-        <div class="hub-card-eyebrow">Play a Point</div>
-        <div class="hub-card-title">Live-point decision flow.</div>
-        <div class="hub-card-sub">3–4 linked decisions, varied scenarios.</div>
-      </div>
-      <div class="hub-card-arrow">→</div>
-    </div>
-  `;
-}
+// (Removed orphaned initPlayHub — the secondary "Play" hub was unreferenced and
+// duplicated "Play a Point"/"Predict the Point" naming. Sharpen = initLearnHub.)
 
 // ── V5.2 SHARPEN HUB ──────────────────────────────────────────────
 function initLearnHub() {
@@ -8705,22 +8656,6 @@ function initLearnHub() {
       <div class="hub-section-title">Pro Lens Moments</div>
     </div>
     <div class="gs-pillars-wrap"><div class="plm-scroll" id="plmScroll"></div></div>
-
-    <!-- ARCHIVED: Play a Point (Open Practice) — removed from Sharpen for now; may restore later.
-    <div class="hub-section-hdr">
-      <div class="hub-section-eyebrow">Open Practice</div>
-      <div class="hub-section-title">Play a Point</div>
-    </div>
-    <div class="hub-card" onclick="startPlayAPoint()">
-      <div class="hub-card-icon">▶︎</div>
-      <div class="hub-card-body">
-        <div class="hub-card-eyebrow">Live-point decision flow</div>
-        <div class="hub-card-title">Play out a full point — 3–5 linked decisions.</div>
-        <div class="hub-card-sub">Free practice across varied match scenarios.</div>
-      </div>
-      <div class="hub-card-arrow">→</div>
-    </div>
-    -->
 
     <div class="hub-section-hdr">
       <div class="hub-section-eyebrow">Signature Experiences</div>
@@ -9820,7 +9755,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v93';
+const CACHE = 'gamesharp-v94';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
