@@ -3200,8 +3200,7 @@ function checkFirstVisit() {
     const _p = new URLSearchParams(location.search);
     if (_p.get('challenge') === 'daily') {
       initHome();
-      if (typeof startThemedDaily === 'function') { startThemedDaily(); }
-      else if (typeof startDailyChallenge === 'function') { startDailyChallenge(); }
+      if (typeof startDailyChallenge === 'function') { startDailyChallenge(); }
       return;
     }
   } catch(e) {}
@@ -6819,27 +6818,39 @@ function initDailyChallenge() {
 
 function startDailyChallenge() {
   trackEvent('today_challenge_card_clicked');
-  // Live daily loop is now the themed brain+body challenge.
-  if (typeof startThemedDaily === 'function') { startThemedDaily(); return; }
   runStandardDaily();
 }
 
-// The original 5-decision daily (Play a Point). Reused as the second half of the
-// themed daily so the session flows: 4 themed reads → 5 match decisions → finish.
+// Today's Challenge: 4 quick calls — 3 tactical reads + 1 technique (stroke) question.
+// Technique lives in its own pillar ("Train Your Game"); the daily always surfaces
+// one stroke question so every day is brain + body. No separate themed engine.
 function runStandardDaily() {
   trackEvent('today_challenge_started');
-  const rawPool = pickDailyChallengePool(20); // larger pool so Play a Point can pick well
-  if (!rawPool.length) return false;
-  const pillar = rawPool[0]?.pillar || 'Win More';
-  state.selectedPillar = pillar;
+  const free = QBANK.filter(q => q.tier === 'Free' || !q.tier);
+  const techPool = free.filter(q => q.pillar === 'Technique');
+  const tacPool  = free.filter(q => q.pillar !== 'Technique');
+
+  // 3 tactical reads + 1 guaranteed technique question (placed last → "now the body").
+  const tac  = selectSessionQuestions({ pool: tacPool,  count: 3, mode: 'daily-tactical' });
+  const tech = selectSessionQuestions({ pool: techPool, count: 1, mode: 'daily-technique' });
+  let bundle = tac.concat(tech).filter(Boolean);
+  if (bundle.length < 2) return false;
+
+  state.selectedPillar = bundle[0].pillar || 'Win More';
   state.selectedModule = 'Daily Challenge';
-  const bundle = buildPlayAPoint(pillar, null, rawPool);
-  if (!bundle || !bundle.length) return false;
-  // Override scenario context for daily — use a consistent daily header
-  const dailyCtx = POINT_CONTEXTS[pillar]?.[0] || POINT_CONTEXTS['Win More'][0];
   bundle.forEach((q, i) => {
-    q._bundle = { ...q._bundle, score: "Today's Challenge", context: "Five decisions. One focused session.", icon: '🎾', shotNum: i+1, total: bundle.length };
+    const fmtKey = getFormatLabel(q, i);
+    q._bundle = {
+      score: "Today's Challenge",
+      context: "4 quick calls · 3 reads + 1 on your strokes.",
+      icon: '🎾',
+      shotNum: i + 1,
+      total: bundle.length,
+      fmtKey,
+      fmtLabel: fmtLabel(fmtKey),
+    };
   });
+  recordSeenQuestions(bundle);
   state.quiz = bundle;
   state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
   state.isDailyMode = true;
@@ -7514,7 +7525,7 @@ function startHereSession() {
   // Override context for the "start here" intro session (format label recomputed per slot)
   bundle.forEach((q, i) => {
     const fmtKey = getFormatLabel(q, i);
-    q._bundle = { ...q._bundle, score: `Your First Session · ${focusLabel}`, context: 'Five decisions personalised to your game.', icon: '🎾', shotNum: i+1, total: bundle.length, fmtKey, fmtLabel: fmtLabel(fmtKey) };
+    q._bundle = { ...q._bundle, score: `Your First Session · ${focusLabel}`, context: 'Four decisions personalised to your game.', icon: '🎾', shotNum: i+1, total: bundle.length, fmtKey, fmtLabel: fmtLabel(fmtKey) };
   });
   state.quiz = bundle;
   state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
@@ -8540,7 +8551,7 @@ function initPlayHub() {
       <div class="hub-card-body">
         <div class="hub-card-eyebrow">Play a Point</div>
         <div class="hub-card-title">Live-point decision flow.</div>
-        <div class="hub-card-sub">3–5 linked decisions, varied scenarios.</div>
+        <div class="hub-card-sub">3–4 linked decisions, varied scenarios.</div>
       </div>
       <div class="hub-card-arrow">→</div>
     </div>
@@ -8603,20 +8614,6 @@ function initLearnHub() {
       <div class="hub-section-title">The 5 Pillars</div>
     </div>
     <div class="hub-pillars-row">${pillarsHtml}</div>
-
-    <div class="hub-section-hdr">
-      <div class="hub-section-eyebrow">Diagnose &amp; fix</div>
-      <div class="hub-section-title">Fix a Shot</div>
-    </div>
-    <div class="hub-card" onclick="location.href='/fixashot.html'">
-      <div class="hub-card-icon">🔧</div>
-      <div class="hub-card-body">
-        <div class="hub-card-eyebrow">Stroke technique clinic</div>
-        <div class="hub-card-title">Something off in a stroke? Find the fault, get the fix.</div>
-        <div class="hub-card-sub">8 strokes · a coach's read · one drill to groove it.</div>
-      </div>
-      <div class="hub-card-arrow">→</div>
-    </div>
 
     <div class="hub-section-hdr hub-more-hdr">
       <div class="hub-section-eyebrow">More ways to train</div>
@@ -9009,7 +9006,7 @@ function buildPlayAPoint(pillar, module, isDailyPool) {
   if (!pool.length) return null;
 
   // Central selector: unseen-first, oldest-seen fallback, hard dedup
-  const bundleSize = Math.min(pool.length, 5);
+  const bundleSize = Math.min(pool.length, 4);
   const sessionMode = isDailyPool ? 'daily' : (module ? `module:${module}` : `pillar:${pillar}`);
   const bundle = selectSessionQuestions({ pool, count: bundleSize, mode: sessionMode });
   if (!bundle.length) return null;
@@ -9736,7 +9733,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v88';
+const CACHE = 'gamesharp-v89';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
