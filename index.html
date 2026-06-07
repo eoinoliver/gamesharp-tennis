@@ -1585,6 +1585,11 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .dtc-cuebig .dtc-cbb strong{color:#5bba6f;}
 @keyframes dtcCdot{0%,100%{r:8;opacity:.95;}50%{r:12;opacity:.5;}}
 .dtc-cdot{animation:dtcCdot 1.5s ease-in-out infinite;}
+/* motion fault-mirror */
+.ms-tag{position:absolute;top:10px;left:12px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:rgba(255,255,255,.5);background:rgba(0,0,0,.35);padding:3px 9px;border-radius:6px;z-index:2;}
+#msStage{min-height:200px;}
+.dtc-replay{width:100%;margin-top:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;font-weight:700;font-size:13px;border-radius:11px;padding:11px;cursor:pointer;}
+.dtc-replay:active{transform:scale(.98);}
 </style>
 </head>
 <body>
@@ -6940,9 +6945,9 @@ function dtcAllFaults() {
   try {
     DTC_STROKE_KEYS.forEach((stroke, i) => {
       const t = DTC_THEMES[i];
-      if (t && t.questions && t.questions[3]) out.push(t.questions[3]);
+      if (t && t.questions && t.questions[3]) out.push(mTag(t.questions[3], stroke, 0));
       const ex = DTC_EXTRA_FAULTS[stroke];
-      if (ex && ex.length) ex.forEach(f => out.push(f));
+      if (ex && ex.length) ex.forEach((f, j) => out.push(mTag(f, stroke, j + 1)));
     });
   } catch (e) {}
   return out;
@@ -6970,7 +6975,8 @@ function startDailyTechQ() {
 }
 function dtcRenderDailyTech() {
   const q = state.quiz[state.qIdx]._dtc;
-  const scene = q.render ? q.render(false) : '';
+  const motion = mHasMotion(q);
+  const scene = motion ? '<div id="msStage" class="dtc-fig"></div><button class="dtc-replay" id="msReplay" onclick="mReplay(\'miss\')">▶ Replay the miss</button>' : (q.render ? q.render(false) : '');
   const opts = q.options.map((o, i) =>
     `<button class="dtc-opt" id="dtcOpt${i}" onclick="dtcDailyTechAnswer(${i})"><div class="dtc-ol">${String.fromCharCode(65 + i)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
   ).join('');
@@ -6989,12 +6995,14 @@ function dtcRenderDailyTech() {
     <div id="dtcScene">${scene}</div>
     <div class="dtc-opts">${opts}</div>
     <div id="dtcReveal"></div></div>`;
+  if (motion) { mCtx = { stroke:q.mstroke, arch:q.march }; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'miss'), 60); }
 }
 function dtcDailyTechAnswer(i) {
   const q = state.quiz[state.qIdx]._dtc;
   const o = q.options[i], ci = q.options.findIndex(x => x.correct);
   const sc = document.getElementById('dtcScene');
-  if (sc && q.render) sc.innerHTML = q.render(true);
+  if (mHasMotion(q)) { const row = document.getElementById('msReplay'); if (row) { row.setAttribute('onclick', "mReplay('fix')"); row.textContent = '▶ Replay the fix'; } setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
+  else if (sc && q.render) sc.innerHTML = q.render(true);
   document.querySelectorAll('.dtc-opt').forEach((el, idx) => {
     if (idx === i) el.classList.add(o.correct ? 'sel' : 'wrong');
     else if (idx === ci) el.classList.add('sel');
@@ -7026,8 +7034,8 @@ function fixGroups() {
   if (_fixGroups) return _fixGroups;
   _fixGroups = DTC_STROKE_KEYS.map((stroke, i) => {
     const t = DTC_THEMES[i], faults = [];
-    if (t && t.questions && t.questions[3]) faults.push(t.questions[3]);
-    const ex = DTC_EXTRA_FAULTS[stroke]; if (ex) ex.forEach(f => faults.push(f));
+    if (t && t.questions && t.questions[3]) faults.push(mTag(t.questions[3], stroke, 0));
+    const ex = DTC_EXTRA_FAULTS[stroke]; if (ex) ex.forEach((f, j) => faults.push(mTag(f, stroke, j + 1)));
     return { key: stroke, label: FIX_STROKE_LABELS[stroke] || stroke, faults };
   });
   return _fixGroups;
@@ -7060,7 +7068,8 @@ function fixOpenStroke(i) { fixStrokeIdx = i; fixFaultIdx = 0; fixRenderFault();
 function fixRenderFault() {
   fixAnswered = false;
   const g = fixGroups()[fixStrokeIdx], q = g.faults[fixFaultIdx];
-  const scene = q.render ? q.render(false) : '';
+  const motion = mHasMotion(q);
+  const scene = motion ? '<div id="msStage" class="dtc-fig"></div><button class="dtc-replay" id="msReplay" onclick="mReplay(\'miss\')">▶ Replay the miss</button>' : (q.render ? q.render(false) : '');
   const opts = q.options.map((o, k) =>
     `<button class="dtc-opt" id="dtcOpt${k}" onclick="fixAnswer(${k})"><div class="dtc-ol">${String.fromCharCode(65 + k)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
   ).join('');
@@ -7074,13 +7083,16 @@ function fixRenderFault() {
     <div id="dtcScene">${scene}</div>
     <div class="dtc-opts">${opts}</div>
     <div id="dtcReveal"></div></div>`;
+  if (motion) { mCtx = { stroke:q.mstroke, arch:q.march }; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'miss'), 60); }
   dtcScroll();
 }
 function fixAnswer(k) {
   if (fixAnswered) return; fixAnswered = true;
   const g = fixGroups()[fixStrokeIdx], q = g.faults[fixFaultIdx];
   const o = q.options[k], ci = q.options.findIndex(x => x.correct);
-  const sc = document.getElementById('dtcScene'); if (sc && q.render) sc.innerHTML = q.render(true);
+  const sc = document.getElementById('dtcScene');
+  if (mHasMotion(q)) { const row = document.getElementById('msReplay'); if (row) { row.setAttribute('onclick', "mReplay('fix')"); row.textContent = '▶ Replay the fix'; } setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
+  else if (sc && q.render) sc.innerHTML = q.render(true);
   document.querySelectorAll('.dtc-opt').forEach((el, idx) => {
     if (idx === k) el.classList.add(o.correct ? 'sel' : 'wrong');
     else if (idx === ci) el.classList.add('sel');
@@ -7447,6 +7459,78 @@ function dtcSliceScene(rev,c){
   if(!rev)return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcSliceFig(false)}<path d="M214,124 Q230,86 252,38" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/>${dtcArrow(240,58,253,36,'rgba(224,112,112,.85)',3)}<text x="236" y="78" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${c.sym}</text></svg></div>`;
   return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcSliceFig(true)}<text x="120" y="96" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${c.fault}</text><path d="M240,98 Q262,124 284,156" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/>${dtcArrow(266,134,284,156,'rgba(91,186,111,.85)',3)}<text x="252" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">${c.fix}</text><text x="284" y="172" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">stays low</text></svg></div>`;
 }
+/* ════════════════ MOTION FAULT-MIRROR ENGINE ════════════════
+   Animates the swing (play the miss → play the fix), ported from the original
+   technique.html motion model: correct keyframe poses per stroke + interpolation,
+   with each fault derived from an archetype transform. */
+function mFigure(p){return `<g opacity="0.96">${dtcLimb(p.hip,p.bKnee)}${dtcLimb(p.bKnee,p.bAnk)}${dtcLimb(p.hip,p.fKnee)}${dtcLimb(p.fKnee,p.fAnk)}${dtcLimb(p.sh,p.hip,12)}${dtcLimb(p.sh,p.oElb)}${dtcLimb(p.oElb,p.oWr)}${dtcLimb(p.sh,p.elb)}${dtcLimb(p.elb,p.wr)}<line x1="${p.wr[0]}" y1="${p.wr[1]}" x2="${p.rkt[0]}" y2="${p.rkt[1]}" stroke="#c8a84b" stroke-width="5" stroke-linecap="round"/><circle cx="${p.rkt[0]}" cy="${p.rkt[1]}" r="13" fill="none" stroke="#c8a84b" stroke-width="3"/><line x1="${p.sh[0]}" y1="${p.sh[1]}" x2="${p.head[0]}" y2="${p.head[1]+12}" stroke="#e9f0e1" stroke-width="10" stroke-linecap="round"/><circle cx="${p.head[0]}" cy="${p.head[1]}" r="15" fill="#e9f0e1"/></g>`;}
+function mEase(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+function mLerpPose(A,B,t){const o={};for(const k in A){const b=B[k]||A[k];o[k]=[A[k][0]+(b[0]-A[k][0])*t,A[k][1]+(b[1]-A[k][1])*t];}return o;}
+function mShift(p,d){const o={};for(const k in p)o[k]=[p[k][0]+((d[k]&&d[k][0])||0),p[k][1]+((d[k]&&d[k][1])||0)];return o;}
+const STROKE_POSES={
+  forehand:{load:{head:[150,70],sh:[150,102],hip:[152,172],elb:[124,130],wr:[108,156],rkt:[84,186],oElb:[180,120],oWr:[210,130],bKnee:[130,236],bAnk:[124,302],fKnee:[178,240],fAnk:[194,302]},drop:{head:[150,70],sh:[150,102],hip:[150,170],elb:[150,126],wr:[172,150],rkt:[160,188],oElb:[136,116],oWr:[116,134],bKnee:[132,237],bAnk:[122,301],fKnee:[178,239],fAnk:[193,301]},contact:{head:[152,70],sh:[152,102],hip:[150,170],elb:[184,124],wr:[214,128],rkt:[242,108],oElb:[124,124],oWr:[100,146],bKnee:[134,238],bAnk:[118,302],fKnee:[178,240],fAnk:[190,302]},finish:{head:[150,70],sh:[150,100],hip:[150,168],elb:[138,96],wr:[114,78],rkt:[94,56],oElb:[126,108],oWr:[102,72],bKnee:[150,242],bAnk:[150,302],fKnee:[172,238],fAnk:[184,302]}},
+  oneHand:{load:{head:[150,70],sh:[150,102],hip:[150,172],elb:[126,128],wr:[106,152],rkt:[82,180],oElb:[122,138],oWr:[100,160],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},drop:{head:[150,70],sh:[150,102],hip:[150,170],elb:[142,126],wr:[150,152],rkt:[138,188],oElb:[140,134],oWr:[118,156],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},contact:{head:[152,70],sh:[152,102],hip:[150,170],elb:[186,118],wr:[216,118],rkt:[246,98],oElb:[126,130],oWr:[104,152],bKnee:[178,240],bAnk:[190,302],fKnee:[130,240],fAnk:[118,302]},finish:{head:[150,68],sh:[150,100],hip:[150,168],elb:[188,94],wr:[220,76],rkt:[248,56],oElb:[118,122],oWr:[88,144],bKnee:[170,240],bAnk:[182,302],fKnee:[140,240],fAnk:[132,302]}},
+  twoHand:{load:{head:[150,70],sh:[150,102],hip:[150,172],elb:[126,130],wr:[108,152],rkt:[84,178],oElb:[132,134],oWr:[112,150],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},drop:{head:[150,70],sh:[150,102],hip:[150,170],elb:[142,128],wr:[152,152],rkt:[140,188],oElb:[148,132],oWr:[128,152],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},contact:{head:[151,70],sh:[151,102],hip:[150,170],elb:[178,124],wr:[208,126],rkt:[236,106],oElb:[162,132],oWr:[200,130],bKnee:[176,240],bAnk:[188,302],fKnee:[132,240],fAnk:[120,302]},finish:{head:[150,70],sh:[150,100],hip:[150,168],elb:[140,98],wr:[120,80],rkt:[100,60],oElb:[146,104],oWr:[126,84],bKnee:[168,240],bAnk:[178,302],fKnee:[140,240],fAnk:[132,302]}},
+  serve:{toss:{head:[148,74],sh:[150,106],hip:[150,178],elb:[128,128],wr:[112,150],rkt:[92,174],oElb:[174,92],oWr:[196,54],bKnee:[136,240],bAnk:[126,302],fKnee:[174,242],fAnk:[188,302]},trophy:{head:[150,76],sh:[150,108],hip:[150,180],elb:[128,98],wr:[122,70],rkt:[110,44],oElb:[176,86],oWr:[194,46],bKnee:[132,248],bAnk:[122,302],fKnee:[176,248],fAnk:[192,302]},contact:{head:[152,80],sh:[152,108],hip:[150,174],elb:[158,74],wr:[162,46],rkt:[168,18],oElb:[142,112],oWr:[132,136],bKnee:[150,242],bAnk:[150,302],fKnee:[160,242],fAnk:[168,302]},finish:{head:[154,82],sh:[152,110],hip:[150,178],elb:[122,132],wr:[102,160],rkt:[80,186],oElb:[162,122],oWr:[178,142],bKnee:[172,244],bAnk:[184,302],fKnee:[136,242],fAnk:[126,302]}},
+  volley:{set:{head:[150,74],sh:[150,106],hip:[150,176],elb:[176,116],wr:[200,108],rkt:[224,92],oElb:[168,120],oWr:[186,116],bKnee:[132,238],bAnk:[122,302],fKnee:[176,240],fAnk:[190,302]},contact:{head:[150,74],sh:[150,104],hip:[148,172],elb:[186,112],wr:[214,108],rkt:[240,92],oElb:[160,124],oWr:[150,150],bKnee:[142,240],bAnk:[128,302],fKnee:[182,240],fAnk:[198,302]},finish:{head:[150,74],sh:[150,104],hip:[150,172],elb:[192,108],wr:[222,104],rkt:[248,90],oElb:[158,126],oWr:[146,150],bKnee:[150,240],bAnk:[140,302],fKnee:[184,238],fAnk:[202,302]}},
+  ret:{ready:{head:[150,76],sh:[150,108],hip:[150,178],elb:[170,116],wr:[190,110],rkt:[210,94],oElb:[130,116],oWr:[110,110],bKnee:[124,238],bAnk:[110,302],fKnee:[176,238],fAnk:[190,302]},contact:{head:[150,74],sh:[150,104],hip:[150,172],elb:[182,118],wr:[210,118],rkt:[234,100],oElb:[150,124],oWr:[176,124],bKnee:[136,240],bAnk:[122,302],fKnee:[178,240],fAnk:[192,302]},finish:{head:[150,74],sh:[150,104],hip:[150,172],elb:[172,110],wr:[196,104],rkt:[218,90],oElb:[150,122],oWr:[172,118],bKnee:[150,238],bAnk:[144,302],fKnee:[176,238],fAnk:[190,302]}},
+  overhead:{prep:{head:[150,76],sh:[150,108],hip:[150,180],elb:[126,98],wr:[120,72],rkt:[110,46],oElb:[176,88],oWr:[196,58],bKnee:[176,242],bAnk:[192,302],fKnee:[132,242],fAnk:[122,302]},contact:{head:[152,80],sh:[152,108],hip:[150,174],elb:[158,74],wr:[162,46],rkt:[168,18],oElb:[140,110],oWr:[130,134],bKnee:[150,242],bAnk:[150,302],fKnee:[160,242],fAnk:[170,302]},finish:{head:[154,82],sh:[152,110],hip:[150,178],elb:[126,128],wr:[106,156],rkt:[84,182],oElb:[160,120],oWr:[176,140],bKnee:[168,244],bAnk:[180,302],fKnee:[138,242],fAnk:[128,302]}},
+  slice:{load:{head:[150,72],sh:[150,104],hip:[150,174],elb:[128,96],wr:[110,80],rkt:[88,62],oElb:[132,104],oWr:[112,86],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},contact:{head:[151,72],sh:[151,104],hip:[150,172],elb:[178,118],wr:[206,124],rkt:[232,114],oElb:[128,118],oWr:[106,138],bKnee:[176,240],bAnk:[188,302],fKnee:[132,240],fAnk:[120,302]},finish:{head:[150,72],sh:[150,102],hip:[150,170],elb:[196,108],wr:[226,104],rkt:[252,98],oElb:[120,120],oWr:[96,140],bKnee:[170,240],bAnk:[182,302],fKnee:[138,240],fAnk:[130,302]}}
+};
+const SWING_KEYS={forehand:['load','drop','contact','finish'],oneHand:['load','drop','contact','finish'],twoHand:['load','drop','contact','finish'],serve:['toss','trophy','contact','finish'],volley:['set','contact','finish'],ret:['ready','contact','finish'],overhead:['prep','contact','finish'],slice:['load','contact','finish']};
+/* archetype: (P=poses, keys) => {seq:[poses...], ball:{path,col,note,nx,ny}, label} */
+const FAULT_ARCH={
+  late:(P,keys)=>{const fc=mShift(P.contact,{elb:[-40,-6],wr:[-52,-14],rkt:[-62,-22],head:[-4,2]});const end=mShift(fc,{elb:[-6,-14],wr:[-8,-22],rkt:[-10,-30]});return {seq:[...keys.slice(0,-2).map(k=>P[k]),fc,end],ball:{path:`M${fc.rkt[0]+8},${fc.rkt[1]} Q${fc.rkt[0]+80},${fc.rkt[1]-22} 296,${fc.rkt[1]-2}`,col:'#e07070',note:'flies long',nx:248,ny:fc.rkt[1]-22},label:'late — behind the hip'};},
+  decel:(P,keys)=>{const end=mShift(P.contact,{elb:[4,-10],wr:[6,-16],rkt:[8,-22]});return {seq:[...keys.slice(0,-2).map(k=>P[k]),P.contact,end],ball:{path:`M${P.contact.rkt[0]+6},${P.contact.rkt[1]} Q${P.contact.rkt[0]+24},${P.contact.rkt[1]+70} ${P.contact.rkt[0]-16},262`,col:'#e07070',note:'into the net',nx:P.contact.rkt[0]+34,ny:248},label:'swing quit at contact'};},
+  armOnly:(P,keys)=>{const end=mShift(P.finish,{elb:[40,28],wr:[68,42],rkt:[92,52],head:[2,2]});return {seq:[...keys.slice(0,-2).map(k=>P[k]),P.contact,end],ball:{path:`M${P.contact.rkt[0]+6},${P.contact.rkt[1]} Q${P.contact.rkt[0]+28},${P.contact.rkt[1]+34} ${P.contact.rkt[0]+8},206`,col:'#e07070',note:'lands short',nx:P.contact.rkt[0]+40,ny:196},label:'all arm — no body'};},
+  backFoot:(P,keys)=>{const d={head:[-12,4],sh:[-9,3],hip:[-7,2],elb:[-4,2],wr:[-4,0],rkt:[-4,-4],bAnk:[10,0],fAnk:[14,0]};const fc=mShift(P.contact,d);const end=mShift(P.finish,d);return {seq:[...keys.slice(0,-2).map(k=>P[k]),fc,end],ball:{path:`M${fc.rkt[0]+8},${fc.rkt[1]} Q${fc.rkt[0]+70},${fc.rkt[1]-30} 296,${fc.rkt[1]-12}`,col:'#e07070',note:'sails long',nx:248,ny:fc.rkt[1]-28},label:'off the back foot'};}
+};
+function mBallFix(P){const c=P.contact.rkt, high=c[1]<60;
+  return high ? {path:`M${c[0]},${c[1]} Q150,120 214,252`,col:'#5bba6f',note:'in',nx:236,ny:212}
+              : {path:`M${c[0]+6},${c[1]} Q${c[0]+30},${c[1]+50} ${c[0]+4},250`,col:'#5bba6f',note:'lands in',nx:c[0]+38,ny:212};}
+let mPlaying=false;
+function mountSwing(hostId, stroke, archKey, mode, onDone){
+  const host=document.getElementById(hostId); if(!host){ if(onDone)onDone(); return; }
+  const P=STROKE_POSES[stroke]; if(!P){ host.innerHTML=''; if(onDone)onDone(); return; }
+  const keys=SWING_KEYS[stroke]||['contact'];
+  let seq, ball, label;
+  if(mode==='fix'){ seq=keys.map(k=>P[k]); ball=mBallFix(P); label='The fix'; }
+  else { const arch=(FAULT_ARCH[archKey]||FAULT_ARCH.decel)(P,keys); seq=arch.seq; ball=arch.ball; label=arch.label; }
+  mPlaying=true;
+  const segs=Math.max(1,seq.length-1), dur=300*segs+140, t0=performance.now();
+  const tag = mode==='fix' ? 'The fix' : 'The miss';
+  function frame(now){
+    let u=(now-t0)/dur; if(u>1)u=1;
+    const fpos=u*segs, seg=Math.min(segs-1,Math.floor(fpos)), local=mEase(fpos-seg);
+    const p=mLerpPose(seq[seg],seq[seg+1],local);
+    host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(p)}</svg>`;
+    if(u<1) requestAnimationFrame(frame); else mFlyBall(host, seq[seq.length-1], ball, tag, label, mode, onDone);
+  }
+  requestAnimationFrame(frame);
+}
+function mFlyBall(host, endPose, ball, tag, label, mode, onDone){
+  const col=ball.col, lblCol = mode==='fix' ? '#5bba6f' : '#e07070';
+  const labelTxt = label ? `<text x="${endPose.rkt[0]}" y="${Math.max(16,endPose.rkt[1]-22)}" text-anchor="middle" font-size="9" font-weight="800" fill="${lblCol}" font-family="DM Sans">${label}</text>` : '';
+  host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(endPose)}${labelTxt}<path d="${ball.path}" stroke="${col}" stroke-width="2.4" fill="none" stroke-dasharray="5,4" opacity=".75"/><text x="${ball.nx}" y="${ball.ny}" text-anchor="middle" font-size="9" font-weight="800" fill="${col}" font-family="DM Sans">${ball.note}</text><circle r="6" fill="#eaff96" stroke="rgba(0,0,0,.3)" stroke-width="1"><animateMotion dur="0.85s" fill="freeze" path="${ball.path}"/></circle></svg>`;
+  setTimeout(()=>{ mPlaying=false; if(onDone) onDone(); }, 880);
+}
+
+/* fault index within a stroke (primary, extra0, extra1, extra2) -> motion archetype.
+   Strokes not listed fall back to the static figure until mapped. */
+const MOTION_ARCH_MAP = {
+  forehand: ['late','decel','armOnly','backFoot']
+};
+let mCtx = { stroke:null, arch:null };
+function mHasMotion(q){ return !!(q && q.mstroke && q.march && typeof STROKE_POSES!=='undefined' && STROKE_POSES[q.mstroke]); }
+function mReplay(mode){ if(mPlaying) return; if(mCtx.stroke) mountSwing('msStage', mCtx.stroke, mCtx.arch, mode); }
+/* Attach motion metadata (stroke + archetype) onto a fault, by stroke + index. */
+function mTag(fault, stroke, idx){
+  if(!fault) return fault;
+  const arr = MOTION_ARCH_MAP[stroke];
+  if(arr && arr[idx]){ fault.mstroke = stroke; fault.march = arr[idx]; }
+  return fault;
+}
+
 const DTC_EX0={type:'technique',tag:'Execution check',prompt:"What's the usual culprit?"};
 const DTC_EXTRA_FAULTS={
   forehand:[
@@ -9945,7 +10029,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v98';
+const CACHE = 'gamesharp-v100';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
