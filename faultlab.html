@@ -119,18 +119,31 @@ function labLowScene(rev,c){
   return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${labLowFig(true)}<text x="150" y="148" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">knees bent</text><circle cx="208" cy="216" r="8" fill="rgba(91,186,111,.95)"/><path d="M208,216 Q224,180 244,150" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="262" y="160" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">lifts &amp; lands</text></svg></div>`;
 }
 /* Spacing: reuse dtcFhFig with contact x. jam => contact crowded (small cx); reach => stretched (large cx); fix => out in front (cx 200). */
+function labFoot(x,col){return `<ellipse cx="${x}" cy="299" rx="8" ry="4.5" fill="${col}"/>`;}
 function labSpaceScene(rev,c){
   const cx = rev ? 200 : (c.mode==='jam' ? 122 : 256);
   const fig = dtcFhFig(cx);
-  const dot = cx; // racket x ~ contact
   if(!rev){
-    const lbl = c.mode==='jam' ? 'jammed — too close' : 'reaching — too far';
-    const lblX = c.mode==='jam' ? 96 : 250;
-    const traj = c.mode==='jam' ? "M122,108 Q150,150 150,250" : "M256,108 Q260,150 250,236";
-    const tlbl = c.mode==='jam' ? {x:150,y:232,t:'frame / weak'} : {x:262,y:222,t:'weak floater'};
-    return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${fig}<circle class="dtc-cdot" cx="${dot}" cy="108" r="8" fill="rgba(224,112,112,.95)"/><text x="${lblX}" y="94" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${lbl}</text><path d="${traj}" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="${tlbl.x}" y="${tlbl.y}" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${tlbl.t}</text></svg></div>`;
+    const jam = c.mode==='jam';
+    const lbl = jam ? 'jammed — too close' : 'reaching — too far';
+    const lblX = jam ? 96 : 250;
+    const traj = jam ? "M122,108 Q150,150 150,250" : "M256,108 Q260,150 250,236";
+    const tl = jam ? {x:150,y:232,t:'frame / weak'} : {x:262,y:222,t:'weak floater'};
+    // CAUSE marker: the absence of adjustment steps (feet stayed planted)
+    return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${fig}<circle class="dtc-cdot" cx="${cx}" cy="108" r="8" fill="rgba(224,112,112,.95)"/><text x="${lblX}" y="94" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${lbl}</text><path d="${traj}" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="${tl.x}" y="${tl.y}" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${tl.t}</text><text x="150" y="323" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(224,112,112,.85)" font-family="DM Sans">✗ feet planted — no adjustment steps</text></svg></div>`;
   }
-  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}<line x1="150" y1="108" x2="200" y2="108" stroke="rgba(91,186,111,.5)" stroke-width="2" stroke-dasharray="3,3"/><text x="176" y="100" text-anchor="middle" font-size="8" fill="rgba(91,186,111,.8)" font-family="DM Sans">arm's length</text>${fig}<circle cx="200" cy="108" r="8" fill="rgba(91,186,111,.95)"/><text x="200" y="90" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">out in front</text><path d="M200,108 Q224,150 220,236" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="244" y="214" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">clean &amp; deep</text></svg></div>`;
+  // FIX: the cause made visible — small adjustment steps into the ball
+  const steps = `${labFoot(82,'rgba(91,186,111,.4)')}${labFoot(110,'rgba(91,186,111,.62)')}${labFoot(138,'rgba(91,186,111,.92)')}${dtcArrow(72,287,150,287,'rgba(91,186,111,.55)',1.8)}`;
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${steps}<line x1="150" y1="108" x2="200" y2="108" stroke="rgba(91,186,111,.5)" stroke-width="2" stroke-dasharray="3,3"/><text x="176" y="100" text-anchor="middle" font-size="8" fill="rgba(91,186,111,.8)" font-family="DM Sans">arm's length</text>${fig}<circle cx="200" cy="108" r="8" fill="rgba(91,186,111,.95)"/><text x="200" y="90" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">out in front</text><path d="M200,108 Q224,150 220,236" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="244" y="214" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">clean &amp; deep</text><text x="150" y="323" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(91,186,111,.92)" font-family="DM Sans">✓ small adjustment steps → meet it out front</text></svg></div>`;
+}
+/* Defensive scene = contact scene + the recovery the reset buys (completes "buy time to recover") */
+function labDefenseScene(rev,c){
+  const M={long:{p:"M148,106 Q208,84 278,70",lx:244,ly:62},net:{p:"M148,106 Q198,150 232,250",lx:248,ly:226},weak:{p:"M148,106 Q188,120 200,200",lx:214,ly:212}}[c.out||'long'];
+  if(!rev)return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${DTC_HIPLINE}${dtcFhFig(150)}<circle class="dtc-cdot" cx="148" cy="106" r="8" fill="rgba(224,112,112,.95)"/><path d="${M.p}" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="${M.lx}" y="${M.ly}" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${c.sym}</text></svg></div>`;
+  const ball = `<path d="M148,106 Q150,28 250,150" stroke="rgba(91,186,111,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="150" y="24" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">high &amp; deep</text><text x="266" y="150" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.7)" font-family="DM Sans">lands deep</text>`;
+  const ready = `<path d="M138,313 L150,323 L162,313" stroke="rgba(91,186,111,.85)" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+  const recover = `<path d="M214,300 Q188,318 160,309" stroke="rgba(91,186,111,.6)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/>${dtcArrow(172,312,158,309,'rgba(91,186,111,.8)',2)}<text x="216" y="291" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.85)" font-family="DM Sans">recover to centre</text>`;
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcFhFig(150)}${ball}${recover}${ready}<text x="150" y="291" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.55)" font-family="DM Sans">ready</text></svg></div>`;
 }
 
 /* ════════ SCENARIO DATA — 5 categories × 4 faults ════════ */
@@ -214,7 +227,7 @@ const LAB_CATS = [
 ]},
 { key:'defensive', label:'Defensive Reset', blurb:'The biggest source of unforced errors at club level.', faults:[
   { sit:"Pulled wide and stretched, you went for a winner down the line — and missed. Again.",
-    render:r=>dtcContactScene(r,{out:'long',sym:'goes for a winner',fault:'tried to flatten it',fix:'height + depth'}),
+    render:r=>labDefenseScene(r,{out:'long',sym:'goes for a winner',fault:'tried to flatten it',fix:'height + depth'}),
     options:[
       {label:"You didn't run fast enough",correct:false,verdict:"You got there — the shot choice from the stretch is what missed, not the speed."},
       {label:"You tried to hit a winner from a losing position instead of resetting the point",correct:true,verdict:"This is the usual one. From a full stretch you have no balance and no margin — going for the line is a coin-flip you lose most of the time. The pro move is to buy time: a high, deep, heavy ball that lands near their baseline, so you can recover to the middle and start the point again. Defense first, then attack the next ball."},
@@ -223,7 +236,7 @@ const LAB_CATS = [
     cue:{title:"From defense, buy time — high, deep, heavy to the middle",drill:"On the run, aim 6+ feet over the net to land deep. Recover to the centre. No winners from the stretch."},
     insight:"Pros defend to neutral, then attack. Club players try the miracle — and feed the error count."},
   { sit:"Scrambling, you blocked the ball back short and floaty — they moved in and put it away.",
-    render:r=>dtcContactScene(r,{out:'weak',sym:'lands short',fault:'just patted it back',fix:'drive depth'}),
+    render:r=>labDefenseScene(r,{out:'weak',sym:'lands short',fault:'just patted it back',fix:'drive depth'}),
     options:[
       {label:"You added too much spin",correct:false,verdict:"Spin is fine — the issue is the ball landed short and sat up. Depth is the fix."},
       {label:"You just blocked it — no depth, so they got an easy mid-court attack",correct:true,verdict:"Nine times in ten, this. A short, soft reset hands them the initiative. The defensive ball still needs to travel — drive it deep with height and margin so they have to hit from behind the baseline. Deep defense buys you the time to recover; short defense just delays the put-away."},
@@ -232,7 +245,7 @@ const LAB_CATS = [
     cue:{title:"Defend with depth — drive it back deep, not soft and short",drill:"Reset drill: every defensive ball must land in the back quarter. Height + depth beats a short block."},
     insight:"A reset is only a reset if it's deep. Short 'defense' just postpones the point you're losing."},
   { sit:"Way out of position, you went for a low-percentage drop shot to 'change it up' — it sat up and they crushed it.",
-    render:r=>dtcContactScene(r,{out:'weak',sym:'sits up',fault:'drop from defense',fix:'high heavy reset'}),
+    render:r=>labDefenseScene(r,{out:'weak',sym:'sits up',fault:'drop from defense',fix:'high heavy reset'}),
     options:[
       {label:"Your touch was off",correct:false,verdict:"Touch isn't the issue — a drop shot from a defensive position is the wrong choice, however soft your hands."},
       {label:"You played a low-percentage drop from defense instead of resetting",correct:true,verdict:"Here's the common leak. A drop shot needs balance, time, and a ball you can shape — none of which you have on the run. From defense it floats up and invites the put-away. Reset high and deep, recover, and look for the drop later from a neutral or attacking position."},
@@ -241,7 +254,7 @@ const LAB_CATS = [
     cue:{title:"No drops from defense — reset first, create later",drill:"On the stretch, default to high-and-deep. Only drop from inside the baseline with balance."},
     insight:"Fancy from defense is how points get thrown away. Boring-and-deep is how they get saved."},
   { sit:"Caught deep behind the baseline, you took a big flat swing to 'fight fire with fire' — and netted it.",
-    render:r=>dtcContactScene(r,{out:'net',sym:'no clearance',fault:'flat from deep',fix:'lift — heavy & high'}),
+    render:r=>labDefenseScene(r,{out:'net',sym:'no clearance',fault:'flat from deep',fix:'lift — heavy & high'}),
     options:[
       {label:"You were too far back",correct:false,verdict:"Court position alone didn't net it — the flat, low-margin swing did."},
       {label:"You hit flat with no net clearance instead of lifting it with margin",correct:true,verdict:"Usually, this is the one. From deep, a flat drive has to thread a tiny window — clear the net and land in. Under pressure that window closes and you net it. Lift the ball: more net clearance and topspin gives you a huge margin and still lands deep, buying you time to recover."},
