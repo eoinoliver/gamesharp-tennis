@@ -64,6 +64,13 @@ body{background:#070d07;color:#fff;font-family:'DM Sans',sans-serif;min-height:1
 .aud-ver{font-size:13px;color:rgba(255,255,255,.8);line-height:1.5;}
 .aud-cue{font-size:12.5px;color:#c8a84b;margin-top:7px;}
 .aud-ins{font-size:12.5px;font-style:italic;color:rgba(255,255,255,.5);margin-top:5px;}
+/* keep/rework marking */
+.rate-row{display:flex;align-items:center;gap:9px;margin-top:13px;}
+.rate-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);font-weight:800;}
+.rate-btn{min-width:42px;height:34px;border-radius:9px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:rgba(255,255,255,.6);font-size:16px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;}
+.rate-btn:active{transform:scale(.95);}
+.rate-btn.up.on{border-color:#5bba6f;background:rgba(91,186,111,.18);}
+.rate-btn.down.on{border-color:#e07070;background:rgba(224,112,112,.16);}
 </style>
 </head>
 <body>
@@ -134,7 +141,7 @@ const LAB_CATS = [
     render:r=>dtcServeScene(r,{badOut:'weak',sym:'sits up, no kick',fault:'guided / slow',fix:'accelerate up'}),
     options:[
       {label:"You aimed too close to the line",correct:false,verdict:"Placement isn't the leak — that ball sat up begging to be hit wherever it landed."},
-      {label:"You decelerate — you guide it in instead of hitting up on the ball",correct:true,verdict:"This is it. Scared of the double, you slow the racket and 'place' the serve — so it lands soft, no spin, no kick, and a club returner steps in and crushes it. A second serve is still a hit: accelerate up the back of the ball and let the spin bring it down."},
+      {label:"You decelerate — you guide it in instead of hitting up on the ball",correct:true,verdict:"Most likely the culprit. Scared of the double, you slow the racket and 'place' the serve — so it lands soft, no spin, no kick, and a club returner steps in and crushes it. A second serve is still a hit: accelerate up the back of the ball and let the spin bring it down."},
       {label:"Too much topspin",correct:false,verdict:"Almost the opposite — topspin is what would have saved you. It sat up because there wasn't enough."},
       {label:"Wrong grip",correct:false,verdict:"The grip's fine on the second serves you commit to. The leak is the swing slowing down."}],
     cue:{title:"Spin is the margin — accelerate up the back of the ball",drill:"Hit 20 second serves clearing the net by 3 feet with heavy kick. Never flatten or slow it under pressure."},
@@ -142,7 +149,7 @@ const LAB_CATS = [
   { sit:"Set point on your serve. First serve missed. You pushed the second long and tight — double fault, set gone.",
     render:r=>dtcServeScene(r,{badOut:'long',sym:'flat, no drop',fault:'no spin window',fix:'brush up — let it dip'}),
     options:[
-      {label:"You flatten it to feel safe — with no spin, it has to sail long to clear the net",correct:true,verdict:"This is it. Under pressure you hit flat 'to be safe' — but a flat ball has no margin: clear the net and it flies the baseline. Spin is what lets you swing up AND land it in. The flat second serve is the riskiest ball in tennis."},
+      {label:"You flatten it to feel safe — with no spin, it has to sail long to clear the net",correct:true,verdict:"This is the usual one. Under pressure you hit flat 'to be safe' — but a flat ball has no margin: clear the net and it flies the baseline. Spin is what lets you swing up AND land it in. The flat second serve is the riskiest ball in tennis."},
       {label:"You aimed for too fine a target",correct:false,verdict:"A factor — but even at a fat target, a flat second serve sails. The spin is the real margin."},
       {label:"Toss was too high",correct:false,verdict:"Toss height isn't why it flew long; the missing spin is."},
       {label:"You followed through too much",correct:false,verdict:"You can't over-finish a serve — the ball sailed because it had no topspin to drop it."}],
@@ -152,36 +159,36 @@ const LAB_CATS = [
     render:r=>dtcServeScene(r,{badOut:'net',sym:'swing quit',fault:'decelerated',fix:'commit — swing up'}),
     options:[
       {label:"Toss drifted behind you",correct:false,verdict:"Even with a fine toss, a swing that stops nets the ball. The deceleration is the culprit."},
-      {label:"You decelerate — the racket stops at contact instead of driving up",correct:true,verdict:"This is it. The nerves tighten your arm and the swing dies right at the ball, so it has no lift and dumps into the net. Commit and swing UP through it — a decelerating serve can't carry spin or clear the net."},
-      {label:"Too much knee bend",correct:false,verdict:"Knee bend adds power; it doesn't net the ball. The swing quitting does."},
+      {label:"You decelerate — the racket stops at contact instead of driving up",correct:true,verdict:"Nine times in ten, this. The nerves tighten your arm and the swing dies right at the ball, so it has no lift and dumps into the net. Commit and swing UP through it — a decelerating serve can't carry spin or clear the net."},
+      {label:"You tossed it too far back",correct:false,verdict:"Toss placement is a fair guess, but a decent toss still nets if the swing quits at contact. The deceleration is the leak."},
       {label:"You looked up early",correct:false,verdict:"Head-up costs a little accuracy, but the net ball is the swing stopping."}],
     cue:{title:"Commit and swing UP — the brave serve is the spinny one",drill:"Shadow 15 second serves finishing with the racket fully up and around. No abbreviated swings."},
     insight:"You can't 'place' a second serve gently — gentle is what stops it dropping in. Spin is the safety."},
   { sit:"You get every second serve in — but it's the same low, flat ball, and good returners step in and take it on the rise.",
-    render:r=>dtcServeScene(r,{badOut:'weak',sym:'stays low & flat',fault:'brushed flat',fix:'brush low-to-high'}),
+    render:r=>dtcServeScene(r,{badOut:'weak',sym:'stays low & flat',fault:'flat, no shape',fix:'swing up — add spin'}),
     options:[
-      {label:"You serve too softly",correct:false,verdict:"Pace isn't the fix — a slow ball with kick is still hard to attack. The missing ingredient is height/jump, not speed."},
-      {label:"No kick — you brush across the ball, not up it, so it never jumps",correct:true,verdict:"This is it. A flat second serve stays in the returner's strike zone, so they step in and time it. Brush from low to high to put kick on it — the bounce jumps up and out of their comfort zone, and now the same speed is far harder to attack."},
-      {label:"You stand too close to the line",correct:false,verdict:"Stance position doesn't make the ball sit up — the flat brush does."},
-      {label:"Your grip is too western",correct:false,verdict:"A more continental/eastern-backhand grip actually helps kick — the leak is brushing across instead of up."}],
-    cue:{title:"Brush low-to-high for kick — make the bounce jump",drill:"Serve into the back fence focusing only on the ball jumping up off the bounce. Up the back, not across."},
-    insight:"A kick second serve buys you time and pushes the returner back. Flat-and-in just feeds their forehand."}
+      {label:"You serve too softly",correct:false,verdict:"Pace isn't the fix — a slow ball with spin is still awkward to attack. The missing ingredient is shape, not speed."},
+      {label:"It's flat with no spin — so it sits in their strike zone and they time it",correct:true,verdict:"Most likely the culprit. A flat second serve sits at a comfortable height and lets the returner step in and drive it. Swing UP the back of the ball to add topspin or slice — the shape pulls it down for safety and pushes the bounce out of their strike zone. You don't need a true kick serve; you need spin and a higher, deeper target."},
+      {label:"You stand too close to the line",correct:false,verdict:"Stance doesn't flatten the ball — the swing path does. Brushing across instead of up is the leak."},
+      {label:"You aim for the same spot every time",correct:false,verdict:"Predictability hurts, but even varied placement gets attacked if every ball is flat and low. Shape first, then mix your targets."}],
+    cue:{title:"Swing up with shape — spin gives you safety",drill:"Serve aiming to clear the net by 3–4 feet with topspin or slice. Make the ball drop, and the bounce climb."},
+    insight:"You don't need a kick serve to be safe — you need spin. Flat-and-in just feeds their forehand."}
 ]},
 { key:'approach', label:'Approach Shot', blurb:'The shot that gets you to the net — and where most points are lost.', faults:[
-  { sit:"You got a short ball, drove it hard, came in — and they passed you clean. Same pattern all match.",
-    render:r=>dtcContactScene(r,{out:'weak',sym:'sits up',fault:'hit flat & hard',fix:'low slice, deep'}),
+  { sit:"You got a short ball, drove it in, came in — and they passed you clean. Same pattern all match.",
+    render:r=>dtcContactScene(r,{out:'weak',sym:'sits up',fault:'too high',fix:'low & deep'}),
     options:[
-      {label:"You came in too fast",correct:false,verdict:"Speed in isn't the problem — the approach shot itself gave them a clean look."},
-      {label:"You drove it flat and hard — it sat up at a hittable height for the pass",correct:true,verdict:"This is it. A hard, flat approach bounces up into their strike zone and gives them pace to redirect. A low, sliced approach stays under the net cord — they have to lift it, which kills the pass and gives you an easy volley. The approach is a setup, not a winner."},
-      {label:"You approached to the wrong side",correct:false,verdict:"Direction matters, but a ball that sits up gets passed to either side. Height is the leak."},
-      {label:"You didn't hit it hard enough",correct:false,verdict:"More pace makes it sit up faster — the opposite of what you want on an approach."}],
-    cue:{title:"Low and deep — slice the approach so it stays under the net",drill:"Feed yourself short balls; approach with slice, aiming to land it deep with the ball skidding low. Then close."},
+      {label:"You came in too fast",correct:false,verdict:"Speed in isn't the problem — the ball you approached on gave them a clean look before you arrived."},
+      {label:"It sat up at a hittable height — a high ball in their strike zone is easy to pass",correct:true,verdict:"Most likely the culprit. Pace isn't the villain — height is. A ball that bounces up into their strike zone is simple to redirect, however hard you hit it. Keep the approach LOW (slice helps) and deep so they have to lift it off their shoelaces — that's what kills the pass and sets up your volley. A hard approach is fine if it stays low and deep."},
+      {label:"You approached to the wrong side",correct:false,verdict:"Direction is a factor, but a ball sitting up gets passed to either side. The height is what handed them the shot."},
+      {label:"You should have stayed back and rallied",correct:false,verdict:"The short ball was the right one to attack — the approach quality, not the decision to come in, is the leak."}],
+    cue:{title:"Approach to hurt their contact, not to impress yourself — low and deep",drill:"Feed yourself short balls; approach low (slice helps) and deep so the ball skids under their strike zone. Then close."},
     insight:"The approach doesn't win the point — it forces the weak pass. Make them hit up from their shoelaces."},
   { sit:"Your approach landed short in the service box. They stepped in, took time away, and ripped the pass.",
     render:r=>dtcContactScene(r,{out:'weak',sym:'lands short',fault:'aimed too safe',fix:'deep to the corner'}),
     options:[
       {label:"You sliced it instead of driving",correct:false,verdict:"Slice is right — the problem is it landed short, which lets them step in. Depth, not spin, is the fix."},
-      {label:"You played it too safe and short — depth is what keeps them pinned back",correct:true,verdict:"This is it. A short approach lets them move forward and hit down on the pass with time. A deep approach pushes them behind the baseline so they're hitting up and on the stretch. Same shot — just commit to the back third of the court."},
+      {label:"You played it too safe and short — depth is what keeps them pinned back",correct:true,verdict:"Here's the common leak. A short approach lets them move forward and hit down on the pass with time. A deep approach pushes them behind the baseline so they're hitting up and on the stretch. Same shot — just commit to the back third of the court."},
       {label:"You didn't follow it to the net",correct:false,verdict:"Closing matters next, but the short ball is what got punished here — they had time before you ever arrived."},
       {label:"Wrong grip on the slice",correct:false,verdict:"The slice was fine; the depth was the miss."}],
     cue:{title:"Approach deep — back third of the court, then close",drill:"Approach drill: every ball must land within 3 feet of the baseline. Short approaches don't count."},
@@ -190,16 +197,16 @@ const LAB_CATS = [
     render:r=>dtcContactScene(r,{out:'long',sym:'caught flat-footed',fault:'still moving in',fix:'split as they hit'}),
     options:[
       {label:"You approached too deep",correct:false,verdict:"The approach was good — the leak was at the net, not the approach."},
-      {label:"You never split-stepped — you were still running when they hit, so you couldn't change direction",correct:true,verdict:"This is it. If you're still moving forward at their contact, you can't push off either way — you're a statue. Split-step (a small hop to balanced, ready feet) just as they strike, and now you can explode to the volley on either side."},
+      {label:"You never split-stepped — you were still running when they hit, so you couldn't change direction",correct:true,verdict:"Usually, this is the one. If you're still moving forward at their contact, you can't push off either way — you're a statue. Split-step (a small hop to balanced, ready feet) just as they strike, and now you can explode to the volley on either side."},
       {label:"You stood too close to the net",correct:false,verdict:"Position is secondary — without a split-step you can't react from anywhere."},
-      {label:"You watched the ball too long",correct:false,verdict:"The frozen feet, not the eyes, lost the point."}],
+      {label:"You closed too tight to the net",correct:false,verdict:"Net position is a fair thought, but from anywhere you're beaten if your feet are still moving — the missing split-step is the leak."}],
     cue:{title:"Split-step as they strike — land balanced, then explode",drill:"Approach and split exactly on their contact. Practice the timing until the hop is automatic."},
     insight:"A great approach is wasted if your feet are still moving when they hit. Split, then attack."},
   { sit:"You changed direction and approached down the line off a low ball — and they ripped the crosscourt pass.",
     render:r=>dtcContactScene(r,{out:'long',sym:'opened the angle',fault:'changed direction low',fix:'approach down the middle'}),
     options:[
       {label:"You hit it too soft",correct:false,verdict:"Pace isn't it — the geometry opened the whole court for the pass."},
-      {label:"You changed direction off a low ball — that opens the crosscourt pass and you can't cover it",correct:true,verdict:"This is it. Going down the line off a low or wide ball is high-risk: you give them the long crosscourt diagonal, and you have the most court to cover at the net. Off an awkward ball, approach back behind them or down the middle — it cuts their angles and buys you time to set up."},
+      {label:"You changed direction off a low ball — that opens the crosscourt pass and you can't cover it",correct:true,verdict:"Most likely the culprit. Going down the line off a low or wide ball is high-risk: you give them the long crosscourt diagonal, and you have the most court to cover at the net. Off an awkward ball, approach back behind them or down the middle — it cuts their angles and buys you time to set up."},
       {label:"You didn't slice it",correct:false,verdict:"Spin wasn't the issue — the direction handed them the pass."},
       {label:"You approached too early",correct:false,verdict:"Timing wasn't the leak; the angle you opened was."}],
     cue:{title:"Down the middle off a tough ball — cut the angles",drill:"From low/wide balls, approach through the middle. Save the line approach for the high, easy ball."},
@@ -210,7 +217,7 @@ const LAB_CATS = [
     render:r=>dtcContactScene(r,{out:'long',sym:'goes for a winner',fault:'tried to flatten it',fix:'height + depth'}),
     options:[
       {label:"You didn't run fast enough",correct:false,verdict:"You got there — the shot choice from the stretch is what missed, not the speed."},
-      {label:"You tried to hit a winner from a losing position instead of resetting the point",correct:true,verdict:"This is it. From a full stretch you have no balance and no margin — going for the line is a coin-flip you lose most of the time. The pro move is to buy time: a high, deep, heavy ball that lands near their baseline, so you can recover to the middle and start the point again. Defense first, then attack the next ball."},
+      {label:"You tried to hit a winner from a losing position instead of resetting the point",correct:true,verdict:"This is the usual one. From a full stretch you have no balance and no margin — going for the line is a coin-flip you lose most of the time. The pro move is to buy time: a high, deep, heavy ball that lands near their baseline, so you can recover to the middle and start the point again. Defense first, then attack the next ball."},
       {label:"Wrong grip on the stretch",correct:false,verdict:"Grip isn't the leak — the decision to gamble from defense is."},
       {label:"You should have hit it harder",correct:false,verdict:"More pace from a stretch = bigger miss. The fix is height and margin, not power."}],
     cue:{title:"From defense, buy time — high, deep, heavy to the middle",drill:"On the run, aim 6+ feet over the net to land deep. Recover to the centre. No winners from the stretch."},
@@ -219,7 +226,7 @@ const LAB_CATS = [
     render:r=>dtcContactScene(r,{out:'weak',sym:'lands short',fault:'just patted it back',fix:'drive depth'}),
     options:[
       {label:"You added too much spin",correct:false,verdict:"Spin is fine — the issue is the ball landed short and sat up. Depth is the fix."},
-      {label:"You just blocked it — no depth, so they got an easy mid-court attack",correct:true,verdict:"This is it. A short, soft reset hands them the initiative. The defensive ball still needs to travel — drive it deep with height and margin so they have to hit from behind the baseline. Deep defense buys you the time to recover; short defense just delays the put-away."},
+      {label:"You just blocked it — no depth, so they got an easy mid-court attack",correct:true,verdict:"Nine times in ten, this. A short, soft reset hands them the initiative. The defensive ball still needs to travel — drive it deep with height and margin so they have to hit from behind the baseline. Deep defense buys you the time to recover; short defense just delays the put-away."},
       {label:"You hit it too flat",correct:false,verdict:"Flatness isn't the leak — the lack of depth is. A deep flat ball still resets."},
       {label:"You changed direction",correct:false,verdict:"Direction wasn't it — the short landing was."}],
     cue:{title:"Defend with depth — drive it back deep, not soft and short",drill:"Reset drill: every defensive ball must land in the back quarter. Height + depth beats a short block."},
@@ -228,7 +235,7 @@ const LAB_CATS = [
     render:r=>dtcContactScene(r,{out:'weak',sym:'sits up',fault:'drop from defense',fix:'high heavy reset'}),
     options:[
       {label:"Your touch was off",correct:false,verdict:"Touch isn't the issue — a drop shot from a defensive position is the wrong choice, however soft your hands."},
-      {label:"You played a low-percentage drop from defense instead of resetting",correct:true,verdict:"This is it. A drop shot needs balance, time, and a ball you can shape — none of which you have on the run. From defense it floats up and invites the put-away. Reset high and deep, recover, and look for the drop later from a neutral or attacking position."},
+      {label:"You played a low-percentage drop from defense instead of resetting",correct:true,verdict:"Here's the common leak. A drop shot needs balance, time, and a ball you can shape — none of which you have on the run. From defense it floats up and invites the put-away. Reset high and deep, recover, and look for the drop later from a neutral or attacking position."},
       {label:"You disguised it badly",correct:false,verdict:"Disguise wouldn't save it — the situation was wrong for a drop at all."},
       {label:"You hit it too hard",correct:false,verdict:"Pace wasn't the leak; the shot selection from defense was."}],
     cue:{title:"No drops from defense — reset first, create later",drill:"On the stretch, default to high-and-deep. Only drop from inside the baseline with balance."},
@@ -237,7 +244,7 @@ const LAB_CATS = [
     render:r=>dtcContactScene(r,{out:'net',sym:'no clearance',fault:'flat from deep',fix:'lift — heavy & high'}),
     options:[
       {label:"You were too far back",correct:false,verdict:"Court position alone didn't net it — the flat, low-margin swing did."},
-      {label:"You hit flat with no net clearance instead of lifting it with margin",correct:true,verdict:"This is it. From deep, a flat drive has to thread a tiny window — clear the net and land in. Under pressure that window closes and you net it. Lift the ball: more net clearance and topspin gives you a huge margin and still lands deep, buying you time to recover."},
+      {label:"You hit flat with no net clearance instead of lifting it with margin",correct:true,verdict:"Usually, this is the one. From deep, a flat drive has to thread a tiny window — clear the net and land in. Under pressure that window closes and you net it. Lift the ball: more net clearance and topspin gives you a huge margin and still lands deep, buying you time to recover."},
       {label:"You used too much wrist",correct:false,verdict:"Wrist isn't the culprit — the flat, low trajectory is."},
       {label:"You should have come to the net",correct:false,verdict:"Approaching off a deep defensive ball is even riskier — the fix is margin, not aggression."}],
     cue:{title:"From deep, lift it — clear the net by 5+ feet with topspin",drill:"Hit 20 balls from behind the baseline aiming high over the net, landing deep. Margin buys time."},
@@ -248,16 +255,16 @@ const LAB_CATS = [
     render:r=>labLowScene(r,{out:'net',sym:'into the net'}),
     options:[
       {label:"You used the wrong grip",correct:false,verdict:"Grip isn't the leak — you can clear the net with any grip if you get down to the ball."},
-      {label:"You bent at the waist and reached with the arm instead of bending your knees",correct:true,verdict:"This is it. Reaching down with the arm drops the racket head and your eyes, and you scoop the ball into the net. Bend the KNEES to bring your whole body down to the ball — now the racket can travel low-to-high and lift it cleanly. Lift comes from the legs, not a flick of the wrist."},
+      {label:"You bent at the waist and reached with the arm instead of bending your knees",correct:true,verdict:"Most likely the culprit. Reaching down with the arm drops the racket head and your eyes, and you scoop the ball into the net. Bend the KNEES to bring your whole body down to the ball — now the racket can travel low-to-high and lift it cleanly. Lift comes from the legs, not a flick of the wrist."},
       {label:"You hit it too hard",correct:false,verdict:"Pace isn't it — even a soft ball nets if you don't get down to it."},
-      {label:"You watched the ball too long",correct:false,verdict:"The posture, not the eyes, dumped it in the net."}],
-    cue:{title:"Bend the knees — get your body down, lift with the legs",drill:"Shadow low balls touching your knee to near-ground each rep. Racket below the ball, finish high."},
+      {label:"You took the racket back too late",correct:false,verdict:"Late prep can hurt, but a netted low ball is usually a body that stayed tall — get down with the legs and even late prep clears the net."}],
+    cue:{title:"Get lower than the ball — bend the knees, keep the face calm, lift through",drill:"Shadow low balls touching your knee to near-ground each rep. Racket below the ball, square face, finish high."},
     insight:"On low balls, the legs do the work. Reaching with the arm is how the ball ends up in the net."},
   { sit:"You got to the low ball but popped it straight up — and they put away the sitter.",
     render:r=>labLowScene(r,{out:'pop',sym:'pops up'}),
     options:[
       {label:"You bent your knees too much",correct:false,verdict:"Knee bend is good — the pop-up comes from scooping under with the racket, not from the legs."},
-      {label:"You scooped under it with an open face instead of brushing up the back",correct:true,verdict:"This is it. An open racket face under the ball launches it skyward — a free sitter for them. Get down with your legs, keep the face more vertical, and brush from low to high THROUGH the ball. That gives lift with forward drive, not a balloon."},
+      {label:"You scooped under it with an open face instead of brushing up the back",correct:true,verdict:"This is the usual one. An open racket face under the ball launches it skyward — a free sitter for them. Get down with your legs, keep the face more vertical, and brush from low to high THROUGH the ball. That gives lift with forward drive, not a balloon."},
       {label:"You stood too tall",correct:false,verdict:"Here you got down — but the open face still ballooned it. Face control is the leak."},
       {label:"You hit it too late",correct:false,verdict:"Timing wasn't it — the open-faced scoop sent it up."}],
     cue:{title:"Brush up the BACK of the ball — face vertical, drive through",drill:"Low feeds: keep the face square, finish out toward your target, not straight up."},
@@ -266,7 +273,7 @@ const LAB_CATS = [
     render:r=>labLowScene(r,{out:'weak',sym:'no depth'}),
     options:[
       {label:"You should have let it bounce higher",correct:false,verdict:"You can't wait on a ball at your feet — and backing up makes it worse. The leak is no drive through it."},
-      {label:"You decelerated and just blocked it — no drive, so it landed short",correct:true,verdict:"This is it. Out of self-preservation you stop the swing and pat the low ball back, so it floats short and gets attacked. Once you're down with your legs, accelerate THROUGH the ball with topspin — a low ball can still be hit deep and heavy if you commit to the lift."},
+      {label:"You decelerated and just blocked it — no drive, so it landed short",correct:true,verdict:"Nine times in ten, this. Out of self-preservation you stop the swing and pat the low ball back, so it floats short and gets attacked. Once you're down with your legs, accelerate THROUGH the ball with topspin — a low ball can still be hit deep and heavy if you commit to the lift."},
       {label:"You hit it too flat",correct:false,verdict:"Flatness isn't the leak — the lack of drive and depth is."},
       {label:"Wrong footwork pattern",correct:false,verdict:"Footwork helps you get down, but the short ball came from quitting on the swing."}],
     cue:{title:"Get down AND drive through — low balls can still go deep",drill:"From low feeds, hit deep with topspin. No patting — accelerate up and through."},
@@ -274,19 +281,19 @@ const LAB_CATS = [
   { sit:"You stretched for a low wide ball and framed it — the ball flew off the edge of the racket.",
     render:r=>labLowScene(r,{out:'pop',sym:'framed it'}),
     options:[
-      {label:"Your strings are too loose",correct:false,verdict:"Equipment isn't the culprit — you framed it because your body wasn't down to the ball's level."},
-      {label:"Your eyes and head came up early because you didn't get your body down",correct:true,verdict:"This is it. When you don't bend the knees, your head lifts as you reach, your eyes leave the ball, and you catch it off the frame. Get the whole body down so your head stays level and still over the ball — you can only middle what you're truly down to."},
+      {label:"You swung too early",correct:false,verdict:"Timing is a fair guess, but you framed it because your head rose off the ball as you reached — get your body down and the timing sorts itself."},
+      {label:"Your eyes and head came up early because you didn't get your body down",correct:true,verdict:"Here's the common leak. When you don't bend the knees, your head lifts as you reach, your eyes leave the ball, and you catch it off the frame. Get the whole body down so your head stays level and still over the ball — you can only middle what you're truly down to."},
       {label:"You swung too hard",correct:false,verdict:"Pace isn't it — the frame came from being above the ball, not from speed."},
       {label:"Wrong grip",correct:false,verdict:"Grip won't stop a frame if your head is rising off the ball."}],
     cue:{title:"Get down, head still — you can only middle what you're level with",drill:"Low wide feeds: load the outside leg, drop the hips, keep your chin down through contact."},
-    insight:"Framing a low ball is almost always a head that came up. Stay down, eyes level, and you'll find the strings."}
+    insight:"Framing a low ball is usually a head that came up. Stay down, eyes level, and you'll find the strings."}
 ]},
-{ key:'spacing', label:'Spacing / Jam', blurb:'The most misattributed fault in tennis — it\'s your feet, not your swing.', faults:[
+{ key:'spacing', label:'Spacing / Jam', blurb:'The invisible fault behind half the visible mistakes — it\'s your feet, not your swing.', faults:[
   { sit:"Your forehand keeps getting jammed — cramped, off the frame, no power. You blame the swing every time.",
     render:r=>labSpaceScene(r,{mode:'jam'}),
     options:[
       {label:"Your swing is too long",correct:false,verdict:"It's not the swing — you'd swing fine with room. You ran out of space to swing into."},
-      {label:"You don't take adjustment steps — you let the ball come into your body",correct:true,verdict:"This is it. You watch the ball, plant, and it arrives on top of you — jammed, with no room to extend. The fix is small, quick adjustment steps as the ball approaches, so you set up at arm's length and meet it out in front. Good contact is a footwork outcome, not a hand fix."},
+      {label:"You don't take adjustment steps — you let the ball come into your body",correct:true,verdict:"Usually, this is the one. You watch the ball, plant, and it arrives on top of you — jammed, with no room to extend. The fix is small, quick adjustment steps as the ball approaches, so you set up at arm's length and meet it out in front. Good contact is a footwork outcome, not a hand fix."},
       {label:"You grip too tightly",correct:false,verdict:"A tight grip tires you, but the jam is about space — your feet, not your hand."},
       {label:"You take the racket back too late",correct:false,verdict:"Prep helps, but even with an early backswing you'll be jammed if your feet don't make room."}],
     cue:{title:"Small adjustment steps — make room, meet it out front",drill:"Shadow rallies stutter-stepping into every ball. Never let the ball arrive at your body."},
@@ -295,7 +302,7 @@ const LAB_CATS = [
     render:r=>labSpaceScene(r,{mode:'reach'}),
     options:[
       {label:"You're not strong enough",correct:false,verdict:"Strength isn't it — a balanced, well-spaced shot needs no extra power. You're leaking it through the stretch."},
-      {label:"Lazy first step — you don't move early, so you arrive late and have to reach",correct:true,verdict:"This is it. A slow or late first step means you never get to the ball, so you stretch and arm it from off-balance — weak and floaty. Explode on the FIRST step the moment you read the ball, get all the way there, and set up balanced. Distance covered early buys you a clean, grounded contact."},
+      {label:"Lazy first step — you don't move early, so you arrive late and have to reach",correct:true,verdict:"Most likely the culprit. A slow or late first step means you never get to the ball, so you stretch and arm it from off-balance — weak and floaty. Explode on the FIRST step the moment you read the ball, get all the way there, and set up balanced. Distance covered early buys you a clean, grounded contact."},
       {label:"Your backswing is too small",correct:false,verdict:"Backswing isn't the issue — you're reaching because your feet arrived late."},
       {label:"You hit too early",correct:false,verdict:"You're actually late to the ball — the reach is the symptom of slow feet."}],
     cue:{title:"Explode on the first step — get all the way to the ball",drill:"React-and-sprint drill: first step fires the instant you read direction. Beat the ball there, then set up."},
@@ -304,16 +311,16 @@ const LAB_CATS = [
     render:r=>labSpaceScene(r,{mode:'reach'}),
     options:[
       {label:"You ran too fast",correct:false,verdict:"Speed's good — the issue is you never planted. You hit mid-stride instead of off a set foot."},
-      {label:"You hit while still moving — no outside foot to plant and push off",correct:true,verdict:"This is it. Hitting in full stride means no base, no balance, and no recovery — the ball sprays and you're stranded. Plant the OUTSIDE foot to stop your momentum, hit off that stable base, and push back off it to recover. Set, hit, recover — not hit-on-the-run."},
+      {label:"You hit while still moving — no outside foot to plant and push off",correct:true,verdict:"This is the usual one. Hitting in full stride means no base, no balance, and no recovery — the ball sprays and you're stranded. Plant the OUTSIDE foot to stop your momentum, hit off that stable base, and push back off it to recover. Set, hit, recover — not hit-on-the-run."},
       {label:"Wrong grip for running shots",correct:false,verdict:"Grip isn't the leak — the missing plant step is."},
-      {label:"You watched the ball too long",correct:false,verdict:"The lack of a base, not the eyes, sprayed it."}],
+      {label:"You took too big a backswing on the run",correct:false,verdict:"A big swing on the run does hurt, but the spray comes from having no planted base — set the outside foot and a compact swing lands clean."}],
     cue:{title:"Plant the outside foot — set, hit, push back to recover",drill:"Wide feeds: stop hard on the outside leg, hit, and explode back to centre. No hitting mid-stride."},
     insight:"The outside foot is your brake AND your launch pad. Plant it, hit, and it sends you back into the point."},
   { sit:"On a deep heavy ball you backed straight up — and ended up cramped, hitting off your back foot.",
     render:r=>labSpaceScene(r,{mode:'jam'}),
     options:[
       {label:"The ball was just too good",correct:false,verdict:"Deep balls are handleable — backing straight up is what cramped you, not the ball's quality."},
-      {label:"You back-pedalled instead of moving up or taking small steps to adjust",correct:true,verdict:"This is it. Drifting straight back lets the ball chase you and jams you on your heels with no base. Either step IN and take it earlier on the rise, or move back with quick crossover steps and set up — but don't back-pedal flat-footed. Meet the deep ball with a plan, not a retreat."},
+      {label:"You back-pedalled instead of moving up or taking small steps to adjust",correct:true,verdict:"Nine times in ten, this. Drifting straight back lets the ball chase you and jams you on your heels with no base. Either step IN and take it earlier on the rise, or move back with quick crossover steps and set up — but don't back-pedal flat-footed. Meet the deep ball with a plan, not a retreat."},
       {label:"You should have hit it harder",correct:false,verdict:"Power off the back foot just sprays — the leak is the backward drift, not effort."},
       {label:"Wrong grip",correct:false,verdict:"Grip isn't it — the footwork retreat cramped you."}],
     cue:{title:"Step in or set up — don't back-pedal off your heels",drill:"Deep feeds: either take it early stepping in, or recover back with crossover steps and a planted base."},
@@ -324,6 +331,27 @@ const LAB_CATS = [
 /* ════════ PLAYER ════════ */
 const app = () => document.getElementById('app');
 let catIdx=-1, fIdx=0, answered=false;
+
+/* ── keep/rework marks (localStorage) ── */
+let labRatings={}; try{ labRatings=JSON.parse(localStorage.getItem('faultlab_ratings')||'{}'); }catch(e){}
+function rateId(k,i){ return k+'-'+i; }
+function rate(id,val){
+  if(labRatings[id]===val) delete labRatings[id]; else labRatings[id]=val;
+  try{ localStorage.setItem('faultlab_ratings',JSON.stringify(labRatings)); }catch(e){}
+  document.querySelectorAll('[data-rate="'+id+'"]').forEach(el=>{ const v=labRatings[id];
+    el.querySelector('.up').classList.toggle('on',v==='up');
+    el.querySelector('.down').classList.toggle('on',v==='down'); });
+}
+function rateRow(id){ const v=labRatings[id]||'';
+  return `<div class="rate-row" data-rate="${id}"><div class="rate-lbl">Keep?</div><button class="rate-btn up${v==='up'?' on':''}" onclick="rate('${id}','up')">👍</button><button class="rate-btn down${v==='down'?' on':''}" onclick="rate('${id}','down')">👎</button></div>`;
+}
+function exportRatings(){
+  const ups=[],downs=[];
+  LAB_CATS.forEach(c=>c.faults.forEach((q,i)=>{ const v=labRatings[rateId(c.key,i)]; const t=c.label+' #'+(i+1); if(v==='up')ups.push(t); else if(v==='down')downs.push(t); }));
+  const txt=`FAULT LAB MARKS\n\n✓ KEEP (${ups.length}):\n${ups.join('\n')||'—'}\n\n✗ REWORK (${downs.length}):\n${downs.join('\n')||'—'}`;
+  try{ navigator.clipboard.writeText(txt); }catch(e){}
+  alert(txt+'\n\n(copied to clipboard)');
+}
 
 function topBar(label,onClick){
   return `<div class="dtc-top"><div class="dtc-brand" onclick="${onClick}">‹ ${label}</div><div class="dtc-close" onclick="renderHome()">✕</div></div>`;
@@ -338,6 +366,7 @@ function renderHome(){
       <p class="dtc-intro">5 new candidate categories · 20 scenarios. Play them, or audit all the content + cues at once.</p>
       <div class="fix-grid">${cards}</div>
       <button class="dtc-cta gold" onclick="renderAudit()" style="margin-top:6px;">Audit all content →</button>
+      <button class="dtc-cta-ghost" onclick="exportRatings()" style="margin-top:10px;">Export my keep / rework marks →</button>
     </div>`;
   window.scrollTo(0,0);
 }
@@ -367,14 +396,16 @@ function answer(k){
   document.getElementById('reveal').innerHTML=`<div class="dtc-reveal show">
     <div class="dtc-rtag" style="color:${o.correct?'#5bba6f':'#e07070'}">${o.correct?'✓ Nailed it':'✗ Not quite'}</div>
     <div class="dtc-rbody">${o.verdict}</div>${q.insight?`<div class="dtc-rins">${q.insight}</div>`:''}${cue}
-    <button class="dtc-cta gold" style="margin-top:18px;" onclick="${last?'renderHome()':'nextFault()'}">${last?'Back to categories →':'Next fault →'}</button></div>`;
+    ${rateRow(rateId(c.key,fIdx))}
+    <button class="dtc-cta gold" style="margin-top:14px;" onclick="${last?'renderHome()':'nextFault()'}">${last?'Back to categories →':'Next fault →'}</button></div>`;
   setTimeout(()=>{const r=document.getElementById('reveal'); if(r) r.scrollIntoView({behavior:'smooth',block:'nearest'});},120);
 }
 function nextFault(){ fIdx++; if(fIdx>=LAB_CATS[catIdx].faults.length) renderHome(); else renderFault(); }
 
 function renderAudit(){
   let h=`<div class="dtc-top"><div class="dtc-brand" onclick="renderHome()">‹ Lab</div><div class="dtc-close" onclick="renderHome()">✕</div></div>
-    <div class="dtc-fade"><div class="dtc-eyebrow">Content audit</div><h1 class="dtc-h1" style="font-size:34px;">All 20 scenarios</h1>`;
+    <div class="dtc-fade"><div class="dtc-eyebrow">Content audit</div><h1 class="dtc-h1" style="font-size:34px;">All 20 scenarios</h1>
+    <p class="dtc-intro" style="margin-bottom:8px;">Mark each 👍 keep or 👎 rework. <span style="color:#c8a84b;cursor:pointer;text-decoration:underline;" onclick="exportRatings()">Export marks</span></p>`;
   LAB_CATS.forEach(c=>{
     h+=`<div class="aud-cat">${c.label}</div>`;
     c.faults.forEach((q,i)=>{
@@ -383,7 +414,8 @@ function renderAudit(){
         <div class="aud-ans">✓ ${correct.label}</div>
         <div class="aud-ver">${correct.verdict}</div>
         <div class="aud-cue">🎾 Cue: ${q.cue.title}</div>
-        <div class="aud-ins">${q.insight}</div></div>`;
+        <div class="aud-ins">${q.insight}</div>
+        ${rateRow(rateId(c.key,i))}</div>`;
     });
   });
   h+=`</div>`;
