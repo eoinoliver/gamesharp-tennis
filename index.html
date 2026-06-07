@@ -1592,6 +1592,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ms-controls{display:flex;align-items:center;gap:11px;margin-top:11px;}
 .ms-play{flex:0 0 auto;width:42px;height:36px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;font-size:16px;cursor:pointer;}
 .ms-play:active{transform:scale(.95);}
+.ms-flip{flex:0 0 auto;width:42px;height:36px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.6);font-size:16px;cursor:pointer;}
+.ms-flip.on{border-color:#5bba6f;color:#5bba6f;background:rgba(91,186,111,.14);}
+.ms-flip:active{transform:scale(.95);}
 .ms-scrub{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,.16);outline:none;cursor:pointer;}
 .ms-scrub::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;border-radius:50%;background:#c8a84b;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.4);}
 .ms-scrub::-moz-range-thumb{width:19px;height:19px;border:none;border-radius:50%;background:#c8a84b;cursor:pointer;}
@@ -7473,7 +7476,12 @@ function dtcSliceScene(rev,c){
    Animates the swing (play the miss → play the fix), ported from the original
    technique.html motion model: correct keyframe poses per stroke + interpolation,
    with each fault derived from an archetype transform. */
-function mFigure(p){return `<g opacity="0.96">${dtcLimb(p.hip,p.bKnee)}${dtcLimb(p.bKnee,p.bAnk)}${dtcLimb(p.hip,p.fKnee)}${dtcLimb(p.fKnee,p.fAnk)}${dtcLimb(p.sh,p.hip,12)}${dtcLimb(p.sh,p.oElb)}${dtcLimb(p.oElb,p.oWr)}${dtcLimb(p.sh,p.elb)}${dtcLimb(p.elb,p.wr)}<line x1="${p.wr[0]}" y1="${p.wr[1]}" x2="${p.rkt[0]}" y2="${p.rkt[1]}" stroke="#c8a84b" stroke-width="5" stroke-linecap="round"/><circle cx="${p.rkt[0]}" cy="${p.rkt[1]}" r="13" fill="none" stroke="#c8a84b" stroke-width="3"/><line x1="${p.sh[0]}" y1="${p.sh[1]}" x2="${p.head[0]}" y2="${p.head[1]+12}" stroke="#e9f0e1" stroke-width="10" stroke-linecap="round"/><circle cx="${p.head[0]}" cy="${p.head[1]}" r="15" fill="#e9f0e1"/></g>`;}
+let mLefty=false; try{ mLefty = localStorage.getItem("gs_lefty")==="1"; }catch(e){}
+function mFlip(p){ if(!mLefty) return p; const o={}; for(const k in p) o[k]=[300-p[k][0], p[k][1]]; return o; }
+function mFx(x){ return mLefty ? 300-x : x; }
+function mFlipPath(d){ return mLefty ? d.replace(/(-?\d+\.?\d*),(-?\d+\.?\d*)/g,(m,x,y)=>`,`) : d; }
+function mToggleLefty(){ mLefty=!mLefty; try{ localStorage.setItem("gs_lefty", mLefty?"1":"0"); }catch(e){} mReplay(); document.querySelectorAll(".ms-flip").forEach(b=>b.classList.toggle("on",mLefty)); }
+function mFigure(p){p=mFlip(p);return `<g opacity="0.96">${dtcLimb(p.hip,p.bKnee)}${dtcLimb(p.bKnee,p.bAnk)}${dtcLimb(p.hip,p.fKnee)}${dtcLimb(p.fKnee,p.fAnk)}${dtcLimb(p.sh,p.hip,12)}${dtcLimb(p.sh,p.oElb)}${dtcLimb(p.oElb,p.oWr)}${dtcLimb(p.sh,p.elb)}${dtcLimb(p.elb,p.wr)}<line x1="${p.wr[0]}" y1="${p.wr[1]}" x2="${p.rkt[0]}" y2="${p.rkt[1]}" stroke="#c8a84b" stroke-width="5" stroke-linecap="round"/><circle cx="${p.rkt[0]}" cy="${p.rkt[1]}" r="13" fill="none" stroke="#c8a84b" stroke-width="3"/><line x1="${p.sh[0]}" y1="${p.sh[1]}" x2="${p.head[0]}" y2="${p.head[1]+12}" stroke="#e9f0e1" stroke-width="10" stroke-linecap="round"/><circle cx="${p.head[0]}" cy="${p.head[1]}" r="15" fill="#e9f0e1"/></g>`;}
 function mEase(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
 function mLerpPose(A,B,t){const o={};for(const k in A){const b=B[k]||A[k];o[k]=[A[k][0]+(b[0]-A[k][0])*t,A[k][1]+(b[1]-A[k][1])*t];}return o;}
 function mShift(p,d){const o={};for(const k in p)o[k]=[p[k][0]+((d[k]&&d[k][0])||0),p[k][1]+((d[k]&&d[k][1])||0)];return o;}
@@ -7589,13 +7597,14 @@ function mountSwing(hostId, stroke, archKey, mode, onDone){
   mStop=false; mPlaying=true;
   const tag = mode==='fix' ? 'The fix' : 'The miss';
   const N=seq.length, contactIdx=Math.max(1,N-2), lblCol = mode==='fix' ? '#5bba6f' : '#e07070';
+  const faceInset = (mode!=='fix' && FAULT_SPEC[archKey] && FAULT_SPEC[archKey].swing==='open') ? mFaceInset('miss') : '';
   const sc=document.querySelector('.ms-scrub'); if(sc) sc.value=0;
   // Phase 1 — slow into the moment of truth (contact / the fault)
   mAnimRange(host, seq, 0, contactIdx, 520*contactIdx+160, tag, function(){
     if(mStop) return;
     // Freeze at the fault — the coach's "...there. See it?"
     const cp=seq[contactIdx];
-    host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(cp)}<circle class="dtc-cdot" cx="${cp.rkt[0]}" cy="${cp.rkt[1]}" r="9" fill="${lblCol}" opacity=".45"/><text class="ms-pulse" x="${cp.rkt[0]}" y="${Math.max(16,cp.rkt[1]-22)}" text-anchor="middle" font-size="10.5" font-weight="800" fill="${lblCol}" font-family="DM Sans">${label}</text></svg>`;
+    host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(cp)}<circle class="dtc-cdot" cx="${mFx(cp.rkt[0])}" cy="${cp.rkt[1]}" r="9" fill="${lblCol}" opacity=".45"/><text class="ms-pulse" x="${mFx(cp.rkt[0])}" y="${Math.max(16,cp.rkt[1]-22)}" text-anchor="middle" font-size="10.5" font-weight="800" fill="${lblCol}" font-family="DM Sans">${label}</text>${faceInset}</svg>`;
     setTimeout(function(){
       if(mStop) return;
       if(contactIdx < N-1) mAnimRange(host, seq, contactIdx, N-1, 320, tag, function(){ if(!mStop) mFlyBall(host, seq[N-1], ball, tag, label, mode, stroke, archKey, onDone); });
@@ -7611,17 +7620,24 @@ function mScrub(val){
   const p=mLerpPose(c.seq[seg], c.seq[seg+1]||c.seq[seg], local);
   const host=document.getElementById('msStage'); if(host) host.innerHTML=`<div class="ms-tag">Scrub</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(p)}</svg>`;
 }
-function mControls(){ return `<div class="ms-controls"><button class="ms-play" onclick="mReplay()" aria-label="replay in slow-mo">↻</button><input type="range" class="ms-scrub" min="0" max="100" value="0" oninput="mScrub(this.value)" aria-label="scrub the swing"></div>`; }
+function mControls(){ return `<div class="ms-controls"><button class="ms-play" onclick="mReplay()" aria-label="replay in slow-mo">↻</button><input type="range" class="ms-scrub" min="0" max="100" value="0" oninput="mScrub(this.value)" aria-label="scrub the swing"><button class="ms-flip" onclick="mToggleLefty()" aria-label="left-handed" title="Left-handed?">↔</button></div>`; }
+function mFaceInset(mode){
+  const isOpen = mode!=='fix', cx=(mLefty?252:48), cy=64, len=20, rad=(isOpen?-32:-86)*Math.PI/180;
+  const x1=cx-len*Math.cos(rad), y1=cy-len*Math.sin(rad), x2=cx+len*Math.cos(rad), y2=cy+len*Math.sin(rad);
+  const col = isOpen?'#e07070':'#5bba6f', traj = isOpen?`M${cx-2},${cy-8} q-4,-18 2,-32`:`M${cx+2},${cy-8} q16,-6 36,-2`;
+  return `<g><rect x="${cx-34}" y="${cy-32}" width="70" height="70" rx="11" fill="rgba(0,0,0,.55)" stroke="rgba(255,255,255,.16)"/><text x="${cx}" y="${cy-20}" text-anchor="middle" font-size="7" letter-spacing="1" font-weight="800" fill="rgba(255,255,255,.45)" font-family="DM Sans">CONTACT</text><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="${cy-7}" r="4" fill="#eaff96"/><path d="${traj}" stroke="${col}" stroke-width="2" fill="none" stroke-dasharray="3,3"/><text x="${cx}" y="${cy+30}" text-anchor="middle" font-size="8" font-weight="800" fill="${col}" font-family="DM Sans">${isOpen?'face OPEN':'face square'}</text></g>`;
+}
+
 function mFlyBall(host, endPose, ball, tag, label, mode, stroke, archKey, onDone){
   const col=ball.col, lblCol = mode==='fix' ? '#5bba6f' : '#e07070';
-  const labelTxt = label ? `<text x="${endPose.rkt[0]}" y="${Math.max(16,endPose.rkt[1]-22)}" text-anchor="middle" font-size="9" font-weight="800" fill="${lblCol}" font-family="DM Sans">${label}</text>` : '';
-  host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(endPose)}${labelTxt}<path d="${ball.path}" stroke="${col}" stroke-width="2.4" fill="none" stroke-dasharray="5,4" opacity=".75"/><text x="${ball.nx}" y="${ball.ny}" text-anchor="middle" font-size="9" font-weight="800" fill="${col}" font-family="DM Sans">${ball.note}</text><circle r="6" fill="#eaff96" stroke="rgba(0,0,0,.3)" stroke-width="1"><animateMotion dur="0.85s" fill="freeze" path="${ball.path}"/></circle></svg>`;
+  const labelTxt = label ? `<text x="${mFx(endPose.rkt[0])}" y="${Math.max(16,endPose.rkt[1]-22)}" text-anchor="middle" font-size="9" font-weight="800" fill="${lblCol}" font-family="DM Sans">${label}</text>` : '';
+  host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(endPose)}${labelTxt}<path d="${mFlipPath(ball.path)}" stroke="${col}" stroke-width="2.4" fill="none" stroke-dasharray="5,4" opacity=".75"/><text x="${mFx(ball.nx)}" y="${ball.ny}" text-anchor="middle" font-size="9" font-weight="800" fill="${col}" font-family="DM Sans">${ball.note}</text><circle r="6" fill="#eaff96" stroke="rgba(0,0,0,.3)" stroke-width="1"><animateMotion dur="0.85s" fill="freeze" path="${mFlipPath(ball.path)}"/></circle></svg>`;
   // After the fix plays, settle on the red-vs-green mirror — the takeaway image.
   setTimeout(()=>{ mPlaying=false; if(mode==='fix' && STROKE_POSES[stroke]){ host.innerHTML = mCompareFrame(stroke, archKey); } if(onDone) onDone(); }, 880);
 }
 /* Ghost figure in a single colour (for the miss-vs-fix overlay). */
 function mGhost(p,col,op,wf){
-  wf=wf||1; const L=(a,b,w)=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${col}" stroke-width="${(w||10)*wf}" stroke-linecap="round" opacity="${op}"/>`;
+  wf=wf||1; p=mFlip(p); const L=(a,b,w)=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${col}" stroke-width="${(w||10)*wf}" stroke-linecap="round" opacity="${op}"/>`;
   return `<g>${L(p.hip,p.bKnee)}${L(p.bKnee,p.bAnk)}${L(p.hip,p.fKnee)}${L(p.fKnee,p.fAnk)}${L(p.sh,p.hip,11)}${L(p.sh,p.oElb)}${L(p.oElb,p.oWr)}${L(p.sh,p.elb)}${L(p.elb,p.wr)}<line x1="${p.wr[0]}" y1="${p.wr[1]}" x2="${p.rkt[0]}" y2="${p.rkt[1]}" stroke="${col}" stroke-width="${5*wf}" stroke-linecap="round" opacity="${op}"/><circle cx="${p.rkt[0]}" cy="${p.rkt[1]}" r="${12*wf}" fill="none" stroke="${col}" stroke-width="3" opacity="${op}"/><line x1="${p.sh[0]}" y1="${p.sh[1]}" x2="${p.head[0]}" y2="${p.head[1]+11}" stroke="${col}" stroke-width="${9*wf}" stroke-linecap="round" opacity="${op}"/><circle cx="${p.head[0]}" cy="${p.head[1]}" r="${13*wf}" fill="${col}" opacity="${op}"/></g>`;
 }
 /* The mirror: faulty end (red) overlaid on the correct finish (green). The contrast IS the lesson. */
@@ -10204,7 +10220,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v107';
+const CACHE = 'gamesharp-v109';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
