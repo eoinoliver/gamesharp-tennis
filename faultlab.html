@@ -116,7 +116,7 @@ function labLowFig(bent){
 function labLowScene(rev,c){
   const O={net:{p:"M208,216 Q230,256 238,294",lx:256,ly:282,t:"into the net"},pop:{p:"M208,216 Q214,150 244,118",lx:262,ly:128,t:"pops up"},weak:{p:"M208,216 Q236,214 262,224",lx:268,ly:236,t:"no depth"}}[c.out||'net'];
   if(!rev)return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${labLowFig(false)}<text x="150" y="118" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(224,112,112,.85)" font-family="DM Sans">standing tall</text><circle class="dtc-cdot" cx="208" cy="216" r="8" fill="rgba(224,112,112,.95)"/><path d="${O.p}" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="${O.lx}" y="${O.ly}" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${c.sym}</text></svg></div>`;
-  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${labLowFig(true)}<text x="150" y="148" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">knees bent</text><circle cx="208" cy="216" r="8" fill="rgba(91,186,111,.95)"/><path d="M208,216 Q224,180 244,150" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="262" y="160" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">lifts &amp; lands</text></svg></div>`;
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${labLowFig(true)}<text x="150" y="148" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.95)" font-family="DM Sans">knees bent</text><circle cx="208" cy="216" r="8" fill="rgba(91,186,111,.95)"/><line x1="208" y1="204" x2="208" y2="228" stroke="rgba(91,186,111,.9)" stroke-width="3" stroke-linecap="round"/><text x="208" y="245" text-anchor="middle" font-size="8" font-weight="700" fill="rgba(91,186,111,.8)" font-family="DM Sans">face square</text><path d="M208,216 Q224,180 244,150" stroke="rgba(91,186,111,.7)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/><text x="262" y="160" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(91,186,111,.9)" font-family="DM Sans">lifts &amp; lands</text></svg></div>`;
 }
 /* Spacing: reuse dtcFhFig with contact x. jam => contact crowded (small cx); reach => stretched (large cx); fix => out in front (cx 200). */
 function labFoot(x,col){return `<ellipse cx="${x}" cy="299" rx="8" ry="4.5" fill="${col}"/>`;}
@@ -145,13 +145,25 @@ function labDefenseScene(rev,c){
   const recover = `<path d="M214,300 Q188,318 160,309" stroke="rgba(91,186,111,.6)" stroke-width="2.2" fill="none" stroke-dasharray="5,4"/>${dtcArrow(172,312,158,309,'rgba(91,186,111,.8)',2)}<text x="216" y="291" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.85)" font-family="DM Sans">recover to centre</text>`;
   return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcFhFig(150)}${ball}${recover}${ready}<text x="150" y="291" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.55)" font-family="DM Sans">ready</text></svg></div>`;
 }
+/* Serve scene = serve fault + the CAUSE: swing PATH up-and-through the back (spin), not "high = in" */
+function labServeScene(rev,c){
+  const B={net:{p:"M214,92 Q244,150 250,250",lx:262,ly:240,t:"into the net"},long:{p:"M214,92 Q250,120 280,40",lx:262,ly:120,t:"sails long"},weak:{p:"M214,92 Q236,140 240,210",lx:256,ly:198,t:"no sting"},scatter:{p:"",lx:0,ly:0,t:""}}[c.badOut||'net'];
+  if(!rev){
+    const extra = (c.badOut==='scatter') ? `<circle cx="186" cy="60" r="6" fill="rgba(224,112,112,.6)"/><circle cx="234" cy="44" r="6" fill="rgba(224,112,112,.6)"/><circle cx="210" cy="86" r="6" fill="rgba(224,112,112,.6)"/>` : `<path d="${B.p}" stroke="rgba(224,112,112,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="${B.lx}" y="${B.ly}" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${B.t}</text>`;
+    const flat = `<path d="M192,94 L240,82" stroke="rgba(224,112,112,.8)" stroke-width="2.6" fill="none"/>${dtcArrow(228,85,242,82,'rgba(224,112,112,.9)',2.4)}<text x="216" y="114" text-anchor="middle" font-size="8.5" font-weight="800" fill="rgba(224,112,112,.85)" font-family="DM Sans">flat — across, not up</text>`;
+    return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcServeFig(false)}<circle class="dtc-cdot" cx="214" cy="78" r="8" fill="rgba(224,112,112,.95)"/><text x="214" y="62" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(224,112,112,.9)" font-family="DM Sans">${c.sym}</text>${flat}${extra}</svg></div>`;
+  }
+  const brush = `<path d="M208,118 Q186,68 176,28" stroke="rgba(91,186,111,.9)" stroke-width="2.8" fill="none"/>${dtcArrow(180,42,176,28,'rgba(91,186,111,.95)',2.6)}<text x="138" y="58" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(91,186,111,.9)" font-family="DM Sans">brush UP the back</text>`;
+  const ball = `<path d="M178,30 Q150,78 168,150 Q184,212 214,250" stroke="rgba(91,186,111,.7)" stroke-width="2.4" fill="none" stroke-dasharray="5,4"/><text x="150" y="128" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(91,186,111,.7)" font-family="DM Sans">spin drops it in</text>`;
+  return `<div class="dtc-fig"><svg viewBox="0 0 300 330">${DTC_FLOOR}${dtcServeFig(true)}${ball}${brush}<circle cx="178" cy="28" r="7" fill="rgba(91,186,111,.95)"/><text x="150" y="323" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(91,186,111,.9)" font-family="DM Sans">✓ swing up THROUGH the ball — spin = safety</text></svg></div>`;
+}
 
 /* ════════ SCENARIO DATA — 5 categories × 4 faults ════════ */
 const PROMPT = "What's the usual culprit?";
 const LAB_CATS = [
 { key:'secondServe', label:'Second Serve', blurb:'The most pressure-exposed shot in tennis.', faults:[
   { sit:"You held all match — then on break point your second serve floated up soft, and they teed off on it.",
-    render:r=>dtcServeScene(r,{badOut:'weak',sym:'sits up, no kick',fault:'guided / slow',fix:'accelerate up'}),
+    render:r=>labServeScene(r,{badOut:'weak',sym:'sits up, no kick',fault:'guided / slow',fix:'accelerate up'}),
     options:[
       {label:"You aimed too close to the line",correct:false,verdict:"Placement isn't the leak — that ball sat up begging to be hit wherever it landed."},
       {label:"You decelerate — you guide it in instead of hitting up on the ball",correct:true,verdict:"Most likely the culprit. Scared of the double, you slow the racket and 'place' the serve — so it lands soft, no spin, no kick, and a club returner steps in and crushes it. A second serve is still a hit: accelerate up the back of the ball and let the spin bring it down."},
@@ -160,7 +172,7 @@ const LAB_CATS = [
     cue:{title:"Spin is the margin — accelerate up the back of the ball",drill:"Hit 20 second serves clearing the net by 3 feet with heavy kick. Never flatten or slow it under pressure."},
     insight:"The safe second serve isn't the slow one — it's the spinny one. Slow is what gets attacked."},
   { sit:"Set point on your serve. First serve missed. You pushed the second long and tight — double fault, set gone.",
-    render:r=>dtcServeScene(r,{badOut:'long',sym:'flat, no drop',fault:'no spin window',fix:'brush up — let it dip'}),
+    render:r=>labServeScene(r,{badOut:'long',sym:'flat, no drop',fault:'no spin window',fix:'brush up — let it dip'}),
     options:[
       {label:"You flatten it to feel safe — with no spin, it has to sail long to clear the net",correct:true,verdict:"This is the usual one. Under pressure you hit flat 'to be safe' — but a flat ball has no margin: clear the net and it flies the baseline. Spin is what lets you swing up AND land it in. The flat second serve is the riskiest ball in tennis."},
       {label:"You aimed for too fine a target",correct:false,verdict:"A factor — but even at a fat target, a flat second serve sails. The spin is the real margin."},
@@ -169,7 +181,7 @@ const LAB_CATS = [
     cue:{title:"More spin, fatter target — let the kick drop it in",drill:"Serve to the whole service box, not a corner. Brush up the back of the ball so it dips. Margin first."},
     insight:"Under pressure, players aim smaller and swing flatter — both shrink the margin. Do the opposite."},
   { sit:"30–40 down. First serve missed. The second clipped the tape and dropped — you froze on the swing.",
-    render:r=>dtcServeScene(r,{badOut:'net',sym:'swing quit',fault:'decelerated',fix:'commit — swing up'}),
+    render:r=>labServeScene(r,{badOut:'net',sym:'swing quit',fault:'decelerated',fix:'commit — swing up'}),
     options:[
       {label:"Toss drifted behind you",correct:false,verdict:"Even with a fine toss, a swing that stops nets the ball. The deceleration is the culprit."},
       {label:"You decelerate — the racket stops at contact instead of driving up",correct:true,verdict:"Nine times in ten, this. The nerves tighten your arm and the swing dies right at the ball, so it has no lift and dumps into the net. Commit and swing UP through it — a decelerating serve can't carry spin or clear the net."},
@@ -178,7 +190,7 @@ const LAB_CATS = [
     cue:{title:"Commit and swing UP — the brave serve is the spinny one",drill:"Shadow 15 second serves finishing with the racket fully up and around. No abbreviated swings."},
     insight:"You can't 'place' a second serve gently — gentle is what stops it dropping in. Spin is the safety."},
   { sit:"You get every second serve in — but it's the same low, flat ball, and good returners step in and take it on the rise.",
-    render:r=>dtcServeScene(r,{badOut:'weak',sym:'stays low & flat',fault:'flat, no shape',fix:'swing up — add spin'}),
+    render:r=>labServeScene(r,{badOut:'weak',sym:'stays low & flat',fault:'flat, no shape',fix:'swing up — add spin'}),
     options:[
       {label:"You serve too softly",correct:false,verdict:"Pace isn't the fix — a slow ball with spin is still awkward to attack. The missing ingredient is shape, not speed."},
       {label:"It's flat with no spin — so it sits in their strike zone and they time it",correct:true,verdict:"Most likely the culprit. A flat second serve sits at a comfortable height and lets the returner step in and drive it. Swing UP the back of the ball to add topspin or slice — the shape pulls it down for safety and pushes the bounce out of their strike zone. You don't need a true kick serve; you need spin and a higher, deeper target."},
