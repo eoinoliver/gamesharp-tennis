@@ -7010,7 +7010,7 @@ function dtcDailyTechAnswer(i) {
     else el.classList.add('dim');
     el.onclick = null;
   });
-  const cueBlock = q.cue ? `<div class="dtc-cue"><div class="dtc-cl">Your cue</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>` : '';
+  const cueBlock = q.cue ? `<div class="dtc-cue"><div class="dtc-cl">On court, say</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>` : '';
   document.getElementById('dtcReveal').innerHTML = `<div class="dtc-reveal show">
     <div class="dtc-rtag" style="color:${o.correct ? '#5bba6f' : '#e07070'}">${o.correct ? '✓ Nailed it' : '✗ Not quite'}</div>
     <div class="dtc-rbody">${o.verdict}</div>${q.insight ? `<div class="dtc-rins">${q.insight}</div>` : ''}${cueBlock}
@@ -7101,7 +7101,7 @@ function fixAnswer(k) {
     else el.classList.add('dim');
     el.onclick = null;
   });
-  const cue = q.cue ? `<div class="dtc-cue"><div class="dtc-cl">Your cue</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>` : '';
+  const cue = q.cue ? `<div class="dtc-cue"><div class="dtc-cl">On court, say</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>` : '';
   const last = fixFaultIdx >= g.faults.length - 1;
   document.getElementById('dtcReveal').innerHTML = `<div class="dtc-reveal show">
     <div class="dtc-rtag" style="color:${o.correct ? '#5bba6f' : '#e07070'}">${o.correct ? '✓ Nailed it' : '✗ Not quite'}</div>
@@ -7572,15 +7572,28 @@ function mountSwing(hostId, stroke, archKey, mode, onDone){
     const fpos=u*segs, seg=Math.min(segs-1,Math.floor(fpos)), local=mEase(fpos-seg);
     const p=mLerpPose(seq[seg],seq[seg+1],local);
     host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(p)}</svg>`;
-    if(u<1) requestAnimationFrame(frame); else mFlyBall(host, seq[seq.length-1], ball, tag, label, mode, onDone);
+    if(u<1) requestAnimationFrame(frame); else mFlyBall(host, seq[seq.length-1], ball, tag, label, mode, stroke, archKey, onDone);
   }
   requestAnimationFrame(frame);
 }
-function mFlyBall(host, endPose, ball, tag, label, mode, onDone){
+function mFlyBall(host, endPose, ball, tag, label, mode, stroke, archKey, onDone){
   const col=ball.col, lblCol = mode==='fix' ? '#5bba6f' : '#e07070';
   const labelTxt = label ? `<text x="${endPose.rkt[0]}" y="${Math.max(16,endPose.rkt[1]-22)}" text-anchor="middle" font-size="9" font-weight="800" fill="${lblCol}" font-family="DM Sans">${label}</text>` : '';
   host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(endPose)}${labelTxt}<path d="${ball.path}" stroke="${col}" stroke-width="2.4" fill="none" stroke-dasharray="5,4" opacity=".75"/><text x="${ball.nx}" y="${ball.ny}" text-anchor="middle" font-size="9" font-weight="800" fill="${col}" font-family="DM Sans">${ball.note}</text><circle r="6" fill="#eaff96" stroke="rgba(0,0,0,.3)" stroke-width="1"><animateMotion dur="0.85s" fill="freeze" path="${ball.path}"/></circle></svg>`;
-  setTimeout(()=>{ mPlaying=false; if(onDone) onDone(); }, 880);
+  // After the fix plays, settle on the red-vs-green mirror — the takeaway image.
+  setTimeout(()=>{ mPlaying=false; if(mode==='fix' && STROKE_POSES[stroke]){ host.innerHTML = mCompareFrame(stroke, archKey); } if(onDone) onDone(); }, 880);
+}
+/* Ghost figure in a single colour (for the miss-vs-fix overlay). */
+function mGhost(p,col,op,wf){
+  wf=wf||1; const L=(a,b,w)=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${col}" stroke-width="${(w||10)*wf}" stroke-linecap="round" opacity="${op}"/>`;
+  return `<g>${L(p.hip,p.bKnee)}${L(p.bKnee,p.bAnk)}${L(p.hip,p.fKnee)}${L(p.fKnee,p.fAnk)}${L(p.sh,p.hip,11)}${L(p.sh,p.oElb)}${L(p.oElb,p.oWr)}${L(p.sh,p.elb)}${L(p.elb,p.wr)}<line x1="${p.wr[0]}" y1="${p.wr[1]}" x2="${p.rkt[0]}" y2="${p.rkt[1]}" stroke="${col}" stroke-width="${5*wf}" stroke-linecap="round" opacity="${op}"/><circle cx="${p.rkt[0]}" cy="${p.rkt[1]}" r="${12*wf}" fill="none" stroke="${col}" stroke-width="3" opacity="${op}"/><line x1="${p.sh[0]}" y1="${p.sh[1]}" x2="${p.head[0]}" y2="${p.head[1]+11}" stroke="${col}" stroke-width="${9*wf}" stroke-linecap="round" opacity="${op}"/><circle cx="${p.head[0]}" cy="${p.head[1]}" r="${13*wf}" fill="${col}" opacity="${op}"/></g>`;
+}
+/* The mirror: faulty end (red) overlaid on the correct finish (green). The contrast IS the lesson. */
+function mCompareFrame(stroke, archKey){
+  const P=STROKE_POSES[stroke]; if(!P) return '';
+  const keys=SWING_KEYS[stroke]||['contact'], spec=FAULT_SPEC[archKey]||FAULT_SPEC.decel;
+  const miss=mDeform(P,keys,spec.swing), fe=miss[miss.length-1], ce=P.finish||P.contact;
+  return `<div class="ms-tag">Miss vs fix</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mGhost(ce,'#5bba6f',0.95)}${mGhost(fe,'#e07070',0.6,0.6)}<text x="62" y="26" text-anchor="middle" font-size="10.5" font-weight="800" fill="#e07070" font-family="DM Sans">✗ the miss</text><text x="62" y="40" text-anchor="middle" font-size="8" font-weight="700" fill="rgba(224,112,112,.8)" font-family="DM Sans">${spec.label}</text><text x="240" y="26" text-anchor="middle" font-size="10.5" font-weight="800" fill="#5bba6f" font-family="DM Sans">✓ the fix</text></svg>`;
 }
 
 /* fault index within a stroke (primary, extra0, extra1, extra2) -> motion archetype.
@@ -7881,7 +7894,7 @@ function dtcAnswer(i){
   if(o.correct) dtcScore++;
   document.getElementById('dtcScene').innerHTML=q.type==='court'?dtcCourtScene(q,i):q.render(true);
   document.querySelectorAll('.dtc-opt').forEach((el,idx)=>{ if(idx===i) el.classList.add(o.correct?'sel':'wrong'); else if(idx===ci) el.classList.add('sel'); else el.classList.add('dim'); });
-  const cueBlock=q.cue?`<div class="dtc-cue"><div class="dtc-cl">Your cue</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>`:'';
+  const cueBlock=q.cue?`<div class="dtc-cue"><div class="dtc-cl">On court, say</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>`:'';
   document.getElementById('dtcReveal').innerHTML=`<div class="dtc-reveal show">
     <div class="dtc-rtag" style="color:${o.correct?'#5bba6f':'#e07070'}">${o.correct?'✓':'✗'} ${o.correct?'Nailed it':'Not quite'}</div>
     <div class="dtc-rbody">${o.verdict}</div>${q.insight?`<div class="dtc-rins">${q.insight}</div>`:''}${cueBlock}
@@ -10155,7 +10168,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v104';
+const CACHE = 'gamesharp-v106';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
