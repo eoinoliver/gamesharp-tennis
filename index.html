@@ -7478,13 +7478,62 @@ const STROKE_POSES={
   slice:{load:{head:[150,72],sh:[150,104],hip:[150,174],elb:[128,96],wr:[110,80],rkt:[88,62],oElb:[132,104],oWr:[112,86],bKnee:[176,238],bAnk:[192,302],fKnee:[130,238],fAnk:[122,302]},contact:{head:[151,72],sh:[151,104],hip:[150,172],elb:[178,118],wr:[206,124],rkt:[232,114],oElb:[128,118],oWr:[106,138],bKnee:[176,240],bAnk:[188,302],fKnee:[132,240],fAnk:[120,302]},finish:{head:[150,72],sh:[150,102],hip:[150,170],elb:[196,108],wr:[226,104],rkt:[252,98],oElb:[120,120],oWr:[96,140],bKnee:[170,240],bAnk:[182,302],fKnee:[138,240],fAnk:[130,302]}}
 };
 const SWING_KEYS={forehand:['load','drop','contact','finish'],oneHand:['load','drop','contact','finish'],twoHand:['load','drop','contact','finish'],serve:['toss','trophy','contact','finish'],volley:['set','contact','finish'],ret:['ready','contact','finish'],overhead:['prep','contact','finish'],slice:['load','contact','finish']};
-/* archetype: (P=poses, keys) => {seq:[poses...], ball:{path,col,note,nx,ny}, label} */
-const FAULT_ARCH={
-  late:(P,keys)=>{const fc=mShift(P.contact,{elb:[-40,-6],wr:[-52,-14],rkt:[-62,-22],head:[-4,2]});const end=mShift(fc,{elb:[-6,-14],wr:[-8,-22],rkt:[-10,-30]});return {seq:[...keys.slice(0,-2).map(k=>P[k]),fc,end],ball:{path:`M${fc.rkt[0]+8},${fc.rkt[1]} Q${fc.rkt[0]+80},${fc.rkt[1]-22} 296,${fc.rkt[1]-2}`,col:'#e07070',note:'flies long',nx:248,ny:fc.rkt[1]-22},label:'late — behind the hip'};},
-  decel:(P,keys)=>{const end=mShift(P.contact,{elb:[4,-10],wr:[6,-16],rkt:[8,-22]});return {seq:[...keys.slice(0,-2).map(k=>P[k]),P.contact,end],ball:{path:`M${P.contact.rkt[0]+6},${P.contact.rkt[1]} Q${P.contact.rkt[0]+24},${P.contact.rkt[1]+70} ${P.contact.rkt[0]-16},262`,col:'#e07070',note:'into the net',nx:P.contact.rkt[0]+34,ny:248},label:'swing quit at contact'};},
-  armOnly:(P,keys)=>{const end=mShift(P.finish,{elb:[40,28],wr:[68,42],rkt:[92,52],head:[2,2]});return {seq:[...keys.slice(0,-2).map(k=>P[k]),P.contact,end],ball:{path:`M${P.contact.rkt[0]+6},${P.contact.rkt[1]} Q${P.contact.rkt[0]+28},${P.contact.rkt[1]+34} ${P.contact.rkt[0]+8},206`,col:'#e07070',note:'lands short',nx:P.contact.rkt[0]+40,ny:196},label:'all arm — no body'};},
-  backFoot:(P,keys)=>{const d={head:[-12,4],sh:[-9,3],hip:[-7,2],elb:[-4,2],wr:[-4,0],rkt:[-4,-4],bAnk:[10,0],fAnk:[14,0]};const fc=mShift(P.contact,d);const end=mShift(P.finish,d);return {seq:[...keys.slice(0,-2).map(k=>P[k]),fc,end],ball:{path:`M${fc.rkt[0]+8},${fc.rkt[1]} Q${fc.rkt[0]+70},${fc.rkt[1]-30} 296,${fc.rkt[1]-12}`,col:'#e07070',note:'sails long',nx:248,ny:fc.rkt[1]-28},label:'off the back foot'};}
+/* fault spec: archetype key -> {swing deformation, ball outcome, on-figure label} */
+const FAULT_SPEC={
+  late:{swing:'late',out:'long',label:'late — behind the hip'},
+  decel:{swing:'decel',out:'net',label:'swing quit at contact'},
+  armOnly:{swing:'arm',out:'short',label:'all arm — no body'},
+  backFoot:{swing:'back',out:'long',label:'off the back foot'},
+  floatShort:{swing:'arm',out:'short',label:'late & level — no lift'},
+  offBal:{swing:'back',out:'long',label:'off balance'},
+  popUp:{swing:'open',out:'pop',label:'face open — stood up'},
+  spray:{swing:'open',out:'wide',label:'flicky wrist'},
+  dieShort:{swing:'decel',out:'short',label:'no follow-through'},
+  tooBig:{swing:'late',out:'long',label:'too big a swing'},
+  jammed:{swing:'late',out:'short',label:'jammed — no room'},
+  passive:{swing:'arm',out:'short',label:'too passive'},
+  serveDecel:{swing:'serveStall',out:'net',label:'decelerated'},
+  serveWeak:{swing:'serveLow',out:'short',label:'no leg drive'},
+  serveLong:{swing:'serveBack',out:'long',label:'low contact / leaning back'},
+  serveScatter:{swing:'serveStall',out:'wide',label:'toss scatters'},
+  ohLow:{swing:'serveLow',out:'short',label:'let it drop'},
+  ohLong:{swing:'serveBack',out:'long',label:'leaning back'},
+  ohRush:{swing:'serveStall',out:'wide',label:'rushed — no prep'}
 };
+function mDeform(P,keys,type){
+  const pre=keys.slice(0,-2).map(k=>P[k]); const C=P.contact, F=P.finish||P.contact;
+  let fc,end;
+  switch(type){
+    case 'late': fc=mShift(C,{elb:[-40,-6],wr:[-52,-14],rkt:[-62,-22],head:[-4,2]}); end=mShift(fc,{elb:[-6,-14],wr:[-8,-22],rkt:[-10,-30]}); break;
+    case 'decel': fc=C; end=mShift(C,{elb:[4,-10],wr:[6,-16],rkt:[8,-22]}); break;
+    case 'arm': fc=C; end=mShift(F,{elb:[40,28],wr:[68,42],rkt:[92,52],head:[2,2]}); break;
+    case 'back': {const d={head:[-12,4],sh:[-9,3],hip:[-7,2],bAnk:[10,0],fAnk:[14,0]}; fc=mShift(C,d); end=mShift(F,d);} break;
+    case 'open': fc=mShift(C,{rkt:[8,-14]}); end=mShift(F,{rkt:[2,-26],wr:[2,-16]}); break;
+    case 'serveLow': fc=mShift(C,{elb:[-6,26],wr:[-2,34],rkt:[2,46]}); end=F; break;
+    case 'serveBack': {const d={head:[-10,6],sh:[-8,4],hip:[-6,3]}; fc=mShift(C,d); end=mShift(F,d);} break;
+    case 'serveStall': fc=mShift(C,{wr:[-6,28],rkt:[-8,40]}); end=mShift(C,{wr:[-8,34],rkt:[-10,48]}); break;
+    default: fc=C; end=mShift(C,{rkt:[6,-18]});
+  }
+  return [...pre,fc,end];
+}
+function mBallMiss(rkt,out){
+  const x=rkt[0], y=rkt[1], high=y<70;
+  if(high){
+    switch(out){
+      case 'net': return {path:`M${x},${y} Q${x+12},150 ${x-18},258`,col:'#e07070',note:'into the net',nx:x+32,ny:200};
+      case 'short': return {path:`M${x},${y} Q150,140 198,226`,col:'#e07070',note:'sits up short',nx:214,ny:214};
+      case 'wide': return {path:`M${x},${y} Q120,120 38,236`,col:'#e07070',note:'mis-hit',nx:74,ny:150};
+      default: return {path:`M${x},${y} Q160,150 290,252`,col:'#e07070',note:'sails long',nx:262,ny:224};
+    }
+  }
+  switch(out){
+    case 'net': return {path:`M${x+6},${y} Q${x+22},${y+72} ${x-14},262`,col:'#e07070',note:'into the net',nx:x+34,ny:248};
+    case 'short': return {path:`M${x+6},${y} Q${x+26},${y+34} ${x+8},206`,col:'#e07070',note:'lands short',nx:x+40,ny:196};
+    case 'pop': return {path:`M${x},${y} Q${x+12},${y-58} ${x+54},${y-26}`,col:'#e07070',note:'pops up',nx:x+62,ny:y-38};
+    case 'wide': return {path:`M${x+6},${y} Q${x+70},${y+8} 298,${y+44}`,col:'#e07070',note:'sprays wide',nx:252,ny:y+4};
+    default: return {path:`M${x+8},${y} Q${x+76},${y-26} 296,${y-4}`,col:'#e07070',note:'flies long',nx:248,ny:y-24};
+  }
+}
 function mBallFix(P){const c=P.contact.rkt, high=c[1]<60;
   return high ? {path:`M${c[0]},${c[1]} Q150,120 214,252`,col:'#5bba6f',note:'in',nx:236,ny:212}
               : {path:`M${c[0]+6},${c[1]} Q${c[0]+30},${c[1]+50} ${c[0]+4},250`,col:'#5bba6f',note:'lands in',nx:c[0]+38,ny:212};}
@@ -7495,7 +7544,7 @@ function mountSwing(hostId, stroke, archKey, mode, onDone){
   const keys=SWING_KEYS[stroke]||['contact'];
   let seq, ball, label;
   if(mode==='fix'){ seq=keys.map(k=>P[k]); ball=mBallFix(P); label='The fix'; }
-  else { const arch=(FAULT_ARCH[archKey]||FAULT_ARCH.decel)(P,keys); seq=arch.seq; ball=arch.ball; label=arch.label; }
+  else { const spec=FAULT_SPEC[archKey]||FAULT_SPEC.decel; seq=mDeform(P,keys,spec.swing); ball=mBallMiss(seq[seq.length-1].rkt, spec.out); label=spec.label; }
   mPlaying=true;
   const segs=Math.max(1,seq.length-1), dur=300*segs+140, t0=performance.now();
   const tag = mode==='fix' ? 'The fix' : 'The miss';
@@ -7518,7 +7567,14 @@ function mFlyBall(host, endPose, ball, tag, label, mode, onDone){
 /* fault index within a stroke (primary, extra0, extra1, extra2) -> motion archetype.
    Strokes not listed fall back to the static figure until mapped. */
 const MOTION_ARCH_MAP = {
-  forehand: ['late','decel','armOnly','backFoot']
+  forehand: ['late','decel','armOnly','backFoot'],
+  oneHand:  ['late','floatShort','armOnly','offBal'],
+  twoHand:  ['late','armOnly','floatShort','popUp'],
+  serve:    ['serveDecel','serveWeak','serveLong','serveScatter'],
+  volley:   ['tooBig','jammed','late','armOnly'],
+  ret:      ['tooBig','floatShort','jammed','passive'],
+  overhead: ['ohRush','ohLow','ohLong','ohRush'],
+  slice:    ['popUp','spray','dieShort','popUp']
 };
 let mCtx = { stroke:null, arch:null };
 function mHasMotion(q){ return !!(q && q.mstroke && q.march && typeof STROKE_POSES!=='undefined' && STROKE_POSES[q.mstroke]); }
@@ -10029,7 +10085,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v100';
+const CACHE = 'gamesharp-v101';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
