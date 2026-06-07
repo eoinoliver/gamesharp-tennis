@@ -1589,6 +1589,14 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ms-tag{position:absolute;top:10px;left:12px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:rgba(255,255,255,.5);background:rgba(0,0,0,.35);padding:3px 9px;border-radius:6px;z-index:2;}
 #msStage{min-height:200px;}
 .dtc-replay{width:100%;margin-top:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;font-weight:700;font-size:13px;border-radius:11px;padding:11px;cursor:pointer;}
+.ms-controls{display:flex;align-items:center;gap:11px;margin-top:11px;}
+.ms-play{flex:0 0 auto;width:42px;height:36px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;font-size:16px;cursor:pointer;}
+.ms-play:active{transform:scale(.95);}
+.ms-scrub{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,.16);outline:none;cursor:pointer;}
+.ms-scrub::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;border-radius:50%;background:#c8a84b;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.4);}
+.ms-scrub::-moz-range-thumb{width:19px;height:19px;border:none;border-radius:50%;background:#c8a84b;cursor:pointer;}
+@keyframes msPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+.ms-pulse{animation:msPulse .7s ease-in-out infinite;}
 .dtc-replay:active{transform:scale(.98);}
 </style>
 </head>
@@ -6977,7 +6985,7 @@ function startDailyTechQ() {
 function dtcRenderDailyTech() {
   const q = state.quiz[state.qIdx]._dtc;
   const motion = mHasMotion(q);
-  const scene = motion ? '<div id="msStage" class="dtc-fig"></div><button class="dtc-replay" id="msReplay" onclick="mReplay(\'miss\')">▶ Replay the miss</button>' : (q.render ? q.render(false) : '');
+  const scene = motion ? '<div id="msStage" class="dtc-fig"></div>'+mControls() : (q.render ? q.render(false) : '');
   const opts = q.options.map((o, i) =>
     `<button class="dtc-opt" id="dtcOpt${i}" onclick="dtcDailyTechAnswer(${i})"><div class="dtc-ol">${String.fromCharCode(65 + i)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
   ).join('');
@@ -7002,7 +7010,7 @@ function dtcDailyTechAnswer(i) {
   const q = state.quiz[state.qIdx]._dtc;
   const o = q.options[i], ci = q.options.findIndex(x => x.correct);
   const sc = document.getElementById('dtcScene');
-  if (mHasMotion(q)) { const row = document.getElementById('msReplay'); if (row) { row.setAttribute('onclick', "mReplay('fix')"); row.textContent = '▶ Replay the fix'; } setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
+  if (mHasMotion(q)) { const _sc=document.querySelector('.ms-scrub'); if(_sc) _sc.value=0; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
   else if (sc && q.render) sc.innerHTML = q.render(true);
   document.querySelectorAll('.dtc-opt').forEach((el, idx) => {
     if (idx === i) el.classList.add(o.correct ? 'sel' : 'wrong');
@@ -7071,7 +7079,7 @@ function fixRenderFault() {
   fixAnswered = false;
   const g = fixGroups()[fixStrokeIdx], q = g.faults[fixFaultIdx];
   const motion = mHasMotion(q);
-  const scene = motion ? '<div id="msStage" class="dtc-fig"></div><button class="dtc-replay" id="msReplay" onclick="mReplay(\'miss\')">▶ Replay the miss</button>' : (q.render ? q.render(false) : '');
+  const scene = motion ? '<div id="msStage" class="dtc-fig"></div>'+mControls() : (q.render ? q.render(false) : '');
   const opts = q.options.map((o, k) =>
     `<button class="dtc-opt" id="dtcOpt${k}" onclick="fixAnswer(${k})"><div class="dtc-ol">${String.fromCharCode(65 + k)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
   ).join('');
@@ -7093,7 +7101,7 @@ function fixAnswer(k) {
   const g = fixGroups()[fixStrokeIdx], q = g.faults[fixFaultIdx];
   const o = q.options[k], ci = q.options.findIndex(x => x.correct);
   const sc = document.getElementById('dtcScene');
-  if (mHasMotion(q)) { const row = document.getElementById('msReplay'); if (row) { row.setAttribute('onclick', "mReplay('fix')"); row.textContent = '▶ Replay the fix'; } setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
+  if (mHasMotion(q)) { const _sc=document.querySelector('.ms-scrub'); if(_sc) _sc.value=0; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
   else if (sc && q.render) sc.innerHTML = q.render(true);
   document.querySelectorAll('.dtc-opt').forEach((el, idx) => {
     if (idx === k) el.classList.add(o.correct ? 'sel' : 'wrong');
@@ -7557,6 +7565,19 @@ function mBallFix(P){const c=P.contact.rkt, high=c[1]<60;
   return high ? {path:`M${c[0]},${c[1]} Q150,120 214,252`,col:'#5bba6f',note:'in',nx:236,ny:212}
               : {path:`M${c[0]+6},${c[1]} Q${c[0]+30},${c[1]+50} ${c[0]+4},250`,col:'#5bba6f',note:'lands in',nx:c[0]+38,ny:212};}
 let mPlaying=false;
+let mStop=false;
+function mAnimRange(host, seq, fromIdx, toIdx, dur, tag, onDone){
+  const t0=performance.now(), span=Math.max(1,toIdx-fromIdx);
+  function frame(now){
+    if(mStop) return;
+    let u=(now-t0)/dur; if(u>1)u=1;
+    const fpos=fromIdx+u*span, seg=Math.min(toIdx-1,Math.floor(fpos)), local=mEase(fpos-seg);
+    const p=mLerpPose(seq[seg], seq[seg+1]||seq[seg], local);
+    host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(p)}</svg>`;
+    if(u<1) requestAnimationFrame(frame); else if(onDone) onDone();
+  }
+  requestAnimationFrame(frame);
+}
 function mountSwing(hostId, stroke, archKey, mode, onDone){
   const host=document.getElementById(hostId); if(!host){ if(onDone)onDone(); return; }
   const P=STROKE_POSES[stroke]; if(!P){ host.innerHTML=''; if(onDone)onDone(); return; }
@@ -7564,18 +7585,33 @@ function mountSwing(hostId, stroke, archKey, mode, onDone){
   let seq, ball, label;
   if(mode==='fix'){ seq=keys.map(k=>P[k]); ball=mBallFix(P); label='The fix'; }
   else { const spec=FAULT_SPEC[archKey]||FAULT_SPEC.decel; seq=mDeform(P,keys,spec.swing); ball=mBallMiss(seq[seq.length-1].rkt, spec.out); label=spec.label; }
-  mPlaying=true;
-  const segs=Math.max(1,seq.length-1), dur=300*segs+140, t0=performance.now();
+  mCtx={stroke:stroke, arch:archKey, mode:mode, seq:seq, ball:ball, label:label};
+  mStop=false; mPlaying=true;
   const tag = mode==='fix' ? 'The fix' : 'The miss';
-  function frame(now){
-    let u=(now-t0)/dur; if(u>1)u=1;
-    const fpos=u*segs, seg=Math.min(segs-1,Math.floor(fpos)), local=mEase(fpos-seg);
-    const p=mLerpPose(seq[seg],seq[seg+1],local);
-    host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(p)}</svg>`;
-    if(u<1) requestAnimationFrame(frame); else mFlyBall(host, seq[seq.length-1], ball, tag, label, mode, stroke, archKey, onDone);
-  }
-  requestAnimationFrame(frame);
+  const N=seq.length, contactIdx=Math.max(1,N-2), lblCol = mode==='fix' ? '#5bba6f' : '#e07070';
+  const sc=document.querySelector('.ms-scrub'); if(sc) sc.value=0;
+  // Phase 1 — slow into the moment of truth (contact / the fault)
+  mAnimRange(host, seq, 0, contactIdx, 520*contactIdx+160, tag, function(){
+    if(mStop) return;
+    // Freeze at the fault — the coach's "...there. See it?"
+    const cp=seq[contactIdx];
+    host.innerHTML=`<div class="ms-tag">${tag}</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(cp)}<circle class="dtc-cdot" cx="${cp.rkt[0]}" cy="${cp.rkt[1]}" r="9" fill="${lblCol}" opacity=".45"/><text class="ms-pulse" x="${cp.rkt[0]}" y="${Math.max(16,cp.rkt[1]-22)}" text-anchor="middle" font-size="10.5" font-weight="800" fill="${lblCol}" font-family="DM Sans">${label}</text></svg>`;
+    setTimeout(function(){
+      if(mStop) return;
+      if(contactIdx < N-1) mAnimRange(host, seq, contactIdx, N-1, 320, tag, function(){ if(!mStop) mFlyBall(host, seq[N-1], ball, tag, label, mode, stroke, archKey, onDone); });
+      else mFlyBall(host, seq[N-1], ball, tag, label, mode, stroke, archKey, onDone);
+    }, 800);
+  });
 }
+/* Manual scrub — drag through the swing, stop on the fault yourself. */
+function mScrub(val){
+  const c=mCtx; if(!c||!c.seq) return;
+  mStop=true; mPlaying=false;
+  const segs=Math.max(1,c.seq.length-1), u=(+val)/100, fpos=u*segs, seg=Math.min(segs-1,Math.floor(fpos)), local=fpos-seg;
+  const p=mLerpPose(c.seq[seg], c.seq[seg+1]||c.seq[seg], local);
+  const host=document.getElementById('msStage'); if(host) host.innerHTML=`<div class="ms-tag">Scrub</div><svg viewBox="0 0 300 340">${DTC_FLOOR}${mFigure(p)}</svg>`;
+}
+function mControls(){ return `<div class="ms-controls"><button class="ms-play" onclick="mReplay()" aria-label="replay in slow-mo">↻</button><input type="range" class="ms-scrub" min="0" max="100" value="0" oninput="mScrub(this.value)" aria-label="scrub the swing"></div>`; }
 function mFlyBall(host, endPose, ball, tag, label, mode, stroke, archKey, onDone){
   const col=ball.col, lblCol = mode==='fix' ? '#5bba6f' : '#e07070';
   const labelTxt = label ? `<text x="${endPose.rkt[0]}" y="${Math.max(16,endPose.rkt[1]-22)}" text-anchor="middle" font-size="9" font-weight="800" fill="${lblCol}" font-family="DM Sans">${label}</text>` : '';
@@ -7610,7 +7646,7 @@ const MOTION_ARCH_MAP = {
 };
 let mCtx = { stroke:null, arch:null };
 function mHasMotion(q){ return !!(q && q.mstroke && q.march && typeof STROKE_POSES!=='undefined' && STROKE_POSES[q.mstroke]); }
-function mReplay(mode){ if(mPlaying) return; if(mCtx.stroke) mountSwing('msStage', mCtx.stroke, mCtx.arch, mode); }
+function mReplay(mode){ mode=mode||(mCtx&&mCtx.mode)||'miss'; if(mCtx&&mCtx.stroke) mountSwing('msStage', mCtx.stroke, mCtx.arch, mode); }
 /* Attach motion metadata (stroke + archetype) onto a fault, by stroke + index. */
 function mTag(fault, stroke, idx){
   if(!fault) return fault;
@@ -10168,7 +10204,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v106';
+const CACHE = 'gamesharp-v107';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
