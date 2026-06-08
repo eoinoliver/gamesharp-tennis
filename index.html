@@ -7503,7 +7503,7 @@ const FAULT_SPEC={
   late:{swing:'late',out:'long',label:'late — behind the hip'},
   decel:{swing:'decel',out:'net',label:'swing quit at contact'},
   armOnly:{swing:'arm',out:'short',label:'all arm — no body'},
-  backFoot:{swing:'back',out:'long',label:'off the back foot'},
+  backFoot:{swing:'back',out:'long',label:'weight falling back'},
   floatShort:{swing:'arm',out:'short',label:'late & level — no lift'},
   offBal:{swing:'back',out:'long',label:'off balance'},
   popUp:{swing:'open',out:'pop',label:'face open — stood up'},
@@ -7738,23 +7738,23 @@ const DTC_EXTRA_FAULTS={
         {label:"Gripping too tight",correct:false,verdict:"A tight grip tires you, but the weak ball is a missing kinetic chain, not a tense hand."},
         {label:"Standing too far back",correct:false,verdict:"Position changes timing, not power. Even from the right spot, an arm-only swing lands short."}],
       cue:{title:"Power from the ground — let the legs throw the arm",drill:"Hit 20 forehands focused only on pushing off the back leg. Ignore the arm entirely."},insight:"The hardest hitters look the most relaxed — the power isn't in the arm they're swinging."},
-    {...DTC_EX0,render:r=>dtcContactScene(r,{out:'long',sym:'sails on you',fault:'off the back foot',fix:'weight forward'}),situation:"You're reading it well — but you kept drifting backward as you hit, and the forehand sailed.",
+    {...DTC_EX0,render:r=>dtcContactScene(r,{out:'long',sym:'sails on you',fault:'falling back',fix:'weight forward'}),situation:"You're reading it well — but you kept drifting backward as you hit, and the forehand sailed.",
       options:[{label:"You swing too hard",correct:false,verdict:"It's not pace — players hit just as hard moving forward and keep it in. It's the direction of your weight."},
-        {label:"You hit off the back foot, weight going backward",correct:true,verdict:"This is it. Falling away from the target sends the ball up and long and robs your control. Step in and land on your front foot at contact — weight into the court."},
+        {label:"Your weight drifts backward as you hit — you fall away",correct:true,verdict:"This is it. The fault isn't the back foot — hitting open-stance off the outside leg is fine — it's your weight drifting backward through contact, which sends the ball up and long and robs your control. Open or stepping in, finish with your weight going UP and INTO the court, not retreating."},
         {label:"Watching the ball too long",correct:false,verdict:"You're watching fine — the issue is your base falling backward, not your eyes."},
         {label:"Wrong grip",correct:false,verdict:"Grip's the same on the ones you nail moving forward. Balance is the leak."}],
-      cue:{title:"Step in — land on your front foot at contact",drill:"Place a cone half a step in front; you must step past it as you strike."},insight:"Tennis rewards players who move INTO the ball. Fall back and you pay interest on every shot."}
+      cue:{title:"Finish your weight forward — up and into the court, not back",drill:"Place a cone half a step in front; you must step past it as you strike."},insight:"Tennis rewards players who move INTO the ball. Fall back and you pay interest on every shot."}
   ],
   serve:[
     {...DTC_EX0,render:r=>dtcServeScene(r,{sym:'no sting',fault:'no leg drive',fix:'explode up',badOut:'weak'}),situation:"You're reading it well — but your first serve had no sting on the big points, easy to step in on.",
       options:[{label:"You toss too high",correct:false,verdict:"Toss height isn't draining the pace — the power never left the ground."},
-        {label:"You muscle it — no leg drive or forearm pronation",correct:true,verdict:"This is it. You serve with the arm and shoulder, so the legs and the forearm pronation (the racket face rolling over) never get involved and the ball has nothing on it. Drive UP with the legs, then let the forearm roll the racket over at the top — serve power falls from the sky. (Don't force a wrist 'snap' — that just hurts it.)"},
+        {label:"You muscle it — tight arm, no leg drive",correct:true,verdict:"This is it. A tight arm and shoulder mean the legs never load and the arm can't release, so the ball has nothing on it. Throw a LOOSE arm up off the legs and the racket pronates — rolls over — on its own at the top; that's where the pace comes from. Don't try to force a wrist 'snap' or consciously roll the forearm — both just tighten you up and can hurt the arm."},
         {label:"Gripping too tight",correct:false,verdict:"A tight grip slows you, but the missing sting is the missing leg drive and forearm roll."},
         {label:"Standing too far back",correct:false,verdict:"Where you stand doesn't add pace. The legs and the forearm rolling over do."}],
-      cue:{title:"Drive up with the legs — then let the forearm pronate at the top",drill:"Serve focusing only on pushing up off both legs into the ball. Land inside the baseline."},insight:"Serve power comes from the ground and the forearm rolling over, not the bicep — never a forced wrist flick."},
+      cue:{title:"Loose arm, drive up off the legs — let the racket roll over on its own",drill:"Serve focusing only on pushing up off both legs into the ball, arm relaxed. Land inside the baseline."},insight:"Serve power comes from the ground and a relaxed arm releasing — not the bicep, and never a forced wrist flick or muscled pronation."},
     {...DTC_EX0,render:r=>dtcServeScene(r,{sym:'sails long',fault:'low contact',fix:'full stretch',badOut:'long'}),situation:"You're reading it well — but your first serves kept sailing long, past the service line.",
       options:[{label:"Too much spin",correct:false,verdict:"Spin brings it down. A serve that flies long is hit too low, not too spinny."},
-        {label:"You contact it too low, in front of your face",correct:true,verdict:"This is it. Hitting it low and bent-armed, the racket face sends the ball out instead of down. Toss a touch higher and hit UP at full stretch — a serve struck at full extension drops into the box on its own."},
+        {label:"You contact it too low, in front of your face",correct:true,verdict:"This is it. A serve struck at full stretch has a downward angle into the box; contact it low and bent-armed with a flat swing and the racket face points out, so the ball carries long. Toss a touch higher and hit UP at full extension — from the top of your reach the serve has the angle, and with a brush up the spin, to drop into the box on its own."},
         {label:"Wrong grip",correct:false,verdict:"Grip's the same on the ones that land. Contact height is the leak."},
         {label:"You toss too far back",correct:false,verdict:"A back toss causes other issues — the long ball is low contact in front of your face."}],
       cue:{title:"Toss higher — hit UP at full stretch",drill:"Serve trying to scrape an imaginary ceiling. Full extension every time."},insight:"Reach for the sky and the ball goes down. Hit it bent-armed and you're aiming up and praying."},
@@ -7854,10 +7854,10 @@ const DTC_EXTRA_FAULTS={
       cue:{title:"Move back early — take it high and in front",drill:"Have someone lob deep; you must shuffle back and contact every ball above your head."},insight:"Get behind it early. A high contact is a confident smash; a low one is a hopeful slap."},
     {...DTC_EX0,render:r=>dtcServeScene(r,{sym:'flies long',fault:'leaning back',fix:'stay over it',badOut:'long'}),situation:"You're reading it well — but the overheads kept flying long, off the back of the court.",
       options:[{label:"You hit too hard",correct:false,verdict:"Power isn't the cause — where you contact it is."},
-        {label:"You lean back and contact it behind your head",correct:true,verdict:"This is it. Leaning back and hitting flat behind your head sends the ball long. Stay over it, contact it in front, and snap slightly down and through."},
+        {label:"You lean back and contact it behind your head",correct:true,verdict:"This is it. Leaning back and hitting flat behind your head sends the ball long. Stay over it and make contact up and in front — exactly like your serve. A high contact angles the ball down on its own; there's no downward wrist snap to force."},
         {label:"Wrong grip",correct:false,verdict:"Grip's the same on the ones you put away. Contact in front is the fix."},
         {label:"Pure nerves",correct:false,verdict:"Nerves feed it, but the mechanical fix is contact in front, not behind."}],
-      cue:{title:"Stay over it — contact in front, snap down and through",drill:"Aim every overhead to land inside the service line. Punishes the lean-back."},insight:"Contact in front, not behind your head. Lean back and you're serving to the back fence."},
+      cue:{title:"Stay over it — contact up and in front, like your serve",drill:"Aim every overhead to land inside the service line. Punishes the lean-back."},insight:"Contact in front, not behind your head. Lean back and you're serving to the back fence."},
     {...DTC_EX0,render:r=>dtcServeScene(r,{sym:'rushed & shanked',fault:'no prep',fix:'turn early',badOut:'weak'}),situation:"You're reading it well — but you kept rushing the easy overhead and shanking it.",
       options:[{label:"You hit too hard",correct:false,verdict:"The shank comes from rushing with no prep — not from the pace you tried for."},
         {label:"No routine — you watch it drop, then rush",correct:true,verdict:"This is it. The easy ball looks easy, so you wait, then panic. Turn sideways and get the racket up the instant you see the lob — point at the ball, then it's just a serve."},
@@ -10221,7 +10221,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v112';
+const CACHE = 'gamesharp-v113';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
