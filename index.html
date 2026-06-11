@@ -879,9 +879,21 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .mf-save-btn:active{transform:scale(.97);}
 
 /* ── Session Coaching Card (score screen) ── */
-.coaching-card{width:100%;max-width:340px;background:rgba(10,21,11,.97);border:1px solid rgba(200,168,75,.18);border-radius:18px;padding:20px;margin-bottom:14px;opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s cubic-bezier(.22,.9,.32,1);}
+.coaching-card{width:100%;max-width:340px;background:rgba(10,21,11,.97);border:1px solid rgba(200,168,75,.18);border-radius:18px;padding:15px 18px;margin-bottom:14px;opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s cubic-bezier(.22,.9,.32,1);}
 .coaching-card.visible{opacity:1;transform:translateY(0);}
-.coaching-card::before{content:'';display:block;height:2px;background:linear-gradient(90deg,var(--gold) 35%,transparent);border-radius:2px;margin-bottom:18px;}
+/* ── TODAY'S TRAINING — 2x2 illuminating pillar grid ── */
+.today-training{width:100%;max-width:340px;margin:0 auto 14px;background:linear-gradient(155deg,rgba(20,40,18,.55),rgba(8,16,9,.9));border:1px solid rgba(200,168,75,.28);border-radius:18px;padding:14px 14px 15px;box-sizing:border-box;animation:exin .45s cubic-bezier(.34,1.1,.64,1);}
+.tt-eyebrow{display:flex;align-items:center;justify-content:space-between;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:11px;padding:0 2px;}
+.tt-count{font-size:9px;letter-spacing:1px;color:#0a1509;background:var(--gold);padding:2px 8px;border-radius:20px;}
+.tt-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;}
+.tt-tile{flex:0 0 calc(50% - 5px);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:14px 6px;border-radius:13px;border:1px solid rgba(200,168,75,.6);background:linear-gradient(155deg,rgba(48,64,22,.55),rgba(22,32,12,.6));text-align:center;}
+.tt-tile-ico{width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:var(--gold);filter:drop-shadow(0 0 5px rgba(200,168,75,.6));}
+.tt-tile-ico svg{width:28px;height:28px;}
+.tt-tile-lbl{font-size:11.5px;font-weight:700;letter-spacing:.2px;line-height:1.15;color:var(--gold);}
+@keyframes ttLightUp{0%{opacity:.2;transform:scale(.9);box-shadow:0 0 0 rgba(200,168,75,0);}55%{opacity:1;transform:scale(1.05);box-shadow:0 0 28px 3px rgba(200,168,75,.6);}100%{opacity:1;transform:scale(1);box-shadow:0 0 13px rgba(200,168,75,.26);}}
+@keyframes ttGlow{0%,100%{box-shadow:0 0 11px rgba(200,168,75,.2);border-color:rgba(200,168,75,.5);}50%{box-shadow:0 0 20px 2px rgba(200,168,75,.45);border-color:rgba(200,168,75,.8);}}
+@media(prefers-reduced-motion:reduce){.tt-tile{animation:none!important;box-shadow:0 0 13px rgba(200,168,75,.28)!important;}}
+.coaching-card::before{content:'';display:block;height:2px;background:linear-gradient(90deg,var(--gold) 35%,transparent);border-radius:2px;margin-bottom:12px;}
 .cc-ntp-label{font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;}
 .cc-ntp-action{font-size:15px;font-weight:700;color:#fff;line-height:1.5;margin-bottom:6px;}
 .cc-ntp-helper{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.01em;}
@@ -10036,6 +10048,68 @@ function calcArchetype() {
 }
 
 // ── SCORE ──
+// ════════ TODAY'S TRAINING — capacities trained each daily, accumulated ════════
+// Swappable monoline glyphs (cosmetics can change later without touching logic).
+const TT_ICONS = {
+  target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg>',
+  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6.6 10-6.6S22 12 22 12s-3.6 6.6-10 6.6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></svg>',
+  brain: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.6V18.8"/><path d="M12 6a2.6 2.6 0 0 0-4.7-1.5A2.4 2.4 0 0 0 5 7.3a2.5 2.5 0 0 0-1 4.2 2.5 2.5 0 0 0 .8 4 2.4 2.4 0 0 0 4.5 1.2"/><path d="M12 6a2.6 2.6 0 0 1 4.7-1.5A2.4 2.4 0 0 1 19 7.3a2.5 2.5 0 0 1 1 4.2 2.5 2.5 0 0 1-.8 4 2.4 2.4 0 0 1-4.5 1.2"/></svg>',
+  racket: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9.6" cy="9.6" rx="5.6" ry="6.6" transform="rotate(-42 9.6 9.6)"/><path d="M12.6 13.6 18 19"/><circle cx="18.4" cy="6.6" r="2.3"/></svg>'
+};
+const TT_CAPACITY = {
+  winmore:   { label:"Win More",        icon: TT_ICONS.target },
+  gameiq:    { label:"See Better",      icon: TT_ICONS.eye },
+  mental:    { label:"Hold Your Nerve", icon: TT_ICONS.brain },
+  technique: { label:"Train Your Game", icon: TT_ICONS.racket }
+};
+const TT_PILLAR_MAP = { "Win More":"winmore", "Game IQ":"gameiq", "Mental":"mental", "Technique":"technique", "The Debate":"gameiq" };
+const TT_GRID_ORDER = ["mental", "gameiq", "winmore", "technique"]; // Brain · Eyes · Target · Racket (2x2)
+
+// Accumulate per-capacity {trained, sharpened} — once per calendar day (the daily cadence).
+// Misses log silently as a leak count for the future engine; never surfaced as a callout.
+function logBrainGains(caps) {
+  try {
+    const today = new Date().toDateString();
+    if (localStorage.getItem('gs_brain_day') === today) return;
+    const brain = JSON.parse(localStorage.getItem('gs_brain') || '{}');
+    caps.forEach(c => {
+      const b = brain[c.key] || { trained:0, sharpened:0 };
+      b.trained++; if (c.sharpened) b.sharpened++;
+      brain[c.key] = b;
+    });
+    localStorage.setItem('gs_brain', JSON.stringify(brain));
+    localStorage.setItem('gs_brain_day', today);
+  } catch(e) {}
+}
+
+// "Today's Training" — only the sharpened pillars, shown as tiles that light up
+// one after another. Recognition + progress, no reteaching, no dimmed misses.
+function buildTodayTraining() {
+  try {
+    const right = {}; // pillar key -> all its questions answered right this session
+    state.quiz.forEach((q, i) => {
+      const key = TT_PILLAR_MAP[q.pillar];
+      if (!key) return;
+      if (right[key] === undefined) right[key] = true;
+      if (!state.results[i]) right[key] = false;
+    });
+    const touched = Object.keys(right);
+    if (!touched.length) return '';
+    logBrainGains(touched.map(k => ({ key:k, sharpened: right[k] })));
+    const sharp = TT_GRID_ORDER.filter(k => right[k] === true);
+    if (!sharp.length) return '';
+    const tiles = sharp.map((k, i) => {
+      const c = TT_CAPACITY[k];
+      const d = (i * 0.32).toFixed(2), d2 = (i * 0.32 + 0.62).toFixed(2);
+      return `<div class="tt-tile" style="animation:ttLightUp .6s cubic-bezier(.34,1.45,.64,1) ${d}s both, ttGlow 2.6s ease-in-out ${d2}s infinite;"><div class="tt-tile-ico">${c.icon}</div><div class="tt-tile-lbl">${c.label}</div></div>`;
+    }).join('');
+    return `<div class="today-training">
+      <div class="tt-eyebrow"><span>Today's Training</span><span class="tt-count">${sharp.length} sharpened</span></div>
+      <div class="tt-grid">${tiles}</div>
+    </div>`;
+  } catch(e) { return ''; }
+}
+
 function showScore() {
   clearTechAnim();
   document.getElementById('quizBar').style.width = '100%';
@@ -10101,23 +10175,11 @@ function showScore() {
     ).join('');
   }
 
-  // Archetype
-  const arch = calcArchetype();
+  // Archetype — parked while we validate the app. The summary now leads with the
+  // EARNED signal (Today's Training) instead of an unearned identity label.
+  // calcArchetype() stays defined for a future *earned* version off accumulated data.
   const archEl = document.getElementById('scArchetype');
-  if (arch && archEl) {
-    document.getElementById('scArchIcon').textContent = arch.icon;
-    document.getElementById('scArchName').textContent = arch.name;
-    document.getElementById('scArchDesc').textContent = arch.desc;
-    archEl.style.display = 'flex';
-    setTimeout(() => {
-      archEl.style.transition = 'opacity .5s ease, transform .5s cubic-bezier(.34,1.2,.64,1)';
-      archEl.style.opacity = '1';
-    }, 800);
-    archEl.style.opacity = '0';
-    archEl.style.transform = 'none';
-  } else if (archEl) {
-    archEl.style.display = 'none';
-  }
+  if (archEl) archEl.style.display = 'none';
 
   // Session tip — suppressed (replaced by coaching card below)
   const tipEl = document.getElementById('sessionTip');
@@ -10169,6 +10231,7 @@ function showScore() {
         </div>`;
     }
 
+    const ttHtml = state.isDailyMode ? buildTodayTraining() : '';
     if (ntpAction || strokeCueHtml) {
       const klHtml = learnings.length ? `
         <div class="cc-kl-section">
@@ -10176,12 +10239,10 @@ function showScore() {
           ${learnings.map(t => `<div class="cc-kl-row"><div class="cc-kl-pip"></div><div class="cc-kl-text">${t}</div></div>`).join('')}
         </div>` : '';
 
-      matchFocusWrap.innerHTML = `
+      matchFocusWrap.innerHTML = ttHtml + `
         <div class="coaching-card" id="coachingCard">
           ${ntpAction ? `<div class="cc-ntp-label">Next Time You Play</div>
-          <div class="cc-ntp-action">${ntpAction}</div>
-          <div class="cc-ntp-helper">Try this in your next match.</div>` : ''}
-          ${klHtml}
+          <div class="cc-ntp-action">${ntpAction}</div>` : ''}
           ${strokeCueHtml}
         </div>`;
 
@@ -10190,7 +10251,7 @@ function showScore() {
         if (card) card.classList.add('visible');
       }, 650);
     } else {
-      matchFocusWrap.innerHTML = '';
+      matchFocusWrap.innerHTML = ttHtml;
     }
   }
 
@@ -10269,10 +10330,8 @@ function goHome() {
 }
 
 function shareResult() {
-  const arch = calcArchetype();
   const dots = state.results.map(r => r ? '🟢' : '🔴').join('');
-  const archLine = arch ? `\nPlaying style: ${arch.name}` : '';
-  const txt = `GameSharp · ${state.selectedPillar}\n${state.score}/${state.quiz.length} correct\n${dots}${archLine}\nTest your tennis IQ → gamesharp.app`;
+  const txt = `GameSharp · ${state.selectedPillar}\n${state.score}/${state.quiz.length} correct\n${dots}\nTest your tennis IQ → gamesharp.app`;
   const btn = document.getElementById('shareBtn');
   if (navigator.share) {
     navigator.share({ title: 'GameSharp', text: txt });
@@ -10311,7 +10370,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v123';
+const CACHE = 'gamesharp-v128';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
