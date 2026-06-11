@@ -6785,11 +6785,22 @@ function updateBottomNav(id) {
   }
 }
 
+// Robust scroll-to-top: the screens scroll an INNER container (e.g. #quizScreen is
+// overflow-y:auto), so window.scrollTo alone leaves the next view mid-page. Reset
+// the window AND every scrollable screen/container, instantly.
+function gsScrollTop() {
+  try { window.scrollTo(0, 0); } catch(e){}
+  try { if (document.scrollingElement) document.scrollingElement.scrollTop = 0; } catch(e){}
+  try {
+    document.querySelectorAll('.screen, .gs-main, .hub-screen, #seqContent, #matchFocusWrap, .seq-step-wrap')
+      .forEach(el => { el.scrollTop = 0; });
+  } catch(e){}
+}
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none';});
   const t=document.getElementById(id); t.style.display='flex'; void t.offsetWidth; t.classList.add('active');
   updateBottomNav(id);
-  window.scrollTo(0,0);
+  gsScrollTop();
 }
 
 // ── HOME ──
@@ -9471,6 +9482,23 @@ function selectSessionQuestions({ pool, count, allowSeenFallback, mode }) {
   allowSeenFallback = allowSeenFallback !== false;
   if (!pool.length) return [];
 
+  // ── Skill ceiling ── Keep scenarios at or below the player's stated level so a
+  // beginner never draws an ATP-tier "130mph serve." Graceful fallback: if gating
+  // would leave too few, widen back to the full pool (a hard question beats none).
+  try {
+    const lvl = (getProfile() || {}).player_level;
+    const ceiling = {
+      beginner:   ['Rookie', 'Club'],
+      rookie:     ['Rookie', 'Club'],
+      club:       ['Rookie', 'Club', 'Competitor'],
+      competitor: ['Rookie', 'Club', 'Competitor', 'Tactician']
+    }[lvl];
+    if (ceiling) {
+      const gated = pool.filter(q => !q.difficulty || ceiling.includes(q.difficulty));
+      if (gated.length >= count) pool = gated;
+    }
+  } catch(e) {}
+
   // Compute unseen count before any selection (used for validation + logging)
   const seenData = getSeenData();
   const seenIdSet = new Set([...Object.keys(seenData.timestamps || {}), ...(seenData.ids || [])]);
@@ -9490,7 +9518,7 @@ function selectSessionQuestions({ pool, count, allowSeenFallback, mode }) {
     : (allowSeenFallback ? [...pool] : antiPool);
 
   // Sort easiest-first within work pool before handing to pickVariedBundle
-  const diffRank = { 'Rookie': 0, 'Club': 1, 'Competitor': 2 };
+  const diffRank = { 'Rookie': 0, 'Club': 1, 'Competitor': 2, 'Tactician': 3 };
   const sorted = [...workPool].sort((a,b) => (diffRank[a.difficulty]||1)-(diffRank[b.difficulty]||1));
   let picked = pickVariedBundle(sorted, count);
 
@@ -9972,7 +10000,7 @@ function nextQ() {
   if (state.qIdx >= state.quiz.length) { showScore(); return; }
   const nq = state.quiz[state.qIdx];
   if (nq && nq.__dailyTech) { startDailyTechQ(); return; }  // hand off the stroke-fix question
-  loadQ(); window.scrollTo({top:0,behavior:'smooth'});
+  loadQ(); gsScrollTop();
 }
 
 // ── ARCHETYPES ──
@@ -10370,7 +10398,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v128';
+const CACHE = 'gamesharp-v129';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
@@ -10482,7 +10510,7 @@ const LINKED_SEQUENCES = [
     steps: [
       { situation: 'Your opponent winds up for a first serve at 125mph. You\'re standing on the baseline. The T serve is coming.', question: 'Where should you stand to return a 125mph first serve?', options: ['Move 1.5 metres behind the baseline — use their pace', 'Stay right on the baseline and take it early', 'Move inside the court — they won\'t expect it', 'Stay exactly where you are — read and react'], correct: 0, whyRight: 'Against 125mph+ serves, depth buys time. Moving back gives you an extra half-second to read and react — you\'re borrowing their pace instead of fighting it.', tacticalConsequence: 'You\'re back and ready. The T serve fires in and you block a solid, deep return to their backhand side.', court: { you: {x:125,y:162}, opp: {x:125,y:12}, optTargets: [{x:35,y:18},{x:125,y:152},{x:125,y:112},{x:125,y:152}] } },
       { situation: 'Your return landed deep to their backhand. They drive a heavy reply down the middle. You\'re behind your baseline — this is your first proper ball of the rally.', question: 'The server comes back with a heavy +1. First rally ball decision:', options: ['Drive a solid crosscourt ball — start building the rally', 'Go for the early attack winner', 'Play it short to invite them to the net', 'Slice defensively to neutralise'], correct: 0, whyRight: 'On the first rally ball against a big server, your goal is to neutralise, not attack. Drive it crosscourt with depth and consistency — you\'re building toward your first real attacking opportunity.', tacticalConsequence: 'You drive it crosscourt with depth. The server is pushed to their backhand corner and their reply is shorter than before.', court: { you: {x:125,y:148}, opp: {x:35,y:18}, optTargets: [{x:35,y:18},{x:220,y:18},{x:125,y:76},{x:125,y:16}] } },
-      { situation: 'Their shorter reply sits up mid-court. You\'ve forced them out of their comfort zone. This is your first real attacking ball of the rally.', question: 'You finally have a ball to attack. What\'s the right play?', options: ['Step in and drive to their open backhand corner — take the ball early', 'Go for the outright winner immediately', 'Drop shot — they\'re deep and won\'t expect it', 'Reset deep to keep building'], correct: 0, whyRight: 'This is the moment you were working towards. The ball is short, their position is compromised — step in and drive to their open backhand corner. Take control, not the winning shot.', tacticalConsequence: 'You take the ball early and drive to the open court. Their scrambling reply is defensive and the point is in your hands.', court: { you: {x:125,y:122}, opp: {x:35,y:18}, optTargets: [{x:220,y:18},{x:220,y:16},{x:125,y:76},{x:125,y:18}] } }
+      { situation: 'Their shorter reply sits up mid-court. You\'ve forced them out of their comfort zone. This is your first real attacking ball of the rally.', question: 'You finally have a ball to attack. What\'s the right play?', options: ['Step in and drive to the open court — take the ball early', 'Go for the outright winner immediately', 'Drop shot — they\'re deep and won\'t expect it', 'Reset deep to keep building'], correct: 0, whyRight: 'This is the moment you were working towards. The ball is short, their position is compromised — step in and drive to the open court. Take control, not the winning shot.', tacticalConsequence: 'You take the ball early and drive to the open court. Their scrambling reply is defensive and the point is in your hands.', court: { you: {x:125,y:122}, opp: {x:35,y:18}, optTargets: [{x:220,y:18},{x:220,y:16},{x:125,y:76},{x:125,y:18}] } }
     ]
   },
   {
@@ -10623,8 +10651,8 @@ const LINKED_SEQUENCES = [
     tacticalTakeaway: 'Against a big server, breaking serve is about patience and pattern disruption — not trying to win on the return. Neutralise, build, strike when the opening appears.',
     nextTimeCue: 'Against big servers: stand back, chip deep to the backhand, make them play 4+ balls. Your chance will come — usually on ball 3 or 4.',
     steps: [
-      { situation: 'Another 130mph first serve comes at you down the T. You\'re currently standing on the baseline.', question: 'Return positioning against a 130mph server:', options: ['Move 1 metre behind the baseline — chip or block deep to their backhand', 'Stand on the baseline and drive an aggressive return', 'Move inside the baseline and attack early', 'Stay on the baseline and go for broke down the line'], correct: 0, whyRight: 'A 130mph serve gives you 0.6 seconds to respond. Moving back and chipping or blocking to their backhand is the highest-percentage strategy. You\'re using their pace, not fighting it.', tacticalConsequence: 'You chip a solid deep return to their backhand. They drive it back aggressively — a heavy ball to your forehand corner.', court: { you: {x:125,y:162}, opp: {x:125,y:12}, optTargets: [{x:35,y:18},{x:125,y:152},{x:125,y:115},{x:220,y:18}] } },
-      { situation: 'Their first rally ball is heavy and deep — a big forehand to your corner. You\'re pushed back behind the baseline. This is the tricky second ball.', question: 'Big server hits a heavy +1. You\'re pushed back. What\'s the right call?', options: ['Defend deep crosscourt — survive and build from neutral', 'Go for a winner immediately to show you\'re a threat', 'Slice defensively short to slow the pace', 'Come to net to disrupt their rhythm'], correct: 0, whyRight: 'The big server\'s second ball is designed to win the point immediately. The correct response is to defend with depth, force them to hit a third ball, and wait for the pace to naturally decrease.', tacticalConsequence: 'Your deep crosscourt defense is good. They have to move to their backhand for the third ball — the pace is dropping.', court: { you: {x:220,y:152}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:35,y:16},{x:125,y:76},{x:125,y:93}] } },
+      { situation: 'Another 130mph first serve comes at you down the T. You\'re currently standing on the baseline.', question: 'Return positioning against a 130mph server:', options: ['Move 1 metre behind the baseline — chip or block deep to their backhand', 'Stand on the baseline and drive an aggressive return', 'Move inside the baseline and attack early', 'Stay on the baseline and go for broke down the line'], correct: 0, whyRight: 'A 130mph serve gives you 0.6 seconds to respond. Moving back and chipping or blocking to their backhand is the highest-percentage strategy. You\'re using their pace, not fighting it.', tacticalConsequence: 'You chip a solid deep return to their backhand — but the big server steps around it and drives a heavy forehand to your corner.', court: { you: {x:125,y:162}, opp: {x:125,y:12}, optTargets: [{x:35,y:18},{x:125,y:152},{x:125,y:115},{x:220,y:18}] } },
+      { situation: 'They stepped around their backhand to crush a heavy forehand, deep to your corner. You\'re pushed back behind the baseline. This is the tricky second ball.', question: 'Big server hits a heavy +1. You\'re pushed back. What\'s the right call?', options: ['Defend deep crosscourt — survive and build from neutral', 'Go for a winner immediately to show you\'re a threat', 'Slice defensively short to slow the pace', 'Come to net to disrupt their rhythm'], correct: 0, whyRight: 'The big server\'s second ball is designed to win the point immediately. The correct response is to defend with depth, force them to hit a third ball, and wait for the pace to naturally decrease.', tacticalConsequence: 'Your deep crosscourt defense is good. They have to move to their backhand for the third ball — the pace is dropping.', court: { you: {x:220,y:152}, opp: {x:125,y:18}, optTargets: [{x:35,y:18},{x:35,y:16},{x:125,y:76},{x:125,y:93}] } },
       { situation: 'On the third ball, they\'ve had to move — a backhand reply comes back slightly shorter and less aggressive. The serve power has been neutralised.', question: 'The big server is on the run for the third ball. How do you take control?', options: ['Step in and drive to the open court — the serve pattern is broken', 'Continue defending and building from neutral', 'Drop shot — they\'re not expecting it after your defending', 'Big forehand attack immediately'], correct: 0, whyRight: 'This is what you were waiting for. They\'ve moved, the pace has dropped, and the court is open. Step in and drive to the open court decisively — this is the break opportunity.', tacticalConsequence: 'You step in, drive it to the open court. They can\'t recover. Break point. The patience pattern worked.', court: { you: {x:125,y:132}, opp: {x:35,y:28}, optTargets: [{x:220,y:18},{x:125,y:18},{x:125,y:76},{x:220,y:16}] } }
     ]
   },
@@ -10702,7 +10730,7 @@ function renderSeq(phase) {
   if (phase === 'intro') el.innerHTML = buildSeqIntro();
   else if (phase === 'step') el.innerHTML = buildSeqStep();
   else if (phase === 'result') el.innerHTML = buildSeqResult();
-  window.scrollTo(0, 0);
+  gsScrollTop();
 }
 
 // ── INTRO ──
