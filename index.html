@@ -688,6 +688,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .seq-step-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:700;}
 .seq-situation{font-size:15px;line-height:1.65;color:rgba(255,255,255,.88);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:15px 17px;margin-bottom:18px;}
 .seq-carry-tag{display:block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:700;opacity:.8;margin-bottom:3px;}
+.seq-tell-eyebrow{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:rgba(140,190,255,.85);font-weight:700;}
+.seq-tell-opt .seq-opt-ltr{background:rgba(140,190,255,.14);color:rgba(140,190,255,.9);}
+.seq-variant-tag{font-size:11.5px;font-weight:600;color:rgba(140,190,255,.85);background:rgba(140,190,255,.08);border:1px solid rgba(140,190,255,.25);border-radius:10px;padding:8px 12px;margin:10px 0 2px;animation:exin .4s ease;}
 .seq-question{font-size:18px;font-weight:600;color:var(--white);line-height:1.45;margin-bottom:14px;}
 .seq-opt{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.09);border-radius:14px;padding:13px 16px;cursor:pointer;margin-bottom:9px;display:flex;align-items:flex-start;gap:12px;transition:all .18s;position:relative;overflow:hidden;}
 .seq-opt:hover:not(.seq-locked){border-color:rgba(200,168,75,.32);background:rgba(200,168,75,.04);transform:translateX(3px);}
@@ -1379,6 +1382,36 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .session-module { font-size: 14px; color: rgba(255,255,255,.7); margin-bottom: 6px; }
 .session-streak { font-size: 15px; margin-bottom: 6px; }
 .session-teaser { font-size: 13px; color: rgba(255,255,255,.5); margin-bottom: 24px; }
+.session-teaser strong { color: rgba(200,168,75,.85); }
+.session-shield { font-size: 12.5px; color: rgba(140,190,255,.75); margin-bottom: 8px; }
+/* Daily framing lines (pressure point / second look) */
+.q-frame-line { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; animation: exin .4s ease; }
+.q-frame-pressure { color: var(--gold); }
+.q-frame-second { color: rgba(140,190,255,.85); }
+/* Tier promotion banner */
+.gs-promo-banner { width:100%; max-width:340px; margin:0 auto 14px; box-sizing:border-box; padding:13px 16px; border-radius:14px; font-size:13.5px; line-height:1.5; color:rgba(255,255,255,.92); background:linear-gradient(135deg,rgba(200,168,75,.16),rgba(20,40,18,.6)); border:1px solid rgba(200,168,75,.45); animation: exin .5s cubic-bezier(.34,1.1,.64,1); }
+.gs-promo-banner strong { color: var(--gold); }
+/* Try-today follow-up card */
+.try-follow-card { background:linear-gradient(155deg,rgba(20,40,18,.6),rgba(8,16,9,.92)); border:1px solid rgba(200,168,75,.3); border-radius:16px; padding:14px 16px; margin:0 0 14px; animation: exin .45s ease; }
+.tf-eyebrow { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(200,168,75,.7); margin-bottom:6px; }
+.tf-q { font-size:13.5px; line-height:1.5; color:rgba(255,255,255,.88); margin-bottom:10px; }
+.tf-q strong { color:#fff; }
+.tf-btns { display:flex; gap:8px; }
+.tf-btn { flex:1; background:rgba(200,168,75,.14); border:1.5px solid rgba(200,168,75,.45); color:var(--gold); border-radius:30px; padding:9px 0; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; }
+.tf-btn-soft { background:transparent; border-color:rgba(255,255,255,.18); color:rgba(255,255,255,.6); }
+.tf-thanks { font-size:13.5px; line-height:1.5; color:rgba(255,255,255,.85); padding:4px 0; }
+/* Tennis Brain meters */
+.brain-card { padding:16px 16px 12px; }
+.brain-row { display:flex; align-items:center; gap:12px; margin-bottom:13px; }
+.brain-ico { width:26px; height:26px; color:var(--gold); flex:none; }
+.brain-ico svg { width:100%; height:100%; }
+.brain-body { flex:1; min-width:0; }
+.brain-top { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:5px; }
+.brain-lbl { font-size:13px; font-weight:700; color:rgba(255,255,255,.9); }
+.brain-meta { font-size:10.5px; color:rgba(255,255,255,.45); }
+.brain-bar { height:6px; border-radius:4px; background:rgba(255,255,255,.08); overflow:hidden; }
+.brain-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,rgba(200,168,75,.65),var(--gold)); transition:width .8s cubic-bezier(.34,1.1,.64,1); }
+.brain-foot { font-size:11px; color:rgba(200,168,75,.65); text-align:center; padding-top:4px; border-top:1px solid rgba(255,255,255,.06); margin-top:2px; }
 .session-return-btn { background: var(--gold); color: #111; border: none; border-radius: 40px; padding: 14px 32px; font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing:.04em; }
 .try-today-btn {
   width: 100%;
@@ -2611,6 +2644,36 @@ function updateStartHereCard() {
 }
 
 // ── PROFILE HUB ──
+// ── TENNIS BRAIN (Phase 2) ── the earned identity: gs_brain accumulates
+// {trained, sharpened} per capacity once per day; this surfaces it as meters.
+function buildBrainSection() {
+  try {
+    const brain = JSON.parse(localStorage.getItem('gs_brain') || '{}');
+    const active = TT_GRID_ORDER.filter(k => brain[k] && brain[k].trained > 0);
+    if (!active.length) return '';
+    const days = Math.max.apply(null, active.map(k => brain[k].trained));
+    const rows = TT_GRID_ORDER.map(k => {
+      const b = brain[k] || { trained: 0, sharpened: 0 };
+      const c = TT_CAPACITY[k];
+      const pct = b.trained ? Math.round(100 * b.sharpened / b.trained) : 0;
+      return `<div class="brain-row">
+        <span class="brain-ico">${c.icon}</span>
+        <div class="brain-body">
+          <div class="brain-top"><span class="brain-lbl">${c.label}</span><span class="brain-meta">${b.sharpened} of ${b.trained} days sharp</span></div>
+          <div class="brain-bar"><div class="brain-fill" style="width:${pct}%"></div></div>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="phub-section">
+      <div class="phub-section-eyebrow">Earned session by session — nothing here is a label</div>
+      <div class="phub-section-title">Your Tennis Brain</div>
+      <div class="phub-card brain-card">${rows}
+        <div class="brain-foot">${days} day${days === 1 ? '' : 's'} of training banked</div>
+      </div>
+    </div>`;
+  } catch(e) { return ''; }
+}
+
 function showProfileHub() {
   showScreen('profileScreen');
   const wrap = document.getElementById('profileWrap');
@@ -2664,6 +2727,7 @@ function showProfileHub() {
 
   wrap.innerHTML = `
     <div class="phub-back" onclick="initHome()">← Home</div>
+    ${buildBrainSection()}
     <div class="phub-section">
       <div class="phub-section-eyebrow">Your Setup</div>
       <div class="phub-section-title">Profile Builder</div>
@@ -2697,6 +2761,17 @@ const WELCOME_QUESTIONS = [
       { emoji: '🎯', label: 'Rookie', sublabel: 'Getting the basics together', tag: 'rookie', confirm: "Good — most of your points are decided by a handful of repeat mistakes. We'll find them first." },
       { emoji: '🎾', label: 'Club Player', sublabel: 'Regular league or social tennis', tag: 'club', confirm: "This is the level where tactics start deciding matches more than strokes — exactly where we'll sharpen." },
       { emoji: '⚡', label: 'Competitor', sublabel: 'I train and take matches seriously', tag: 'competitor', confirm: "At your level the margins are tiny. We'll hunt the 1%-ers that flip tight matches." }
+    ]
+  },
+  {
+    key: 'frustration',
+    headline: 'What costs you the most matches right now?',
+    subtext: 'Be honest — this is where your training starts.',
+    opts: [
+      { emoji: '😤', label: 'Losing to players I should beat', sublabel: 'Pushers, lobbers, junk-ballers', tag: 'lose_to_worse', confirm: "The classic. They don't beat you — they let you beat yourself. We'll start with the patterns that break them." },
+      { emoji: '😬', label: 'Tightening up on big points', sublabel: 'Break points, tiebreaks, serving it out', tag: 'choke', confirm: "Pressure tennis is a skill, not a personality. We'll rehearse the big points until they feel routine." },
+      { emoji: '🎯', label: 'My serve leaking free points', sublabel: 'Doubles, weak seconds, no plan', tag: 'serve', confirm: "The serve is the only shot you fully control. We'll turn it from a tax into a pattern-starter." },
+      { emoji: '🤔', label: 'Not knowing what to play when', sublabel: 'I hit fine — I decide badly', tag: 'decisions', confirm: "That's exactly what GameSharp trains: the right shot at the right moment, until it's automatic." }
     ]
   },
   {
@@ -2739,7 +2814,7 @@ const WELCOME_QUESTIONS = [
 ];
 
 // Friendly display labels for the profile-building checklist.
-const WOB_KEY_LABEL = { player_level: 'Level', play_format: 'Format', sharpen_focus: 'Focus', progress_goal: '30-Day Goal' };
+const WOB_KEY_LABEL = { player_level: 'Level', frustration: 'Fix First', play_format: 'Format', sharpen_focus: 'Focus', progress_goal: '30-Day Goal' };
 function wobLabelFor(key, tag) {
   const q = WELCOME_QUESTIONS.find(x => x.key === key);
   const o = q && q.opts.find(x => x.tag === tag);
@@ -2790,7 +2865,7 @@ const COLD_OPENS = [
       { label: 'Drop shot', sub: 'Change it up', target: { x: 80, y: 88 }, correct: false,
         verdict: "From an even, deep rally the drop just sits up — your opponent is balanced and reads it early. There's no opening here yet to exploit." }
     ],
-    insight: "Roger Federer called the down-the-line the most expensive shot in tennis: “The crosscourt gives you the match. The line ends the point — you need the match before you can end the point.”"
+    insight: "Federer built his baseline game on exactly this patience: crosscourt until the short ball arrives, then the line — earned, not gambled. The crosscourt has a lower net and a longer court; the line has neither. Build with one, finish with the other."
   },
   {
     // Alcaraz — read the short ball, controlled attack
@@ -2806,7 +2881,7 @@ const COLD_OPENS = [
       { label: 'Cheeky drop shot', sub: 'Catch them napping', target: { x: 110, y: 60 }, correct: false,
         verdict: "A drop shot off a sitter throws away your biggest advantage. You're set up to attack from inside the court — so attack." }
     ],
-    insight: "Carlos Alcaraz's coach Juan Carlos Ferrero found the skill wasn't the swing — it was the read. “He was half a second late,” Ferrero said. “When we fixed the read, the shot fixed itself.” Move first, hit second."
+    insight: "Alcaraz's camp trained the read, not the swing — when the recognition of the short ball comes half a second earlier, the shot largely fixes itself. Move first, hit second. That sequence is the skill."
   },
   {
     // Venus — wide serve + 1 into the open court
@@ -3146,7 +3221,7 @@ function showBuildingProfile() {
   const step = document.getElementById('wObStep'); if (step) step.textContent = '';
   if (!inner) return;
 
-  const keys = ['player_level', 'play_format', 'sharpen_focus', 'progress_goal'];
+  const keys = ['player_level', 'frustration', 'play_format', 'sharpen_focus', 'progress_goal'];
   const present = keys.filter(k => wObState.answers[k]);
   const rows = present.map((k, i) =>
     `<div class="wob-build-row" id="wobRow${i}">
@@ -6831,12 +6906,32 @@ function updateStreak(completed) {
     let streak = getStreak();
     if (completed) {
       if (lastKey === yesterdayKey) streak += 1;
-      else if (lastKey !== todayKey) streak = 1;
+      else if (lastKey !== todayKey) {
+        // Streak shield ("rain delay") — one missed day per week is forgiven,
+        // so a 20-day streak doesn't die to a single busy Tuesday.
+        const db = new Date(d); db.setDate(d.getDate()-2);
+        const dbKey = `gamesharp_daily_${db.getFullYear()}_${db.getMonth()}_${db.getDate()}`;
+        if (streak >= 2 && lastKey === dbKey && gsShieldAvailable()) {
+          gsUseShield(); streak += 1;
+          try { sessionStorage.setItem('gs_shield_fired', '1'); } catch(e) {}
+        } else streak = 1;
+      }
       localStorage.setItem('gamesharp_streak', streak);
       localStorage.setItem('gamesharp_last_day', todayKey);
     }
     return streak;
   } catch(e) { return 0; }
+}
+
+function gsWeekKey() {
+  const d = new Date(), jan = new Date(d.getFullYear(), 0, 1);
+  return d.getFullYear() + '_w' + Math.floor(((d - jan) / 864e5 + jan.getDay()) / 7);
+}
+function gsShieldAvailable() {
+  try { return localStorage.getItem('gs_shield_week') !== gsWeekKey(); } catch(e) { return false; }
+}
+function gsUseShield() {
+  try { localStorage.setItem('gs_shield_week', gsWeekKey()); } catch(e) {}
 }
 
 function isDailyDone() {
@@ -6866,6 +6961,128 @@ function getPillarProgress(pillar) {
     const total = modules.length + 1; // +1 for 'play all'
     return played > 0 ? Math.min(1, played / total) : 0;
   } catch(e) { return 0; }
+}
+
+// ── TIER PROMOTION LADDER ── The onboarding level is a floor, not a cage:
+// 9+ correct in the last 12 difficulty-rated answers earns the next tier up.
+const GS_LEVEL_ORDER = ['beginner', 'rookie', 'club', 'competitor'];
+const GS_LEVEL_NAMES = { beginner:'Rookie', rookie:'Club', club:'Competitor', competitor:'Tactician' }; // reading level unlocked AT the next step
+function gsEarnedLevel() {
+  try { return localStorage.getItem('gs_earned_level') || ''; } catch(e) { return ''; }
+}
+function gsStatedLevel() {
+  // Deep profile first, then the welcome-onboarding tags (most users only have these)
+  const p = (getProfile() || {}).player_level;
+  if (p) return p;
+  try { return (getPlayerTags() || {}).player_level || ''; } catch(e) { return ''; }
+}
+function gsEffectiveLevel() {
+  const stated = gsStatedLevel();
+  const si = GS_LEVEL_ORDER.indexOf(stated), ei = GS_LEVEL_ORDER.indexOf(gsEarnedLevel());
+  const i = Math.max(si, ei);
+  return i >= 0 ? GS_LEVEL_ORDER[i] : stated;
+}
+function gsTrackTierForm(q, ok) {
+  try {
+    if (!q || !q.difficulty) return;
+    const roll = JSON.parse(localStorage.getItem('gs_tier_roll') || '[]');
+    roll.push(ok ? 1 : 0);
+    while (roll.length > 12) roll.shift();
+    localStorage.setItem('gs_tier_roll', JSON.stringify(roll));
+    if (roll.length === 12 && roll.reduce((a,b)=>a+b,0) >= 9) {
+      const cur = gsEffectiveLevel();
+      const i = GS_LEVEL_ORDER.indexOf(cur);
+      if (i > -1 && i < GS_LEVEL_ORDER.length - 1) {
+        localStorage.setItem('gs_earned_level', GS_LEVEL_ORDER[i+1]);
+        localStorage.setItem('gs_tier_roll', '[]');
+        localStorage.setItem('gs_promo_pending', GS_LEVEL_ORDER[i+1]);
+      }
+    }
+  } catch(e) {}
+}
+
+// ── MISS BANK ── wrong answers come back for a "Second Look" 3+ days later.
+function gsLogMiss(q, ok) {
+  try {
+    const mb = JSON.parse(localStorage.getItem('gs_misses') || '{}');
+    if (!ok) {
+      const e = mb[q.id] || { n: 0 };
+      e.n++; e.ts = Date.now(); delete e.resurfaced;
+      mb[q.id] = e;
+    } else if (mb[q.id] && mb[q.id].resurfaced) {
+      delete mb[q.id]; // beat the second look — the lesson stuck
+    } else {
+      return;
+    }
+    localStorage.setItem('gs_misses', JSON.stringify(mb));
+  } catch(e) {}
+}
+function gsPickSecondLook() {
+  try {
+    const mb = JSON.parse(localStorage.getItem('gs_misses') || '{}');
+    const cutoff = Date.now() - 3 * 864e5;
+    const ids = Object.keys(mb).filter(id => mb[id].ts <= cutoff && !mb[id].resurfaced)
+      .sort((a,b) => mb[a].ts - mb[b].ts);
+    for (const id of ids) {
+      const q = QBANK.find(x => x.id === id);
+      if (q && q.pillar !== 'Technique') {
+        mb[id].resurfaced = Date.now();
+        localStorage.setItem('gs_misses', JSON.stringify(mb));
+        return q;
+      }
+    }
+  } catch(e) {}
+  return null;
+}
+
+// ── TOMORROW HOOK ── reserve a real question for tomorrow's daily, tease it
+// at session end. The teaser is honest: that question IS in tomorrow's session.
+function gsReserveTomorrow() {
+  try {
+    const existing = JSON.parse(localStorage.getItem('gs_tomorrow') || 'null');
+    if (existing && existing.after === getTodayKey()) return QBANK.find(q => q.id === existing.qid) || null;
+    const free = QBANK.filter(q => (q.tier === 'Free' || !q.tier) && q.pillar !== 'Technique');
+    const seen = getSeenData();
+    const seenIds = new Set([...Object.keys(seen.timestamps || {}), ...(seen.ids || [])]);
+    let pool = free.filter(q => !seenIds.has(q.id));
+    if (!pool.length) pool = free;
+    const best = pool.sort((a,b) =>
+      ((+b.engagement_score||3)+(+b.utility_score||3)) - ((+a.engagement_score||3)+(+a.utility_score||3))
+    ).slice(0, 12);
+    const q = best[Math.floor(Math.random() * best.length)];
+    if (!q) return null;
+    localStorage.setItem('gs_tomorrow', JSON.stringify({ qid: q.id, after: getTodayKey() }));
+    return q;
+  } catch(e) { return null; }
+}
+function gsClaimReserved() {
+  try {
+    const r = JSON.parse(localStorage.getItem('gs_tomorrow') || 'null');
+    if (r && r.after !== getTodayKey()) {
+      localStorage.removeItem('gs_tomorrow');
+      return QBANK.find(q => q.id === r.qid) || null;
+    }
+  } catch(e) {}
+  return null;
+}
+function gsTomorrowTeaser(q) {
+  const map = {
+    'serve strategy': 'a serve pattern that wins free points',
+    'return of serve': 'the return position pros choose under pressure',
+    'pressure points': 'why big leads evaporate — and the habit that stops it',
+    'beat opponent types': 'the opponent type that beats players above their level',
+    'rally tactics': 'the rally ball most club players choose wrong',
+    'reading the game': "a tell that gives away your opponent's next shot",
+    'match mindset': 'the mental switch that loses won matches',
+    'net play': 'the volley decision that decides most points up there',
+    'doubles': 'the doubles position most pairs get wrong',
+    'movement & footwork': 'the footwork habit that makes every ball feel reachable',
+    'match strategy': 'the game plan adjustment that flips tight sets',
+    'competing up a level': 'what actually changes when you play better players',
+    'match preparation': 'the pre-match habit that decides the first set',
+    'between-point routine': 'what the best players do in the 20 seconds you waste'
+  };
+  return map[(q && q.module || '').toLowerCase()] || ('a ' + ((q && q.module) || 'tactical') + ' read most club players miss');
 }
 
 const TOMORROW_TEASERS = {
@@ -6944,11 +7161,42 @@ function startDailyChallenge() {
 function runStandardDaily() {
   trackEvent('today_challenge_started');
   const free = QBANK.filter(q => q.tier === 'Free' || !q.tier);
-  const tacPool = free.filter(q => q.pillar !== 'Technique');
+  let tacPool = free.filter(q => q.pillar !== 'Technique');
+
+  // Frustration-first: for the first 3 dailies, the pain the user named in
+  // onboarding owns the session. A user who said "pushers" and gets pusher
+  // reads on Day 1 believes the app sees them.
+  try {
+    const doneC = parseInt(localStorage.getItem('gamesharp_challenges_done') || '0');
+    const FF = {
+      lose_to_worse: q => q.module === 'Beat Opponent Types' || q.module === 'Rally Tactics',
+      choke:         q => q.module === 'Pressure Points' || q.pillar === 'Mental',
+      serve:         q => q.module === 'Serve Strategy' || q.module === 'Serve Mechanics' || q.module === 'Return of Serve',
+      decisions:     q => q.module === 'Reading the Game' || q.module === 'Rally Tactics' || q.module === 'Match Strategy'
+    }[(getPlayerTags() || {}).frustration];
+    if (doneC < 3 && FF) {
+      const focused = tacPool.filter(FF);
+      if (focused.length >= 6) tacPool = focused;
+    }
+  } catch(e) {}
+
+  // Yesterday's tomorrow-hook question is honoured first, then one resurfaced
+  // miss ("Second Look"), then fresh selection fills the rest of the 3 reads.
+  const reserved = gsClaimReserved();
+  const secondLook = gsPickSecondLook();
+  const fixed = [reserved, secondLook].filter(q => q && true);
+  const dedupFixed = fixed.filter((q, i) => fixed.findIndex(x => x.id === q.id) === i);
+  const need = Math.max(1, 3 - dedupFixed.length);
 
   // 3 tactical reads (standard quiz engine)...
-  const tac = selectSessionQuestions({ pool: tacPool, count: 3, mode: 'daily-tactical' });
-  if (!tac.length) return false;
+  let tac = selectSessionQuestions({ pool: tacPool.filter(q => !dedupFixed.find(f => f.id === q.id)), count: need, mode: 'daily-tactical' });
+  if (!tac.length && !dedupFixed.length) return false;
+  if (secondLook) secondLook.__secondLook = true;
+  // Order: fresh open, second look in the middle, reserved hook included naturally
+  tac = dedupFixed.concat(tac).slice(0, 3);
+  // Put the Second Look at slot 2 if present
+  const slIdx = tac.findIndex(q => q.__secondLook);
+  if (slIdx > -1 && tac.length > 1) { const [sl] = tac.splice(slIdx, 1); tac.splice(1, 0, sl); }
 
   // ...+ a 4th "body" question: one Fix-a-Shot stroke-fault, shown in its native
   // stroke-figure style. Stored as a marker entry that loadQ never renders — nextQ
@@ -6972,6 +7220,7 @@ function runStandardDaily() {
   const total = bundle.length;
   bundle.forEach((q, i) => {
     const fmtKey = q.__dailyTech ? '' : getFormatLabel(q, i);
+    const isSecondLook = !!q.__secondLook; delete q.__secondLook;
     q._bundle = {
       score: "Today's Challenge",
       context: "4 quick calls · 3 reads + 1 on your strokes.",
@@ -6979,7 +7228,10 @@ function runStandardDaily() {
       shotNum: i + 1,
       total,
       fmtKey,
-      fmtLabel: q.__dailyTech ? 'Stroke Fix' : fmtLabel(fmtKey),
+      fmtLabel: q.__dailyTech ? 'Stroke Fix' : (isSecondLook ? 'Second Look' : fmtLabel(fmtKey)),
+      secondLook: isSecondLook,
+      // The last tactical read carries the session's pressure framing
+      pressure: !q.__dailyTech && i === 2,
     };
   });
   recordSeenQuestions(tac);
@@ -8924,11 +9176,64 @@ function triggerLogoIntro() {
   }, 300);
 }
 
+// ── TRY-TODAY FOLLOW-UP ── "I'll try this today" loops back the next day:
+// the single most coach-like sentence the app can say. Real court life feeds
+// the app loop — and answering either way closes the intent honestly.
+function initTryFollowUp() {
+  const card = document.getElementById('dailyCard');
+  if (!card || !card.parentNode) return;
+  let wrap = document.getElementById('tryFollowWrap');
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.id = 'tryFollowWrap';
+    card.parentNode.insertBefore(wrap, card);
+  }
+  wrap.innerHTML = ''; wrap.style.display = 'none';
+  try {
+    const intents = JSON.parse(localStorage.getItem('gamesharp_try_intents') || '[]');
+    const dayStart = new Date(); dayStart.setHours(0,0,0,0);
+    const due = intents.filter(i => i.ts < dayStart.getTime() && !i.followedUp);
+    if (!due.length) return;
+    const intent = due[due.length - 1]; // most recent open intent
+    const tip = (intent.tip || intent.question || 'your match plan').replace(/[.!]$/, '');
+    wrap.style.display = 'block';
+    wrap.innerHTML = `
+      <div class="try-follow-card" id="tryFollowCard">
+        <div class="tf-eyebrow">From your match plan</div>
+        <div class="tf-q">You said you'd try: <strong>${tip}</strong>. Did it come up?</div>
+        <div class="tf-btns">
+          <button class="tf-btn" onclick="resolveTryFollowUp('${intent.qid}','yes')">I used it</button>
+          <button class="tf-btn tf-btn-soft" onclick="resolveTryFollowUp('${intent.qid}','no')">Not yet</button>
+        </div>
+      </div>`;
+  } catch(e) {}
+}
+function resolveTryFollowUp(qid, ans) {
+  try {
+    const intents = JSON.parse(localStorage.getItem('gamesharp_try_intents') || '[]');
+    const it = intents.find(i => i.qid === qid && !i.followedUp);
+    if (it) { it.followedUp = ans; it.fuTs = Date.now(); }
+    localStorage.setItem('gamesharp_try_intents', JSON.stringify(intents));
+  } catch(e) {}
+  trackEvent('try_followup', { qid, ans });
+  const cardEl = document.getElementById('tryFollowCard');
+  if (cardEl) {
+    cardEl.innerHTML = `<div class="tf-thanks">${ans === 'yes'
+      ? '🎾 That\'s how it sticks — a read you\'ve used is a read you own.'
+      : 'It\'ll come. The read is in your pocket for the next match.'}</div>`;
+    setTimeout(() => {
+      const w = document.getElementById('tryFollowWrap');
+      if (w) { w.style.transition = 'opacity .5s'; w.style.opacity = '0'; setTimeout(() => { w.style.display = 'none'; w.style.opacity = '1'; }, 520); }
+    }, 2200);
+  }
+}
+
 function initHome() {
   state.screen = 'home';
   showScreen('homeScreen');
   trackEvent('home_viewed');
   initDailyChallenge();
+  initTryFollowUp();
   initSeqCard();
   initOneThingToRemember();
 
@@ -9025,6 +9330,8 @@ function recordAnswerStat(q, ok, sourceLetter) {
     stats[q.id] = s;
     localStorage.setItem(key, JSON.stringify(stats));
   } catch (e) { /* swallow */ }
+  gsLogMiss(q, ok);
+  gsTrackTierForm(q, ok);
   trackEvent('question_answered', { qid: q.id, pillar: q.pillar, difficulty: q.difficulty, ok: ok, chose: sourceLetter, correct: q.correct_answer });
   if (ANALYTICS_ENDPOINT) {
     try { navigator.sendBeacon(ANALYTICS_ENDPOINT, JSON.stringify({ qid: q.id, ok: ok, chose: sourceLetter, correct: q.correct_answer, ts: Date.now() })); } catch (e) { /* swallow */ }
@@ -9486,7 +9793,8 @@ function selectSessionQuestions({ pool, count, allowSeenFallback, mode }) {
   // beginner never draws an ATP-tier "130mph serve." Graceful fallback: if gating
   // would leave too few, widen back to the full pool (a hard question beats none).
   try {
-    const lvl = (getProfile() || {}).player_level;
+    // Effective level = stated level raised by the earned promotion ladder
+    const lvl = gsEffectiveLevel();
     const ceiling = {
       beginner:   ['Rookie', 'Club'],
       rookie:     ['Rookie', 'Club'],
@@ -9763,6 +10071,26 @@ function loadQ() {
   const qc = document.getElementById('qCard');
   qc.classList.remove('slide-in'); void qc.offsetWidth; qc.classList.add('slide-in');
   document.getElementById('qText').textContent = q.question;
+
+  // Daily framing lines: pressure point on the last read, second-look on a resurfaced miss
+  let frameEl = document.getElementById('qFrameLine');
+  if (!frameEl) {
+    frameEl = document.createElement('div');
+    frameEl.id = 'qFrameLine';
+    const qt = document.getElementById('qText');
+    if (qt && qt.parentNode) qt.parentNode.insertBefore(frameEl, qt);
+  }
+  if (bundle && bundle.pressure) {
+    frameEl.className = 'q-frame-line q-frame-pressure';
+    frameEl.textContent = '⚡ Pressure point — everything you\'ve read comes down to this';
+    frameEl.style.display = 'block';
+  } else if (bundle && bundle.secondLook) {
+    frameEl.className = 'q-frame-line q-frame-second';
+    frameEl.textContent = '↺ Second look — this one got you a few days ago';
+    frameEl.style.display = 'block';
+  } else {
+    frameEl.style.display = 'none';
+  }
 
   // Pre-question player type label
   const preTypeLbl = document.getElementById('prePlayerType');
@@ -10206,7 +10534,12 @@ function showScore() {
     [0.4,  'KEEP GOING',   'Every wrong answer is a lesson. Read and retry.'],
     [0,    'JUST STARTING','Start with the explanations — that\'s where the real learning lives.']
   ];
-  const [, title, sub] = msgs.find(([t]) => pct >= t);
+  let [, title, sub] = msgs.find(([t]) => pct >= t);
+  // A perfect daily earns its own moment — 4/4 is rarer than "every call sharp" suggests
+  if (state.isDailyMode && pct === 1) {
+    title = 'CLEAN SHEET';
+    sub = `Four for four. Every read landed.`;
+  }
   document.getElementById('sTitle').textContent = title;
   document.getElementById('sSub').textContent = sub;
 
@@ -10274,7 +10607,18 @@ function showScore() {
         </div>`;
     }
 
-    const ttHtml = state.isDailyMode ? buildTodayTraining() : '';
+    // Tier promotion announcement — earned, so it leads the summary
+    let promoHtml = '';
+    try {
+      const promo = localStorage.getItem('gs_promo_pending');
+      if (promo) {
+        localStorage.removeItem('gs_promo_pending');
+        const unlocked = GS_LEVEL_NAMES[promo] || promo;
+        promoHtml = `<div class="gs-promo-banner">📈 <strong>You're reading at ${unlocked} level now.</strong> Harder scenarios unlocked — your last 12 calls earned it.</div>`;
+      }
+    } catch(e) {}
+
+    const ttHtml = promoHtml + (state.isDailyMode ? buildTodayTraining() : '');
     if (ntpAction || strokeCueHtml) {
       const klHtml = learnings.length ? `
         <div class="cc-kl-section">
@@ -10308,17 +10652,24 @@ function showScore() {
     const score = state.score;
     const moduleName = state.selectedModule || state.selectedPillar || 'Tennis';
     const streak = getStreak();
-    // Pick teaser from different pillar
-    const pillarsAll = Object.keys(TOMORROW_TEASERS);
-    const otherPillars = pillarsAll.filter(p => p !== state.selectedPillar);
-    const teaserPillar = otherPillars.length ? otherPillars[Math.floor(Math.random() * otherPillars.length)] : pillarsAll[0];
-    const teaserTopic = TOMORROW_TEASERS[teaserPillar] ? teaserPillar : 'Match Tactics';
+    // Tomorrow hook — reserve a real question for tomorrow's daily and tease it.
+    // Honest curiosity: the teased read genuinely appears in tomorrow's session.
+    const reservedQ = gsReserveTomorrow();
+    const teaserLine = reservedQ ? `Tomorrow: <strong>${gsTomorrowTeaser(reservedQ)}</strong>` : '';
+    let shieldNote = '';
+    try {
+      if (sessionStorage.getItem('gs_shield_fired') === '1') {
+        sessionStorage.removeItem('gs_shield_fired');
+        shieldNote = `<div class="session-shield">🛡 Rain delay used — your streak survived yesterday's miss.</div>`;
+      }
+    } catch(e) {}
     returnWrap.innerHTML = `
       <div class="session-end-wrap">
         <div class="session-score">You scored <strong>${score}/${total}</strong></div>
         <div class="session-module">Topic: <strong>${moduleName}</strong></div>
         <div class="session-streak">🔥 Streak: <strong>${streak} day${streak===1?'':'s'}</strong></div>
-        <div class="session-teaser">Tomorrow: <strong>${teaserTopic}</strong></div>
+        ${shieldNote}
+        ${teaserLine ? `<div class="session-teaser">${teaserLine}</div>` : ''}
         <button class="session-return-btn" onclick="initHome()">← Back to Home</button>
       </div>`;
     // Show feedback widget for daily challenge completions
@@ -10413,7 +10764,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v133';
+const CACHE = 'gamesharp-v134';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
@@ -10685,6 +11036,88 @@ const LINKED_SEQUENCES = [
 ];
 
 // ── STATE ──
+// ── OBSERVATION TELLS ── one "what do you see?" micro-read before each sequence.
+// Pros differ from club players at the observation step, not the selection step —
+// this is the spotting-the-tell rep. Unscored: a warm-up for the eye.
+const SEQ_TELLS = {
+  seq_001: { q: "Before you serve — what does their court position tell you?", opts: ["They're guarding the backhand — the wide angle is open", "They're expecting a body serve", "They're nervous about pace"], correct: 0, why: "Crowding the centre protects one wing and donates the other. The wide serve is being offered." },
+  seq_002: { q: "What's the tell in that 78mph second serve?", opts: ["Pace and height — it hands you time and position", "The ball toss", "Their grip"], correct: 0, why: "Slow and high means you choose the contact. That's the whole invitation." },
+  seq_003: { q: "What does standing 2 metres behind the baseline tell you?", opts: ["They've conceded the front of the court", "They're tired", "They want you to hit harder"], correct: 0, why: "Deep position is a trade: safety on deep balls, surrender on short ones. The front half is yours." },
+  seq_004: { q: "Where does the moonball want you to stand?", opts: ["Deep behind the baseline — and that's the trap", "Inside the court", "It doesn't care"], correct: 0, why: "The moonball's whole job is pushing you back above your strike zone. Refuse the depth and it's just a slow ball." },
+  seq_005: { q: "Set point. What's the most important read right now?", opts: ["Your own state — pressure changes your tempo first", "Their return position", "The string tension"], correct: 0, why: "The first thing pressure distorts is you: rushed routine, quicker toss. Read yourself before you read them." },
+  seq_006: { q: "Against a 125mph serve, what can you actually control?", opts: ["Your contact — shorter swing, borrow their pace", "Out-hitting the serve", "Guessing the right side"], correct: 0, why: "You can't out-swing 125mph. You can out-prepare it: compact takeback, firm block, their pace recycled." },
+  seq_007: { q: "Why has the poach been missing all match?", opts: ["No movement — they've returned crosscourt unpunished", "Bad luck", "The serve is too slow"], correct: 0, why: "A static net player makes crosscourt a free corridor. The poach exists to make that corridor expensive." },
+  seq_008: { q: "Pulled wide, opponent loaded. What actually buys you survival?", opts: ["Time — bought with height and depth", "Power", "A miracle winner"], correct: 0, why: "Every metre of recovery costs time, and only height and depth sell it. Defence is a purchase, not a prayer." },
+  seq_009: { q: "What did their short slice just hand you?", opts: ["Territory — you're inside the court with options", "A guaranteed winner", "Nothing — stay patient"], correct: 0, why: "Short balls give ground, not gifts. The point is won by what you take: position first, then the finish." },
+  seq_010: { q: "Why does the T serve keep producing the same weak reply?", opts: ["Jammed contact can't create angle — replies come back central", "They're a bad returner", "Luck"], correct: 0, why: "A cramped swing physically can't generate width. The central reply isn't chance — it's geometry." },
+  seq_011: { q: "6-6, they've won two straight. What's the real danger?", opts: ["Abandoning the game that got you here", "Their momentum", "Your second serve"], correct: 0, why: "Momentum tempts you to fix what isn't broken. The breaker is won by the player who stays recognisable." },
+  seq_012: { q: "They're at the net. What's your first read on the pass?", opts: ["Their position — where they stand decides where you hit", "How hard to swing", "Which grip to use"], correct: 0, why: "The passing shot is a geometry question before it's a shot. Their feet have already eliminated options for you." },
+  seq_013: { q: "What does this short ball actually give you?", opts: ["A chance to take the net — not a free winner", "A guaranteed point", "A breather"], correct: 0, why: "The short ball's gift is position. Cash it as territory and the point follows; cash it as a winner and you donate errors." },
+  seq_014: { q: "They're crowding wide. What is that stance telling you?", opts: ["The body is exposed — the jam is on", "Serve wide anyway", "They read your toss"], correct: 0, why: "Protecting the sideline opens the hip. A returner can cover the corner or their body — never both." },
+  seq_015: { q: "Four crosscourts in. When is changing direction safe?", opts: ["On the right ball — shorter, inside the baseline", "Whenever you feel ready", "Immediately — surprise them"], correct: 0, why: "Direction change off a deep ball is the classic error donor. The line is earned by the short ball, not the urge." },
+  seq_016: { q: "They're 2.5m deep and comfortable. What's free?", opts: ["The entire front of the court", "Their backhand", "Nothing — they're solid"], correct: 0, why: "Depth that solid is also a commitment. Everything in front of the service line belongs to you until they move." },
+  seq_017: { q: "Sprinting back from 3 metres off court — what buys recovery?", opts: ["Height and depth on this one ball", "Footspeed alone", "Going for broke"], correct: 0, why: "You can't outrun a placed ball — but you can make YOUR ball spend four seconds in the air while you get home." },
+  seq_018: { q: "Their backhand is weaker. Why not just hammer it now?", opts: ["From neutral it telegraphs — they'll camp on it", "No reason — attack it", "Backhands are never weak"], correct: 0, why: "A read your opponent knows you have stops working. The weak wing pays only after you've opened it." },
+  seq_019: { q: "8 straight holds. What's the realistic goal this return game?", opts: ["Make returns and force played points — pressure compounds", "Return winners", "Match their pace"], correct: 0, why: "Big servers feed on free points. Every return in play sends a different message: today you have to play." },
+  seq_020: { q: "They charge the net every point. What's the charge vulnerable to?", opts: ["Low balls at their feet, mid-run", "Raw pace", "Nothing — it's working"], correct: 0, why: "A player moving forward can't volley up well from their shoelaces. Low is the price of the charge." }
+};
+
+// ── REPLAY VARIANTS ── on a replay, the opponent adapts at step 2: same setup,
+// different answer. A sequence you've solved stays alive because the read changes.
+const SEQ_VARIANTS = {
+  seq_001: { stepIdx: 1, step: {
+    situation: "This time the reply comes back deeper — your opponent has read the wide serve and recovered fast. The ball arrives at your baseline. Neutral.",
+    question: "The pattern didn't produce the sitter this time. What now?",
+    options: ["Stay patient — heavy crosscourt to the backhand, rebuild the edge", "Force the winner anyway — the plan said attack", "Drop shot to surprise them", "Bail out deep down the middle"],
+    correct: 0,
+    court: { you: { x: 125, y: 148 }, opp: { x: 200, y: 28 }, optTargets: [{ x: 35, y: 18 }, { x: 220, y: 16 }, { x: 125, y: 76 }, { x: 125, y: 18 }] },
+    tacticalConsequence: "The heavy crosscourt lands deep to the backhand — your opponent is moved again, and the next reply is shorter. The advantage rebuilds.",
+    whyRight: "The serve still moved them — the advantage is positional, not a free winner. When the sitter doesn't come, you don't force the script; you run the pattern again. Plans survive contact by repeating, not escalating." } },
+  seq_003: { stepIdx: 1, step: {
+    situation: "This time the pusher reads the drop shot early — they arrive balanced and push it deep to your backhand. For the first time all match, they're INSIDE the court.",
+    question: "The pusher is suddenly near the net. What's the play?",
+    options: ["Topspin lob — they never volley from balance, let alone overhead", "Pass hard crosscourt", "Drop shot back over the net", "Drive straight at their body"],
+    correct: 0,
+    court: { you: { x: 125, y: 142 }, opp: { x: 125, y: 72 }, optTargets: [{ x: 125, y: 12 }, { x: 35, y: 16 }, { x: 125, y: 88 }, { x: 125, y: 60 }] },
+    tacticalConsequence: "The lob sails over them into the space they abandoned. They scramble back, but a pusher's overhead and retreat game is the weakest tennis they own.",
+    whyRight: "A pusher at the net is a fish on land — they came forward by necessity, not choice. The lob attacks the skill they've practised least and reclaims the deep court they just left." } },
+  seq_004: { stepIdx: 1, step: {
+    situation: "This time the moonballer doesn't crack — another heavy, high ball loops deep to your backhand. The early-ball plan needs another rep.",
+    question: "No short ball yet. What do you do?",
+    options: ["Take it early again — on the rise, same plan, no retreat", "Back up and let this one drop", "Switch to a slice and reset", "Go for a winner from deep"],
+    correct: 0,
+    court: { you: { x: 125, y: 132 }, opp: { x: 125, y: 12 }, optTargets: [{ x: 35, y: 18 }, { x: 125, y: 152 }, { x: 35, y: 16 }, { x: 220, y: 16 }] },
+    tacticalConsequence: "You hold your ground and take it at the top of the bounce again. The third moonball lands shorter — the pattern is cracking, one rep at a time.",
+    whyRight: "The plan doesn't fail because it takes two balls — it fails when you abandon it after one. Each early ball denies them the time their loop needs. Retreating once re-teaches them the moonball works." } },
+  seq_011: { stepIdx: 1, step: {
+    situation: "This time the return attacks — a deep, aggressive drive at your feet. Suddenly YOU'RE the one under pressure at 6-6.",
+    question: "You're defending in the breaker now. Priority?",
+    options: ["Neutralise — deep ball through the middle, no angle for them", "Counter-attack for a winner", "Short slice to change the rhythm", "Rush the net behind your reply"],
+    correct: 0,
+    court: { you: { x: 125, y: 148 }, opp: { x: 125, y: 18 }, optTargets: [{ x: 125, y: 18 }, { x: 220, y: 16 }, { x: 125, y: 76 }, { x: 125, y: 93 }] },
+    tacticalConsequence: "The deep middle ball gives them nothing to work with. The rally resets to neutral — the crisis passes without a donation.",
+    whyRight: "Deep and central is the great neutraliser: no angle to attack, full court to recover into. In a breaker, surviving the bad moments matters exactly as much as converting the good ones." } },
+  seq_019: { stepIdx: 1, step: {
+    situation: "This time the +1 comes flatter and central — to your forehand, less heat than you braced for. The first genuinely playable ball in eight games.",
+    question: "A central, manageable +1. What's the call?",
+    options: ["Drive it deep crosscourt — start the rally on your terms", "Blast a winner — first chance all match", "Drop shot while they expect defence", "Loop it high and deep to buy time"],
+    correct: 0,
+    court: { you: { x: 125, y: 142 }, opp: { x: 125, y: 18 }, optTargets: [{ x: 35, y: 18 }, { x: 220, y: 16 }, { x: 125, y: 76 }, { x: 125, y: 16 }] },
+    tacticalConsequence: "Your deep crosscourt makes the big server play a third, fourth, fifth ball. Off-serve, they're ordinary — and now the point is being played in your world.",
+    whyRight: "Eight games of waiting makes the blast almost irresistible — and that's the trap. The big server's power is the serve, not the rally. A solid deep ball drags them into the part of tennis they practise least." } }
+};
+
+function gsSeqPlayCount(id) {
+  try { return (JSON.parse(localStorage.getItem('gs_seq_plays') || '{}')[id] || 0); } catch(e) { return 0; }
+}
+function gsBumpSeqPlay(id) {
+  try {
+    const p = JSON.parse(localStorage.getItem('gs_seq_plays') || '{}');
+    p[id] = (p[id] || 0) + 1;
+    localStorage.setItem('gs_seq_plays', JSON.stringify(p));
+  } catch(e) {}
+}
+
 let seqState = { seq: null, stepIdx: 0, answered: false, answers: [], score: 0 };
 
 // ── ENTRY ──
@@ -10730,10 +11163,21 @@ function _shuffleStepOptions(step) {
 
 function startLinkedSequence(id) {
   const orig = LINKED_SEQUENCES.find(s => s.id === id) || LINKED_SEQUENCES[0];
+  // On a replay, the opponent adapts: swap in the variant step so a solved
+  // sequence still demands a live read instead of recall.
+  let steps = (orig.steps || []).slice();
+  let isVariant = false;
+  const v = SEQ_VARIANTS[orig.id];
+  if (v && gsSeqPlayCount(orig.id) > 0 && gsSeqPlayCount(orig.id) % 2 === 1) {
+    steps = steps.slice();
+    steps[v.stepIdx] = v.step;
+    isVariant = true;
+  }
   // Clone with shuffled options per step so the correct answer isn't always 'A'
-  const seq = { ...orig, steps: (orig.steps || []).map(_shuffleStepOptions) };
-  seqState = { seq, stepIdx: 0, answered: false, answers: [], score: 0 };
-  trackEvent('read_the_game_started', { id: seq.id });
+  const seq = { ...orig, steps: steps.map(_shuffleStepOptions), _variant: isVariant };
+  seqState = { seq, stepIdx: 0, answered: false, answers: [], score: 0, tellDone: false };
+  gsBumpSeqPlay(orig.id);
+  trackEvent('read_the_game_started', { id: seq.id, variant: isVariant });
   showScreen('sequenceScreen');
   window.scrollTo(0, 0);
   renderSeq('intro');
@@ -10743,9 +11187,86 @@ function renderSeq(phase) {
   const el = document.getElementById('seqContent');
   if (!el) return;
   if (phase === 'intro') el.innerHTML = buildSeqIntro();
+  else if (phase === 'observe') el.innerHTML = buildSeqObserve();
   else if (phase === 'step') el.innerHTML = buildSeqStep();
   else if (phase === 'result') el.innerHTML = buildSeqResult();
   gsScrollTop();
+}
+
+// Intro start → the observation read (if authored), else straight to step 1
+function seqBegin() {
+  const s = seqState.seq;
+  if (SEQ_TELLS[s.id] && !seqState.tellDone) {
+    seqState._tellAnswered = false;
+    renderSeq('observe');
+  } else renderSeq('step');
+}
+
+// ── OBSERVE ── the warm-up read: spot the tell before the first decision.
+function buildSeqObserve() {
+  const s = seqState.seq;
+  const tell = SEQ_TELLS[s.id];
+  const letters = ['A','B','C'];
+  // Shuffle so the right read isn't always option A
+  const perm = tell.opts.map((_, i) => i);
+  for (let i = perm.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [perm[i], perm[j]] = [perm[j], perm[i]];
+  }
+  seqState._tellPerm = perm;
+  const opts = perm.map((srcI, i) => `
+    <div class="seq-opt seq-tell-opt" id="seqTellOpt${i}" onclick="pickSeqTell(${i})">
+      <div class="seq-opt-ltr">${letters[i]}</div>
+      <div class="seq-opt-label">${tell.opts[srcI]}</div>
+    </div>`).join('');
+  return `
+    <div class="seq-glow"></div>
+    <div class="seq-step-wrap">
+      <div class="seq-step-header">
+        <div class="seq-back-btn" onclick="renderSeq('intro')">←</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+          <div class="seq-tell-eyebrow">Warm-up read</div>
+          <div class="seq-step-label">What do you see?</div>
+        </div>
+        <div style="width:40px;"></div>
+      </div>
+      <div class="seq-situation">${s.setup}</div>
+      <div class="seq-question">${tell.q}</div>
+      ${opts}
+      <div id="seqTellWhy" class="seq-consequence-card"></div>
+      <button class="seq-next-btn" id="seqTellNextBtn" onclick="seqState.tellDone=true;renderSeq('step')">Start the Point →</button>
+    </div>`;
+}
+
+function pickSeqTell(idx) {
+  const s = seqState.seq;
+  const tell = SEQ_TELLS[s.id];
+  if (!tell || seqState._tellAnswered) return;
+  seqState._tellAnswered = true;
+  const perm = seqState._tellPerm || tell.opts.map((_, i) => i);
+  const correctDisp = perm.indexOf(tell.correct);
+  const ok = idx === correctDisp;
+  try { ok ? gsCorrect() : gsWrong(); } catch(e) {}
+  tell.opts.forEach((_, i) => {
+    const el = document.getElementById('seqTellOpt' + i);
+    if (!el) return;
+    el.classList.add('seq-locked');
+    if (i === correctDisp) el.classList.add('seq-correct');
+    else if (i === idx) el.classList.add('seq-wrong');
+    else el.classList.add('seq-other');
+  });
+  setTimeout(() => {
+    const whyEl = document.getElementById('seqTellWhy');
+    if (whyEl) {
+      whyEl.className = 'seq-consequence-card ' + (ok ? 'scc-good' : 'scc-bad');
+      whyEl.innerHTML = `
+        <div class="seq-cons-tag">${ok ? '👁 SEEN' : '👁 THE TELL'}</div>
+        <div class="seq-cons-text">${tell.why}</div>`;
+      requestAnimationFrame(() => whyEl.classList.add('scc-show'));
+    }
+    const nb = document.getElementById('seqTellNextBtn');
+    if (nb) nb.classList.add('snb-show');
+  }, 480);
 }
 
 // ── INTRO ──
@@ -10762,6 +11283,7 @@ function buildSeqIntro() {
       <div class="seq-intro-title">${s.title}</div>
       <div class="seq-intro-pillar">${s.pillar} · ${s.module}</div>
       <div class="seq-intro-setup">${s.setup}</div>
+      ${s._variant ? '<div class="seq-variant-tag">↻ Replay — your opponent has adapted. Same point, new read.</div>' : ''}
       <div class="seq-chain-preview">
         <div class="seq-chain-node">
           <div class="seq-chain-num">1</div>
@@ -10778,7 +11300,7 @@ function buildSeqIntro() {
           <div class="seq-chain-lbl">Close the<br>Point</div>
         </div>
       </div>
-      <button class="seq-start-btn" onclick="renderSeq('step')">Start Sequence →</button>
+      <button class="seq-start-btn" onclick="seqBegin()">Start Sequence →</button>
     </div>`;
 }
 
@@ -10903,8 +11425,17 @@ function buildSeqCourtAnim(step, choiceIdx) {
   const opp = { x: _mx(_sx(c.opp.x)), y: _sy(c.opp.y) };
   const _t = c.optTargets[choiceIdx] || c.optTargets[step.correct];
   const target = { x: _mx(_sx(_t.x)), y: _sy(_t.y) };
+  // Shot semantics — the chosen shot's character drives flight time and arc,
+  // so a lob LOOKS like a lob and a drive LOOKS like a drive. The animation
+  // carries information, not just direction.
+  const optText = ((step.options || [])[choiceIdx] || '').toLowerCase();
+  let ballDur = 0.7, arcLift = 18;
+  if (/\blob\b|loop it high/.test(optText))                       { ballDur = 1.35; arcLift = 52; }
+  else if (/drop/.test(optText))                                  { ballDur = 1.0;  arcLift = 30; }
+  else if (/slice|chip|block|reset|safe/.test(optText))           { ballDur = 0.85; arcLift = 16; }
+  else if (/drive|winner|smash|crush|blast|rip|attack|punch/.test(optText)) { ballDur = 0.45; arcLift = 9; }
   const midX = (you.x + target.x) / 2;
-  const midY = Math.min(you.y, target.y) - 18;
+  const midY = Math.min(you.y, target.y) - arcLift;
   const courtLines = `
     <defs>
       <linearGradient id="seqSurf" x1="0" y1="0" x2="0" y2="1">
@@ -10934,19 +11465,45 @@ function buildSeqCourtAnim(step, choiceIdx) {
     <rect x="17" y="74" width="6" height="8" fill="rgba(200,168,75,.45)" rx="1"/>
     <rect x="227" y="74" width="6" height="8" fill="rgba(200,168,75,.45)" rx="1"/>
     <line x1="20" y1="78" x2="230" y2="78" stroke="rgba(255,255,255,.7)" stroke-width="1.8"/>`;
+  // Recovery movement — the half of positioning lessons most club players never
+  // see: after the shot, YOU moves. Approach/net shots close in; baseline shots
+  // recover toward the centre mark.
+  const goesIn = /approach|net|volley|close|charge/.test(optText);
+  const rec = goesIn
+    ? { x: you.x + (125 - you.x) * 0.5, y: Math.max(86, you.y - 34) }
+    : { x: you.x + (125 - you.x) * 0.55, y: you.y + (146 - you.y) * 0.25 };
+  const showRecovery = Math.abs(rec.x - you.x) > 6 || Math.abs(rec.y - you.y) > 6;
+  const recBegin = (ballDur * 0.55).toFixed(2) + 's';
+  const recDur = '0.7s';
+  const youAnim = showRecovery ? `
+      <animate attributeName="cx" from="${you.x}" to="${rec.x}" begin="${recBegin}" dur="${recDur}" fill="freeze" calcMode="spline" keySplines="0.3 0 0.4 1"/>
+      <animate attributeName="cy" from="${you.y}" to="${rec.y}" begin="${recBegin}" dur="${recDur}" fill="freeze" calcMode="spline" keySplines="0.3 0 0.4 1"/>` : '';
+  const youLblAnim = showRecovery ? `
+      <animate attributeName="x" from="${you.x}" to="${rec.x}" begin="${recBegin}" dur="${recDur}" fill="freeze"/>
+      <animate attributeName="y" from="${you.y + 14}" to="${rec.y + 14}" begin="${recBegin}" dur="${recDur}" fill="freeze"/>` : '';
+  const recTrail = showRecovery ? `
+    <line x1="${you.x}" y1="${you.y}" x2="${rec.x}" y2="${rec.y}" stroke="rgba(200,168,75,.28)" stroke-width="1" stroke-dasharray="2,3" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" begin="${recBegin}" dur="0.3s" fill="freeze"/>
+    </line>` : '';
   const players = `
     <circle cx="${opp.x}" cy="${opp.y}" r="5.5" fill="rgba(255,255,255,.55)"/>
     <text x="${opp.x}" y="${opp.y + 13}" text-anchor="middle" font-size="6.5" fill="rgba(255,255,255,.35)" font-family="DM Sans,sans-serif">OPP</text>
-    <circle cx="${you.x}" cy="${you.y}" r="6.5" fill="rgba(200,168,75,.9)"/>
-    <text x="${you.x}" y="${you.y + 14}" text-anchor="middle" font-size="6.5" fill="rgba(200,168,75,.55)" font-family="DM Sans,sans-serif">YOU</text>`;
+    ${recTrail}
+    <circle cx="${you.x}" cy="${you.y}" r="6.5" fill="rgba(200,168,75,.9)">${youAnim}</circle>
+    <text x="${you.x}" y="${you.y + 14}" text-anchor="middle" font-size="6.5" fill="rgba(200,168,75,.55)" font-family="DM Sans,sans-serif">${youLblAnim}YOU</text>`;
   const path = `
     <path d="M ${you.x},${you.y} Q ${midX},${midY} ${target.x},${target.y}"
       stroke="rgba(200,168,75,.65)" stroke-width="1.6" fill="none" stroke-dasharray="4,3"
       opacity="0">
       <animate attributeName="opacity" from="0" to="1" dur="0.35s" fill="freeze"/>
     </path>
+    <circle r="3.4" fill="#e8f4d8" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" begin="0.05s" dur="0.1s" fill="freeze"/>
+      <animate attributeName="opacity" from="1" to="0" begin="${ballDur.toFixed(2)}s" dur="0.25s" fill="freeze"/>
+      <animateMotion path="M ${you.x},${you.y} Q ${midX},${midY} ${target.x},${target.y}" begin="0.05s" dur="${ballDur.toFixed(2)}s" fill="freeze" calcMode="spline" keySplines="0.25 0.1 0.6 1" keyTimes="0;1" keyPoints="0;1"/>
+    </circle>
     <circle cx="${target.x}" cy="${target.y}" r="4.5" fill="rgba(200,168,75,.85)" opacity="0">
-      <animate attributeName="opacity" from="0" to="1" begin="0.3s" dur="0.2s" fill="freeze"/>
+      <animate attributeName="opacity" from="0" to="1" begin="${(ballDur * 0.92).toFixed(2)}s" dur="0.2s" fill="freeze"/>
     </circle>`;
   // Wing anchors on the opponent's half (right-handed opponent: forehand left,
   // backhand right) so "to their backhand" is unambiguous and self-correcting.
