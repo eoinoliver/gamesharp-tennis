@@ -8282,7 +8282,7 @@ function buildProLens(q, wasCorrect) {
   }
 
   const motClass = wasCorrect ? 'mot-correct' : 'mot-wrong';
-  const tagLabel = wasCorrect ? 'Correct Play' : 'What Actually Happens';
+  const tagLabel = wasCorrect ? smartPlayLabel(q) : 'What Actually Happens';
 
   return `
     <div class="mot-wrap ${motClass}" id="proLensWrap">
@@ -9872,6 +9872,19 @@ function handleTryToday() {
   if (btn) { btn.textContent = '✓ Added to your match plan'; btn.classList.add('added'); btn.disabled = true; }
 }
 
+function smartPlayLabel(q) {
+  const pillar = ((q && q.pillar) || '').toLowerCase();
+  const labels = {
+    'win more':  ['Smart pressure.', 'Good reading.',         'That\'s the shot.'],
+    'game iq':   ['Sharp read.',     'You saw it.',           'Good chess.'],
+    'mental':    ['Heads up.',       'Good composure.',       'Smart under pressure.'],
+    'technique': ['Solid mechanics.','Clean contact.',        'That\'s the feel.']
+  };
+  const key = Object.keys(labels).find(k => pillar.includes(k));
+  const arr = labels[key] || ['Smart play.', 'Good call.', 'That\'s the move.'];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 function pickAnswer(letter) {
   if (state.answered) return;
   state.answered = true;
@@ -9922,12 +9935,13 @@ function pickAnswer(letter) {
   const animReleased = releaseTechAnim();
   if (!animReleased) clearTechAnim();
 
-  // Explanation + Pro Lens
+  // Explanation + Pro Lens — 480ms pause lets the user sit with their decision before the verdict lands
+  setTimeout(() => {
   const ec = document.getElementById('explainCard');
   ec.style.display = 'block';
   ec.className = 'explain-card show ' + (ok?'good':'bad');
   document.getElementById('explainIcon').textContent = ok ? '✓' : '✗';
-  document.getElementById('explainTitle').textContent = ok ? 'Correct' : 'Not quite';
+  document.getElementById('explainTitle').textContent = ok ? smartPlayLabel(q) : 'Not quite';
   document.getElementById('explainBody').textContent = q.why_right || '';
   // Compact one-line takeaway shown above the "Why?" toggle on mobile
   const _one = document.getElementById('explainOneLine');
@@ -9992,6 +10006,7 @@ function pickAnswer(letter) {
   } else {
     setTimeout(() => ec.scrollIntoView({behavior:'smooth', block:'nearest'}), 300);
   }
+  }, 480);
 }
 
 function nextQ() {
@@ -10398,7 +10413,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v131';
+const CACHE = 'gamesharp-v132';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
