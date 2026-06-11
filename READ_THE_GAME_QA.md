@@ -23,7 +23,21 @@ Top-down court, you at the bottom (high y), opponent at top (low y), net in the 
 - **seq_011 (Tiebreak Discipline)** — "back to **your** forehand" is the *player's* wing
   (the ball returning to you), not the opponent's. Coherent. Left as-is.
 
-## 🔴 Systemic finding — needs a product decision (do not flip blind)
+## ✅ RESOLVED — handedness anchor (was the 🔴 systemic finding)
+Added **"THEIR FH" / "THEIR BH" wing labels** to the court (right-handed opponent:
+forehand left, backhand right — consistent with the deuce/ad geometry the app already
+gets right), and **mirrored the play in the renderer** (`buildSeqCourtAnim`, `_mx = 250-x`)
+so the authored "backhand→left" coordinates now *render* on the right, under the BH label.
+One renderer change fixes every step — verified: all 9 wing-named correct answers now land
+on the correctly-labelled side (0 mismatches). Text + ball + label now agree app-wide.
+
+**Follow-up (small):** the ~6 `deuce`/`ad` court references in *situation* text are
+mirror-sensitive and may now sit on the opposite side from the label. Lower-stakes
+(scene-setting, not the taught instruction) — flagged for a quick text pass.
+
+---
+### Original systemic finding (kept for the record)
+
 The convention labels **screen-left (x35) as the opponent's backhand**. But for a
 **right-handed opponent viewed from behind you, screen-left is their FOREHAND** (they face
 you, so their hands mirror). So "hit to their backhand" sends the ball to the *forehand*

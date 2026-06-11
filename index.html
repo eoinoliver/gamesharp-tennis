@@ -10398,7 +10398,7 @@ function shareResult() {
   // Service Worker for offline + install
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'gamesharp-v129';
+const CACHE = 'gamesharp-v130';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['.'])));
   self.skipWaiting();
@@ -10880,10 +10880,14 @@ function buildSeqCourtAnim(step, choiceIdx) {
   // landings inside the baselines, so no ball lands in the tramlines.
   const _sx = x => 46 + (x - 20) * (158 / 210);
   const _sy = y => Math.max(17, Math.min(155, y));
-  const you = { x: _sx(c.you.x), y: _sy(c.you.y) };
-  const opp = { x: _sx(c.opp.x), y: _sy(c.opp.y) };
+  // Mirror horizontally so the authored convention (backhand coords on the left)
+  // RENDERS with a right-handed opponent's backhand on the RIGHT — matching the
+  // "THEIR BH" anchor and the deuce/ad geometry. One transform fixes every step.
+  const _mx = v => 250 - v;
+  const you = { x: _mx(_sx(c.you.x)), y: _sy(c.you.y) };
+  const opp = { x: _mx(_sx(c.opp.x)), y: _sy(c.opp.y) };
   const _t = c.optTargets[choiceIdx] || c.optTargets[step.correct];
-  const target = { x: _sx(_t.x), y: _sy(_t.y) };
+  const target = { x: _mx(_sx(_t.x)), y: _sy(_t.y) };
   const midX = (you.x + target.x) / 2;
   const midY = Math.min(you.y, target.y) - 18;
   const courtLines = `
@@ -10929,7 +10933,12 @@ function buildSeqCourtAnim(step, choiceIdx) {
     <circle cx="${target.x}" cy="${target.y}" r="4.5" fill="rgba(200,168,75,.85)" opacity="0">
       <animate attributeName="opacity" from="0" to="1" begin="0.3s" dur="0.2s" fill="freeze"/>
     </circle>`;
-  return `<svg viewBox="0 0 250 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">${courtLines}${players}${path}</svg>`;
+  // Wing anchors on the opponent's half (right-handed opponent: forehand left,
+  // backhand right) so "to their backhand" is unambiguous and self-correcting.
+  const wingLabels = `
+    <text x="74" y="33" text-anchor="middle" font-size="6" letter-spacing="0.4" fill="rgba(200,168,75,.5)" font-family="DM Sans,sans-serif">THEIR FH</text>
+    <text x="176" y="33" text-anchor="middle" font-size="6" letter-spacing="0.4" fill="rgba(200,168,75,.5)" font-family="DM Sans,sans-serif">THEIR BH</text>`;
+  return `<svg viewBox="0 0 250 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">${courtLines}${wingLabels}${players}${path}</svg>`;
 }
 
 // ── NEXT STEP ──
