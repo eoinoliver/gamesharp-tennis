@@ -10121,6 +10121,22 @@ function setTnBroadcastResult(q, ok){
   court.insertAdjacentHTML('beforeend',
     `<div class="tn-broadcast ${ok?'ok':'miss'}" id="taBroadcast"><span>${phase}</span><i>·</i><span class="tn-out">${out}</span></div>`);
 }
+// ── PHASE-0 CAMERA PILOT (ported from golf's animateCamViewBox) ──
+// Animates the live 200×310 court viewBox via SMIL (composes with the 3D-perspective
+// transform). The target is written as the base value so framing is correct even if
+// SMIL is throttled (a cut, never a freeze). Honors prefers-reduced-motion.
+function tnCamera(svg, vb, ms){
+  if(!svg) return;
+  const to = vb.join(' ');
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){ svg.setAttribute('viewBox', to); return; }
+  const cur = svg.getAttribute('viewBox') || '0 0 200 310';
+  const old = svg.querySelector('#tnCamAnim'); if(old) old.remove();
+  const dur = Math.max(0.2, ms/1000).toFixed(2);
+  svg.insertAdjacentHTML('afterbegin',
+    `<animate id="tnCamAnim" attributeName="viewBox" from="${cur}" to="${to}" dur="${dur}s" begin="0s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.25 0.1 0.25 1"/>`);
+  svg.setAttribute('viewBox', to);
+  try{ const a=svg.querySelector('#tnCamAnim'); if(a && a.beginElement) a.beginElement(); }catch(e){}
+}
 
 function loadQ() {
   state.answered = false;
@@ -10347,6 +10363,11 @@ function pickAnswer(letter) {
   // releaseTechAnim rebuilds the court SVG ~60ms later (init), so append the result
   // bar after that — it reacts to the decision (golf's priced-consequence beat).
   if (animReleased) setTimeout(() => setTnBroadcastResult(q, ok), 200);
+  // PHASE-0 CAMERA PILOT — court_net_approach only: a gentle push-in toward the net +
+  // open court as the result reveals (~1.5s in). Tests the camera over the 3D court.
+  if (animReleased && q.techAnim === 'court_net_approach') {
+    setTimeout(() => { const svg = document.querySelector('#taCourt svg'); if (svg) tnCamera(svg, [33,0,154,239], 900); }, 1500);
+  }
 
   // Explanation + Pro Lens — 480ms pause lets the user sit with their decision before the verdict lands
   setTimeout(() => {
