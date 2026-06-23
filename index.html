@@ -227,6 +227,12 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .tn-broadcast span{white-space:nowrap;}
 .tn-broadcast i{color:var(--gold,#c8a84b);font-style:normal;opacity:.65;margin:0 2px;}
 @keyframes tnTagIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+/* Result state — the bar reacts to the decision (golf's priced-consequence beat). */
+.tn-broadcast.ok{border-color:rgba(76,175,80,.5);background:linear-gradient(90deg,rgba(18,40,20,.9),rgba(14,30,16,.78));}
+.tn-broadcast.miss{border-color:rgba(224,82,82,.5);background:linear-gradient(90deg,rgba(40,18,18,.9),rgba(30,14,14,.78));}
+.tn-broadcast .tn-out{font-weight:700;}
+.tn-broadcast.ok .tn-out{color:#7CFFA0;}
+.tn-broadcast.miss .tn-out{color:#ff8a8a;}
 /* Portrait cinematic courts (200×310) — width-first, no height cap, no side margins */
 .ta-court-wrap svg[viewBox="0 0 200 310"]{max-height:none;}
 /* Landscape courts fill the width (no 160px cap) */
@@ -10104,6 +10110,17 @@ function setTnBroadcast(q){
   court.insertAdjacentHTML('beforeend', `<div class="tn-broadcast" id="taBroadcast">${html}</div>`);
 }
 function clearTnBroadcast(){ const o=document.getElementById('taBroadcast'); if(o) o.remove(); }
+// Result state: the bar reacts to the decision — phase kept for continuity, outcome
+// appended and valence-coloured. Outcome wording stays generically true (no overclaim).
+function setTnBroadcastResult(q, ok){
+  const court=document.getElementById('taCourt'); if(!court) return;
+  const line=tnBroadcastLine(q); if(!line) return;
+  const phase=line.split('|')[0];
+  const out = ok ? '✓ You\'re on top' : '✗ On the back foot';
+  clearTnBroadcast();
+  court.insertAdjacentHTML('beforeend',
+    `<div class="tn-broadcast ${ok?'ok':'miss'}" id="taBroadcast"><span>${phase}</span><i>·</i><span class="tn-out">${out}</span></div>`);
+}
 
 function loadQ() {
   state.answered = false;
@@ -10327,6 +10344,9 @@ function pickAnswer(letter) {
   // Falls back to clearTechAnim for questions with no techAnim.
   const animReleased = releaseTechAnim();
   if (!animReleased) clearTechAnim();
+  // releaseTechAnim rebuilds the court SVG ~60ms later (init), so append the result
+  // bar after that — it reacts to the decision (golf's priced-consequence beat).
+  if (animReleased) setTimeout(() => setTnBroadcastResult(q, ok), 200);
 
   // Explanation + Pro Lens — 480ms pause lets the user sit with their decision before the verdict lands
   setTimeout(() => {
