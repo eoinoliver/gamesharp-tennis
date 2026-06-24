@@ -10136,6 +10136,27 @@ function tnCamera(svg, vb, ms){
   svg.setAttribute('viewBox', to);
   try{ const a=svg.querySelector('#tnCamAnim'); if(a && a.beginElement) a.beginElement(); }catch(e){}
 }
+// Per-animation result-reveal camera zones (200×310 space; net at y155, YOU bottom,
+// OPP top). Each points the right way for that court's action. Courts NOT listed get
+// no camera — conceptual/diagram/whole-court reads (doubles, geometry, score) where a
+// push-in would crop players or point nowhere useful. All zooms kept gentle (~1.3–1.45×)
+// so they compose cleanly with the mobile 3D-perspective court.
+const TN_CAM_UPCOURT = [30,0,155,240];   // attacking — push toward the far court
+const TN_CAM_SERVE   = [35,0,140,217];   // serve — tighten on the far service box
+const TN_CAM_MID     = [25,52,155,240];  // ambiguous/defensive — gentle centre zoom
+const TN_CAM_ZONES = {
+  court_rally_pattern:     TN_CAM_UPCOURT,
+  court_net_approach:      [33,0,154,239],
+  court_short_ball_attack: [30,25,150,233],
+  court_serve_zones:       TN_CAM_SERVE,
+  court_body_serve_jam:    TN_CAM_SERVE,
+  court_wide_serve_open:   TN_CAM_SERVE,
+  court_return_pos:        TN_CAM_MID,
+  court_moonball_response: TN_CAM_MID,
+  court_lob_vs_pass:       TN_CAM_MID,
+  court_neutral:           TN_CAM_MID,
+  court_positions:         TN_CAM_MID
+};
 
 function loadQ() {
   state.answered = false;
@@ -10363,13 +10384,11 @@ function pickAnswer(letter) {
   // releaseTechAnim rebuilds the court SVG ~60ms later (init), so append the result
   // bar after that — it reacts to the decision (golf's priced-consequence beat).
   if (animReleased) setTimeout(() => setTnBroadcastResult(q, ok), 200);
-  // PHASE-0 CAMERA PILOT — armed on the "attacking" courts whose action resolves
-  // UP-court (so a top-biased push-in points the right way). court_rally_pattern is
-  // by far the most common (~94 qs), so this is reliably reachable for testing.
-  // Defensive/return courts (action at the bottom) are deliberately excluded.
-  const TN_CAM_PILOT = ['court_rally_pattern','court_net_approach','court_serve_zones','court_wide_serve_open','court_short_ball_attack'];
-  if (animReleased && TN_CAM_PILOT.indexOf(q.techAnim) !== -1) {
-    setTimeout(() => { const svg = document.querySelector('#taCourt svg'); if (svg) tnCamera(svg, [33,0,154,239], 900); }, 1500);
+  // RESULT-REVEAL CAMERA — per-animation push-in (~1.5s in), each zone pointing the
+  // right way for that court. Courts absent from TN_CAM_ZONES get no camera.
+  const _camZone = animReleased && TN_CAM_ZONES[q.techAnim];
+  if (_camZone) {
+    setTimeout(() => { const svg = document.querySelector('#taCourt svg'); if (svg) tnCamera(svg, _camZone, 900); }, 1500);
   }
 
   // Explanation + Pro Lens — 480ms pause lets the user sit with their decision before the verdict lands
