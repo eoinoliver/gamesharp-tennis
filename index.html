@@ -1176,6 +1176,14 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .pb-try:active{transform:scale(.98);}
 .pb-share{background:transparent;border:1px solid rgba(200,168,75,.4);color:var(--gold,#c8a84b);border-radius:12px;padding:12px 16px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform .12s,background .2s;display:flex;align-items:center;gap:6px;}
 .pb-share:active{transform:scale(.98);background:rgba(200,168,75,.1);}
+.pb-section{padding:24px 20px 2px;}
+.pb-section-title{font-size:18px;font-weight:800;color:#fff;}
+.pb-section-sub{font-size:12.5px;color:rgba(255,255,255,.45);margin-top:2px;}
+.pb-steps-badge{font-size:9.5px;font-weight:800;letter-spacing:.6px;color:#0a1509;background:rgba(200,168,75,.92);padding:2px 7px;border-radius:10px;vertical-align:middle;margin-left:7px;text-transform:uppercase;white-space:nowrap;}
+.pb-steps-list{margin:11px 0 0;padding-left:18px;}
+.pb-steps-list li{font-size:12.5px;color:rgba(255,255,255,.62);line-height:1.5;margin-bottom:4px;}
+.pb-card-complex .pb-card-anim{background:rgba(0,0,0,.18);}
+.pb-card-complex .ms-svg{max-height:300px;width:auto;}
 @keyframes ptpNew{0%,100%{box-shadow:0 0 8px rgba(200,168,75,.4);}50%{box-shadow:0 0 16px 2px rgba(200,168,75,.75);}}
 .ptp-sibling .ptp-question{font-size:15px;line-height:1.4;font-weight:600;color:rgba(255,255,255,.92);margin:0 0 10px;max-width:calc(100% - 98px);position:relative;z-index:2;text-align:left;}
 .ptp-sibling .ptp-steps{display:flex;align-items:center;gap:6px;margin:0 0 12px;position:relative;z-index:2;}
@@ -11145,12 +11153,76 @@ const PLAYBOOK = [
   { id:'short_ball',     title:'Attack the Short Ball',   tagline:'Move in decisively on the short ball and take time away from your opponent.', anim:'short_ball_attack', params:{}, module:'Rally Tactics' },
   { id:'net_approach',   title:'Net Approach',            tagline:'Approach behind the right ball, split, and close to finish at the net.', anim:'court_net_approach', params:{}, module:'Net Play' },
 ];
-function _pbGet(id){ return PLAYBOOK.find(p => p.id === id); }
+// Complex multi-shot plays: scripted patterns drawn shot-by-shot on one court.
+// Coords are on a 200x300 top-down court (x 20..180, net y150, YOU bottom).
+const COMPLEX_PLAYS = [
+  { id:'wide_open', complex:true, title:'Wide Serve → Open Court', module:'Serve Strategy',
+    tagline:'The classic one-two: drag them out wide, then strike the space they leave.',
+    shots:[
+      { from:[118,272], to:[45,92],  bend:14,  color:'#e07070', label:'WIDE', caption:'Serve wide to drag the returner off the court.' },
+      { from:[100,275], to:[160,70], bend:-14, color:'#5bba6f', label:'OPEN', caption:'Strike the +1 into the open court before they recover.' },
+    ] },
+  { id:'engineer_dtl', complex:true, title:'Two Heavy Crosscourts → Down the Line', module:'Rally Tactics',
+    tagline:'Engineer the conditions first — only redirect once they are stretched wide.',
+    shots:[
+      { from:[60,275],  to:[150,62], bend:-10, color:'#c8a84b', label:'CC',  caption:'Heavy crosscourt — push them off the centre.' },
+      { from:[66,275],  to:[165,52], bend:-12, color:'#c8a84b', label:'CC',  caption:'Again — stretch them right off the court.' },
+      { from:[150,272], to:[52,58],  bend:10,  color:'#5bba6f', label:'DTL', caption:'Now redirect down the line into the space.' },
+    ] },
+  { id:'serve_volley', complex:true, title:'Serve & Volley', module:'Net Play',
+    tagline:'Take time away: serve, close, and finish the first volley into space.',
+    shots:[
+      { from:[112,272], to:[52,92],  bend:12, color:'#e07070', label:'SERVE',  caption:'Serve and follow it straight in behind the ball.' },
+      { from:[100,158], to:[158,68], bend:-8, color:'#5bba6f', label:'VOLLEY', caption:'Punch the first volley into the open court.' },
+    ] },
+];
+function buildMultiShotSVG(play){
+  const stepDur = 1.25, W = 200, H = 300, netY = 150;
+  let body = '';
+  (play.shots || []).forEach((s, i) => {
+    const d0 = 0.3 + i * stepDur;
+    const x1 = s.from[0], y1 = s.from[1], x2 = s.to[0], y2 = s.to[1];
+    const cx = (x1 + x2) / 2 + (s.bend || 0), cy = (y1 + y2) / 2;
+    const col = s.color || '#c8a84b', L = 360;
+    body += `<path d="M${x1},${y1} Q${cx},${cy} ${x2},${y2}" stroke="${col}" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${L}" opacity="0" style="animation:drawPath .6s ${d0.toFixed(2)}s ease forwards;opacity:1"/>`;
+    body += `<circle cx="${x1}" cy="${y1}" r="4" fill="${col}" opacity="0" style="animation:tpop .3s ${d0.toFixed(2)}s ease both"/>`;
+    body += `<g opacity="0" style="animation:tpop .3s ${(d0 + 0.5).toFixed(2)}s ease both"><circle cx="${x2}" cy="${y2}" r="13" fill="rgba(255,255,255,.06)" stroke="${col}" stroke-width="1.5" stroke-dasharray="4,3"/><text x="${x2}" y="${y2 + 2.5}" text-anchor="middle" fill="${col}" font-size="7" font-weight="700" font-family="DM Sans,sans-serif">${s.label || (i + 1)}</text></g>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" class="ta-svg ms-svg" font-family="DM Sans,sans-serif">
+    <rect x="20" y="10" width="160" height="280" fill="#1a4a1e"/>
+    <rect x="20" y="10" width="160" height="280" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.6"/>
+    <line x1="20" y1="${netY}" x2="180" y2="${netY}" stroke="rgba(255,255,255,.7)" stroke-width="2.4"/>
+    <line x1="33" y1="80" x2="167" y2="80" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+    <line x1="33" y1="220" x2="167" y2="220" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+    <line x1="100" y1="80" x2="100" y2="220" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+    <line x1="33" y1="10" x2="33" y2="290" stroke="rgba(255,255,255,.16)" stroke-width="1"/>
+    <line x1="167" y1="10" x2="167" y2="290" stroke="rgba(255,255,255,.16)" stroke-width="1"/>
+    <text x="26" y="22" fill="rgba(255,255,255,.22)" font-size="7" letter-spacing="1">OPP</text>
+    <text x="26" y="285" fill="rgba(200,168,75,.32)" font-size="7" letter-spacing="1">YOU</text>
+    ${body}
+  </svg>`;
+}
+function _pbGet(id){ return PLAYBOOK.concat(COMPLEX_PLAYS).find(p => p.id === id); }
 function _pbDiagram(p){
   const a = TECH_ANIMS[p.anim]; if (!a) return '';
   if (typeof a.render === 'function') { const r = a.render(p.params || {}); if (r) return r; }
   if (typeof a.svg === 'string') return a.svg;
   return '';
+}
+function _pbDiagramFor(p){ return p.complex ? buildMultiShotSVG(p) : _pbDiagram(p); }
+function _pbCardHTML(p){
+  const steps = (p.complex && p.shots) ? `<ol class="pb-steps-list">${p.shots.map(s => `<li>${s.caption}</li>`).join('')}</ol>` : '';
+  const badge = (p.complex && p.shots) ? ` <span class="pb-steps-badge">${p.shots.length} shots</span>` : '';
+  return `<div class="pb-card${p.complex ? ' pb-card-complex' : ''}" id="pbcard-${p.id}">
+      <div class="pb-card-anim" onclick="playbookReplay('${p.id}')" title="Tap to replay">${_pbDiagramFor(p)}</div>
+      <div class="pb-card-title">${p.title}${badge}</div>
+      <div class="pb-card-tag">${p.tagline}</div>
+      ${steps}
+      <div class="pb-card-actions">
+        <button class="pb-try" onclick="playbookTry('${p.id}')">Try it →</button>
+        <button class="pb-share" id="pbshare-${p.id}" onclick="playbookShare('${p.id}')"><span>⬆</span> Share</button>
+      </div>
+    </div>`;
 }
 
 function initPlaybook(targetId){
@@ -11159,18 +11231,8 @@ function initPlaybook(targetId){
   trackEvent('playbook_viewed', targetId ? { play: targetId } : null);
   const wrap = document.getElementById('playHubWrap');
   if (!wrap) return;
-  const cards = PLAYBOOK.map(p => {
-    const diag = _pbDiagram(p);
-    return `<div class="pb-card" id="pbcard-${p.id}">
-      <div class="pb-card-anim" onclick="playbookReplay('${p.id}')" title="Tap to replay">${diag}</div>
-      <div class="pb-card-title">${p.title}</div>
-      <div class="pb-card-tag">${p.tagline}</div>
-      <div class="pb-card-actions">
-        <button class="pb-try" onclick="playbookTry('${p.id}')">Try it →</button>
-        <button class="pb-share" id="pbshare-${p.id}" onclick="playbookShare('${p.id}')"><span>⬆</span> Share</button>
-      </div>
-    </div>`;
-  }).join('');
+  const sig = PLAYBOOK.map(_pbCardHTML).join('');
+  const cx  = COMPLEX_PLAYS.map(_pbCardHTML).join('');
   wrap.innerHTML = `
     <div class="pb-head">
       <div class="phub-back" onclick="initHome()">← Home</div>
@@ -11178,7 +11240,12 @@ function initPlaybook(targetId){
       <div class="pb-h1">The Playbook</div>
       <div class="pb-sub">Watch the pattern, then drill it in Play a Point.</div>
     </div>
-    <div class="pb-grid">${cards}</div>`;
+    <div class="pb-grid">${sig}</div>
+    <div class="pb-section">
+      <div class="pb-section-title">Multi-Shot Plays</div>
+      <div class="pb-section-sub">Complete patterns — built shot by shot.</div>
+    </div>
+    <div class="pb-grid">${cx}</div>`;
   if (targetId) {
     setTimeout(() => {
       const el = document.getElementById('pbcard-' + targetId);
@@ -11192,7 +11259,7 @@ function playbookReplay(id){
   const p = _pbGet(id); if (!p) return;
   const card = document.getElementById('pbcard-' + id);
   const box = card && card.querySelector('.pb-card-anim');
-  if (box) { box.innerHTML = ''; void box.offsetWidth; box.innerHTML = _pbDiagram(p); }
+  if (box) { box.innerHTML = ''; void box.offsetWidth; box.innerHTML = _pbDiagramFor(p); }
 }
 
 function playbookTry(id){
