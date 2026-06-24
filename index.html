@@ -1159,6 +1159,23 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 /* Replay-misses card: a distinct "second look" accent vs the gold NEW badge */
 .gs-miss-count{background:#ce93d8!important;color:#1a0a1f!important;box-shadow:0 0 12px rgba(206,147,216,.5)!important;letter-spacing:.5px;}
 .gs-miss-card .daily-label-icon{color:#ce93d8;}
+/* ── THE PLAYBOOK ── */
+.pb-head{padding:20px 20px 6px;}
+.pb-eyebrow{font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold,#c8a84b);margin-top:6px;}
+.pb-h1{font-size:26px;font-weight:800;color:#fff;margin-top:4px;}
+.pb-sub{font-size:13px;color:rgba(255,255,255,.5);margin-top:4px;}
+.pb-grid{display:flex;flex-direction:column;gap:14px;padding:14px 16px calc(96px + env(safe-area-inset-bottom));}
+.pb-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 14px 16px;transition:box-shadow .3s;}
+.pb-card-flash{box-shadow:0 0 0 2px rgba(200,168,75,.7),0 0 22px rgba(200,168,75,.35);}
+.pb-card-anim{cursor:pointer;border-radius:12px;overflow:hidden;display:flex;justify-content:center;}
+.pb-card-anim .vis-wrap,.pb-card-anim .ta-svg{max-width:100%;}
+.pb-card-title{font-size:17px;font-weight:800;color:#fff;margin-top:12px;}
+.pb-card-tag{font-size:13px;color:rgba(255,255,255,.55);margin-top:3px;line-height:1.4;}
+.pb-card-actions{display:flex;gap:10px;margin-top:14px;}
+.pb-try{flex:1;background:var(--gold,#c8a84b);color:#111;border:none;border-radius:12px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:transform .12s;}
+.pb-try:active{transform:scale(.98);}
+.pb-share{background:transparent;border:1px solid rgba(200,168,75,.4);color:var(--gold,#c8a84b);border-radius:12px;padding:12px 16px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform .12s,background .2s;display:flex;align-items:center;gap:6px;}
+.pb-share:active{transform:scale(.98);background:rgba(200,168,75,.1);}
 @keyframes ptpNew{0%,100%{box-shadow:0 0 8px rgba(200,168,75,.4);}50%{box-shadow:0 0 16px 2px rgba(200,168,75,.75);}}
 .ptp-sibling .ptp-question{font-size:15px;line-height:1.4;font-weight:600;color:rgba(255,255,255,.92);margin:0 0 10px;max-width:calc(100% - 98px);position:relative;z-index:2;text-align:left;}
 .ptp-sibling .ptp-steps{display:flex;align-items:center;gap:6px;margin:0 0 12px;position:relative;z-index:2;}
@@ -1853,6 +1870,21 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
           </g>
           <text class="ptp-q" x="64" y="11" text-anchor="middle" font-family="DM Sans" font-weight="800" font-size="13" fill="rgba(200,168,75,.95)">?</text>
         </svg>
+      </div>
+    </div>
+
+    <!-- THE PLAYBOOK — signature plays gallery -->
+    <div class="daily-card ptp-sibling gs-playbook-card" id="playbookCard" onclick="initPlaybook()">
+      <div class="daily-inner ptp-inner">
+        <div class="daily-top">
+          <div class="daily-label">
+            <svg class="daily-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h14v16l-7-3-7 3z"/></svg>
+            The Playbook
+          </div>
+          <span class="ptp-new">PLAYS</span>
+        </div>
+        <div class="ptp-question">Signature plays — wide serve, down the line, and more. Watch the pattern, then drill it.</div>
+        <button class="ptp-cta" type="button">Open the Playbook →</button>
       </div>
     </div>
 
@@ -3407,6 +3439,11 @@ function checkFirstVisit() {
     if (_pid && typeof QBANK !== 'undefined') {
       const _q = QBANK.find(x => x.id === _pid);
       if (_q) { initHome(); startSharedPoint(_q); return; }
+    }
+    // Shared play deep link: /?play=wide_serve → open the Playbook to that play.
+    const _play = _p.get('play');
+    if (_play && typeof initPlaybook === 'function') {
+      initHome(); initPlaybook(_play); return;
     }
   } catch(e) {}
   try {
@@ -6902,7 +6939,7 @@ function arcAnim(ok) {
 
 // ── SCREENS ──
 // Which bottom-nav tab is active per screen (browsing pages show the nav)
-const NAV_TAB_INDEX = { homeScreen:0, learnScreen:1, pillarScreen:1, profileScreen:2 };
+const NAV_TAB_INDEX = { homeScreen:0, learnScreen:1, pillarScreen:1, playScreen:1, profileScreen:2 };
 function updateBottomNav(id) {
   const nav = document.getElementById('gsBottomNav');
   if (!nav) return;
@@ -11007,7 +11044,8 @@ function _shareCourt(x, ox, oy, w, h, pattern) {
   x.textAlign = 'center'; x.fillText('?', ex, ey + 6); x.textAlign = 'left';
 }
 
-function buildShareCanvas(q) {
+// Core share-card renderer — shared by points and Playbook plays.
+function _buildShareCard(opts) {
   return new Promise(resolve => {
     try {
       const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
@@ -11022,21 +11060,38 @@ function buildShareCanvas(q) {
       x.fillStyle = '#c8a84b'; x.fillText('Sharp', 70 + gw, 150);
       // eyebrow
       x.font = '700 26px "DM Sans",sans-serif'; x.fillStyle = '#7fcf94';
-      x.fillText(((q.pillar || '') + (q.module ? ' · ' + q.module : '')).toUpperCase(), 70, 206);
-      // question
+      x.fillText((opts.eyebrow || '').toUpperCase(), 70, 206);
+      // title
       x.fillStyle = '#fff'; x.font = '800 58px "DM Sans",sans-serif';
-      const lines = _shareWrap(x, q.question || '', W - 150).slice(0, 5);
+      const lines = _shareWrap(x, opts.titleText || '', W - 150).slice(0, 5);
       let yy = 296; lines.forEach(l => { x.fillText(l, 70, yy); yy += 72; });
       // court
-      const pattern = (q.techAnimParams && q.techAnimParams.pattern) || null;
-      _shareCourt(x, 70, yy + 24, W - 140, Math.min(540, H - (yy + 24) - 230), pattern);
-      // curiosity + CTA
+      _shareCourt(x, 70, yy + 24, W - 140, Math.min(540, H - (yy + 24) - 230), opts.pattern || null);
+      // kicker + CTA
       x.fillStyle = '#c8a84b'; x.font = '800 46px "DM Sans",sans-serif';
-      x.fillText('What’s the right call?', 70, H - 170);
+      x.fillText(opts.kicker || 'What’s the right call?', 70, H - 170);
       x.fillStyle = 'rgba(255,255,255,.85)'; x.font = '600 32px "DM Sans",sans-serif';
-      x.fillText('▶  Play it · gamesharptennis.com', 70, H - 108);
+      x.fillText(opts.cta || '▶  Play it · gamesharptennis.com', 70, H - 108);
       c.toBlob(b => resolve(b), 'image/png');
     } catch (e) { resolve(null); }
+  });
+}
+
+function buildShareCanvas(q) {
+  return _buildShareCard({
+    eyebrow: (q.pillar || '') + (q.module ? ' · ' + q.module : ''),
+    titleText: q.question || '',
+    pattern: (q.techAnimParams && q.techAnimParams.pattern) || null,
+    kicker: 'What’s the right call?', cta: '▶  Play it · gamesharptennis.com'
+  });
+}
+
+function buildPlayShareCanvas(p) {
+  return _buildShareCard({
+    eyebrow: 'Signature Play · ' + (p.module || ''),
+    titleText: p.title || '',
+    pattern: (p.params && p.params.pattern) || null,
+    kicker: p.tagline || '', cta: '▶  See it move · gamesharptennis.com'
   });
 }
 
@@ -11073,6 +11128,101 @@ function sharePoint(q) {
     if (navigator.clipboard) { navigator.clipboard.writeText(url).then(() => _sharePointFeedback('<span>✓</span> Image saved · link copied')); }
     else { _sharePointFeedback('<span>✓</span> Image saved'); }
     trackEvent('share_point', { qid: q.id, mode: 'download' });
+  });
+}
+
+// ── THE PLAYBOOK — signature plays gallery (Phase 2) ───────────────────────
+// Standalone animated plays. "Try it" routes into Play a Point (the practice
+// engine); "Share" posts a key-frame still + a /?play=ID deep link. Reuses the
+// unused #playScreen / #playHubWrap container.
+const PLAYBOOK = [
+  { id:'wide_serve',     title:'Wide Serve + Open Court', tagline:'Pull the returner off the court, then strike the gap they leave behind.', anim:'court_wide_serve_open', params:{side:'deuce'}, module:'Serve Strategy' },
+  { id:'body_serve',     title:'Body Serve Jam',          tagline:'Serve into the hip to cramp the swing and force a weak, predictable reply.', anim:'court_body_serve_jam', params:{side:'deuce'}, module:'Serve Strategy' },
+  { id:'serve_plus_one', title:'Serve +1 Forehand',       tagline:'Serve to a target that sets up the forehand you already planned to hit.', anim:'t_serve_plus_one', params:{}, module:'Serve Strategy' },
+  { id:'down_the_line',  title:'Down-the-Line Redirect',  tagline:'Change direction at the right moment to wrong-foot a crosscourt rally.', anim:'court_rally_pattern', params:{pattern:'dtl'}, module:'Rally Tactics' },
+  { id:'inside_out',     title:'Inside-Out Forehand',     tagline:'Run around the backhand to dictate the rally with your stronger wing.', anim:'court_rally_pattern', params:{pattern:'inside_out'}, module:'Rally Tactics' },
+  { id:'crosscourt_build', title:'Crosscourt Build',      tagline:'The percentage shot — biggest target, lowest net. Build before you attack.', anim:'court_rally_pattern', params:{pattern:'crosscourt'}, module:'Rally Tactics' },
+  { id:'short_ball',     title:'Attack the Short Ball',   tagline:'Move in decisively on the short ball and take time away from your opponent.', anim:'short_ball_attack', params:{}, module:'Rally Tactics' },
+  { id:'net_approach',   title:'Net Approach',            tagline:'Approach behind the right ball, split, and close to finish at the net.', anim:'court_net_approach', params:{}, module:'Net Play' },
+];
+function _pbGet(id){ return PLAYBOOK.find(p => p.id === id); }
+function _pbDiagram(p){
+  const a = TECH_ANIMS[p.anim]; if (!a) return '';
+  if (typeof a.render === 'function') { const r = a.render(p.params || {}); if (r) return r; }
+  if (typeof a.svg === 'string') return a.svg;
+  return '';
+}
+
+function initPlaybook(targetId){
+  state.screen = 'playbook';
+  showScreen('playScreen');
+  trackEvent('playbook_viewed', targetId ? { play: targetId } : null);
+  const wrap = document.getElementById('playHubWrap');
+  if (!wrap) return;
+  const cards = PLAYBOOK.map(p => {
+    const diag = _pbDiagram(p);
+    return `<div class="pb-card" id="pbcard-${p.id}">
+      <div class="pb-card-anim" onclick="playbookReplay('${p.id}')" title="Tap to replay">${diag}</div>
+      <div class="pb-card-title">${p.title}</div>
+      <div class="pb-card-tag">${p.tagline}</div>
+      <div class="pb-card-actions">
+        <button class="pb-try" onclick="playbookTry('${p.id}')">Try it →</button>
+        <button class="pb-share" id="pbshare-${p.id}" onclick="playbookShare('${p.id}')"><span>⬆</span> Share</button>
+      </div>
+    </div>`;
+  }).join('');
+  wrap.innerHTML = `
+    <div class="pb-head">
+      <div class="phub-back" onclick="initHome()">← Home</div>
+      <div class="pb-eyebrow">Signature Plays</div>
+      <div class="pb-h1">The Playbook</div>
+      <div class="pb-sub">Watch the pattern, then drill it in Play a Point.</div>
+    </div>
+    <div class="pb-grid">${cards}</div>`;
+  if (targetId) {
+    setTimeout(() => {
+      const el = document.getElementById('pbcard-' + targetId);
+      if (el) { el.scrollIntoView({ behavior:'smooth', block:'center' }); el.classList.add('pb-card-flash'); }
+    }, 120);
+  }
+}
+
+// Re-inject a card's diagram so its baked-in CSS animations replay.
+function playbookReplay(id){
+  const p = _pbGet(id); if (!p) return;
+  const card = document.getElementById('pbcard-' + id);
+  const box = card && card.querySelector('.pb-card-anim');
+  if (box) { box.innerHTML = ''; void box.offsetWidth; box.innerHTML = _pbDiagram(p); }
+}
+
+function playbookTry(id){
+  const p = _pbGet(id); if (!p) return;
+  trackEvent('playbook_try', { play: id, module: p.module });
+  startQuiz('all', p.module);
+}
+
+function playbookShare(id){
+  const p = _pbGet(id); if (!p || !p.id) return;
+  const url = 'https://gamesharptennis.com/?play=' + encodeURIComponent(p.id);
+  const caption = p.title + ' — ' + p.tagline + ' 🎾\nSee it move → ' + url + '\n#tennis #GameSharp';
+  buildPlayShareCanvas(p).then(blob => {
+    const file = blob ? new File([blob], 'gamesharp-play-' + p.id + '.png', { type: 'image/png' }) : null;
+    try {
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], text: caption, title: 'GameSharp' }).catch(() => {});
+        trackEvent('share_play', { play: p.id, mode: 'image' }); return;
+      }
+      if (navigator.share) {
+        navigator.share({ text: caption, url: url, title: 'GameSharp' }).catch(() => {});
+        trackEvent('share_play', { play: p.id, mode: 'text' }); return;
+      }
+    } catch (e) { /* fall through */ }
+    if (blob) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = 'gamesharp-play-' + p.id + '.png'; document.body.appendChild(a); a.click(); a.remove(); }
+    if (navigator.clipboard) { navigator.clipboard.writeText(url); }
+    const btn = document.getElementById('pbshare-' + p.id);
+    if (btn) { const o = btn.innerHTML; btn.innerHTML = '<span>✓</span> Saved · link copied'; setTimeout(() => { btn.innerHTML = o; }, 2200); }
+    trackEvent('share_play', { play: p.id, mode: 'download' });
   });
 }
 
