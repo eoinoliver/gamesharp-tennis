@@ -10316,6 +10316,7 @@ function pickAnswer(letter) {
   const _qs = document.getElementById('quizScreen');
   if (_qs) _qs.classList.add('quiz-answered');
   const q = state.quiz[state.qIdx];
+  const _qiAtAnswer = state.qIdx;  // guard: skip the delayed auto-scroll if the user moves on first
   // Correctness is keyed to the shuffled display slot, not the original letter.
   const correctDisplay = state.displayCorrect || q.correct_answer;
   const ok = letter === correctDisplay;
@@ -10435,10 +10436,13 @@ function pickAnswer(letter) {
     nb.textContent = isLast ? 'See Score →' : 'Next →';
   }
   if (animReleased) {
-    // Scroll to keep the animation in view while it plays, then reveal the explanation
+    // Keep the court centred while the result + camera push-in play out, and give a
+    // real beat to ABSORB the visual learning before drifting down to the explanation.
+    // (The result reveal finishes ~2.4s in; the camera push-in lands ~2.4s. So we hold
+    // ~3s past that before the gentle auto-scroll — the user can scroll/tap Next sooner.)
     const box = document.getElementById('techAnimBox');
     if (box) box.scrollIntoView({behavior:'smooth', block:'nearest'});
-    setTimeout(() => ec.scrollIntoView({behavior:'smooth', block:'nearest'}), 2800);
+    setTimeout(() => { if (state.qIdx === _qiAtAnswer) ec.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 5200);
   } else {
     setTimeout(() => ec.scrollIntoView({behavior:'smooth', block:'nearest'}), 300);
   }
