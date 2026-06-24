@@ -9215,6 +9215,7 @@ function initTryFollowUp() {
     card.parentNode.insertBefore(wrap, card);
   }
   wrap.innerHTML = ''; wrap.style.display = 'none';
+  return;  // TEMP: "You said you'd try…" follow-up card disabled on the home page for now
   try {
     const intents = JSON.parse(localStorage.getItem('gamesharp_try_intents') || '[]');
     const dayStart = new Date(); dayStart.setHours(0,0,0,0);
