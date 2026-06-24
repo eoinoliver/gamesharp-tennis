@@ -10362,9 +10362,12 @@ function pickAnswer(letter) {
   // releaseTechAnim rebuilds the court SVG ~60ms later (init), so append the result
   // bar after that — it reacts to the decision (golf's priced-consequence beat).
   if (animReleased) setTimeout(() => setTnBroadcastResult(q, ok), 200);
-  // PHASE-0 CAMERA PILOT — court_net_approach only: a gentle push-in toward the net +
-  // open court as the result reveals (~1.5s in). Tests the camera over the 3D court.
-  if (animReleased && q.techAnim === 'court_net_approach') {
+  // PHASE-0 CAMERA PILOT — armed on the "attacking" courts whose action resolves
+  // UP-court (so a top-biased push-in points the right way). court_rally_pattern is
+  // by far the most common (~94 qs), so this is reliably reachable for testing.
+  // Defensive/return courts (action at the bottom) are deliberately excluded.
+  const TN_CAM_PILOT = ['court_rally_pattern','court_net_approach','court_serve_zones','court_wide_serve_open','court_short_ball_attack'];
+  if (animReleased && TN_CAM_PILOT.indexOf(q.techAnim) !== -1) {
     setTimeout(() => { const svg = document.querySelector('#taCourt svg'); if (svg) tnCamera(svg, [33,0,154,239], 900); }, 1500);
   }
 
