@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="GameSharp — Train the decisions that win matches.">
+<meta name="description" content="GAMESHARP — Train the decisions that win matches.">
 <meta name="theme-color" content="#111111">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23111111'/><circle cx='32' cy='32' r='23' fill='none' stroke='%23c8a84b' stroke-width='2.5'/><path d='M14 24 Q32 34 50 24' fill='none' stroke='%23c8a84b' stroke-width='2' opacity='.55'/><path d='M14 40 Q32 30 50 40' fill='none' stroke='%23c8a84b' stroke-width='2' opacity='.55'/><text x='32' y='39' text-anchor='middle' font-family='Arial,sans-serif' font-size='17' font-weight='800' fill='%23c8a84b'>GS</text></svg>">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="GameSharp">
+<meta name="apple-mobile-web-app-title" content="GAMESHARP">
 <link rel="manifest" href="#" id="pwaManifest">
-<title>GameSharp</title>
+<title>GAMESHARP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -218,7 +218,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ta-court-wrap{margin:0 14px;border-radius:14px;overflow:hidden;position:relative;background:radial-gradient(125% 92% at 50% 34%,#1f5226 0%,#164019 52%,#0a200d 100%);box-shadow:inset 0 0 50px rgba(0,0,0,.4),0 5px 18px rgba(0,0,0,.45);}
 .ta-court-wrap::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 42%,transparent 56%,rgba(0,0,0,.4) 100%);z-index:2;}
 .ta-court-wrap svg{position:relative;z-index:3;width:100%;height:auto;display:block;max-height:160px;filter:drop-shadow(0 5px 14px rgba(0,0,0,.5));}
-/* Broadcast lower-third — ported from GameSharp Golf's Next-Shot camera tag.
+/* Broadcast lower-third — ported from GAMESHARP Golf's Next-Shot camera tag.
    A flat TV-style graphics bar over the (3D-perspective) court: phase · opponent · tactical read. */
 .tn-broadcast{position:absolute;left:8px;right:8px;bottom:8px;z-index:4;display:flex;flex-wrap:wrap;gap:0 2px;align-items:center;justify-content:center;
   background:linear-gradient(90deg,rgba(8,16,9,.86),rgba(8,16,9,.72));-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
@@ -1727,7 +1727,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     <!-- HERO HEADER — logo + slogan (ball animation anchor) -->
     <div class="gs-hero gs-hero-header">
       <div class="gs-hero-wordmark">
-        <div class="gs-hero-logo home-logo" id="homeLogo">Game<span>Shar<em class="logo-p-target">p</em></span></div>
+        <div class="gs-hero-logo home-logo" id="homeLogo">GAME<span>SHAR<em class="logo-p-target">P</em></span></div>
         <div class="logo-drop-ball" id="logoBallRoll" aria-hidden="true">
           <svg width="22" height="22" viewBox="0 0 22 22">
             <defs><radialGradient id="lbgrad" cx="34%" cy="31%" r="65%"><stop offset="0%" stop-color="#f8ff68"/><stop offset="60%" stop-color="#d2e83a"/><stop offset="100%" stop-color="#8aab20"/></radialGradient></defs>
@@ -1913,7 +1913,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 <div id="welcomeOnboardScreen" style="display:none;position:fixed;inset:0;background:var(--dark);z-index:1000;flex-direction:column;overflow:hidden;">
   <!-- Header bar -->
   <div class="wob-top">
-    <div class="wob-brand">Game<span>Sharp</span></div>
+    <div class="wob-brand">GAME<span>SHARP</span></div>
     <div class="wob-step" id="wObStep"></div>
   </div>
   <!-- Dynamic content -->
@@ -2048,7 +2048,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     <!-- Share card -->
     <div class="share-card" id="shareCard">
       <div class="sc-header">
-        <div class="sc-brand">Game<span style="color:var(--gold)">Sharp</span></div>
+        <div class="sc-brand">GAME<span style="color:var(--gold)">SHARP</span></div>
         <div class="sc-pillar-tag" id="scPillarTag"></div>
       </div>
 
@@ -2853,7 +2853,7 @@ const WELCOME_QUESTIONS = [
       { emoji: '😤', label: 'Losing to players I should beat', sublabel: 'Pushers, lobbers, junk-ballers', tag: 'lose_to_worse', confirm: "The classic. They don't beat you — they let you beat yourself. We'll start with the patterns that break them." },
       { emoji: '😬', label: 'Tightening up on big points', sublabel: 'Break points, tiebreaks, serving it out', tag: 'choke', confirm: "Pressure tennis is a skill, not a personality. We'll rehearse the big points until they feel routine." },
       { emoji: '🎯', label: 'My serve leaking free points', sublabel: 'Doubles, weak seconds, no plan', tag: 'serve', confirm: "The serve is the only shot you fully control. We'll turn it from a tax into a pattern-starter." },
-      { emoji: '🤔', label: 'Not knowing what to play when', sublabel: 'I hit fine — I decide badly', tag: 'decisions', confirm: "That's exactly what GameSharp trains: the right shot at the right moment, until it's automatic." }
+      { emoji: '🤔', label: 'Not knowing what to play when', sublabel: 'I hit fine — I decide badly', tag: 'decisions', confirm: "That's exactly what GAMESHARP trains: the right shot at the right moment, until it's automatic." }
     ]
   },
   {
@@ -2871,7 +2871,7 @@ const WELCOME_QUESTIONS = [
   {
     key: 'sharpen_focus',
     headline: 'What do you most want to sharpen?',
-    subtext: 'GameSharp has five pillars. Pick the one that matters most right now.',
+    subtext: 'GAMESHARP has five pillars. Pick the one that matters most right now.',
     opts: [
       { emoji: '🏆', label: 'Win More', sublabel: 'Tactics, patterns and court strategy', tag: 'win_more', confirm: "Here's the truth: club matches are lost, not won. We'll start by plugging the leaks that hand games away." },
       { emoji: '🧠', label: 'Game IQ', sublabel: 'Reading the game and smarter decisions', tag: 'game_iq', confirm: "The gap at most levels isn't the shots — it's reading the point a beat earlier. That's fully trainable." },
@@ -2883,7 +2883,7 @@ const WELCOME_QUESTIONS = [
   {
     key: 'progress_goal',
     headline: 'What would progress feel like in 30 days?',
-    subtext: "Pick the outcome you'd most like GameSharp to help with.",
+    subtext: "Pick the outcome you'd most like GAMESHARP to help with.",
     confirm: "Good target — we'll build your daily challenges around that.",
     opts: [
       { emoji: '🏆', label: 'Win more matches', sublabel: 'Turn practice into results', tag: 'win_matches', confirm: "Then we'll bias your challenges toward the patterns that actually convert close matches — not highlight-reel shots." },
@@ -3550,7 +3550,7 @@ function showProfileResult() {
 
   wrap.innerHTML = `
     <div class="profile-badge">${profile.styleIcon}</div>
-    <div class="profile-title">Your GameSharp Profile</div>
+    <div class="profile-title">Your GAMESHARP Profile</div>
     <div class="profile-subtitle">Based on your answers, here's what we know.</div>
 
     <div class="profile-card">
@@ -8297,7 +8297,7 @@ function dtcBuildActive(){
 }
 function dtcApp(){ return document.getElementById('dtcApp'); }
 function dtcScroll(){ const o=document.getElementById('dailyThemed'); if(o) o.scrollTop=0; }
-function dtcTopBar(){ return `<div class="dtc-top"><div class="dtc-brand">Game<span>Sharp</span> · Daily</div><div class="dtc-close" onclick="dtcExit()">✕</div></div>`; }
+function dtcTopBar(){ return `<div class="dtc-top"><div class="dtc-brand">GAME<span>SHARP</span> · Daily</div><div class="dtc-close" onclick="dtcExit()">✕</div></div>`; }
 
 function startThemedDaily(){
   dtcThemeIdx=dtcDayIndex(); dtcFaultIdx=dtcFaultIndexFor(); dtcStep=-1; dtcScore=0; dtcAnswered=false;
@@ -8388,7 +8388,7 @@ function startHereSession() {
     pool = curatedPool;
   } else {
     // Most curated IDs seen — expand to broader Win More quality pool
-    console.log(`[GameSharp] startHereSession: only ${unseenCurated.length} unseen curated, expanding pool`);
+    console.log(`[GAMESHARP] startHereSession: only ${unseenCurated.length} unseen curated, expanding pool`);
     const expanded = QBANK.filter(q =>
       q.pillar === 'Win More' && q.tier === 'Free' &&
       (Number(q.engagement_score) >= 4 || Number(q.utility_score) >= 4)
@@ -9586,7 +9586,7 @@ function initLearnHub() {
     </div>
 
     <div class="hub-section-hdr">
-      <div class="hub-section-eyebrow">GameSharp Training</div>
+      <div class="hub-section-eyebrow">GAMESHARP Training</div>
       <div class="hub-section-title">The 5 Pillars</div>
     </div>
     <div class="hub-pillars-row">${pillarsHtml}</div>
@@ -9813,7 +9813,7 @@ function recordSeenQuestions(questions) {
     if (entries.length > 400) seen.timestamps = Object.fromEntries(entries.slice(-400));
     seen.ids = Object.keys(seen.timestamps); // backward-compat
     localStorage.setItem('gamesharp_seen', JSON.stringify(seen));
-    console.log(`[GameSharp] Seen recorded: ${questions.map(q=>q.id).join(', ')} | Total seen: ${seen.ids.length}`);
+    console.log(`[GAMESHARP] Seen recorded: ${questions.map(q=>q.id).join(', ')} | Total seen: ${seen.ids.length}`);
   } catch(e) {}
 }
 
@@ -9827,7 +9827,7 @@ function getAntiRepeatPool(pool, count) {
   const byEng   = (a,b) => (parseFloat(b.engagement_score)||3) - (parseFloat(a.engagement_score)||3);
 
   const unseen = pool.filter(q => !seenIds.has(q.id)).sort(byEng);
-  console.log(`[GameSharp] Eligible: ${pool.length} | Unseen: ${unseen.length} | Need: ${count}`);
+  console.log(`[GAMESHARP] Eligible: ${pool.length} | Unseen: ${unseen.length} | Need: ${count}`);
 
   if (unseen.length >= count) return unseen;
 
@@ -9836,7 +9836,7 @@ function getAntiRepeatPool(pool, count) {
     const at = seenTs[a.id] || 0, bt = seenTs[b.id] || 0;
     return at - bt; // oldest seen bubbles up first
   });
-  console.log(`[GameSharp] Pool exhausted — using ${seenPool.length} seen questions (oldest first)`);
+  console.log(`[GAMESHARP] Pool exhausted — using ${seenPool.length} seen questions (oldest first)`);
   return [...unseen, ...seenPool];
 }
 
@@ -9846,31 +9846,31 @@ function validateSessionQuestions(questions, poolSize, unseenInPool) {
   const ids = questions.map(q => q.id);
   const unique = new Set(ids);
   if (!questions.length) {
-    console.warn('[GameSharp VALIDATION] ❌ Empty session');
+    console.warn('[GAMESHARP VALIDATION] ❌ Empty session');
     return false;
   }
   if (questions.some(q => !q.id)) {
-    console.warn('[GameSharp VALIDATION] ❌ Question(s) missing id field');
+    console.warn('[GAMESHARP VALIDATION] ❌ Question(s) missing id field');
     return false;
   }
   if (unique.size !== ids.length) {
     const dupes = ids.filter((id,i) => ids.indexOf(id) !== i);
-    console.warn('[GameSharp VALIDATION] ❌ Duplicate IDs in session:', dupes);
+    console.warn('[GAMESHARP VALIDATION] ❌ Duplicate IDs in session:', dupes);
     return false;
   }
   if (questions.length < Math.min(poolSize, 5)) {
-    console.warn(`[GameSharp VALIDATION] ⚠ Short session: got ${questions.length}, pool has ${poolSize}`);
+    console.warn(`[GAMESHARP VALIDATION] ⚠ Short session: got ${questions.length}, pool has ${poolSize}`);
   }
   const seenIds = new Set(Object.keys((getSeenData().timestamps || {})));
   const seenUsed = questions.filter(q => seenIds.has(q.id));
   const effectiveUnseen = (unseenInPool !== undefined) ? unseenInPool : 0;
   if (seenUsed.length > 0 && effectiveUnseen >= questions.length) {
     console.warn(
-      `[GameSharp VALIDATION] ⚠ ANTI-REPEAT FAILED: ${seenUsed.length} seen question(s) selected while ${effectiveUnseen} unseen were available.`,
+      `[GAMESHARP VALIDATION] ⚠ ANTI-REPEAT FAILED: ${seenUsed.length} seen question(s) selected while ${effectiveUnseen} unseen were available.`,
       'Seen IDs used:', seenUsed.map(q => q.id)
     );
   }
-  console.log(`[GameSharp] ✓ Validation OK — IDs: [${ids.join(', ')}]`);
+  console.log(`[GAMESHARP] ✓ Validation OK — IDs: [${ids.join(', ')}]`);
   return true;
 }
 
@@ -9908,7 +9908,7 @@ function selectSessionQuestions({ pool, count, allowSeenFallback, mode }) {
   const fallbackTriggered = unseenInPool < count;
 
   console.log(
-    `[GameSharp] selectSessionQuestions [${mode || 'default'}] — ` +
+    `[GAMESHARP] selectSessionQuestions [${mode || 'default'}] — ` +
     `eligible: ${pool.length} | unseen: ${unseenInPool} | need: ${count} | ` +
     `fallback: ${fallbackTriggered ? 'YES (pool exhausted)' : 'no'}`
   );
@@ -9941,7 +9941,7 @@ function selectSessionQuestions({ pool, count, allowSeenFallback, mode }) {
 
   const seenUsed = picked.filter(q => seenIdSet.has(q.id));
   console.log(
-    `[GameSharp] selectSessionQuestions — selected: [${picked.map(q=>q.id).join(', ')}]` +
+    `[GAMESHARP] selectSessionQuestions — selected: [${picked.map(q=>q.id).join(', ')}]` +
     (seenUsed.length ? ` | seen IDs used (fallback): [${seenUsed.map(q=>q.id).join(', ')}]` : '')
   );
   validateSessionQuestions(picked, pool.length, unseenInPool);
@@ -10191,7 +10191,7 @@ function startReplayMisses(){
   trackEvent('replay_misses_started',{ count:bundle.length });
 }
 
-// ── Broadcast lower-third (ported from GameSharp Golf's Next-Shot camera tag) ──
+// ── Broadcast lower-third (ported from GAMESHARP Golf's Next-Shot camera tag) ──
 // A glanceable TV-style strip over the court: phase · opponent · tactical read.
 // Composed ONLY from already-authored fields (tags, player_type_def, pillar) —
 // no invented facts (the trust rule carried over from golf).
@@ -10766,7 +10766,7 @@ function showScore() {
   // Pillar tag — show scenario score if Play a Point mode
   const firstQ = state.quiz[0];
   const tag = document.getElementById('scPillarTag');
-  if (tag) tag.textContent = firstQ?._bundle?.score || state.selectedPillar || 'GameSharp';
+  if (tag) tag.textContent = firstQ?._bundle?.score || state.selectedPillar || 'GAMESHARP';
 
   // Animated score counter
   document.getElementById('sDenom').textContent = '/ ' + total;
@@ -10984,10 +10984,10 @@ function goHome() {
 
 function shareResult() {
   const dots = state.results.map(r => r ? '🟢' : '🔴').join('');
-  const txt = `GameSharp · ${state.selectedPillar}\n${state.score}/${state.quiz.length} correct\n${dots}\nTest your tennis IQ → gamesharptennis.com`;
+  const txt = `GAMESHARP · ${state.selectedPillar}\n${state.score}/${state.quiz.length} correct\n${dots}\nTest your tennis IQ → gamesharptennis.com`;
   const btn = document.getElementById('shareBtn');
   if (navigator.share) {
-    navigator.share({ title: 'GameSharp', text: txt });
+    navigator.share({ title: 'GAMESHARP', text: txt });
   } else {
     navigator.clipboard.writeText(txt).then(() => {
       if (btn) {
@@ -11055,9 +11055,9 @@ function _buildShareCard(opts) {
       x.strokeStyle = 'rgba(200,168,75,.5)'; x.lineWidth = 4; x.strokeRect(28, 28, W - 56, H - 56);
       // wordmark
       x.textBaseline = 'alphabetic'; x.textAlign = 'left';
-      x.font = '800 52px "DM Sans",sans-serif'; x.fillStyle = '#fff'; x.fillText('Game', 70, 150);
-      const gw = x.measureText('Game').width;
-      x.fillStyle = '#c8a84b'; x.fillText('Sharp', 70 + gw, 150);
+      x.font = '800 52px "DM Sans",sans-serif'; x.fillStyle = '#fff'; x.fillText('GAME', 70, 150);
+      const gw = x.measureText('GAME').width;
+      x.fillStyle = '#c8a84b'; x.fillText('SHARP', 70 + gw, 150);
       // eyebrow
       x.font = '700 26px "DM Sans",sans-serif'; x.fillStyle = '#7fcf94';
       x.fillText((opts.eyebrow || '').toUpperCase(), 70, 206);
@@ -11107,17 +11107,17 @@ function sharePoint(q) {
   q = q || (state.quiz && state.quiz[state.qIdx]);
   if (!q || !q.id) return;
   const url = 'https://gamesharptennis.com/?p=' + encodeURIComponent(q.id);
-  const caption = 'Tennis IQ check — what’s the right call here? 🎾\nPlay it → ' + url + '\n#tennis #GameSharp';
+  const caption = 'Tennis IQ check — what’s the right call here? 🎾\nPlay it → ' + url + '\n#tennis #GAMESHARP';
   buildShareCanvas(q).then(blob => {
     const file = blob ? new File([blob], 'gamesharp-' + q.id + '.png', { type: 'image/png' }) : null;
     try {
       if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
-        navigator.share({ files: [file], text: caption, title: 'GameSharp' }).catch(() => {});
+        navigator.share({ files: [file], text: caption, title: 'GAMESHARP' }).catch(() => {});
         trackEvent('share_point', { qid: q.id, mode: 'image' });
         return;
       }
       if (navigator.share) {
-        navigator.share({ text: caption, url: url, title: 'GameSharp' }).catch(() => {});
+        navigator.share({ text: caption, url: url, title: 'GAMESHARP' }).catch(() => {});
         trackEvent('share_point', { qid: q.id, mode: 'text' });
         return;
       }
@@ -11204,16 +11204,16 @@ function playbookTry(id){
 function playbookShare(id){
   const p = _pbGet(id); if (!p || !p.id) return;
   const url = 'https://gamesharptennis.com/?play=' + encodeURIComponent(p.id);
-  const caption = p.title + ' — ' + p.tagline + ' 🎾\nSee it move → ' + url + '\n#tennis #GameSharp';
+  const caption = p.title + ' — ' + p.tagline + ' 🎾\nSee it move → ' + url + '\n#tennis #GAMESHARP';
   buildPlayShareCanvas(p).then(blob => {
     const file = blob ? new File([blob], 'gamesharp-play-' + p.id + '.png', { type: 'image/png' }) : null;
     try {
       if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
-        navigator.share({ files: [file], text: caption, title: 'GameSharp' }).catch(() => {});
+        navigator.share({ files: [file], text: caption, title: 'GAMESHARP' }).catch(() => {});
         trackEvent('share_play', { play: p.id, mode: 'image' }); return;
       }
       if (navigator.share) {
-        navigator.share({ text: caption, url: url, title: 'GameSharp' }).catch(() => {});
+        navigator.share({ text: caption, url: url, title: 'GAMESHARP' }).catch(() => {});
         trackEvent('share_play', { play: p.id, mode: 'text' }); return;
       }
     } catch (e) { /* fall through */ }
@@ -11230,8 +11230,8 @@ function playbookShare(id){
 (function() {
   // Inject manifest as a blob so it works from a single HTML file
   const manifest = {
-    name: 'GameSharp',
-    short_name: 'GameSharp',
+    name: 'GAMESHARP',
+    short_name: 'GAMESHARP',
     description: 'Train the decisions that win matches.',
     start_url: '.',
     display: 'standalone',
@@ -12512,7 +12512,7 @@ function buildLegContinue() {
       <div class="leg-continue-body" style="color:rgba(255,255,255,.35);font-style:italic;">"${ex.continueQuestion}"</div>
       <div class="leg-coming-soon">Next ball coming soon</div>
       <div style="flex:1"></div>
-      <button class="leg-home-link" onclick="initHome()">← Back to GameSharp</button>
+      <button class="leg-home-link" onclick="initHome()">← Back to GAMESHARP</button>
     </div>`;
 }
 
