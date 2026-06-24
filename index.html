@@ -553,6 +553,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .play-again-btn{background:var(--gold);color:#111;border:none;border-radius:13px;padding:15px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
 .play-again-btn:active{transform:scale(.97);}
 .share-btn-s{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.18);border-radius:13px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;}
+/* Per-point share button on the post-answer reward card */
+.share-point-btn{width:100%;background:transparent;color:var(--gold);border:1px solid rgba(200,168,75,.4);border-radius:13px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.share-point-btn:active{transform:scale(.98);background:rgba(200,168,75,.1);}
 .share-btn-s:active{transform:scale(.97);}
 .home-link-btn{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:13px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;}
 
@@ -1999,6 +2002,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     <div id="tryTodayWrap" style="margin-top:14px;display:none;">
       <button id="tryTodayBtn" class="try-today-btn" onclick="handleTryToday()">🎾 I'll try this today</button>
     </div>
+    <div id="sharePointWrap" style="margin-top:10px;">
+      <button id="sharePointBtn" class="share-point-btn" onclick="sharePoint()"><span>⬆</span> Share this point</button>
+    </div>
   </div>
   <button class="next-btn" id="nextBtn" onclick="nextQ()">Next &#8594;</button>
 </div>
@@ -3395,6 +3401,12 @@ function checkFirstVisit() {
       initHome();
       if (typeof startDailyChallenge === 'function') { startDailyChallenge(); }
       return;
+    }
+    // Shared point deep link: /?p=Q007 → land Home, open that exact scenario.
+    const _pid = _p.get('p');
+    if (_pid && typeof QBANK !== 'undefined') {
+      const _q = QBANK.find(x => x.id === _pid);
+      if (_q) { initHome(); startSharedPoint(_q); return; }
     }
   } catch(e) {}
   try {
@@ -10947,6 +10959,121 @@ function shareResult() {
       }
     });
   }
+}
+
+// ── SHARE A POINT — per-point growth loop (Phase 1, client-side only) ──────
+// A shared point is a branded PNG of the scenario (drawn on canvas) + a deep
+// link (/?p=ID). On mobile the image is posted via the Web Share API with the
+// link in the caption (works on Instagram/Stories/WhatsApp/iMessage — no
+// backend). Desktop falls back to downloading the image + copying the link.
+
+// Open a single shared scenario (deep-link landing). Reuses Play a Point machinery.
+function startSharedPoint(q) {
+  if (!q) { initHome(); return; }
+  const fmtKey = getFormatLabel(q, 0);
+  q._bundle = { score: 'Shared Point', context: 'Someone sent you this call — what would you do?',
+    icon: '🎾', shotNum: 1, total: 1, fmtKey, fmtLabel: fmtLabel(fmtKey) };
+  state.quiz = [q]; state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
+  state.isDailyMode = false; state.proLensMoment = false; state.isSharedPoint = true;
+  state.screen = 'quiz';
+  showScreen('quizScreen'); buildDots(); loadQ();
+  trackEvent('shared_point_opened', { qid: q.id });
+}
+
+function _shareWrap(ctx, text, maxW) {
+  const words = (text || '').split(/\s+/), lines = []; let cur = '';
+  words.forEach(w => { const t = cur ? cur + ' ' + w : w;
+    if (ctx.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; });
+  if (cur) lines.push(cur); return lines;
+}
+
+// A clean top-down court with a shot path + "?" — the curiosity gap (the motion
+// is the reward for opening the app). Path leans on the question's tactic if known.
+function _shareCourt(x, ox, oy, w, h, pattern) {
+  x.fillStyle = 'rgba(36,66,30,.55)'; x.fillRect(ox, oy, w, h);
+  x.strokeStyle = 'rgba(226,208,154,.7)'; x.lineWidth = 3; x.strokeRect(ox + 30, oy + 24, w - 60, h - 48);
+  const ny = oy + h / 2;
+  x.strokeStyle = 'rgba(255,255,255,.55)'; x.beginPath(); x.moveTo(ox + 14, ny); x.lineTo(ox + w - 14, ny); x.stroke();
+  x.strokeStyle = 'rgba(226,208,154,.4)'; x.beginPath(); x.moveTo(ox + w / 2, oy + 24); x.lineTo(ox + w / 2, oy + h - 24); x.stroke();
+  const sx = ox + w * 0.5, sy = oy + h - 56;
+  let ex = ox + w * 0.80, ctrlx = ox + w * 0.64;          // default: angle/crosscourt
+  if (pattern === 'dtl') { ex = ox + w * 0.5; ctrlx = ox + w * 0.5; }
+  else if (pattern === 'crosscourt') { ex = ox + w * 0.78; ctrlx = ox + w * 0.66; }
+  const ey = oy + 64;
+  x.strokeStyle = '#c8a84b'; x.lineWidth = 5; x.setLineDash([14, 12]);
+  x.beginPath(); x.moveTo(sx, sy); x.quadraticCurveTo(ctrlx, ny, ex, ey); x.stroke(); x.setLineDash([]);
+  x.fillStyle = '#d2e83a'; x.beginPath(); x.arc(sx, sy, 17, 0, 7); x.fill();
+  x.fillStyle = 'rgba(200,168,75,.95)'; x.font = '800 64px "DM Sans",sans-serif';
+  x.textAlign = 'center'; x.fillText('?', ex, ey + 6); x.textAlign = 'left';
+}
+
+function buildShareCanvas(q) {
+  return new Promise(resolve => {
+    try {
+      const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+      const x = c.getContext('2d');
+      const g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#10211a'); g.addColorStop(1, '#0a140d');
+      x.fillStyle = g; x.fillRect(0, 0, W, H);
+      x.strokeStyle = 'rgba(200,168,75,.5)'; x.lineWidth = 4; x.strokeRect(28, 28, W - 56, H - 56);
+      // wordmark
+      x.textBaseline = 'alphabetic'; x.textAlign = 'left';
+      x.font = '800 52px "DM Sans",sans-serif'; x.fillStyle = '#fff'; x.fillText('Game', 70, 150);
+      const gw = x.measureText('Game').width;
+      x.fillStyle = '#c8a84b'; x.fillText('Sharp', 70 + gw, 150);
+      // eyebrow
+      x.font = '700 26px "DM Sans",sans-serif'; x.fillStyle = '#7fcf94';
+      x.fillText(((q.pillar || '') + (q.module ? ' · ' + q.module : '')).toUpperCase(), 70, 206);
+      // question
+      x.fillStyle = '#fff'; x.font = '800 58px "DM Sans",sans-serif';
+      const lines = _shareWrap(x, q.question || '', W - 150).slice(0, 5);
+      let yy = 296; lines.forEach(l => { x.fillText(l, 70, yy); yy += 72; });
+      // court
+      const pattern = (q.techAnimParams && q.techAnimParams.pattern) || null;
+      _shareCourt(x, 70, yy + 24, W - 140, Math.min(540, H - (yy + 24) - 230), pattern);
+      // curiosity + CTA
+      x.fillStyle = '#c8a84b'; x.font = '800 46px "DM Sans",sans-serif';
+      x.fillText('What’s the right call?', 70, H - 170);
+      x.fillStyle = 'rgba(255,255,255,.85)'; x.font = '600 32px "DM Sans",sans-serif';
+      x.fillText('▶  Play it · gamesharptennis.com', 70, H - 108);
+      c.toBlob(b => resolve(b), 'image/png');
+    } catch (e) { resolve(null); }
+  });
+}
+
+function _sharePointFeedback(msg) {
+  const btn = document.getElementById('sharePointBtn');
+  if (!btn) return;
+  const orig = '<span>⬆</span> Share this point';
+  btn.innerHTML = msg;
+  setTimeout(() => { btn.innerHTML = orig; }, 2200);
+}
+
+function sharePoint(q) {
+  q = q || (state.quiz && state.quiz[state.qIdx]);
+  if (!q || !q.id) return;
+  const url = 'https://gamesharptennis.com/?p=' + encodeURIComponent(q.id);
+  const caption = 'Tennis IQ check — what’s the right call here? 🎾\nPlay it → ' + url + '\n#tennis #GameSharp';
+  buildShareCanvas(q).then(blob => {
+    const file = blob ? new File([blob], 'gamesharp-' + q.id + '.png', { type: 'image/png' }) : null;
+    try {
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], text: caption, title: 'GameSharp' }).catch(() => {});
+        trackEvent('share_point', { qid: q.id, mode: 'image' });
+        return;
+      }
+      if (navigator.share) {
+        navigator.share({ text: caption, url: url, title: 'GameSharp' }).catch(() => {});
+        trackEvent('share_point', { qid: q.id, mode: 'text' });
+        return;
+      }
+    } catch (e) { /* fall through to desktop fallback */ }
+    // Desktop fallback: download the image + copy the link.
+    if (blob) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = 'gamesharp-' + q.id + '.png'; document.body.appendChild(a); a.click(); a.remove(); }
+    if (navigator.clipboard) { navigator.clipboard.writeText(url).then(() => _sharePointFeedback('<span>✓</span> Image saved · link copied')); }
+    else { _sharePointFeedback('<span>✓</span> Image saved'); }
+    trackEvent('share_point', { qid: q.id, mode: 'download' });
+  });
 }
 
 // ── PWA SETUP ──
