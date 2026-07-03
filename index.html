@@ -1712,6 +1712,19 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 </head>
 <body>
 
+<!-- BOOT SPLASH — paints from the first streamed bytes, before the 2MB app
+     parses. Fully self-contained (inline styles, system font, own keyframes)
+     so it depends on nothing that loads later. Hidden by gsHideBootSplash()
+     on every boot path; 12s safety timer so a JS failure can never trap the
+     user behind it. -->
+<div id="bootSplash" style="position:fixed;inset:0;z-index:2147483000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0d1a0f;opacity:1;transition:opacity .45s ease;">
+  <div style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-weight:800;font-size:36px;letter-spacing:1.5px;line-height:1;"><span style="color:#fff">GAME</span><span style="color:#c8a84b">SHARP</span></div>
+  <div style="margin-top:12px;font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:11px;letter-spacing:2.5px;color:rgba(255,255,255,.45);text-transform:uppercase;">See the game differently</div>
+  <div style="margin-top:30px;width:44px;height:3px;background:rgba(200,168,75,.22);border-radius:2px;overflow:hidden;"><div style="width:18px;height:100%;background:#c8a84b;border-radius:2px;animation:gsBootSlide 1s ease-in-out infinite alternate;"></div></div>
+  <style>@keyframes gsBootSlide{from{transform:translateX(-2px)}to{transform:translateX(28px)}}@media(prefers-reduced-motion:reduce){#bootSplash div div{animation:none!important}}</style>
+</div>
+<script>window.gsHideBootSplash=function(){var s=document.getElementById('bootSplash');if(!s)return;s.style.opacity='0';setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s);},500);};setTimeout(function(){window.gsHideBootSplash();},12000);</script>
+
 <!-- HOME -->
 <div class="screen active" id="homeScreen">
   <!-- Court atmosphere background -->
@@ -2948,6 +2961,7 @@ let wObCompleteTimer = null;
 let wObDismissed = false;
 
 function showWelcomeOnboarding() {
+  if (window.gsHideBootSplash) gsHideBootSplash();
   wObState = { idx: 0, answers: {}, stage: 'cold', locked: false, coldAnswered: false };
   wObDismissed = false;
   const el = document.getElementById('welcomeOnboardScreen');
@@ -6993,6 +7007,7 @@ function gsScrollTop() {
   } catch(e){}
 }
 function showScreen(id) {
+  if (window.gsHideBootSplash) gsHideBootSplash();
   document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none';});
   const t=document.getElementById(id); t.style.display='flex'; void t.offsetWidth; t.classList.add('active');
   updateBottomNav(id);
