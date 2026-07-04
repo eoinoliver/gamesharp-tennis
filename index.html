@@ -1203,6 +1203,17 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .pb-search{width:calc(100% - 0px);margin-top:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;box-sizing:border-box;}
 .pb-search::placeholder{color:rgba(255,255,255,.4);}
 .pb-search:focus{border-color:rgba(200,168,75,.5);}
+/* ── First-session read + install bridge (score screen) ── */
+#scFirstRead{margin-top:14px;padding:14px 16px;background:rgba(200,168,75,.07);border:1px solid rgba(200,168,75,.28);border-radius:14px;text-align:left;}
+.sc-read-eyebrow{font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold,#c8a84b);}
+.sc-read-line{margin-top:6px;font-size:15px;font-weight:700;color:#fff;line-height:1.4;}
+.sc-read-fix{margin-top:5px;font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.5;}
+.sc-install{display:flex;align-items:center;gap:10px;margin-top:12px;padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;text-align:left;}
+.sc-install-txt{flex:1;min-width:0;}
+.sc-install-txt b{display:block;font-size:13px;color:#fff;}
+.sc-install-txt span{display:block;margin-top:2px;font-size:11.5px;color:rgba(255,255,255,.55);}
+.sc-install-btn{background:var(--gold,#c8a84b);color:#111;border:none;border-radius:10px;padding:9px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;}
+.sc-install-x{background:none;border:none;color:rgba(255,255,255,.4);font-size:14px;cursor:pointer;padding:6px;}
 @keyframes ptpNew{0%,100%{box-shadow:0 0 8px rgba(200,168,75,.4);}50%{box-shadow:0 0 16px 2px rgba(200,168,75,.75);}}
 .ptp-sibling .ptp-question{font-size:15px;line-height:1.4;font-weight:600;color:rgba(255,255,255,.92);margin:0 0 10px;max-width:calc(100% - 98px);position:relative;z-index:2;text-align:left;}
 .ptp-sibling .ptp-steps{display:flex;align-items:center;gap:6px;margin:0 0 12px;position:relative;z-index:2;}
@@ -3122,8 +3133,8 @@ function showColdOpen() {
 function coldChoose(i) {
   if (wObState.coldAnswered) return;
   wObState.coldAnswered = true;
-  wobHaptic();
   const o = COLD_OPEN.options[i];
+  gsHaptic(!!o.correct);
 
   const cc = document.getElementById('coldCourt');
   if (cc) cc.innerHTML = coldOpenCourt(i);
@@ -3159,6 +3170,9 @@ function coldContinue() {
   const inner = document.getElementById('wObInner'); if (inner) inner.scrollTop = 0;
 }
 
+// Valence haptic: crisp double-tap on a good call, single dull buzz on a miss.
+// navigator.vibrate is Android/Chrome only — degrades silently elsewhere (iOS).
+function gsHaptic(ok) { try { if (navigator.vibrate) navigator.vibrate(ok ? [10, 55, 14] : 26); } catch(e) {} }
 function wobHaptic() { try { if (navigator.vibrate) navigator.vibrate(9); } catch(e) {} }
 
 function wobTrack(activeIdx) {
@@ -10514,6 +10528,7 @@ function pickAnswer(letter) {
   const ok = letter === correctDisplay;
   if (ok) state.score++;
   state.results.push(ok);
+  gsHaptic(ok);
   try { ok ? gsCorrect() : gsWrong(); } catch(e){}
   // Record per-question accuracy + which ORIGINAL option was chosen (stable
   // across the answer-shuffle) for the content audit.
@@ -10783,6 +10798,67 @@ function buildTodayTraining() {
   } catch(e) { return ''; }
 }
 
+// ── FIRST-SESSION READ ── an EARNED one-liner derived strictly from this
+// session's actual answers (the unearned archetype labels are parked — see
+// scArchetype note below). Shown once, on the first-ever completed session.
+function renderFirstSessionRead() {
+  let done = 0; try { done = parseInt(localStorage.getItem('gs_sessions_done') || '0'); } catch(e) {}
+  try { localStorage.setItem('gs_sessions_done', String(done + 1)); } catch(e) {}
+  let el = document.getElementById('scFirstRead');
+  if (!el) {
+    const dots = document.getElementById('scDots'); if (!dots) return;
+    el = document.createElement('div'); el.id = 'scFirstRead';
+    dots.insertAdjacentElement('afterend', el);
+  }
+  if (done > 0) { el.style.display = 'none'; return; }
+  const misses = state.quiz.filter((q, i) => state.results[i] === false);
+  let line, fix;
+  if (!misses.length) {
+    const mod = (state.quiz[0] && state.quiz[0].module) || 'the game';
+    line = `Every call landed — your ${mod} reads are already sharp.`;
+    fix  = 'Raise the difficulty and find where it bends.';
+  } else {
+    const m = misses[0];
+    line = `Your first blind spot: ${(m.skill_target || m.module || 'decision timing').toLowerCase()}.`;
+    // common_pitfall (the WHY behind the miss) — the "Next time you play" card
+    // below already shows the action_tip, so never duplicate it here.
+    fix  = m.common_pitfall || 'Replay it from the home screen — the second look is where it sticks.';
+  }
+  el.style.display = 'block';
+  el.innerHTML = `<div class="sc-read-eyebrow">Your first read</div>
+    <div class="sc-read-line">${line}</div>
+    <div class="sc-read-fix">${fix}</div>`;
+  trackEvent('first_session_read_shown', { misses: misses.length });
+}
+
+// ── ADD TO HOME SCREEN ── shown after a completed session; native prompt on
+// Android/Chrome (beforeinstallprompt), instruction line on iOS Safari.
+window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); window._gsBip = e; });
+function maybeShowInstallPrompt() {
+  try {
+    if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) return;
+    const dis = parseInt(localStorage.getItem('gs_a2hs_dismissed') || '0');
+    if (Date.now() - dis < 14 * 864e5) return;
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (!window._gsBip && !isIOS) return;
+    let el = document.getElementById('scInstall');
+    if (!el) {
+      const anchor = document.getElementById('scFirstRead') || document.getElementById('scDots');
+      if (!anchor) return;
+      el = document.createElement('div'); el.id = 'scInstall';
+      anchor.insertAdjacentElement('afterend', el);
+    }
+    el.style.display = 'block';
+    el.innerHTML = `<div class="sc-install">
+      <div class="sc-install-txt"><b>Add GAMESHARP to your home screen</b>
+        <span>${window._gsBip ? 'One tap — opens like an app.' : 'Tap Share&nbsp;⬆ then “Add to Home Screen”.'}</span></div>
+      ${window._gsBip ? '<button class="sc-install-btn" onclick="gsInstallApp()">Add</button>' : ''}
+      <button class="sc-install-x" onclick="gsDismissInstall()" aria-label="Dismiss">✕</button></div>`;
+  } catch(e) {}
+}
+function gsInstallApp() { try { if (window._gsBip) { window._gsBip.prompt(); window._gsBip = null; gsDismissInstall(); trackEvent('a2hs_accepted'); } } catch(e) {} }
+function gsDismissInstall() { try { localStorage.setItem('gs_a2hs_dismissed', String(Date.now())); } catch(e) {} const el = document.getElementById('scInstall'); if (el) el.style.display = 'none'; }
+
 function showScore() {
   clearTechAnim();
   document.getElementById('quizBar').style.width = '100%';
@@ -10852,6 +10928,10 @@ function showScore() {
       `<div class="sc-dot ${r ? 'ok' : 'miss'}"></div>`
     ).join('');
   }
+
+  // First-session earned read + install bridge
+  renderFirstSessionRead();
+  maybeShowInstallPrompt();
 
   // Archetype — parked while we validate the app. The summary now leads with the
   // EARNED signal (Today's Training) instead of an unearned identity label.
@@ -11149,7 +11229,7 @@ function _sharePointFeedback(msg) {
 function sharePoint(q) {
   q = q || (state.quiz && state.quiz[state.qIdx]);
   if (!q || !q.id) return;
-  const url = 'https://gamesharptennis.com/?p=' + encodeURIComponent(q.id);
+  const url = 'https://www.gamesharptennis.com/s/' + encodeURIComponent(q.id);
   const caption = 'Tennis IQ check — what’s the right call here? 🎾\nPlay it → ' + url + '\n#tennis #GAMESHARP';
   buildShareCanvas(q).then(blob => {
     const file = blob ? new File([blob], 'gamesharp-' + q.id + '.png', { type: 'image/png' }) : null;
@@ -11456,7 +11536,7 @@ function _pbCaption(p, url){
 
 function playbookShare(id){
   const p = _pbGet(id); if (!p || !p.id) return;
-  const url = 'https://gamesharptennis.com/?play=' + encodeURIComponent(p.id);
+  const url = 'https://www.gamesharptennis.com/play/' + encodeURIComponent(p.id);
   const caption = _pbCaption(p, url);
   buildPlayShareCanvas(p).then(blob => {
     const file = blob ? new File([blob], 'gamesharp-play-' + p.id + '.png', { type: 'image/png' }) : null;
@@ -11482,7 +11562,7 @@ function playbookShare(id){
 // Share an animated clip of a multi-shot play (motion for the live moment).
 function playbookShareClip(id){
   const p = _pbGet(id); if (!p || !p.id) return;
-  const url = 'https://gamesharptennis.com/?play=' + encodeURIComponent(p.id);
+  const url = 'https://www.gamesharptennis.com/play/' + encodeURIComponent(p.id);
   const caption = _pbCaption(p, url);
   const btn = document.getElementById('pbshare-' + p.id);
   const orig = btn ? btn.innerHTML : '';
