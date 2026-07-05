@@ -1219,6 +1219,13 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 #scDI{margin-top:12px;font-size:11.5px;font-weight:800;letter-spacing:.09em;color:rgba(255,255,255,.75);text-align:left;}
 #scDI b{color:var(--gold,#c8a84b);font-size:14px;}
 .sc-di-sub{font-weight:600;letter-spacing:.02em;color:rgba(255,255,255,.4);}
+/* Friend challenge head-to-head */
+#scVersus{margin-top:12px;padding:12px 14px;border:1px solid rgba(200,168,75,.4);border-radius:14px;background:rgba(200,168,75,.07);text-align:center;}
+.sc-vs-label{font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--gold,#c8a84b);}
+.sc-vs-row{margin-top:6px;font-size:14px;color:rgba(255,255,255,.85);}
+.sc-vs-row b{color:#fff;font-size:17px;}
+.sc-vs-sep{margin:0 10px;color:rgba(255,255,255,.3);}
+.sc-vs-verdict{margin-top:4px;font-size:12.5px;font-weight:800;}
 @keyframes ptpNew{0%,100%{box-shadow:0 0 8px rgba(200,168,75,.4);}50%{box-shadow:0 0 16px 2px rgba(200,168,75,.75);}}
 .ptp-sibling .ptp-question{font-size:15px;line-height:1.4;font-weight:600;color:rgba(255,255,255,.92);margin:0 0 10px;max-width:calc(100% - 98px);position:relative;z-index:2;text-align:left;}
 .ptp-sibling .ptp-steps{display:flex;align-items:center;gap:6px;margin:0 0 12px;position:relative;z-index:2;}
@@ -2152,6 +2159,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 
     <div class="score-btns">
       <button class="play-again-btn" onclick="playAgain()">Another Hit →</button>
+      <button class="share-btn-s" id="challengeBtn" onclick="tnShareChallenge()">
+        <span>⚔️</span> Challenge a Friend
+      </button>
       <button class="share-btn-s" id="shareBtn" onclick="shareResult()">
         <span>⬆</span> Share Result
       </button>
@@ -3556,6 +3566,16 @@ function checkFirstVisit() {
     const _play = _p.get('play');
     if (_play && typeof initPlaybook === 'function') {
       initHome(); initPlaybook(_play); return;
+    }
+    // Friend challenge: /?ch=Q1.Q2.Q3.Q4~score~total → play the same points head-to-head.
+    const _chRaw = _p.get('ch');
+    if (_chRaw && typeof QBANK !== 'undefined') {
+      const _cm = decodeURIComponent(_chRaw).match(/^([A-Za-z0-9_.]+)~(\d{1,2})~(\d{1,2})$/);
+      if (_cm) {
+        const _ids = _cm[1].split('.').filter(id => QBANK.some(q => q.id === id)).slice(0, 6);
+        const _cs = +_cm[2], _ct = +_cm[3];
+        if (_ids.length && _cs <= _ct && _ct <= 6) { initHome(); startChallengeBundle(_ids, _cs, _ct); return; }
+      }
     }
   } catch(e) {}
   try {
@@ -7446,6 +7466,7 @@ function runStandardDaily() {
   state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
   state.isDailyMode = true;
   state.proLensMoment = false;
+  state.challenge = null;
   showScreen('quizScreen');
   buildDots();
   loadQ();
@@ -8548,6 +8569,7 @@ function startHereSession() {
   state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
   state.isDailyMode = false;
   state.proLensMoment = false;
+  state.challenge = null;
   state.screen = 'quiz';
   showScreen('quizScreen');
   buildDots();
@@ -10239,6 +10261,7 @@ function startQuiz(pillar, module) {
   state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
   state.isDailyMode = false;
   state.proLensMoment = false;
+  state.challenge = null;
   state.screen = 'quiz';
   showScreen('quizScreen');
   buildDots();
@@ -11010,6 +11033,7 @@ function showScore() {
       (d !== null && d !== 0 ? ` <span style="color:${d > 0 ? '#4caf50' : '#e05252'}">${d > 0 ? '▲' : '▼'}${Math.abs(d)}</span>` : '') +
       ` <span class="sc-di-sub">· last ${di.n} calls</span>`;
   })();
+  renderChallengeVersus();   // head-to-head if this bundle was a friend's challenge
   gsSound('streak');
 
   // Archetype — parked while we validate the app. The summary now leads with the
@@ -11207,13 +11231,65 @@ function shareResult() {
 // backend). Desktop falls back to downloading the image + copying the link.
 
 // Open a single shared scenario (deep-link landing). Reuses Play a Point machinery.
+// ── CHALLENGE A FRIEND ── tennis sessions are per-user, so the link carries
+// the exact bundle ids + the sender's score: /?ch=Q1.Q2.Q3.Q4~score~total.
+// The recipient plays the SAME points; the score screen renders the versus.
+function startChallengeBundle(ids, score, total) {
+  const bundle = ids.map(id => QBANK.find(q => q.id === id)).filter(Boolean);
+  if (!bundle.length) { initHome(); return; }
+  bundle.forEach((q, i) => {
+    const fmtKey = getFormatLabel(q, i);
+    q._bundle = { score: 'Friend Challenge ⚔️', context: `A friend went ${score}/${total} on these exact points — beat them.`,
+      icon: '⚔️', shotNum: i + 1, total: bundle.length, fmtKey, fmtLabel: fmtLabel(fmtKey) };
+  });
+  state.quiz = bundle; state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
+  state.isDailyMode = false; state.proLensMoment = false;
+  state.challenge = null;
+  state.challenge = { score, total };
+  state.screen = 'quiz';
+  showScreen('quizScreen'); buildDots(); loadQ();
+  trackEvent('challenge_opened', { n: bundle.length, them: score });
+}
+function tnShareChallenge() {
+  if (!state.quiz || !state.quiz.length) return;
+  const ids = state.quiz.map(q => q.id).join('.');
+  const url = 'https://www.gamesharptennis.com/?ch=' + encodeURIComponent(ids + '~' + state.score + '~' + state.quiz.length);
+  const text = `⚔️ I went ${state.score}/${state.quiz.length} on these GAMESHARP Tennis points.\nSame calls — your turn: ${url}`;
+  if (navigator.share) { navigator.share({ title: 'GAMESHARP Challenge', text }).catch(() => {}); }
+  else if (navigator.clipboard) { navigator.clipboard.writeText(text).then(() => {
+    const b = document.getElementById('challengeBtn');
+    if (b) { const o = b.innerHTML; b.innerHTML = '<span>✓</span> Copied — send it!'; setTimeout(() => { b.innerHTML = o; }, 2200); }
+  }); }
+  trackEvent('challenge_sent', { score: state.score, total: state.quiz.length });
+}
+function renderChallengeVersus() {
+  let el = document.getElementById('scVersus');
+  if (!el) {
+    const anchor = document.getElementById('scDI') || document.getElementById('scFirstRead') || document.getElementById('scDots');
+    if (!anchor) return;
+    el = document.createElement('div'); el.id = 'scVersus';
+    anchor.insertAdjacentElement('afterend', el);
+  }
+  const ch = state.challenge;
+  if (!ch) { el.style.display = 'none'; return; }
+  const you = state.score, them = ch.score;
+  const v = you > them ? { t: '🏆 You win the day', c: '#4caf50' }
+        : you < them ? { t: 'They took it — send one back', c: '#e05252' }
+        :              { t: '⚖️ Dead level', c: 'var(--gold,#c8a84b)' };
+  el.style.display = 'block';
+  el.innerHTML = `<div class="sc-vs-label">⚔️ FRIEND'S CHALLENGE</div>
+    <div class="sc-vs-row"><span>You <b>${you}/${state.quiz.length}</b></span><span class="sc-vs-sep">·</span><span>Them <b>${them}/${ch.total}</b></span></div>
+    <div class="sc-vs-verdict" style="color:${v.c}">${v.t}</div>`;
+}
+
 function startSharedPoint(q) {
   if (!q) { initHome(); return; }
   const fmtKey = getFormatLabel(q, 0);
   q._bundle = { score: 'Shared Point', context: 'Someone sent you this call — what would you do?',
     icon: '🎾', shotNum: 1, total: 1, fmtKey, fmtLabel: fmtLabel(fmtKey) };
   state.quiz = [q]; state.qIdx = 0; state.score = 0; state.results = []; state.answered = false;
-  state.isDailyMode = false; state.proLensMoment = false; state.isSharedPoint = true;
+  state.isDailyMode = false; state.proLensMoment = false;
+  state.challenge = null; state.isSharedPoint = true;
   state.screen = 'quiz';
   showScreen('quizScreen'); buildDots(); loadQ();
   trackEvent('shared_point_opened', { qid: q.id });
