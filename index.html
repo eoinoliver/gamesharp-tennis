@@ -1214,6 +1214,11 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .sc-install-txt span{display:block;margin-top:2px;font-size:11.5px;color:rgba(255,255,255,.55);}
 .sc-install-btn{background:var(--gold,#c8a84b);color:#111;border:none;border-radius:10px;padding:9px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;}
 .sc-install-x{background:none;border:none;color:rgba(255,255,255,.4);font-size:14px;cursor:pointer;padding:6px;}
+/* Sound toggle + Decision Index */
+.gs-snd-chip{background:none;border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:3px 8px;font-size:12px;cursor:pointer;line-height:1;margin-left:auto;}
+#scDI{margin-top:12px;font-size:11.5px;font-weight:800;letter-spacing:.09em;color:rgba(255,255,255,.75);text-align:left;}
+#scDI b{color:var(--gold,#c8a84b);font-size:14px;}
+.sc-di-sub{font-weight:600;letter-spacing:.02em;color:rgba(255,255,255,.4);}
 @keyframes ptpNew{0%,100%{box-shadow:0 0 8px rgba(200,168,75,.4);}50%{box-shadow:0 0 16px 2px rgba(200,168,75,.75);}}
 .ptp-sibling .ptp-question{font-size:15px;line-height:1.4;font-weight:600;color:rgba(255,255,255,.92);margin:0 0 10px;max-width:calc(100% - 98px);position:relative;z-index:2;text-align:left;}
 .ptp-sibling .ptp-steps{display:flex;align-items:center;gap:6px;margin:0 0 12px;position:relative;z-index:2;}
@@ -2037,6 +2042,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   <div class="q-meta">
     <div class="q-pillar-badge" id="qPillar"></div>
     <div class="q-diff-badge" id="qDiff"></div>
+    <button class="gs-snd-chip" onclick="gsToggleSound()" aria-label="Toggle sound">🔊</button>
   </div>
   <div class="question-wrap">
     <div class="q-card" id="qCard">
@@ -3173,6 +3179,57 @@ function coldContinue() {
 // Valence haptic: crisp double-tap on a good call, single dull buzz on a miss.
 // navigator.vibrate is Android/Chrome only — degrades silently elsewhere (iOS).
 function gsHaptic(ok) { try { if (navigator.vibrate) navigator.vibrate(ok ? [10, 55, 14] : 26); } catch(e) {} }
+
+// ── SOUND ── tiny synthesized cues via Web Audio (no assets — single-file).
+// Ported from GAMESHARP Golf. Master toggle persisted; low gains; context is
+// created/resumed on first gesture per mobile autoplay policy.
+let _gsAC = null;
+function gsSoundOn() { try { const v = localStorage.getItem('gs_sound_on'); return v === null ? true : v === '1'; } catch(e) { return true; } }
+function gsToggleSound() { try { localStorage.setItem('gs_sound_on', gsSoundOn() ? '0' : '1'); } catch(e) {} gsSyncSoundChips(); if (gsSoundOn()) gsSound('good'); }
+function gsSyncSoundChips() { document.querySelectorAll('.gs-snd-chip').forEach(c => { c.textContent = gsSoundOn() ? '🔊' : '🔇'; }); }
+function _gsAudioCtx() { try { if (!_gsAC) _gsAC = new (window.AudioContext || window.webkitAudioContext)(); if (_gsAC.state === 'suspended') _gsAC.resume(); return _gsAC; } catch(e) { return null; } }
+document.addEventListener('pointerdown', function() { if (gsSoundOn()) _gsAudioCtx(); }, { passive: true });
+function gsSound(kind) {
+  if (!gsSoundOn()) return;
+  const ac = _gsAudioCtx(); if (!ac) return;
+  try {
+    const t0 = ac.currentTime;
+    const tone = (f, at, dur, type, gain) => { const o = ac.createOscillator(), g = ac.createGain();
+      o.type = type || 'sine'; o.frequency.value = f; o.connect(g); g.connect(ac.destination);
+      g.gain.setValueAtTime(0.0001, t0 + at); g.gain.exponentialRampToValueAtTime(gain || 0.07, t0 + at + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + at + dur);
+      o.start(t0 + at); o.stop(t0 + at + dur + 0.03); };
+    if (kind === 'pop') {            // short filtered noise — the ball strike
+      const len = Math.floor(ac.sampleRate * 0.04), buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2);
+      const src = ac.createBufferSource(); src.buffer = buf;
+      const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 2200; f.Q.value = 1.4;
+      const g = ac.createGain(); g.gain.value = 0.09;
+      src.connect(f); f.connect(g); g.connect(ac.destination); src.start(t0);
+    } else if (kind === 'good') { tone(660, 0, 0.09); tone(880, 0.07, 0.12); }
+    else if (kind === 'bad') { tone(150, 0, 0.16, 'triangle', 0.08); }
+    else if (kind === 'streak') { tone(523, 0, 0.1, 'sine', 0.05); tone(659, 0.09, 0.1, 'sine', 0.05); tone(784, 0.18, 0.16, 'sine', 0.06); }
+  } catch(e) {}
+}
+
+// ── DECISION INDEX ── difficulty-weighted accuracy over the last 30 graded
+// answers vs the 30 before; null until 8 answers exist (earned, never invented).
+function gsLogRecent(ok, band) {
+  try {
+    const r = JSON.parse(localStorage.getItem('gs_recent') || '[]');
+    r.push({ ok: !!ok, band: band || 'Club' });
+    localStorage.setItem('gs_recent', JSON.stringify(r.slice(-200)));
+  } catch(e) {}
+}
+function gsDecisionIndex() {
+  let r = []; try { r = JSON.parse(localStorage.getItem('gs_recent') || '[]'); } catch(e) {}
+  if (r.length < 8) return null;
+  const W = { 'Rookie': 0.85, 'Club': 1, 'Competitor': 1.15, 'Tactician': 1.3 };
+  const idx = arr => { let g = 0, t = 0; arr.forEach(a => { const w = W[a.band] || 1; t += w; if (a.ok) g += w; }); return Math.round(100 * g / t); };
+  const win = r.slice(-30), prevArr = r.slice(-60, -30);
+  const cur = idx(win), prev = prevArr.length >= 8 ? idx(prevArr) : null;
+  return { cur, prev, delta: prev === null ? null : cur - prev, n: win.length };
+}
 function wobHaptic() { try { if (navigator.vibrate) navigator.vibrate(9); } catch(e) {} }
 
 function wobTrack(activeIdx) {
@@ -10341,6 +10398,7 @@ const TN_CAM_ZONES = {
 
 function loadQ() {
   state.answered = false;
+  gsSyncSoundChips();
   const q = state.quiz[state.qIdx], total = state.quiz.length;
   const bundle = q._bundle;
 
@@ -10529,6 +10587,8 @@ function pickAnswer(letter) {
   if (ok) state.score++;
   state.results.push(ok);
   gsHaptic(ok);
+  gsSound(ok ? 'good' : 'bad');
+  gsLogRecent(ok, q.difficulty);   // powers the Decision Index
   try { ok ? gsCorrect() : gsWrong(); } catch(e){}
   // Record per-question accuracy + which ORIGINAL option was chosen (stable
   // across the answer-shuffle) for the content audit.
@@ -10932,6 +10992,25 @@ function showScore() {
   // First-session earned read + install bridge
   renderFirstSessionRead();
   maybeShowInstallPrompt();
+
+  // Decision Index — the visible "am I getting smarter?" answer
+  (function() {
+    let el = document.getElementById('scDI');
+    if (!el) {
+      const anchor = document.getElementById('scFirstRead') || document.getElementById('scDots');
+      if (!anchor) return;
+      el = document.createElement('div'); el.id = 'scDI';
+      anchor.insertAdjacentElement('afterend', el);
+    }
+    const di = gsDecisionIndex();
+    if (!di) { el.style.display = 'none'; return; }
+    el.style.display = 'block';
+    const d = di.delta;
+    el.innerHTML = `DECISION INDEX <b>${di.cur}</b>` +
+      (d !== null && d !== 0 ? ` <span style="color:${d > 0 ? '#4caf50' : '#e05252'}">${d > 0 ? '▲' : '▼'}${Math.abs(d)}</span>` : '') +
+      ` <span class="sc-di-sub">· last ${di.n} calls</span>`;
+  })();
+  gsSound('streak');
 
   // Archetype — parked while we validate the app. The summary now leads with the
   // EARNED signal (Today's Training) instead of an unearned identity label.
