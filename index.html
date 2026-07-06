@@ -1219,6 +1219,8 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 #scDI{margin-top:12px;font-size:11.5px;font-weight:800;letter-spacing:.09em;color:rgba(255,255,255,.75);text-align:left;}
 #scDI b{color:var(--gold,#c8a84b);font-size:14px;}
 .sc-di-sub{font-weight:600;letter-spacing:.02em;color:rgba(255,255,255,.4);}
+.sc-di-story{margin-top:5px;font-size:11px;font-weight:700;letter-spacing:.03em;color:rgba(255,255,255,.55);}
+.redeem-line{display:none;margin:8px 0 2px;padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:800;letter-spacing:.06em;color:#7CFFA0;background:rgba(76,175,80,.12);border:1px solid rgba(76,175,80,.35);}
 /* Friend challenge head-to-head */
 #scVersus{margin-top:12px;padding:12px 14px;border:1px solid rgba(200,168,75,.4);border-radius:14px;background:rgba(200,168,75,.07);text-align:center;}
 .sc-vs-label{font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--gold,#c8a84b);}
@@ -3224,10 +3226,10 @@ function gsSound(kind) {
 
 // ── DECISION INDEX ── difficulty-weighted accuracy over the last 30 graded
 // answers vs the 30 before; null until 8 answers exist (earned, never invented).
-function gsLogRecent(ok, band) {
+function gsLogRecent(ok, band, pillar) {
   try {
     const r = JSON.parse(localStorage.getItem('gs_recent') || '[]');
-    r.push({ ok: !!ok, band: band || 'Club' });
+    r.push({ ok: !!ok, band: band || 'Club', p: pillar || null });
     localStorage.setItem('gs_recent', JSON.stringify(r.slice(-200)));
   } catch(e) {}
 }
@@ -3239,6 +3241,21 @@ function gsDecisionIndex() {
   const win = r.slice(-30), prevArr = r.slice(-60, -30);
   const cur = idx(win), prev = prevArr.length >= 8 ? idx(prevArr) : null;
   return { cur, prev, delta: prev === null ? null : cur - prev, n: win.length };
+}
+// One sentence of story under the number — strongest vs weakest pillar over
+// the last 30 answers. Sample-gated (>=4 each, >=12 total): earned, never noise.
+function gsDiNarrative() {
+  let r = []; try { r = JSON.parse(localStorage.getItem('gs_recent') || '[]'); } catch(e) {}
+  r = r.slice(-30);
+  if (r.length < 12) return null;
+  const by = {};
+  r.forEach(a => { if (!a.p) return; (by[a.p] = by[a.p] || { g:0, t:0 }); by[a.p].t++; if (a.ok) by[a.p].g++; });
+  const rows = Object.keys(by).filter(k => by[k].t >= 4).map(k => ({ k, acc: by[k].g / by[k].t }));
+  if (rows.length < 2) return null;
+  rows.sort((a,b) => b.acc - a.acc);
+  const hi = rows[0], lo = rows[rows.length - 1];
+  if (hi.k === lo.k || hi.acc === lo.acc) return null;
+  return `Sharpest: ${hi.k} ${Math.round(hi.acc*100)}% · Next target: ${lo.k} ${Math.round(lo.acc*100)}%`;
 }
 function wobHaptic() { try { if (navigator.vibrate) navigator.vibrate(9); } catch(e) {} }
 
@@ -7237,7 +7254,10 @@ function gsLogMiss(q, ok) {
       e.n++; e.ts = Date.now(); delete e.resurfaced;
       mb[q.id] = e;
     } else if (mb[q.id] && mb[q.id].resurfaced) {
-      delete mb[q.id]; // beat the second look — the lesson stuck
+      // beat the second look — the lesson stuck. Name the victory (compounding
+      // made FELT): the explain card shows when this one originally got you.
+      window._gsRedeemed = { ts: mb[q.id].ts || null };
+      delete mb[q.id];
     } else {
       return;
     }
@@ -10611,7 +10631,7 @@ function pickAnswer(letter) {
   state.results.push(ok);
   gsHaptic(ok);
   gsSound(ok ? 'good' : 'bad');
-  gsLogRecent(ok, q.difficulty);   // powers the Decision Index
+  gsLogRecent(ok, q.difficulty, q.pillar);   // powers the Decision Index
   try { ok ? gsCorrect() : gsWrong(); } catch(e){}
   // Record per-question accuracy + which ORIGINAL option was chosen (stable
   // across the answer-shuffle) for the content audit.
@@ -10667,6 +10687,21 @@ function pickAnswer(letter) {
   ec.className = 'explain-card show ' + (ok?'good':'bad');
   document.getElementById('explainIcon').textContent = ok ? '✓' : '✗';
   document.getElementById('explainTitle').textContent = ok ? smartPlayLabel(q) : 'Not quite';
+  // Redemption callback — this question got you before; today it didn't
+  let _rd = document.getElementById('redeemLine');
+  if (!_rd) {
+    const exh = ec.querySelector('.exh');
+    if (exh) { _rd = document.createElement('div'); _rd.id = 'redeemLine'; _rd.className = 'redeem-line'; exh.insertAdjacentElement('afterend', _rd); }
+  }
+  if (_rd) {
+    if (ok && window._gsRedeemed) {
+      const ts = window._gsRedeemed.ts;
+      const when = ts ? ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][new Date(ts).getMonth()] + ' ' + new Date(ts).getDate() : null;
+      _rd.textContent = `↩️ REDEEMED — this one got you ${when ? 'on ' + when : 'before'}. Not today.`;
+      _rd.style.display = 'inline-block';
+    } else _rd.style.display = 'none';
+    window._gsRedeemed = null;
+  }
   document.getElementById('explainBody').textContent = q.why_right || '';
   // Compact one-line takeaway shown above the "Why?" toggle on mobile
   const _one = document.getElementById('explainOneLine');
@@ -11029,9 +11064,11 @@ function showScore() {
     if (!di) { el.style.display = 'none'; return; }
     el.style.display = 'block';
     const d = di.delta;
+    const story = gsDiNarrative();
     el.innerHTML = `DECISION INDEX <b>${di.cur}</b>` +
       (d !== null && d !== 0 ? ` <span style="color:${d > 0 ? '#4caf50' : '#e05252'}">${d > 0 ? '▲' : '▼'}${Math.abs(d)}</span>` : '') +
-      ` <span class="sc-di-sub">· last ${di.n} calls</span>`;
+      ` <span class="sc-di-sub">· last ${di.n} calls</span>` +
+      (story ? `<div class="sc-di-story">${story}</div>` : '');
   })();
   renderChallengeVersus();   // head-to-head if this bundle was a friend's challenge
   gsSound('streak');
