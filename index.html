@@ -10773,6 +10773,9 @@ function pickAnswer(letter) {
 }
 
 function nextQ() {
+  // Double-tap guard: only advance once the CURRENT question is answered —
+  // a fat-fingered double-tap on Next must never skip an unanswered question.
+  if (state.results.length <= state.qIdx) return;
   clearTechAnim();
   state.qIdx++;
   if (state.qIdx >= state.quiz.length) { showScore(); return; }
