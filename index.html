@@ -1772,6 +1772,73 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .dtc-cuebig .dtc-cbb strong{color:#5bba6f;}
 @keyframes dtcCdot{0%,100%{r:8;opacity:.95;}50%{r:12;opacity:.5;}}
 .dtc-cdot{animation:dtcCdot 1.5s ease-in-out infinite;}
+
+/* ── GAMESHARP REPLAY — one app-wide tactical visual contract ──
+   Every real court uses the same frame, camera, colour language and identity.
+   Technique/body diagrams remain neutral, but retain the same Replay shell. */
+:root{
+  --gsr-surface-far:#215d28;
+  --gsr-surface-near:#143f19;
+  --gsr-surround:#081a0c;
+  --gsr-you:#c8a84b;
+  --gsr-opp:#e07070;
+  --gsr-ball:#d8f04e;
+  --gsr-good:#5bba6f;
+  --gsr-bad:#e07070;
+  --gsr-line:rgba(255,255,255,.52);
+}
+.ta-court-wrap.gs-replay-court,
+.ta-court-wrap.ta-premium,
+.seq-court-wrap,
+.leg-anim-wrap,
+.wob-court,
+.cold-court{
+  position:relative;
+  overflow:hidden;
+  border-radius:16px!important;
+  border:1px solid rgba(255,255,255,.08);
+  background:radial-gradient(125% 105% at 50% 16%,var(--gsr-surface-far) 0%,var(--gsr-surface-near) 46%,var(--gsr-surround) 100%)!important;
+  box-shadow:inset 0 0 60px rgba(0,0,0,.5),0 6px 22px rgba(0,0,0,.5)!important;
+}
+.ta-court-wrap.gs-replay-court::before,
+.ta-court-wrap.ta-premium::before,
+.seq-court-wrap::before,
+.leg-anim-wrap::before,
+.wob-court::before{
+  content:'◉ GAMESHARP REPLAY · TACTICAL VIEW';
+  position:absolute;top:10px;left:12px;z-index:8;
+  font:800 8.5px/1 'DM Sans',sans-serif;letter-spacing:1.5px;
+  color:rgba(200,168,75,.92);text-shadow:0 1px 3px rgba(0,0,0,.65);
+  pointer-events:none;
+}
+.ta-court-wrap.cm-court::before,.ta-court-wrap.ta-diagram::before{display:none!important;}
+.seq-court-wrap svg,.leg-anim-wrap svg,.wob-court svg{z-index:3;}
+.seq-court-wrap::after,.leg-anim-wrap::after,.wob-court::after{
+  content:'';position:absolute;inset:0;z-index:4;pointer-events:none;
+  background:radial-gradient(120% 80% at 50% 42%,transparent 56%,rgba(0,0,0,.44) 100%);
+}
+.gsr-inline-replay{
+  position:absolute;top:7px;right:9px;z-index:9;border:1px solid rgba(255,255,255,.16);
+  border-radius:8px;background:rgba(6,18,8,.66);color:rgba(255,255,255,.8);
+  font:800 10px/1 'DM Sans',sans-serif;padding:7px 9px;cursor:pointer;backdrop-filter:blur(5px);
+}
+.gsr-inline-replay:active{transform:scale(.96);}
+.pb-card-anim::before{
+  content:'◉ GAMESHARP REPLAY · PLAYBOOK';position:absolute;top:10px;left:12px;z-index:6;
+  font:800 8px/1 'DM Sans',sans-serif;letter-spacing:1.35px;color:rgba(200,168,75,.9);
+  text-shadow:0 1px 3px rgba(0,0,0,.65);pointer-events:none;
+}
+.pl-visual,.plm-visual,.conseq-wrap{
+  position:relative;background:radial-gradient(125% 105% at 50% 16%,var(--gsr-surface-far) 0%,var(--gsr-surface-near) 46%,var(--gsr-surround) 100%)!important;
+}
+.pl-visual::before,.plm-visual::before,.conseq-wrap::before{
+  content:'◉ GAMESHARP REPLAY';position:absolute;top:9px;left:11px;z-index:7;
+  font:800 8px/1 'DM Sans',sans-serif;letter-spacing:1.35px;color:rgba(200,168,75,.88);
+  text-shadow:0 1px 3px rgba(0,0,0,.65);pointer-events:none;
+}
+@media(prefers-reduced-motion:reduce){
+  .seq-court-wrap svg *,.leg-anim-wrap svg *,.wob-court svg *{animation:none!important;}
+}
 /* motion fault-mirror */
 .ms-tag{position:absolute;top:10px;left:12px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;color:rgba(255,255,255,.5);background:rgba(0,0,0,.35);padding:3px 9px;border-radius:6px;z-index:2;}
 #msStage{min-height:200px;}
@@ -3112,7 +3179,7 @@ let COLD_OPEN = COLD_OPENS[0];
 
 function coldCourtMarkings() {
   return `
-    <defs><linearGradient id="coldSurf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d5f29"/><stop offset="1" stop-color="#15461f"/></linearGradient></defs>
+    <defs><linearGradient id="coldSurf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#215d28"/><stop offset="1" stop-color="#143f19"/></linearGradient></defs>
     <rect x="0" y="0" width="200" height="150" fill="#0a160c"/>
     <rect x="20" y="12" width="160" height="126" fill="url(#coldSurf)"/>
     <rect x="20" y="12" width="22" height="126" fill="rgba(255,255,255,.025)"/>
@@ -3452,7 +3519,7 @@ function wobMiniCourt(fmt) {
   const ballCy = dbl ? '116;32;116' : '120;30;120';
   return `<div class="wob-court">
     <svg viewBox="0 0 200 150">
-      <defs><linearGradient id="wobSurf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d5f29"/><stop offset="1" stop-color="#15461f"/></linearGradient></defs>
+      <defs><linearGradient id="wobSurf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#215d28"/><stop offset="1" stop-color="#143f19"/></linearGradient></defs>
       <rect x="0" y="0" width="200" height="150" fill="#0a160c"/>
       <rect x="20" y="12" width="160" height="126" fill="url(#wobSurf)"/>
       <!-- doubles alleys -->
@@ -4357,15 +4424,29 @@ const PILLAR_DISCOVERY = {
   },
 };
 
+// ── GAMESHARP REPLAY KERNEL ─────────────────────────────────────────────────
+// One coordinate projection and colour contract for every tactical surface.
+// Feature renderers supply tennis state; the kernel owns how that state looks.
+const GS_REPLAY={
+  colour:{far:'#215d28',near:'#143f19',surround:'#081a0c',you:'#c8a84b',opp:'#e07070',ball:'#d8f04e',good:'#5bba6f',bad:'#e07070'},
+  project(x,y,bounds){
+    const b=bounds||{top:10,bottom:290,left:20,right:180};
+    const t=Math.max(0,Math.min(1,(y-b.top)/(b.bottom-b.top)));
+    const sy=18+t*164,half=54+t*84,mid=(b.left+b.right)/2,span=(b.right-b.left)/2;
+    return [150+((x-mid)/span)*half,sy];
+  },
+  label(mode){return `◉ GAME<span style="color:#fff">SHARP</span> REPLAY · ${mode||'TACTICAL VIEW'}`;}
+};
+
 // ── Shared court builder — returns helpers + live SVG for JS animations ──────
 function _taInitCourt(box) {
-  box.classList.add('ta-premium');
+  box.classList.add('ta-premium','gs-replay-court');
   const NS='http://www.w3.org/2000/svg';
   const sv=document.createElementNS(NS,'svg');
   sv.setAttribute('viewBox','0 0 200 310');
   sv.style.cssText='width:100%;height:auto;display:block;';
   sv.setAttribute('font-family','DM Sans,sans-serif');
-  sv.innerHTML=`<defs><pattern id="taGp" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern><radialGradient id="taGbg" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#1e5a22"/><stop offset="100%" stop-color="#132914"/></radialGradient></defs><rect x="20" y="10" width="160" height="290" fill="url(#taGbg)"/><rect x="20" y="10" width="160" height="290" fill="url(#taGp)" opacity="0.3"/><rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/><line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/><line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/><line x1="33" y1="87" x2="167" y2="87" stroke="rgba(255,255,255,.45)" stroke-width="1.2"/><line x1="33" y1="222" x2="167" y2="222" stroke="rgba(255,255,255,.45)" stroke-width="1.2"/><line x1="100" y1="87" x2="100" y2="155" stroke="rgba(255,255,255,.2)" stroke-width="1"/><line x1="100" y1="155" x2="100" y2="222" stroke="rgba(255,255,255,.3)" stroke-width="1"/><line x1="33" y1="10" x2="33" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/><line x1="167" y1="10" x2="167" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/><line x1="98" y1="10" x2="102" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><line x1="98" y1="300" x2="102" y2="300" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/><text x="28" y="22" fill="rgba(255,255,255,.22)" font-size="7" letter-spacing="1">OPP</text><text x="28" y="293" fill="rgba(200,168,75,.3)" font-size="7" letter-spacing="1">YOU</text>`;
+  sv.innerHTML=`<defs><pattern id="taGp" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)"><rect width="3" height="6" fill="rgba(0,0,0,.12)"/></pattern><linearGradient id="taGbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${GS_REPLAY.colour.far}"/><stop offset="100%" stop-color="${GS_REPLAY.colour.near}"/></linearGradient></defs><rect x="20" y="10" width="160" height="290" fill="url(#taGbg)"/><rect x="20" y="10" width="160" height="290" fill="url(#taGp)" opacity="0.3"/><rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/><line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/><line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/><line x1="33" y1="87" x2="167" y2="87" stroke="rgba(255,255,255,.45)" stroke-width="1.2"/><line x1="33" y1="222" x2="167" y2="222" stroke="rgba(255,255,255,.45)" stroke-width="1.2"/><line x1="100" y1="87" x2="100" y2="155" stroke="rgba(255,255,255,.2)" stroke-width="1"/><line x1="100" y1="155" x2="100" y2="222" stroke="rgba(255,255,255,.3)" stroke-width="1"/><line x1="33" y1="10" x2="33" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/><line x1="167" y1="10" x2="167" y2="300" stroke="rgba(255,255,255,.18)" stroke-width="1"/><line x1="98" y1="10" x2="102" y2="10" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/><line x1="98" y1="300" x2="102" y2="300" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/><text x="28" y="22" fill="rgba(255,255,255,.22)" font-size="7" letter-spacing="1">OPP</text><text x="28" y="293" fill="rgba(200,168,75,.3)" font-size="7" letter-spacing="1">YOU</text>`;
   box.innerHTML=''; box.appendChild(sv);
   const lerp=(a,b,t)=>a+(b-a)*t;
   const cl01=v=>Math.max(0,Math.min(1,v));
@@ -4844,7 +4925,7 @@ const TECH_ANIMS = {
     hasMistakeToggle: true,
     // Static thumbnail — portrait 200×310, 4 players
     svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <text x="100" y="8" text-anchor="middle" font-size="9" font-weight="bold" fill="#c8a84b" opacity="0.8" letter-spacing="2">DOUBLES</text>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
@@ -5344,7 +5425,7 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: true,
     svg: `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -5373,7 +5454,7 @@ const TECH_ANIMS = {
   <circle id="mb-ball" cx="100" cy="22" r="6" fill="#a8c032" opacity="0"/>
 </svg>`,
     mistakeSvg: `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -5608,7 +5689,7 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: false,
     svg: `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -5785,7 +5866,7 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: false,
     svg: `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -5882,7 +5963,7 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: false,
     svg: `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -5985,7 +6066,7 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: true,
     svg: `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -6299,7 +6380,7 @@ const TECH_ANIMS = {
     mistakeCaptions:{setup:'Opponent floats a short ball to the service line.',decision:'You\'re on top of it. Big target — where do you attack?',result:'Hesitating lets them recover. Short balls punish hesitation.'},
     hasMistakeToggle:true,
     svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -6401,7 +6482,7 @@ const TECH_ANIMS = {
     mistakeCaptions:{setup:'T serve cuts the angle — returner pulled to centre.',decision:'Wide deuce side is open. Attack before they reset.',result:'Back to centre — returner resets and the advantage is lost.'},
     hasMistakeToggle:true,
     svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -6480,7 +6561,7 @@ const TECH_ANIMS = {
     mistakeCaptions:{setup:'Opponent charges the net after a short ball.',decision:'You\'re wide. Low dipping pass or go for the line?',result:'Floating high — they volley it away. OPP wins the point.'},
     hasMistakeToggle:true,
     svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -6571,7 +6652,7 @@ const TECH_ANIMS = {
     mistakeCaptions:{setup:'Body serve jams the receiver at their hip.',decision:'Weak floating reply. Attack before they recover.',result:'Staying back resets the point — body serve advantage wasted.'},
     hasMistakeToggle:true,
     svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -6650,7 +6731,7 @@ const TECH_ANIMS = {
     mistakeCaptions:{setup:'Opponent loops a heavy moonball deep to your baseline.',decision:'It\'s climbing. Step inside or let it rise?',result:'Retreating lets it climb to shoulder height — you\'re on defence.'},
     hasMistakeToggle:true,
     svg:`<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -6773,7 +6854,7 @@ const TECH_ANIMS = {
     },
     hasMistakeToggle: true,
     svg: `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -6799,7 +6880,7 @@ const TECH_ANIMS = {
   <circle cx="163" cy="31" r="8" fill="rgba(255,255,255,.55)" opacity="0" style="animation:tpop .3s 3.3s ease both" class="ta-reveal"/>
 </svg>`,
     mistakeSvg: `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
-  <rect x="20" y="10" width="160" height="290" fill="#1a4a1e"/>
+  <rect x="20" y="10" width="160" height="290" fill="#143f19"/>
   <rect x="20" y="10" width="160" height="290" fill="none" stroke="rgba(255,255,255,.52)" stroke-width="1.8"/>
   <line x1="20" y1="155" x2="180" y2="155" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
   <line x1="98" y1="153" x2="102" y2="157" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
@@ -6967,7 +7048,7 @@ function renderConceptMotif(q) {
   if (!box || !court) return;
   const c = conceptCategory(q);
   court.classList.add('cm-court');
-  court.classList.remove('ta-static', 'ta-premium', 'ta-diagram');
+  court.classList.remove('ta-static', 'ta-premium', 'ta-diagram', 'gs-replay-court');
   court.innerHTML = `<div class="concept-motif" style="--cm-accent:${c.accent};"><div class="cm-glow"></div><div class="cm-glyph">${c.glyph}</div><div class="cm-label">${c.label}</div><div class="cm-sub">${c.sub}</div></div>`;
   if (phase) phase.style.display = 'none';
   if (cap) { cap.textContent = ''; cap.style.display = 'none'; }  // motif has its own sub-line
@@ -7004,10 +7085,20 @@ function mountTechAnim(key, params, mistakeMode, staticOnly) {
   // svg may be a static string or a (params)=>string function for param-aware frames
   const _svgSrc = (mistakeMode && a.mistakeSvg) ? a.mistakeSvg : a.svg;
   const svgMarkup = (typeof _svgSrc === 'function') ? (_svgSrc.call(a, params||{}) || '') : (_svgSrc || '');
-  court.classList.remove('ta-premium'); // cleared here; _taInitCourt re-adds it for cinematic courts
+  court.classList.remove('ta-premium','gs-replay-court'); // cleared here; _taInitCourt re-adds it for cinematic courts
   if (staticOnly) court.classList.add('ta-static');
   else court.classList.remove('ta-static');
   court.innerHTML = svgMarkup;
+  // Static SVG courts join the same Replay presentation as JS-built courts.
+  // Side-on technique diagrams and score graphics deliberately stay neutral.
+  const _courtSvg=court.querySelector('svg');
+  const _isRealCourt=!!(_courtSvg&&(
+    _courtSvg.querySelector('rect[x="20"][y="10"]')||
+    _courtSvg.querySelector('rect[x="20"][y="14"]')||
+    _courtSvg.querySelector('line[x1="20"][x2="180"]')
+  ));
+  court.classList.toggle('gs-replay-court',_isRealCourt);
+  court.classList.toggle('ta-diagram',!_isRealCourt);
   // Rotate top-down portrait courts to landscape so they fill the screen width
   // instead of sitting as a narrow strip. (Technique side-diagrams are left alone.)
   landscapeCourtSvg(court);
@@ -7728,8 +7819,8 @@ function dtcLimb(a,b,w){return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2=
 function dtcArrow(x1,y1,x2,y2,col,w){const a=Math.atan2(y2-y1,x2-x1),L=9;
   return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="${w||4}" stroke-linecap="round"/><path d="M${x2},${y2} L${x2-L*Math.cos(a-0.5)},${y2-L*Math.sin(a-0.5)} M${x2},${y2} L${x2-L*Math.cos(a+0.5)},${y2-L*Math.sin(a+0.5)}" stroke="${col}" stroke-width="${w||4}" fill="none" stroke-linecap="round"/>`;}
 function dtcProject(pt){
-  const t=Math.max(0,Math.min(1,(pt.y-12)/126)),y=18+t*164,half=54+t*84;
-  return {x:150+((pt.x-100)/80)*half,y};
+  const p=GS_REPLAY.project(pt.x,pt.y,{top:12,bottom:138,left:20,right:180});
+  return {x:p[0],y:p[1]};
 }
 function dtcCourtMarkings(){
   const p=(x,y)=>dtcProject({x,y}),farL=p(20,12),farR=p(180,12),nearL=p(20,138),nearR=p(180,138);
@@ -7759,7 +7850,7 @@ function dtcCourtScene(q,chosen){
       act+=`<path d="M${yp.x},${yp.y} Q${ccx},${ccy} ${c.x},${c.y}" stroke="rgba(91,186,111,.78)" stroke-width="2.2" fill="none" stroke-dasharray="5,4" opacity="0"><animate attributeName="opacity" from="0" to="1" begin=".7s" dur=".35s" fill="freeze"/></path>`;}
   }else if(q.incoming){const a=dtcProject(q.incoming.from),b=dtcProject(q.incoming.to),mx=(a.x+b.x)/2,my=Math.min(a.y,b.y)+14;
     act=`<path d="M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}" stroke="rgba(200,168,75,.5)" stroke-width="2" fill="none" stroke-dasharray="4,3"/>`;}
-  return `<div class="dtc-replay-frame dtc-court"><div class="dtc-replay-head"><span class="dtc-replay-label">◉ GAME<span style="color:#fff">SHARP</span> REPLAY · TACTICAL VIEW</span>${rev?'<button class="dtc-replay-btn" onclick="dtcReplayScene(event)">↻ Replay</button>':''}</div><svg viewBox="0 0 300 200">${dtcCourtMarkings()}${act}${markers}
+  return `<div class="dtc-replay-frame dtc-court"><div class="dtc-replay-head"><span class="dtc-replay-label">${GS_REPLAY.label('TACTICAL VIEW')}</span>${rev?'<button class="dtc-replay-btn" onclick="dtcReplayScene(event)">↻ Replay</button>':''}</div><svg viewBox="0 0 300 200">${dtcCourtMarkings()}${act}${markers}
     <circle cx="${op.x}" cy="${op.y}" r="5.2" fill="#e07070" stroke="rgba(255,255,255,.65)"/>
     <circle cx="${yp.x}" cy="${yp.y}" r="5.2" fill="#c8a84b" stroke="rgba(255,255,255,.8)"/></svg></div>`;
 }
@@ -8519,7 +8610,7 @@ function dtcApp(){ return document.getElementById('dtcApp'); }
 function dtcScroll(){ const o=document.getElementById('dailyThemed'); if(o) o.scrollTop=0; }
 function dtcTopBar(){ return `<div class="dtc-top"><div class="dtc-brand">GAME<span>SHARP</span> · Daily</div><div class="dtc-close" onclick="dtcExit()">✕</div></div>`; }
 function dtcTechniqueFrame(scene){
-  return `<div class="dtc-replay-frame"><div class="dtc-replay-head"><span class="dtc-replay-label">◉ GAME<span style="color:#fff">SHARP</span> REPLAY · TECHNIQUE VIEW</span></div>${scene}</div>`;
+  return `<div class="dtc-replay-frame"><div class="dtc-replay-head"><span class="dtc-replay-label">${GS_REPLAY.label('TECHNIQUE VIEW')}</span></div>${scene}</div>`;
 }
 function dtcDetailHTML(q){
   if(!q.insight&&!q.cue) return '';
@@ -8900,7 +8991,7 @@ function buildProLensScene(cfg) {
   <text x="${opp.x}" y="${opp.y+4}" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle" font-family="DM Sans,sans-serif">${oppLabel}</text>` : '';
 
   return `<svg viewBox="0 0 320 195" style="width:100%;display:block;">
-  <rect width="320" height="195" fill="#1a4a1e"/>
+  <rect width="320" height="195" fill="#143f19"/>
   <rect width="320" height="195" fill="url(#plGrass)" opacity="0.4"/>
   <defs>
     <pattern id="plGrass" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)">
@@ -11717,12 +11808,7 @@ function buildMultiShotSVG(play){
   // Project authored top-down coordinates onto one landscape broadcast court.
   // The far baseline is narrow and the near baseline is wide, giving depth
   // without a CSS camera transform that would distort labels and ball timing.
-  const project = (x,y) => {
-    const t = Math.max(0,Math.min(1,(y-10)/280));
-    const sy = 18 + t*164;
-    const halfW = 54 + t*84;
-    return [150 + ((x-100)/80)*halfW, sy];
-  };
+  const project = (x,y) => GS_REPLAY.project(x,y,{top:10,bottom:290,left:20,right:180});
   let body = '';
   (play.shots || []).forEach((s, i) => {
     const d0 = 0.3 + i * stepDur;
@@ -11754,8 +11840,8 @@ function buildMultiShotSVG(play){
   const youTravels = !reducedMotion && Math.hypot(youMove[0]-you[0],youMove[1]-you[1]) > 8;
   const oppTravels = !reducedMotion && Math.hypot(oppMove[0]-opp[0],oppMove[1]-opp[1]) > 8;
   return `<svg viewBox="0 0 ${W} ${H}" class="ta-svg ms-svg" font-family="DM Sans,sans-serif">
-    <defs><filter id="msBallGlow" x="-200%" y="-200%" width="400%" height="400%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#d8f04e" flood-opacity=".85"/></filter></defs>
-    <path d="M96,18 L204,18 L288,182 L12,182 Z" fill="#1a4a1e" stroke="rgba(255,255,255,.52)" stroke-width="1.6"/>
+    <defs><linearGradient id="msCourtSurface" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#215d28"/><stop offset="1" stop-color="#143f19"/></linearGradient><filter id="msBallGlow" x="-200%" y="-200%" width="400%" height="400%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#d8f04e" flood-opacity=".85"/></filter></defs>
+    <path d="M96,18 L204,18 L288,182 L12,182 Z" fill="url(#msCourtSurface)" stroke="rgba(255,255,255,.52)" stroke-width="1.6"/>
     <line x1="66" y1="${netY}" x2="234" y2="${netY}" stroke="rgba(255,255,255,.78)" stroke-width="2.4"/>
     <line x1="${farServeL}" y1="${farSL}" x2="${farServeR}" y2="${farSL}" stroke="rgba(255,255,255,.33)" stroke-width="1"/>
     <line x1="${nearServeL}" y1="${nearSL}" x2="${nearServeR}" y2="${nearSL}" stroke="rgba(255,255,255,.33)" stroke-width="1"/>
@@ -11773,7 +11859,7 @@ function buildMultiShotSVG(play){
 function _drawPlayFrame(ctx, play, t, W) {
   const s = W / 200;
   ctx.fillStyle = '#0a140d'; ctx.fillRect(0, 0, W, 300 * s);
-  ctx.fillStyle = '#1a4a1e'; ctx.fillRect(20 * s, 10 * s, 160 * s, 280 * s);
+  ctx.fillStyle = '#143f19'; ctx.fillRect(20 * s, 10 * s, 160 * s, 280 * s);
   const ln = (x1, y1, x2, y2, c, w) => { ctx.strokeStyle = c; ctx.lineWidth = w * s; ctx.beginPath(); ctx.moveTo(x1 * s, y1 * s); ctx.lineTo(x2 * s, y2 * s); ctx.stroke(); };
   ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.lineWidth = 1.6 * s; ctx.strokeRect(20 * s, 10 * s, 160 * s, 280 * s);
   ln(20, 150, 180, 150, 'rgba(255,255,255,.7)', 2.4);
@@ -12702,7 +12788,7 @@ function pickSeqAnswer(idx) {
   // Court animation
   const courtEl = document.getElementById('seqCourtWrap');
   if (courtEl && step.court) {
-    courtEl.innerHTML = buildSeqCourtAnim(step, idx);
+    courtEl.innerHTML = buildSeqCourtAnim(step, idx)+`<button class="gsr-inline-replay" onclick="replaySeqCourt(event)">↻ Replay</button>`;
     courtEl.style.display = 'block';
   }
 
@@ -12733,6 +12819,11 @@ function pickSeqAnswer(idx) {
       }
     }, 320);
   }, 550);
+}
+function replaySeqCourt(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  const step=seqState.seq&&seqState.seq.steps[seqState.stepIdx],last=seqState.answers[seqState.answers.length-1],court=document.getElementById('seqCourtWrap');
+  if(step&&last&&court) court.innerHTML=buildSeqCourtAnim(step,last.idx)+`<button class="gsr-inline-replay" onclick="replaySeqCourt(event)">↻ Replay</button>`;
 }
 
 // ── COURT ANIMATION ──
@@ -12766,8 +12857,8 @@ function buildSeqCourtAnim(step, choiceIdx) {
   const courtLines = `
     <defs>
       <linearGradient id="seqSurf" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#1d5f29"/>
-        <stop offset="1" stop-color="#15461f"/>
+        <stop offset="0" stop-color="#215d28"/>
+        <stop offset="1" stop-color="#143f19"/>
       </linearGradient>
     </defs>
     <rect x="0" y="0" width="250" height="170" fill="#0a160c"/>
@@ -12813,8 +12904,8 @@ function buildSeqCourtAnim(step, choiceIdx) {
       <animate attributeName="opacity" from="0" to="1" begin="${recBegin}" dur="0.3s" fill="freeze"/>
     </line>` : '';
   const players = `
-    <circle cx="${opp.x}" cy="${opp.y}" r="5.5" fill="rgba(255,255,255,.55)"/>
-    <text x="${opp.x}" y="${opp.y + 13}" text-anchor="middle" font-size="6.5" fill="rgba(255,255,255,.35)" font-family="DM Sans,sans-serif">OPP</text>
+    <circle cx="${opp.x}" cy="${opp.y}" r="5.5" fill="#e07070" stroke="rgba(255,255,255,.65)" stroke-width="1"/>
+    <text x="${opp.x}" y="${opp.y + 13}" text-anchor="middle" font-size="6.5" fill="rgba(224,112,112,.7)" font-family="DM Sans,sans-serif">OPP</text>
     ${recTrail}
     <circle cx="${you.x}" cy="${you.y}" r="6.5" fill="rgba(200,168,75,.9)">${youAnim}</circle>
     <text x="${you.x}" y="${you.y + 14}" text-anchor="middle" font-size="6.5" fill="rgba(200,168,75,.55)" font-family="DM Sans,sans-serif">${youLblAnim}YOU</text>`;
@@ -12824,7 +12915,7 @@ function buildSeqCourtAnim(step, choiceIdx) {
       opacity="0">
       <animate attributeName="opacity" from="0" to="1" dur="0.35s" fill="freeze"/>
     </path>
-    <circle r="3.4" fill="#e8f4d8" opacity="0">
+    <circle r="4.4" fill="#d8f04e" stroke="#f4ffae" stroke-width="1" opacity="0">
       <animate attributeName="opacity" from="0" to="1" begin="0.05s" dur="0.1s" fill="freeze"/>
       <animate attributeName="opacity" from="1" to="0" begin="${ballDur.toFixed(2)}s" dur="0.25s" fill="freeze"/>
       <animateMotion path="M ${you.x},${you.y} Q ${midX},${midY} ${target.x},${target.y}" begin="0.05s" dur="${ballDur.toFixed(2)}s" fill="freeze" calcMode="spline" keySplines="0.25 0.1 0.6 1" keyTimes="0;1" keyPoints="0;1"/>
@@ -13152,7 +13243,7 @@ function pickLegAnswer(idx) {
   // Court animation
   const animEl = document.getElementById('legAnim');
   if (animEl) {
-    animEl.innerHTML = buildLegCourtAnim(idx, step);
+    animEl.innerHTML = buildLegCourtAnim(idx, step)+`<button class="gsr-inline-replay" onclick="replayLegCourt(event)">↻ Replay</button>`;
     animEl.style.display = 'block';
   }
 
@@ -13168,6 +13259,11 @@ function pickLegAnswer(idx) {
       if (nb) nb.classList.add('show');
     }, 350);
   }, 600);
+}
+function replayLegCourt(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  const step=legState.exchange&&legState.exchange.steps[legState.stepIdx],anim=document.getElementById('legAnim');
+  if(step&&anim&&legState.answerIdx!=null) anim.innerHTML=buildLegCourtAnim(legState.answerIdx,step)+`<button class="gsr-inline-replay" onclick="replayLegCourt(event)">↻ Replay</button>`;
 }
 
 // ── COURT ANIMATION ──
@@ -13214,7 +13310,7 @@ function buildLegCourtAnim(ansIdx, step) {
   <line x1="${nX}" y1="${nY}" x2="${p2.nRX}" y2="${p2.nRY}" stroke="rgba(239,83,80,.25)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0" style="animation:tpop .2s .78s ease both"/>`;
 
     return `<svg viewBox="0 0 320 195" style="width:100%;display:block;border-radius:14px;">
-  <rect x="0" y="0" width="320" height="195" fill="#1a4a1e"/>
+  <rect x="0" y="0" width="320" height="195" fill="#143f19"/>
   <rect x="0" y="0" width="320" height="195" fill="url(#grassPat2)" opacity="0.4"/>
   <defs>
     <pattern id="grassPat2" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)">
@@ -13271,7 +13367,7 @@ function buildLegCourtAnim(ansIdx, step) {
       : '';
 
     return `<svg viewBox="0 0 320 195" style="width:100%;display:block;border-radius:14px;">
-  <rect x="0" y="0" width="320" height="195" fill="#1a4a1e"/>
+  <rect x="0" y="0" width="320" height="195" fill="#143f19"/>
   <rect x="0" y="0" width="320" height="195" fill="url(#grassPat)" opacity="0.4"/>
   <defs>
     <pattern id="grassPat" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(2)">
