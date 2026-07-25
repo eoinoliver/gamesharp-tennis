@@ -1730,9 +1730,15 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .dtc-qtag.tac{color:#5bba6f;background:rgba(91,186,111,.12);} .dtc-qtag.exe{color:#c8a84b;background:rgba(200,168,75,.14);}
 .dtc-sit{font-size:14px;line-height:1.55;color:rgba(255,255,255,.6);margin-bottom:6px;}
 .dtc-prompt{font-family:'Bebas Neue',sans-serif;font-size:27px;letter-spacing:.6px;line-height:1.05;margin:6px 0 16px;color:#fff;}
-.dtc-court{position:relative;height:clamp(190px,30vh,240px);max-width:420px;margin:0 auto;border-radius:14px;overflow:hidden;perspective:620px;perspective-origin:50% 32%;background:#0a160c;box-shadow:inset 0 0 30px rgba(0,0,0,.5);}
-.dtc-court svg{position:absolute;left:50%;bottom:-2px;width:122%;transform:translateX(-50%) rotateX(46deg);transform-origin:50% 100%;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5));}
-.dtc-fig{position:relative;background:radial-gradient(130% 120% at 50% 30%,#16401d,#0e2913 55%,#081710);border-radius:14px;overflow:hidden;box-shadow:inset 0 0 40px rgba(0,0,0,.5);}
+.dtc-replay-frame{position:relative;max-width:420px;margin:0 auto;border-radius:16px;overflow:hidden;background:radial-gradient(125% 105% at 50% 16%,#206027 0%,#15401b 46%,#081a0c 100%);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 0 60px rgba(0,0,0,.5),0 6px 22px rgba(0,0,0,.5);}
+.dtc-replay-frame::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(125% 85% at 50% 30%,transparent 52%,rgba(0,0,0,.48) 100%);z-index:2;}
+.dtc-replay-head{position:absolute;top:10px;left:12px;right:10px;z-index:5;display:flex;align-items:center;justify-content:space-between;pointer-events:none;}
+.dtc-replay-label{font-size:8.5px;letter-spacing:1.6px;font-weight:800;color:rgba(200,168,75,.92);text-shadow:0 1px 3px rgba(0,0,0,.6);}
+.dtc-replay-btn{pointer-events:auto;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:rgba(6,18,8,.62);color:rgba(255,255,255,.76);font-size:10px;font-weight:800;padding:6px 9px;cursor:pointer;backdrop-filter:blur(5px);}
+.dtc-replay-btn:active{transform:scale(.96);}
+.dtc-court{height:clamp(190px,30vh,240px);}
+.dtc-court svg{position:relative;z-index:1;display:block;width:100%;height:100%;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5));}
+.dtc-fig{position:relative;z-index:1;background:radial-gradient(130% 120% at 50% 30%,#16401d,#0e2913 55%,#081710);overflow:hidden;}
 .dtc-fig svg{display:block;width:100%;height:auto;}
 .dtc-opts{margin-top:16px;}
 .dtc-opt{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:14px 15px;display:flex;align-items:center;gap:12px;margin-bottom:10px;cursor:pointer;text-align:left;transition:.18s;}
@@ -1746,6 +1752,12 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .dtc-rtag{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;margin-bottom:8px;}
 .dtc-rbody{font-size:14.5px;line-height:1.55;color:#fff;}
 .dtc-rins{font-size:13px;font-style:italic;color:rgba(255,255,255,.56);line-height:1.5;margin-top:11px;padding-left:12px;border-left:2px solid rgba(200,168,75,.4);}
+.dtc-detail{margin-top:13px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.025);overflow:hidden;}
+.dtc-detail summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;color:rgba(255,255,255,.8);font-size:12px;font-weight:800;letter-spacing:.4px;cursor:pointer;}
+.dtc-detail summary::-webkit-details-marker{display:none;}
+.dtc-detail summary::after{content:'＋';color:#c8a84b;font-size:16px;line-height:1;}
+.dtc-detail[open] summary::after{content:'−';}
+.dtc-detail-body{padding:0 14px 14px;}
 .dtc-cue{margin-top:14px;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.26);border-radius:12px;padding:12px 14px;}
 .dtc-cue .dtc-cl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#c8a84b;font-weight:800;margin-bottom:4px;}
 .dtc-cue .dtc-ct{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.6px;color:#fff;}
@@ -7577,7 +7589,8 @@ function startDailyTechQ() {
 function dtcRenderDailyTech() {
   const q = state.quiz[state.qIdx]._dtc;
   const motion = mHasMotion(q);
-  const scene = motion ? '<div id="msStage" class="dtc-fig"></div>'+mControls() : (q.render ? q.render(false) : '');
+  const visual = motion ? '<div id="msStage" class="dtc-fig"></div>' : (q.render ? q.render(false) : '');
+  const scene = dtcTechniqueFrame(visual)+(motion?mControls():'');
   const opts = q.options.map((o, i) =>
     `<button class="dtc-opt" id="dtcOpt${i}" onclick="dtcDailyTechAnswer(${i})"><div class="dtc-ol">${String.fromCharCode(65 + i)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
   ).join('');
@@ -7603,17 +7616,16 @@ function dtcDailyTechAnswer(i) {
   const o = q.options[i], ci = q.options.findIndex(x => x.correct);
   const sc = document.getElementById('dtcScene');
   if (mHasMotion(q)) { const _sc=document.querySelector('.ms-scrub'); if(_sc) _sc.value=0; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
-  else if (sc && q.render) sc.innerHTML = q.render(true);
+  else if (sc && q.render) sc.innerHTML = dtcTechniqueFrame(q.render(true));
   document.querySelectorAll('.dtc-opt').forEach((el, idx) => {
     if (idx === i) el.classList.add(o.correct ? 'sel' : 'wrong');
     else if (idx === ci) el.classList.add('sel');
     else el.classList.add('dim');
     el.onclick = null;
   });
-  const cueBlock = q.cue ? `<div class="dtc-cue"><div class="dtc-cl">On court, say</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>` : '';
   document.getElementById('dtcReveal').innerHTML = `<div class="dtc-reveal show">
     <div class="dtc-rtag" style="color:${o.correct ? '#5bba6f' : '#e07070'}">${o.correct ? '✓ Nailed it' : '✗ Not quite'}</div>
-    <div class="dtc-rbody">${o.verdict}</div>${q.insight ? `<div class="dtc-rins">${q.insight}</div>` : ''}${cueBlock}
+    <div class="dtc-rbody">${o.verdict}</div>${dtcDetailHTML(q)}
     <button class="dtc-cta gold" style="margin-top:18px;" onclick="dtcDailyTechFinish(${o.correct ? 1 : 0})">See your results →</button></div>`;
   setTimeout(() => { const r = document.getElementById('dtcReveal'); if (r) r.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 120);
 }
@@ -7715,32 +7727,41 @@ function fixNextFault() { fixFaultIdx++; if (fixFaultIdx >= fixGroups()[fixStrok
 function dtcLimb(a,b,w){return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#e9f0e1" stroke-width="${w||11}" stroke-linecap="round"/>`;}
 function dtcArrow(x1,y1,x2,y2,col,w){const a=Math.atan2(y2-y1,x2-x1),L=9;
   return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="${w||4}" stroke-linecap="round"/><path d="M${x2},${y2} L${x2-L*Math.cos(a-0.5)},${y2-L*Math.sin(a-0.5)} M${x2},${y2} L${x2-L*Math.cos(a+0.5)},${y2-L*Math.sin(a+0.5)}" stroke="${col}" stroke-width="${w||4}" fill="none" stroke-linecap="round"/>`;}
-function dtcCourtMarkings(){return `
-  <defs><linearGradient id="dtcs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d5f29"/><stop offset="1" stop-color="#15461f"/></linearGradient></defs>
-  <rect x="0" y="0" width="200" height="150" fill="#0a160c"/><rect x="20" y="12" width="160" height="126" fill="url(#dtcs)"/>
-  <rect x="20" y="12" width="22" height="126" fill="rgba(255,255,255,.025)"/><rect x="158" y="12" width="22" height="126" fill="rgba(255,255,255,.025)"/>
-  <rect x="20" y="12" width="160" height="126" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
-  <line x1="42" y1="12" x2="42" y2="138" stroke="rgba(255,255,255,.45)" stroke-width="1"/><line x1="158" y1="12" x2="158" y2="138" stroke="rgba(255,255,255,.45)" stroke-width="1"/>
-  <line x1="42" y1="41" x2="158" y2="41" stroke="rgba(255,255,255,.28)" stroke-width="1"/><line x1="42" y1="109" x2="158" y2="109" stroke="rgba(255,255,255,.28)" stroke-width="1"/>
-  <line x1="100" y1="41" x2="100" y2="109" stroke="rgba(255,255,255,.26)" stroke-width="1"/>
-  <rect x="17" y="71" width="6" height="8" fill="rgba(200,168,75,.4)" rx="1"/><rect x="177" y="71" width="6" height="8" fill="rgba(200,168,75,.4)" rx="1"/>
-  <line x1="20" y1="75" x2="180" y2="75" stroke="rgba(255,255,255,.7)" stroke-width="1.7"/>`;}
+function dtcProject(pt){
+  const t=Math.max(0,Math.min(1,(pt.y-12)/126)),y=18+t*164,half=54+t*84;
+  return {x:150+((pt.x-100)/80)*half,y};
+}
+function dtcCourtMarkings(){
+  const p=(x,y)=>dtcProject({x,y}),farL=p(20,12),farR=p(180,12),nearL=p(20,138),nearR=p(180,138);
+  const s1=p(42,41),s2=p(158,41),s3=p(42,109),s4=p(158,109),netL=p(20,75),netR=p(180,75);
+  return `<defs><linearGradient id="dtcs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#215d28"/><stop offset="1" stop-color="#143f19"/></linearGradient><filter id="dtcGlow" x="-200%" y="-200%" width="400%" height="400%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#d8f04e" flood-opacity=".85"/></filter></defs>
+  <path d="M${farL.x},${farL.y} L${farR.x},${farR.y} L${nearR.x},${nearR.y} L${nearL.x},${nearL.y} Z" fill="url(#dtcs)" stroke="rgba(255,255,255,.52)" stroke-width="1.6"/>
+  <line x1="${s1.x}" y1="${s1.y}" x2="${s2.x}" y2="${s2.y}" stroke="rgba(255,255,255,.33)"/>
+  <line x1="${s3.x}" y1="${s3.y}" x2="${s4.x}" y2="${s4.y}" stroke="rgba(255,255,255,.33)"/>
+  <line x1="150" y1="${s1.y}" x2="150" y2="${s3.y}" stroke="rgba(255,255,255,.27)"/>
+  <line x1="${s1.x}" y1="${farL.y}" x2="${s3.x}" y2="${nearL.y}" stroke="rgba(255,255,255,.2)"/>
+  <line x1="${s2.x}" y1="${farR.y}" x2="${s4.x}" y2="${nearR.y}" stroke="rgba(255,255,255,.2)"/>
+  <line x1="${netL.x}" y1="${netL.y}" x2="${netR.x}" y2="${netR.y}" stroke="rgba(255,255,255,.78)" stroke-width="2.4"/>
+  <text x="103" y="13" fill="rgba(255,255,255,.3)" font-size="7" letter-spacing="1">OPP</text>
+  <text x="18" y="194" fill="rgba(200,168,75,.42)" font-size="7" letter-spacing="1">YOU</text>`;}
 function dtcCourtScene(q,chosen){
   const you=q.you,opp=q.opp,opts=q.options,rev=chosen!=null,ci=opts.findIndex(o=>o.correct);
+  const yp=dtcProject(you),op=dtcProject(opp);
   const markers=opts.map((o,i)=>{let f='rgba(255,255,255,.16)',s='rgba(255,255,255,.4)',t='rgba(255,255,255,.6)';
     if(rev){if(i===chosen){f=o.correct?'rgba(91,186,111,.95)':'rgba(224,82,82,.95)';s='#fff';t='#06140a';}else if(i===ci){f='rgba(91,186,111,.9)';s='#fff';t='#06140a';}else{f='rgba(255,255,255,.07)';s='rgba(255,255,255,.18)';t='rgba(255,255,255,.28)';}}
     const pulse=(rev&&i===ci&&chosen!==ci)?`<animate attributeName="r" values="7;9;7" dur="1s" repeatCount="indefinite"/>`:'';
-    return `<circle cx="${o.target.x}" cy="${o.target.y}" r="7" fill="${f}" stroke="${s}" stroke-width="1">${pulse}</circle><text x="${o.target.x}" y="${o.target.y+2.6}" text-anchor="middle" font-size="6.5" font-weight="700" fill="${t}" font-family="DM Sans">${String.fromCharCode(65+i)}</text>`;}).join('');
+    const z=dtcProject(o.target);
+    return `<circle cx="${z.x}" cy="${z.y}" r="9" fill="${f}" stroke="${s}" stroke-width="1.2">${pulse}</circle><text x="${z.x}" y="${z.y+2.7}" text-anchor="middle" font-size="7" font-weight="800" fill="${t}" font-family="DM Sans">${String.fromCharCode(65+i)}</text>`;}).join('');
   let act='';
-  if(rev){const o=opts[chosen],tt=o.target,cx=(you.x+tt.x)/2,cy=Math.min(you.y,tt.y)-16;
-    act=`<circle r="3.4" fill="${o.correct?'#b6ff8a':'#ff8a8a'}"><animateMotion dur="0.7s" fill="freeze" path="M${you.x},${you.y} Q${cx},${cy} ${tt.x},${tt.y}"/></circle>`;
-    if(!o.correct){const c=opts[ci].target,ccx=(you.x+c.x)/2,ccy=Math.min(you.y,c.y)-16;
-      act+=`<path d="M${you.x},${you.y} Q${ccx},${ccy} ${c.x},${c.y}" stroke="rgba(91,186,111,.7)" stroke-width="1.6" fill="none" stroke-dasharray="4,3" opacity="0"><animate attributeName="opacity" from="0" to="1" begin="0.4s" dur="0.4s" fill="freeze"/></path>`;}
-  }else if(q.incoming){const inc=q.incoming,mx=(inc.from.x+inc.to.x)/2,my=Math.min(inc.from.y,inc.to.y)+18;
-    act=`<path d="M${inc.from.x},${inc.from.y} Q${mx},${my} ${inc.to.x},${inc.to.y}" stroke="rgba(200,168,75,.45)" stroke-width="1.3" fill="none" stroke-dasharray="3,3"/>`;}
-  return `<div class="dtc-court"><svg viewBox="0 0 200 150">${dtcCourtMarkings()}${act}${markers}
-    <circle cx="${opp.x}" cy="${opp.y}" r="5" fill="rgba(255,255,255,.55)"/><text x="${opp.x}" y="${opp.y+12}" text-anchor="middle" font-size="6" fill="rgba(255,255,255,.4)" font-family="DM Sans">OPP</text>
-    <circle cx="${you.x}" cy="${you.y}" r="6" fill="rgba(200,168,75,.95)"/><text x="${you.x}" y="${you.y+13}" text-anchor="middle" font-size="6" fill="rgba(200,168,75,.6)" font-family="DM Sans">YOU</text></svg></div>`;
+  if(rev){const o=opts[chosen],tt=dtcProject(o.target),cx=(yp.x+tt.x)/2,cy=Math.min(yp.y,tt.y)-10;
+    act=`<path d="M${yp.x},${yp.y} Q${cx},${cy} ${tt.x},${tt.y}" stroke="${o.correct?'#5bba6f':'#e07070'}" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="330" stroke-dashoffset="330"><animate attributeName="stroke-dashoffset" from="330" to="0" dur=".62s" fill="freeze"/></path><circle r="4.6" fill="#d8f04e" stroke="#f4ffae" stroke-width="1.2" filter="url(#dtcGlow)"><animateMotion dur=".62s" fill="freeze" path="M${yp.x},${yp.y} Q${cx},${cy} ${tt.x},${tt.y}"/></circle>`;
+    if(!o.correct){const c=dtcProject(opts[ci].target),ccx=(yp.x+c.x)/2,ccy=Math.min(yp.y,c.y)-10;
+      act+=`<path d="M${yp.x},${yp.y} Q${ccx},${ccy} ${c.x},${c.y}" stroke="rgba(91,186,111,.78)" stroke-width="2.2" fill="none" stroke-dasharray="5,4" opacity="0"><animate attributeName="opacity" from="0" to="1" begin=".7s" dur=".35s" fill="freeze"/></path>`;}
+  }else if(q.incoming){const a=dtcProject(q.incoming.from),b=dtcProject(q.incoming.to),mx=(a.x+b.x)/2,my=Math.min(a.y,b.y)+14;
+    act=`<path d="M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}" stroke="rgba(200,168,75,.5)" stroke-width="2" fill="none" stroke-dasharray="4,3"/>`;}
+  return `<div class="dtc-replay-frame dtc-court"><div class="dtc-replay-head"><span class="dtc-replay-label">◉ GAME<span style="color:#fff">SHARP</span> REPLAY · TACTICAL VIEW</span>${rev?'<button class="dtc-replay-btn" onclick="dtcReplayScene(event)">↻ Replay</button>':''}</div><svg viewBox="0 0 300 200">${dtcCourtMarkings()}${act}${markers}
+    <circle cx="${op.x}" cy="${op.y}" r="5.2" fill="#e07070" stroke="rgba(255,255,255,.65)"/>
+    <circle cx="${yp.x}" cy="${yp.y}" r="5.2" fill="#c8a84b" stroke="rgba(255,255,255,.8)"/></svg></div>`;
 }
 /* forehand fault figure (late contact) */
 function dtcFhFig(cx){const sh=[150,102],hip=[150,170],wr=[cx-26,118],elb=[(sh[0]+wr[0])/2+6,116],rkt=[cx,108],oElb=[122,124],oWr=[100,148],bKnee=[134,236],bAnk=[120,300],fKnee=[180,238],fAnk=[196,300],head=[150,70];
@@ -8476,7 +8497,7 @@ const DTC_EXTRA_FAULTS={
   ]
 };
 
-let dtcThemeIdx=0, dtcStep=-1, dtcAnswered=false, dtcScore=0, dtcFaultIdx=0, dtcActiveQ=[];
+let dtcThemeIdx=0, dtcStep=-1, dtcAnswered=false, dtcScore=0, dtcFaultIdx=0, dtcActiveQ=[], dtcLastChoice=null;
 // Stroke keys in DTC_THEMES order — used to pull fault variations from DTC_EXTRA_FAULTS.
 const DTC_STROKE_KEYS=['forehand','serve','oneHand','twoHand','ret','volley','overhead','slice'];
 function dtcDayIndex(){ const d=new Date(); const doy=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5); return doy % DTC_THEMES.length; }
@@ -8497,6 +8518,19 @@ function dtcBuildActive(){
 function dtcApp(){ return document.getElementById('dtcApp'); }
 function dtcScroll(){ const o=document.getElementById('dailyThemed'); if(o) o.scrollTop=0; }
 function dtcTopBar(){ return `<div class="dtc-top"><div class="dtc-brand">GAME<span>SHARP</span> · Daily</div><div class="dtc-close" onclick="dtcExit()">✕</div></div>`; }
+function dtcTechniqueFrame(scene){
+  return `<div class="dtc-replay-frame"><div class="dtc-replay-head"><span class="dtc-replay-label">◉ GAME<span style="color:#fff">SHARP</span> REPLAY · TECHNIQUE VIEW</span></div>${scene}</div>`;
+}
+function dtcDetailHTML(q){
+  if(!q.insight&&!q.cue) return '';
+  const cue=q.cue?`<div class="dtc-cue"><div class="dtc-cl">On court, say</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>`:'';
+  return `<details class="dtc-detail"><summary>See why it works</summary><div class="dtc-detail-body">${q.insight?`<div class="dtc-rins">${q.insight}</div>`:''}${cue}</div></details>`;
+}
+function dtcReplayScene(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  const q=dtcActiveQ[dtcStep],scene=document.getElementById('dtcScene');
+  if(q&&q.type==='court'&&scene&&dtcLastChoice!=null) scene.innerHTML=dtcCourtScene(q,dtcLastChoice);
+}
 
 function startThemedDaily(){
   dtcThemeIdx=dtcDayIndex(); dtcFaultIdx=dtcFaultIndexFor(); dtcStep=-1; dtcScore=0; dtcAnswered=false;
@@ -8521,8 +8555,9 @@ function dtcStartQ(){ dtcStep=0; dtcRenderStep(); }
 function dtcDots(){ const Q=dtcActiveQ; let h='<div class="dtc-dots">';
   for(let i=0;i<Q.length;i++){ const tech=Q[i].type==='technique'; let c='dtc-d'+(tech?' tech':''); if(i<dtcStep)c+=' done'; else if(i===dtcStep)c+=' now'; h+=`<div class="${c}"></div>`; } return h+'</div>'; }
 function dtcRenderStep(){
-  dtcAnswered=false; const q=dtcActiveQ[dtcStep];
-  const scene=q.type==='court'?dtcCourtScene(q,null):q.render(false);
+  dtcAnswered=false; dtcLastChoice=null; const q=dtcActiveQ[dtcStep];
+  const rawScene=q.type==='court'?dtcCourtScene(q,null):q.render(false);
+  const scene=q.type==='court'?rawScene:dtcTechniqueFrame(rawScene);
   const opts=q.options.map((o,i)=>`<button class="dtc-opt" id="dtcOpt${i}" onclick="dtcAnswer(${i})"><div class="dtc-ol">${String.fromCharCode(65+i)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub?`<div class="dtc-osub">${o.sub}</div>`:''}</div></button>`).join('');
   dtcApp().innerHTML=`${dtcTopBar()}<div class="dtc-fade">${dtcDots()}
     <div class="dtc-qtag ${q.type==='technique'?'exe':'tac'}">${q.tag}</div>
@@ -8533,14 +8568,14 @@ function dtcRenderStep(){
 function dtcAnswer(i){
   if(dtcAnswered) return; dtcAnswered=true;
   const q=dtcActiveQ[dtcStep], o=q.options[i], ci=q.options.findIndex(x=>x.correct), last=dtcStep===dtcActiveQ.length-1;
+  dtcLastChoice=i;
   if(o.correct) dtcScore++;
   try { o.correct ? gsCorrect() : gsWrong(); } catch(e){}
-  document.getElementById('dtcScene').innerHTML=q.type==='court'?dtcCourtScene(q,i):q.render(true);
+  document.getElementById('dtcScene').innerHTML=q.type==='court'?dtcCourtScene(q,i):dtcTechniqueFrame(q.render(true));
   document.querySelectorAll('.dtc-opt').forEach((el,idx)=>{ if(idx===i) el.classList.add(o.correct?'sel':'wrong'); else if(idx===ci) el.classList.add('sel'); else el.classList.add('dim'); });
-  const cueBlock=q.cue?`<div class="dtc-cue"><div class="dtc-cl">On court, say</div><div class="dtc-ct">${q.cue.title}</div><div class="dtc-cd">${q.cue.drill}</div></div>`:'';
   document.getElementById('dtcReveal').innerHTML=`<div class="dtc-reveal show">
     <div class="dtc-rtag" style="color:${o.correct?'#5bba6f':'#e07070'}">${o.correct?'✓':'✗'} ${o.correct?'Nailed it':'Not quite'}</div>
-    <div class="dtc-rbody">${o.verdict}</div>${q.insight?`<div class="dtc-rins">${q.insight}</div>`:''}${cueBlock}
+    <div class="dtc-rbody">${o.verdict}</div>${dtcDetailHTML(q)}
     <button class="dtc-cta ${last?'gold':''}" style="margin-top:18px;" onclick="dtcNext()">${last?'See your court cue →':'Next →'}</button></div>`;
   setTimeout(()=>{const r=document.getElementById('dtcReveal'); if(r) r.scrollIntoView({behavior:'smooth',block:'nearest'});},120);
 }
