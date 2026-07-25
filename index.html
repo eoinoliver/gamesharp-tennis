@@ -1852,6 +1852,24 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ms-scrub{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,.16);outline:none;cursor:pointer;}
 .ms-scrub::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;border-radius:50%;background:#c8a84b;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.4);}
 .ms-scrub::-moz-range-thumb{width:19px;height:19px;border:none;border-radius:50%;background:#c8a84b;cursor:pointer;}
+
+/* Premium diagnostic benchmark — late forehand contact */
+.fasp-shell{position:relative;border-radius:16px;overflow:hidden;background:radial-gradient(130% 105% at 50% 0%,#173d1d 0%,#0b1d0e 62%,#061008 100%);border:1px solid rgba(200,168,75,.24);box-shadow:inset 0 0 55px rgba(0,0,0,.5),0 8px 25px rgba(0,0,0,.4);}
+.fasp-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 8px;border-bottom:1px solid rgba(255,255,255,.07);}
+.fasp-brand{font-size:8.5px;letter-spacing:1.55px;font-weight:800;color:rgba(200,168,75,.92);}
+.fasp-beta{font-size:8px;letter-spacing:1px;font-weight:800;color:#06140a;background:#c8a84b;border-radius:10px;padding:3px 7px;}
+.fasp-stage{min-height:330px;position:relative;}
+.fasp-stage svg{display:block;width:100%;height:auto;}
+.fasp-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 10px 7px;}
+.fasp-mode{border:1px solid rgba(255,255,255,.12);border-radius:9px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.62);font:800 11px 'DM Sans',sans-serif;padding:9px 5px;cursor:pointer;}
+.fasp-mode.active{border-color:rgba(200,168,75,.6);background:rgba(200,168,75,.13);color:#fff;}
+.fasp-study{display:grid;grid-template-columns:36px 1fr 36px 54px;align-items:center;gap:8px;padding:4px 10px 12px;}
+.fasp-step,.fasp-hand{height:34px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#fff;font-weight:800;cursor:pointer;}
+.fasp-hand{font-size:10px;color:#c8a84b;}
+.fasp-range{width:100%;accent-color:#c8a84b;}
+.fasp-note{padding:0 12px 12px;color:rgba(255,255,255,.48);font-size:10.5px;line-height:1.45;text-align:center;}
+@media(max-width:480px){.fasp-stage{min-height:300px}.fasp-head{padding-top:9px}.fasp-note{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.fasp-stage *{animation:none!important}}
 @keyframes msPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
 .ms-pulse{animation:msPulse .7s ease-in-out infinite;}
 .dtc-replay:active{transform:scale(.98);}
@@ -7679,9 +7697,9 @@ function startDailyTechQ() {
 }
 function dtcRenderDailyTech() {
   const q = state.quiz[state.qIdx]._dtc;
-  const motion = mHasMotion(q);
-  const visual = motion ? '<div id="msStage" class="dtc-fig"></div>' : (q.render ? q.render(false) : '');
-  const scene = dtcTechniqueFrame(visual)+(motion?mControls():'');
+  const premium=isPremiumFault(q),motion = mHasMotion(q);
+  const visual = premium?faspScene():(motion ? '<div id="msStage" class="dtc-fig"></div>' : (q.render ? q.render(false) : ''));
+  const scene = premium?visual:(dtcTechniqueFrame(visual)+(motion?mControls():''));
   const opts = q.options.map((o, i) =>
     `<button class="dtc-opt" id="dtcOpt${i}" onclick="dtcDailyTechAnswer(${i})"><div class="dtc-ol">${String.fromCharCode(65 + i)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
   ).join('');
@@ -7700,13 +7718,15 @@ function dtcRenderDailyTech() {
     <div id="dtcScene">${scene}</div>
     <div class="dtc-opts">${opts}</div>
     <div id="dtcReveal"></div></div>`;
-  if (motion) { mCtx = { stroke:q.mstroke, arch:q.march }; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'miss'), 60); }
+  if(premium) setTimeout(()=>faspStart('miss'),60);
+  else if (motion) { mCtx = { stroke:q.mstroke, arch:q.march }; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'miss'), 60); }
 }
 function dtcDailyTechAnswer(i) {
   const q = state.quiz[state.qIdx]._dtc;
   const o = q.options[i], ci = q.options.findIndex(x => x.correct);
   const sc = document.getElementById('dtcScene');
-  if (mHasMotion(q)) { const _sc=document.querySelector('.ms-scrub'); if(_sc) _sc.value=0; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
+  if(isPremiumFault(q)) setTimeout(()=>faspStart('fix'),180);
+  else if (mHasMotion(q)) { const _sc=document.querySelector('.ms-scrub'); if(_sc) _sc.value=0; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
   else if (sc && q.render) sc.innerHTML = dtcTechniqueFrame(q.render(true));
   document.querySelectorAll('.dtc-opt').forEach((el, idx) => {
     if (idx === i) el.classList.add(o.correct ? 'sel' : 'wrong');
@@ -7761,7 +7781,7 @@ function fixTopBar(label, onClick) {
 function fixRenderHome() {
   fixStrokeIdx = -1;
   const cards = fixGroups().map((g, i) =>
-    `<button class="fix-card" onclick="fixOpenStroke(${i})"><div class="fix-card-arrow">→</div><div class="fix-card-name">${g.label}</div><div class="fix-card-meta">${g.faults.length} common faults</div></button>`
+    `<button class="fix-card" onclick="fixOpenStroke(${i})"><div class="fix-card-arrow">→</div><div class="fix-card-name">${g.label}</div><div class="fix-card-meta">${g.key==='forehand'?'★ Premium contact benchmark':g.faults.length+' common faults'}</div></button>`
   ).join('');
   dtcApp().innerHTML = `${fixTopBar('Train Your Game', 'fixExit()')}<div class="dtc-fade" style="padding-top:18px;">
     <div class="dtc-eyebrow">Fix a Shot</div><h1 class="dtc-h1">Find the culprit</h1>
@@ -7773,8 +7793,8 @@ function fixOpenStroke(i) { fixStrokeIdx = i; fixFaultIdx = 0; fixRenderFault();
 function fixRenderFault() {
   fixAnswered = false;
   const g = fixGroups()[fixStrokeIdx], q = g.faults[fixFaultIdx];
-  const motion = mHasMotion(q);
-  const scene = motion ? '<div id="msStage" class="dtc-fig"></div>'+mControls() : (q.render ? q.render(false) : '');
+  const premium=isPremiumFault(q),motion = mHasMotion(q);
+  const scene = premium?faspScene():(motion ? '<div id="msStage" class="dtc-fig"></div>'+mControls() : (q.render ? q.render(false) : ''));
   const opts = q.options.map((o, k) =>
     `<button class="dtc-opt" id="dtcOpt${k}" onclick="fixAnswer(${k})"><div class="dtc-ol">${String.fromCharCode(65 + k)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
   ).join('');
@@ -7788,7 +7808,8 @@ function fixRenderFault() {
     <div id="dtcScene">${scene}</div>
     <div class="dtc-opts">${opts}</div>
     <div id="dtcReveal"></div></div>`;
-  if (motion) { mCtx = { stroke:q.mstroke, arch:q.march }; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'miss'), 60); }
+  if(premium) setTimeout(()=>faspStart('miss'),60);
+  else if (motion) { mCtx = { stroke:q.mstroke, arch:q.march }; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'miss'), 60); }
   dtcScroll();
 }
 function fixAnswer(k) {
@@ -7796,7 +7817,8 @@ function fixAnswer(k) {
   const g = fixGroups()[fixStrokeIdx], q = g.faults[fixFaultIdx];
   const o = q.options[k], ci = q.options.findIndex(x => x.correct);
   const sc = document.getElementById('dtcScene');
-  if (mHasMotion(q)) { const _sc=document.querySelector('.ms-scrub'); if(_sc) _sc.value=0; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
+  if(isPremiumFault(q)) setTimeout(()=>faspStart('fix'),180);
+  else if (mHasMotion(q)) { const _sc=document.querySelector('.ms-scrub'); if(_sc) _sc.value=0; setTimeout(() => mountSwing('msStage', q.mstroke, q.march, 'fix'), 180); }
   else if (sc && q.render) sc.innerHTML = q.render(true);
   document.querySelectorAll('.dtc-opt').forEach((el, idx) => {
     if (idx === k) el.classList.add(o.correct ? 'sel' : 'wrong');
@@ -8348,6 +8370,95 @@ function mCompareFrame(stroke, archKey){
   const keys=SWING_KEYS[stroke]||['contact'], spec=FAULT_SPEC[archKey]||FAULT_SPEC.decel;
   const miss=mDeform(P,keys,spec.swing), fe=miss[miss.length-1], ce=P.finish||P.contact;
   return `<div class="ms-tag">Miss vs fix</div><svg viewBox="0 0 300 340">${mCourtBg()}${mGhost(ce,'#5bba6f',0.95)}${mGhost(fe,'#e07070',0.6,0.6)}<text x="62" y="26" text-anchor="middle" font-size="10.5" font-weight="800" fill="#e07070" font-family="DM Sans">✗ the miss</text><text x="62" y="40" text-anchor="middle" font-size="8" font-weight="700" fill="rgba(224,112,112,.8)" font-family="DM Sans">${spec.label}</text><text x="240" y="26" text-anchor="middle" font-size="10.5" font-weight="800" fill="#5bba6f" font-family="DM Sans">✓ the fix</text></svg>`;
+}
+
+/* ── PREMIUM DIAGNOSTIC PROTOTYPE: LATE FOREHAND CONTACT ────────────────
+   One coach-review benchmark with identical framing, a held contact moment,
+   frame stepping and a synchronized miss/fix comparison. */
+let faspMode='miss',faspFrame=0,faspRun=0;
+function isPremiumFault(q){return !!(q&&q.mstroke==='forehand'&&q.march==='late');}
+function faspControls(){
+  return `<div class="fasp-modes" role="tablist" aria-label="Diagnostic view">
+    <button class="fasp-mode active" data-fasp="miss" onclick="faspStart('miss')">The miss</button>
+    <button class="fasp-mode" data-fasp="fix" onclick="faspStart('fix')">The fix</button>
+    <button class="fasp-mode" data-fasp="compare" onclick="faspStart('compare')">Compare</button>
+  </div><div class="fasp-study">
+    <button class="fasp-step" onclick="faspStep(-1)" aria-label="Previous frame">‹</button>
+    <input id="faspRange" class="fasp-range" type="range" min="0" max="100" value="0" oninput="faspScrub(this.value)" aria-label="Study the forehand frame by frame">
+    <button class="fasp-step" onclick="faspStep(1)" aria-label="Next frame">›</button>
+    <button class="fasp-hand" onclick="faspToggleHand()">${mLefty?'LH':'RH'} ↔</button>
+  </div><div class="fasp-note">Watch the ball relative to the front hip. The camera and timing stay identical.</div>`;
+}
+function faspScene(){
+  return `<div class="fasp-shell"><div class="fasp-head"><span class="fasp-brand">◉ GAMESHARP LAB · FOREHAND CONTACT</span><span class="fasp-beta">BENCHMARK</span></div><div id="faspStage" class="fasp-stage"></div>${faspControls()}</div>`;
+}
+function faspPose(mode,t){
+  const P=STROKE_POSES.forehand,keys=SWING_KEYS.forehand;
+  const seq=mode==='fix'?keys.map(k=>P[k]):mDeform(P,keys,'late');
+  const u=Math.max(0,Math.min(.999,t))*(seq.length-1),i=Math.min(seq.length-2,Math.floor(u));
+  return mLerpPose(seq[i],seq[i+1],mEase(u-i));
+}
+function faspFigure(p,col,op){
+  p=mFlip(p);op=op==null?1:op;
+  const line=(a,b,w,c)=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${c||col}" stroke-width="${w}" stroke-linecap="round" opacity="${op}"/>`;
+  const joint=a=>`<circle cx="${a[0]}" cy="${a[1]}" r="4.2" fill="${col}" stroke="rgba(255,255,255,.35)" stroke-width=".7" opacity="${op}"/>`;
+  const torso=`<path d="M${p.sh[0]-13},${p.sh[1]} Q${p.hip[0]-12},${p.hip[1]-30} ${p.hip[0]-9},${p.hip[1]} L${p.hip[0]+10},${p.hip[1]} Q${p.sh[0]+14},${p.sh[1]+24} ${p.sh[0]+13},${p.sh[1]} Z" fill="${col}" opacity="${op*.72}"/>`;
+  const racket=`<line x1="${p.wr[0]}" y1="${p.wr[1]}" x2="${p.rkt[0]}" y2="${p.rkt[1]}" stroke="#c8a84b" stroke-width="4.5" stroke-linecap="round" opacity="${op}"/><ellipse cx="${p.rkt[0]}" cy="${p.rkt[1]}" rx="10" ry="16" transform="rotate(62 ${p.rkt[0]} ${p.rkt[1]})" fill="rgba(200,168,75,.06)" stroke="#c8a84b" stroke-width="2.5" opacity="${op}"/><line x1="${p.rkt[0]-7}" y1="${p.rkt[1]-4}" x2="${p.rkt[0]+8}" y2="${p.rkt[1]+4}" stroke="rgba(255,255,255,.35)" opacity="${op}"/>`;
+  return `<g>${torso}${line(p.hip,p.bKnee,11)}${line(p.bKnee,p.bAnk,10)}${line(p.hip,p.fKnee,11)}${line(p.fKnee,p.fAnk,10)}${line(p.sh,p.oElb,9)}${line(p.oElb,p.oWr,8)}${line(p.sh,p.elb,9)}${line(p.elb,p.wr,8)}${joint(p.bKnee)}${joint(p.fKnee)}${joint(p.elb)}${joint(p.wr)}${racket}<circle cx="${p.head[0]}" cy="${p.head[1]}" r="15" fill="${col}" opacity="${op}"/><path d="M${p.head[0]-9},${p.head[1]-5} Q${p.head[0]},${p.head[1]-13} ${p.head[0]+10},${p.head[1]-4}" stroke="rgba(6,16,8,.42)" stroke-width="3" fill="none" opacity="${op}"/><ellipse cx="${p.bAnk[0]+3}" cy="${p.bAnk[1]+2}" rx="12" ry="4" fill="#eef3e9" opacity="${op}"/><ellipse cx="${p.fAnk[0]+3}" cy="${p.fAnk[1]+2}" rx="12" ry="4" fill="#eef3e9" opacity="${op}"/></g>`;
+}
+function faspPanel(mode,t,x,w){
+  const p=faspPose(mode,t),P=mFlip(p),contact=.61,pre=t<contact;
+  const correct=mode==='fix',col=correct?'#5bba6f':'#e07070';
+  const cx=P.rkt[0],cy=P.rkt[1],hipX=P.hip[0];
+  let bx,by;
+  if(pre){const u=t/contact;bx=(mLefty?28:272)+(cx-(mLefty?28:272))*u;by=108+(cy-108)*u;}
+  else {const u=(t-contact)/(1-contact);bx=cx+(correct?(mLefty?-80:80):(mLefty?-45:45))*u;by=cy-(correct?78:28)*u;}
+  const phase=t<.42?'SETUP':t<.72?'CONTACT':'OUTCOME';
+  const status=correct?'OUT IN FRONT':'LATE · BEHIND HIP';
+  return `<g transform="translate(${x},0) scale(${w/300},1)">
+    <rect x="0" y="0" width="300" height="330" fill="rgba(5,14,7,.2)"/>
+    <line x1="28" y1="300" x2="272" y2="300" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+    <line x1="${hipX}" y1="38" x2="${hipX}" y2="300" stroke="rgba(200,168,75,.32)" stroke-width="1.4" stroke-dasharray="4,4"/>
+    <text x="${hipX}" y="29" text-anchor="middle" font-size="8" font-weight="800" letter-spacing="1" fill="rgba(200,168,75,.68)">FRONT HIP PLANE</text>
+    <path d="M${mLefty?265:35},120 Q150,82 ${cx},${cy}" stroke="rgba(255,255,255,.13)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+    ${faspFigure(p,correct?'#dbe9d8':'#e7dedb',1)}
+    <circle cx="${bx}" cy="${by}" r="6" fill="#d8f04e" stroke="#f4ffae" stroke-width="1.2"/>
+    ${Math.abs(t-contact)<.095?`<circle cx="${cx}" cy="${cy}" r="19" fill="none" stroke="${col}" stroke-width="2"><animate attributeName="r" values="12;24;12" dur=".8s" repeatCount="indefinite"/></circle>`:''}
+    <rect x="12" y="10" width="72" height="22" rx="11" fill="rgba(0,0,0,.48)"/><text x="48" y="25" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">${phase}</text>
+    <rect x="58" y="306" width="184" height="20" rx="10" fill="rgba(0,0,0,.58)"/><text x="150" y="320" text-anchor="middle" font-size="9" font-weight="800" letter-spacing=".7" fill="${col}">${status}</text>
+  </g>`;
+}
+function faspRender(mode,t){
+  const host=document.getElementById('faspStage');if(!host)return;
+  faspMode=mode;faspFrame=t;
+  document.querySelectorAll('.fasp-mode').forEach(b=>b.classList.toggle('active',b.dataset.fasp===mode));
+  const r=document.getElementById('faspRange');if(r)r.value=Math.round(t*100);
+  if(mode==='compare'){
+    host.innerHTML=`<svg viewBox="0 0 600 330" aria-label="Synchronized comparison of late and correct forehand contact">${faspPanel('miss',t,0,300)}${faspPanel('fix',t,300,300)}<line x1="300" y1="0" x2="300" y2="330" stroke="rgba(255,255,255,.18)"/><text x="150" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#e07070">MISS</text><text x="450" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#5bba6f">FIX</text></svg>`;
+  }else host.innerHTML=`<svg viewBox="0 0 300 330" aria-label="${mode==='fix'?'Correct':'Late'} forehand contact animation">${faspPanel(mode,t,0,300)}</svg>`;
+}
+function faspStart(mode){
+  faspRun++;const run=faspRun;
+  const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced){faspRender(mode,.61);return;}
+  const start=performance.now(),duration=2850;
+  function tick(now){
+    if(run!==faspRun)return;
+    const ms=now-start;let t;
+    if(ms<1050)t=(ms/1050)*.61;
+    else if(ms<1700)t=.61;
+    else t=.61+Math.min(1,(ms-1700)/(duration-1700))*.39;
+    faspRender(mode,t);
+    if(ms<duration)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+function faspScrub(v){faspRun++;faspRender(faspMode==='compare'?'compare':faspMode,(+v)/100);}
+function faspStep(dir){faspRun++;const next=Math.max(0,Math.min(1,faspFrame+dir*.04));faspRender(faspMode==='compare'?'compare':faspMode,next);}
+function faspToggleHand(){
+  mLefty=!mLefty;try{localStorage.setItem('gs_lefty',mLefty?'1':'0');}catch(e){}
+  faspRun++;const hand=document.querySelector('.fasp-shell .fasp-hand');if(hand)hand.textContent=(mLefty?'LH':'RH')+' ↔';
+  faspRender(faspMode,faspFrame);
 }
 
 /* fault index within a stroke (primary, extra0, extra1, extra2) -> motion archetype.
