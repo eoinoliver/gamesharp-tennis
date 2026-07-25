@@ -11640,6 +11640,15 @@ function buildMultiShotSVG(play){
   const farServeL=project(33,80)[0], farServeR=project(167,80)[0];
   const nearServeL=project(33,220)[0], nearServeR=project(167,220)[0];
   const you=project(100,270), opp=project(100,30);
+  const first=(play.shots||[])[0], second=(play.shots||[])[1];
+  const firstEndsNear = first && first.to[1] > 150;
+  const firstTarget = first ? project(first.to[0],first.to[1]) : null;
+  const nextYou = second ? project(second.from[0],second.from[1]) : you;
+  const youMove = firstEndsNear && firstTarget ? firstTarget : nextYou;
+  const oppMove = (!firstEndsNear && firstTarget) ? firstTarget : opp;
+  const reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const youTravels = !reducedMotion && Math.hypot(youMove[0]-you[0],youMove[1]-you[1]) > 8;
+  const oppTravels = !reducedMotion && Math.hypot(oppMove[0]-opp[0],oppMove[1]-opp[1]) > 8;
   return `<svg viewBox="0 0 ${W} ${H}" class="ta-svg ms-svg" font-family="DM Sans,sans-serif">
     <defs><filter id="msBallGlow" x="-200%" y="-200%" width="400%" height="400%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#d8f04e" flood-opacity=".85"/></filter></defs>
     <path d="M96,18 L204,18 L288,182 L12,182 Z" fill="#1a4a1e" stroke="rgba(255,255,255,.52)" stroke-width="1.6"/>
@@ -11651,8 +11660,8 @@ function buildMultiShotSVG(play){
     <line x1="${farSinglesR}" y1="18" x2="${nearSinglesR}" y2="182" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
     <text x="103" y="13" fill="rgba(255,255,255,.3)" font-size="7" letter-spacing="1">OPP</text>
     <text x="18" y="194" fill="rgba(200,168,75,.42)" font-size="7" letter-spacing="1">YOU</text>
-    <circle cx="${you[0]}" cy="${you[1]}" r="5.2" fill="#c8a84b" stroke="rgba(255,255,255,.8)" stroke-width="1"/>
-    <circle cx="${opp[0]}" cy="${opp[1]}" r="5.2" fill="#e07070" stroke="rgba(255,255,255,.65)" stroke-width="1"/>
+    <circle cx="${you[0]}" cy="${you[1]}" r="5.2" fill="#c8a84b" stroke="rgba(255,255,255,.8)" stroke-width="1">${youTravels?`<animate attributeName="cx" from="${you[0]}" to="${youMove[0]}" begin=".9s" dur=".42s" fill="freeze"/><animate attributeName="cy" from="${you[1]}" to="${youMove[1]}" begin=".9s" dur=".42s" fill="freeze"/>`:''}</circle>
+    <circle cx="${opp[0]}" cy="${opp[1]}" r="5.2" fill="#e07070" stroke="rgba(255,255,255,.65)" stroke-width="1">${oppTravels?`<animate attributeName="cx" from="${opp[0]}" to="${oppMove[0]}" begin=".9s" dur=".42s" fill="freeze"/><animate attributeName="cy" from="${opp[1]}" to="${oppMove[1]}" begin=".9s" dur=".42s" fill="freeze"/>`:''}</circle>
     ${body}
   </svg>`;
 }
@@ -11770,6 +11779,7 @@ function initPlaybook(targetId){
       <div class="pb-section-sub">Complete patterns — built shot by shot.</div>
     </div>
     <div class="pb-grid">${cx}</div>`;
+  initPlaybookAutoplay();
   if (targetId) {
     setTimeout(() => {
       const el = document.getElementById('pbcard-' + targetId);
@@ -11778,12 +11788,29 @@ function initPlaybook(targetId){
   }
 }
 
+// Cards below the fold used to finish animating before the user reached them.
+// Replay each card once when it becomes the focus of the viewport, then leave
+// the result frame in place. The user can always tap the court to replay.
+function initPlaybookAutoplay(){
+  if(window._pbObserver) window._pbObserver.disconnect();
+  if(!('IntersectionObserver' in window)) return;
+  window._pbObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting || entry.intersectionRatio<.52) return;
+      const id=(entry.target.id||'').replace('pbcard-','');
+      if(id) playbookReplay(id);
+      window._pbObserver.unobserve(entry.target);
+    });
+  },{threshold:[.52]});
+  document.querySelectorAll('.pb-card').forEach(card=>window._pbObserver.observe(card));
+}
+
 // Re-inject a card's diagram so its baked-in CSS animations replay.
 function playbookReplay(id){
   const p = _pbGet(id); if (!p) return;
   const card = document.getElementById('pbcard-' + id);
   const box = card && card.querySelector('.pb-card-anim');
-  if (box) { box.innerHTML = ''; void box.offsetWidth; box.innerHTML = _pbDiagramFor(p); }
+  if (box) { box.innerHTML = ''; void box.offsetWidth; box.innerHTML = _pbDiagramFor(p)+'<span class="pb-replay-hint">↻ Replay</span>'; }
 }
 
 function playbookTry(id){
