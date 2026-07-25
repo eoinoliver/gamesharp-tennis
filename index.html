@@ -7671,7 +7671,7 @@ function dtcAllFaults() {
       if (ex && ex.length) ex.forEach((f, j) => out.push(mTag(f, stroke, j + 1)));
     });
   } catch (e) {}
-  try { if (typeof NEW_CATS !== 'undefined') NEW_CATS.forEach(c => c.faults.forEach(f => out.push(f))); } catch (e) {}
+  try { if (typeof NEW_CATS !== 'undefined') NEW_CATS.forEach(c => c.faults.forEach((f,i) => out.push(faspTagSpecial(c.key,f,i)))); } catch (e) {}
   return out;
 }
 function pickDailyFault() {
@@ -7698,7 +7698,7 @@ function startDailyTechQ() {
 function dtcRenderDailyTech() {
   const q = state.quiz[state.qIdx]._dtc;
   const premium=isPremiumFault(q),motion = mHasMotion(q);
-  const visual = premium?faspScene():(motion ? '<div id="msStage" class="dtc-fig"></div>' : (q.render ? q.render(false) : ''));
+  const visual = premium?faspScene(q):(motion ? '<div id="msStage" class="dtc-fig"></div>' : (q.render ? q.render(false) : ''));
   const scene = premium?visual:(dtcTechniqueFrame(visual)+(motion?mControls():''));
   const opts = q.options.map((o, i) =>
     `<button class="dtc-opt" id="dtcOpt${i}" onclick="dtcDailyTechAnswer(${i})"><div class="dtc-ol">${String.fromCharCode(65 + i)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
@@ -7752,7 +7752,7 @@ function dtcDailyTechFinish(ok) {
 /* ════════ FIX A SHOT — browsable library of the 32 stroke-fault scenarios ════════
    Houses the DTC fault questions inside the Train Your Game pillar: pick a stroke,
    play its common faults ("find the culprit" + coach cue). Reuses the dtc renderers. */
-const FIX_STROKE_LABELS = { forehand:'Forehand', serve:'Serve', oneHand:'One-Hand Backhand', twoHand:'Two-Hand Backhand', ret:'Return', volley:'Volley', overhead:'Overhead', slice:'Slice' };
+const FIX_STROKE_LABELS = { forehand:'Forehand', serve:'Serve', oneHand:'One-Hand Backhand', twoHand:'Two-Hand Backhand', ret:'Return', volley:'Volley', overhead:'Overhead', slice:'Slice', lowball:'Low Ball' };
 let fixStrokeIdx = -1, fixFaultIdx = 0, fixAnswered = false, _fixGroups = null;
 function fixGroups() {
   if (_fixGroups) return _fixGroups;
@@ -7762,7 +7762,7 @@ function fixGroups() {
     const ex = DTC_EXTRA_FAULTS[stroke]; if (ex) ex.forEach((f, j) => faults.push(mTag(f, stroke, j + 1)));
     return { key: stroke, label: FIX_STROKE_LABELS[stroke] || stroke, faults };
   });
-  try { if (typeof NEW_CATS !== 'undefined') NEW_CATS.forEach(c => _fixGroups.push({ key: c.key, label: c.label, faults: c.faults })); } catch (e) {}
+  try { if (typeof NEW_CATS !== 'undefined') NEW_CATS.forEach(c => _fixGroups.push({ key: c.key, label: c.label, faults: c.faults.map((f,i)=>faspTagSpecial(c.key,f,i)) })); } catch (e) {}
   return _fixGroups;
 }
 function openFixAShot() {
@@ -7781,7 +7781,7 @@ function fixTopBar(label, onClick) {
 function fixRenderHome() {
   fixStrokeIdx = -1;
   const cards = fixGroups().map((g, i) =>
-    `<button class="fix-card" onclick="fixOpenStroke(${i})"><div class="fix-card-arrow">→</div><div class="fix-card-name">${g.label}</div><div class="fix-card-meta">${g.key==='forehand'?'★ Premium contact benchmark':g.faults.length+' common faults'}</div></button>`
+    `<button class="fix-card" onclick="fixOpenStroke(${i})"><div class="fix-card-arrow">→</div><div class="fix-card-name">${g.label}</div><div class="fix-card-meta">★ Premium diagnostics · ${g.faults.length} faults</div></button>`
   ).join('');
   dtcApp().innerHTML = `${fixTopBar('Train Your Game', 'fixExit()')}<div class="dtc-fade" style="padding-top:18px;">
     <div class="dtc-eyebrow">Fix a Shot</div><h1 class="dtc-h1">Find the culprit</h1>
@@ -7793,8 +7793,9 @@ function fixOpenStroke(i) { fixStrokeIdx = i; fixFaultIdx = 0; fixRenderFault();
 function fixRenderFault() {
   fixAnswered = false;
   const g = fixGroups()[fixStrokeIdx], q = g.faults[fixFaultIdx];
+  q._fixLabel=g.label;
   const premium=isPremiumFault(q),motion = mHasMotion(q);
-  const scene = premium?faspScene():(motion ? '<div id="msStage" class="dtc-fig"></div>'+mControls() : (q.render ? q.render(false) : ''));
+  const scene = premium?faspScene(q):(motion ? '<div id="msStage" class="dtc-fig"></div>'+mControls() : (q.render ? q.render(false) : ''));
   const opts = q.options.map((o, k) =>
     `<button class="dtc-opt" id="dtcOpt${k}" onclick="fixAnswer(${k})"><div class="dtc-ol">${String.fromCharCode(65 + k)}</div><div class="dtc-otx"><div class="dtc-otl">${o.label}</div>${o.sub ? `<div class="dtc-osub">${o.sub}</div>` : ''}</div></button>`
   ).join('');
@@ -8375,8 +8376,16 @@ function mCompareFrame(stroke, archKey){
 /* ── PREMIUM DIAGNOSTIC PROTOTYPE: LATE FOREHAND CONTACT ────────────────
    One coach-review benchmark with identical framing, a held contact moment,
    frame stepping and a synchronized miss/fix comparison. */
-let faspMode='miss',faspFrame=0,faspRun=0;
-function isPremiumFault(q){return !!(q&&q.mstroke==='forehand'&&q.march==='late');}
+let faspMode='miss',faspFrame=0,faspRun=0,faspStroke='forehand',faspArch='late',faspLabel='Forehand';
+function faspTagSpecial(key,q,i){
+  if(q&&!q.mstroke&&key==='spacing'){
+    q.mstroke='forehand';
+    q.march=['jammed','offBal','offBal','backFoot'][i]||'jammed';
+    q._fixLabel='Spacing / Jam';
+  }
+  return q;
+}
+function isPremiumFault(q){return !!(q&&q.mstroke&&q.march&&STROKE_POSES[q.mstroke]&&FAULT_SPEC[q.march]);}
 function faspControls(){
   return `<div class="fasp-modes" role="tablist" aria-label="Diagnostic view">
     <button class="fasp-mode active" data-fasp="miss" onclick="faspStart('miss')">The miss</button>
@@ -8387,14 +8396,16 @@ function faspControls(){
     <input id="faspRange" class="fasp-range" type="range" min="0" max="100" value="0" oninput="faspScrub(this.value)" aria-label="Study the forehand frame by frame">
     <button class="fasp-step" onclick="faspStep(1)" aria-label="Next frame">›</button>
     <button class="fasp-hand" onclick="faspToggleHand()">${mLefty?'LH':'RH'} ↔</button>
-  </div><div class="fasp-note">Watch the ball relative to the front hip. The camera and timing stay identical.</div>`;
+  </div><div class="fasp-note">Watch the highlighted reference at the decisive frame. Miss and fix keep identical camera and timing.</div>`;
 }
-function faspScene(){
-  return `<div class="fasp-shell"><div class="fasp-head"><span class="fasp-brand">◉ GAMESHARP LAB · FOREHAND CONTACT</span><span class="fasp-beta">BENCHMARK</span></div><div id="faspStage" class="fasp-stage"></div>${faspControls()}</div>`;
+function faspScene(q){
+  if(q){faspStroke=q.mstroke;faspArch=q.march;faspLabel=q._fixLabel||(typeof FIX_STROKE_LABELS!=='undefined'&&FIX_STROKE_LABELS[faspStroke])||faspStroke.replace(/([A-Z])/g,' $1').trim();}
+  return `<div class="fasp-shell"><div class="fasp-head"><span class="fasp-brand">◉ GAMESHARP LAB · ${String(faspLabel).toUpperCase()}</span><span class="fasp-beta">DIAGNOSTIC</span></div><div id="faspStage" class="fasp-stage"></div>${faspControls()}</div>`;
 }
 function faspPose(mode,t){
-  const P=STROKE_POSES.forehand,keys=SWING_KEYS.forehand;
-  const seq=mode==='fix'?keys.map(k=>P[k]):mDeform(P,keys,'late');
+  const P=STROKE_POSES[faspStroke],keys=SWING_KEYS[faspStroke]||Object.keys(P);
+  const spec=FAULT_SPEC[faspArch]||FAULT_SPEC.decel;
+  const seq=mode==='fix'?keys.map(k=>P[k]):mDeform(P,keys,spec.swing);
   const u=Math.max(0,Math.min(.999,t))*(seq.length-1),i=Math.min(seq.length-2,Math.floor(u));
   return mLerpPose(seq[i],seq[i+1],mEase(u-i));
 }
@@ -8414,12 +8425,14 @@ function faspPanel(mode,t,x,w){
   if(pre){const u=t/contact;bx=(mLefty?28:272)+(cx-(mLefty?28:272))*u;by=108+(cy-108)*u;}
   else {const u=(t-contact)/(1-contact);bx=cx+(correct?(mLefty?-80:80):(mLefty?-45:45))*u;by=cy-(correct?78:28)*u;}
   const phase=t<.42?'SETUP':t<.72?'CONTACT':'OUTCOME';
-  const status=correct?'OUT IN FRONT':'LATE · BEHIND HIP';
+  const spec=FAULT_SPEC[faspArch]||FAULT_SPEC.decel;
+  const status=correct?'CLEAN SEQUENCE':String(spec.label||'THE MISS').toUpperCase();
+  const guide=/serve|overhead/.test(faspStroke)?'CONTACT REACH':faspStroke==='lowball'?'BODY LEVEL':'CONTACT PLANE';
   return `<g transform="translate(${x},0) scale(${w/300},1)">
     <rect x="0" y="0" width="300" height="330" fill="rgba(5,14,7,.2)"/>
     <line x1="28" y1="300" x2="272" y2="300" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
     <line x1="${hipX}" y1="38" x2="${hipX}" y2="300" stroke="rgba(200,168,75,.32)" stroke-width="1.4" stroke-dasharray="4,4"/>
-    <text x="${hipX}" y="29" text-anchor="middle" font-size="8" font-weight="800" letter-spacing="1" fill="rgba(200,168,75,.68)">FRONT HIP PLANE</text>
+    <text x="${hipX}" y="29" text-anchor="middle" font-size="8" font-weight="800" letter-spacing="1" fill="rgba(200,168,75,.68)">${guide}</text>
     <path d="M${mLefty?265:35},120 Q150,82 ${cx},${cy}" stroke="rgba(255,255,255,.13)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
     ${faspFigure(p,correct?'#dbe9d8':'#e7dedb',1)}
     <circle cx="${bx}" cy="${by}" r="6" fill="#d8f04e" stroke="#f4ffae" stroke-width="1.2"/>
@@ -8435,7 +8448,7 @@ function faspRender(mode,t){
   const r=document.getElementById('faspRange');if(r)r.value=Math.round(t*100);
   if(mode==='compare'){
     host.innerHTML=`<svg viewBox="0 0 600 330" aria-label="Synchronized comparison of late and correct forehand contact">${faspPanel('miss',t,0,300)}${faspPanel('fix',t,300,300)}<line x1="300" y1="0" x2="300" y2="330" stroke="rgba(255,255,255,.18)"/><text x="150" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#e07070">MISS</text><text x="450" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#5bba6f">FIX</text></svg>`;
-  }else host.innerHTML=`<svg viewBox="0 0 300 330" aria-label="${mode==='fix'?'Correct':'Late'} forehand contact animation">${faspPanel(mode,t,0,300)}</svg>`;
+  }else host.innerHTML=`<svg viewBox="0 0 300 330" aria-label="${mode==='fix'?'Correct':'Faulty'} ${faspLabel} animation">${faspPanel(mode,t,0,300)}</svg>`;
 }
 function faspStart(mode){
   faspRun++;const run=faspRun;
