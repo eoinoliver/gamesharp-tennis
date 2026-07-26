@@ -13581,4 +13581,98 @@ migrateSeenData(); // one-time migration: ids[] → timestamps{}
 checkFirstVisit(); // first visit → welcome onboarding; otherwise initHome()
 
 </script>
+<style id="gs-focus-view-styles">
+body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
+.gs-focus-ready{position:relative!important}
+.gs-focus-trigger{position:absolute;top:10px;right:10px;z-index:30;width:44px;height:44px;border:1px solid rgba(255,255,255,.24);border-radius:50%;background:rgba(5,12,7,.82);color:#fff;display:flex;align-items:center;justify-content:center;font:700 20px/1 'DM Sans',sans-serif;cursor:pointer;box-shadow:0 5px 20px rgba(0,0,0,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.gs-focus-trigger::after{content:'EXPAND';position:absolute;right:48px;padding:5px 8px;border-radius:7px;background:rgba(5,12,7,.82);color:rgba(255,255,255,.82);font-size:8px;letter-spacing:1px;opacity:0;transform:translateX(4px);transition:.18s;pointer-events:none}
+.gs-focus-trigger:focus-visible,.gs-focus-close:focus-visible,.gs-focus-screen:focus-visible{outline:3px solid #d8b74f;outline-offset:2px}
+@media(hover:hover){.gs-focus-trigger:hover::after{opacity:1;transform:none}}
+.gs-focus-overlay{position:fixed;inset:0;z-index:100000;display:none;grid-template-rows:auto minmax(0,1fr) auto;background:radial-gradient(120% 80% at 50% 30%,#102c15 0%,#070b08 64%,#030504 100%);color:#fff;padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+.gs-focus-overlay.open{display:grid;animation:gsFocusIn .24s cubic-bezier(.2,.8,.3,1)}
+@keyframes gsFocusIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+.gs-focus-bar{display:flex;align-items:center;gap:10px;min-height:52px}
+.gs-focus-brand{min-width:0;flex:1}.gs-focus-kicker{font-size:9px;font-weight:800;letter-spacing:1.8px;color:#c8a84b}.gs-focus-title{font:400 19px/1.1 'Bebas Neue',sans-serif;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+.gs-focus-close,.gs-focus-screen{width:44px;height:44px;flex:0 0 44px;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:rgba(255,255,255,.07);color:#fff;font-size:20px;cursor:pointer}
+.gs-focus-stage{min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px 0}
+.gs-focus-stage>.gs-focus-subject{width:min(100%,980px)!important;max-width:980px!important;max-height:100%!important;margin:0!important;flex:0 1 auto!important}
+.gs-focus-stage>.ta-court-wrap,.gs-focus-stage>.leg-anim-wrap,.gs-focus-stage>.seq-court-wrap,.gs-focus-stage>.pb-card-anim,.gs-focus-stage>.plm-visual{height:min(72vh,720px)!important;min-height:300px!important;aspect-ratio:auto!important}
+.gs-focus-stage>.ta-court-wrap{perspective:1000px;perspective-origin:50% 26%}
+.gs-focus-stage>.ta-court-wrap>svg,.gs-focus-stage>.ta-court-wrap>svg[viewBox="0 0 200 310"]{position:absolute!important;left:50%!important;bottom:4px!important;width:auto!important;height:138%!important;max-width:none!important;max-height:none!important;transform:translateX(-50%) rotateX(47deg) scaleX(1.22)!important;transform-origin:50% 100%!important}
+.gs-focus-stage>.fasp-shell{height:min(76vh,760px);overflow:auto;overscroll-behavior:contain}
+.gs-focus-stage .fasp-stage{min-height:min(52vh,520px)}
+.gs-focus-stage .fasp-step,.gs-focus-stage .fasp-hand,.gs-focus-stage .fasp-mode{min-height:44px}
+.gs-focus-stage>.pb-card-anim svg,.gs-focus-stage>.plm-visual svg{max-height:100%!important;width:100%!important;height:100%!important}
+.gs-focus-stage>.leg-anim-wrap svg,.gs-focus-stage>.seq-court-wrap svg{max-height:none!important}
+.gs-focus-foot{min-height:52px;padding:8px 4px 2px;text-align:center}
+.gs-focus-cue{font-size:13px;line-height:1.45;color:rgba(255,255,255,.74);max-width:720px;margin:auto}
+.gs-focus-hint{font-size:9px;letter-spacing:1.2px;color:rgba(200,168,75,.72);margin-top:5px;text-transform:uppercase}
+@media(max-width:600px) and (orientation:portrait){.gs-focus-stage>.ta-court-wrap,.gs-focus-stage>.leg-anim-wrap,.gs-focus-stage>.seq-court-wrap,.gs-focus-stage>.pb-card-anim,.gs-focus-stage>.plm-visual{height:min(64vh,570px)!important}.gs-focus-stage>.fasp-shell{height:68vh}.gs-focus-stage .fasp-note{font-size:12px}.gs-focus-title{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.gs-focus-overlay.open{animation:none}}
+</style>
+<script id="gs-focus-view">
+(()=> {
+  const SELECTORS=['.fasp-shell','.pb-card-anim','.ta-court-wrap','.leg-anim-wrap','.seq-court-wrap','.plm-visual','.pl-visual','.conseq-wrap'];
+  let active=null, parent=null, next=null, opener=null, scrollY=0;
+  const overlay=document.createElement('div');
+  overlay.className='gs-focus-overlay';
+  overlay.setAttribute('role','dialog');
+  overlay.setAttribute('aria-modal','true');
+  overlay.setAttribute('aria-label','GameSharp Focus View');
+  overlay.innerHTML=`<div class="gs-focus-bar"><div class="gs-focus-brand"><div class="gs-focus-kicker">◉ GAMESHARP FOCUS VIEW</div><div class="gs-focus-title" id="gsFocusTitle">Study the moment</div></div><button class="gs-focus-screen" type="button" aria-label="Use device fullscreen" title="Use device fullscreen">⛶</button><button class="gs-focus-close" type="button" aria-label="Close Focus View">×</button></div><div class="gs-focus-stage"></div><div class="gs-focus-foot"><div class="gs-focus-cue" id="gsFocusCue"></div><div class="gs-focus-hint">Replay · study · close to continue</div></div>`;
+  document.body.appendChild(overlay);
+  const stage=overlay.querySelector('.gs-focus-stage');
+  const close=overlay.querySelector('.gs-focus-close');
+  function copyFor(el){
+    const card=el.closest('.pb-card,.plm-card,.dtc-wrap,.quiz-inner,.leg-wrap,.seq-wrap')||el.parentElement;
+    const title=card&&card.querySelector('.pb-card-title,.plm-title,.dtc-h1,.q-text,h1,h2,h3');
+    const cue=card&&card.querySelector('.pb-card-desc,.plm-sub,.fasp-note,.scenario-text,.q-context,.seq-sub');
+    return {title:(title&&title.textContent.trim())||el.getAttribute('aria-label')||'Study the moment',cue:(cue&&cue.textContent.trim())||'Watch the movement, then return to the decision.'};
+  }
+  function openFocus(el,button){
+    if(active||!el.isConnected)return;
+    active=el; opener=button||el; parent=el.parentNode; next=el.nextSibling; scrollY=window.scrollY;
+    const copy=copyFor(el);
+    overlay.querySelector('#gsFocusTitle').textContent=copy.title;
+    overlay.querySelector('#gsFocusCue').textContent=copy.cue;
+    el.classList.add('gs-focus-subject');
+    stage.appendChild(el);
+    overlay.classList.add('open'); document.body.classList.add('gs-focus-open');
+    close.focus({preventScroll:true});
+  }
+  function closeFocus(){
+    if(!active)return;
+    if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+    active.classList.remove('gs-focus-subject');
+    if(parent&&parent.isConnected) parent.insertBefore(active,next&&next.parentNode===parent?next:null);
+    else active.remove();
+    overlay.classList.remove('open'); document.body.classList.remove('gs-focus-open');
+    window.scrollTo(0,scrollY);
+    const restore=opener; active=parent=next=opener=null;
+    if(restore&&restore.isConnected) restore.focus({preventScroll:true});
+  }
+  function enhance(root=document){
+    const matches=root.nodeType===1&&root.matches(SELECTORS.join(','))?[root]:[];
+    matches.concat([...root.querySelectorAll(SELECTORS.join(','))]).forEach(el=>{
+      if(el.closest('.gs-focus-overlay')||el.querySelector(':scope > .gs-focus-trigger'))return;
+      el.classList.add('gs-focus-ready');
+      el.setAttribute('data-gs-focus','');
+      if(!el.hasAttribute('tabindex'))el.tabIndex=0;
+      if(!el.getAttribute('aria-label'))el.setAttribute('aria-label','Open animation in Focus View');
+      const b=document.createElement('button'); b.type='button'; b.className='gs-focus-trigger'; b.innerHTML='↗'; b.setAttribute('aria-label','Expand animation to Focus View');
+      b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openFocus(el,b)});
+      el.appendChild(b);
+      el.addEventListener('click',e=>{if(document.body.classList.contains('gs-focus-open')||e.target.closest('button,input,a,[role="button"]'))return;e.preventDefault();e.stopPropagation();openFocus(el,el)},true);
+      el.addEventListener('keydown',e=>{if(!document.body.classList.contains('gs-focus-open')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openFocus(el,el)}});
+    });
+  }
+  close.addEventListener('click',closeFocus);
+  overlay.querySelector('.gs-focus-screen').addEventListener('click',()=>{if(!document.fullscreenElement&&overlay.requestFullscreen)overlay.requestFullscreen().catch(()=>{});else if(document.fullscreenElement)document.exitFullscreen().catch(()=>{})});
+  overlay.addEventListener('click',e=>{if(e.target===overlay)closeFocus()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&active)closeFocus()});
+  new MutationObserver(ms=>ms.forEach(m=>{if(m.target&&m.target.nodeType===1)enhance(m.target);m.addedNodes.forEach(n=>{if(n.nodeType===1)enhance(n)})})).observe(document.body,{childList:true,subtree:true});
+  enhance();
+  window.GameSharpFocusView={open:openFocus,close:closeFocus,refresh:enhance};
+})();
+</script>
 </body>
