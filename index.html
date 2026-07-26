@@ -11638,24 +11638,44 @@ function _shareWrap(ctx, text, maxW) {
   if (cur) lines.push(cur); return lines;
 }
 
-// A clean top-down court with a shot path + "?" — the curiosity gap (the motion
-// is the reward for opening the app). Path leans on the question's tactic if known.
+// Share cards use the same broadcast-perspective court language as the live app.
+// The still preserves a curiosity gap; opening the link supplies the movement.
 function _shareCourt(x, ox, oy, w, h, pattern) {
-  x.fillStyle = 'rgba(36,66,30,.55)'; x.fillRect(ox, oy, w, h);
-  x.strokeStyle = 'rgba(226,208,154,.7)'; x.lineWidth = 3; x.strokeRect(ox + 30, oy + 24, w - 60, h - 48);
-  const ny = oy + h / 2;
-  x.strokeStyle = 'rgba(255,255,255,.55)'; x.beginPath(); x.moveTo(ox + 14, ny); x.lineTo(ox + w - 14, ny); x.stroke();
-  x.strokeStyle = 'rgba(226,208,154,.4)'; x.beginPath(); x.moveTo(ox + w / 2, oy + 24); x.lineTo(ox + w / 2, oy + h - 24); x.stroke();
-  const sx = ox + w * 0.5, sy = oy + h - 56;
-  let ex = ox + w * 0.80, ctrlx = ox + w * 0.64;          // default: angle/crosscourt
-  if (pattern === 'dtl') { ex = ox + w * 0.5; ctrlx = ox + w * 0.5; }
-  else if (pattern === 'crosscourt') { ex = ox + w * 0.78; ctrlx = ox + w * 0.66; }
-  const ey = oy + 64;
-  x.strokeStyle = '#c8a84b'; x.lineWidth = 5; x.setLineDash([14, 12]);
-  x.beginPath(); x.moveTo(sx, sy); x.quadraticCurveTo(ctrlx, ny, ex, ey); x.stroke(); x.setLineDash([]);
-  x.fillStyle = '#d2e83a'; x.beginPath(); x.arc(sx, sy, 17, 0, 7); x.fill();
-  x.fillStyle = 'rgba(200,168,75,.95)'; x.font = '800 64px "DM Sans",sans-serif';
-  x.textAlign = 'center'; x.fillText('?', ex, ey + 6); x.textAlign = 'left';
+  const panel = x.createRadialGradient(ox+w*.5,oy+h*.34,20,ox+w*.5,oy+h*.46,w*.62);
+  panel.addColorStop(0,'#1f5b29'); panel.addColorStop(.58,'#123d1b'); panel.addColorStop(1,'#07190c');
+  x.fillStyle=panel; x.fillRect(ox,oy,w,h);
+  x.strokeStyle='rgba(200,168,75,.34)'; x.lineWidth=3; x.strokeRect(ox+2,oy+2,w-4,h-4);
+  x.font='800 16px "DM Sans",sans-serif'; x.fillStyle='rgba(200,168,75,.9)';
+  x.letterSpacing='2px'; x.fillText('◉ GAMESHARP REPLAY · TACTICAL VIEW',ox+24,oy+34);
+
+  const cx=ox+w*.5, farY=oy+82, nearY=oy+h-46, netY=oy+h*.49;
+  const farHalf=w*.255, nearHalf=w*.455;
+  const halfAt=y=>farHalf+(nearHalf-farHalf)*((y-farY)/(nearY-farY));
+  const line=(x1,y1,x2,y2,a=.7,lw=3)=>{x.strokeStyle=`rgba(238,244,229,${a})`;x.lineWidth=lw;x.beginPath();x.moveTo(x1,y1);x.lineTo(x2,y2);x.stroke();};
+  line(cx-farHalf,farY,cx-nearHalf,nearY,.68,3);
+  line(cx+farHalf,farY,cx+nearHalf,nearY,.68,3);
+  line(cx-farHalf,farY,cx+farHalf,farY,.68,3);
+  line(cx-nearHalf,nearY,cx+nearHalf,nearY,.68,3);
+  const sFar=farY+(nearY-farY)*.29, sNear=farY+(nearY-farY)*.71;
+  line(cx-halfAt(sFar),sFar,cx+halfAt(sFar),sFar,.46,2);
+  line(cx-halfAt(sNear),sNear,cx+halfAt(sNear),sNear,.46,2);
+  line(cx,sFar,cx,sNear,.42,2);
+  line(cx-halfAt(netY)-18,netY,cx+halfAt(netY)+18,netY,.92,5);
+  line(cx-halfAt(netY)-18,netY+8,cx+halfAt(netY)+18,netY+8,.16,8);
+
+  const sx=cx, sy=nearY-38, ey=farY+45;
+  let ex=cx+farHalf*.72, ctrlx=cx+w*.17;
+  if(pattern==='dtl'){ex=cx;ctrlx=cx;}
+  else if(pattern==='crosscourt'){ex=cx+farHalf*.78;ctrlx=cx+w*.18;}
+  x.strokeStyle='#ee6f70'; x.lineWidth=7; x.setLineDash([18,13]);
+  x.beginPath();x.moveTo(sx,sy);x.quadraticCurveTo(ctrlx,netY,ex,ey);x.stroke();x.setLineDash([]);
+  x.fillStyle='#d8b74f';x.beginPath();x.arc(sx,sy,16,0,Math.PI*2);x.fill();
+  x.strokeStyle='rgba(255,255,255,.7)';x.lineWidth=2;x.stroke();
+  x.fillStyle='#ee6f70';x.beginPath();x.arc(ex,ey,15,0,Math.PI*2);x.fill();
+  x.strokeStyle='rgba(255,255,255,.8)';x.stroke();
+  x.fillStyle='rgba(255,255,255,.46)';x.font='700 15px "DM Sans",sans-serif';x.textAlign='center';
+  x.fillText('YOU',sx,nearY+25);x.fillText('OPP',cx,farY-20);
+  x.fillStyle='#c8a84b';x.font='800 50px "DM Sans",sans-serif';x.fillText('?',ex,ey-30);x.textAlign='left';
 }
 
 // Core share-card renderer — shared by points and Playbook plays.
@@ -11677,15 +11697,15 @@ function _buildShareCard(opts) {
       x.fillText((opts.eyebrow || '').toUpperCase(), 70, 206);
       // title
       x.fillStyle = '#fff'; x.font = '800 58px "DM Sans",sans-serif';
-      const lines = _shareWrap(x, opts.titleText || '', W - 150).slice(0, 5);
+      const lines = _shareWrap(x, opts.titleText || '', W - 150).slice(0, 4);
       let yy = 296; lines.forEach(l => { x.fillText(l, 70, yy); yy += 72; });
       // court
       _shareCourt(x, 70, yy + 24, W - 140, Math.min(540, H - (yy + 24) - 230), opts.pattern || null);
       // kicker + CTA
       x.fillStyle = '#c8a84b'; x.font = '800 46px "DM Sans",sans-serif';
-      x.fillText(opts.kicker || 'What’s the right call?', 70, H - 170);
+      x.fillText(opts.kicker || 'SEE IT. CALL IT. OWN THE POINT.', 70, H - 170);
       x.fillStyle = 'rgba(255,255,255,.85)'; x.font = '600 32px "DM Sans",sans-serif';
-      x.fillText(opts.cta || '▶  Play it · gamesharptennis.com', 70, H - 108);
+      x.fillText(opts.cta || 'MAKE THE CALL  →  gamesharptennis.com', 70, H - 108);
       c.toBlob(b => resolve(b), 'image/png');
     } catch (e) { resolve(null); }
   });
@@ -11696,7 +11716,7 @@ function buildShareCanvas(q) {
     eyebrow: (q.pillar || '') + (q.module ? ' · ' + q.module : ''),
     titleText: q.question || '',
     pattern: (q.techAnimParams && q.techAnimParams.pattern) || null,
-    kicker: 'What’s the right call?', cta: '▶  Play it · gamesharptennis.com'
+    kicker: 'SEE IT. CALL IT. OWN THE POINT.', cta: 'MAKE THE CALL  →  gamesharptennis.com'
   });
 }
 
@@ -11705,7 +11725,7 @@ function buildPlayShareCanvas(p) {
     eyebrow: 'Signature Play · ' + (p.module || ''),
     titleText: p.title || '',
     pattern: (p.params && p.params.pattern) || null,
-    kicker: p.tagline || '', cta: '▶  See it move · gamesharptennis.com'
+    kicker: 'SEE THE PATTERN BEFORE IT OPENS.', cta: 'WATCH THE PLAY  →  gamesharptennis.com'
   });
 }
 
@@ -11721,7 +11741,7 @@ function sharePoint(q) {
   q = q || (state.quiz && state.quiz[state.qIdx]);
   if (!q || !q.id) return;
   const url = 'https://www.gamesharptennis.com/s/' + encodeURIComponent(q.id);
-  const caption = 'Tennis IQ check — what’s the right call here? 🎾\nPlay it → ' + url + '\n#tennis #GAMESHARP';
+  const caption = 'I’d make the call here. Would you? 🎾\n' + url;
   buildShareCanvas(q).then(blob => {
     const file = blob ? new File([blob], 'gamesharp-' + q.id + '.png', { type: 'image/png' }) : null;
     try {
@@ -12212,7 +12232,7 @@ function renderPlaybookPracticeResult(pct){
 // Moment-ready caption — leads with a live-match hook so it piggybacks on a
 // real point; the user adds their own context in the social composer.
 function _pbCaption(p, url){
-  return 'Saw this in a match? 🎾\n' + p.title + ' — ' + p.tagline + '\n▶ Watch it: ' + url + '\n#tennis #GAMESHARP';
+  return 'See the pattern before the opening appears. 🎾\n' + p.title + '\n' + url;
 }
 
 function playbookShare(id){
