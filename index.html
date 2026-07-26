@@ -13624,9 +13624,14 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
 .gs-focus-stage{min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px 0}
 .gs-focus-stage>.gs-focus-subject{width:min(100%,980px)!important;max-width:980px!important;max-height:100%!important;margin:0!important;flex:0 1 auto!important}
 .gs-focus-stage .gs-focus-trigger{display:none!important}
-.gs-focus-stage>.ta-court-wrap,.gs-focus-stage>.leg-anim-wrap,.gs-focus-stage>.seq-court-wrap,.gs-focus-stage>.pb-card-anim,.gs-focus-stage>.plm-visual{height:min(72vh,720px)!important;min-height:300px!important;aspect-ratio:auto!important}
-.gs-focus-stage>.ta-court-wrap{perspective:1000px;perspective-origin:50% 26%}
-.gs-focus-stage>.ta-court-wrap>svg,.gs-focus-stage>.ta-court-wrap>svg[viewBox="0 0 200 310"]{position:absolute!important;left:50%!important;bottom:4px!important;width:auto!important;height:138%!important;max-width:none!important;max-height:none!important;transform:translateX(-50%) rotateX(47deg) scaleX(1.22)!important;transform-origin:50% 100%!important}
+.gs-focus-stage>.leg-anim-wrap,.gs-focus-stage>.seq-court-wrap,.gs-focus-stage>.pb-card-anim,.gs-focus-stage>.plm-visual{height:min(72vh,720px)!important;min-height:300px!important;aspect-ratio:auto!important}
+/* Daily/5-pillar visuals arrive in several native geometries. In Focus View
+   they must keep their complete authored frame—never inherit the quiz camera
+   tilt, never zoom a diagram, and never create a tall empty green panel. */
+.gs-focus-stage>.ta-court-wrap{width:min(100%,720px)!important;height:auto!important;min-height:0!important;max-height:min(64vh,620px)!important;aspect-ratio:var(--gs-focus-aspect,1.55)!important;display:flex!important;align-items:center!important;justify-content:center!important;perspective:none!important;background:radial-gradient(120% 90% at 50% 36%,#1f5125 0%,#123817 60%,#08170a 100%)!important}
+.gs-focus-stage>.ta-court-wrap>svg,.gs-focus-stage>.ta-court-wrap>svg[viewBox]{position:relative!important;inset:auto!important;left:auto!important;bottom:auto!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;transform:none!important;transform-origin:center!important;filter:none!important}
+.gs-focus-stage>.ta-court-wrap.gs-focus-portrait{width:auto!important;height:min(64vh,570px)!important;aspect-ratio:var(--gs-focus-aspect,.78)!important}
+.gs-focus-stage>.ta-court-wrap.gs-focus-diagram{width:min(100%,640px)!important;max-height:58vh!important;background:rgba(8,18,10,.96)!important;box-shadow:inset 0 0 40px rgba(0,0,0,.38),0 8px 28px rgba(0,0,0,.45)!important}
 .gs-focus-stage>.fasp-shell{height:min(76vh,760px);overflow:auto;overscroll-behavior:contain}
 .gs-focus-stage .fasp-stage{min-height:min(52vh,520px)}
 .gs-focus-stage .fasp-step,.gs-focus-stage .fasp-hand,.gs-focus-stage .fasp-mode{min-height:44px}
@@ -13635,7 +13640,7 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
 .gs-focus-foot{min-height:52px;padding:8px 4px 2px;text-align:center}
 .gs-focus-cue{font-size:13px;line-height:1.45;color:rgba(255,255,255,.74);max-width:720px;margin:auto}
 .gs-focus-hint{font-size:9px;letter-spacing:1.2px;color:rgba(200,168,75,.72);margin-top:5px;text-transform:uppercase}
-@media(max-width:600px) and (orientation:portrait){.gs-focus-stage>.ta-court-wrap,.gs-focus-stage>.leg-anim-wrap,.gs-focus-stage>.seq-court-wrap,.gs-focus-stage>.pb-card-anim,.gs-focus-stage>.plm-visual{height:min(64vh,570px)!important}.gs-focus-stage>.fasp-shell{height:68vh}.gs-focus-stage .fasp-note{font-size:12px}.gs-focus-title{font-size:17px}}
+@media(max-width:600px) and (orientation:portrait){.gs-focus-stage>.leg-anim-wrap,.gs-focus-stage>.seq-court-wrap,.gs-focus-stage>.pb-card-anim,.gs-focus-stage>.plm-visual{height:min(64vh,570px)!important}.gs-focus-stage>.fasp-shell{height:68vh}.gs-focus-stage .fasp-note{font-size:12px}.gs-focus-title{font-size:17px}}
 @media(prefers-reduced-motion:reduce){.gs-focus-overlay.open{animation:none}}
 </style>
 <script id="gs-focus-view">
@@ -13652,9 +13657,9 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
   const stage=overlay.querySelector('.gs-focus-stage');
   const close=overlay.querySelector('.gs-focus-close');
   function copyFor(el){
-    const card=el.closest('.pb-card,.plm-card,.dtc-wrap,.quiz-inner,.leg-wrap,.seq-wrap')||el.parentElement;
-    const title=card&&card.querySelector('.pb-card-title,.plm-title,.dtc-h1,.q-text,h1,h2,h3');
-    const cue=card&&card.querySelector('.pb-card-tag,.plm-sub,.fasp-note,.scenario-text,.q-context,.seq-sub');
+    const card=el.closest('.pb-card,.plm-card,.dtc-wrap,#quizScreen,.quiz-inner,.leg-wrap,.seq-wrap')||el.parentElement;
+    const title=card&&card.querySelector('.pb-card-title,.plm-title,.dtc-h1,.qtext,.q-text,h1,h2,h3');
+    const cue=card&&card.querySelector('.pb-card-tag,.plm-sub,.fasp-note,.ta-caption,.scenario-text,.q-context,.seq-sub');
     return {title:(title&&title.textContent.trim())||el.getAttribute('aria-label')||'Study the moment',cue:(cue&&cue.textContent.trim())||'Watch the movement, then return to the decision.'};
   }
   function openFocus(el,button){
@@ -13664,6 +13669,13 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
     overlay.querySelector('#gsFocusTitle').textContent=copy.title;
     overlay.querySelector('#gsFocusCue').textContent=copy.cue;
     el.classList.add('gs-focus-subject');
+    if(el.classList.contains('ta-court-wrap')){
+      const svg=el.querySelector('svg'),vb=svg&&svg.viewBox&&svg.viewBox.baseVal;
+      const ratio=vb&&vb.height?vb.width/vb.height:1.55;
+      el.style.setProperty('--gs-focus-aspect',String(Math.max(.55,Math.min(2.2,ratio))));
+      el.classList.toggle('gs-focus-portrait',ratio<.92);
+      el.classList.toggle('gs-focus-diagram',el.classList.contains('ta-diagram')||el.classList.contains('cm-court'));
+    }
     stage.appendChild(el);
     overlay.classList.add('open'); document.body.classList.add('gs-focus-open');
     close.focus({preventScroll:true});
@@ -13671,7 +13683,8 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
   function closeFocus(){
     if(!active)return;
     if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
-    active.classList.remove('gs-focus-subject');
+    active.classList.remove('gs-focus-subject','gs-focus-portrait','gs-focus-diagram');
+    active.style.removeProperty('--gs-focus-aspect');
     if(parent&&parent.isConnected) parent.insertBefore(active,next&&next.parentNode===parent?next:null);
     else active.remove();
     overlay.classList.remove('open'); document.body.classList.remove('gs-focus-open');
