@@ -13596,6 +13596,7 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
 .gs-focus-close,.gs-focus-screen{width:44px;height:44px;flex:0 0 44px;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:rgba(255,255,255,.07);color:#fff;font-size:20px;cursor:pointer}
 .gs-focus-stage{min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px 0}
 .gs-focus-stage>.gs-focus-subject{width:min(100%,980px)!important;max-width:980px!important;max-height:100%!important;margin:0!important;flex:0 1 auto!important}
+.gs-focus-stage .gs-focus-trigger{display:none!important}
 .gs-focus-stage>.ta-court-wrap,.gs-focus-stage>.leg-anim-wrap,.gs-focus-stage>.seq-court-wrap,.gs-focus-stage>.pb-card-anim,.gs-focus-stage>.plm-visual{height:min(72vh,720px)!important;min-height:300px!important;aspect-ratio:auto!important}
 .gs-focus-stage>.ta-court-wrap{perspective:1000px;perspective-origin:50% 26%}
 .gs-focus-stage>.ta-court-wrap>svg,.gs-focus-stage>.ta-court-wrap>svg[viewBox="0 0 200 310"]{position:absolute!important;left:50%!important;bottom:4px!important;width:auto!important;height:138%!important;max-width:none!important;max-height:none!important;transform:translateX(-50%) rotateX(47deg) scaleX(1.22)!important;transform-origin:50% 100%!important}
@@ -13626,7 +13627,7 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
   function copyFor(el){
     const card=el.closest('.pb-card,.plm-card,.dtc-wrap,.quiz-inner,.leg-wrap,.seq-wrap')||el.parentElement;
     const title=card&&card.querySelector('.pb-card-title,.plm-title,.dtc-h1,.q-text,h1,h2,h3');
-    const cue=card&&card.querySelector('.pb-card-desc,.plm-sub,.fasp-note,.scenario-text,.q-context,.seq-sub');
+    const cue=card&&card.querySelector('.pb-card-tag,.plm-sub,.fasp-note,.scenario-text,.q-context,.seq-sub');
     return {title:(title&&title.textContent.trim())||el.getAttribute('aria-label')||'Study the moment',cue:(cue&&cue.textContent.trim())||'Watch the movement, then return to the decision.'};
   }
   function openFocus(el,button){
