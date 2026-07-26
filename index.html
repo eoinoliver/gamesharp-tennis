@@ -13615,10 +13615,10 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
 .gs-focus-trigger::after{content:'EXPAND';position:absolute;right:48px;padding:5px 8px;border-radius:7px;background:rgba(5,12,7,.82);color:rgba(255,255,255,.82);font-size:8px;letter-spacing:1px;opacity:0;transform:translateX(4px);transition:.18s;pointer-events:none}
 .gs-focus-trigger:focus-visible,.gs-focus-close:focus-visible,.gs-focus-screen:focus-visible{outline:3px solid #d8b74f;outline-offset:2px}
 @media(hover:hover){.gs-focus-trigger:hover::after{opacity:1;transform:none}}
-.gs-focus-overlay{position:fixed;inset:0;z-index:100000;display:none;grid-template-rows:auto minmax(0,1fr) auto;background:radial-gradient(120% 80% at 50% 30%,#102c15 0%,#070b08 64%,#030504 100%);color:#fff;padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+.gs-focus-overlay{position:fixed;inset:0;z-index:100000;display:none;grid-template-rows:auto minmax(0,1fr) auto;min-width:0;box-sizing:border-box;background:radial-gradient(120% 80% at 50% 30%,#102c15 0%,#070b08 64%,#030504 100%);color:#fff;padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
 .gs-focus-overlay.open{display:grid;animation:gsFocusIn .24s cubic-bezier(.2,.8,.3,1)}
 @keyframes gsFocusIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
-.gs-focus-bar{display:flex;align-items:center;gap:10px;min-height:52px}
+.gs-focus-bar{display:flex;align-items:center;gap:10px;width:100%;min-width:0;max-width:100%;min-height:52px;overflow:hidden;box-sizing:border-box}
 .gs-focus-brand{min-width:0;flex:1}.gs-focus-kicker{font-size:9px;font-weight:800;letter-spacing:1.8px;color:#c8a84b}.gs-focus-title{font:400 19px/1.1 'Bebas Neue',sans-serif;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
 .gs-focus-close,.gs-focus-screen{width:44px;height:44px;flex:0 0 44px;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:rgba(255,255,255,.07);color:#fff;font-size:20px;cursor:pointer}
 .gs-focus-stage{min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px 0}
