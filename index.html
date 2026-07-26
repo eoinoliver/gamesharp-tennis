@@ -3155,7 +3155,7 @@ const COLD_OPENS = [
         verdict: "This is the shot most club players take — and miss. From a neutral, even ball you haven't earned the line yet: it's the highest-risk shot on the court, and you're not balanced and moving forward enough to justify it." },
       { label: 'Heavy crosscourt again', sub: 'Keep building the rally', target: { x: 150, y: 26 }, correct: true,
         verdict: "Right. Keep loading the crosscourt — more depth, more pace — until your opponent floats a shorter ball. THEN you change direction, balanced and moving in. You earn the line before you go for it." },
-      { label: 'Drop shot', sub: 'Change it up', target: { x: 80, y: 88 }, correct: false,
+      { label: 'Drop shot', sub: 'Change it up', target: { x: 80, y: 62 }, correct: false,
         verdict: "From an even, deep rally the drop just sits up — your opponent is balanced and reads it early. There's no opening here yet to exploit." }
     ],
     insight: "Federer built his baseline game on exactly this patience: crosscourt until the short ball arrives, then the line — earned, not gambled. The crosscourt has a lower net and a longer court; the line has neither. Build with one, finish with the other."
@@ -4902,8 +4902,8 @@ const TECH_ANIMS = {
   <path d="M130,195 Q130,110 130,22" stroke="#c8a84b" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="200" stroke-dashoffset="200" style="animation:drawPath .7s 1.4s ease forwards" class="ta-reveal"/>
   <circle cx="130" cy="22" r="10" fill="rgba(91,186,111,.1)" stroke="#5bba6f" stroke-width="1.5" stroke-dasharray="4,3" opacity="0" style="animation:tpop .3s 2.2s ease both" class="ta-reveal"/>
   <text x="148" y="26" fill="#5bba6f" font-size="6" font-weight="700" opacity="0" style="animation:tpop .3s 2.2s ease both" class="ta-reveal">OPEN</text>
-  <circle cx="100" cy="125" r="8" fill="rgba(200,168,75,.2)" stroke="#c8a84b" stroke-width="1.5" opacity="0" style="animation:tpop .3s 2.3s ease both" class="ta-reveal"/>
-  <text x="100" y="116" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" opacity="0" style="animation:tpop .3s 2.3s ease both" class="ta-reveal">YOU</text>
+  <circle cx="112" cy="178" r="8" fill="rgba(200,168,75,.2)" stroke="#c8a84b" stroke-width="1.5" opacity="0" style="animation:tpop .3s 2.3s ease both" class="ta-reveal"/>
+  <text x="112" y="190" text-anchor="middle" fill="#c8a84b" font-size="6" font-weight="700" opacity="0" style="animation:tpop .3s 2.3s ease both" class="ta-reveal">YOU</text>
 </svg>`,
     init:(params={},cbs={})=>{
       const box=document.getElementById('taCourt'); if(!box) return null;
@@ -4918,8 +4918,9 @@ const TECH_ANIMS = {
       mkEl('path',{d:'M130,195 Q130,110 130,22',stroke:'#c8a84b','stroke-width':'3',fill:'none','stroke-linecap':'round','stroke-dasharray':'200','stroke-dashoffset':'200'},'animation:drawPath .7s 1.4s ease forwards;opacity:1');
       mkEl('circle',{cx:'130',cy:'22',r:'10',fill:'rgba(91,186,111,.1)',stroke:'#5bba6f','stroke-width':'1.5','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .3s 2.2s ease both');
       mkEl('text',{x:'148',y:'26',fill:'#5bba6f','font-size':'6','font-weight':'bold',opacity:'0'},'animation:tpop .3s 2.2s ease both','OPEN');
-      mkEl('circle',{cx:'100',cy:'125',r:'8',fill:'rgba(200,168,75,.2)',stroke:'#c8a84b','stroke-width':'1.5',opacity:'0'},'animation:tpop .3s 2.3s ease both');
-      mkEl('text',{x:'100',y:'116','text-anchor':'middle',fill:'#c8a84b','font-size':'6','font-weight':'bold',opacity:'0'},'animation:tpop .3s 2.3s ease both','YOU');
+      // Finish on YOUR side of the net. y=155 is the net; y>155 is the near court.
+      mkEl('circle',{cx:'112',cy:'178',r:'8',fill:'rgba(200,168,75,.2)',stroke:'#c8a84b','stroke-width':'1.5',opacity:'0'},'animation:tpop .3s 2.3s ease both');
+      mkEl('text',{x:'112',y:'190','text-anchor':'middle',fill:'#c8a84b','font-size':'6','font-weight':'bold',opacity:'0'},'animation:tpop .3s 2.3s ease both','YOU');
       ph(1); cap(captions.setup||'');
       const t2=setTimeout(()=>{ ph(2); cap(captions.decision||''); },1200);
       const t3=setTimeout(()=>{ ph(3); cap(captions.result||''); },2500);
@@ -7931,7 +7932,7 @@ const DTC_THEMES = [
         you:{x:56,y:128},opp:{x:138,y:38},incoming:{from:{x:132,y:48},to:{x:64,y:120}},
         options:[{label:'Down the line',sub:'Into the open court',target:{x:58,y:28},correct:false,verdict:"The shot most players take here — and miss. From a neutral ball you haven't earned the line; it's the highest-risk shot on the court."},
           {label:'Heavy crosscourt again',sub:'Keep building',target:{x:150,y:26},correct:true,verdict:"Right. Keep loading the crosscourt until a shorter ball appears, then change direction balanced and moving in. Earn the line first."},
-          {label:'Drop shot',sub:'Change it up',target:{x:80,y:88},correct:false,verdict:"From an even, deep rally the drop just sits up — your opponent is balanced and reads it early."}],
+          {label:'Drop shot',sub:'Change it up',target:{x:80,y:62},correct:false,verdict:"From an even, deep rally the drop just sits up — your opponent is balanced and reads it early."}],
         insight:"Federer called the down-the-line the most expensive shot in tennis: “The crosscourt gives you the match. The line ends the point.”"},
       {type:'court',tag:'Read 2 of 4',situation:"Your patience pays — the rally pulls a short ball that sits up near your service line. You step in.",prompt:"How do you play the sitter?",
         you:{x:100,y:104},opp:{x:100,y:32},incoming:{from:{x:100,y:46},to:{x:100,y:96}},
@@ -7994,7 +7995,7 @@ const DTC_THEMES = [
         you:{x:56,y:128},opp:{x:138,y:38},incoming:{from:{x:132,y:48},to:{x:64,y:120}},
         options:[{label:"Down the line",sub:"The pretty one",target:{x:58,y:28},correct:false,verdict:"Gorgeous — and the most-missed change of direction in the game. From a neutral ball you haven't earned the line yet."},
           {label:"Heavy crosscourt",sub:"Keep building",target:{x:150,y:26},correct:true,verdict:"Right. Build the crosscourt until a shorter ball appears, then change direction balanced and moving in. The one-hander rewards patience."},
-          {label:"Slice it short",sub:"Change it up",target:{x:80,y:88},correct:false,verdict:"From an even, deep rally a short slice just invites them in. Save the slice for when you're stretched or want to approach."}],
+          {label:"Slice it short",sub:"Change it up",target:{x:80,y:62},correct:false,verdict:"From an even, deep rally a short slice just invites them in. Save the slice for when you're stretched or want to approach."}],
         insight:"The one-handed down-the-line is a signature shot — but you have to earn it first."},
       {type:'court',tag:'Read 2 of 4',situation:"A high, kicking ball climbs toward your backhand shoulder. Awkward and rising.",prompt:"Best response?",
         you:{x:60,y:124},opp:{x:120,y:36},incoming:{from:{x:120,y:46},to:{x:66,y:108}},
@@ -8006,7 +8007,7 @@ const DTC_THEMES = [
         you:{x:62,y:122},opp:{x:150,y:40},incoming:{from:{x:140,y:48},to:{x:68,y:112}},
         options:[{label:"Backhand winner down the line",sub:"Prove it holds",target:{x:58,y:28},correct:false,verdict:"Trying to prove your backhand on the biggest point is exactly when it breaks. Brave, not smart."},
           {label:"Solid deep crosscourt",sub:"Make them play again",target:{x:150,y:26},correct:true,verdict:"Right. When they target your backhand on a big point, the answer is a reliable ball, not a brave one. Make them hit one more."},
-          {label:"Slice short",sub:"Surprise them",target:{x:78,y:88},correct:false,verdict:"A short slice under pressure floats and sits up — you'd be handing the aggressor exactly the ball they want."}],
+          {label:"Slice short",sub:"Surprise them",target:{x:78,y:62},correct:false,verdict:"A short slice under pressure floats and sits up — you'd be handing the aggressor exactly the ball they want."}],
         insight:"When they hunt your backhand on a big point, reliability beats heroics every time."},
       {type:'technique',tag:'Execution check',render:dtc1hTech,situation:"You're reading it well — but on the big points your backhand kept floating weak and spraying. Same miss.",prompt:"What's the usual culprit?",
         options:[{label:"Your grip is too weak",correct:false,verdict:"Your grip is the same on the backhands that land — it doesn't change between points. The timing does."},
@@ -8026,13 +8027,13 @@ const DTC_THEMES = [
         you:{x:56,y:128},opp:{x:138,y:38},incoming:{from:{x:132,y:48},to:{x:64,y:120}},
         options:[{label:"Flatten it down the line",sub:"Take the line",target:{x:58,y:28},correct:false,verdict:"From a neutral ball the line is high-risk. The two-hander can redirect, but only once you've earned the short reply."},
           {label:"Heavy crosscourt again",sub:"Build the point",target:{x:150,y:26},correct:true,verdict:"Right. Load the crosscourt and wait for the short ball — then the down-the-line opens up with margin to spare."},
-          {label:"Drop shot",sub:"Mix it",target:{x:80,y:88},correct:false,verdict:"From a deep, even rally the drop sits up — they're balanced and read it early."}],
+          {label:"Drop shot",sub:"Mix it",target:{x:80,y:62},correct:false,verdict:"From a deep, even rally the drop sits up — they're balanced and read it early."}],
         insight:"The two-hander's strength is its stability — use it to build, not to gamble early."},
       {type:'court',tag:'Read 2 of 4',situation:"They pull you wide on the backhand and you're stretched, reaching at full extension.",prompt:"Best response?",
         you:{x:34,y:120},opp:{x:120,y:38},incoming:{from:{x:120,y:46},to:{x:42,y:110}},
         options:[{label:"Go for a two-hander winner",sub:"Swing for it",target:{x:150,y:28},correct:false,verdict:"Stretched and off balance, a winner attempt is the lowest-percentage shot you own. You're not set to hit it."},
           {label:"High, deep crosscourt reset",sub:"Buy recovery time",target:{x:150,y:36},correct:true,verdict:"Yes. Stretched, the job is to neutralise — a high, deep ball gives you the time to get back to the middle and reset."},
-          {label:"Quick drop",sub:"Catch them out",target:{x:90,y:90},correct:false,verdict:"A drop off a stretched two-hander floats and sits up — you have no control from there. Reset instead."}],
+          {label:"Quick drop",sub:"Catch them out",target:{x:90,y:62},correct:false,verdict:"A drop off a stretched two-hander floats and sits up — you have no control from there. Reset instead."}],
         insight:"Stretched wide, the two-hander's job is to neutralise, not to win the point on the spot."},
       {type:'court',tag:'Read 3 of 4',situation:"Break point. A mid-depth ball lands on your backhand — the shot you trust under pressure.",prompt:"What's the smart play?",
         you:{x:58,y:122},opp:{x:150,y:40},incoming:{from:{x:140,y:48},to:{x:64,y:112}},
@@ -8058,7 +8059,7 @@ const DTC_THEMES = [
         you:{x:40,y:126},opp:{x:120,y:36},incoming:{from:{x:112,y:30},to:{x:46,y:118}},
         options:[{label:"Return winner down the line",sub:"Go for it",target:{x:58,y:28},correct:false,verdict:"Stretched off a big serve, a winner is a fantasy. Miss it and the point was over anyway."},
           {label:"Deep block, back through the middle",sub:"Neutralise",target:{x:104,y:30},correct:true,verdict:"Yes. Block it deep and central, take the angle away, and make the server play another ball. A return is a refusal."},
-          {label:"Chip it short",sub:"Take their legs",target:{x:90,y:90},correct:false,verdict:"A short chip off a big serve floats and sits up — you're handing them an easy first strike."}],
+          {label:"Chip it short",sub:"Take their legs",target:{x:90,y:62},correct:false,verdict:"A short chip off a big serve floats and sits up — you're handing them an easy first strike."}],
         insight:"You can't out-hit a big serve. You can make it play one more ball — and most servers hate that."},
       {type:'court',tag:'Read 2 of 4',situation:"Second serve. It's a soft, sitting-up kick to your forehand — the server's weakest ball.",prompt:"How do you return it?",
         you:{x:100,y:122},opp:{x:100,y:34},incoming:{from:{x:100,y:46},to:{x:100,y:112}},
@@ -8154,7 +8155,7 @@ const DTC_THEMES = [
         you:{x:60,y:126},opp:{x:130,y:38},incoming:{from:{x:124,y:44},to:{x:66,y:118}},
         options:[{label:"Force a flat drive anyway",sub:"Hit through it",target:{x:150,y:28},correct:false,verdict:"Forcing a drive off a low, rushed ball is how errors pile up. You're not set — fighting it loses more than it wins."},
           {label:"Slice it deep crosscourt",sub:"Reset and stay low",target:{x:150,y:34},correct:true,verdict:"Yes. On a low, awkward ball the slice is the escape — carve it deep and low, buy time, and reset to neutral."},
-          {label:"Drop shot it",sub:"Take a risk",target:{x:80,y:88},correct:false,verdict:"A drop off a fast, low ball is a gamble with no margin. Slice deep and live to play the next one."}],
+          {label:"Drop shot it",sub:"Take a risk",target:{x:80,y:62},correct:false,verdict:"A drop off a fast, low ball is a gamble with no margin. Slice deep and live to play the next one."}],
         insight:"On a low, rushed ball the slice is the escape — stay low and deep."},
       {type:'court',tag:'Read 2 of 4',situation:"They give you a short ball — a clear chance to come forward and take the net.",prompt:"What's the approach?",
         you:{x:90,y:104},opp:{x:120,y:36},
@@ -8166,7 +8167,7 @@ const DTC_THEMES = [
         you:{x:38,y:120},opp:{x:120,y:38},incoming:{from:{x:118,y:46},to:{x:44,y:112}},
         options:[{label:"Slice winner down the line",sub:"Go for it",target:{x:58,y:28},correct:false,verdict:"A slice winner from a full stretch on break point is a fantasy — you're not balanced enough to thread it."},
           {label:"High, deep defensive slice",sub:"Buy recovery time",target:{x:150,y:36},correct:true,verdict:"Yes. Stretched on a big point, the slice's job is to float it high and deep, take their attack away, and buy the time to recover."},
-          {label:"Quick slice drop",sub:"Surprise them",target:{x:90,y:90},correct:false,verdict:"A drop from a stretched, defensive position sits up perfectly for them. Height and depth, not touch."}],
+          {label:"Quick slice drop",sub:"Surprise them",target:{x:90,y:62},correct:false,verdict:"A drop from a stretched, defensive position sits up perfectly for them. Height and depth, not touch."}],
         insight:"Defensive slice = height plus depth, to buy the time to recover."},
       {type:'technique',tag:'Execution check',render:dtcSliceTech,situation:"You're reading it well — but your slice kept floating up and sitting for them. Same soft miss.",prompt:"What's the usual culprit?",
         options:[{label:"Too much wrist",correct:false,verdict:"Wrist plays a part, but the floating ball is a path problem — where the racket goes, not just the hand."},
