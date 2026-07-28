@@ -7741,22 +7741,71 @@ function runStandardDaily() {
   } catch(e) {}
 
   // Yesterday's tomorrow-hook question is honoured first, then one resurfaced
-  // miss ("Second Look"), then fresh selection fills the rest of the 3 reads.
+  // miss ("Second Look"), subject to the Daily's learning-experience guardrails.
+  // Three tactical reads must contain at least two court animations and no more
+  // than one Mental question. Personalisation should flavour the session, never
+  // turn the habit-forming showcase into a run of text-only cards.
   const reserved = gsClaimReserved();
   const secondLook = gsPickSecondLook();
-  const fixed = [reserved, secondLook].filter(q => q && true);
-  const dedupFixed = fixed.filter((q, i) => fixed.findIndex(x => x.id === q.id) === i);
-  const need = Math.max(1, 3 - dedupFixed.length);
+  const hasCourtAnimation = q => !!(q && q.techAnim && q.techAnim !== 'none');
+  const fixedCandidates = [reserved, secondLook]
+    .filter(Boolean)
+    .filter((q, i, arr) => arr.findIndex(x => x.id === q.id) === i);
+  const fixed = [];
+  for (const q of fixedCandidates) {
+    if (q.pillar === 'Mental' && fixed.some(x => x.pillar === 'Mental')) continue;
+    // Keep at most one text-only reserved item: two would make the visual quota
+    // impossible within a three-read tactical set.
+    if (!hasCourtAnimation(q) && fixed.some(x => !hasCourtAnimation(x))) continue;
+    fixed.push(q);
+  }
 
-  // 3 tactical reads (standard quiz engine)...
-  let tac = selectSessionQuestions({ pool: tacPool.filter(q => !dedupFixed.find(f => f.id === q.id)), count: need, mode: 'daily-tactical' });
-  if (!tac.length && !dedupFixed.length) return false;
-  if (secondLook) secondLook.__secondLook = true;
-  // Order: fresh open, second look in the middle, reserved hook included naturally
-  tac = dedupFixed.concat(tac).slice(0, 3);
-  // Put the Second Look at slot 2 if present
+  // First satisfy the visual-learning quota, then fill the remaining places.
+  const visualNeed = Math.max(0, 2 - fixed.filter(hasCourtAnimation).length);
+  const used = new Set(fixed.map(q => q.id));
+  let visual = visualNeed ? selectSessionQuestions({
+    pool: tacPool.filter(q => hasCourtAnimation(q) && !used.has(q.id)),
+    count: visualNeed,
+    mode: 'daily-tactical-visual'
+  }) : [];
+  visual.forEach(q => used.add(q.id));
+
+  const fillNeed = Math.max(0, 3 - fixed.length - visual.length);
+  const mentalAlready = fixed.some(q => q.pillar === 'Mental');
+  let fillPool = tacPool.filter(q =>
+    !used.has(q.id) && (!mentalAlready || q.pillar !== 'Mental')
+  );
+  let fill = fillNeed ? selectSessionQuestions({
+    pool: fillPool,
+    count: fillNeed,
+    mode: 'daily-tactical-fill'
+  }) : [];
+
+  let tac = fixed.concat(visual, fill).slice(0, 3);
+  if (!tac.length) return false;
+  if (secondLook && tac.some(q => q.id === secondLook.id)) secondLook.__secondLook = true;
+
+  // A single text-only read sits between visual reads, so the session never opens
+  // with two static cards or asks the player to process two in succession.
+  const staticQ = tac.find(q => !hasCourtAnimation(q));
+  const animatedQ = tac.filter(hasCourtAnimation);
+  if (staticQ && animatedQ.length >= 2) tac = [animatedQ[0], staticQ, animatedQ[1]];
+  // Otherwise keep a resurfaced miss in the middle when that does not weaken the
+  // visual cadence.
   const slIdx = tac.findIndex(q => q.__secondLook);
-  if (slIdx > -1 && tac.length > 1) { const [sl] = tac.splice(slIdx, 1); tac.splice(1, 0, sl); }
+  if (!staticQ && slIdx > -1 && tac.length > 1) {
+    const [sl] = tac.splice(slIdx, 1); tac.splice(1, 0, sl);
+  }
+
+  // Runtime invariant: fail loudly in development if future selection changes
+  // weaken the Daily's minimum visual/pillar balance.
+  const visualCount = tac.filter(hasCourtAnimation).length;
+  const mentalCount = tac.filter(q => q.pillar === 'Mental').length;
+  if (visualCount < Math.min(2, tac.length) || mentalCount > 1) {
+    console.error('[GAMESHARP VALIDATION] Daily balance failed', {
+      ids: tac.map(q => q.id), visualCount, mentalCount
+    });
+  }
 
   // ...+ a 4th "body" question: one Fix-a-Shot stroke-fault, shown in its native
   // stroke-figure style. Stored as a marker entry that loadQ never renders — nextQ
