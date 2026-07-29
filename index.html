@@ -3745,14 +3745,23 @@ function checkFirstVisit() {
     if (_play && typeof initPlaybook === 'function') {
       initHome(); initPlaybook(_play); return;
     }
-    // Friend challenge: /?ch=Q1.Q2.Q3.Q4~score~total → play the same points head-to-head.
+    // Friend challenge: /?ch=Q1.Q2.Q3.DTCxxxx~score~total → play the same
+    // points head-to-head. Cardinality is a contract: never silently discard
+    // an unknown item and turn a promised four-point challenge into three.
     const _chRaw = _p.get('ch');
     if (_chRaw && typeof QBANK !== 'undefined') {
       const _cm = decodeURIComponent(_chRaw).match(/^([A-Za-z0-9_.]+)~(\d{1,2})~(\d{1,2})$/);
       if (_cm) {
-        const _ids = _cm[1].split('.').filter(id => QBANK.some(q => q.id === id)).slice(0, 6);
+        const _ids = _cm[1].split('.').filter(Boolean).slice(0, 6);
         const _cs = +_cm[2], _ct = +_cm[3];
-        if (_ids.length && _cs <= _ct && _ct <= 6) { initHome(); startChallengeBundle(_ids, _cs, _ct); return; }
+        if (_ids.length === _ct && _cs <= _ct && _ct <= 6) {
+          initHome();
+          if (startChallengeBundle(_ids, _cs, _ct)) return;
+          gsChallengeIntegrityFail();
+          return;
+        }
+        gsChallengeIntegrityFail();
+        return;
       }
     }
   } catch(e) {}
@@ -7988,17 +7997,7 @@ function runStandardDaily() {
   // hands it off to the stroke-fix renderer (Option B).
   const fault = pickDailyFault();
   let bundle = tac.slice();
-  if (fault) {
-    const correct = (fault.options.find(o => o.correct) || {});
-    bundle.push({
-      __dailyTech: true,
-      _dtc: fault,
-      pillar: 'Technique',
-      module: 'Stroke Fix',
-      action_tip: fault.cue ? fault.cue.title : '',
-      why_right: correct.verdict || '',
-    });
-  }
+  if (fault) bundle.push(gsMakeDailyTechMarker(fault));
 
   state.selectedPillar = tac[0].pillar || 'Win More';
   state.selectedModule = 'Daily Challenge';
@@ -8048,6 +8047,51 @@ function dtcAllFaults() {
   } catch (e) {}
   try { if (typeof NEW_CATS !== 'undefined') NEW_CATS.forEach(c => c.faults.forEach((f,i) => out.push(faspTagSpecial(c.key,f,i)))); } catch (e) {}
   return out;
+}
+function gsStableTextId(text) {
+  let h = 2166136261;
+  const s = String(text || '');
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (h >>> 0).toString(36).toUpperCase();
+}
+function gsDailyFaultShareId(fault) {
+  if (!fault) return '';
+  const correct = (fault.options || []).find(o => o.correct) || {};
+  return 'DTC' + gsStableTextId([
+    fault.situation || fault.tag || '',
+    correct.label || correct.text || correct.verdict || '',
+    fault.cue ? (fault.cue.title || fault.cue.feel || '') : ''
+  ].join('|'));
+}
+function gsMakeDailyTechMarker(fault) {
+  if (!fault) return null;
+  const correct = (fault.options || []).find(o => o.correct) || {};
+  return {
+    id: gsDailyFaultShareId(fault),
+    __dailyTech: true,
+    _dtc: fault,
+    pillar: 'Technique',
+    module: 'Stroke Fix',
+    action_tip: fault.cue ? (fault.cue.title || fault.cue.feel || '') : '',
+    why_right: correct.verdict || correct.label || ''
+  };
+}
+function gsResolveChallengeQuestion(id) {
+  const authored = QBANK.find(q => q.id === id);
+  if (authored) return authored;
+  if (!/^DTC[A-Z0-9]+$/.test(String(id || ''))) return null;
+  const fault = dtcAllFaults().find(f => gsDailyFaultShareId(f) === id);
+  return fault ? gsMakeDailyTechMarker(fault) : null;
+}
+function gsChallengeContractReport() {
+  const faults = dtcAllFaults();
+  const ids = faults.map(gsDailyFaultShareId);
+  const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
+  const unresolved = ids.filter(id => !gsResolveChallengeQuestion(id));
+  return {faults:faults.length, unique:new Set(ids).size, duplicates:[...new Set(duplicates)], unresolved};
 }
 function pickDailyFault() {
   const all = dtcAllFaults();
@@ -12038,8 +12082,11 @@ function shareResult() {
 // the exact bundle ids + the sender's score: /?ch=Q1.Q2.Q3.Q4~score~total.
 // The recipient plays the SAME points; the score screen renders the versus.
 function startChallengeBundle(ids, score, total) {
-  const bundle = ids.map(id => QBANK.find(q => q.id === id)).filter(Boolean);
-  if (!bundle.length) { initHome(); return; }
+  const bundle = ids.map(gsResolveChallengeQuestion);
+  // Exact reconstruction or no challenge. Partial recovery makes the score,
+  // progress dots and "same calls" promise false.
+  if (!ids.length || ids.length !== total || bundle.some(q => !q) ||
+      new Set(ids).size !== ids.length) return false;
   bundle.forEach((q, i) => {
     const fmtKey = getFormatLabel(q, i);
     q._bundle = { score: 'Friend Challenge ⚔️', context: `A friend went ${score}/${total} on these exact points — beat them.`,
@@ -12052,10 +12099,29 @@ function startChallengeBundle(ids, score, total) {
   state.screen = 'quiz';
   showScreen('quizScreen'); buildDots(); loadQ();
   trackEvent('challenge_opened', { n: bundle.length, them: score });
+  return true;
+}
+function gsChallengeIntegrityFail() {
+  initHome();
+  setTimeout(() => alert('This challenge could not be reconstructed exactly. Ask your friend to share it again from the latest GameSharp build.'), 80);
+  trackEvent('challenge_integrity_failed');
 }
 function tnShareChallenge() {
   if (!state.quiz || !state.quiz.length) return;
-  const ids = state.quiz.map(q => q.id).join('.');
+  const idsList = state.quiz.map(q => String(q.id || ''));
+  // Refuse to publish an unverifiable challenge. A score and a question set
+  // leave the device together or not at all.
+  const resolved = idsList.map(gsResolveChallengeQuestion);
+  const valid = idsList.length === state.quiz.length &&
+    idsList.every(Boolean) && new Set(idsList).size === idsList.length &&
+    resolved.every(Boolean) &&
+    resolved.every((q, i) => q.id === idsList[i]);
+  if (!valid) {
+    alert('This challenge is not ready to share. Please refresh GameSharp and try again.');
+    trackEvent('challenge_share_blocked', { total: state.quiz.length });
+    return;
+  }
+  const ids = idsList.join('.');
   const url = 'https://www.gamesharptennis.com/?ch=' + encodeURIComponent(ids + '~' + state.score + '~' + state.quiz.length);
   const text = `⚔️ I went ${state.score}/${state.quiz.length} on these GAMESHARP Tennis points.\nSame calls — your turn: ${url}`;
   if (navigator.share) { navigator.share({ title: 'GAMESHARP Challenge', text }).catch(() => {}); }
@@ -12204,13 +12270,39 @@ function _sharePointFeedback(msg) {
   setTimeout(() => { btn.innerHTML = orig; }, 2200);
 }
 
+function gsIsIOSShareSurface() {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent || '') ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
 function sharePoint(q) {
   q = q || (state.quiz && state.quiz[state.qIdx]);
   if (!q || !q.id) return;
   const url = 'https://www.gamesharptennis.com/s/' + encodeURIComponent(q.id);
-  const caption = 'One tennis decision. One sharper read. What would you play? 🎾\n' + url;
+  const shareText = 'One tennis decision. One sharper read. What would you play? 🎾';
+  const caption = shareText + '\n' + url;
+
+  // iOS presents an image share as a generic file attachment, exposing its
+  // filename and size. Share the deep link so Messages renders our branded
+  // Open Graph preview instead.
+  if (navigator.share && gsIsIOSShareSurface()) {
+    navigator.share({
+      text: shareText,
+      url: url,
+      title: 'A GameSharp Tennis insight'
+    }).then(() => {
+      trackEvent('share_point', { qid: q.id, mode: 'link-preview' });
+    }).catch(err => {
+      if (err && err.name !== 'AbortError' && navigator.clipboard) {
+        navigator.clipboard.writeText(caption)
+          .then(() => _sharePointFeedback('<span>✓</span> Link copied'));
+      }
+    });
+    return;
+  }
+
   buildShareCanvas(q).then(blob => {
-    const file = blob ? new File([blob], 'gamesharp-' + q.id + '.png', { type: 'image/png' }) : null;
+    const file = blob ? new File([blob], 'GameSharp-Tennis-Insight.png', { type: 'image/png' }) : null;
     try {
       if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
         navigator.share({ files: [file], text: caption, title: 'GAMESHARP' }).catch(() => {});
@@ -12225,7 +12317,7 @@ function sharePoint(q) {
     } catch (e) { /* fall through to desktop fallback */ }
     // Desktop fallback: download the image + copy the link.
     if (blob) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-      a.download = 'gamesharp-' + q.id + '.png'; document.body.appendChild(a); a.click(); a.remove(); }
+      a.download = 'GameSharp-Tennis-Insight.png'; document.body.appendChild(a); a.click(); a.remove(); }
     if (navigator.clipboard) { navigator.clipboard.writeText(url).then(() => _sharePointFeedback('<span>✓</span> Image saved · link copied')); }
     else { _sharePointFeedback('<span>✓</span> Image saved'); }
     trackEvent('share_point', { qid: q.id, mode: 'download' });
