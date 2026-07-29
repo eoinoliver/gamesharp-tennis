@@ -573,6 +573,11 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .share-point-btn{width:100%;background:transparent;color:var(--gold);border:1px solid rgba(200,168,75,.4);border-radius:13px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
 .share-point-btn:active{transform:scale(.98);background:rgba(200,168,75,.1);}
 .share-btn-s:active{transform:scale(.97);}
+.home-progress-story{margin-top:7px;font-size:11px;line-height:1.45;color:rgba(255,255,255,.48);letter-spacing:.15px;}
+.home-progress-story span{color:var(--gold);font-weight:800;}
+.gs-editorial-note{margin:24px 4px 8px;padding:14px 16px;border:1px solid rgba(200,168,75,.18);border-radius:14px;background:rgba(200,168,75,.045);color:rgba(255,255,255,.46);font-size:11px;line-height:1.55;}
+.gs-editorial-note strong{color:rgba(255,255,255,.72);font-size:11px;letter-spacing:.5px;}
+.seq-skip-observe{display:block;margin:10px auto 0;padding:10px 14px;border:0;background:transparent;color:rgba(255,255,255,.44);font:600 12px 'DM Sans',sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
 .home-link-btn{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:13px;padding:13px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;}
 
 /* ── DAILY CHALLENGE ── */
@@ -1717,7 +1722,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .fix-dots{display:flex;gap:6px;justify-content:center;margin:4px 0 14px;}
 .fix-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);}
 .fix-dot.now{background:#c8a84b;}.fix-dot.done{background:#5bba6f;}
-/* Fix a Shot entry card in the Train Your Game pillar */
+/* Fix a Shot entry card in the Sharpen Your Game pillar */
 .pd-fixashot{display:flex;align-items:center;gap:13px;margin:0 18px 4px;padding:15px 16px;background:linear-gradient(135deg,rgba(91,186,111,.13),rgba(91,186,111,.04));border:1px solid rgba(91,186,111,.32);border-radius:16px;cursor:pointer;transition:transform .12s,border-color .18s;}
 .pd-fixashot:active{transform:scale(.99);}
 .pd-fix-glyph{font-size:25px;line-height:1;}
@@ -1950,6 +1955,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
           <div class="gs-streak-chip" id="homeStreakBadge"></div>
         </div>
       </div>
+      <div id="homeProgressStory" class="home-progress-story" aria-live="polite"></div>
     </div>
 
     <!-- HERO PANEL — cinematic player image -->
@@ -2075,21 +2081,6 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
           </g>
           <text class="ptp-q" x="64" y="11" text-anchor="middle" font-family="DM Sans" font-weight="800" font-size="13" fill="rgba(200,168,75,.95)">?</text>
         </svg>
-      </div>
-    </div>
-
-    <!-- THE PLAYBOOK — signature plays gallery -->
-    <div class="daily-card ptp-sibling gs-playbook-card" id="playbookCard" onclick="initPlaybook()">
-      <div class="daily-inner ptp-inner">
-        <div class="daily-top">
-          <div class="daily-label">
-            <svg class="daily-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h14v16l-7-3-7 3z"/></svg>
-            The Playbook
-          </div>
-          <span class="ptp-new">PLAYS</span>
-        </div>
-        <div class="ptp-question">Signature plays — wide serve, down the line, and more. Watch the pattern, then drill it.</div>
-        <button class="ptp-cta" type="button">Open the Playbook →</button>
       </div>
     </div>
 
@@ -2306,9 +2297,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
         <span>⚔️</span> Challenge a Friend
       </button>
       <button class="share-btn-s" id="shareBtn" onclick="shareResult()">
-        <span>⬆</span> Share Result
+        <span>⬆</span> Share Insight
       </button>
-      <button class="home-link-btn" onclick="goHome()">&#8592; All Categories</button>
+      <button class="home-link-btn" onclick="goHome()">&#8592; Back to Home</button>
     </div>
 
     <div id="feedbackWrap" class="feedback-wrap" style="display:none;">
@@ -4234,7 +4225,7 @@ const PILLAR_META = {
 const PILLAR_DISPLAY = {
   'Win More':   'Win More',
   'Game IQ':    'See Better',
-  'Technique':  'Train Your Game',
+  'Technique':  'Sharpen Your Game',
   'Mental':     'Hold Your Nerve',
   'The Debate': 'Locker Room',
 };
@@ -4245,7 +4236,7 @@ const PILLAR_DISCOVERY = {
   'Win More': {
     promise: 'Solve the match problems that keep beating you.',
     accent: '#c8a84b', glow: 'rgba(200,168,75,.07)',
-    heroCta: 'Train this pillar →',
+    heroCta: 'Sharpen this pillar →',
     featured: [
       { title: 'Beat the Human Wall', promise: 'Use width and patience to dismantle pushers and retrievers.', badge: 'Match Problem', time: '4 min', module: 'Beat Pushers', isNew: false },
       { title: 'Tiebreak Mastery', promise: 'Win the moments that decide the match.', badge: 'Pressure', time: '5 min', module: 'Tiebreak Mastery', isNew: false },
@@ -4364,7 +4355,7 @@ const PILLAR_DISCOVERY = {
   'Mental': {
     promise: 'Execute under pressure. Make the right call when it counts.',
     accent: '#7c6fcd', glow: 'rgba(124,111,205,.07)',
-    heroCta: 'Train this pillar →',
+    heroCta: 'Sharpen this pillar →',
     featured: [
       { title: 'Tiebreak Mind',      promise: 'Stay process-focused when the match is on the line.',  badge: 'Pressure',  time: '4 min', module: 'Tiebreak Routine',   isNew: true },
       { title: 'Clutch Moments',     promise: 'What separates players when stakes are highest.',       badge: 'Elite',     time: '4 min', module: 'Clutch',             isNew: false },
@@ -4805,8 +4796,18 @@ const TECH_ANIMS = {
       if(d==='back'||d==='step_back')return 'Give ground on a big first serve: buy reaction time, then reset and rebuild.';
       return 'A balanced baseline position covers both the wide and the body serve.';
     },
+    _serveCfg:(p={})=>{
+      const d=(p.depth||'neutral').toLowerCase();
+      // The incoming ball must explain the positional decision. A returner who
+      // needs more time is being jammed by a deep body serve, while stepping in
+      // is demonstrated against a shorter, more attackable second serve.
+      if(d==='back'||d==='step_back') return {x:100,y:212,qx:100,qy:110,lbl:'DEEP BODY FIRST SERVE'};
+      if(d==='step_in'||d==='in') return {x:138,y:182,qx:119,qy:102,lbl:'SHORTER SECOND SERVE'};
+      return {x:122,y:199,qx:110,qy:106,lbl:'SERVE TO RETURN ZONE'};
+    },
     svg:function(p={}){
       const c=this._depthCfg(p);
+      const s=this._serveCfg(p);
       return `<svg viewBox="0 0 200 310" font-family="DM Sans,sans-serif" class="ta-svg">
   <defs><radialGradient id="rp1" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#1e5a22"/><stop offset="100%" stop-color="#132914"/></radialGradient></defs>
   <rect x="20" y="10" width="160" height="290" fill="url(#rp1)"/>
@@ -4823,8 +4824,9 @@ const TECH_ANIMS = {
   <text x="28" y="293" fill="rgba(200,168,75,.3)" font-size="7" letter-spacing="1">YOU</text>
   <circle cx="100" cy="22" r="8" fill="rgba(255,255,255,.6)"/>
   <text x="116" y="26" fill="rgba(255,255,255,.4)" font-size="6">SERVER</text>
-  <path d="M100,22 Q106,100 142,188" stroke="#e07070" stroke-width="3" fill="none" stroke-linecap="round" class="ta-reveal"/>
-  <circle cx="142" cy="188" r="5" fill="#c8a84b" class="ta-reveal"/>
+  <path d="M100,22 Q${s.qx},${s.qy} ${s.x},${s.y}" stroke="#e07070" stroke-width="3" fill="none" stroke-linecap="round" class="ta-reveal"/>
+  <circle cx="${s.x}" cy="${s.y}" r="5" fill="#c8a84b" class="ta-reveal"/>
+  <text x="${s.x}" y="${s.y-9}" text-anchor="middle" fill="rgba(200,168,75,.72)" font-size="5.5" letter-spacing=".35" class="ta-reveal">${s.lbl}</text>
   <line x1="20" y1="${c.y-12}" x2="180" y2="${c.y-12}" stroke="${c.col}" stroke-opacity=".4" stroke-width="1" stroke-dasharray="4,3" class="ta-reveal"/>
   <text x="100" y="${c.y-15}" text-anchor="middle" fill="${c.col}" fill-opacity=".7" font-size="6.5" class="ta-reveal">${c.lbl}</text>
   <circle cx="100" cy="${c.y}" r="9" fill="${c.col}" class="ta-reveal"/>
@@ -4837,12 +4839,14 @@ const TECH_ANIMS = {
       const ph=cbs.phase||(()=>{}); const cap=cbs.caption||(()=>{}); const captions=cbs.captions||{};
       const mkEl=(tag,attrs,style,txt)=>{const el=mk(tag,attrs);if(style)el.setAttribute('style',style);if(txt!=null)el.textContent=txt;sv.appendChild(el);return el;};
       const c=this._depthCfg(params);
+      const s=this._serveCfg(params);
       // Server at top
       mkEl('circle',{cx:'100',cy:'22',r:'8',fill:'rgba(255,255,255,.6)'});
       mkEl('text',{x:'116',y:'26',fill:'rgba(255,255,255,.4)','font-size':'6'},'','SERVER');
       // Serve arc
-      mkEl('path',{d:'M100,22 Q106,100 142,188',stroke:'#e07070','stroke-width':'3',fill:'none','stroke-linecap':'round','stroke-dasharray':'200','stroke-dashoffset':'200'},'animation:drawPath .8s .4s ease forwards;opacity:1');
-      mkEl('circle',{cx:'142',cy:'188',r:'5',fill:'#c8a84b',opacity:'0'},'animation:tpop .3s 1.3s ease both');
+      mkEl('path',{d:`M100,22 Q${s.qx},${s.qy} ${s.x},${s.y}`,stroke:'#e07070','stroke-width':'3',fill:'none','stroke-linecap':'round','stroke-dasharray':'240','stroke-dashoffset':'240'},'animation:drawPath .8s .4s ease forwards;opacity:1');
+      mkEl('circle',{cx:String(s.x),cy:String(s.y),r:'5',fill:'#c8a84b',opacity:'0'},'animation:tpop .3s 1.3s ease both');
+      mkEl('text',{x:String(s.x),y:String(s.y-9),'text-anchor':'middle',fill:'rgba(200,168,75,.72)','font-size':'5.5','letter-spacing':'.35',opacity:'0'},'animation:tpop .3s 1.35s ease both',s.lbl);
       // Return-position reference line + label
       mkEl('line',{x1:'20',y1:String(c.y-12),x2:'180',y2:String(c.y-12),stroke:c.col,'stroke-opacity':'.4','stroke-width':'1','stroke-dasharray':'4,3',opacity:'0'},'animation:tpop .3s 1.8s ease both');
       mkEl('text',{x:'100',y:String(c.y-15),'text-anchor':'middle',fill:c.col,'fill-opacity':'.7','font-size':'6.5',opacity:'0'},'animation:tpop .3s 1.85s ease both',c.lbl);
@@ -7327,6 +7331,109 @@ function showScreen(id) {
 // answer set, teaching copy and animation metadata pass deterministic checks.
 // This is deliberately conservative: withholding a weak item protects more trust
 // than filling a session with a giveaway or a mismatched lesson.
+const GS_ANIMATION_PARAM_REPAIRS = Object.freeze({
+  // Q088 asks where to serve after the returner leans wide. Showing all zones
+  // was ambiguous; the approved visual must isolate the body target.
+  Q088: Object.freeze({side:'deuce', target:'body'})
+});
+Object.entries(GS_ANIMATION_PARAM_REPAIRS).forEach(([id, params]) => {
+  const q = QBANK.find(item => item.id === id);
+  if (q) q.techAnimParams = {...params};
+});
+
+// Exact, human-reviewed teaching contracts. An animation may be topically
+// related and still be wrong. Only this precise question ID + renderer +
+// canonical parameter tuple is allowed to reach a learner.
+const GS_ANIMATION_CONTRACTS = Object.freeze({
+  Q001:['court_moonball_response',{position:'step_in'}], Q002:['court_moonball_response',{position:'step_back'}],
+  Q003:['court_rally_pattern',{pattern:'angle'}], Q008:['short_ball_attack',{}],
+  Q010:['court_wide_serve_open',{side:'deuce'}], Q011:['court_return_pos',{depth:'step_back'}],
+  Q012:['court_return_pos',{depth:'step_in'}], Q021:['court_return_pos',{depth:'step_in'}],
+  Q023:['short_ball_attack',{}], Q024:['court_return_pos',{depth:'step_in'}],
+  Q031:['court_rally_pattern',{pattern:'crosscourt'}], Q037:['court_tiebreak_order',{}],
+  Q043:['court_tiebreak_order',{}], Q051:['court_doubles_formation',{formation:'standard'}],
+  Q052:['court_body_serve_jam',{}], Q056:['court_doubles_formation',{formation:'both_back'}],
+  Q063:['court_doubles_formation',{formation:'australian'}], Q067:['court_geometry_cc_dtl',{}],
+  Q069:['court_lob_vs_pass',{net_player_pos:'close',context:'singles'}],
+  Q070:['footwork_split_step',{direction:'left'}], Q071:['court_body_serve_jam',{}],
+  Q076:['court_wide_serve_open',{}], Q078:['t_serve_plus_one',{side:'deuce'}],
+  Q079:['court_serve_zones',{side:'deuce'}], Q086:['court_wide_serve_open',{side:'deuce'}],
+  Q087:['court_body_serve_jam',{}], Q088:['court_serve_zones',{side:'deuce',target:'body'}],
+  Q093:['court_serve_zones',{side:'ad',target:'wide'}], Q095:['court_body_serve_jam',{side:'deuce'}],
+  Q096:['court_serve_zones',{side:'deuce',target:'t'}], Q099:['court_body_serve_jam',{}],
+  Q101:['ball_trajectory',{type:'topspin'}], Q108:['court_rally_pattern',{pattern:'inside_out'}],
+  Q112:['court_rally_pattern',{pattern:'crosscourt'}], Q114:['court_short_ball_attack',{approach_side:'middle'}],
+  Q116:['court_rally_pattern',{pattern:'crosscourt'}], Q123:['ball_trajectory',{type:'slice'}],
+  Q128:['ball_trajectory',{type:'slice'}], Q129:['court_rally_pattern',{pattern:'crosscourt'}],
+  Q136:['footwork_split_step',{direction:'left'}], Q137:['footwork_split_step',{direction:'left'}],
+  Q151:['court_geometry_cc_dtl',{pattern:'crosscourt'}], Q152:['court_rally_pattern',{pattern:'dtl'}],
+  Q155:['short_ball_attack',{approach_side:'middle'}], Q157:['court_rally_pattern',{pattern:'crosscourt'}],
+  Q158:['court_lob_vs_pass',{net_player_pos:'close',context:'singles'}],
+  Q163:['court_rally_pattern',{pattern:'angle'}], Q165:['ball_trajectory',{type:'slice'}],
+  Q167:['court_body_serve_jam',{}], Q182:['court_rally_pattern',{pattern:'angle'}],
+  Q189:['court_rally_pattern',{pattern:'dtl'}], Q241:['ball_trajectory',{type:'topspin'}],
+  Q307:['ball_trajectory',{type:'slice'}], Q308:['court_moonball_response',{position:'step_in'}],
+  Q316:['court_serve_zones',{side:'deuce',target:'wide'}], Q318:['ball_trajectory',{type:'slice'}],
+  Q320:['court_return_pos',{depth:'step_in'}], Q322:['court_rally_pattern',{pattern:'angle'}],
+  Q331:['court_tiebreak_order',{}], Q371:['court_serve_zones',{side:'deuce'}],
+  Q372:['court_wide_serve_open',{}], Q375:['court_geometry_cc_dtl',{}],
+  Q376:['short_ball_attack',{}], Q379:['footwork_split_step',{direction:'left'}],
+  Q391:['court_doubles_formation',{formation:'standard'}], Q404:['ball_trajectory',{type:'topspin'}],
+  Q422:['court_return_pos',{depth:'back'}], Q423:['short_ball_attack',{}],
+  Q424:['ball_trajectory',{type:'slice'}], Q430:['contact_zone',{shot:'backhand',height:'waist'}],
+  Q436:['court_rally_pattern',{pattern:'crosscourt'}], Q443:['court_rally_pattern',{pattern:'dtl'}],
+  Q454:['short_ball_attack',{}], Q462:['footwork_split_step',{direction:'side'}],
+  Q463:['court_rally_pattern',{pattern:'inside_out'}], Q464:['ball_trajectory',{type:'slice'}],
+  Q468:['ball_trajectory',{type:'topspin'}], Q473:['court_return_pos',{depth:'step_in'}],
+  Q481:['court_wide_serve_open',{side:'deuce'}], Q483:['ball_trajectory',{type:'flat'}],
+  Q493:['ball_trajectory',{type:'slice'}], Q503:['footwork_split_step',{}],
+  Q515:['contact_zone',{shot:'backhand',height:'waist'}],
+  Q516:['court_serve_zones',{side:'ad',target:'wide'}],
+  Q517:['court_net_approach',{approach_side:'right'}], Q520:['court_body_serve_jam',{}],
+  Q522:['ball_trajectory',{type:'topspin'}], Q523:['court_rally_pattern',{pattern:'inside_out'}],
+  Q541:['ball_trajectory',{type:'topspin'}], Q547:['court_return_pos',{depth:'step_in'}]
+});
+
+function gsCanonicalAnimationValue(value) {
+  if (Array.isArray(value)) return value.map(gsCanonicalAnimationValue);
+  if (value && typeof value === 'object') {
+    return Object.keys(value).sort().reduce((out,key) => {
+      if (key !== '__captions') out[key] = gsCanonicalAnimationValue(value[key]);
+      return out;
+    }, {});
+  }
+  return value;
+}
+function gsAnimationContractIssue(q) {
+  if (!q || !q.techAnim || q.techAnim === 'none') return '';
+  const contract = GS_ANIMATION_CONTRACTS[q.id];
+  if (!contract) return 'This question-animation pairing has not passed exact teaching review.';
+  if (contract[0] !== q.techAnim) return 'The approved animation renderer has changed.';
+  const approved = JSON.stringify(gsCanonicalAnimationValue(contract[1] || {}));
+  const actual = JSON.stringify(gsCanonicalAnimationValue(q.techAnimParams || {}));
+  if (approved !== actual) return 'The approved animation parameters have changed.';
+  return '';
+}
+function gsHasFaithfulAnimation(q) {
+  return !!(q && q.techAnim && q.techAnim !== 'none' &&
+    !gsAnimationIntentIssue(q) && !gsAnimationContextIssue(q) && !gsAnimationContractIssue(q));
+}
+function gsAnimationContractReport(pool) {
+  const animated = (pool || QBANK).filter(q => q.techAnim && q.techAnim !== 'none');
+  const rows = animated.map(q => ({
+    id:q.id,
+    animation:q.techAnim,
+    issue:gsAnimationIntentIssue(q) || gsAnimationContextIssue(q) || gsAnimationContractIssue(q)
+  })).filter(row => row.issue);
+  return Object.freeze({
+    totalQuestions:(pool || QBANK).length,
+    animatedQuestions:animated.length,
+    approved:animated.length - rows.length,
+    withheld:rows.length,
+    rows
+  });
+}
+
 function gsQuestionQualityIssues(q) {
   const issues = [];
   if (!q || !q.id || !q.question) return ['missing-core-fields'];
@@ -7366,6 +7473,7 @@ function gsQuestionQualityIssues(q) {
   }
   if (gsAnimationIntentIssue(q)) issues.push('animation-intent-mismatch');
   if (gsAnimationContextIssue(q)) issues.push('animation-context-mismatch');
+  if (gsAnimationContractIssue(q)) issues.push('animation-contract-mismatch');
   return issues;
 }
 // A valid animation key is not enough: its teaching concept must match the
@@ -7444,7 +7552,7 @@ function gsAnimationContextIssue(q) {
   return '';
 }
 function gsAnimationTrustIssue(q) {
-  return gsAnimationIntentIssue(q) || gsAnimationContextIssue(q);
+  return gsAnimationIntentIssue(q) || gsAnimationContextIssue(q) || gsAnimationContractIssue(q);
 }
 function gsQuestionIsLaunchReady(q) {
   return gsQuestionQualityIssues(q).length === 0;
@@ -7453,7 +7561,8 @@ function gsQuestionIsSafeToSurface(q) {
   const critical = new Set([
     'missing-core-fields','missing-option','duplicate-option','invalid-correct-answer',
     'giveaway-distractor','trajectory-param-mismatch','trajectory-visual-mismatch',
-    'unknown-animation','animation-intent-mismatch','animation-context-mismatch'
+    'unknown-animation','animation-intent-mismatch','animation-context-mismatch',
+    'animation-contract-mismatch'
   ]);
   return !gsQuestionQualityIssues(q).some(issue => critical.has(issue));
 }
@@ -7678,33 +7787,6 @@ const TOMORROW_TEASERS = {
   'The Debate': 'Tomorrow: The most contested call in tennis, finally examined',
 };
 
-function pickDailyChallengePool(n) {
-  n = n || 5;
-  let pool = QBANK.filter(q => (q.tier === 'Free' || !q.tier) && gsQuestionIsLaunchReady(q));
-  // Soft personalisation: bias toward the pillar the user chose in welcome onboarding.
-  // Falls back to the full pool if fewer than 3 questions match.
-  const tags = getPlayerTags();
-  if (tags.sharpen_focus && tags.sharpen_focus !== 'the_debate') {
-    const pillarMap = { win_more: 'Win More', game_iq: 'Game IQ', technique: 'Technique', mental: 'Mental' };
-    const preferredPillar = pillarMap[tags.sharpen_focus];
-    if (preferredPillar) {
-      const biased = pool.filter(q => q.pillar === preferredPillar);
-      if (biased.length >= 3) pool = biased;
-    }
-  }
-  // Apply anti-repeat first — strict unseen preference; pass n so threshold is correct
-  const fresh = getAntiRepeatPool(pool, n);
-  // Among fresh, prefer high engagement+utility, then shuffle top tier for variety
-  const scored = fresh.map(q => ({
-    q,
-    score: (parseFloat(q.engagement_score)||3) + (parseFloat(q.utility_score)||3)
-  }));
-  scored.sort((a,b) => b.score - a.score);
-  const topCut = Math.max(n * 3, Math.ceil(scored.length * 0.4));
-  const top = scored.slice(0, topCut).map(x => x.q);
-  return shuffle(top).slice(0, n);
-}
-
 function initDailyChallenge() {
   const q = getDailyQuestion();
   const done = isDailyDone();
@@ -7741,7 +7823,7 @@ function startDailyChallenge() {
 }
 
 // Today's Challenge: 4 quick calls — 3 tactical reads + 1 technique (stroke) question.
-// Technique lives in its own pillar ("Train Your Game"); the daily always surfaces
+// Technique lives in its own pillar ("Sharpen Your Game"); the daily always surfaces
 // one stroke question so every day is brain + body. No separate themed engine.
 function runStandardDaily() {
   trackEvent('today_challenge_started');
@@ -7766,14 +7848,30 @@ function runStandardDaily() {
   } catch(e) {}
 
   // Yesterday's tomorrow-hook question is honoured first, then one resurfaced
-  // miss ("Second Look"), subject to the Daily's learning-experience guardrails.
+  // miss ("Second Look"), plus one guaranteed Pro Insight. Pro Insight occupies
+  // an existing tactical slot; it never lengthens the Daily.
   // Three tactical reads must contain at least two court animations and no more
   // than one Mental question. Personalisation should flavour the session, never
   // turn the habit-forming showcase into a run of text-only cards.
   const reserved = gsClaimReserved();
   const secondLook = gsPickSecondLook();
-  const hasCourtAnimation = q => !!(q && q.techAnim && q.techAnim !== 'none');
-  const fixedCandidates = [reserved, secondLook]
+  // Unsafe or unreviewed motion must never satisfy the Daily's visual quota.
+  const hasCourtAnimation = q => gsHasFaithfulAnimation(q);
+  let proPool = tacPool.filter(q => (q.pro_insight || '').trim());
+  if (!proPool.length) {
+    proPool = free.filter(q =>
+      q.pillar !== 'Technique' && (q.pro_insight || '').trim()
+    );
+  }
+  const proInsight = proPool.length ? selectSessionQuestions({
+    pool: proPool,
+    count: 1,
+    mode: 'daily-pro-insight'
+  })[0] : null;
+  if (proInsight) proInsight.__dailyProInsight = true;
+  // Pro Insight comes first so it cannot be displaced by a text-only reservation.
+  // The visual quota below then supplies two animated tactical reads around it.
+  const fixedCandidates = [proInsight, reserved, secondLook]
     .filter(Boolean)
     .filter((q, i, arr) => arr.findIndex(x => x.id === q.id) === i);
   const fixed = [];
@@ -7839,14 +7937,20 @@ function runStandardDaily() {
   if (!staticQ && slIdx > -1 && tac.length > 1) {
     const [sl] = tac.splice(slIdx, 1); tac.splice(1, 0, sl);
   }
+  // Make the final tactical reveal the memorable Pro Insight beat.
+  const proIdx = tac.findIndex(q => q.__dailyProInsight);
+  if (proIdx > -1 && proIdx !== tac.length - 1) {
+    const [pro] = tac.splice(proIdx, 1); tac.push(pro);
+  }
 
   // Runtime invariant: fail loudly in development if future selection changes
   // weaken the Daily's minimum visual/pillar balance.
   const visualCount = tac.filter(hasCourtAnimation).length;
   const mentalCount = tac.filter(q => q.pillar === 'Mental').length;
-  if (visualCount < Math.min(2, tac.length) || mentalCount > 1) {
+  const proCount = tac.filter(q => q.__dailyProInsight).length;
+  if (visualCount < Math.min(2, tac.length) || mentalCount > 1 || proCount !== 1) {
     console.error('[GAMESHARP VALIDATION] Daily balance failed', {
-      ids: tac.map(q => q.id), visualCount, mentalCount
+      ids: tac.map(q => q.id), visualCount, mentalCount, proCount
     });
   }
 
@@ -7871,7 +7975,8 @@ function runStandardDaily() {
   state.selectedModule = 'Daily Challenge';
   const total = bundle.length;
   bundle.forEach((q, i) => {
-    const fmtKey = q.__dailyTech ? '' : getFormatLabel(q, i);
+    const isProInsight = !!q.__dailyProInsight; delete q.__dailyProInsight;
+    const fmtKey = q.__dailyTech ? '' : (isProInsight ? 'pro-insight' : getFormatLabel(q, i));
     const isSecondLook = !!q.__secondLook; delete q.__secondLook;
     q._bundle = {
       score: "Today's Challenge",
@@ -7881,6 +7986,7 @@ function runStandardDaily() {
       total,
       fmtKey,
       fmtLabel: q.__dailyTech ? 'Stroke Fix' : (isSecondLook ? 'Second Look' : fmtLabel(fmtKey)),
+      proInsight: isProInsight,
       secondLook: isSecondLook,
       // The last tactical read carries the session's pressure framing
       pressure: !q.__dailyTech && i === 2,
@@ -7954,7 +8060,7 @@ function dtcRenderDailyTech() {
   dtcApp().innerHTML = `${seamTop}<div class="dtc-fade">
     <div class="dtc-qtag exe">Final shot · your stroke</div>
     <div class="dtc-sit">${q.situation}</div>
-    <div class="dtc-prompt">${q.prompt || "What's the best-fitting cause?"}</div>
+    <div class="dtc-prompt">Which cause best fits what is shown?</div>
     <div id="dtcScene">${scene}</div>
     <div class="dtc-opts">${opts}</div>
     <div id="dtcReveal"></div></div>`;
@@ -7976,7 +8082,7 @@ function dtcDailyTechAnswer(i) {
   });
   document.getElementById('dtcReveal').innerHTML = `<div class="dtc-reveal show">
     <div class="dtc-rtag" style="color:${o.correct ? '#5bba6f' : '#e07070'}">${o.correct ? '✓ Nailed it' : '✗ Not quite'}</div>
-    <div class="dtc-rbody">${o.verdict}</div>${dtcDetailHTML(q)}
+    <div class="dtc-rbody"><div style="font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(200,168,75,.72);margin-bottom:7px;">Most likely cause to test</div>${o.verdict}</div>${dtcDetailHTML(q)}
     <button class="dtc-cta gold" style="margin-top:18px;" onclick="dtcDailyTechFinish(${o.correct ? 1 : 0})">See your results →</button></div>`;
   setTimeout(() => { const r = document.getElementById('dtcReveal'); if (r) r.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 120);
 }
@@ -7990,7 +8096,7 @@ function dtcDailyTechFinish(ok) {
 }
 
 /* ════════ FIX A SHOT — browsable library of the 32 stroke-fault scenarios ════════
-   Houses the DTC fault questions inside the Train Your Game pillar: pick a stroke,
+   Houses the DTC fault questions inside the Sharpen Your Game pillar: pick a stroke,
    play its common faults ("find the culprit" + coach cue). Reuses the dtc renderers. */
 const FIX_STROKE_LABELS = { forehand:'Forehand', serve:'Serve', oneHand:'One-Hand Backhand', twoHand:'Two-Hand Backhand', ret:'Return', volley:'Volley', overhead:'Overhead', slice:'Slice', lowball:'Low Ball' };
 let fixStrokeIdx = -1, fixFaultIdx = 0, fixAnswered = false, _fixGroups = null;
@@ -8023,9 +8129,9 @@ function fixRenderHome() {
   const cards = fixGroups().map((g, i) =>
     `<button class="fix-card" onclick="fixOpenStroke(${i})"><div class="fix-card-arrow">→</div><div class="fix-card-name">${g.label}</div><div class="fix-card-meta">★ Premium diagnostics · ${g.faults.length} faults</div></button>`
   ).join('');
-  dtcApp().innerHTML = `${fixTopBar('Train Your Game', 'fixExit()')}<div class="dtc-fade" style="padding-top:18px;">
-    <div class="dtc-eyebrow">Fix a Shot</div><h1 class="dtc-h1">Find the culprit</h1>
-    <p class="dtc-intro">Pick a stroke. We'll show the misses you actually make under pressure — and the one cue that fixes each.</p>
+  dtcApp().innerHTML = `${fixTopBar('Sharpen Your Game', 'fixExit()')}<div class="dtc-fade" style="padding-top:18px;">
+    <div class="dtc-eyebrow">Fix a Shot</div><h1 class="dtc-h1">Find the likely culprit</h1>
+    <p class="dtc-intro">Pick a stroke. Compare the evidence shown, identify the most likely cause, then test one useful cue. Real strokes can have more than one cause.</p>
     <div class="fix-grid">${cards}</div></div>`;
   dtcScroll();
 }
@@ -8045,7 +8151,7 @@ function fixRenderFault() {
     <div class="fix-dots">${dots}</div>
     <div class="dtc-qtag exe">${g.label} · fault ${fixFaultIdx + 1} of ${g.faults.length}</div>
     <div class="dtc-sit">${q.situation}</div>
-    <div class="dtc-prompt">${q.prompt || "What's the best-fitting cause?"}</div>
+    <div class="dtc-prompt">Which cause best fits what is shown?</div>
     <div id="dtcScene">${scene}</div>
     <div class="dtc-opts">${opts}</div>
     <div id="dtcReveal"></div></div>`;
@@ -8071,7 +8177,7 @@ function fixAnswer(k) {
   const last = fixFaultIdx >= g.faults.length - 1;
   document.getElementById('dtcReveal').innerHTML = `<div class="dtc-reveal show">
     <div class="dtc-rtag" style="color:${o.correct ? '#5bba6f' : '#e07070'}">${o.correct ? '✓ Nailed it' : '✗ Not quite'}</div>
-    <div class="dtc-rbody">${o.verdict}</div>${q.insight ? `<div class="dtc-rins">${q.insight}</div>` : ''}${cue}
+    <div class="dtc-rbody"><div style="font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(200,168,75,.72);margin-bottom:7px;">Most likely cause to test</div>${o.verdict}</div>${q.insight ? `<div class="dtc-rins">${q.insight}</div>` : ''}${cue}
     <button class="dtc-cta gold" style="margin-top:18px;" onclick="${last ? 'fixRenderHome()' : 'fixNextFault()'}">${last ? 'Back to strokes →' : 'Next fault →'}</button></div>`;
   setTimeout(() => { const r = document.getElementById('dtcReveal'); if (r) r.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 120);
 }
@@ -9281,43 +9387,23 @@ function buildConsequenceAnim(q, ok) {
 function buildProLens(q, wasCorrect) {
   if (!q) return '';
 
-  // Determine what visual to show based on tags/pillar/module
-  const tags = (q.tags || '').toLowerCase();
-  const pillar = (q.pillar || '').toLowerCase();
-  const module = (q.module || '').toLowerCase();
   const insight = q.pro_insight || '';
   const tip = q.action_tip || '';
   const why = q.why_right || '';
 
-  // Check question for template library entry first
-  // Skip render() if conseqAnim exists — the consequence animation already shows the visual above
-  const hasConseqAnim = q.visual && TECH_ANIMS[q.visual] && typeof TECH_ANIMS[q.visual].conseqAnim === 'function';
+  // Never infer a court from tags. That historically produced a plausible but
+  // different lesson after the answer. The reveal now uses the same exact
+  // reviewed question contract as the main animation, or remains text-only.
   let diagram = '';
-  if (!hasConseqAnim && q && q.visual && TECH_ANIMS[q.visual] && typeof TECH_ANIMS[q.visual].render === 'function') {
-    const _tr = TECH_ANIMS[q.visual].render(q.visualParams||{});
+  if (gsHasFaithfulAnimation(q) && TECH_ANIMS[q.techAnim] &&
+      typeof TECH_ANIMS[q.techAnim].render === 'function') {
+    const _tr = TECH_ANIMS[q.techAnim].render(q.techAnimParams || {});
     if (_tr) diagram = _tr;
-  } else if (q && q.visual && VISUALS[q.visual]) {
-    diagram = renderVisual(q.visual);
-  }
-
-  // Pick diagram based on content signals — skip if conseqAnim already provides the visual
-  if (!diagram && !hasConseqAnim) { if (tags.includes('crosscourt') || tags.includes('geometry') || tags.includes('court-position') || module.includes('court')) {
-    diagram = proLensCrosscourtDiagram(q);
-  } else if (tags.includes('serve') && (tags.includes('wide') || tags.includes('t-serve') || tags.includes('body') || tags.includes('placement'))) {
-    diagram = proLensServeDiagram(q);
-  } else if (tags.includes('moonball') || tags.includes('baseline') || tags.includes('court-position')) {
-    diagram = proLensCourtPositionDiagram(q);
-  } else if (tags.includes('net') || tags.includes('volley') || tags.includes('approach') || tags.includes('net-play')) {
-    diagram = proLensNetApproachDiagram(q);
-  } else if (tags.includes('return') || tags.includes('second-serve') || tags.includes('returner')) {
-    diagram = proLensReturnDiagram(q);
-  } else if (pillar.includes('tactic') || pillar.includes('win more')) {
-    diagram = proLensPatternDiagram(q);
-  }
   }
 
   const motClass = wasCorrect ? 'mot-correct' : 'mot-wrong';
-  const tagLabel = wasCorrect ? smartPlayLabel(q) : 'What Actually Happens';
+  const isProInsight = !!(insight && ((q._bundle && q._bundle.proInsight) || state.proLensMoment));
+  const tagLabel = isProInsight ? 'Pro Insight' : (wasCorrect ? smartPlayLabel(q) : 'What Actually Happens');
 
   return `
     <div class="mot-wrap ${motClass}" id="proLensWrap">
@@ -9326,6 +9412,7 @@ function buildProLens(q, wasCorrect) {
       </div>
       <div class="pro-lens-body">
         ${insight ? `<div class="pl-insight">${insight}</div>` : ''}
+        ${isProInsight && tip ? `<div class="pl-tip"><span class="pl-tip-arrow">→</span><span class="pl-tip-text"><strong>In your match:</strong> ${tip}</span></div>` : ''}
       </div>
     </div>
   `;
@@ -9561,11 +9648,18 @@ function initProLensMoments() {
   window._plmCleanups = [];
 
   PLM_CARDS.forEach(card => {
-    const anim = TECH_ANIMS[card.animKey];
+    const linkedQuestion = QBANK.find(x => x.id === card.qid);
+    // Pro Insight cannot maintain an independent animation mapping: that was a
+    // second path for drift. It now derives the exact reviewed contract from
+    // its linked question and fails closed when no faithful visual exists.
+    if (!gsHasFaithfulAnimation(linkedQuestion)) return;
+    const animKey = linkedQuestion.techAnim;
+    const animParams = linkedQuestion.techAnimParams || {};
+    const anim = TECH_ANIMS[animKey];
     // Use the clean Tier 2 svg (numbered markers, ball path, no text labels)
     // Fall back to render() only if no svg property exists
-    const svgMarkup = (anim && anim.svg) ? (typeof anim.svg === 'function' ? (anim.svg(card.animParams||{}) || '') : anim.svg)
-      : (anim && typeof anim.render === 'function') ? anim.render(card.animParams||{}) : '';
+    const svgMarkup = (anim && anim.svg) ? (typeof anim.svg === 'function' ? (anim.svg(animParams) || '') : anim.svg)
+      : (anim && typeof anim.render === 'function') ? anim.render(animParams) : '';
     const el = document.createElement('div');
     el.className = 'plm-card';
     el.innerHTML = `
@@ -10024,15 +10118,9 @@ function initHome() {
   // Streak badge
   const streak = getStreak();
   const badge = document.getElementById('homeStreakBadge');
-  if (badge) {
-    if (streak > 0) {
-      badge.textContent = '🔥 ' + streak + ' day' + (streak === 1 ? '' : 's');
-      badge.style.display = 'block';
-      applyStreakTier(badge, streak);
-    } else {
-      badge.style.display = 'none';
-    }
-  }
+  // Progress now speaks with one voice in homeProgressStory below.
+  if (badge) badge.style.display = 'none';
+  initHomeProgressStory();
 
   triggerLogoIntro();
   return;
@@ -10077,6 +10165,22 @@ function initHome() {
     grid.appendChild(card);
     setTimeout(() => card.classList.add('card-visible'), 40 + i * 60);
   });
+}
+
+// One honest progress story: habit + current reading level + the next useful action.
+// These remain separate facts rather than being blended into an opaque "brain score".
+function initHomeProgressStory() {
+  const el = document.getElementById('homeProgressStory');
+  if (!el) return;
+  const streak = getStreak();
+  const misses = gsMissCount();
+  const earned = gsEarnedLevel();
+  const level = earned ? ({beginner:'Rookie',rookie:'Rookie',club:'Club',competitor:'Competitor'}[earned] || earned) : '';
+  const parts = [];
+  if (streak) parts.push(`${streak}-day rhythm`);
+  if (level) parts.push(`${level} reads unlocked`);
+  parts.push(misses ? `${misses} decision${misses===1?'':'s'} ready to sharpen` : 'today’s rep is ready');
+  el.innerHTML = `<span>You’re getting sharper.</span> ${parts.join(' · ')}`;
 }
 
 // ── V5.2 ANALYTICS ────────────────────────────────────────────────
@@ -10251,7 +10355,7 @@ function initLearnHub() {
       <div class="hub-rec-eyebrow">◆ Recommended next</div>
       <div class="hub-rec-title">${_rec.module || _recPillarName}</div>
       <div class="hub-rec-sub">${_recPillarName} · ${_rec.count} scenario${_rec.count===1?'':'s'}</div>
-      <div class="hub-rec-cta">Train this →</div>
+      <div class="hub-rec-cta">Sharpen this →</div>
     </div>`;
 
   let pillarsHtml = '';
@@ -10272,20 +10376,34 @@ function initLearnHub() {
     <div class="hub-back" onclick="initHome()">← Home</div>
     <div class="hub-header">
       <div class="hub-title">Sharpen</div>
-      <div class="hub-sub">Train deeper. Go again.</div>
+      <div class="hub-sub">See more. Decide better. Go again.</div>
     </div>
 
     <div class="hub-section-hdr">
-      <div class="hub-section-eyebrow">GAMESHARP Training</div>
+      <div class="hub-section-eyebrow">GAMESHARP</div>
       <div class="hub-section-title">The 5 Pillars</div>
     </div>
     <div class="hub-pillars-row">${pillarsHtml}</div>
 
     <div class="hub-section-hdr hub-more-hdr">
-      <div class="hub-section-eyebrow">More ways to train</div>
-      <div class="hub-section-title">Pro Lens Moments</div>
+      <div class="hub-section-eyebrow">See the lesson differently</div>
+      <div class="hub-section-title">Pro Insight Collection</div>
     </div>
     <div class="gs-pillars-wrap"><div class="plm-scroll" id="plmScroll"></div></div>
+
+    <div class="hub-section-hdr">
+      <div class="hub-section-eyebrow">Signature patterns</div>
+      <div class="hub-section-title">The Playbook</div>
+    </div>
+    <div class="hub-card" onclick="initPlaybook()">
+      <div class="hub-card-icon">📖</div>
+      <div class="hub-card-body">
+        <div class="hub-card-eyebrow">The Playbook</div>
+        <div class="hub-card-title">See the pattern. Then own it.</div>
+        <div class="hub-card-sub">Wide serve, open court, direction changes and more.</div>
+      </div>
+      <div class="hub-card-arrow">→</div>
+    </div>
 
     <div class="hub-section-hdr">
       <div class="hub-section-eyebrow">Signature Experiences</div>
@@ -10302,6 +10420,8 @@ function initLearnHub() {
     </div>
 
     ${recHtml}
+
+    <div class="gs-editorial-note"><strong>About GameSharp guidance</strong><br>Pro Insights are educational summaries informed by publicly available match analysis, player and coach commentary, tennis data and established coaching principles. Technique diagnoses show the most likely cause to test from the evidence presented—not a substitute for individual assessment by a qualified coach. Content does not imply endorsement by any player, coach or governing body.</div>
 
   `;
 
@@ -10653,7 +10773,8 @@ function getFormatLabel(q, position) {
 }
 
 function fmtLabel(key) {
-  return { 'scenario':'Scenario', 'common-mistake':'What Most Players Miss', 'pro-replay':'Pro Replay',
+  return { 'scenario':'Scenario', 'common-mistake':'What Most Players Miss', 'pro-replay':'Pro Insight',
+           'pro-insight':'Pro Insight',
            'pressure-moment':'Pressure Moment', 'pattern-choice':'Pattern Choice', 'decision':'Decision' }[key] || 'Decision';
 }
 
@@ -10849,9 +10970,13 @@ function gsMissCount(){ return gsGetMissQuestions().length; }
 // Home-card refresh: show the card only when there are misses to review.
 function initReplayMisses(){
   const card=document.getElementById('replayMissCard');
+  const predict=document.getElementById('seqHomeCard');
   if(!card) return;
   const n=gsMissCount();
-  if(n<1){ card.style.display='none'; return; }
+  // Home has one adaptive secondary: revisit a real miss when one exists;
+  // otherwise offer Predict the Point. Never stack both beneath the Daily.
+  if(n<1){ card.style.display='none'; if(predict) predict.style.display=''; return; }
+  if(predict) predict.style.display='none';
   card.style.display='';
   const badge=document.getElementById('missCountBadge');
   if(badge) badge.textContent=n;
@@ -11417,7 +11542,7 @@ const TT_CAPACITY = {
   winmore:   { label:"Win More",        icon: TT_ICONS.target },
   gameiq:    { label:"See Better",      icon: TT_ICONS.eye },
   mental:    { label:"Hold Your Nerve", icon: TT_ICONS.brain },
-  technique: { label:"Train Your Game", icon: TT_ICONS.racket }
+  technique: { label:"Sharpen Your Game", icon: TT_ICONS.racket }
 };
 const TT_PILLAR_MAP = { "Win More":"winmore", "Game IQ":"gameiq", "Mental":"mental", "Technique":"technique", "The Debate":"gameiq" };
 const TT_GRID_ORDER = ["mental", "gameiq", "winmore", "technique"]; // Brain · Eyes · Target · Racket (2x2)
@@ -11798,8 +11923,9 @@ function goHome() {
 }
 
 function shareResult() {
-  const dots = state.results.map(r => r ? '🟢' : '🔴').join('');
-  const txt = `GAMESHARP · ${state.selectedPillar}\n${state.score}/${state.quiz.length} correct\n${dots}\nTest your tennis IQ → gamesharptennis.com`;
+  const insightQ = [...(state.quiz || [])].reverse().find(q => q && (q.pro_insight || q.action_tip || q.why_right));
+  const insight = insightQ ? (insightQ.pro_insight || insightQ.action_tip || insightQ.why_right) : 'One clearer read can change the next point.';
+  const txt = `A tennis read worth keeping:\n${insight}\n\nSee the game differently → gamesharptennis.com`;
   const btn = document.getElementById('shareBtn');
   if (navigator.share) {
     navigator.share({ title: 'GAMESHARP', text: txt });
@@ -11807,7 +11933,7 @@ function shareResult() {
     navigator.clipboard.writeText(txt).then(() => {
       if (btn) {
         btn.innerHTML = '<span>✓</span> Copied!';
-        setTimeout(() => { btn.innerHTML = '<span>⬆</span> Share Result'; }, 2000);
+        setTimeout(() => { btn.innerHTML = '<span>⬆</span> Share Insight'; }, 2000);
       }
     });
   }
@@ -11969,7 +12095,7 @@ function buildShareCanvas(q) {
     eyebrow: (q.pillar || '') + (q.module ? ' · ' + q.module : ''),
     titleText: q.question || '',
     pattern: (q.techAnimParams && q.techAnimParams.pattern) || null,
-    kicker: 'SEE IT. CALL IT. OWN THE POINT.', cta: 'MAKE THE CALL  →  gamesharptennis.com'
+    kicker: 'SEE THE GAME DIFFERENTLY.', cta: 'MAKE THE CALL  →  gamesharptennis.com'
   });
 }
 
@@ -11994,7 +12120,7 @@ function sharePoint(q) {
   q = q || (state.quiz && state.quiz[state.qIdx]);
   if (!q || !q.id) return;
   const url = 'https://www.gamesharptennis.com/s/' + encodeURIComponent(q.id);
-  const caption = 'I’d make the call here. Would you? 🎾\n' + url;
+  const caption = 'One tennis decision. One sharper read. What would you play? 🎾\n' + url;
   buildShareCanvas(q).then(blob => {
     const file = blob ? new File([blob], 'gamesharp-' + q.id + '.png', { type: 'image/png' }) : null;
     try {
@@ -13046,6 +13172,7 @@ function buildSeqObserve() {
       ${opts}
       <div id="seqTellWhy" class="seq-consequence-card"></div>
       <button class="seq-next-btn" id="seqTellNextBtn" onclick="seqState.tellDone=true;renderSeq('step')">Start the Point →</button>
+      <button class="seq-skip-observe" onclick="seqState.tellDone=true;renderSeq('step')">Skip the warm-up read</button>
     </div>`;
 }
 
