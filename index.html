@@ -1144,7 +1144,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       radial-gradient(110% 54% at 50% 12%,rgba(38,79,35,.22),transparent 72%),
       linear-gradient(180deg,#0d1b0f 0%,#0a120b 58%,#090e09 100%);
   }
-  #homeScreen .court-bg{opacity:.62;}
+  #homeScreen .court-bg{opacity:.8;}
+  #homeScreen .court-bg rect,
+  #homeScreen .court-bg line{vector-effect:non-scaling-stroke;}
   #homeScreen .gs-main{scroll-padding-top:8px;}
   #homeScreen .gs-hero-header{padding-bottom:14px;}
   #homeScreen .gs-hero-panel{
@@ -1184,13 +1186,12 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   /* The daily is the only card that reads as a destination. */
   #homeScreen .gs-daily-v52{margin:18px 14px 0!important;}
   #homeScreen .gs-daily-v52 .daily-inner{
-    padding:22px 20px 20px;
+    padding:20px 18px 18px;
     border:0;
-    border-radius:24px;
+    border-radius:0;
     background:
-      linear-gradient(145deg,rgba(37,73,32,.76),rgba(12,29,15,.91)),
-      rgba(14,31,16,.9);
-    box-shadow:0 18px 44px rgba(0,0,0,.27),inset 0 1px rgba(255,255,255,.055);
+      radial-gradient(85% 120% at 12% 22%,rgba(60,116,53,.23),transparent 75%);
+    box-shadow:none;
   }
   #homeScreen .gs-daily-v52 .daily-inner::before{display:none;}
   #homeScreen .gs-daily-v52 .daily-label{
@@ -1214,13 +1215,14 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     font-weight:650;
   }
   #homeScreen .gs-daily-v52 .daily-cta{
-    width:100%;
+    width:auto;
+    min-width:78%;
     min-height:50px;
     justify-content:center;
     align-self:stretch;
     border-radius:15px;
     background:#d0b252;
-    box-shadow:0 8px 22px rgba(0,0,0,.18);
+    box-shadow:0 8px 22px rgba(0,0,0,.14);
     font-size:12px;
     letter-spacing:.65px;
   }
@@ -1271,14 +1273,35 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   }
   #homeScreen .ptp-art{right:0;bottom:16px;width:74px;opacity:.38;filter:saturate(.65);}
   #homeScreen .gs-miss-card{border-top:1px solid rgba(255,255,255,.07);}
+
+  /* Court geometry is the layout: Daily above the net, prediction below it. */
+  #homeScreen.gs-home-hero-collapsed .gs-daily-v52{
+    min-height:184px;
+    margin:4px 18px 0!important;
+  }
+  #homeScreen.gs-home-hero-collapsed .ptp-sibling{
+    min-height:176px;
+    margin:0 18px!important;
+  }
+  #homeScreen.gs-home-hero-collapsed .ptp-sibling .ptp-inner{
+    padding-top:24px;
+  }
+  #homeScreen.gs-home-hero-collapsed .gs-hero-header{
+    opacity:.82;
+  }
+  #homeScreen .gs-bottom-nav{
+    background:rgba(7,13,8,.89);
+    border-top-color:rgba(255,255,255,.035);
+  }
 }
 @media(max-width:360px){
   #homeScreen.gs-home-hero-collapsed .gs-hero-panel{height:0!important;margin:0 12px!important;}
-  #homeScreen.gs-home-hero-collapsed .gs-daily-v52{margin-top:6px!important;}
+  #homeScreen.gs-home-hero-collapsed .gs-daily-v52{min-height:184px;margin:2px 14px 0!important;}
   #homeScreen .gs-daily-v52 .daily-inner{padding:17px 17px 16px;}
   #homeScreen .gs-daily-v52 .daily-q{max-width:none;font-size:18px;line-height:1.28;margin:5px 0 14px;}
   #homeScreen .gs-daily-v52 .daily-cta{min-height:46px;}
-  #homeScreen .ptp-sibling{margin-top:13px!important;}
+  #homeScreen .ptp-sibling{margin-top:0!important;}
+  #homeScreen.gs-home-hero-collapsed .ptp-sibling{min-height:148px;margin:0 14px!important;}
   #homeScreen .ptp-sibling .ptp-inner{padding:12px 3px 10px;}
   #homeScreen .ptp-sibling .ptp-question{font-size:14px;margin-bottom:7px;}
   #homeScreen .ptp-sibling .ptp-steps{margin-bottom:5px;}
@@ -11298,23 +11321,13 @@ function gsGetMissQuestions(limit){
 }
 function gsMissCount(){ return gsGetMissQuestions().length; }
 
-// Home-card refresh: show the card only when there are misses to review.
+// Home contract: Predict the Point is the sole secondary action. Miss review
+// remains available in Sharpen, but can never replace or compete on Home.
 function initReplayMisses(){
   const card=document.getElementById('replayMissCard');
   const predict=document.getElementById('seqHomeCard');
-  if(!card) return;
-  const n=gsMissCount();
-  // Home has one adaptive secondary: revisit a real miss when one exists;
-  // otherwise offer Predict the Point. Never stack both beneath the Daily.
-  if(n<1){ card.style.display='none'; if(predict) predict.style.display=''; return; }
-  if(predict) predict.style.display='none';
-  card.style.display='';
-  const badge=document.getElementById('missCountBadge');
-  if(badge) badge.textContent=n;
-  const line=document.getElementById('missCardLine');
-  if(line) line.textContent = (n===1)
-    ? 'One point you misjudged — get it right this time.'
-    : n+' points you misjudged — get them right this time.';
+  if(card) card.style.display='none';
+  if(predict) predict.style.display='';
 }
 
 function startReplayMisses(){
