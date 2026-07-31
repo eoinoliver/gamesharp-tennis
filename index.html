@@ -1322,6 +1322,24 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   #homeScreen.gs-home-hero-collapsed .ptp-sibling{
     position:relative;
     overflow:visible;
+    border:0!important;
+    border-radius:0!important;
+    outline:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+  #homeScreen.gs-home-hero-collapsed .gs-daily-v52:focus,
+  #homeScreen.gs-home-hero-collapsed .gs-daily-v52:focus-visible,
+  #homeScreen.gs-home-hero-collapsed .ptp-sibling:focus,
+  #homeScreen.gs-home-hero-collapsed .ptp-sibling:focus-visible{
+    border:0!important;
+    outline:0!important;
+    box-shadow:none!important;
+  }
+  #homeScreen.gs-home-hero-collapsed .gs-daily-v52:focus-visible .daily-cta,
+  #homeScreen.gs-home-hero-collapsed .ptp-sibling:focus-visible .ptp-cta{
+    outline:2px solid rgba(211,226,103,.72);
+    outline-offset:4px;
   }
   #homeScreen .gs-half-court{
     display:none;
