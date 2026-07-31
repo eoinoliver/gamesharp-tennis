@@ -1135,6 +1135,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 }
 @media(prefers-reduced-motion:reduce){
   #homeScreen .gs-hero-header,#homeScreen .gs-hero-panel,#homeScreen .gs-daily-v52{transition:none!important;}
+  #homeScreen.gs-court-camera-intro .gs-real-home-court img,
+  #homeScreen.gs-court-camera-intro .gs-daily-v52 .daily-inner,
+  #homeScreen.gs-court-camera-intro .ptp-sibling .ptp-inner{animation:none!important;}
 }
 
 /* ── QUIET COURT HOME — hierarchy through space, not decoration ── */
@@ -1357,7 +1360,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   #homeScreen .gs-real-home-court{
     display:none;
     position:absolute;
-    top:92px;
+    top:0;
     bottom:68px;
     left:0;
     right:0;
@@ -1369,9 +1372,12 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   #homeScreen.gs-home-hero-collapsed .gs-real-home-court{display:block;}
   #homeScreen .gs-real-home-court img{
     position:absolute;
-    inset:0;
+    top:92px;
+    right:0;
+    bottom:auto;
+    left:0;
     width:100%;
-    height:100%;
+    height:calc(100% - 92px);
     object-fit:cover;
     object-position:50% 50%;
     filter:brightness(.68) contrast(1.32) saturate(1.72) hue-rotate(-10deg);
@@ -1384,6 +1390,41 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       radial-gradient(ellipse at 50% 36%,rgba(112,220,112,.2) 0%,rgba(25,132,54,.12) 31%,transparent 55%,rgba(0,8,3,.48) 100%),
       linear-gradient(180deg,rgba(0,74,24,.3),rgba(0,47,17,.42));
     box-shadow:inset 0 0 90px rgba(0,4,2,.62);
+  }
+  @keyframes gsCourtCameraFlight{
+    0%{
+      transform:perspective(820px) translateY(31%) scale(2.18) rotateX(48deg);
+      transform-origin:50% 100%;
+      filter:brightness(.42) contrast(1.42) saturate(1.9) hue-rotate(-10deg) blur(.35px);
+    }
+    28%{
+      transform:perspective(900px) translateY(23%) scale(1.92) rotateX(38deg);
+      transform-origin:50% 100%;
+      filter:brightness(.54) contrast(1.38) saturate(1.84) hue-rotate(-10deg);
+    }
+    72%{
+      transform:perspective(1100px) translateY(6%) scale(1.18) rotateX(10deg);
+      transform-origin:50% 70%;
+      filter:brightness(.66) contrast(1.34) saturate(1.76) hue-rotate(-10deg);
+    }
+    100%{
+      transform:perspective(1100px) translateY(0) scale(1) rotateX(0);
+      transform-origin:50% 50%;
+      filter:brightness(.68) contrast(1.32) saturate(1.72) hue-rotate(-10deg);
+    }
+  }
+  @keyframes gsCourtContentArrival{
+    0%,52%{opacity:0;transform:translateY(10px);}
+    100%{opacity:1;transform:translateY(0);}
+  }
+  #homeScreen.gs-court-camera-intro .gs-real-home-court img{
+    animation:gsCourtCameraFlight 2.65s cubic-bezier(.2,.76,.22,1) both;
+    will-change:transform,filter;
+    backface-visibility:hidden;
+  }
+  #homeScreen.gs-court-camera-intro .gs-daily-v52 .daily-inner,
+  #homeScreen.gs-court-camera-intro .ptp-sibling .ptp-inner{
+    animation:gsCourtContentArrival 2.65s cubic-bezier(.22,.76,.24,1) both;
   }
   #homeScreen .gs-unified-home-court .gs-court-line{
     fill:none;
@@ -1427,15 +1468,32 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   #homeScreen.gs-home-hero-collapsed .gs-hero-header{
     min-height:92px;
     padding:calc(22px + env(safe-area-inset-top)) 0 12px;
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    position:relative;
+    z-index:20;
+    background:transparent!important;
+    box-shadow:none;
   }
   #homeScreen.gs-home-hero-collapsed .gs-hero-header .gs-hero-wordmark{
     justify-content:flex-start;
     padding:0 112px 0 14px;
+    display:flex!important;
+    visibility:visible!important;
+    opacity:1!important;
+    position:relative;
+    z-index:21;
   }
   #homeScreen.gs-home-hero-collapsed .gs-hero-logo{
     font-size:22px;
     letter-spacing:1.5px;
+    display:inline-block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    color:#f7f5ec!important;
   }
+  #homeScreen.gs-home-hero-collapsed .gs-hero-logo span{color:var(--gold)!important;}
   #homeScreen.gs-home-hero-collapsed .gs-hero-beside,
   #homeScreen.gs-home-hero-collapsed .home-progress-story{display:none!important;}
   #homeScreen.gs-home-hero-collapsed .gs-hero-botrow{
@@ -1567,7 +1625,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
   #homeScreen.gs-home-hero-collapsed .gs-hero-header{opacity:.9;}
 }
 @media(max-width:360px){
-  #homeScreen .gs-real-home-court{top:76px;}
+  #homeScreen .gs-real-home-court img{top:76px;height:calc(100% - 76px);}
   #homeScreen .gs-unified-home-court{
     top:76px;
     width:calc(100% - 28px);
@@ -10894,8 +10952,11 @@ function gsBindUnifiedHomeCourt(){
 }
 
 const GS_HOME_HERO_KEY = 'gamesharp_home_hero_seen';
+const GS_COURT_CAMERA_KEY = 'gamesharp_court_camera_seen';
+const GS_COURT_CAMERA_PROTOTYPE = true;
 let gsHomeHeroDayMemory = '';
 let gsHomeHeroTimer = 0;
+let gsCourtCameraTimer = 0;
 function gsHomeLocalDay(){
   const d = new Date();
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -10908,6 +10969,37 @@ function gsMarkHomeHeroSeen(day){
   gsHomeHeroDayMemory = day;
   try { localStorage.setItem(GS_HOME_HERO_KEY, day); } catch(e){}
 }
+function gsCourtCameraSeen(day){
+  try { return localStorage.getItem(GS_COURT_CAMERA_KEY) === day; }
+  catch(e){ return false; }
+}
+function gsCourtCameraWillRun(){
+  if(!GS_COURT_CAMERA_PROTOTYPE || window.innerWidth > 1366) return false;
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const preview = /(?:^|[?&])courtCameraPreview=1(?:&|$)/.test(location.search);
+  return !reduced && (preview || !gsCourtCameraSeen(gsHomeLocalDay()));
+}
+function gsFinishCourtCameraIntro(){
+  window.clearTimeout(gsCourtCameraTimer);
+  const home = document.getElementById('homeScreen');
+  if(home) home.classList.remove('gs-court-camera-intro');
+}
+function gsStartCourtCameraIntro(){
+  const home = document.getElementById('homeScreen');
+  if(!home || !home.classList.contains('gs-home-hero-collapsed')) return;
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const preview = /(?:^|[?&])courtCameraPreview=1(?:&|$)/.test(location.search);
+  const day = gsHomeLocalDay();
+  if(reduced || (!preview && gsCourtCameraSeen(day))) return;
+  if(!preview){
+    try { localStorage.setItem(GS_COURT_CAMERA_KEY, day); } catch(e){}
+  }
+  window.clearTimeout(gsCourtCameraTimer);
+  home.classList.remove('gs-court-camera-intro');
+  void home.offsetWidth;
+  home.classList.add('gs-court-camera-intro');
+  gsCourtCameraTimer = window.setTimeout(gsFinishCourtCameraIntro, 2720);
+}
 function gsCollapseHomeHero(){
   const home = document.getElementById('homeScreen');
   if(!home || home.classList.contains('gs-home-hero-collapsed')) return;
@@ -10915,15 +11007,43 @@ function gsCollapseHomeHero(){
   home.classList.remove('gs-home-hero-expanded');
   home.classList.add('gs-home-hero-collapsed');
   requestAnimationFrame(gsRenderUnifiedHomeCourt);
+  requestAnimationFrame(gsStartCourtCameraIntro);
+}
+function gsBindHomeOpeningDismissal(home){
+  if(!home || home.dataset.heroCollapseBound) return;
+  home.dataset.heroCollapseBound = '1';
+  home.addEventListener('pointerdown', function(){
+    if(home.classList.contains('gs-court-camera-intro')) gsFinishCourtCameraIntro();
+    else gsCollapseHomeHero();
+  }, {passive:true});
+  const scroller = home.querySelector('.gs-main') || home;
+  const dismissOpening = function(){
+    if(home.classList.contains('gs-court-camera-intro')) gsFinishCourtCameraIntro();
+    else gsCollapseHomeHero();
+  };
+  scroller.addEventListener('scroll', dismissOpening, {passive:true});
+  scroller.addEventListener('touchmove', dismissOpening, {passive:true});
 }
 function gsPrepareHomeHero(){
   const home = document.getElementById('homeScreen');
   if(!home || window.innerWidth > 1366) return;
+  gsBindHomeOpeningDismissal(home);
   const day = gsHomeLocalDay();
   window.clearTimeout(gsHomeHeroTimer);
+  // Prototype: the camera move is today's atmosphere-setting hero. Reuse the
+  // existing court and land on the exact active-home geometry—never stack two
+  // cinematic openings or leave a second layout behind.
+  if(gsCourtCameraWillRun()){
+    gsMarkHomeHeroSeen(day);
+    home.classList.remove('gs-home-hero-expanded');
+    home.classList.add('gs-home-hero-collapsed');
+    gsHomeHeroTimer = window.setTimeout(gsStartCourtCameraIntro, 420);
+    return;
+  }
   if(gsHomeHeroSeen(day)){
     home.classList.remove('gs-home-hero-expanded');
     home.classList.add('gs-home-hero-collapsed');
+    requestAnimationFrame(gsStartCourtCameraIntro);
     return;
   }
   gsMarkHomeHeroSeen(day);
@@ -10931,13 +11051,6 @@ function gsPrepareHomeHero(){
   home.classList.add('gs-home-hero-expanded');
   // Let the daily opening breathe; interaction can still dismiss it immediately.
   gsHomeHeroTimer = window.setTimeout(gsCollapseHomeHero, 4800);
-  if(!home.dataset.heroCollapseBound){
-    home.dataset.heroCollapseBound = '1';
-    home.addEventListener('pointerdown', gsCollapseHomeHero, {passive:true});
-    const scroller = home.querySelector('.gs-main') || home;
-    scroller.addEventListener('scroll', gsCollapseHomeHero, {passive:true});
-    scroller.addEventListener('touchmove', gsCollapseHomeHero, {passive:true});
-  }
 }
 function gsGuardHomeHeroImage(){
   const home = document.getElementById('homeScreen');
@@ -10987,7 +11100,10 @@ function initHome() {
   gsBindUnifiedHomeCourt();
   requestAnimationFrame(gsRenderUnifiedHomeCourt);
 
-  triggerLogoIntro();
+  // Let the camera establish the court before the separate logo flourish.
+  // On repeat visits the logo keeps its existing timing.
+  if(gsCourtCameraWillRun()) window.setTimeout(triggerLogoIntro, 3220);
+  else triggerLogoIntro();
   return;
 
   // ── V5.2: legacy pillar/profile/proLens rendering disabled (moved to Play/Learn tabs) ──
