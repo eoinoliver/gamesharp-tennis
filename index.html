@@ -2490,6 +2490,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .ms-pulse{animation:msPulse .7s ease-in-out infinite;}
 .dtc-replay:active{transform:scale(.98);}
 </style>
+<link rel="stylesheet" href="gamesharp-pain-coach.css">
 </head>
 <body class="gs-home-minimal">
 
@@ -3733,8 +3734,8 @@ const WELCOME_QUESTIONS = [
     headline: 'What costs you the most matches right now?',
     subtext: 'Be honest — this is where your training starts.',
     opts: [
-      { emoji: '😤', label: 'Losing to players I should beat', sublabel: 'Pushers, lobbers, junk-ballers', tag: 'lose_to_worse', confirm: "The classic. They don't beat you — they let you beat yourself. We'll start with the patterns that break them." },
-      { emoji: '😬', label: 'Tightening up on big points', sublabel: 'Break points, tiebreaks, serving it out', tag: 'choke', confirm: "Pressure tennis is a skill, not a personality. We'll rehearse the big points until they feel routine." },
+      { emoji: '😤', label: 'Losing to players I should beat', sublabel: 'Pushers, lobbers, junk-ballers', tag: 'style', confirm: "The classic. They don't beat you — they let you beat yourself. We'll start with the patterns that break them." },
+      { emoji: '😬', label: 'Tightening up on big points', sublabel: 'Break points, tiebreaks, serving it out', tag: 'pressure', confirm: "Pressure tennis is a skill, not a personality. We'll rehearse the big points until they feel routine." },
       { emoji: '🎯', label: 'My serve leaking free points', sublabel: 'Doubles, weak seconds, no plan', tag: 'serve', confirm: "The serve is the only shot you fully control. We'll turn it from a tax into a pattern-starter." },
       { emoji: '🤔', label: 'Not knowing what to play when', sublabel: 'I hit fine — I decide badly', tag: 'decisions', confirm: "That's exactly what GAMESHARP trains: the right shot at the right moment, until it's automatic." }
     ]
@@ -8564,7 +8565,9 @@ function runStandardDaily() {
     const doneC = parseInt(localStorage.getItem('gamesharp_challenges_done') || '0');
     const FF = {
       lose_to_worse: q => q.module === 'Beat Opponent Types' || q.module === 'Rally Tactics',
+      style:         q => q.module === 'Beat Opponent Types' || q.module === 'Rally Tactics',
       choke:         q => q.module === 'Pressure Points' || q.pillar === 'Mental',
+      pressure:      q => q.module === 'Pressure Points' || q.pillar === 'Mental',
       serve:         q => q.module === 'Serve Strategy' || q.module === 'Serve Mechanics' || q.module === 'Return of Serve',
       decisions:     q => q.module === 'Reading the Game' || q.module === 'Rally Tactics' || q.module === 'Match Strategy'
     }[(getPlayerTags() || {}).frustration];
@@ -15168,4 +15171,5 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
   window.GameSharpFocusView={open:openFocus,close:closeFocus,refresh:enhance};
 })();
 </script>
+<script src="gamesharp-pain-coach.js"></script>
 </body>
