@@ -1341,18 +1341,46 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     outline:2px solid rgba(211,226,103,.72);
     outline-offset:4px;
   }
-  #homeScreen .gs-half-court{
+  #homeScreen .gs-unified-home-court{
     display:none;
     position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    color:rgba(229,235,211,.42);
+    top:92px;
+    left:50%;
+    width:min(calc(100% - 36px),706px);
+    height:calc(100dvh - 160px);
+    transform:translateX(-50%);
     pointer-events:none;
     z-index:0;
+    overflow:visible;
   }
-  #homeScreen.gs-home-hero-collapsed .gs-half-court{display:block;}
-  #homeScreen.gs-home-hero-collapsed .gs-half-court g{stroke-width:1.7;}
+  #homeScreen.gs-home-hero-collapsed .gs-unified-home-court{display:block;}
+  #homeScreen .gs-unified-home-court .gs-court-line{
+    fill:none;
+    stroke:rgba(229,235,211,.42);
+    stroke-width:1.7;
+    stroke-linecap:round;
+    vector-effect:non-scaling-stroke;
+  }
+  #homeScreen .gs-unified-home-court .gs-service-line{
+    stroke:rgba(235,241,218,.54);
+    stroke-width:2;
+  }
+  #homeScreen .gs-unified-home-court .gs-net-tape{
+    stroke:rgba(244,247,231,.9);
+    stroke-width:3;
+    vector-effect:non-scaling-stroke;
+  }
+  #homeScreen .gs-unified-home-court .gs-net-edge{
+    fill:rgba(2,8,4,.76);
+    stroke:rgba(217,228,204,.45);
+    stroke-width:1;
+    vector-effect:non-scaling-stroke;
+  }
+  #homeScreen .gs-unified-home-court .gs-net-post{
+    stroke:rgba(232,238,218,.67);
+    stroke-width:3;
+    vector-effect:non-scaling-stroke;
+  }
   #homeScreen .logo-drop-ball{display:none!important;}
   #homeScreen .home-logo.logo-sharpen,
   #homeScreen .gs-hero-logo.logo-sharpen,
@@ -1486,39 +1514,17 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     margin:0 18px!important;
     position:relative;
   }
-  #homeScreen.gs-home-hero-collapsed .ptp-sibling::before{
-    content:'';
-    position:absolute;
-    z-index:3;
-    left:-18px;
-    right:-18px;
-    top:-18px;
-    height:38px;
-    border-top:3px solid rgba(236,241,218,.78);
-    border-bottom:1px solid rgba(205,218,190,.38);
-    background:
-      repeating-linear-gradient(90deg,rgba(218,227,204,.38) 0 1px,transparent 1px 9px),
-      repeating-linear-gradient(0deg,rgba(218,227,204,.32) 0 1px,transparent 1px 7px),
-      rgba(2,8,4,.72);
-    box-shadow:0 5px 16px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12);
-    pointer-events:none;
-  }
-  #homeScreen.gs-home-hero-collapsed .ptp-sibling::after{
-    content:'';
-    position:absolute;
-    z-index:4;
-    left:-20px;
-    right:-20px;
-    top:-21px;
-    height:44px;
-    border-left:3px solid rgba(225,233,210,.58);
-    border-right:3px solid rgba(225,233,210,.58);
-    pointer-events:none;
-  }
+  #homeScreen.gs-home-hero-collapsed .ptp-sibling::before,
+  #homeScreen.gs-home-hero-collapsed .ptp-sibling::after{display:none!important;}
   #homeScreen.gs-home-hero-collapsed .ptp-sibling .ptp-inner{padding-top:38px;}
   #homeScreen.gs-home-hero-collapsed .gs-hero-header{opacity:.9;}
 }
 @media(max-width:360px){
+  #homeScreen .gs-unified-home-court{
+    top:76px;
+    width:calc(100% - 28px);
+    height:calc(100dvh - 144px);
+  }
   #homeScreen.gs-home-hero-collapsed .gs-hero-header{
     min-height:76px;
     padding-top:calc(15px + env(safe-area-inset-top));
@@ -2481,18 +2487,31 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       <div class="gs-hero-veil"></div>
     </div>
 
+    <!-- One court, one coordinate system. Both experiences and the net are
+         registered to this single renderer so the two halves cannot diverge. -->
+    <svg class="gs-unified-home-court" id="gsUnifiedHomeCourt" aria-hidden="true" preserveAspectRatio="none">
+      <defs>
+        <pattern id="gsHomeNetMesh" width="9" height="7" patternUnits="userSpaceOnUse">
+          <path d="M0 0H9M0 0V7" fill="none" stroke="rgba(218,227,204,.36)" stroke-width=".8"/>
+        </pattern>
+      </defs>
+      <g>
+        <path id="gsCourtDoubles" class="gs-court-line"/>
+        <path id="gsCourtSingles" class="gs-court-line"/>
+        <path id="gsCourtBaselines" class="gs-court-line"/>
+        <path id="gsCourtServices" class="gs-court-line gs-service-line"/>
+        <path id="gsCourtCentre" class="gs-court-line gs-service-line"/>
+        <path id="gsCourtMarks" class="gs-court-line"/>
+      </g>
+      <g id="gsCourtNet">
+        <rect id="gsCourtNetBody" class="gs-net-edge" fill="url(#gsHomeNetMesh)"/>
+        <line id="gsCourtNetTape" class="gs-net-tape"/>
+        <path id="gsCourtNetPosts" class="gs-net-post" fill="none"/>
+      </g>
+    </svg>
+
     <!-- TODAY'S CHALLENGE — dominant primary card -->
     <div class="daily-card gs-daily-dominant gs-daily-v52" id="dailyCard" role="button" tabindex="0" aria-label="Start Today’s Challenge" onclick="startDailyChallenge()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();startDailyChallenge();}">
-      <svg class="gs-half-court gs-half-court-far" viewBox="0 0 706 265" preserveAspectRatio="none" aria-hidden="true">
-        <g fill="none" stroke="currentColor" stroke-linecap="round">
-          <path d="M260 35L120 265M446 35L586 265"/>
-          <path d="M283.25 35L178.25 265M422.75 35L527.75 265"/>
-          <path d="M260 35H446"/>
-          <path d="M210.2 130H495.8"/>
-          <path d="M353 130V265"/>
-          <path d="M353 35V43"/>
-        </g>
-      </svg>
       <div class="daily-inner">
         <div class="daily-top">
           <div class="daily-label">
@@ -2553,16 +2572,6 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 
     <!-- PREDICT THE POINT — sibling card (same family as Today's Challenge, ungated) -->
     <div class="daily-card ptp-sibling" id="seqHomeCard" role="button" tabindex="0" aria-label="Open Predict the Point">
-      <svg class="gs-half-court gs-half-court-near" viewBox="0 0 706 600" preserveAspectRatio="none" aria-hidden="true">
-        <g fill="none" stroke="currentColor" stroke-linecap="round">
-          <path d="M120 0L18 560M586 0L688 560"/>
-          <path d="M178.25 0L101.75 560M527.75 0L604.25 560"/>
-          <path d="M144.1 250H561.9"/>
-          <path d="M353 0V250"/>
-          <path d="M18 560H688"/>
-          <path d="M353 552V560"/>
-        </g>
-      </svg>
       <div class="daily-inner ptp-inner">
         <div class="daily-top">
           <div class="daily-label">
@@ -10700,6 +10709,81 @@ function resolveTryFollowUp(qid, ans) {
   }
 }
 
+function gsRenderUnifiedHomeCourt(){
+  const svg = document.getElementById('gsUnifiedHomeCourt');
+  const daily = document.getElementById('dailyCard');
+  if(!svg || !daily || getComputedStyle(svg).display === 'none') return;
+  // Register the court to the interaction zones' actual rendered box, not a
+  // parallel CSS width calculation that can differ under content-box sizing.
+  const cardRectBefore = daily.getBoundingClientRect();
+  const containingBlock = svg.closest('.gs-main');
+  if(!containingBlock) return;
+  const containingRect = containingBlock.getBoundingClientRect();
+  svg.style.left = (cardRectBefore.left - containingRect.left) + 'px';
+  svg.style.width = cardRectBefore.width + 'px';
+  svg.style.transform = 'none';
+  const svgRect = svg.getBoundingClientRect();
+  const dailyRect = daily.getBoundingClientRect();
+  const width = 706;
+  const height = Math.max(360, Math.round(svgRect.height));
+  // The net is not an independently positioned decoration: it is exactly the
+  // shared boundary between Today's Challenge and Predict the Point.
+  const netY = Math.max(180, Math.min(height - 150, Math.round(dailyRect.bottom - svgRect.top)));
+  const farBaseY = 34;
+  const nearBaseY = height - 30;
+  const farServiceY = Math.round(farBaseY + (netY - farBaseY) * (18 / 39));
+  const nearServiceY = Math.round(netY + (nearBaseY - netY) * (21 / 39));
+  const farOuterL = 260, farOuterR = 446, netOuterL = 120, netOuterR = 586;
+  const nearOuterL = 18, nearOuterR = 688;
+  const farSingleL = 283.25, farSingleR = 422.75;
+  const netSingleL = 178.25, netSingleR = 527.75;
+  const nearSingleL = 101.75, nearSingleR = 604.25;
+  const centre = width / 2;
+  const set = (id, name, value) => {
+    const el = document.getElementById(id);
+    if(el) el.setAttribute(name, value);
+  };
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  svg.dataset.netY = String(netY);
+  set('gsCourtDoubles','d',
+    `M${farOuterL} ${farBaseY}L${netOuterL} ${netY}L${nearOuterL} ${nearBaseY}`+
+    `M${farOuterR} ${farBaseY}L${netOuterR} ${netY}L${nearOuterR} ${nearBaseY}`);
+  set('gsCourtSingles','d',
+    `M${farSingleL} ${farBaseY}L${netSingleL} ${netY}L${nearSingleL} ${nearBaseY}`+
+    `M${farSingleR} ${farBaseY}L${netSingleR} ${netY}L${nearSingleR} ${nearBaseY}`);
+  set('gsCourtBaselines','d',
+    `M${farOuterL} ${farBaseY}H${farOuterR}M${nearOuterL} ${nearBaseY}H${nearOuterR}`);
+  const farServiceL = farSingleL + (netSingleL - farSingleL) * ((farServiceY - farBaseY) / (netY - farBaseY));
+  const farServiceR = farSingleR + (netSingleR - farSingleR) * ((farServiceY - farBaseY) / (netY - farBaseY));
+  const nearServiceL = netSingleL + (nearSingleL - netSingleL) * ((nearServiceY - netY) / (nearBaseY - netY));
+  const nearServiceR = netSingleR + (nearSingleR - netSingleR) * ((nearServiceY - netY) / (nearBaseY - netY));
+  set('gsCourtServices','d',
+    `M${farServiceL.toFixed(2)} ${farServiceY}H${farServiceR.toFixed(2)}`+
+    `M${nearServiceL.toFixed(2)} ${nearServiceY}H${nearServiceR.toFixed(2)}`);
+  set('gsCourtCentre','d',`M${centre} ${farServiceY}V${nearServiceY}`);
+  set('gsCourtMarks','d',
+    `M${centre} ${farBaseY}V${farBaseY+8}M${centre} ${nearBaseY-8}V${nearBaseY}`);
+  set('gsCourtNetBody','x','104');
+  set('gsCourtNetBody','y',String(netY-17));
+  set('gsCourtNetBody','width','498');
+  set('gsCourtNetBody','height','36');
+  set('gsCourtNetTape','x1','104');
+  set('gsCourtNetTape','x2','602');
+  set('gsCourtNetTape','y1',String(netY-17));
+  set('gsCourtNetTape','y2',String(netY-17));
+  set('gsCourtNetPosts','d',`M104 ${netY-20}V${netY+21}M602 ${netY-20}V${netY+21}`);
+}
+let gsHomeCourtObserver = null;
+function gsBindUnifiedHomeCourt(){
+  if(gsHomeCourtObserver || typeof ResizeObserver === 'undefined') return;
+  const daily = document.getElementById('dailyCard');
+  const predict = document.getElementById('seqHomeCard');
+  if(!daily || !predict) return;
+  gsHomeCourtObserver = new ResizeObserver(function(){ requestAnimationFrame(gsRenderUnifiedHomeCourt); });
+  gsHomeCourtObserver.observe(daily);
+  gsHomeCourtObserver.observe(predict);
+}
+
 const GS_HOME_HERO_KEY = 'gamesharp_home_hero_seen';
 let gsHomeHeroDayMemory = '';
 let gsHomeHeroTimer = 0;
@@ -10721,6 +10805,7 @@ function gsCollapseHomeHero(){
   window.clearTimeout(gsHomeHeroTimer);
   home.classList.remove('gs-home-hero-expanded');
   home.classList.add('gs-home-hero-collapsed');
+  requestAnimationFrame(gsRenderUnifiedHomeCourt);
 }
 function gsPrepareHomeHero(){
   const home = document.getElementById('homeScreen');
@@ -10755,7 +10840,10 @@ function gsGuardHomeHeroImage(){
 }
 function gsReconcileHomePresentation(){
   const home = document.getElementById('homeScreen');
-  if(home && home.classList.contains('active')) gsPrepareHomeHero();
+  if(home && home.classList.contains('active')){
+    gsPrepareHomeHero();
+    requestAnimationFrame(gsRenderUnifiedHomeCourt);
+  }
 }
 // Safari can restore a suspended tab or standalone PWA from its back/forward
 // cache without rerunning normal boot. Reconcile against today's stored state
@@ -10764,6 +10852,7 @@ window.addEventListener('pageshow', gsReconcileHomePresentation);
 document.addEventListener('visibilitychange', function(){
   if(document.visibilityState === 'visible') gsReconcileHomePresentation();
 });
+window.addEventListener('resize', function(){ requestAnimationFrame(gsRenderUnifiedHomeCourt); }, {passive:true});
 
 function initHome() {
   state.screen = 'home';
@@ -10786,6 +10875,8 @@ function initHome() {
   }
   initHomeProgressStory();
   gsGuardHomeHeroImage();
+  gsBindUnifiedHomeCourt();
+  requestAnimationFrame(gsRenderUnifiedHomeCourt);
 
   triggerLogoIntro();
   return;
