@@ -957,6 +957,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .phub-card{background:var(--card);border:1px solid rgba(200,168,75,.18);border-radius:16px;padding:16px 18px;}
 .phub-card.phub-build{cursor:pointer;transition:background .15s;}
 .phub-card.phub-build:active{background:rgba(255,255,255,.07);}
+.phub-card.phub-library{display:block;width:100%;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:background .15s,border-color .15s;}
+.phub-card.phub-library:active{background:rgba(255,255,255,.07);border-color:rgba(200,168,75,.34);}
+.phub-card.phub-library:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 .phub-card-row{display:flex;align-items:center;gap:10px;}
 .phub-card-icon{font-size:20px;flex-shrink:0;}
 .phub-card-body{flex:1;min-width:0;}
@@ -2560,7 +2563,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
         <svg class="gs-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span class="gs-nav-label">Home</span>
       </div>
-      <div class="gs-nav-item" onclick="initLearnHub()">
+      <div class="gs-nav-item" onclick="GameSharpPainCoach.open('sharpen')">
         <svg class="gs-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" stroke-linejoin="round"/><polyline points="16 7 22 7 22 13" stroke-linejoin="round"/></svg>
         <span class="gs-nav-label">Sharpen</span>
       </div>
@@ -3016,7 +3019,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span>Home</span>
   </div>
-  <div class="gs-bnav-item" onclick="initLearnHub()">
+  <div class="gs-bnav-item" onclick="GameSharpPainCoach.open('sharpen')">
     <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" stroke-linejoin="round"/><polyline points="16 7 22 7 22 13" stroke-linejoin="round"/></svg>
     <span>Sharpen</span>
   </div>
@@ -3699,6 +3702,20 @@ function showProfileHub() {
       <div class="phub-section-eyebrow">Built from your answers.</div>
       <div class="phub-section-title">Recommended Sessions</div>
       ${sessionCard}
+    </div>
+    <div class="phub-section">
+      <div class="phub-section-eyebrow">Explore GameSharp</div>
+      <div class="phub-section-title">Browse Everything</div>
+      <button class="phub-card phub-library" type="button" onclick="initLearnHub()">
+        <div class="phub-card-row">
+          <span class="phub-card-icon">⌕</span>
+          <div class="phub-card-body">
+            <div class="phub-card-value">Open the full library</div>
+            <div class="phub-card-label">Pillars · Pro Insights · Playbook · Legendary Exchanges</div>
+          </div>
+          <span class="phub-arrow">→</span>
+        </div>
+      </button>
     </div>
     <div class="ig-profile-card" onclick="gsOpenInstallGuide()">
       <div class="ig-profile-title">▣ Put GameSharp on your Home Screen</div>
@@ -11312,11 +11329,14 @@ function initOneThingToRemember() {
 // (Removed orphaned initPlayHub — the secondary "Play" hub was unreferenced and
 // duplicated "Play a Point"/"Predict the Point" naming. Sharpen = initLearnHub.)
 
-// ── V5.2 SHARPEN HUB ──────────────────────────────────────────────
+// ── PROFILE LIBRARY ───────────────────────────────────────────────
+// The Sharpen tab opens the illustrated player directly. This legacy catalogue
+// remains available as an intentional, secondary destination from Profile.
 function initLearnHub() {
-  state.screen = 'sharpenHub';
+  state.screen = 'profileLibrary';
   showScreen('learnScreen');
-  trackEvent('nav_learn_clicked');
+  updateBottomNav('profileScreen');
+  trackEvent('profile_library_opened');
   const wrap = document.getElementById('learnHubWrap');
   if (!wrap) return;
 
@@ -11357,10 +11377,10 @@ function initLearnHub() {
   });
 
   wrap.innerHTML = `
-    <div class="hub-back" onclick="initHome()">← Home</div>
+    <div class="hub-back" onclick="showProfileHub()">← Profile</div>
     <div class="hub-header">
-      <div class="hub-title">Sharpen</div>
-      <div class="hub-sub">See more. Decide better. Go again.</div>
+      <div class="hub-title">Browse Everything</div>
+      <div class="hub-sub">Pillars, Pro Insights, Playbook and Legendary Exchanges.</div>
     </div>
 
     <div class="hub-section-hdr">
