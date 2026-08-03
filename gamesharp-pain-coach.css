@@ -26,3 +26,16 @@ body.gspc-open{overflow:hidden!important;touch-action:none}.gspc-sr{position:abs
 @media(max-width:390px){.gspc-scroll{padding:17px 12px calc(24px + env(safe-area-inset-bottom))}.gspc-title{font-size:27px}.gspc-feedback{grid-template-columns:1fr}.gspc-player-intro .gspc-lead{font-size:12.5px;line-height:1.42;margin-bottom:4px}.gspc-player{width:min(100%,370px)}.gspc-hotspot{--size:39px}.gspc-hotspot-label{max-width:98px}.gspc-hotspot-label b{font-size:9px}.gspc-hotspot-label small{display:none}.gspc-region-compact{height:245px}.gspc-region-compact .gspc-player{height:342px;width:274px;margin-top:-29px}.gspc-region-panel{padding:15px}.gspc-region-title{font-size:22px}.gspc-result-actions{grid-template-columns:1fr}}
 @media(max-height:720px) and (max-width:540px){.gspc-player-intro .gspc-lead{margin-bottom:0}.gspc-player{width:min(100%,330px)}.gspc-player-unsure{margin-top:-4px}.gspc-region-compact{height:210px}.gspc-region-compact .gspc-player{height:305px;width:244px}}
 @media(prefers-reduced-motion:reduce){.gspc-stage,.gspc-player-img,.gspc-hotspot::before,.gspc-hotspot::after{animation:none!important}.gspc-home-entry,.gspc-choice,.gspc-primary,.gspc-secondary,.gspc-asset,.gspc-hotspot{transition:none!important}}
+
+/* Focus screen visual — the payoff kept the words and dropped the picture.
+   The player the golfer chose from returns, with the sharpened area lit and
+   the court cue as its caption, so the insight is seen before it is read. */
+.gspc-result-visual{position:relative;margin:0 0 18px;border:1px solid rgba(200,168,75,.28);border-radius:18px;overflow:hidden;background:#08160d;aspect-ratio:3/2}
+.gspc-rv-img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 22%;opacity:.62}
+.gspc-rv-dot{position:absolute;left:var(--x);top:var(--y);width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:2px solid #7fe08f;background:rgba(127,224,143,.18);box-shadow:0 0 0 6px rgba(127,224,143,.12),0 0 18px rgba(127,224,143,.55);animation:gspcRvPulse 2.4s ease-in-out infinite}
+@keyframes gspcRvPulse{0%,100%{transform:scale(1);opacity:.95}50%{transform:scale(1.12);opacity:.75}}
+.gspc-rv-cap{position:absolute;left:0;right:0;bottom:0;padding:34px 16px 14px;background:linear-gradient(180deg,transparent,rgba(3,10,6,.92) 58%)}
+.gspc-rv-area{display:block;color:#73d487;font-size:11px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase}
+.gspc-rv-cap strong{display:block;margin-top:3px;color:#fff;font-size:20px;line-height:1.2;font-weight:800}
+@media(prefers-reduced-motion:reduce){.gspc-rv-dot{animation:none}}
+@media(max-width:350px){.gspc-result-visual{aspect-ratio:4/3}.gspc-rv-cap strong{font-size:17px}}
