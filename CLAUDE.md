@@ -15,12 +15,31 @@ Single-file HTML PWA for tennis decision training. Live at **gamesharptennis.com
 - Keep `.DS_Store` out of commits.
 
 ## Architecture
-- **Single file** — never split into multiple files
-- **QBANK** — 370+ questions, each with id, pillar, module, format, difficulty, tier, visual, techAnim
+- **`index.html` is the app** — HTML, CSS and JS stay inline here. Do not split it further.
+- **Two companion files only** — the Sharpen player journey ships as
+  `gamesharp-pain-coach.js` and `gamesharp-pain-coach.css`, loaded by `index.html`.
+  These are the sole permitted exceptions; anything new belongs in `index.html`.
+- **QBANK** — 549 questions, each with id, pillar, module, format, difficulty, tier, visual, techAnim
 - **TECH_ANIMS** — animation library, each entry has svg, init(params,cbs), conseqAnim(ok), captions, hasMistakeToggle
 - **Play a Point** — `buildPlayAPoint(pillar, module, pool?)` builds 3–5 linked decision bundles with anti-repeat logic
 - **Anti-repeat** — `gamesharp_seen` localStorage key (ids, modules, hooks, skills)
 - **Five screens** — homeScreen, onboardScreen, profileScreen, quizScreen, scoreScreen — all toggled via `showScreen(id)`
+
+## Release gates
+Run all three from the repo root before pushing. They must test *this* folder,
+never a copy in `~/Downloads`:
+```
+node gamesharp-player-contract.test.mjs
+node gamesharp-master-brand-contract.test.mjs
+node tools/launch-trust-audit.js
+```
+- **launch-trust-audit** enforces question integrity: four distinct options, a
+  real correct answer, teaching present, no self-disqualifying absolutes
+  ("always", "automatically", "every time"), and no unattributed statistics.
+- It also **ratchets the length tell** — the count of questions whose correct
+  answer is 12+ characters longer than every distractor. Lower
+  `LENGTH_TELL_BASELINE` as editorial work improves the bank; the gate fails if
+  it rises. This is the bank's largest known content debt.
 
 ## Key Functions
 - `startQuiz(pillar, module)` — starts a Play a Point session

@@ -1,7 +1,11 @@
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 
-const root = process.argv[2] || '/Users/eoinlynn/Downloads';
+// Default to the repo this test lives in. Pointing at a copy elsewhere means
+// the gate validates an artifact we do not ship.
+const root = process.argv[2] || path.dirname(fileURLToPath(import.meta.url));
 const js = fs.readFileSync(`${root}/gamesharp-pain-coach.js`, 'utf8');
 const css = fs.readFileSync(`${root}/gamesharp-pain-coach.css`, 'utf8');
 const htmlPath = fs.existsSync(`${root}/gamesharp-tennis-index-working.html`)
