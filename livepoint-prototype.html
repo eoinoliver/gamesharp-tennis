@@ -107,16 +107,48 @@ svg.court{width:100%;display:block;}
 <script>
 "use strict";
 /* ─────────────────────────────  SOUND  ───────────────────────────── */
-const SND=(()=>{let ctx=null;
-  function ac(){if(!ctx)ctx=new (window.AudioContext||window.webkitAudioContext)();return ctx;}
-  function tone(f,t,dur,type,g){const c=ac();const o=c.createOscillator(),ga=c.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);ga.gain.setValueAtTime(0,t);ga.gain.linearRampToValueAtTime(g||.18,t+.012);ga.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(ga);ga.connect(c.destination);o.start(t);o.stop(t+dur+.02);}
-  function noise(t,dur,g){const c=ac();const b=c.createBuffer(1,c.sampleRate*dur,c.sampleRate);const d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);const s=c.createBufferSource();s.buffer=b;const ga=c.createGain();ga.gain.value=g||.14;const bp=c.createBiquadFilter();bp.type='bandpass';bp.frequency.value=2600;s.connect(bp);bp.connect(ga);ga.connect(c.destination);s.start(t);}
+const SND=(()=>{
+  let ctx=null,master=null;
+  function ac(){
+    if(!ctx){
+      ctx=new (window.AudioContext||window.webkitAudioContext)();
+      master=ctx.createGain();master.gain.value=.85;
+      const comp=ctx.createDynamicsCompressor();
+      comp.threshold.value=-14;comp.knee.value=12;comp.ratio.value=8;comp.attack.value=.002;comp.release.value=.18;
+      master.connect(comp);comp.connect(ctx.destination);
+    }
+    return ctx;
+  }
+  function nbuf(dur){const c=ac();const n=Math.max(1,(c.sampleRate*dur)|0);const b=c.createBuffer(1,n,c.sampleRate);const d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;return b;}
+  function tone(f,dur,g,type,delay){const c=ac(),t=c.currentTime+(delay||0);const o=c.createOscillator(),ga=c.createGain();o.type=type||'sine';o.frequency.value=f;ga.gain.setValueAtTime(0,t);ga.gain.linearRampToValueAtTime(g,t+.02);ga.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(ga);ga.connect(master);o.start(t);o.stop(t+dur+.03);}
+  // A racket strike = a bright noise transient (the crack) + a pitched body "thwock" with a fast downward pitch envelope.
+  function strike({body=440,bright=2600,dur=.1,gain=.5,bgain=.4,decay=null}){
+    const c=ac(),t=c.currentTime,dk=decay||dur;
+    const s=c.createBufferSource();s.buffer=nbuf(dur*1.1);
+    const bp=c.createBiquadFilter();bp.type='bandpass';bp.frequency.value=bright;bp.Q.value=.7;
+    const hp=c.createBiquadFilter();hp.type='highpass';hp.frequency.value=700;
+    const ng=c.createGain();ng.gain.setValueAtTime(bgain,t);ng.gain.exponentialRampToValueAtTime(.0001,t+dur*.6);
+    s.connect(bp);bp.connect(hp);hp.connect(ng);ng.connect(master);s.start(t);s.stop(t+dur*1.1);
+    const o=c.createOscillator();o.type='triangle';
+    o.frequency.setValueAtTime(body*2,t);o.frequency.exponentialRampToValueAtTime(body,t+.028);
+    const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=body*6;
+    const g=c.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(gain,t+.002);g.gain.exponentialRampToValueAtTime(.0001,t+dk);
+    o.connect(lp);lp.connect(g);g.connect(master);o.start(t);o.stop(t+dk+.05);
+  }
+  function crowd(dur,gain){const c=ac(),t=c.currentTime;const s=c.createBufferSource();s.buffer=nbuf(dur);const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1300;const g=c.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(gain,t+dur*.4);g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(lp);lp.connect(g);g.connect(master);s.start(t);s.stop(t+dur);}
+  const safe=fn=>{try{fn();}catch(e){}};
   return {
-    pop(){try{const t=ac().currentTime;noise(t,.05,.16);tone(180,t,.06,'square',.05);}catch(e){}},
-    tap(){try{const t=ac().currentTime;tone(520,t,.05,'triangle',.05);}catch(e){}},
-    slide(){try{const t=ac().currentTime;noise(t,.18,.05);}catch(e){}},
-    win(){try{const t=ac().currentTime;[523,659,784,1047].forEach((f,i)=>tone(f,t+i*.09,.5,'triangle',.15));}catch(e){}},
-    mid(){try{const t=ac().currentTime;tone(300,t,.28,'sine',.14);tone(226,t+.1,.3,'sine',.1);}catch(e){}}
+    // five ear-distinct tennis strikes, mapped to shot type + intensity
+    drive(){safe(()=>strike({body:420,bright:2600,dur:.11,gain:.5,bgain:.42}));},   // groundstroke thwock
+    slice(){safe(()=>strike({body:720,bright:3600,dur:.08,gain:.24,bgain:.4}));},    // thin, bright chip
+    volley(){safe(()=>strike({body:560,bright:3100,dur:.06,gain:.44,bgain:.54}));},  // short block/punch
+    smash(){safe(()=>{strike({body:230,bright:2500,dur:.16,gain:.7,bgain:.6,decay:.2});tone(84,.2,.28,'sine');});}, // heavy crack + sub
+    pop(){safe(()=>strike({body:500,bright:3300,dur:.14,gain:.62,bgain:.5,decay:.22}));}, // clean-winner pop
+    bounce(){safe(()=>strike({body:150,bright:900,dur:.09,gain:.24,bgain:.12}));},   // ball landing (dull)
+    slide(){safe(()=>{const c=ac(),t=c.currentTime;const s=c.createBufferSource();s.buffer=nbuf(.16);const bp=c.createBiquadFilter();bp.type='bandpass';bp.frequency.value=1900;bp.Q.value=1.3;const g=c.createGain();g.gain.setValueAtTime(.045,t);g.gain.exponentialRampToValueAtTime(.0001,t+.16);s.connect(bp);bp.connect(g);g.connect(master);s.start(t);s.stop(t+.16);});}, // footwork scuff
+    tap(){safe(()=>tone(430,.045,.045,'triangle'));},
+    point(){safe(()=>{strike({body:500,bright:3300,dur:.14,gain:.62,bgain:.5,decay:.22});crowd(1.1,.075);tone(659,.42,.09,'triangle',.02);tone(988,.5,.06,'triangle',.12);});}, // winner pop + subtle crowd + warm confirm
+    weak(){safe(()=>{tone(196,.3,.11,'sine');tone(147,.34,.08,'sine',.08);});} // dull, no reward
   };
 })();
 
@@ -157,13 +189,13 @@ function setLabel(el2,x,y){el2.setAttribute('x',x);el2.setAttribute('y',y);}
 
 /* animate ball along quad bezier; returns Promise */
 function qpt(p0,p1,p2,t){const u=1-t;return {x:u*u*p0.x+2*u*t*p1.x+t*t*p2.x, y:u*u*p0.y+2*u*t*p1.y+t*t*p2.y};}
-function hit(from,to,{dur=650,lift=22,drawTrail=true,sound=true}={}){
+function hit(from,to,{dur=650,lift=22,drawTrail=true,sound='drive'}={}){
   return new Promise(res=>{
     const ball=$('ball'),trail=$('trail');
     const p0={x:from.x,y:from.y},p2={x:to.x,y:to.y};
     const p1={x:(p0.x+p2.x)/2,y:Math.min(p0.y,p2.y)-lift};
     if(drawTrail){trail.setAttribute('d',`M ${p0.x},${p0.y} Q ${p1.x},${p1.y} ${p2.x},${p2.y}`);trail.setAttribute('opacity','1');}
-    if(sound)SND.pop();
+    if(sound&&SND[sound])SND[sound]();
     const t0=performance.now();
     function step(now){
       let t=(now-t0)/dur;if(t>1)t=1;
@@ -197,6 +229,8 @@ const POS={
 };
 let branch=null;
 const stage=$('stage');
+// Anticipation timing — the tension lives in the gap between your shot and their reply.
+const READ_PAUSE=560, HOLD=440;
 
 function optionHTML(list){
   return '<div class="opts">'+list.map((o,i)=>
@@ -233,21 +267,22 @@ async function choose1(i,btns){
   if(i===0){ // AGGRESSIVE — drive open court
     branch='A';
     mark(btns[0],'good');
-    await hit(POS.youBase,{x:58,y:22},{lift:9,dur:430}); // flat drive to their FH corner
-    await wait(120);
-    // counter-puncher runs it down, floats short
-    await moveDot($('opp'),{x:60,y:30},560,$('oppL'));
-    await hit({x:60,y:30},{x:128,y:126},{lift:30,dur:820,sound:true}); // floated defensive ball back short
+    await hit(POS.youBase,{x:58,y:22},{lift:9,dur:430,sound:'drive'}); // your flat drive — crack
+    await wait(READ_PAUSE);                                            // anticipation: can they even get there?
+    await moveDot($('opp'),{x:60,y:30},600,$('oppL'));                 // counter-puncher sprints it down
+    await wait(150);
+    await hit({x:60,y:30},{x:128,y:126},{lift:34,dur:940,sound:'slice'}); // slow, high defensive floater — it hangs
+    await wait(HOLD);                                                  // held beat before the read
     reveal('info','The point isn\'t over','Good drive — but a counter-puncher\'s legs turn your winner into a <b>floated second chance</b>. Now the read that matters: <b>which way are they recovering?</b>',()=>decision2A());
   }else{ // CONTROLLED — approach + net
     branch='B';
     mark(btns[1],'good');
-    await hit(POS.youBase,{x:190,y:20},{lift:14,dur:560}); // deep approach to BH corner
+    await hit(POS.youBase,{x:190,y:20},{lift:14,dur:560,sound:'drive'}); // deep approach — crack
     await moveDot(you,POS.youNet,520,youL); // you close the net
-    await wait(80);
-    // they dip a pass at your feet
+    await wait(READ_PAUSE);                                             // anticipation: the pass is coming
     await moveDot($('opp'),{x:190,y:30},420,$('oppL'));
-    await hit({x:190,y:30},{x:112,y:98},{lift:11,dur:640}); // dipping pass at your feet
+    await hit({x:190,y:30},{x:112,y:98},{lift:11,dur:680,sound:'drive'}); // dipping pass at your feet
+    await wait(HOLD);
     reveal('info','The point isn\'t over','Deep approach — so their pass has to come <b>up</b>, and it\'s dipping at your feet. You\'re at the net now. <b>Low ball, no pace to borrow.</b>',()=>decision2B());
   }
 }
@@ -268,13 +303,15 @@ async function choose2A(i,btns){
   lock(btns);
   if(i===0){ // WRONG-FOOT — correct
     mark(btns[0],'good');ghost(btns[1]);
-    await hit(POS.youBase,{x:58,y:20},{lift:9,dur:400});
+    await hit(POS.youBase,{x:58,y:20},{lift:9,dur:400,sound:'drive'});
+    await wait(170);                 // ball lands in the open corner behind them
     winFX();
     result('win','Point won.','You read the runner. They committed their weight to recovering the open court — so the ball <b>behind</b> them makes them stop, reverse, and reach. Against a mover, the wrong-foot beats the open court almost every time.');
   }else{ // hit to open court — they're already going there
     mark(btns[1],'mid');ghost(btns[0]);
-    await hit(POS.youBase,{x:195,y:22},{lift:9,dur:430});
+    await hit(POS.youBase,{x:195,y:22},{lift:9,dur:430,sound:'drive'});
     await moveDot($('opp'),{x:190,y:30},430,$('oppL'));
+    await wait(120);
     neutralFX();
     result('neutral','They got there.','Clean shot — but a counter-puncher was already recovering that way. You hit into their run. The open court is the instinct; <b>behind them</b> was the kill, because their momentum was the thing to exploit.');
   }
@@ -297,13 +334,15 @@ async function choose2B(i,btns){
   const you=$('you'),youL=$('youL');
   if(i===0){ // deep reset — correct
     mark(btns[0],'good');ghost(btns[1]);
-    await hit(POS.youNet,{x:190,y:18},{lift:12,dur:560});
+    await hit(POS.youNet,{x:190,y:18},{lift:12,dur:560,sound:'volley'}); // punch volley
     await moveDot($('opp'),{x:185,y:30},480,$('oppL'));
+    await wait(150);
     winFX();
     result('win','Point won.','From below the net you can\'t hit down — so you don\'t gamble. The deep volley pins them back, keeps you at net, and you take the <b>next</b> ball from strength. Patience finishes the point the greedy angle would have missed.');
   }else{ // angle winner from below net — low percentage
     mark(btns[1],'mid');ghost(btns[0]);
-    await hit(POS.youNet,{x:74,y:64},{lift:6,dur:430});
+    await hit(POS.youNet,{x:74,y:64},{lift:6,dur:430,sound:'volley'});
+    await wait(140);
     neutralFX();
     result('neutral','Into the net.','From a ball at your feet the sharp angle has almost no margin — you have to lift it and hope. Tempting, but it\'s the low-percentage swing. <b>Deep and boring</b> wins this one; the winner comes on the ball after.');
   }
@@ -322,8 +361,8 @@ function reveal(kind,tag,txt,next){
   stage.appendChild(btn);btn.onclick=()=>{SND.tap();next();};
   r.scrollIntoView({behavior:'smooth',block:'center'});
 }
-function winFX(){flash();particles();SND.win();}
-function neutralFX(){SND.mid();}
+function winFX(){flash();particles();SND.point();}
+function neutralFX(){SND.weak();}
 function result(kind,title,txt){
   dots(3);
   const good=kind==='win';
