@@ -2624,9 +2624,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
         <svg class="gs-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" stroke-linejoin="round"/><polyline points="16 7 22 7 22 13" stroke-linejoin="round"/></svg>
         <span class="gs-nav-label">Sharpen</span>
       </div>
-      <div class="gs-nav-item" onclick="showProfileHub()">
-        <svg class="gs-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span class="gs-nav-label">Profile</span>
+      <div class="gs-nav-item" onclick="initLearnHub()">
+        <svg class="gs-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88"/></svg>
+        <span class="gs-nav-label">Explore</span>
       </div>
     </nav>
   </div>
@@ -3080,9 +3080,9 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
     <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" stroke-linejoin="round"/><polyline points="16 7 22 7 22 13" stroke-linejoin="round"/></svg>
     <span>Sharpen</span>
   </div>
-  <div class="gs-bnav-item" onclick="showProfileHub()">
-    <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span>Profile</span>
+  <div class="gs-bnav-item" onclick="initLearnHub()">
+    <svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88"/></svg>
+    <span>Explore</span>
   </div>
 </nav>
 
@@ -3748,7 +3748,7 @@ function showProfileHub() {
     </div>`;
 
   wrap.innerHTML = `
-    <div class="phub-back" onclick="initHome()">← Home</div>
+    <div class="phub-back" onclick="initLearnHub()">← Explore</div>
     ${buildBrainSection()}
     <div class="phub-section">
       <div class="phub-section-eyebrow">Your Setup</div>
@@ -3759,20 +3759,6 @@ function showProfileHub() {
       <div class="phub-section-eyebrow">Built from your answers.</div>
       <div class="phub-section-title">Recommended Sessions</div>
       ${sessionCard}
-    </div>
-    <div class="phub-section">
-      <div class="phub-section-eyebrow">Explore GameSharp</div>
-      <div class="phub-section-title">Browse Everything</div>
-      <button class="phub-card phub-library" type="button" onclick="initLearnHub()">
-        <div class="phub-card-row">
-          <span class="phub-card-icon">⌕</span>
-          <div class="phub-card-body">
-            <div class="phub-card-value">Open the full library</div>
-            <div class="phub-card-label">Pillars · Pro Insights · Playbook · Legendary Exchanges</div>
-          </div>
-          <span class="phub-arrow">→</span>
-        </div>
-      </button>
     </div>
     <div class="ig-profile-card" onclick="gsOpenInstallGuide()">
       <div class="ig-profile-title">▣ Put GameSharp on your Home Screen</div>
@@ -11452,10 +11438,10 @@ function initLearnHub() {
   });
 
   wrap.innerHTML = `
-    <div class="hub-back" onclick="showProfileHub()">← Profile</div>
+    <div class="hub-back" onclick="initHome()">← Home</div>
     <div class="hub-header">
       <div class="hub-title">Browse Everything</div>
-      <div class="hub-sub">Pillars, Pro Insights, Playbook and Legendary Exchanges.</div>
+      <div class="hub-sub">The 5 Pillars, Pro Insights and the Playbook.</div>
     </div>
 
     <div class="hub-section-hdr">
@@ -11485,20 +11471,35 @@ function initLearnHub() {
     </div>
 
     <div class="hub-section-hdr">
+      <div class="hub-section-eyebrow">Your game</div>
+      <div class="hub-section-title">Player Profile</div>
+    </div>
+    <div class="hub-card" onclick="showProfileHub()">
+      <div class="hub-card-icon">👤</div>
+      <div class="hub-card-body">
+        <div class="hub-card-eyebrow">Player Profile</div>
+        <div class="hub-card-title">Your style, your leaks, your progress.</div>
+        <div class="hub-card-sub">Tennis Brain, playing style and match focus.</div>
+      </div>
+      <div class="hub-card-arrow">→</div>
+    </div>
+
+    <!-- ARCHIVED 2026-06 (recoverable — restore by uncommenting): Legendary Exchanges / Signature Experiences
+    <div class="hub-section-hdr">
       <div class="hub-section-eyebrow">Signature Experiences</div>
       <div class="hub-section-title">Legendary Exchanges</div>
     </div>
     <div class="hub-card" onclick="startLegendaryExchange('wim2008_exchange_001')">
-      <div class="hub-card-icon">🏆</div>
+      <div class="hub-card-icon">TROPHY</div>
       <div class="hub-card-body">
         <div class="hub-card-eyebrow">Legendary Exchanges</div>
         <div class="hub-card-title">Step inside a famous point.</div>
         <div class="hub-card-sub">London 2008 Final — Federer vs Nadal, fifth set.</div>
       </div>
-      <div class="hub-card-arrow">→</div>
+      <div class="hub-card-arrow">-></div>
     </div>
-
-    ${recHtml}
+    -->
+    <!-- ARCHIVED 2026-06 (recoverable): "Suggested for you" recommended-next card — restore by re-adding the recHtml interpolation here. -->
 
     <div class="gs-editorial-note"><strong>About GameSharp guidance</strong><br>Pro Insights are educational summaries informed by publicly available match analysis, player and coach commentary, tennis data and established coaching principles. Technique diagnoses show the most likely cause to test from the evidence presented—not a substitute for individual assessment by a qualified coach. Content does not imply endorsement by any player, coach or governing body.</div>
 

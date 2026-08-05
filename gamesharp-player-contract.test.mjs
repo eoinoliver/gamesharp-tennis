@@ -65,10 +65,18 @@ assert.match(css, /gspcFootworkShuttle/, 'intermittent footwork movement cue is 
 assert.match(html, /gamesharp-pain-coach\.css/, 'working HTML is not linked to feature styles');
 assert.match(html, /gamesharp-pain-coach\.js/, 'working HTML is not linked to feature logic');
 assert.equal((html.match(/onclick="GameSharpPainCoach\.open\('sharpen'\)"/g) || []).length, 2, 'desktop and mobile Sharpen navigation must open the illustrated player directly');
-assert.equal((html.match(/onclick="initLearnHub\(\)"/g) || []).length, 1, 'the full library must be reachable only from Profile');
-assert.match(html, /<div class="phub-section-title">Browse Everything<\/div>/, 'Profile is missing Browse Everything');
-assert.match(html, /state\.screen = 'profileLibrary';[\s\S]*?updateBottomNav\('profileScreen'\)/, 'Profile library does not retain Profile navigation state');
-assert.match(html, /class="hub-back" onclick="showProfileHub\(\)">← Profile/, 'Profile library does not return to Profile');
+// Explore tab (2026-06 restructure): the full library is now a primary destination — opened from both nav bars,
+// with Player Profile living inside it. initLearnHub() is reachable from desktop nav, mobile nav, and the
+// Profile-detail back button (← Explore); Profile no longer hosts a Browse Everything link.
+assert.equal((html.match(/onclick="initLearnHub\(\)"/g) || []).length, 3, 'the library (Explore tab) must open from both nav bars and be the return target from Profile');
+assert.match(html, /<span class="gs-nav-label">Explore<\/span>/, 'desktop nav is missing the Explore tab');
+assert.match(html, /<span>Explore<\/span>/, 'mobile nav is missing the Explore tab');
+assert.match(html, /<div class="hub-title">Browse Everything<\/div>/, 'Explore tab is missing the Browse Everything library');
+assert.match(html, /state\.screen = 'profileLibrary';[\s\S]*?updateBottomNav\('profileScreen'\)/, 'Explore library does not retain its nav-highlight state');
+assert.match(html, /class="hub-back" onclick="initHome\(\)">← Home/, 'Explore library back does not return Home');
+assert.match(html, /class="hub-card" onclick="showProfileHub\(\)">/, 'Player Profile card is missing from the Explore library');
+assert.match(html, /class="phub-back" onclick="initLearnHub\(\)">← Explore/, 'Profile does not return to the Explore library');
+assert.doesNotMatch(html, /<div class="phub-section-title">Browse Everything<\/div>/, 'Profile must not still host a Browse Everything link (it is the Explore tab now)');
 assert.doesNotMatch(css, /gspc-sharpen-entry|gspc-browse/, 'retired Sharpen lobby styling remains');
 assert.ok(fs.existsSync(`${root}/GS-tennis-player-pose.png`), 'approved player asset is missing');
 
