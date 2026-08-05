@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<title>GameSharp · Live Point</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c8a84b; --gold-light:#e2c570;
+  --dark:#111111; --card:#1a1a1a; --card2:#232323;
+  --white:#f0ece3; --muted:rgba(255,255,255,.55);
+  --win:#4caf50; --weak:#c98a4b;
+  --ease:cubic-bezier(.34,1.4,.64,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{background:var(--dark);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100dvh;overflow-x:hidden;}
+body{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 24px);max-width:460px;margin:0 auto;}
+.wm{font-family:'DM Sans';font-weight:800;font-size:22px;letter-spacing:-.5px;line-height:1;}
+.wm span{color:var(--gold);}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.sub{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* Court */
+.court-wrap{margin:14px 0 4px;border-radius:16px;overflow:hidden;background:#0a160c;border:1px solid rgba(255,255,255,.06);position:relative;}
+svg.court{width:100%;display:block;}
+.badge-type{display:block;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.28);border-radius:13px;padding:10px 14px;font-size:12px;line-height:1.45;color:var(--gold-light);font-weight:500;margin-top:10px;}
+.badge-type .k{font-size:9.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-right:5px;}
+.badge-type b{color:var(--white);font-weight:800;}
+
+/* Situation + question */
+.sit{font-size:14.5px;line-height:1.5;color:rgba(255,255,255,.9);margin:16px 2px 4px;min-height:22px;}
+.q{font-size:17px;font-weight:700;line-height:1.35;margin:8px 2px 14px;}
+
+/* Options */
+.opts{display:flex;flex-direction:column;gap:10px;}
+.opt{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 15px;cursor:pointer;text-align:left;transition:border-color .18s,background .18s,transform .12s;font-family:inherit;color:var(--white);width:100%;}
+.opt:active{transform:scale(.985);}
+.opt-ltr{width:30px;height:30px;flex:none;border-radius:9px;background:rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:rgba(255,255,255,.85);}
+.opt-body{flex:1;min-width:0;}
+.opt-lbl{font-size:14.5px;font-weight:700;line-height:1.2;}
+.opt-sub{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.3;}
+.opt.locked{pointer-events:none;}
+.opt.chosen.good{border-color:var(--win);background:rgba(76,175,80,.1);}
+.opt.chosen.mid{border-color:var(--weak);background:rgba(201,138,75,.1);}
+.opt.dim{opacity:.4;}
+.opt.correct-ghost{border-color:rgba(76,175,80,.5);}
+
+/* Reveal card */
+.reveal{margin-top:14px;border-radius:14px;padding:14px 16px;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s;border:1px solid;}
+.reveal.show{opacity:1;transform:none;}
+.reveal.good{background:rgba(76,175,80,.09);border-color:rgba(76,175,80,.35);}
+.reveal.mid{background:rgba(201,138,75,.09);border-color:rgba(201,138,75,.32);}
+.reveal.info{background:rgba(200,168,75,.07);border-color:rgba(200,168,75,.28);}
+.reveal-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.reveal.good .reveal-tag{color:var(--win);}
+.reveal.mid .reveal-tag{color:var(--weak);}
+.reveal.info .reveal-tag{color:var(--gold);}
+.reveal-txt{font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.9);}
+
+/* Buttons */
+.btn{display:block;width:100%;background:var(--gold);color:#111;border:none;border-radius:13px;padding:15px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px;transition:transform .12s,filter .18s;}
+.btn:active{transform:scale(.98);}
+.btn.ghost{background:transparent;color:var(--muted);border:1.5px solid rgba(255,255,255,.14);margin-top:10px;}
+
+/* Result */
+.result-title{font-family:'DM Sans';font-weight:800;font-size:30px;letter-spacing:-.5px;line-height:1;margin:2px 0 8px;}
+.result-title.win{color:var(--win);}
+.result-title.neutral{color:var(--gold-light);}
+.hidden{display:none!important;}
+
+/* Ball flash overlay on win */
+@keyframes flashGold{0%{opacity:0;}30%{opacity:.5;}100%{opacity:0;}}
+.court-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,rgba(200,168,75,.55),transparent 60%);pointer-events:none;opacity:0;}
+.court-flash.go{animation:flashGold .9s ease forwards;}
+.step-dots{display:flex;gap:6px;justify-content:center;margin:2px 0 0;}
+.sd{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.16);}
+.sd.on{background:var(--gold);}
+.sd.done{background:rgba(200,168,75,.45);}
+.foot{text-align:center;font-size:11px;color:rgba(255,255,255,.32);margin-top:18px;}
+</style>
+</head>
+<body>
+
+  <div class="head">
+    <div class="wm">Game<span>Sharp</span></div>
+    <div class="eyebrow">Live Point</div>
+  </div>
+  <div class="sub" id="subline">Your reward for finishing today's four. Play it out.</div>
+
+  <div class="badge-type" id="typeBadge"><span class="k">Opponent</span><b>Counter-puncher</b> — defends deep, feeds off your pace. Patience, then commit.</div>
+
+  <div class="court-wrap">
+    <div class="court-flash" id="flash"></div>
+    <svg class="court" id="court" viewBox="0 0 250 170" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <div class="step-dots" id="dots"></div>
+
+  <div id="stage"></div>
+
+  <div class="foot">Prototype · one point, two decisions, four ways it ends.</div>
+
+<script>
+"use strict";
+/* ─────────────────────────────  SOUND  ───────────────────────────── */
+const SND=(()=>{let ctx=null;
+  function ac(){if(!ctx)ctx=new (window.AudioContext||window.webkitAudioContext)();return ctx;}
+  function tone(f,t,dur,type,g){const c=ac();const o=c.createOscillator(),ga=c.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);ga.gain.setValueAtTime(0,t);ga.gain.linearRampToValueAtTime(g||.18,t+.012);ga.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(ga);ga.connect(c.destination);o.start(t);o.stop(t+dur+.02);}
+  function noise(t,dur,g){const c=ac();const b=c.createBuffer(1,c.sampleRate*dur,c.sampleRate);const d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);const s=c.createBufferSource();s.buffer=b;const ga=c.createGain();ga.gain.value=g||.14;const bp=c.createBiquadFilter();bp.type='bandpass';bp.frequency.value=2600;s.connect(bp);bp.connect(ga);ga.connect(c.destination);s.start(t);}
+  return {
+    pop(){try{const t=ac().currentTime;noise(t,.05,.16);tone(180,t,.06,'square',.05);}catch(e){}},
+    tap(){try{const t=ac().currentTime;tone(520,t,.05,'triangle',.05);}catch(e){}},
+    slide(){try{const t=ac().currentTime;noise(t,.18,.05);}catch(e){}},
+    win(){try{const t=ac().currentTime;[523,659,784,1047].forEach((f,i)=>tone(f,t+i*.09,.5,'triangle',.15));}catch(e){}},
+    mid(){try{const t=ac().currentTime;tone(300,t,.28,'sine',.14);tone(226,t+.1,.3,'sine',.1);}catch(e){}}
+  };
+})();
+
+/* ─────────────────────────────  COURT  ───────────────────────────── */
+const NS='http://www.w3.org/2000/svg';
+const court=document.getElementById('court');
+function el(tag,attrs){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+function drawCourt(){
+  court.innerHTML='';
+  const defs=el('defs');
+  defs.innerHTML='<linearGradient id="surf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d5f29"/><stop offset="1" stop-color="#15461f"/></linearGradient>';
+  court.appendChild(defs);
+  const add=(t,a)=>court.appendChild(el(t,a));
+  add('rect',{x:0,y:0,width:250,height:170,fill:'#0a160c'});
+  add('rect',{x:20,y:14,width:210,height:144,fill:'url(#surf)',rx:1});
+  const line=(x1,y1,x2,y2,o,w)=>add('line',{x1,y1,x2,y2,stroke:'rgba(255,255,255,'+o+')','stroke-width':w||1});
+  line(20,14,230,14,.5,1.2);line(20,158,230,158,.5,1.2);line(20,14,20,158,.5,1.2);line(230,14,230,158,.5,1.2);
+  line(46,14,46,158,.3);line(204,14,204,158,.3);
+  line(46,46,204,46,.3);line(46,122,204,122,.3);
+  line(125,46,125,122,.28);
+  add('rect',{x:17,y:74,width:6,height:8,fill:'rgba(200,168,75,.45)',rx:1});
+  add('rect',{x:227,y:74,width:6,height:8,fill:'rgba(200,168,75,.45)',rx:1});
+  line(20,78,230,78,.7,1.8);
+  // wing labels (their side, top)
+  add('text',{x:74,y:33,'text-anchor':'middle','font-size':6,fill:'rgba(200,168,75,.5)','font-family':'DM Sans'}).textContent='THEIR FH';
+  add('text',{x:176,y:33,'text-anchor':'middle','font-size':6,fill:'rgba(200,168,75,.5)','font-family':'DM Sans'}).textContent='THEIR BH';
+  // players + ball (kept as refs)
+  const opp=el('circle',{id:'opp',cx:125,cy:32,r:5.5,fill:'rgba(255,255,255,.6)'});court.appendChild(opp);
+  const oppL=el('text',{id:'oppL',x:125,y:45,'text-anchor':'middle','font-size':6,fill:'rgba(255,255,255,.35)','font-family':'DM Sans'});oppL.textContent='OPP';court.appendChild(oppL);
+  const trail=el('path',{id:'trail',d:'',fill:'none',stroke:'rgba(200,168,75,.55)','stroke-width':1.5,'stroke-dasharray':'4,3',opacity:0});court.appendChild(trail);
+  const you=el('circle',{id:'you',cx:125,cy:122,r:6.5,fill:'rgba(200,168,75,.92)'});court.appendChild(you);
+  const youL=el('text',{id:'youL',x:125,y:136,'text-anchor':'middle','font-size':6,fill:'rgba(200,168,75,.55)','font-family':'DM Sans'});youL.textContent='YOU';court.appendChild(youL);
+  const ball=el('circle',{id:'ball',cx:120,cy:100,r:3.4,fill:'#e8f4d8'});court.appendChild(ball);
+}
+const $=id=>document.getElementById(id);
+function setDot(el2,x,y){el2.setAttribute('cx',x);el2.setAttribute('cy',y);}
+function setLabel(el2,x,y){el2.setAttribute('x',x);el2.setAttribute('y',y);}
+
+/* animate ball along quad bezier; returns Promise */
+function qpt(p0,p1,p2,t){const u=1-t;return {x:u*u*p0.x+2*u*t*p1.x+t*t*p2.x, y:u*u*p0.y+2*u*t*p1.y+t*t*p2.y};}
+function hit(from,to,{dur=650,lift=22,drawTrail=true,sound=true}={}){
+  return new Promise(res=>{
+    const ball=$('ball'),trail=$('trail');
+    const p0={x:from.x,y:from.y},p2={x:to.x,y:to.y};
+    const p1={x:(p0.x+p2.x)/2,y:Math.min(p0.y,p2.y)-lift};
+    if(drawTrail){trail.setAttribute('d',`M ${p0.x},${p0.y} Q ${p1.x},${p1.y} ${p2.x},${p2.y}`);trail.setAttribute('opacity','1');}
+    if(sound)SND.pop();
+    const t0=performance.now();
+    function step(now){
+      let t=(now-t0)/dur;if(t>1)t=1;
+      const e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2; // easeInOut
+      const p=qpt(p0,p1,p2,e);setDot(ball,p.x,p.y);
+      if(t<1)requestAnimationFrame(step);else res();
+    }
+    requestAnimationFrame(step);
+  });
+}
+function moveDot(el2,to,dur=600,label=null){
+  return new Promise(res=>{
+    const x0=+el2.getAttribute('cx'),y0=+el2.getAttribute('cy');
+    SND.slide();const t0=performance.now();
+    function step(now){let t=(now-t0)/dur;if(t>1)t=1;const e=1-Math.pow(1-t,3);
+      const x=x0+(to.x-x0)*e,y=y0+(to.y-y0)*e;setDot(el2,x,y);if(label)setLabel(label,x,y+13);
+      if(t<1)requestAnimationFrame(step);else res();}
+    requestAnimationFrame(step);
+  });
+}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function flash(){const f=$('flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');}
+function particles(){const w=document.querySelector('.court-wrap');for(let i=0;i<14;i++){const d=document.createElement('div');const s=4+Math.random()*4;d.style.cssText=`position:absolute;left:50%;top:44%;width:${s}px;height:${s}px;border-radius:50%;background:${Math.random()<.5?'#c8a84b':'#e2c570'};pointer-events:none;z-index:3;`;w.appendChild(d);const ang=Math.random()*6.28,dist=40+Math.random()*70;const dx=Math.cos(ang)*dist,dy=Math.sin(ang)*dist-20;d.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`,opacity:0}],{duration:750+Math.random()*350,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>d.remove();}}
+
+/* ─────────────────────────────  DOTS  ───────────────────────────── */
+function dots(active){const d=$('dots');d.innerHTML='';for(let i=0;i<3;i++){const s=document.createElement('div');s.className='sd'+(i<active?' done':i===active?' on':'');d.appendChild(s);}}
+
+/* ─────────────────────────────  FLOW  ───────────────────────────── */
+const POS={
+  youBase:{x:125,y:122}, youNet:{x:125,y:92}, oppCentre:{x:125,y:32}, sitter:{x:120,y:100}
+};
+let branch=null;
+const stage=$('stage');
+
+function optionHTML(list){
+  return '<div class="opts">'+list.map((o,i)=>
+    `<button class="opt" data-i="${i}"><div class="opt-ltr">${'AB'[i]}</div><div class="opt-body"><div class="opt-lbl">${o.lbl}</div><div class="opt-sub">${o.sub}</div></div></button>`
+  ).join('')+'</div>';
+}
+
+/* INTRO */
+function intro(){
+  drawCourt();dots(0);branch=null;
+  stage.innerHTML=`
+    <div class="sit">You've pushed the counter-puncher deep with a heavy crosscourt. They float a tired reply — <b>short, sitting up at your service line.</b> You've stepped in early.</div>
+    <div class="q">This is the ball you built the point for. Begin.</div>
+    <button class="btn" id="begin">Step in →</button>`;
+  $('begin').onclick=()=>{SND.tap();decision1();};
+}
+
+/* DECISION 1 */
+function decision1(){
+  dots(0);
+  stage.innerHTML=`
+    <div class="sit">Short sitter, opponent recovering to the middle. You have the whole court.</div>
+    <div class="q">How do you play the short ball?</div>
+    ${optionHTML([
+      {lbl:'Drive it hard into the open court',sub:'Take time away — go for the corner now'},
+      {lbl:'Approach deep and close the net',sub:'Controlled — pressure them into a pass'}
+    ])}`;
+  bindOpts(choose1);
+}
+
+async function choose1(i,btns){
+  lock(btns);
+  const you=$('you'),youL=$('youL');
+  if(i===0){ // AGGRESSIVE — drive open court
+    branch='A';
+    mark(btns[0],'good');
+    await hit(POS.youBase,{x:58,y:22},{lift:9,dur:430}); // flat drive to their FH corner
+    await wait(120);
+    // counter-puncher runs it down, floats short
+    await moveDot($('opp'),{x:60,y:30},560,$('oppL'));
+    await hit({x:60,y:30},{x:128,y:126},{lift:30,dur:820,sound:true}); // floated defensive ball back short
+    reveal('info','The point isn\'t over','Good drive — but a counter-puncher\'s legs turn your winner into a <b>floated second chance</b>. Now the read that matters: <b>which way are they recovering?</b>',()=>decision2A());
+  }else{ // CONTROLLED — approach + net
+    branch='B';
+    mark(btns[1],'good');
+    await hit(POS.youBase,{x:190,y:20},{lift:14,dur:560}); // deep approach to BH corner
+    await moveDot(you,POS.youNet,520,youL); // you close the net
+    await wait(80);
+    // they dip a pass at your feet
+    await moveDot($('opp'),{x:190,y:30},420,$('oppL'));
+    await hit({x:190,y:30},{x:112,y:98},{lift:11,dur:640}); // dipping pass at your feet
+    reveal('info','The point isn\'t over','Deep approach — so their pass has to come <b>up</b>, and it\'s dipping at your feet. You\'re at the net now. <b>Low ball, no pace to borrow.</b>',()=>decision2B());
+  }
+}
+
+/* DECISION 2 — off branch A (baseline, they floated short) */
+function decision2A(){
+  dots(1);
+  stage.innerHTML=`
+    <div class="sit">Their floater sits up mid-court. They scrambled wide to their forehand and are now <b>sprinting back toward the middle.</b></div>
+    <div class="q">Option off the option — where do you put it?</div>
+    ${optionHTML([
+      {lbl:'Behind them — back into the corner they left',sub:'Wrong-foot the recovering player'},
+      {lbl:'Into the open court they\'re running to',sub:'Hit to the space on the other side'}
+    ])}`;
+  bindOpts(choose2A);
+}
+async function choose2A(i,btns){
+  lock(btns);
+  if(i===0){ // WRONG-FOOT — correct
+    mark(btns[0],'good');ghost(btns[1]);
+    await hit(POS.youBase,{x:58,y:20},{lift:9,dur:400});
+    winFX();
+    result('win','Point won.','You read the runner. They committed their weight to recovering the open court — so the ball <b>behind</b> them makes them stop, reverse, and reach. Against a mover, the wrong-foot beats the open court almost every time.');
+  }else{ // hit to open court — they're already going there
+    mark(btns[1],'mid');ghost(btns[0]);
+    await hit(POS.youBase,{x:195,y:22},{lift:9,dur:430});
+    await moveDot($('opp'),{x:190,y:30},430,$('oppL'));
+    neutralFX();
+    result('neutral','They got there.','Clean shot — but a counter-puncher was already recovering that way. You hit into their run. The open court is the instinct; <b>behind them</b> was the kill, because their momentum was the thing to exploit.');
+  }
+}
+
+/* DECISION 2 — off branch B (net, dipping pass at feet) */
+function decision2B(){
+  dots(1);
+  stage.innerHTML=`
+    <div class="sit">You're at the net. Their pass is <b>low and dipping at your feet</b> — below the net cord. No pace on it.</div>
+    <div class="q">Option off the option — how do you volley it?</div>
+    ${optionHTML([
+      {lbl:'Punch it deep and hold your position',sub:'Controlled — you can\'t hit down, so reset deep'},
+      {lbl:'Go for the sharp angle winner',sub:'End it now with a touch angle'}
+    ])}`;
+  bindOpts(choose2B);
+}
+async function choose2B(i,btns){
+  lock(btns);
+  const you=$('you'),youL=$('youL');
+  if(i===0){ // deep reset — correct
+    mark(btns[0],'good');ghost(btns[1]);
+    await hit(POS.youNet,{x:190,y:18},{lift:12,dur:560});
+    await moveDot($('opp'),{x:185,y:30},480,$('oppL'));
+    winFX();
+    result('win','Point won.','From below the net you can\'t hit down — so you don\'t gamble. The deep volley pins them back, keeps you at net, and you take the <b>next</b> ball from strength. Patience finishes the point the greedy angle would have missed.');
+  }else{ // angle winner from below net — low percentage
+    mark(btns[1],'mid');ghost(btns[0]);
+    await hit(POS.youNet,{x:74,y:64},{lift:6,dur:430});
+    neutralFX();
+    result('neutral','Into the net.','From a ball at your feet the sharp angle has almost no margin — you have to lift it and hope. Tempting, but it\'s the low-percentage swing. <b>Deep and boring</b> wins this one; the winner comes on the ball after.');
+  }
+}
+
+/* ── UI helpers ── */
+function bindOpts(fn){const btns=[...stage.querySelectorAll('.opt')];btns.forEach(b=>b.onclick=()=>{SND.tap();fn(+b.dataset.i,btns);});}
+function lock(btns){btns.forEach(b=>b.classList.add('locked'));}
+function mark(b,kind){b.classList.add('chosen',kind);}
+function ghost(b){b.classList.add('correct-ghost');}
+function reveal(kind,tag,txt,next){
+  const r=document.createElement('div');r.className='reveal '+kind;
+  r.innerHTML=`<div class="reveal-tag">${tag}</div><div class="reveal-txt">${txt}</div>`;
+  stage.appendChild(r);requestAnimationFrame(()=>r.classList.add('show'));
+  const btn=document.createElement('button');btn.className='btn';btn.textContent='Read their reply →';
+  stage.appendChild(btn);btn.onclick=()=>{SND.tap();next();};
+  r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function winFX(){flash();particles();SND.win();}
+function neutralFX(){SND.mid();}
+function result(kind,title,txt){
+  dots(3);
+  const good=kind==='win';
+  stage.innerHTML=`
+    <div class="reveal ${good?'good':'mid'} show" style="margin-top:16px;">
+      <div class="result-title ${good?'win':'neutral'}">${title}</div>
+      <div class="reveal-txt">${txt}</div>
+    </div>
+    <button class="btn" id="again">Play the other line →</button>
+    <button class="btn ghost" id="restart">Start the point over</button>`;
+  // "Play the other line" → back to Decision 1 so they can take the other branch and see its ending
+  $('again').onclick=()=>{SND.tap();drawCourt();decision1();};
+  $('restart').onclick=()=>{SND.tap();intro();};
+  document.querySelector('.result-title').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+intro();
+</script>
+</body>
+</html>
