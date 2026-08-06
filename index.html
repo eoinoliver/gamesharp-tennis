@@ -175,7 +175,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 .pd-see-all-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;}
 .pd-see-all-arrow{font-size:13px;font-weight:800;color:var(--pd-accent,var(--gold));}
 .pd-divider{height:1px;background:rgba(255,255,255,.05);margin:8px 18px;}
-.pd-bottom-pad{height:80px;}
+.pd-bottom-pad{height:calc(24px + var(--gs-nav-h));}
 
 /* ── QUIZ ── */
 .quiz-header{padding:calc(18px + env(safe-area-inset-top)) 20px 0;display:flex;align-items:center;gap:12px;}
@@ -460,7 +460,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 
   /* ── SHARPEN: compress every section so all five (Recommended, Pillars,
      Pro Lens, Play a Point, Legendary Exchanges) are glanceable in one viewport ── */
-  #learnScreen .hub-screen{padding:8px 14px 76px;}
+  #learnScreen .hub-screen{padding:8px 14px calc(20px + var(--gs-nav-h));}
   #learnScreen .hub-back{padding:2px 0;margin-bottom:2px;}
   #learnScreen .hub-header{padding:2px 4px 4px;}
   #learnScreen .hub-title{font-size:24px;}
@@ -8077,8 +8077,25 @@ function gsScrollTop() {
       .forEach(el => { el.scrollTop = 0; });
   } catch(e){}
 }
+// Close full-screen overlays that sit ABOVE the app shell but leave the persistent
+// nav tappable (so a nav tap would navigate underneath them and leave them
+// superimposed). The Pain Coach is the only such overlay — it is deliberately inset
+// to `bottom:var(--gs-nav-h)` so the tab bar stays visible/tappable, which is exactly
+// what makes it leak. Every other overlay is inset:0 above the nav (nav not clickable
+// over it), so it cannot be left superimposed by navigation. Called from showScreen —
+// the single choke point all navigation passes through — so the leak is structurally
+// impossible. Must NOT chain to closers that themselves navigate (e.g. dtcExit →
+// initHome → showScreen) or it would recurse.
+function dismissTransientOverlays() {
+  try { if (window.GameSharpPainCoach && typeof GameSharpPainCoach.close === 'function') GameSharpPainCoach.close(); } catch(e){}
+}
 function showScreen(id) {
   if (window.gsHideBootSplash) gsHideBootSplash();
+  // Navigating to any screen dismisses transient full-screen overlays so they can
+  // never be left superimposed over a different page. showScreen is the single
+  // choke point every navigation (nav taps, deep links, content launches) passes
+  // through, so closing overlays here makes the leak structurally impossible.
+  dismissTransientOverlays();
   document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none';});
   const t=document.getElementById(id); t.style.display='flex'; void t.offsetWidth; t.classList.add('active');
   document.body.classList.toggle('gs-home-minimal', id === 'homeScreen');

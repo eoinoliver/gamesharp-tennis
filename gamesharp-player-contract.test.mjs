@@ -80,4 +80,33 @@ assert.doesNotMatch(html, /<div class="phub-section-title">Browse Everything<\/d
 assert.doesNotMatch(css, /gspc-sharpen-entry|gspc-browse/, 'retired Sharpen lobby styling remains');
 assert.ok(fs.existsSync(`${root}/GS-tennis-player-pose.png`), 'approved player asset is missing');
 
+// ── Structural guards (2026-08) — lock the fixes for the persistent-nav era so the
+// same bug-classes cannot silently return. Each maps to a real defect we hit. ──
+
+// A) Overlay-superimposed-on-nav leak. The Pain Coach overlay is deliberately inset
+// above the persistent tab bar (bottom:var(--gs-nav-h)) so the tabs stay tappable —
+// which is exactly what lets a nav tap navigate underneath it. showScreen (the single
+// navigation choke point) MUST dismiss transient overlays, and that dismissal MUST
+// close the Pain Coach. If a future overlay adopts the same nav-exposing inset it must
+// be added to dismissTransientOverlays, or this contract is a lie.
+assert.match(css, /\.gspc-overlay\{[^}]*bottom:var\(--gs-nav-h/, 'Pain Coach overlay must inset above the persistent nav (bottom:var(--gs-nav-h))');
+// Tight: the dismiss CALL must appear inside showScreen's body BEFORE the screen swap
+// ([^{}] keeps us in the top level of the function, so a nearby definition can't satisfy it).
+assert.match(html, /function showScreen\([^)]*\)\s*\{[^{}]{0,500}dismissTransientOverlays\(\);[^{}]{0,200}querySelectorAll\('\.screen'\)/, 'showScreen must call dismissTransientOverlays() before switching screens');
+assert.match(html, /function dismissTransientOverlays\(\)\s*\{[\s\S]{0,320}GameSharpPainCoach\.close\(\)/, 'dismissTransientOverlays must call GameSharpPainCoach.close()');
+
+// B) Content hidden behind the persistent nav. A shared nav-height variable must exist
+// and the focused-flow bottom controls (the quiz Next button) must reserve it.
+assert.match(html, /:root\{--gs-nav-h:calc\(68px \+ env\(safe-area-inset-bottom\)\)/, 'nav-height custom property (--gs-nav-h) must be defined');
+assert.match(html, /\.next-btn\.show\{bottom:calc\(8px \+ var\(--gs-nav-h\)\)/, 'sticky Next button must clear the nav while scrolling');
+assert.match(html, /\.next-btn\{[^}]*margin:8px 20px calc\(12px \+ var\(--gs-nav-h\)\)/, 'Next button rest position must clear the nav');
+
+// C) The tab bar is persistent on every page — updateBottomNav must never re-hide it.
+assert.doesNotMatch(html, /function updateBottomNav[\s\S]{0,300}nav\.style\.display\s*=\s*'none'/, 'updateBottomNav must not hide the persistent tab bar');
+
+// D) Brand casing. Every user-visible brand token is all-caps GAMESHARP; only code
+// identifiers (GameSharpPainCoach, GameSharpFocusView) and asset filenames
+// (…-Tennis-Insight) keep the camel-case form, so each must be followed by a letter/-.
+assert.doesNotMatch(html, /GameSharp(?![A-Za-z-])/, 'brand must be all-caps GAMESHARP everywhere it is user-visible');
+
 console.log('GameSharp player structural contract: PASS');
