@@ -455,6 +455,154 @@ const SCENARIOS = [
       midTitle:"They were ready.",
       midTxt:"The lob worked once because they were charging — deep and set, they read the second one all the way. Going back to it is a <b>low-percentage</b> repeat. The drive into open court was there; the trick only works by surprise."
     }
+  },
+  /* @batch-3 */
+  {
+    id:"change_direction", title:"Change of Direction",
+    opp:"<b>Grooved crosscourt</b> — they've settled into the diagonal and lean that way to recover, daring you to blink first.",
+    d1:{
+      sit:"You've traded a dozen backhands crosscourt and they've grooved into it — recovering a half-step that way each time. This one lands a touch short, inside your baseline. You can step in.",
+      q:"How do you use the short ball?",
+      opts:[
+        {lbl:"Change direction — drive down the line", sub:"Wrong-foot the crosscourt lean", br:"A"},
+        {lbl:"Stay crosscourt, but sharper and shorter", sub:"Drag them wider first", br:"B"}
+      ],
+      court:{shots:[], sitter:[64,224]}
+    },
+    A:{
+      seq:{youStart:[56,255], oppStart:[150,40], oppEnd:[150,48], shots:[
+        {from:[64,224], to:[52,46], bend:4, color:GOLD, snd:"drive", label:"DOWN THE LINE"},
+        {from:[54,46], to:[104,196], bend:-12, color:RED, snd:"slice", label:"LATE LUNGE"} ]},
+      reveal:"They'd loaded to cover another crosscourt — the change of direction sends them the wrong way. Lunging late, all they get back is a weak block floating to the middle.",
+      d2:{sit:"Their block sits up short and central. They lunged to the line side and are now sprinting back across toward the middle. Finish it — where?", q:"Option off the option — where?",
+        opts:[
+          {lbl:"Back behind them — into the line corner again", sub:"Double-cross the recovery", win:true},
+          {lbl:"Into the open crosscourt they're sprinting to", sub:"Hit the big space", win:false} ]},
+      win:{youStart:[100,245], oppStart:[60,50], oppEnd:[120,42], shots:[
+        {from:[100,245], to:[48,50], bend:6, color:GREEN, snd:"pop", payoff:true, label:"BEHIND AGAIN", intent:"behind"} ]},
+      winTitle:"Point won.",
+      winTxt:"The first change of direction pulled them one way; going straight back <b>behind</b> them freezes them mid-recovery. They can't reverse a second time in the space you've opened. Change direction to open the court — then hit behind the scramble to close it.",
+      mid:{youStart:[100,245], oppStart:[60,50], oppEnd:[120,42], shots:[
+        {from:[100,245], to:[150,46], bend:-6, color:GOLD, snd:"drive", label:"CROSSCOURT", intent:"into_run"} ]},
+      midTitle:"They ran it down.",
+      midTxt:"Clean strike — but they were already sprinting that way, so you hit it straight into their <b>run</b>. When you've wrong-footed someone, the kill is behind them; the open court just feeds their recovery."
+    },
+    B:{
+      seq:{youStart:[56,255], oppStart:[150,40], oppEnd:[168,52], shots:[
+        {from:[64,224], to:[158,54], bend:-8, color:GOLD, snd:"drive", label:"SHARP CROSSCOURT"},
+        {from:[160,54], to:[92,190], bend:10, color:RED, snd:"slice", label:"STRETCH REPLY"} ]},
+      reveal:"Instead of forcing it, you tighten the angle and drag them off the court crosscourt. Now they're stretched wide and their reply floats up short — and the whole other side is open.",
+      d2:{sit:"Their stretched reply sits up short. They're stranded out wide and haven't started back yet. Put it away — where?", q:"Option off the option — where?",
+        opts:[
+          {lbl:"Short angle into the open court", sub:"Sharpen it away from them", win:true},
+          {lbl:"Flatten it out deep to the corner", sub:"Go for the biggest target", win:false} ]},
+      win:{youStart:[100,235], oppStart:[168,52], oppEnd:[168,52], shots:[
+        {from:[100,235], to:[46,112], bend:6, color:GREEN, snd:"pop", payoff:true, label:"OPEN ANGLE", intent:"angle"} ]},
+      winTitle:"Point won.",
+      winTxt:"Patience opened the court wider than force would have. With them stranded out wide, a short <b>angle</b> into the open side finishes it — they're moving the wrong way and it's nowhere near them. You earned the easy ball by making them run, not by gambling.",
+      mid:{youStart:[100,235], oppStart:[168,52], oppEnd:[168,52], shots:[
+        {from:[100,235], to:[54,44], bend:-4, color:GOLD, snd:"drive", label:"FLAT & DEEP", intent:"risk"} ]},
+      midTitle:"Long.",
+      midTxt:"Flat and deep to the corner is more pace and less margin than you need — from mid-court that ball sails <b>long</b> as often as it lands. The short angle was the safe kill; depth just gives a mover time to chase."
+    }
+  },
+  {
+    id:"passing_shot", title:"Passing Shot",
+    opp:"<b>Attacked and closing</b> — they hit an approach and they're charging the net. You're on the back foot with one ball to get right.",
+    d1:{
+      sit:"They've driven an approach deep and they're closing the net fast. You're behind your baseline with a passing-shot chance — but they're covering the court and coming forward.",
+      q:"How do you pass them?",
+      opts:[
+        {lbl:"Dipping pass crosscourt", sub:"Low over the low part of the net, into the open", br:"A"},
+        {lbl:"Topspin lob over their shoulder", sub:"Send them back the way they came", br:"B"}
+      ],
+      court:{shots:[], sitter:[150,236]}
+    },
+    A:{
+      seq:{youStart:[150,255], oppStart:[100,120], oppEnd:[62,138], shots:[
+        {from:[150,236], to:[44,150], bend:10, color:GOLD, snd:"drive", label:"DIPPING PASS"},
+        {from:[46,150], to:[98,182], bend:0, color:RED, snd:"volley", label:"LUNGE VOLLEY"} ]},
+      reveal:"The dipping pass makes them volley up from below the net — they can't put it away, and it floats back short. They're committed at the net now, off to one side. You've got a second ball to pass them.",
+      d2:{sit:"Their weak volley sits up mid-court. They're stranded at the net on the side they lunged to, and the rest of the court is open. Finish the pass — where?", q:"Option off the option — where?",
+        opts:[
+          {lbl:"Roll it into the open court", sub:"Away from their momentum", win:true},
+          {lbl:"Go right back down the line at them", sub:"Surprise them", win:false} ]},
+      win:{youStart:[100,182], oppStart:[62,138], oppEnd:[62,138], shots:[
+        {from:[100,182], to:[156,126], bend:-6, color:GREEN, snd:"pop", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Point won.",
+      winTxt:"They've lunged to one side to dig out the first pass — so the <b>open</b> court is the whole other half. A firm roll into the space is the easy finish; the first dipping pass did the hard work by pulling them out of position.",
+      mid:{youStart:[100,182], oppStart:[62,138], oppEnd:[62,138], shots:[
+        {from:[100,182], to:[64,140], bend:2, color:GOLD, snd:"drive", label:"AT THEM", intent:"risk"} ]},
+      midTitle:"Right at them.",
+      midTxt:"Going back at a net player who's already there hands them the easy volley — a <b>low-percentage</b> gamble when the open court was wide open. Pass into the space they left, not the space they're standing in."
+    },
+    B:{
+      seq:{youStart:[150,255], oppStart:[100,120], oppEnd:[100,86], shots:[
+        {from:[150,236], to:[104,60], bend:0, color:GOLD, snd:"drive", label:"TOPSPIN LOB"},
+        {from:[104,60], to:[128,200], bend:14, color:RED, snd:"weak", label:"SCRAMBLE BACK"} ]},
+      reveal:"The topspin lob sails over their shoulder and pins them deep — a net-rusher hates nothing more than having to reverse and chase. They run it down but can only scrape a weak reply back short.",
+      d2:{sit:"Their scrambled reply floats up short. They've been chased all the way to their own baseline and they're backpedaling, out of position. Where do you put it?", q:"Option off the option — where?",
+        opts:[
+          {lbl:"Drive it deep into the open corner and follow it in", sub:"Controlled — finish at the net", win:true},
+          {lbl:"Crush a flat winner crosscourt", sub:"End it in one", win:false} ]},
+      win:{youStart:[100,200], oppStart:[100,80], oppEnd:[92,86], shots:[
+        {from:[100,195], to:[154,50], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"DEEP & IN", intent:"deep"} ]},
+      winTitle:"Point won.",
+      winTxt:"They're pinned at their own baseline after chasing the lob — so a controlled drive <b>deep</b> into the open corner is the safe finish: too deep to attack, too far to reach. You don't need a spectacular winner; you need the ball they can't get to. Placement over power on the sitter.",
+      mid:{youStart:[100,200], oppStart:[100,80], oppEnd:[100,80], shots:[
+        {from:[100,195], to:[44,118], bend:6, color:GOLD, snd:"drive", label:"FLAT WINNER", intent:"risk"} ]},
+      midTitle:"Netted it.",
+      midTxt:"From a floating ball, a flat crosscourt winner is a <b>coin-flip</b> — the margin isn't there when a deep, controlled ball already wins the point. The lob set up an easy finish; don't turn an easy point into a hard one."
+    }
+  },
+  {
+    id:"defending", title:"Defending",
+    opp:"<b>They've taken control</b> — cracked one into the open court and you're on a dead run. This point is about surviving, not winning.",
+    d1:{
+      sit:"They've ripped a ball into the open court and you're on a full sprint, reaching it way outside the doubles alley on the stretch. You're in real trouble and nowhere near recovered.",
+      q:"You're scrambling — what do you hit?",
+      opts:[
+        {lbl:"High, deep reset down the middle", sub:"Buy time, take their angle away", br:"A"},
+        {lbl:"Low, skidding slice — deep and heavy", sub:"Deny them pace to attack", br:"B"}
+      ],
+      court:{shots:[], sitter:[24,232]}
+    },
+    A:{
+      seq:{youStart:[24,240], oppStart:[130,40], oppEnd:[112,44], shots:[
+        {from:[24,232], to:[100,48], bend:0, color:GOLD, snd:"drive", label:"HIGH RESET"},
+        {from:[100,48], to:[108,192], bend:-10, color:RED, snd:"drive", label:"OVER-PRESS"} ]},
+      reveal:"The high, deep reset kills their angle and buys the split-second you need to sprint back to the middle. They went for too much on the high ball and left it short — you're back in the point with a look.",
+      d2:{sit:"You've recovered to center. Their over-cooked ball sits up mid-court and they're still recovering from the big swing. Now — where?", q:"Option off the option — where?",
+        opts:[
+          {lbl:"Drive into the open court", sub:"Take the space you earned", win:true},
+          {lbl:"Go for the spectacular line winner", sub:"Make them pay big", win:false} ]},
+      win:{youStart:[100,210], oppStart:[112,44], oppEnd:[70,50], shots:[
+        {from:[100,205], to:[156,50], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Turned it around.",
+      winTxt:"Defense set up offense. The reset dragged you back into the point; they over-pressed and handed you a mid-court ball, so a drive into the <b>open</b> court finishes it. You didn't need a miracle off the stretch — you needed to survive long enough to get an easy one.",
+      mid:{youStart:[100,210], oppStart:[112,44], oppEnd:[112,44], shots:[
+        {from:[100,205], to:[52,48], bend:4, color:GOLD, snd:"drive", label:"LINE WINNER", intent:"risk"} ]},
+      midTitle:"Just missed.",
+      midTxt:"You survived the scramble — then gambled the reward away. A spectacular winner from mid-court is a <b>coin-flip</b> you didn't need; the open court was the simple finish. Reward good defense with the easy ball, not the hero ball."
+    },
+    B:{
+      seq:{youStart:[24,240], oppStart:[130,40], oppEnd:[150,52], shots:[
+        {from:[24,232], to:[96,52], bend:0, color:GOLD, snd:"slice", label:"DEEP SLICE"},
+        {from:[96,52], to:[172,206], bend:12, color:RED, snd:"drive", label:"WRONG-FOOTED"} ]},
+      reveal:"The slice stays low and deep, but a good player steps around it and drives it back the other way — and you're still recovering from the first sprint. You chase it down on the forehand side, but you're stretched and off-balance all over again.",
+      d2:{sit:"You've run down the second ball on the forehand wing, but you're stretched wide and not set. They're waiting in the middle, ready to pounce. What now?", q:"Option off the option — where?",
+        opts:[
+          {lbl:"Reset again — high, deep, buy another beat", sub:"You're not in position to attack yet", win:true},
+          {lbl:"Rip a winner off the stretch", sub:"End the scramble now", win:false} ]},
+      win:{youStart:[176,235], oppStart:[100,40], oppEnd:[100,40], shots:[
+        {from:[176,230], to:[100,52], bend:0, color:GREEN, snd:"drive", payoff:true, label:"RESET AGAIN", intent:"reset"} ]},
+      winTitle:"Still in it.",
+      winTxt:"Two good defensive balls beat one miracle. You're not in position, so you <b>reset</b> again — high, deep, neutral, right down the middle — and make them build the point from scratch. Stay in the rally and the winner comes later, from balance instead of from a full stretch.",
+      mid:{youStart:[176,235], oppStart:[100,40], oppEnd:[100,40], shots:[
+        {from:[176,230], to:[46,46], bend:4, color:GOLD, snd:"drive", label:"STRETCH WINNER", intent:"risk"} ]},
+      midTitle:"Off the frame.",
+      midTxt:"Off a full stretch with no base, a clean winner is a <b>coin-flip</b> at best — exactly the low-percentage swing they wrong-footed you into trying. Reset, reload, and pick a smarter moment. Defense wins by surviving one more ball."
+    }
   }
 ];
 
