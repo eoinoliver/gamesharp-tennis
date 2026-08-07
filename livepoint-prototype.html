@@ -356,6 +356,105 @@ const SCENARIOS = [
       midTitle:"Netted the drop.",
       midTxt:"The drop volley is a <b>coin-flip</b> from a floating ball — too little margin when the open court was begging. When they've handed you the space, take it; save the touch for when you're forced."
     }
+  },
+  /* @batch-2 */
+  {
+    id:"beat_moonballer", title:"Beat the Moonballer",
+    opp:"<b>Moonballer</b> — loops it high and deep, no pace, camps well behind the baseline. Overhit and you feed them; the trap is impatience.",
+    d1:{
+      sit:"The moonballer floats another shoulder-high ball deep into your backhand corner — heavy, slow, dropping late. They've backed up well behind their baseline, waiting for you to overhit.",
+      q:"How do you take the moonball?",
+      opts:[
+        {lbl:"Take it early and drive it, then come in", sub:"Rob them of their reset time", br:"A"},
+        {lbl:"Disguise a drop shot", sub:"Drag them off the back fence", br:"B"}
+      ],
+      court:{shots:[], sitter:[64,240]}
+    },
+    A:{
+      seq:{youStart:[100,255], oppStart:[100,32], oppEnd:[100,40], shots:[
+        {from:[64,240], to:[46,50], bend:6, color:GOLD, snd:"drive", label:"TAKE IT EARLY"},
+        {from:[48,50], to:[110,200], bend:-14, color:RED, snd:"slice", label:"SHORT LOB"} ]},
+      reveal:"Taking it on the rise stole the time they live on — backed up that far, they could only throw up a <b>short, weak lob</b>. It's dropping around your service line and you're already moving in.",
+      d2:{sit:"Their defensive lob sits up short, around your service line. You've closed in — this is an overhead, and they're scrambled deep on one side.", q:"Put the overhead away — how?",
+        opts:[
+          {lbl:"Angle it short into the open court", sub:"Make them chase, don't out-muscle them", win:true},
+          {lbl:"Crush it flat down the line", sub:"Go for the clean winner", win:false} ]},
+      win:{youStart:[100,185], oppStart:[100,40], oppEnd:[100,40], shots:[
+        {from:[100,185], to:[42,110], bend:4, color:GREEN, snd:"pop", payoff:true, label:"SHORT ANGLE", intent:"angle"} ]},
+      winTitle:"Point won.",
+      winTxt:"A moonballer chases everything you hit hard and deep — so you don't out-muscle them, you <b>angle</b> them off the court. The short angle pulls them somewhere they can't loop it back from. Take the court away, not their pace.",
+      mid:{youStart:[100,185], oppStart:[100,40], oppEnd:[100,40], shots:[
+        {from:[100,185], to:[156,46], bend:-6, color:GOLD, snd:"drive", label:"FLAT & DEEP", intent:"risk"} ]},
+      midTitle:"Just wide.",
+      midTxt:"Trying to out-hit a retriever down the line is a <b>coin-flip</b> — the extra pace you add is the error, not the winner. They were begging you to over-hit. The angle finishes clean; brute force sprays."
+    },
+    B:{
+      seq:{youStart:[100,255], oppStart:[100,32], oppEnd:[88,150], shots:[
+        {from:[64,240], to:[86,138], bend:5, color:GOLD, snd:"tap", label:"DROP SHOT"},
+        {from:[88,138], to:[112,182], bend:8, color:RED, snd:"weak", label:"DESPERATE GET"} ]},
+      reveal:"They were camped on the back fence — the drop pulls them twenty feet the wrong way. They just get a racket on it and <b>scoop up a weak, high ball</b> to the middle. Now they're stranded at the net.",
+      d2:{sit:"They've scrambled all the way in and popped up a weak reply. They're stuck at the net, leaning to their forehand — the rest of the court is open.", q:"Finish it — where?",
+        opts:[
+          {lbl:"Pass into the open court", sub:"Use the space they left", win:true},
+          {lbl:"Feather another drop shot", sub:"Be cute a second time", win:false} ]},
+      win:{youStart:[100,182], oppStart:[70,142], oppEnd:[68,142], shots:[
+        {from:[100,182], to:[152,120], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Point won.",
+      winTxt:"They've charged the net to dig out the drop — so the whole court behind and beside them is <b>open</b>. A firm drive into the space is the reward for pulling them forward. Don't get cute twice; take the room they gave you.",
+      mid:{youStart:[100,182], oppStart:[70,142], oppEnd:[70,142], shots:[
+        {from:[100,182], to:[84,146], bend:3, color:GOLD, snd:"tap", label:"SECOND DROP", intent:"risk"} ]},
+      midTitle:"Right to them.",
+      midTxt:"A second drop when they're already at the net is a <b>low-percentage</b> gift — you're dropping it into their strike zone. The pass into the open court was the finish; the drop only works when they're pinned deep."
+    }
+  },
+  {
+    id:"big_server", title:"Return the Big Server",
+    opp:"<b>Serve-and-volley off a big first serve</b> — flat down the T, charging the net. You won't out-hit the bomb; the win is what you do with the return.",
+    d1:{
+      sit:"First serve, 130mph, flat down the T — and the server is charging in behind it. You reach it on the stretch, no pace to add. They'll be on top of the net in a heartbeat.",
+      q:"How do you handle the serve-and-volley?",
+      opts:[
+        {lbl:"Chip it low at their feet", sub:"Make them volley up from their shoelaces", br:"A"},
+        {lbl:"Lob the return over their shoulder", sub:"Turn the charging server around", br:"B"}
+      ],
+      court:{shots:[], sitter:[92,246]}
+    },
+    A:{
+      seq:{youStart:[100,255], oppStart:[100,36], oppEnd:[100,142], shots:[
+        {from:[96,246], to:[100,132], bend:0, color:GOLD, snd:"slice", label:"LOW CHIP"},
+        {from:[100,132], to:[116,188], bend:8, color:RED, snd:"volley", label:"FLOATED VOLLEY"} ]},
+      reveal:"The low chip did its job — a first volley off the shoelaces has no pace and floats up. They're at the net now, but they gave you a look. This is your passing shot.",
+      d2:{sit:"Their floated volley sits up mid-court. The net-rusher is planted at the net, covering the open court, leaning to their forehand side.", q:"Pass the net-rusher — how?",
+        opts:[
+          {lbl:"Drill it straight at their body", sub:"Handcuff the volley", win:true},
+          {lbl:"Thread the pass down the line", sub:"Beat them clean", win:false} ]},
+      win:{youStart:[100,184], oppStart:[92,140], oppEnd:[92,140], shots:[
+        {from:[100,184], to:[92,138], bend:0, color:GREEN, snd:"drive", payoff:true, label:"BODY JAM", intent:"jam"} ]},
+      winTitle:"Point won.",
+      winTxt:"A planted volleyer reaches the open court easily — but nobody volleys a ball drilled at their <b>hip</b>. The body jam handcuffs their hands and the volley dies in the net. Aim at the body, not the paint: it beats the fine pass when they're this tight to the net.",
+      mid:{youStart:[100,184], oppStart:[92,140], oppEnd:[92,140], shots:[
+        {from:[100,184], to:[52,120], bend:6, color:GOLD, snd:"drive", label:"LINE PASS", intent:"risk"} ]},
+      midTitle:"Just wide.",
+      midTxt:"Threading the line past a set volleyer leaves you almost <b>no margin</b> — a hair wide and the point's theirs. The body jam was the higher-percentage kill. Save the perfect pass for when they've left you real room."
+    },
+    B:{
+      seq:{youStart:[100,255], oppStart:[100,36], oppEnd:[100,60], shots:[
+        {from:[96,246], to:[100,64], bend:0, color:GOLD, snd:"slice", label:"RETURN LOB"},
+        {from:[100,64], to:[120,190], bend:12, color:RED, snd:"weak", label:"SCRAMBLE BACK"} ]},
+      reveal:"The lob flips the point — a server sprinting to the net has to stop, reverse and chase it down deep. All they dig out is a weak, short reply, and now <b>you're</b> the one moving in.",
+      d2:{sit:"Their scrambled reply floats up short. They're stranded deep and backpedaling, having had to reverse off their own charge. The open court is in front of you.", q:"Take control — where?",
+        opts:[
+          {lbl:"Drive deep into the open court and follow it in", sub:"Take the space, take the net", win:true},
+          {lbl:"Try a second lob", sub:"Repeat the trick", win:false} ]},
+      win:{youStart:[100,235], oppStart:[112,58], oppEnd:[70,64], shots:[
+        {from:[100,235], to:[150,52], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Point won.",
+      winTxt:"You already turned them around once — now they're deep and off balance. A firm drive into the <b>open</b> court, following it forward, finishes what the lob started. Take the space you created; don't try to be clever twice.",
+      mid:{youStart:[100,235], oppStart:[112,58], oppEnd:[112,58], shots:[
+        {from:[100,235], to:[100,60], bend:0, color:GOLD, snd:"weak", label:"SECOND LOB", intent:"risk"} ]},
+      midTitle:"They were ready.",
+      midTxt:"The lob worked once because they were charging — deep and set, they read the second one all the way. Going back to it is a <b>low-percentage</b> repeat. The drive into open court was there; the trick only works by surprise."
+    }
   }
 ];
 
