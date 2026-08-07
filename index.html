@@ -2822,6 +2822,49 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
       </div>
     </div>
 
+    <!-- LIVE POINT — preview entry (temporary resting place; the permanent home is the
+         daily-challenge reward). Opens the standalone prototype; framed as PREVIEW so the
+         "earned reward" framing isn't spent by a cold tap. -->
+    <div class="daily-card ptp-sibling lp-sibling" id="livePointCard" role="button" tabindex="0" aria-label="Play a Live Point (preview)" onclick="location.href='livepoint-prototype.html?from=home'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='livepoint-prototype.html?from=home';}">
+      <div class="daily-inner ptp-inner">
+        <div class="daily-top">
+          <div class="daily-label">
+            <svg class="daily-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21.2V15"/><path d="M12 15 6.6 11V5.4"/><path d="M12 15l5.4-4V5.4"/><circle cx="6.6" cy="4" r="1.7"/><circle cx="17.4" cy="4" r="1.7"/><circle cx="12" cy="21.4" r="1.7"/></svg>
+            Live Point
+          </div>
+          <span class="ptp-new" style="background:rgba(200,168,75,.16);color:#e6c968;border-color:rgba(200,168,75,.42)">PREVIEW</span>
+        </div>
+        <div class="ptp-question">Options off options — play one live point, one decision at a time.</div>
+        <div class="ptp-steps" aria-hidden="true">
+          <span class="ptp-step on"></span><span class="ptp-step"></span><span class="ptp-step"></span>
+          <span class="ptp-steps-label">branching rally</span>
+        </div>
+        <button class="ptp-cta" type="button">Play a Live Point →</button>
+        <!-- Imagery: one point branching into options, then options off options → green payoffs -->
+        <svg class="ptp-art" viewBox="0 0 128 116" fill="none" aria-hidden="true">
+          <defs>
+            <radialGradient id="lpballg" cx="35%" cy="28%" r="78%">
+              <stop offset="0%" stop-color="#eafff0"/><stop offset="45%" stop-color="#5bba6f"/><stop offset="100%" stop-color="#2f7d43"/>
+            </radialGradient>
+          </defs>
+          <g stroke="#c8a84b" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".92">
+            <path d="M64,104 64,86"/>
+            <path d="M64,86 Q46,76 40,60"/><path d="M64,86 Q82,76 88,60"/>
+            <path d="M40,60 Q34,46 30,33"/><path d="M40,60 Q46,46 52,33"/>
+            <path d="M88,60 Q82,46 76,33"/><path d="M88,60 Q94,46 98,33"/>
+          </g>
+          <circle cx="40" cy="60" r="4" fill="#0d1a0f" stroke="#c8a84b" stroke-width="1.6"/>
+          <circle cx="88" cy="60" r="4" fill="#0d1a0f" stroke="#c8a84b" stroke-width="1.6"/>
+          <circle cx="30" cy="31" r="4.6" fill="#5bba6f"/><circle cx="52" cy="31" r="4.6" fill="#5bba6f" opacity=".5"/>
+          <circle cx="76" cy="31" r="4.6" fill="#5bba6f" opacity=".5"/><circle cx="98" cy="31" r="4.6" fill="#5bba6f"/>
+          <g>
+            <circle cx="64" cy="104" r="6.6" fill="url(#lpballg)"/>
+            <ellipse cx="61.6" cy="101.4" rx="2.3" ry="1.5" fill="#fff" opacity=".42"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
     <!-- REPLAY YOUR MISSES — the learning loop; only shown when misses exist -->
     <div class="daily-card ptp-sibling gs-miss-card" id="replayMissCard" style="display:none;" onclick="startReplayMisses()">
       <div class="daily-inner ptp-inner">

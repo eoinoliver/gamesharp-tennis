@@ -86,11 +86,13 @@ body{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset
 </head>
 <body>
 
+  <a class="lp-back" href="index.html" aria-label="Back to GAMESHARP" style="display:inline-flex;align-items:center;gap:6px;color:var(--gold);text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.4px;margin-bottom:12px;">← GAMESHARP</a>
   <div class="head">
     <div class="wm">GAME<span>SHARP</span></div>
     <div class="eyebrow">Live Point</div>
   </div>
-  <div class="sub">Your reward for finishing today's four. Play it out.</div>
+  <div class="sub" id="lpSub">Your reward for finishing today's four. Play it out.</div>
+  <script>if(location.search.indexOf('from=home')>-1){var _s=document.getElementById('lpSub');if(_s)_s.textContent='Preview · this is the reward waiting after your daily four. Try one now.';}</script>
 
   <div class="deck" id="deck"></div>
 
