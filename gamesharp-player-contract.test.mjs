@@ -98,6 +98,11 @@ assert.match(html, /function dismissTransientOverlays\(\)\s*\{[\s\S]{0,320}GameS
 // B) Content hidden behind the persistent nav. A shared nav-height variable must exist
 // and the focused-flow bottom controls (the quiz Next button) must reserve it.
 assert.match(html, /:root\{--gs-nav-h:calc\(68px \+ env\(safe-area-inset-bottom\)\)/, 'nav-height custom property (--gs-nav-h) must be defined');
+// The bar's OWN box must be as tall as --gs-nav-h reserves. With box-sizing:border-box the
+// safe-area padding lives INSIDE the height, so a bare height:68px makes the bar 68px total
+// while the overlay reserves 68px+safe-area — opening a safe-area-sized gap on notched phones
+// through which the fixed home court background shows. Height must include the same safe-area.
+assert.match(html, /\.gs-bottom-nav\{[^}]*height:calc\(68px \+ env\(safe-area-inset-bottom\)\)/, 'bottom nav height must include the safe-area inset so it matches --gs-nav-h (border-box), or home content shows through the gap above it');
 assert.match(html, /\.next-btn\.show\{bottom:calc\(8px \+ var\(--gs-nav-h\)\)/, 'sticky Next button must clear the nav while scrolling');
 assert.match(html, /\.next-btn\{[^}]*margin:8px 20px calc\(12px \+ var\(--gs-nav-h\)\)/, 'Next button rest position must clear the nav');
 

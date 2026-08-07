@@ -1043,7 +1043,7 @@ html,body{height:100%;background:var(--dark);color:var(--white);font-family:'DM 
 
 /* ── BOTTOM NAV — mobile only ── */
 :root{--gs-nav-h:calc(68px + env(safe-area-inset-bottom));}
-.gs-bottom-nav{position:fixed;bottom:0;left:0;right:0;width:100vw;max-width:100%;z-index:500;display:flex;height:68px;padding-bottom:env(safe-area-inset-bottom);background:rgba(9,14,7,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.07);}
+.gs-bottom-nav{position:fixed;bottom:0;left:0;right:0;width:100vw;max-width:100%;z-index:500;display:flex;height:calc(68px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(9,14,7,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.07);}
 @media(min-width:768px){.gs-bottom-nav{display:none!important;}}
 .gs-bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;color:rgba(255,255,255,.34);font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;transition:color .18s,transform .12s;}
 .gs-bnav-item:active{transform:scale(.94);}
