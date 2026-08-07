@@ -23,11 +23,17 @@ body{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset
 .eyebrow{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
 .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
 .sub{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* Scenario picker */
+.deck{display:flex;gap:8px;overflow-x:auto;padding:12px 0 2px;scrollbar-width:none;-ms-overflow-style:none;}
+.deck::-webkit-scrollbar{display:none;}
+.chip{flex:none;background:var(--card);border:1.5px solid rgba(255,255,255,.1);border-radius:22px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;font-family:inherit;transition:border-color .18s,color .18s;}
+.chip.on{border-color:var(--gold);color:var(--gold-light);background:rgba(200,168,75,.08);}
+
 .badge-type{display:block;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.28);border-radius:13px;padding:10px 14px;font-size:12px;line-height:1.45;color:var(--gold-light);font-weight:500;margin-top:10px;}
 .badge-type .k{font-size:9.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-right:5px;}
 .badge-type b{color:var(--white);font-weight:800;}
 
-/* Broadcast court (Playbook renderer) */
 .court-wrap{margin:14px 0 4px;border-radius:16px;overflow:hidden;background:radial-gradient(120% 90% at 50% 12%,#0e2312,#070d08);border:1px solid rgba(255,255,255,.06);position:relative;}
 .court-label{position:absolute;top:9px;left:12px;font-size:8.5px;letter-spacing:1.4px;font-weight:800;color:rgba(200,168,75,.9);z-index:2;text-shadow:0 1px 3px rgba(0,0,0,.6);}
 .court-label b{color:#fff;font-weight:800;}
@@ -84,9 +90,11 @@ body{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset
     <div class="wm">GAME<span>SHARP</span></div>
     <div class="eyebrow">Live Point</div>
   </div>
-  <div class="sub" id="subline">Your reward for finishing today's four. Play it out.</div>
+  <div class="sub">Your reward for finishing today's four. Play it out.</div>
 
-  <div class="badge-type"><span class="k">Opponent</span><b>Counter-puncher</b> — defends deep, feeds off your pace. Patience, then commit.</div>
+  <div class="deck" id="deck"></div>
+
+  <div class="badge-type" id="badge"></div>
 
   <div class="court-wrap">
     <div class="court-label">◉ GAME<b>SHARP</b> REPLAY · LIVE POINT</div>
@@ -100,6 +108,8 @@ body{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset
 
 <script>
 "use strict";
+const GOLD='#c8a84b', RED='#e07070', GREEN='#5bba6f';
+
 /* ─────────────────────────────  SOUND  ───────────────────────────── */
 const SND=(()=>{
   let ctx=null,master=null;
@@ -150,8 +160,6 @@ const GS_REPLAY={
     return [150+((x-mid)/span)*half,sy];
   }
 };
-// Data-driven broadcast renderer. Extended for the Live Point with per-shot payoff,
-// a pulsing sitter marker, and custom you/opp start+end (so branches stay continuous).
 function buildMultiShotSVG(play){
   const stepDur=1.25, W=300, H=200;
   const project=(x,y)=>GS_REPLAY.project(x,y,{top:10,bottom:290,left:20,right:180});
@@ -161,7 +169,7 @@ function buildMultiShotSVG(play){
     const a=project(s.from[0],s.from[1]), b=project(s.to[0],s.to[1]);
     const x1=a[0],y1=a[1],x2=b[0],y2=b[1];
     const cx=(x1+x2)/2+(s.bend||0), cy=(y1+y2)/2-5;
-    const col=s.color||'#c8a84b', L=360;
+    const col=s.color||GOLD, L=360;
     body+=`<path class="ms-path" d="M${x1},${y1} Q${cx},${cy} ${x2},${y2}" stroke="${col}" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${L}" opacity="0" style="animation:drawPath .62s ${d0.toFixed(2)}s ease forwards;opacity:1"/>`;
     body+=`<circle class="ms-ball" r="4.6" fill="#d8f04e" stroke="#f4ffae" stroke-width="1.2" filter="url(#msBallGlow)" opacity="0"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.08;.9;1" dur=".68s" begin="${d0.toFixed(2)}s" fill="freeze"/><animateMotion dur=".62s" begin="${d0.toFixed(2)}s" fill="freeze" path="M${x1},${y1} Q${cx},${cy} ${x2},${y2}"/></circle>`;
     const isPayoff=!!s.payoff;
@@ -196,71 +204,242 @@ function buildMultiShotSVG(play){
   </svg>`;
 }
 
-/* ─────────────────────────────  SCENARIO  ───────────────────────────── */
-// Coords: x∈[20,180], y∈[10,290]. YOU near baseline (y~270), OPP far (y~30). Colours:
-// gold = your build, red = their answer, green(payoff) = your winner.
-const SCN = {
-  d1: {
-    sit: "You've pushed the counter-puncher deep. Their tired reply sits up short at your service line — you've stepped in early.",
-    q: "How do you play the short ball?",
-    opts: [
-      { lbl:'Drive it hard into the open court', sub:'Take time away — go for the corner', br:'A' },
-      { lbl:'Approach deep and close the net',   sub:'Controlled — pressure them into a pass', br:'B' }
-    ],
-    court: { shots:[], sitter:[100,205] }
-  },
-  A: {
-    seq: { youStart:[100,270], oppStart:[100,30], oppEnd:[44,44], shots:[
-      { from:[100,268], to:[44,44], bend:8, color:'#c8a84b', snd:'drive',  label:'DRIVE' },
-      { from:[44,44],   to:[112,208], bend:-16, color:'#e07070', snd:'slice', label:'FLOATER' }
-    ]},
-    reveal: "Good drive — but a counter-puncher's legs turn your winner into a <b>floated second chance</b>. Now the read: which way are they recovering?",
-    d2: {
-      sit: "Their floater sits up mid-court. They scrambled wide and are now <b>sprinting back toward the middle.</b>",
-      q: "Option off the option — where do you put it?",
-      opts: [
-        { lbl:'Behind them — into the corner they left', sub:'Wrong-foot the recovering player', win:true },
-        { lbl:"Into the open court they're running to",   sub:'Hit to the space on the other side', win:false }
-      ]
+/* ═══════════════════════════════  SCENARIOS  ═══════════════════════════════
+   Coords: x∈[20,180] (100 centre), y∈[10,290]. YOU near baseline (y~270), OPP far (y~30).
+   Colours: gold=your build, red=their answer, green(payoff)=your winner.
+   Every finish (win/mid) carries an `intent` the validator checks against BOTH its
+   coordinates and its coaching text — text and visuals can't drift out of tandem.  */
+const SCENARIOS = [
+  {
+    id:'short_ball', title:'Short Ball',
+    opp:"<b>Counter-puncher</b> — defends deep, feeds off your pace. Patience, then commit.",
+    d1:{
+      sit:"You've pushed the counter-puncher deep. Their tired reply sits up short at your service line — you've stepped in early.",
+      q:"How do you play the short ball?",
+      opts:[
+        {lbl:'Drive it hard into the open court', sub:'Take time away — go for the corner', br:'A'},
+        {lbl:'Approach deep and close the net',   sub:'Controlled — pressure them into a pass', br:'B'}
+      ],
+      court:{shots:[], sitter:[100,205]}
     },
-    win:  { youStart:[100,255], oppStart:[62,52], oppEnd:[104,40], shots:[
-      { from:[100,255], to:[46,48], bend:8, color:'#5bba6f', snd:'pop', payoff:true, label:'BEHIND THEM' } ] },
-    winTitle:'Point won.',
-    winTxt:"You read the runner. They committed their weight to recovering the open court — so the ball <b>behind</b> them makes them stop, reverse and reach. Against a mover, the wrong-foot beats the open court almost every time.",
-    mid:  { youStart:[100,255], oppStart:[62,52], oppEnd:[158,46], shots:[
-      { from:[100,255], to:[158,46], bend:-8, color:'#c8a84b', snd:'drive', label:'OPEN COURT' } ] },
-    midTitle:'They got there.',
-    midTxt:"Clean shot — but a counter-puncher was already recovering that way. You hit into their run. The open court is the instinct; <b>behind them</b> was the kill, because their momentum was the thing to exploit."
-  },
-  B: {
-    seq: { youStart:[100,270], youEnd:[100,182], oppStart:[100,30], oppEnd:[158,46], shots:[
-      { from:[100,268], to:[158,46], bend:-10, color:'#c8a84b', snd:'drive', label:'APPROACH' },
-      { from:[158,46],  to:[108,178], bend:12, color:'#e07070', snd:'drive', label:'DIPPING PASS' }
-    ]},
-    reveal: "Deep approach — so their pass has to come <b>up</b>, and it's dipping at your feet. You're at the net now. <b>Low ball, no pace to borrow.</b>",
-    d2: {
-      sit: "You're at the net. Their pass is <b>low and dipping at your feet</b> — below the net cord, no pace on it.",
-      q: "Option off the option — how do you volley it?",
-      opts: [
-        { lbl:'Punch it deep and hold your position', sub:"Can't hit down — so reset deep", win:true },
-        { lbl:'Go for the sharp angle winner',        sub:'End it now with a touch angle', win:false }
-      ]
+    A:{
+      seq:{youStart:[100,270], oppStart:[100,30], oppEnd:[44,44], shots:[
+        {from:[100,268], to:[44,44], bend:8, color:GOLD, snd:'drive', label:'DRIVE'},
+        {from:[44,44], to:[112,208], bend:-16, color:RED, snd:'slice', label:'FLOATER'} ]},
+      reveal:"Good drive — but a counter-puncher's legs turn your winner into a <b>floated second chance</b>. Now the read: which way are they recovering?",
+      d2:{sit:"Their floater sits up mid-court. They scrambled wide and are now <b>sprinting back toward the middle.</b>", q:"Option off the option — where do you put it?",
+        opts:[
+          {lbl:'Behind them — into the corner they left', sub:'Wrong-foot the recovering player', win:true},
+          {lbl:"Into the open court they're running to", sub:'Hit to the space on the other side', win:false} ]},
+      win:{youStart:[100,255], oppStart:[62,52], oppEnd:[104,40], shots:[
+        {from:[100,255], to:[46,48], bend:8, color:GREEN, snd:'pop', payoff:true, label:'BEHIND THEM', intent:'behind'} ]},
+      winTitle:'Point won.',
+      winTxt:"You read the runner. They committed their weight to recovering the open court — so the ball <b>behind</b> them makes them stop, reverse and reach. Against a mover, the wrong-foot beats the open court far more often than not.",
+      mid:{youStart:[100,255], oppStart:[62,52], oppEnd:[158,46], shots:[
+        {from:[100,255], to:[158,46], bend:-8, color:GOLD, snd:'drive', label:'OPEN COURT', intent:'into_run'} ]},
+      midTitle:'They got there.',
+      midTxt:"Clean shot — but a counter-puncher was already recovering that way. You hit into their run. The open court is the instinct; <b>behind them</b> was the kill, because their momentum was the thing to exploit."
     },
-    win:  { youStart:[100,182], oppStart:[158,46], oppEnd:[150,42], shots:[
-      { from:[100,182], to:[158,42], bend:-8, color:'#5bba6f', snd:'volley', payoff:true, label:'DEEP VOLLEY' } ] },
-    winTitle:'Point won.',
-    winTxt:"From below the net you can't hit down — so you don't gamble. The deep volley pins them back, keeps you at net, and you take the <b>next</b> ball from strength. Patience finishes the point the greedy angle would have missed.",
-    mid:  { youStart:[100,182], oppStart:[158,46], oppEnd:[158,46], shots:[
-      { from:[100,182], to:[42,116], bend:6, color:'#c8a84b', snd:'volley', label:'ANGLE' } ] },
-    midTitle:'Into the net.',
-    midTxt:"From a ball at your feet the sharp angle has almost no margin — you have to lift it and hope. Tempting, but it's the low-percentage swing. <b>Deep and boring</b> wins this one; the winner comes on the ball after."
+    B:{
+      seq:{youStart:[100,270], youEnd:[100,182], oppStart:[100,30], oppEnd:[158,46], shots:[
+        {from:[100,268], to:[158,46], bend:-10, color:GOLD, snd:'drive', label:'APPROACH'},
+        {from:[158,46], to:[108,178], bend:12, color:RED, snd:'drive', label:'DIPPING PASS'} ]},
+      reveal:"Deep approach — so their pass has to come <b>up</b>, and it's dipping at your feet. You're at the net now. <b>Low ball, no pace to borrow.</b>",
+      d2:{sit:"You're at the net. Their pass is <b>low and dipping at your feet</b> — below the net cord, no pace on it.", q:"Option off the option — how do you volley it?",
+        opts:[
+          {lbl:'Punch it deep and hold your position', sub:"Can't hit down — so reset deep", win:true},
+          {lbl:'Go for the sharp angle winner', sub:'End it now with a touch angle', win:false} ]},
+      win:{youStart:[100,182], oppStart:[158,46], oppEnd:[150,42], shots:[
+        {from:[100,182], to:[158,42], bend:-8, color:GREEN, snd:'volley', payoff:true, label:'DEEP VOLLEY', intent:'deep'} ]},
+      winTitle:'Point won.',
+      winTxt:"From below the net you can't hit down — so you don't gamble. The <b>deep</b> volley pins them back, keeps you at net, and you take the next ball from strength. Patience finishes the point the greedy angle would have missed.",
+      mid:{youStart:[100,182], oppStart:[158,46], oppEnd:[158,46], shots:[
+        {from:[100,182], to:[42,116], bend:6, color:GOLD, snd:'volley', label:'ANGLE', intent:'angle'} ]},
+      midTitle:'Into the net.',
+      midTxt:"From a ball at your feet the sharp <b>angle</b> has almost no margin — you have to lift it and hope. Tempting, but it's the low-percentage swing. Deep and boring wins this one; the winner comes on the ball after."
+    }
+  },
+  {
+    id:"serve_plus_one", title:"Serve +1 Wide",
+    opp:"<b>Returner crowds the middle</b> to guard the backhand — the wide serve is open.",
+    d1:{
+      sit:"30–30. You've noticed they crowd the centre. You crack a serve out wide and drag them off court — their stretched reply floats back short.",
+      q:"Where's your +1?",
+      opts:[
+        {lbl:"Drive to the open court", sub:"Take the space the serve just made", br:"A"},
+        {lbl:"Approach behind a deep +1", sub:"Come to net off the weak reply", br:"B"}
+      ],
+      court:{shots:[], sitter:[104,206]}
+    },
+    A:{
+      seq:{youStart:[100,258], oppStart:[158,55], oppEnd:[55,52], shots:[
+        {from:[100,255], to:[42,50], bend:8, color:GOLD, snd:"drive", label:"OPEN COURT"},
+        {from:[46,50], to:[110,208], bend:-16, color:RED, snd:"slice", label:"SCRAMBLE"} ]},
+      reveal:"The wide serve's whole job was to open that court — the +1 just collects the space. They're stranded wide and scrambling, floating it back short.",
+      d2:{sit:"Their scramble floats up short. They lunged wide and are now <b>sprinting back toward the middle.</b>", q:"Finish it — where?",
+        opts:[
+          {lbl:"Behind them — into the corner they left", sub:"Wrong-foot the recovery", win:true},
+          {lbl:"Into the open court they're sprinting to", sub:"Hit the far side", win:false} ]},
+      win:{youStart:[100,255], oppStart:[55,52], oppEnd:[104,44], shots:[
+        {from:[100,255], to:[46,52], bend:8, color:GREEN, snd:"pop", payoff:true, label:"BEHIND THEM", intent:"behind"} ]},
+      winTitle:"Point won.",
+      winTxt:"They committed their weight back to the middle — so the ball <b>behind</b> them freezes them, then makes them reverse and reach. The serve, the +1 and the wrong-foot are one pattern, not three separate shots.",
+      mid:{youStart:[100,255], oppStart:[55,52], oppEnd:[158,46], shots:[
+        {from:[100,255], to:[158,46], bend:-8, color:GOLD, snd:"drive", label:"OPEN COURT", intent:"into_run"} ]},
+      midTitle:"They got there.",
+      midTxt:"Clean — but they were already sprinting that way, so you hit into their run. The kill was behind them, into the <b>open</b> space they'd just left."
+    },
+    B:{
+      seq:{youStart:[100,270], youEnd:[100,182], oppStart:[158,55], oppEnd:[58,50], shots:[
+        {from:[100,255], to:[42,46], bend:8, color:GOLD, snd:"drive", label:"APPROACH"},
+        {from:[46,46], to:[108,178], bend:12, color:RED, snd:"drive", label:"DIPPING PASS"} ]},
+      reveal:"Deep approach into the open court — so their pass has to climb, and it's dipping at your feet. You're at the net now: low ball, no pace to borrow.",
+      d2:{sit:"You're at the net. Their pass is <b>low and dipping at your feet</b> — below the net cord.", q:"How do you volley it?",
+        opts:[
+          {lbl:"Punch it deep and hold your position", sub:"Can't hit down — reset deep", win:true},
+          {lbl:"Go for the sharp angle winner", sub:"End it with touch", win:false} ]},
+      win:{youStart:[100,182], oppStart:[58,50], oppEnd:[66,48], shots:[
+        {from:[100,182], to:[46,44], bend:6, color:GREEN, snd:"volley", payoff:true, label:"DEEP VOLLEY", intent:"deep"} ]},
+      winTitle:"Point won.",
+      winTxt:"From below the net you can't hit down — so you don't gamble. The <b>deep</b> volley pins them back, keeps you at the net, and the next ball comes as a gift. Placement beats power on the ball you built.",
+      mid:{youStart:[100,182], oppStart:[58,50], oppEnd:[58,50], shots:[
+        {from:[100,182], to:[44,116], bend:6, color:GOLD, snd:"volley", label:"ANGLE", intent:"angle"} ]},
+      midTitle:"Into the net.",
+      midTxt:"From a ball at your feet the sharp <b>angle</b> has almost no margin — you have to lift it and hope it drops. Deep and boring wins this one; the winner comes on the next ball."
+    }
+  },
+  {
+    id:"second_serve", title:"Second-Serve Attack",
+    opp:"<b>Nervous second serve</b> — it floats up high in the box. Your chance to take control.",
+    d1:{
+      sit:"Break point. They push in a tentative second serve that sits up high and slow. You have time and position — this is the ball you wait for.",
+      q:"How do you attack it?",
+      opts:[
+        {lbl:"Step in and drive it deep", sub:"Take their time away from the baseline", br:"A"},
+        {lbl:"Chip and charge the net", sub:"Rush them into a pass", br:"B"}
+      ],
+      court:{shots:[], sitter:[100,214]}
+    },
+    A:{
+      seq:{youStart:[100,240], youEnd:[100,214], oppStart:[100,32], oppEnd:[100,42], shots:[
+        {from:[100,238], to:[44,48], bend:6, color:GOLD, snd:"drive", label:"DRIVE DEEP"},
+        {from:[46,48], to:[112,205], bend:-12, color:RED, snd:"slice", label:"BLOCKED SHORT"} ]},
+      reveal:"Stepping in stole their time — they could only block it back short and central. Now you've got a mid-court ball and they're pinned deep behind the baseline.",
+      d2:{sit:"Their block sits up short, inside your service line. They're pinned back behind the baseline, waiting.", q:"Convert the short ball — how?",
+        opts:[
+          {lbl:"Approach down the line and close", sub:"Follow it to the net", win:true},
+          {lbl:"Blast a flat winner crosscourt", sub:"End it from here", win:false} ]},
+      win:{youStart:[100,205], youEnd:[100,152], oppStart:[100,42], oppEnd:[100,42], shots:[
+        {from:[100,205], to:[46,44], bend:4, color:GREEN, snd:"drive", payoff:true, label:"APPROACH", intent:"deep"} ]},
+      winTitle:"Point won.",
+      winTxt:"The short ball is a chance to take the net, not a chance to miss. A <b>deep</b> approach down the line, then close — and the volley finishes it. Placement beats power on the ball you've been waiting for.",
+      mid:{youStart:[100,205], oppStart:[100,42], oppEnd:[100,42], shots:[
+        {from:[100,205], to:[158,50], bend:-8, color:GOLD, snd:"drive", label:"FLAT WINNER", intent:"risk"} ]},
+      midTitle:"Just long.",
+      midTxt:"From mid-court a flat crosscourt winner is a <b>coin-flip</b> — the net's higher and the court's shorter than it feels from there. The approach was the percentage play; the winner comes at the net."
+    },
+    B:{
+      seq:{youStart:[100,245], youEnd:[100,178], oppStart:[100,32], oppEnd:[52,50], shots:[
+        {from:[100,240], to:[50,50], bend:6, color:GOLD, snd:"slice", label:"CHIP & CHARGE"},
+        {from:[52,50], to:[148,172], bend:10, color:RED, snd:"drive", label:"RUSHED PASS"} ]},
+      reveal:"The chip is low and deep — they have to pass from below the net, on the run. You've closed in behind it, and their rushed pass floats up a touch high.",
+      d2:{sit:"You're tight to the net. Their rushed pass <b>floats up a touch high</b>, over to your side.", q:"Put the volley away — where?",
+        opts:[
+          {lbl:"Punch it into the open court", sub:"Take the space they left", win:true},
+          {lbl:"Drop volley — the cute finish", sub:"Feather it over the net", win:false} ]},
+      win:{youStart:[100,178], oppStart:[52,50], oppEnd:[62,48], shots:[
+        {from:[100,178], to:[156,44], bend:-6, color:GREEN, snd:"volley", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Point won.",
+      winTxt:"They're stranded wide from chasing the chip. A firm volley into the <b>open</b> court is the whole point of coming in — take the space, don't get cute. The rushed pass was the gift; the open court is the finish.",
+      mid:{youStart:[100,178], oppStart:[52,50], oppEnd:[52,50], shots:[
+        {from:[100,178], to:[92,158], bend:2, color:GOLD, snd:"volley", label:"DROP", intent:"risk"} ]},
+      midTitle:"Netted the drop.",
+      midTxt:"The drop volley is a <b>coin-flip</b> from a floating ball — too little margin when the open court was begging. When they've handed you the space, take it; save the touch for when you're forced."
+    }
   }
+];
+
+/* Batch marker — additional scenarios are appended below after each batch is validated. */
+/* @batch-1 */
+/* @batch-2 */
+/* @batch-3 */
+
+/* ─────────────────────────  RUNTIME SELF-CHECK  ───────────────────────── */
+// A lightweight mirror of the release-gate validator, so a broken scenario can never
+// silently reach the deck. It quarantines any scenario that fails and stamps the result.
+const INTENT_GEO = {
+  behind:  (s,c)=> dist(s.to,c.oppStart) < dist(s.to,c.oppEnd),   // to where they came from
+  space:   (s,c)=> dist(s.to,c.oppEnd) > 32,                       // where they aren't
+  deep:    (s)=> s.to[1] < 95,                                     // deep in their court
+  jam:     (s,c)=> dist(s.to,c.oppEnd) < 26,                       // at their body
+  into_run:(s,c)=> dist(s.to,c.oppEnd) < 34,                       // into their recovery
+  angle:   (s)=> s.to[1] > 100 && Math.abs(s.to[0]-100) > 46,      // short + wide (low %)
+  reset:   (s)=> s.to[1] < 120 && Math.abs(s.to[0]-100) < 46,      // deep + central
+  risk:    ()=> true                                               // greedy option — checked via text
 };
+const INTENT_WORD = {
+  behind:/behind|wrong.?foot/i, space:/open|space|behind|away/i, deep:/deep/i,
+  jam:/body|jam|hip/i, into_run:/open|run|their run|space/i, angle:/angle/i,
+  reset:/reset|neutral|deep|middle|rebuild|buy/i, risk:/margin|coin.?flip|low.?percentage|long|net|miss|gamble/i
+};
+function dist(a,b){return Math.hypot(a[0]-b[0],a[1]-b[1]);}
+function inBounds(p){return p[0]>=12&&p[0]<=188&&p[1]>=8&&p[1]<=292;}
+function validateScenario(s){
+  const e=[];
+  const chk=(cond,msg)=>{ if(!cond) e.push(msg); };
+  chk(s.id&&s.title&&s.opp,'missing id/title/opp');
+  chk(s.d1&&s.d1.q&&Array.isArray(s.d1.opts)&&s.d1.opts.length===2,'d1 must have a question and two options');
+  ['A','B'].forEach(bk=>{
+    const b=s[bk]; if(!b){e.push('missing branch '+bk);return;}
+    chk(b.d1||s.d1.opts.some(o=>o.br===bk),'no d1 option routes to '+bk);
+    chk(Array.isArray(b.seq&&b.seq.shots)&&b.seq.shots.length>=2,bk+': seq needs ≥2 shots');
+    chk((b.reveal||'').length>=40,bk+': reveal too thin');
+    chk(b.d2&&Array.isArray(b.d2.opts)&&b.d2.opts.length===2,bk+': d2 needs two options');
+    chk(b.d2&&b.d2.opts.filter(o=>o.win).length===1,bk+': d2 needs exactly one winning option');
+    chk((b.winTxt||'').length>=40&&(b.midTxt||'').length>=40,bk+': coach reads too thin');
+    // ball continuity: each reply starts where the last ball landed
+    (b.seq.shots||[]).forEach((sh,i)=>{ if(i>0) chk(dist(sh.from,b.seq.shots[i-1].to)<26,bk+' seq shot '+i+': ball teleported'); });
+    // colour semantics + bounds
+    (b.seq.shots||[]).forEach((sh,i)=>{
+      chk(inBounds(sh.from)&&inBounds(sh.to),bk+' seq shot '+i+': off court');
+      if(i===0) chk(sh.color===GOLD,bk+' seq: your first shot must be gold');
+      if(i===1) chk(sh.color===RED,bk+" seq: the opponent's reply must be red");
+    });
+    // finishes: exactly one green payoff on the win, none on the mid; intent tandem
+    ['win','mid'].forEach(fk=>{
+      const f=b[fk]; if(!f||!Array.isArray(f.shots)){e.push(bk+': missing '+fk);return;}
+      const last=f.shots[f.shots.length-1];
+      chk(inBounds(last.from)&&inBounds(last.to),bk+' '+fk+': shot off court');
+      if(fk==='win'){ chk(last.payoff===true&&last.color===GREEN,bk+' win: finish must be a green payoff shot'); }
+      else { chk(!f.shots.some(x=>x.payoff)&&!f.shots.some(x=>x.color===GREEN),bk+' mid: neutral outcome must not be a green payoff'); }
+      // intent ↔ geometry ↔ text
+      const intent=last.intent; chk(intent&&INTENT_GEO[intent],bk+' '+fk+': finish needs a known intent');
+      if(intent&&INTENT_GEO[intent]){
+        const ctx={oppStart:f.oppStart||[100,30], oppEnd:f.oppEnd||f.oppStart||[100,30]};
+        chk(INTENT_GEO[intent](last,ctx),bk+' '+fk+' ('+intent+'): coordinates contradict the intent');
+        const txt=(fk==='win'?b.winTxt:b.midTxt)+' '+(b.d2.opts.find(o=>o.win===(fk==='win'))?.lbl||'');
+        chk(INTENT_WORD[intent].test(txt),bk+' '+fk+' ('+intent+'): coaching text does not match the intent');
+      }
+    });
+  });
+  return e;
+}
+function validateAll(){
+  const valid=[], report=[];
+  SCENARIOS.forEach(s=>{ const e=validateScenario(s); if(e.length){ report.push({id:s.id,errors:e}); console.error('[LIVE POINT] quarantined:',s.id,e); } else valid.push(s); });
+  document.documentElement.dataset.lpValid=String(valid.length);
+  document.documentElement.dataset.lpTotal=String(SCENARIOS.length);
+  document.documentElement.dataset.lpErrors=report.map(r=>r.id+':'+r.errors.length).join('|');
+  return valid;
+}
+const LIVE = validateAll();  // only validated scenarios ever reach the deck
 
 /* ─────────────────────────────  ENGINE  ───────────────────────────── */
 const court=document.getElementById('court');
 const stage=document.getElementById('stage');
-let branch=null;
+const deck=document.getElementById('deck');
+const badge=document.getElementById('badge');
+let cur=0, branch=null;
 const READ_PAUSE=520;
 
 function paint(play){ court.innerHTML=buildMultiShotSVG(play); }
@@ -272,7 +451,7 @@ function playSeq(play, done){
 }
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 function dots(active){const d=document.getElementById('dots');d.innerHTML='';for(let i=0;i<3;i++){const s=document.createElement('div');s.className='sd'+(i<active?' done':i===active?' on':'');d.appendChild(s);}}
-function flashParticles(){const w=document.querySelector('.court-wrap');for(let i=0;i<16;i++){const d=document.createElement('div');const s=4+Math.random()*4;d.style.cssText=`position:absolute;left:50%;top:46%;width:${s}px;height:${s}px;border-radius:50%;background:${Math.random()<.5?'#5bba6f':'#c8a84b'};pointer-events:none;z-index:4;`;w.appendChild(d);const ang=Math.random()*6.28,dist=44+Math.random()*80;const dx=Math.cos(ang)*dist,dy=Math.sin(ang)*dist-20;d.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`,opacity:0}],{duration:750+Math.random()*350,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>d.remove();}}
+function flashParticles(){const w=document.querySelector('.court-wrap');for(let i=0;i<16;i++){const d=document.createElement('div');const s=4+Math.random()*4;d.style.cssText=`position:absolute;left:50%;top:46%;width:${s}px;height:${s}px;border-radius:50%;background:${Math.random()<.5?GREEN:GOLD};pointer-events:none;z-index:4;`;w.appendChild(d);const ang=Math.random()*6.28,dist=44+Math.random()*80;const dx=Math.cos(ang)*dist,dy=Math.sin(ang)*dist-20;d.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`,opacity:0}],{duration:750+Math.random()*350,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>d.remove();}}
 
 function optHTML(list){
   return '<div class="opts">'+list.map((o,i)=>
@@ -281,23 +460,31 @@ function optHTML(list){
 }
 function bindOpts(fn){[...stage.querySelectorAll('.opt')].forEach(b=>b.onclick=()=>{SND.tap();fn(+b.dataset.i,[...stage.querySelectorAll('.opt')]);});}
 function lock(b){b.forEach(x=>x.classList.add('locked'));}
+const S=()=>LIVE[cur];
 
-/* INTRO / DECISION 1 */
+function buildDeck(){
+  deck.innerHTML=LIVE.map((s,i)=>`<button class="chip${i===cur?' on':''}" data-i="${i}">${s.title}</button>`).join('');
+  [...deck.querySelectorAll('.chip')].forEach(c=>c.onclick=()=>{SND.tap();cur=+c.dataset.i;intro();});
+}
+
 function intro(){
-  branch=null; dots(0); paint(SCN.d1.court);
+  buildDeck();
+  branch=null; dots(0);
+  badge.innerHTML=`<span class="k">Opponent</span>${S().opp}`;
+  paint(S().d1.court||{shots:[]});
   stage.innerHTML=`
-    <div class="sit">${SCN.d1.sit}</div>
-    <div class="q">${SCN.d1.q}</div>
-    ${optHTML(SCN.d1.opts)}`;
+    <div class="sit">${S().d1.sit}</div>
+    <div class="q">${S().d1.q}</div>
+    ${optHTML(S().d1.opts)}`;
   bindOpts(choose1);
 }
 
 async function choose1(i,btns){
   lock(btns);
-  const o=SCN.d1.opts[i]; branch=o.br; const B=SCN[branch];
+  const o=S().d1.opts[i]; branch=o.br; const B=S()[branch];
   btns[i].classList.add('chosen','good');
-  await new Promise(res=>playSeq(B.seq, res));   // your shot (gold) → their answer (red)
-  await wait(READ_PAUSE);                          // anticipation beat
+  await new Promise(res=>playSeq(B.seq, res));
+  await wait(READ_PAUSE);
   const r=document.createElement('div'); r.className='reveal info';
   r.innerHTML=`<div class="reveal-tag">The point isn't over</div><div class="reveal-txt">${B.reveal}</div>`;
   stage.appendChild(r); requestAnimationFrame(()=>r.classList.add('show'));
@@ -306,9 +493,8 @@ async function choose1(i,btns){
   r.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
-/* DECISION 2 (option off the option) */
 function decision2(){
-  const B=SCN[branch]; dots(1);
+  const B=S()[branch]; dots(1);
   stage.innerHTML=`
     <div class="sit">${B.d2.sit}</div>
     <div class="q">${B.d2.q}</div>
@@ -318,12 +504,10 @@ function decision2(){
 
 async function choose2(i,btns){
   lock(btns);
-  const B=SCN[branch]; const o=B.d2.opts[i];
-  const isWin=o.win;
+  const B=S()[branch]; const o=B.d2.opts[i]; const isWin=o.win;
   btns[i].classList.add('chosen', isWin?'good':'mid');
   const other=B.d2.opts.findIndex(x=>x.win); if(other>=0 && other!==i) btns[other].classList.add('correct-ghost');
-  const play=isWin?B.win:B.mid;
-  await new Promise(res=>playSeq(play, res));
+  await new Promise(res=>playSeq(isWin?B.win:B.mid, res));
   if(isWin){ flashParticles(); SND.point(); } else { SND.weak(); }
   await wait(120);
   result(isWin, isWin?B.winTitle:B.midTitle, isWin?B.winTxt:B.midTxt);
@@ -331,15 +515,16 @@ async function choose2(i,btns){
 
 function result(isWin,title,txt){
   dots(3);
+  const hasNext=cur<LIVE.length-1;
   stage.innerHTML=`
     <div class="reveal ${isWin?'good':'mid'} show" style="margin-top:16px;">
       <div class="result-title ${isWin?'win':'neutral'}">${title}</div>
       <div class="reveal-txt">${txt}</div>
     </div>
-    <button class="btn" id="again">Play the other line →</button>
-    <button class="btn ghost" id="restart">Start the point over</button>`;
+    ${hasNext?`<button class="btn" id="next">Next Live Point →</button>`:''}
+    <button class="btn ghost" id="again">Play the other line →</button>`;
+  if(hasNext) document.getElementById('next').onclick=()=>{SND.tap();cur++;intro();};
   document.getElementById('again').onclick=()=>{SND.tap();intro();};
-  document.getElementById('restart').onclick=()=>{SND.tap();intro();};
   document.querySelector('.result-title').scrollIntoView({behavior:'smooth',block:'center'});
 }
 
