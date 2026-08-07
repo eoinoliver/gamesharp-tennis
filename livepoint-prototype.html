@@ -72,6 +72,8 @@ body{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset
 .btn{display:block;width:100%;background:var(--gold);color:#111;border:none;border-radius:13px;padding:15px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px;transition:transform .12s;}
 .btn:active{transform:scale(.98);}
 .btn.ghost{background:transparent;color:var(--muted);border:1.5px solid rgba(255,255,255,.14);margin-top:10px;}
+.btn.watch{background:linear-gradient(180deg,#5bba6f,#3f9e55);color:#08140c;box-shadow:0 6px 20px rgba(91,186,111,.22);}
+.btn.watch:disabled{opacity:.72;cursor:default;}
 
 .result-title{font-family:'DM Sans';font-weight:800;font-size:30px;letter-spacing:-.5px;line-height:1;margin:2px 0 8px;}
 .result-title.win{color:var(--win);}
@@ -203,6 +205,79 @@ function buildMultiShotSVG(play){
     <circle cx="${youS[0]}" cy="${youS[1]}" r="5.2" fill="#c8a84b" stroke="rgba(255,255,255,.8)" stroke-width="1">${youTravels?`<animate attributeName="cx" from="${youS[0]}" to="${youE[0]}" begin=".9s" dur=".5s" fill="freeze"/><animate attributeName="cy" from="${youS[1]}" to="${youE[1]}" begin=".9s" dur=".5s" fill="freeze"/>`:''}</circle>
     <circle cx="${oppS[0]}" cy="${oppS[1]}" r="5.2" fill="#e07070" stroke="rgba(255,255,255,.65)" stroke-width="1">${oppTravels?`<animate attributeName="cx" from="${oppS[0]}" to="${oppE[0]}" begin=".9s" dur=".5s" fill="freeze"/><animate attributeName="cy" from="${oppS[1]}" to="${oppE[1]}" begin=".9s" dur=".5s" fill="freeze"/>`:''}</circle>
     ${sitter}${body}
+  </svg>`;
+}
+
+/* ─────────── THE WHOLE POINT ───────────
+   Stitch the setup rally (seq) and the finish you chose into ONE continuous replay —
+   the ball flows shot-to-shot and the opponent scrambles through multiple waypoints.
+   assembleFullPoint() derives everything from the existing scenario data, so rolling
+   this out to every scenario needs no new authoring — only the render below. */
+function assembleFullPoint(sc, br, fk){
+  const b=sc[br], seq=b.seq, fin=b[fk];
+  const seqShots=(seq.shots||[]).map(s=>({...s}));
+  const land=seqShots.length?seqShots[seqShots.length-1].to:null;   // where their reply landed
+  const finShots=(fin.shots||[]).map((s,i)=> (i===0&&land)?({...s,from:land}):({...s}) ); // finish continues from it
+  return {
+    shots:[...seqShots, ...finShots],
+    oppWaypoints:[ seq.oppStart||[100,30], seq.oppEnd||seq.oppStart||[100,30], fin.oppEnd||fin.oppStart||seq.oppEnd||[100,30] ],
+    youWaypoints:[ seq.youStart||[100,270], fin.youStart||seq.youEnd||seq.youStart||[100,270] ],
+    isWin: fk==='win'
+  };
+}
+const FP={stepDur:1.15, start:0.4, ballDur:0.58};
+function fpShotTime(i){ return FP.start + i*FP.stepDur; }
+function fpTotal(fp){ return FP.start + (fp.shots.length-1)*FP.stepDur + 0.9; }
+function buildFullPointSVG(fp){
+  const W=300,H=200, project=(x,y)=>GS_REPLAY.project(x,y,{top:10,bottom:290,left:20,right:180});
+  const shots=fp.shots||[];
+  let body='';
+  shots.forEach((s,i)=>{
+    const d0=fpShotTime(i);
+    const a=project(s.from[0],s.from[1]), b=project(s.to[0],s.to[1]);
+    const x1=a[0],y1=a[1],x2=b[0],y2=b[1];
+    const cx=(x1+x2)/2+(s.bend||0), cy=(y1+y2)/2-5, col=s.color||GOLD, L=360;
+    body+=`<path class="ms-path" d="M${x1},${y1} Q${cx},${cy} ${x2},${y2}" stroke="${col}" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${L}" opacity="0" style="animation:drawPath ${FP.ballDur}s ${d0.toFixed(2)}s ease forwards;opacity:1"/>`;
+    body+=`<circle class="ms-ball" r="4.6" fill="#d8f04e" stroke="#f4ffae" stroke-width="1.2" filter="url(#msBallGlow)" opacity="0"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.1;.88;1" dur="${(FP.ballDur+0.06).toFixed(2)}s" begin="${d0.toFixed(2)}s" fill="freeze"/><animateMotion dur="${FP.ballDur}s" begin="${d0.toFixed(2)}s" fill="freeze" path="M${x1},${y1} Q${cx},${cy} ${x2},${y2}"/></circle>`;
+    const isPayoff=!!s.payoff, label=s.label||(i+1), isLast=(i===shots.length-1);
+    const labelSize=String(label).length>14?4.6:String(label).length>10?5.2:6.6;
+    // Final shot's label stays lit; earlier ones fade back once the next shot lands, so a
+    // rally that revisits the same corner doesn't stack labels and the payoff reads clean.
+    const groupAnim=isLast?`style="animation:tpop .3s ${(d0+0.5).toFixed(2)}s ease both"`:'';
+    const fade=isLast?'':`<animate attributeName="opacity" values="0;1;1;.24" keyTimes="0;.16;.6;1" dur="${(FP.stepDur+0.35).toFixed(2)}s" begin="${(d0+0.5).toFixed(2)}s" fill="freeze"/>`;
+    body+=`<g class="ms-reveal${isPayoff?' pb-payoff-pulse':''}" opacity="0" ${groupAnim}><circle cx="${x2}" cy="${y2}" r="${isPayoff?15:12}" fill="${isPayoff?'rgba(91,186,111,.14)':'rgba(255,255,255,.06)'}" stroke="${col}" stroke-width="1.5" stroke-dasharray="4,3"/><text x="${x2}" y="${y2+2.5}" text-anchor="middle" fill="${col}" font-size="${labelSize}" font-weight="800" font-family="DM Sans,sans-serif">${label}</text>${fade}</g>`;
+  });
+  const netY=project(100,150)[1];
+  const farSL=project(100,80)[1], nearSL=project(100,220)[1];
+  const farServeL=project(33,80)[0],farServeR=project(167,80)[0],nearServeL=project(33,220)[0],nearServeR=project(167,220)[0];
+  const farSinglesL=project(33,10)[0],farSinglesR=project(167,10)[0],nearSinglesL=project(33,290)[0],nearSinglesR=project(167,290)[0];
+  // opponent scrambles through waypoints, reacting to each of YOUR shots (non-red)
+  const myIdx=shots.map((s,i)=>s.color!==RED?i:-1).filter(i=>i>=0);
+  const oppW=(fp.oppWaypoints||[]).map(p=>project(p[0],p[1]));
+  let oppAnims='';
+  for(let k=0;k<oppW.length-1;k++){
+    const f=oppW[k], t=oppW[k+1]; if(Math.hypot(t[0]-f[0],t[1]-f[1])<=6) continue;
+    const begin=(fpShotTime(myIdx[k]!=null?myIdx[k]:0)+0.28).toFixed(2), dur=(k===0?0.85:0.55).toFixed(2);
+    oppAnims+=`<animate attributeName="cx" from="${f[0].toFixed(1)}" to="${t[0].toFixed(1)}" begin="${begin}s" dur="${dur}s" fill="freeze"/><animate attributeName="cy" from="${f[1].toFixed(1)}" to="${t[1].toFixed(1)}" begin="${begin}s" dur="${dur}s" fill="freeze"/>`;
+  }
+  const youW=(fp.youWaypoints||[]).map(p=>project(p[0],p[1]));
+  const yS=youW[0]||project(100,270), yE=youW[youW.length-1]||yS;
+  const youBegin=(fpShotTime(myIdx.length?myIdx[myIdx.length-1]:0)-0.1).toFixed(2);
+  const youAnims=Math.hypot(yE[0]-yS[0],yE[1]-yS[1])>6?`<animate attributeName="cx" from="${yS[0].toFixed(1)}" to="${yE[0].toFixed(1)}" begin="${youBegin}s" dur="0.5s" fill="freeze"/><animate attributeName="cy" from="${yS[1].toFixed(1)}" to="${yE[1].toFixed(1)}" begin="${youBegin}s" dur="0.5s" fill="freeze"/>`:'';
+  const oS=oppW[0]||project(100,30);
+  return `<svg viewBox="0 0 ${W} ${H}" class="ms-svg" font-family="DM Sans,sans-serif">
+    <defs><linearGradient id="msCourtSurface" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#215d28"/><stop offset="1" stop-color="#143f19"/></linearGradient><filter id="msBallGlow" x="-200%" y="-200%" width="400%" height="400%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#d8f04e" flood-opacity=".85"/></filter></defs>
+    <path d="M96,18 L204,18 L288,182 L12,182 Z" fill="url(#msCourtSurface)" stroke="rgba(255,255,255,.52)" stroke-width="1.6"/>
+    <line x1="66" y1="${netY}" x2="234" y2="${netY}" stroke="rgba(255,255,255,.78)" stroke-width="2.4"/>
+    <line x1="${farServeL}" y1="${farSL}" x2="${farServeR}" y2="${farSL}" stroke="rgba(255,255,255,.33)" stroke-width="1"/>
+    <line x1="${nearServeL}" y1="${nearSL}" x2="${nearServeR}" y2="${nearSL}" stroke="rgba(255,255,255,.33)" stroke-width="1"/>
+    <line x1="150" y1="${farSL}" x2="150" y2="${nearSL}" stroke="rgba(255,255,255,.27)" stroke-width="1"/>
+    <line x1="${farSinglesL}" y1="18" x2="${nearSinglesL}" y2="182" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+    <line x1="${farSinglesR}" y1="18" x2="${nearSinglesR}" y2="182" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+    <text x="18" y="194" fill="rgba(200,168,75,.42)" font-size="7" letter-spacing="1">YOU</text>
+    <circle cx="${yS[0]}" cy="${yS[1]}" r="5.2" fill="#c8a84b" stroke="rgba(255,255,255,.8)" stroke-width="1">${youAnims}</circle>
+    <circle cx="${oS[0]}" cy="${oS[1]}" r="5.2" fill="#e07070" stroke="rgba(255,255,255,.65)" stroke-width="1">${oppAnims}</circle>
+    ${body}
   </svg>`;
 }
 
@@ -688,8 +763,10 @@ const court=document.getElementById('court');
 const stage=document.getElementById('stage');
 const deck=document.getElementById('deck');
 const badge=document.getElementById('badge');
-let cur=0, branch=null;
+let cur=0, branch=null, lastLine=null, fpTimers=[];
 const READ_PAUSE=520;
+// Pilot: scenarios where "Watch the whole point" is live. Roll out = add ids (or clear the gate).
+const FULLPOINT_ENABLED=new Set(['short_ball']);
 
 function paint(play){ court.innerHTML=buildMultiShotSVG(play); }
 function seqLen(play){ return 0.3 + (play.shots||[]).length*1.25; }
@@ -754,6 +831,7 @@ function decision2(){
 async function choose2(i,btns){
   lock(btns);
   const B=S()[branch]; const o=B.d2.opts[i]; const isWin=o.win;
+  lastLine={br:branch, fk:isWin?'win':'mid'};   // remember the point just played, for the whole-point replay
   btns[i].classList.add('chosen', isWin?'good':'mid');
   const other=B.d2.opts.findIndex(x=>x.win); if(other>=0 && other!==i) btns[other].classList.add('correct-ghost');
   await new Promise(res=>playSeq(isWin?B.win:B.mid, res));
@@ -765,16 +843,34 @@ async function choose2(i,btns){
 function result(isWin,title,txt){
   dots(3);
   const hasNext=cur<LIVE.length-1;
+  const canReplay=FULLPOINT_ENABLED.has(S().id) && !!lastLine;
   stage.innerHTML=`
     <div class="reveal ${isWin?'good':'mid'} show" style="margin-top:16px;">
       <div class="result-title ${isWin?'win':'neutral'}">${title}</div>
       <div class="reveal-txt">${txt}</div>
     </div>
-    ${hasNext?`<button class="btn" id="next">Next Live Point →</button>`:''}
+    ${canReplay?`<button class="btn watch" id="watchPoint">▶ Watch the whole point</button>`:''}
+    ${hasNext?`<button class="btn${canReplay?' ghost':''}" id="next">Next Live Point →</button>`:''}
     <button class="btn ghost" id="again">Play the other line →</button>`;
+  if(canReplay) document.getElementById('watchPoint').onclick=()=>playFullPoint(document.getElementById('watchPoint'));
   if(hasNext) document.getElementById('next').onclick=()=>{SND.tap();cur++;intro();};
   document.getElementById('again').onclick=()=>{SND.tap();intro();};
   document.querySelector('.result-title').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// Replay the point just played — setup rally + your finish — as one continuous highlight.
+function playFullPoint(btn){
+  if(!lastLine) return;
+  fpTimers.forEach(clearTimeout); fpTimers=[];
+  const fp=assembleFullPoint(S(), lastLine.br, lastLine.fk);
+  const label=document.querySelector('.court-label');
+  if(label) label.innerHTML='◉ GAME<b>SHARP</b> REPLAY · THE WHOLE POINT';
+  court.innerHTML=buildFullPointSVG(fp);
+  document.querySelector('.court-wrap').scrollIntoView({behavior:'smooth',block:'center'});
+  fp.shots.forEach((s,i)=>{ fpTimers.push(setTimeout(()=>{(SND[s.snd]||SND.drive)();}, fpShotTime(i)*1000+40)); });
+  const last=fp.shots[fp.shots.length-1];
+  if(last && last.payoff) fpTimers.push(setTimeout(()=>{ flashParticles(); SND.point(); }, (fpShotTime(fp.shots.length-1)+0.5)*1000));
+  if(btn){ btn.disabled=true; btn.textContent='Playing…'; fpTimers.push(setTimeout(()=>{ btn.disabled=false; btn.textContent='↻ Replay the whole point'; }, fpTotal(fp)*1000)); }
 }
 
 intro();
