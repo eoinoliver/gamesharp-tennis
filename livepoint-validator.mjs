@@ -83,6 +83,26 @@ function scenarioErrors(s) {
       if (fk === 'win') chk(last.payoff === true && last.color === GREEN, bk + ' win: the finish must be a green payoff shot');
       else chk(!f.shots.some(x => x.payoff) && !f.shots.some(x => x.color === GREEN), bk + ' mid: a neutral outcome must not use the green payoff');
 
+      // Miss lock-step: if the outcome text says the ball MISSED (net/long/wide), the finish
+      // MUST declare shot.miss so the animation shows the miss — otherwise it renders as a
+      // clean in-court landing and the text contradicts the picture. And a declared miss must
+      // be corroborated by BOTH the text and the geometry. This is the trust gate for losers.
+      if (fk === 'mid') {
+        const title = b.midTitle || '';
+        const declared = last.miss;
+        const titleMiss = /\bnet\b|netted|\blong\b|\bwide\b|missed|\bframe/i.test(title);
+        if (titleMiss && !declared) e.push(bk + ' mid: outcome "' + title + '" says the shot missed but no shot.miss is set — the animation would show it landing in');
+        if (declared) {
+          if (!['net', 'long', 'wide'].includes(declared)) e.push(bk + ' mid: unknown miss type "' + declared + '"');
+          else {
+            const okText = declared === 'net' ? /net|netted/i.test(title) : /wide|long|missed|frame|off/i.test(title);
+            if (!okText) e.push(bk + ' mid [' + declared + ']: the outcome text does not name this miss');
+            if (declared === 'net') chk(last.from[1] > 150 && last.to[1] < 150, bk + ' mid: a net miss must be aimed across the net (from your side to theirs)');
+            else chk(last.to[1] < 150, bk + ' mid: a long/wide miss must clear the net before landing out');
+          }
+        }
+      }
+
       const intent = last.intent;
       chk(intent && INTENT_GEO[intent], bk + ' ' + fk + ': finish is missing a known intent tag');
       if (intent && INTENT_GEO[intent]) {

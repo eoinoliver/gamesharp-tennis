@@ -164,6 +164,25 @@ const GS_REPLAY={
     return [150+((x-mid)/span)*half,sy];
   }
 };
+// ── MISS RENDERING ── a losing finish whose text says "into the net / long / wide" must
+// LOOK like it missed. Given projected endpoints, return the ball's real (failed) landing:
+// net → stops at the net; long → sails past the baseline; wide → lands outside the sideline.
+// The ball never lands cleanly in the court, so text and visual can't contradict.
+const MISSCOL='#e8734a';
+function missLanding(P0,P1,miss){
+  const NET=100;                                   // projected net line (project(x,150)[1])
+  if(miss==='net'){ let t=(NET-P0[1])/((P1[1]-P0[1])||-1); t=Math.max(.12,Math.min(.94,t)); return [P0[0]+(P1[0]-P0[0])*t, P0[1]+(P1[1]-P0[1])*t]; }
+  if(miss==='long'){ const lx=P1[0]+(P1[0]-P0[0])*0.30; let ly=P1[1]+(P1[1]-P0[1])*0.30; return [lx, Math.max(9,ly)]; }   // past the far baseline, kept on-canvas
+  const sign=P1[0]>=150?1:-1; return [P1[0]+sign*30, P1[1]-4];      // wide
+}
+function missShotSVG(P0,P1,miss,d0,drawDur,ballDur){
+  const land=missLanding(P0,P1,miss), cx=(P0[0]+land[0])/2, cy=(P0[1]+land[1])/2-5;
+  const tag = miss==='net'?'NET':(miss==='long'?'OUT · LONG':'OUT · WIDE');
+  const mk=(d0+ballDur+0.02).toFixed(2);
+  return `<path d="M${P0[0]},${P0[1]} Q${cx.toFixed(1)},${cy.toFixed(1)} ${land[0].toFixed(1)},${land[1].toFixed(1)}" stroke="${MISSCOL}" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="6,4" opacity="0" style="animation:drawPath ${drawDur}s ${d0.toFixed(2)}s ease forwards;opacity:1"/>`
+    +`<circle class="ms-ball" r="4.6" fill="#d8f04e" stroke="#f4ffae" stroke-width="1.2" filter="url(#msBallGlow)" opacity="0"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.1;.85;1" dur="${(ballDur+0.06).toFixed(2)}s" begin="${d0.toFixed(2)}s" fill="freeze"/><animateMotion dur="${ballDur}s" begin="${d0.toFixed(2)}s" fill="freeze" path="M${P0[0]},${P0[1]} Q${cx.toFixed(1)},${cy.toFixed(1)} ${land[0].toFixed(1)},${land[1].toFixed(1)}"/></circle>`
+    +`<g opacity="0" style="animation:tpop .3s ${mk}s ease both"><circle cx="${land[0].toFixed(1)}" cy="${land[1].toFixed(1)}" r="9" fill="rgba(232,115,74,.14)" stroke="${MISSCOL}" stroke-width="1.6"/><line x1="${(land[0]-4).toFixed(1)}" y1="${(land[1]-4).toFixed(1)}" x2="${(land[0]+4).toFixed(1)}" y2="${(land[1]+4).toFixed(1)}" stroke="${MISSCOL}" stroke-width="1.7"/><line x1="${(land[0]+4).toFixed(1)}" y1="${(land[1]-4).toFixed(1)}" x2="${(land[0]-4).toFixed(1)}" y2="${(land[1]+4).toFixed(1)}" stroke="${MISSCOL}" stroke-width="1.7"/><text x="${land[0].toFixed(1)}" y="${(land[1]<26?land[1]+16:land[1]-13).toFixed(1)}" text-anchor="middle" fill="${MISSCOL}" font-size="6.2" font-weight="800" font-family="DM Sans,sans-serif">${tag}</text></g>`;
+}
 function buildMultiShotSVG(play){
   const stepDur=1.25, W=300, H=200;
   const project=(x,y)=>GS_REPLAY.project(x,y,{top:10,bottom:290,left:20,right:180});
@@ -171,6 +190,7 @@ function buildMultiShotSVG(play){
   (play.shots||[]).forEach((s,i)=>{
     const d0=0.3+i*stepDur;
     const a=project(s.from[0],s.from[1]), b=project(s.to[0],s.to[1]);
+    if(s.miss){ body+=missShotSVG(a,b,s.miss,d0,0.62,0.62); return; }
     const x1=a[0],y1=a[1],x2=b[0],y2=b[1];
     const cx=(x1+x2)/2+(s.bend||0), cy=(y1+y2)/2-5;
     const col=s.color||GOLD, L=360;
@@ -235,6 +255,7 @@ function buildFullPointSVG(fp){
   shots.forEach((s,i)=>{
     const d0=fpShotTime(i);
     const a=project(s.from[0],s.from[1]), b=project(s.to[0],s.to[1]);
+    if(s.miss){ body+=missShotSVG(a,b,s.miss,d0,FP.ballDur,FP.ballDur); return; }
     const x1=a[0],y1=a[1],x2=b[0],y2=b[1];
     const cx=(x1+x2)/2+(s.bend||0), cy=(y1+y2)/2-5, col=s.color||GOLD, L=360;
     body+=`<path class="ms-path" d="M${x1},${y1} Q${cx},${cy} ${x2},${y2}" stroke="${col}" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${L}" opacity="0" style="animation:drawPath ${FP.ballDur}s ${d0.toFixed(2)}s ease forwards;opacity:1"/>`;
@@ -331,7 +352,7 @@ const SCENARIOS = [
       winTitle:'Point won.',
       winTxt:"From below the net you can't hit down — so you don't gamble. The <b>deep</b> volley pins them back, keeps you at net, and you take the next ball from strength. Patience finishes the point the greedy angle would have missed.",
       mid:{youStart:[100,182], oppStart:[158,46], oppEnd:[158,46], shots:[
-        {from:[100,182], to:[42,116], bend:6, color:GOLD, snd:'volley', label:'ANGLE', intent:'angle'} ]},
+        {from:[100,182], to:[42,116], bend:6, color:GOLD, snd:'volley', label:'ANGLE', intent:'angle', miss:'net'} ]},
       midTitle:'Into the net.',
       midTxt:"From a ball at your feet the sharp <b>angle</b> has almost no margin — you have to lift it and hope. Tempting, but it's the low-percentage swing. Deep and boring wins this one; the winner comes on the ball after."
     }
@@ -380,7 +401,7 @@ const SCENARIOS = [
       winTitle:"Point won.",
       winTxt:"From below the net you can't hit down — so you don't gamble. The <b>deep</b> volley pins them back, keeps you at the net, and the next ball comes as a gift. Placement beats power on the ball you built.",
       mid:{youStart:[100,182], oppStart:[58,50], oppEnd:[58,50], shots:[
-        {from:[100,182], to:[44,116], bend:6, color:GOLD, snd:"volley", label:"ANGLE", intent:"angle"} ]},
+        {from:[100,182], to:[44,116], bend:6, color:GOLD, snd:"volley", label:"ANGLE", intent:"angle", miss:"net"} ]},
       midTitle:"Into the net.",
       midTxt:"From a ball at your feet the sharp <b>angle</b> has almost no margin — you have to lift it and hope it drops. Deep and boring wins this one; the winner comes on the next ball."
     }
@@ -411,7 +432,7 @@ const SCENARIOS = [
       winTitle:"Point won.",
       winTxt:"The short ball is a chance to take the net, not a chance to miss. A <b>deep</b> approach down the line, then close — and the volley finishes it. Placement beats power on the ball you've been waiting for.",
       mid:{youStart:[100,205], oppStart:[100,42], oppEnd:[100,42], shots:[
-        {from:[100,205], to:[158,50], bend:-8, color:GOLD, snd:"drive", label:"FLAT WINNER", intent:"risk"} ]},
+        {from:[100,205], to:[158,50], bend:-8, color:GOLD, snd:"drive", label:"FLAT WINNER", intent:"risk", miss:"long"} ]},
       midTitle:"Just long.",
       midTxt:"From mid-court a flat crosscourt winner is a <b>coin-flip</b> — the net's higher and the court's shorter than it feels from there. The approach was the percentage play; the winner comes at the net."
     },
@@ -429,7 +450,7 @@ const SCENARIOS = [
       winTitle:"Point won.",
       winTxt:"They're stranded wide from chasing the chip. A firm volley into the <b>open</b> court is the whole point of coming in — take the space, don't get cute. The rushed pass was the gift; the open court is the finish.",
       mid:{youStart:[100,178], oppStart:[52,50], oppEnd:[52,50], shots:[
-        {from:[100,178], to:[92,158], bend:2, color:GOLD, snd:"volley", label:"DROP", intent:"risk"} ]},
+        {from:[100,178], to:[96,140], bend:2, color:GOLD, snd:"volley", label:"DROP", intent:"risk", miss:"net"} ]},
       midTitle:"Netted the drop.",
       midTxt:"The drop volley is a <b>coin-flip</b> from a floating ball — too little margin when the open court was begging. When they've handed you the space, take it; save the touch for when you're forced."
     }
@@ -461,7 +482,7 @@ const SCENARIOS = [
       winTitle:"Point won.",
       winTxt:"A moonballer chases everything you hit hard and deep — so you don't out-muscle them, you <b>angle</b> them off the court. The short angle pulls them somewhere they can't loop it back from. Take the court away, not their pace.",
       mid:{youStart:[100,185], oppStart:[100,40], oppEnd:[100,40], shots:[
-        {from:[100,185], to:[156,46], bend:-6, color:GOLD, snd:"drive", label:"FLAT & DEEP", intent:"risk"} ]},
+        {from:[100,185], to:[156,46], bend:-6, color:GOLD, snd:"drive", label:"FLAT & DEEP", intent:"risk", miss:"wide"} ]},
       midTitle:"Just wide.",
       midTxt:"Trying to out-hit a retriever down the line is a <b>coin-flip</b> — the extra pace you add is the error, not the winner. They were begging you to over-hit. The angle finishes clean; brute force sprays."
     },
@@ -510,7 +531,7 @@ const SCENARIOS = [
       winTitle:"Point won.",
       winTxt:"A planted volleyer reaches the open court easily — but nobody volleys a ball drilled at their <b>hip</b>. The body jam handcuffs their hands and the volley dies in the net. Aim at the body, not the paint: it beats the fine pass when they're this tight to the net.",
       mid:{youStart:[100,184], oppStart:[92,140], oppEnd:[92,140], shots:[
-        {from:[100,184], to:[52,120], bend:6, color:GOLD, snd:"drive", label:"LINE PASS", intent:"risk"} ]},
+        {from:[100,184], to:[52,120], bend:6, color:GOLD, snd:"drive", label:"LINE PASS", intent:"risk", miss:"wide"} ]},
       midTitle:"Just wide.",
       midTxt:"Threading the line past a set volleyer leaves you almost <b>no margin</b> — a hair wide and the point's theirs. The body jam was the higher-percentage kill. Save the perfect pass for when they've left you real room."
     },
@@ -578,7 +599,7 @@ const SCENARIOS = [
       winTitle:"Point won.",
       winTxt:"Patience opened the court wider than force would have. With them stranded out wide, a short <b>angle</b> into the open side finishes it — they're moving the wrong way and it's nowhere near them. You earned the easy ball by making them run, not by gambling.",
       mid:{youStart:[100,235], oppStart:[168,52], oppEnd:[168,52], shots:[
-        {from:[100,235], to:[54,44], bend:-4, color:GOLD, snd:"drive", label:"FLAT & DEEP", intent:"risk"} ]},
+        {from:[100,235], to:[54,44], bend:-4, color:GOLD, snd:"drive", label:"FLAT & DEEP", intent:"risk", miss:"long"} ]},
       midTitle:"Long.",
       midTxt:"Flat and deep to the corner is more pace and less margin than you need — from mid-court that ball sails <b>long</b> as often as it lands. The short angle was the safe kill; depth just gives a mover time to chase."
     }
@@ -627,7 +648,7 @@ const SCENARIOS = [
       winTitle:"Point won.",
       winTxt:"They're pinned at their own baseline after chasing the lob — so a controlled drive <b>deep</b> into the open corner is the safe finish: too deep to attack, too far to reach. You don't need a spectacular winner; you need the ball they can't get to. Placement over power on the sitter.",
       mid:{youStart:[100,200], oppStart:[100,80], oppEnd:[100,80], shots:[
-        {from:[100,195], to:[44,118], bend:6, color:GOLD, snd:"drive", label:"FLAT WINNER", intent:"risk"} ]},
+        {from:[100,195], to:[44,118], bend:6, color:GOLD, snd:"drive", label:"FLAT WINNER", intent:"risk", miss:"net"} ]},
       midTitle:"Netted it.",
       midTxt:"From a floating ball, a flat crosscourt winner is a <b>coin-flip</b> — the margin isn't there when a deep, controlled ball already wins the point. The lob set up an easy finish; don't turn an easy point into a hard one."
     }
@@ -658,7 +679,7 @@ const SCENARIOS = [
       winTitle:"Turned it around.",
       winTxt:"Defense set up offense. The reset dragged you back into the point; they over-pressed and handed you a mid-court ball, so a drive into the <b>open</b> court finishes it. You didn't need a miracle off the stretch — you needed to survive long enough to get an easy one.",
       mid:{youStart:[100,210], oppStart:[112,44], oppEnd:[112,44], shots:[
-        {from:[100,205], to:[52,48], bend:4, color:GOLD, snd:"drive", label:"LINE WINNER", intent:"risk"} ]},
+        {from:[100,205], to:[52,48], bend:4, color:GOLD, snd:"drive", label:"LINE WINNER", intent:"risk", miss:"wide"} ]},
       midTitle:"Just missed.",
       midTxt:"You survived the scramble — then gambled the reward away. A spectacular winner from mid-court is a <b>coin-flip</b> you didn't need; the open court was the simple finish. Reward good defense with the easy ball, not the hero ball."
     },
@@ -676,7 +697,7 @@ const SCENARIOS = [
       winTitle:"Still in it.",
       winTxt:"Two good defensive balls beat one miracle. You're not in position, so you <b>reset</b> again — high, deep, neutral, right down the middle — and make them build the point from scratch. Stay in the rally and the winner comes later, from balance instead of from a full stretch.",
       mid:{youStart:[176,235], oppStart:[100,40], oppEnd:[100,40], shots:[
-        {from:[176,230], to:[46,46], bend:4, color:GOLD, snd:"drive", label:"STRETCH WINNER", intent:"risk"} ]},
+        {from:[176,230], to:[46,46], bend:4, color:GOLD, snd:"drive", label:"STRETCH WINNER", intent:"risk", miss:"wide"} ]},
       midTitle:"Off the frame.",
       midTxt:"Off a full stretch with no base, a clean winner is a <b>coin-flip</b> at best — exactly the low-percentage swing they wrong-footed you into trying. Reset, reload, and pick a smarter moment. Defense wins by surviving one more ball."
     }
