@@ -15293,7 +15293,14 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
 .gs-focus-stage{min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px 0}
 .gs-focus-stage>.gs-focus-subject{width:min(100%,980px)!important;max-width:980px!important;max-height:100%!important;margin:0!important;flex:0 1 auto!important}
 .gs-focus-stage .gs-focus-trigger{display:none!important}
-.gs-focus-stage>.leg-anim-wrap,.gs-focus-stage>.seq-court-wrap,.gs-focus-stage>.pb-card-anim,.gs-focus-stage>.plm-visual{height:min(72vh,720px)!important;min-height:300px!important;aspect-ratio:auto!important}
+.gs-focus-stage>.pb-card-anim,.gs-focus-stage>.plm-visual{height:min(72vh,720px)!important;min-height:300px!important;aspect-ratio:auto!important}
+/* Read-the-Game consequence court (#seqCourtWrap = .seq-court-wrap) and the legend court
+   bake a bottom-pinned rotateX camera tilt for the in-flow card (see .seq-court-wrap svg
+   / .leg-anim-wrap svg). In Focus View that tilt strands the court at the bottom with a
+   tall empty green panel above. Flatten them to fill the frame, like the daily court, and
+   size the wrap to the SVG's own aspect. No dead space, no tilt. */
+.gs-focus-stage>.seq-court-wrap,.gs-focus-stage>.leg-anim-wrap{width:min(100%,720px)!important;height:auto!important;min-height:0!important;max-height:min(64vh,620px)!important;aspect-ratio:var(--gs-focus-aspect,1.47)!important;perspective:none!important;display:flex!important;align-items:center!important;justify-content:center!important;background:radial-gradient(120% 90% at 50% 36%,#1f5125 0%,#123817 60%,#08170a 100%)!important}
+.gs-focus-stage>.seq-court-wrap>svg,.gs-focus-stage>.leg-anim-wrap>svg{position:relative!important;inset:auto!important;left:auto!important;bottom:auto!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;transform:none!important;transform-origin:center!important;filter:none!important}
 /* Daily/5-pillar visuals arrive in several native geometries. In Focus View
    they must keep their complete authored frame—never inherit the quiz camera
    tilt, never zoom a diagram, and never create a tall empty green panel. */
@@ -15305,7 +15312,6 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
 .gs-focus-stage .fasp-stage{min-height:min(52vh,520px)}
 .gs-focus-stage .fasp-step,.gs-focus-stage .fasp-hand,.gs-focus-stage .fasp-mode{min-height:44px}
 .gs-focus-stage>.pb-card-anim svg,.gs-focus-stage>.plm-visual svg{max-height:100%!important;width:100%!important;height:100%!important}
-.gs-focus-stage>.leg-anim-wrap svg,.gs-focus-stage>.seq-court-wrap svg{max-height:none!important}
 .gs-focus-foot{min-height:52px;padding:8px 4px 2px;text-align:center}
 .gs-focus-cue{font-size:13px;line-height:1.45;color:rgba(255,255,255,.74);max-width:720px;margin:auto}
 .gs-focus-hint{font-size:9px;letter-spacing:1.2px;color:rgba(200,168,75,.72);margin-top:5px;text-transform:uppercase}
@@ -15338,7 +15344,9 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
     overlay.querySelector('#gsFocusTitle').textContent=copy.title;
     overlay.querySelector('#gsFocusCue').textContent=copy.cue;
     el.classList.add('gs-focus-subject');
-    if(el.classList.contains('ta-court-wrap')){
+    // Any court wrapper that fills the frame from its SVG viewBox (daily, Read-the-Game
+    // consequence, legend) needs its true aspect so Focus shows no dead space and no tilt.
+    if(el.matches('.ta-court-wrap,.seq-court-wrap,.leg-anim-wrap')){
       const svg=el.querySelector('svg'),vb=svg&&svg.viewBox&&svg.viewBox.baseVal;
       const ratio=vb&&vb.height?vb.width/vb.height:1.55;
       el.style.setProperty('--gs-focus-aspect',String(Math.max(.55,Math.min(2.2,ratio))));

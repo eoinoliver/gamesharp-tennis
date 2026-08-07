@@ -114,4 +114,13 @@ assert.doesNotMatch(html, /function updateBottomNav[\s\S]{0,300}nav\.style\.disp
 // (…-Tennis-Insight) keep the camel-case form, so each must be followed by a letter/-.
 assert.doesNotMatch(html, /GameSharp(?![A-Za-z-])/, 'brand must be all-caps GAMESHARP everywhere it is user-visible');
 
+// E) Focus View must FLATTEN tactical courts (2026-08). The Read-the-Game consequence court
+// (.seq-court-wrap) and the legend court (.leg-anim-wrap) bake a bottom-pinned rotateX camera
+// tilt for the in-flow card. When expanded to Focus View that tilt strands the court at the
+// bottom with a tall empty green panel above (the dead-space bug). Focus View must reset their
+// SVG to fill the frame flat, and its aspect logic must cover them — or the void returns.
+assert.match(html, /\.gs-focus-stage>\.seq-court-wrap>svg[\s\S]{0,360}transform:none!important/, 'Focus View must flatten the Read-the-Game (.seq-court-wrap) court SVG — no camera tilt / dead space');
+assert.match(html, /\.gs-focus-stage>\.leg-anim-wrap>svg[\s\S]{0,360}transform:none!important/, 'Focus View must flatten the legend (.leg-anim-wrap) court SVG — no camera tilt / dead space');
+assert.match(html, /el\.matches\('\.ta-court-wrap,\.seq-court-wrap,\.leg-anim-wrap'\)/, 'Focus View aspect logic must size seq/leg courts to their SVG viewBox (no dead space)');
+
 console.log('GameSharp player structural contract: PASS');
