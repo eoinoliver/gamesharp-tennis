@@ -122,5 +122,9 @@ assert.doesNotMatch(html, /GameSharp(?![A-Za-z-])/, 'brand must be all-caps GAME
 assert.match(html, /\.gs-focus-stage>\.seq-court-wrap>svg[\s\S]{0,360}transform:none!important/, 'Focus View must flatten the Read-the-Game (.seq-court-wrap) court SVG — no camera tilt / dead space');
 assert.match(html, /\.gs-focus-stage>\.leg-anim-wrap>svg[\s\S]{0,360}transform:none!important/, 'Focus View must flatten the legend (.leg-anim-wrap) court SVG — no camera tilt / dead space');
 assert.match(html, /el\.matches\('\.ta-court-wrap,\.seq-court-wrap,\.leg-anim-wrap'\)/, 'Focus View aspect logic must size seq/leg courts to their SVG viewBox (no dead space)');
+// The court frame (#seqCourtWrap = .ta-court-wrap) is a Focus target on EVERY Read-the-Game
+// step, but on read/text steps it is EMPTY — expanding it opened an empty green panel. Both
+// the trigger (enhance) and the opener (openFocus) must skip a court wrapper that holds no SVG.
+assert.equal((html.match(/\.matches\('\.ta-court-wrap,\.seq-court-wrap,\.leg-anim-wrap'\)&&!el\.querySelector\('svg'\)\)return/g) || []).length, 2, 'Focus View must skip EMPTY court frames in both enhance() and openFocus() (no SVG → no expand), or read/text steps open to an empty panel');
 
 console.log('GameSharp player structural contract: PASS');

@@ -15339,6 +15339,10 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
   }
   function openFocus(el,button){
     if(active||!el.isConnected)return;
+    // Never expand a court frame that holds no court. On Read-the-Game read/text steps the
+    // #seqCourtWrap (.ta-court-wrap) exists but is empty — expanding it showed an empty green
+    // panel (the "dead space"). No SVG, no expand.
+    if(el.matches('.ta-court-wrap,.seq-court-wrap,.leg-anim-wrap')&&!el.querySelector('svg'))return;
     active=el; opener=button||el; parent=el.parentNode; next=el.nextSibling; scrollY=window.scrollY;
     const copy=copyFor(el);
     overlay.querySelector('#gsFocusTitle').textContent=copy.title;
@@ -15373,6 +15377,9 @@ body.gs-focus-open{overflow:hidden!important;overscroll-behavior:none}
     const matches=root.nodeType===1&&root.matches(SELECTORS.join(','))?[root]:[];
     matches.concat([...root.querySelectorAll(SELECTORS.join(','))]).forEach(el=>{
       if(el.closest('.gs-focus-overlay')||el.querySelector(':scope > .gs-focus-trigger'))return;
+      // Don't offer expand on an empty court frame (Read-the-Game read/text step). The
+      // MutationObserver re-runs enhance when the court is actually rendered into it.
+      if(el.matches('.ta-court-wrap,.seq-court-wrap,.leg-anim-wrap')&&!el.querySelector('svg'))return;
       el.classList.add('gs-focus-ready');
       el.setAttribute('data-gs-focus','');
       if(!el.hasAttribute('tabindex'))el.tabIndex=0;
