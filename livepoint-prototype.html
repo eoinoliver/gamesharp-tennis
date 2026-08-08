@@ -1019,6 +1019,56 @@ const SCENARIOS = [
       midTitle:"Chance gone.",
       midTxt:"You waited for the perfect ball and passed on the very good one — over-patience hands back a <b>neutral</b> reset you earned. Tolerance wins the rally; hesitation loses the point you built. When the real ball comes, take it."
     }
+  },
+  /* ═══ DEFENSE BATCH ═══ scrambling FORWARD and reading a net-jammed opponent. */
+  {
+    id:"defend_drop", title:"Defend the Drop Shot",
+    opp:"<b>They dropped it and followed it in.</b> You're deep behind the baseline on a dead sprint, and they've crowded the net on top of it. Getting there is only half the battle — what you do on the run decides the point.",
+    d1:{
+      sit:"They've dropped it short and charged the net behind it. You're sprinting from the baseline and will reach it low and stretched, right at the net cord, with them looming over it.",
+      q:"You've sprinted to the drop — what do you hit?",
+      opts:[
+        {lbl:"Dink it crosscourt into the open", sub:"Angle it away, make them lunge", br:"A"},
+        {lbl:"Loft a lob over them", sub:"They've crowded the net — send them back", br:"B"}
+      ],
+      court:{shots:[], sitter:[100,172]}
+    },
+    A:{
+      seq:{youStart:[100,258], youEnd:[100,178], oppStart:[100,140], oppEnd:[152,138], shots:[
+        {from:[100,175], to:[150,134], bend:8, color:GOLD, snd:"tap", label:"DINK CROSSCOURT"},
+        {from:[148,134], to:[70,182], bend:-6, color:RED, snd:"volley", label:"REFLEX VOLLEY"} ]},
+      reveal:"You scramble to the drop and flick it crosscourt — but a net-jammed opponent has quick hands and reflex-volleys it back. They're stranded wide now, though, and you've got a look at the open court.",
+      d2:{sit:"Their reflex volley floats back to your left. They've lunged wide to reach your dink and can't recover. Finish it — where?", q:"Where's the pass?",
+        opts:[
+          {lbl:"Into the open court they left", sub:"Away from their momentum", win:true},
+          {lbl:"Right back at them at the net", sub:"Surprise them", win:false} ]},
+      win:{youStart:[70,182], oppStart:[152,138], oppEnd:[152,138], shots:[
+        {from:[70,180], to:[46,126], bend:-6, color:GREEN, snd:"pop", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Point won.",
+      winTxt:"Scrambling to a drop isn't a lost point — reach it and the point resets. They lunged wide to volley your dink, so the <b>open</b> court is the whole other side. Reading a net-jammed opponent: once you've moved them, the space they leave is the answer.",
+      mid:{youStart:[70,182], oppStart:[152,138], oppEnd:[152,138], shots:[
+        {from:[70,180], to:[150,136], bend:0, color:GOLD, snd:"drive", label:"AT THEM", intent:"risk"} ]},
+      midTitle:"Right at them.",
+      midTxt:"Going back at a net player who's set is a <b>low-percentage</b> gamble — quick hands eat that ball. The open court was begging; you passed it up for a surprise that surprised nobody. Pass into the space they left, not the space they're standing in."
+    },
+    B:{
+      seq:{youStart:[100,258], youEnd:[100,178], oppStart:[100,140], oppEnd:[100,64], shots:[
+        {from:[100,175], to:[104,66], bend:0, color:GOLD, snd:"drive", label:"LOB OVER THEM"},
+        {from:[104,66], to:[120,196], bend:12, color:RED, snd:"weak", label:"SCRAMBLE BACK"} ]},
+      reveal:"They crowded the net behind the drop — so the lob is deadly. They have to stop, reverse and chase it down deep, with no time to set a smash. All they scrape back is a weak, short reply, and now you're the one moving in.",
+      d2:{sit:"Their scrambled reply floats up short. You've flipped it — they're pinned deep now, backpedaling. Where do you put it?", q:"Finish it — where?",
+        opts:[
+          {lbl:"Drive it deep into the open corner", sub:"Finish while they're pinned deep", win:true},
+          {lbl:"Crush a flat winner crosscourt", sub:"End it in one", win:false} ]},
+      win:{youStart:[100,200], oppStart:[100,64], oppEnd:[100,64], shots:[
+        {from:[100,196], to:[154,50], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"DEEP & IN", intent:"deep"} ]},
+      winTitle:"Point won.",
+      winTxt:"The lob over a net-crowder is about the highest-percentage answer there is — they can't recover for a smash, and now they're pinned deep. A controlled drive <b>deep</b> into the open corner finishes it. You turned defense into offense in one shot.",
+      mid:{youStart:[100,200], oppStart:[100,64], oppEnd:[100,64], shots:[
+        {from:[100,196], to:[44,50], bend:6, color:GOLD, snd:"drive", label:"FLAT WINNER", intent:"risk", miss:"long"} ]},
+      midTitle:"Just long.",
+      midTxt:"From a floating ball you reached for a flat winner — a <b>coin-flip</b> that sails when a deep, controlled drive already wins it. You did the hard work with the lob; don't gamble the easy finish. Placement over power on the sitter."
+    }
   }
 ];
 
