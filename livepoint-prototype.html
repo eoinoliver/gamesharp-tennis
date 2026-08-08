@@ -1218,6 +1218,205 @@ const SCENARIOS = [
       midTitle:"Just wide.",
       midTxt:"A winner off a stretched lunge is a <b>coin-flip</b> — no base, no margin. The fine pass already put you in trouble; the flick buries you. Block, reset, and remember: the body was the higher-percentage pass all along."
     }
+  },
+  /* ═══ MATCH-STATE BATCH ═══ the mental layer — reading the SCORE and managing risk.
+     Same shots, different muscle: don't get tight with a lead, play to win not to avoid
+     losing, start the breaker solid, and swing when you're down match point. */
+  {
+    id:"two_breaks_up", title:"Two Breaks Up",
+    opp:"<b>You're two breaks up.</b> The finish line is in sight and your brain quietly switches from 'win it' to 'don't lose it.' That switch is how leads evaporate.",
+    d1:{
+      sit:"Two breaks up, cruising. A short ball floats up — the exact ball you've drilled all match. But the scoreboard whispers: play safe, protect the lead, don't miss.",
+      q:"How do you play the short ball?",
+      opts:[
+        {lbl:"Attack it — keep doing what's working", sub:"Close the door", br:"A"},
+        {lbl:"Play safe — just get it back deep", sub:"Protect the lead, no risks", br:"B"}
+      ],
+      court:{shots:[], sitter:[100,214]}
+    },
+    A:{
+      seq:{youStart:[100,262], oppStart:[100,40], oppEnd:[60,52], shots:[
+        {from:[100,220], to:[52,50], bend:6, color:GOLD, snd:"drive", label:"STAY AGGRESSIVE"},
+        {from:[54,50], to:[104,196], bend:8, color:RED, snd:"weak", label:"WEAK REPLY"} ]},
+      reveal:"You keep doing what built the lead — attacking the short ball, taking time away. They scramble a weak reply back. The lead didn't make you passive; it made you finish.",
+      d2:{sit:"Their weak reply sits up short. They're stranded in the corner, scrambling. Close it out — where?", q:"Finish it — where?",
+        opts:[
+          {lbl:"Drive it into the open court", sub:"Shut the door", win:true},
+          {lbl:"Now play safe — pat it back deep", sub:"Don't miss with the lead", win:false} ]},
+      win:{youStart:[100,190], oppStart:[60,52], oppEnd:[60,52], shots:[
+        {from:[100,186], to:[156,52], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Closed it out.",
+      winTxt:"Two breaks up is exactly when to keep attacking — a drive into the <b>open</b> court finishes the point the way you built the whole lead. Leads evaporate when you switch from playing to win to playing not to lose. Keep your foot down.",
+      mid:{youStart:[100,190], oppStart:[60,52], oppEnd:[60,52], shots:[
+        {from:[100,186], to:[100,54], bend:0, color:GOLD, snd:"drive", label:"SAFE BALL", intent:"reset"} ]},
+      midTitle:"Let them off.",
+      midTxt:"You had them stranded and patted a <b>neutral</b> ball back — the scoreboard made you tentative. Passive tennis with a lead invites the comeback: you hand them a free ball and a foothold. Protect the lead by extending it, not by shrinking."
+    },
+    B:{
+      seq:{youStart:[100,262], oppStart:[100,40], oppEnd:[100,40], shots:[
+        {from:[100,220], to:[100,54], bend:0, color:GOLD, snd:"weak", label:"SAFE BALL"},
+        {from:[100,54], to:[150,206], bend:-8, color:RED, snd:"drive", label:"THEY POUNCE"} ]},
+      reveal:"Playing safe with a lead feels responsible — but a passive ball is a gift. They step in on the pace-less ball and drive it into the corner. Now you're the one defending, and the momentum just shifted.",
+      d2:{sit:"Your safe ball got attacked and you're pushed wide, defending. What now?", q:"What's the play?",
+        opts:[
+          {lbl:"Reset deep and neutral, steady the ship", sub:"Get back to even, refocus", win:true},
+          {lbl:"Panic-swing a winner to end it", sub:"Grab the point back", win:false} ]},
+      win:{youStart:[150,205], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[150,200], to:[100,54], bend:0, color:GREEN, snd:"slice", payoff:true, label:"RESET DEEP", intent:"reset"} ]},
+      winTitle:"Steadied it.",
+      winTxt:"The passive ball put you here — so stop the bleeding with a <b>neutral</b> reset and get back to even. Then go back to attacking; the lead is still yours if you stop feeding them. Protecting a lead means playing your game, not backing off it.",
+      mid:{youStart:[150,205], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[150,200], to:[50,56], bend:6, color:GOLD, snd:"drive", label:"PANIC WINNER", intent:"risk", miss:"wide"} ]},
+      midTitle:"Just wide.",
+      midTxt:"Down and scrambling because you played safe, you tried to bail out with a hero ball — a <b>coin-flip</b> on top of a mistake. Two errors from one passive choice. Reset, breathe, and get back to the aggression that built the lead."
+    }
+  },
+  {
+    id:"serving_to_stay", title:"Serving to Stay in the Set",
+    opp:"<b>Serving to stay in the set.</b> Down 4–5, one bad game ends it. The instinct is to play safe and hope — but tentative serving is exactly what they're waiting for.",
+    d1:{
+      sit:"Serving at 4–5, love–15. The pressure says take pace off, just get it in, don't miss. But a tentative serve sits up — and a returner smelling the set will tee off.",
+      q:"How do you serve under the gun?",
+      opts:[
+        {lbl:"Commit — serve your spot with intent", sub:"Play to win the point", br:"A"},
+        {lbl:"Take pace off — just get it in", sub:"Safety first, avoid the double", br:"B"}
+      ],
+      court:{shots:[], sitter:[112,260]}
+    },
+    A:{
+      seq:{youStart:[112,270], oppStart:[85,112], oppEnd:[100,120], shots:[
+        {from:[112,264], to:[58,116], bend:4, color:GOLD, snd:"drive", label:"SERVE WITH INTENT"},
+        {from:[60,116], to:[104,200], bend:8, color:RED, snd:"weak", label:"WEAK RETURN"} ]},
+      reveal:"Committing to the serve — placement and intent — denies them the free ball they're hunting. The return floats back weak. Pressure handled by playing to win the point, not to avoid losing it.",
+      d2:{sit:"Their weak return sits up short. They're recovering. Play the +1 — where?", q:"Where's the +1?",
+        opts:[
+          {lbl:"Drive it into the open court", sub:"Commit to the finish", win:true},
+          {lbl:"Get tentative — steer it safe", sub:"Just don't miss", win:false} ]},
+      win:{youStart:[100,205], oppStart:[100,120], oppEnd:[100,120], shots:[
+        {from:[100,200], to:[156,52], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Held.",
+      winTxt:"Under match pressure you committed — and a committed drive into the <b>open</b> court holds the game. Tentative tennis is what the returner is praying for; playing to win the point is how you serve your way out of trouble. Intent, not hope.",
+      mid:{youStart:[100,205], oppStart:[100,120], oppEnd:[100,120], shots:[
+        {from:[100,200], to:[100,54], bend:0, color:GOLD, snd:"drive", label:"STEERED SAFE", intent:"reset"} ]},
+      midTitle:"Handed it back.",
+      midTxt:"You built the free ball then steered a <b>neutral</b> one back, afraid to miss — and gave a returner smelling the set another life. Tentative on the ball you set up is the choke. Commit to the finish; that's what holds serve when it matters."
+    },
+    B:{
+      seq:{youStart:[112,270], oppStart:[85,112], oppEnd:[100,120], shots:[
+        {from:[112,264], to:[80,120], bend:2, color:GOLD, snd:"weak", label:"SAFE SERVE"},
+        {from:[82,120], to:[150,208], bend:-8, color:RED, snd:"drive", label:"TEED OFF"} ]},
+      reveal:"Taking pace off to be safe hands a returner exactly what they want — a sitting serve. They step in and tee off, driving the return into the corner. Playing not to lose walked you straight into losing.",
+      d2:{sit:"They crushed your safe serve and you're scrambling wide, on defense in the game you can't drop. What now?", q:"What's the play?",
+        opts:[
+          {lbl:"Reset deep, stay in the game", sub:"Survive the point, refocus", win:true},
+          {lbl:"Go for broke to snatch it back", sub:"Big winner, right now", win:false} ]},
+      win:{youStart:[150,205], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[150,200], to:[100,54], bend:0, color:GREEN, snd:"slice", payoff:true, label:"RESET DEEP", intent:"reset"} ]},
+      winTitle:"Stayed alive.",
+      winTxt:"The safe serve created this — so don't compound it. A deep <b>neutral</b> reset keeps you in the point and the game. Then serve the next one with intent. Under pressure, play to win the point; safety-first serving is the real gamble.",
+      mid:{youStart:[150,205], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[150,200], to:[50,56], bend:6, color:GOLD, snd:"drive", label:"GO FOR BROKE", intent:"risk", miss:"wide"} ]},
+      midTitle:"Just wide.",
+      midTxt:"Scrambling because you served scared, you gambled on a <b>coin-flip</b> winner to save it — and handed them the point outright. The passive serve and the panic swing are the same mistake twice. Reset, and commit to the next serve."
+    }
+  },
+  {
+    id:"tiebreak_first", title:"Tiebreak: First Point",
+    opp:"<b>First point of the tiebreak.</b> The set's on a knife-edge and both of you are tight. The first point sets the tone — and the trap is doing something special instead of something solid.",
+    d1:{
+      sit:"First point of the breaker, a neutral rally. Nerves whisper: grab an early mini-break, hit something big, seize the moment. But a tight arm and a low-percentage swing is how breakers get lost.",
+      q:"How do you play the first point?",
+      opts:[
+        {lbl:"Play it solid — make them earn it", sub:"Set the tone with consistency", br:"A"},
+        {lbl:"Go big — grab the early mini-break", sub:"Seize the moment, apply pressure", br:"B"}
+      ],
+      court:{shots:[], sitter:[100,214]}
+    },
+    A:{
+      seq:{youStart:[100,262], oppStart:[100,40], oppEnd:[80,50], shots:[
+        {from:[100,256], to:[100,48], bend:0, color:GOLD, snd:"drive", label:"SOLID + DEEP"},
+        {from:[100,48], to:[96,194], bend:6, color:RED, snd:"weak", label:"THEY BLINK"} ]},
+      reveal:"Solid and deep — no risk, just pressure — makes them feel the tiebreak nerves. You give them nothing to feed on, and the tight arm shows up on their side: a short, tentative reply. Now the ball is there.",
+      d2:{sit:"Their tentative reply sits up short. Consistency has drawn the error out of them — the real ball has arrived. Finish it — where?", q:"Where's the kill?",
+        opts:[
+          {lbl:"Now drive the open court", sub:"Cash the pressure in", win:true},
+          {lbl:"Force a spectacular winner", sub:"Make a statement", win:false} ]},
+      win:{youStart:[100,190], oppStart:[80,50], oppEnd:[80,50], shots:[
+        {from:[100,186], to:[156,52], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Mini-break, point one.",
+      winTxt:"The first point of a breaker is won with the steady ball, not the spectacular one. Consistency made them blink; now the short ball is a simple drive into the <b>open</b> court. Set the tone with pressure, and let the nerves be theirs.",
+      mid:{youStart:[100,190], oppStart:[80,50], oppEnd:[80,50], shots:[
+        {from:[100,186], to:[46,48], bend:6, color:GOLD, snd:"drive", label:"SPECTACULAR", intent:"risk", miss:"long"} ]},
+      midTitle:"Just long.",
+      midTxt:"You drew the error, then handed it back with a <b>coin-flip</b> winner nobody needed. The steady ball had already done the work. In a tiebreak, the spectacular shot is the trap; the simple one wins the mini-break."
+    },
+    B:{
+      seq:{youStart:[100,262], oppStart:[100,40], oppEnd:[55,52], shots:[
+        {from:[100,256], to:[52,50], bend:6, color:GOLD, snd:"drive", label:"EARLY GAMBLE"},
+        {from:[54,50], to:[150,208], bend:-10, color:RED, snd:"drive", label:"COUNTERED"} ]},
+      reveal:"Going big off a neutral ball on point one is a gamble with a tight arm — and they were balanced. They read it and counter into the open court. Down a mini-break in three shots, exactly the tone you didn't want to set.",
+      d2:{sit:"Your gamble got countered and you're scrambling wide, already chasing in the breaker. What now?", q:"What's the play?",
+        opts:[
+          {lbl:"Reset and steady — it's only point one", sub:"Stop the bleeding, refocus", win:true},
+          {lbl:"Gamble again to get it straight back", sub:"Win it back immediately", win:false} ]},
+      win:{youStart:[150,205], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[150,200], to:[100,54], bend:0, color:GREEN, snd:"slice", payoff:true, label:"RESET DEEP", intent:"reset"} ]},
+      winTitle:"Steadied.",
+      winTxt:"One loose point isn't the breaker — so reset with a deep <b>neutral</b> ball and steady the arm. The tone you set now is 'I don't panic.' Chase every early point back with another gamble and a tiebreak spirals; one solid ball stops it.",
+      mid:{youStart:[150,205], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[150,200], to:[50,56], bend:6, color:GOLD, snd:"drive", label:"GAMBLE AGAIN", intent:"risk", miss:"wide"} ]},
+      midTitle:"Just wide.",
+      midTxt:"Down a mini-break, you doubled the gamble — a second low-percentage swing off no balance. A <b>coin-flip</b> on a coin-flip is how a tiebreak gets away in a hurry. Reset, and remember it's a first-to-seven, not a first-to-one."
+    }
+  },
+  {
+    id:"return_match_point", title:"Return, Match Point Down",
+    opp:"<b>Match point down, returning.</b> One point from defeat. Block it back safe and you're just delaying the end — this is the moment the great returners swing (Djokovic built a career on it).",
+    d1:{
+      sit:"Match point against you, returning a big first serve. The safe play is to block it back and hope — but a passive return hands the server an easy finish. Down match point, the percentages flip: you have to make them play a nervous ball.",
+      q:"How do you return match point down?",
+      opts:[
+        {lbl:"Swing — rip it back, take it early", sub:"Make them hit under pressure", br:"A"},
+        {lbl:"Block it safe, just get it in play", sub:"Extend the point, hope they miss", br:"B"}
+      ],
+      court:{shots:[], sitter:[100,250]}
+    },
+    A:{
+      seq:{youStart:[100,270], oppStart:[100,40], oppEnd:[100,120], shots:[
+        {from:[100,264], to:[54,48], bend:6, color:GOLD, snd:"drive", label:"GO FOR IT"},
+        {from:[56,48], to:[104,198], bend:8, color:RED, snd:"weak", label:"NERVOUS REPLY"} ]},
+      reveal:"Swinging out flips the pressure — a deep, aggressive return means they have to hit a nervous ball to close the match. And they feel it: the reply floats up short. Match point is a two-way street; you just made them play it too.",
+      d2:{sit:"Their nervous reply sits up short. The server who was one point from the match just handed you a look. Take it — where?", q:"Where's the shot?",
+        opts:[
+          {lbl:"Drive it into the open court", sub:"Make them pay for the nerves", win:true},
+          {lbl:"Play safe now — you're back in it", sub:"Don't blow the reprieve", win:false} ]},
+      win:{youStart:[100,190], oppStart:[100,120], oppEnd:[100,120], shots:[
+        {from:[100,186], to:[156,52], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Match point erased.",
+      winTxt:"Down match point, the safe return only delays the end — swinging makes them earn it, and nerves did the rest. Now a committed drive into the <b>open</b> court steals the point. The great returners don't hope on match point; they make the server hit the tough one.",
+      mid:{youStart:[100,190], oppStart:[100,120], oppEnd:[100,120], shots:[
+        {from:[100,186], to:[100,54], bend:0, color:GOLD, snd:"drive", label:"PLAY SAFE", intent:"reset"} ]},
+      midTitle:"Reprieve wasted.",
+      midTxt:"You did the brave thing on the return, then got timid on the free ball — patting a <b>neutral</b> shot back and handing the initiative to a server who'd just wobbled. Finish what the aggressive return started; the reprieve is only worth it if you cash it in."
+    },
+    B:{
+      seq:{youStart:[100,270], youEnd:[70,210], oppStart:[100,40], oppEnd:[100,120], shots:[
+        {from:[100,264], to:[100,60], bend:0, color:GOLD, snd:"weak", label:"SAFE BLOCK"},
+        {from:[100,60], to:[150,206], bend:-8, color:RED, snd:"drive", label:"EASY PUTAWAY"} ]},
+      reveal:"A safe block on match point hands the server a slow, central ball with no pressure on it — the easiest possible shot to close a match. They step in, calm, and drive it into the corner. Passive on match point is a polite way to lose.",
+      d2:{sit:"Your safe block got put away and you're scrambling, still match point down. It's do-or-die now. What's the play?", q:"What's the play?",
+        opts:[
+          {lbl:"Full-stretch deep lob, live one more ball", sub:"Survive, make them hit again", win:true},
+          {lbl:"Swing wildly for a winner", sub:"All or nothing", win:false} ]},
+      win:{youStart:[70,208], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[70,204], to:[100,52], bend:0, color:GREEN, snd:"slice", payoff:true, label:"DEEP LOB", intent:"deep"} ]},
+      winTitle:"Still alive.",
+      winTxt:"Even here, a full-stretch <b>deep</b> lob is better than a wild swing — it makes them hit one more shot, under match-point tension, from a new position. You survive to fight another ball. The block put you here; scrambling with purpose is how you climb out.",
+      mid:{youStart:[70,208], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[70,204], to:[52,56], bend:6, color:GOLD, snd:"drive", label:"WILD SWING", intent:"risk", miss:"long"} ]},
+      midTitle:"Long — match over.",
+      midTxt:"A wild swing off a scramble on match point is a <b>coin-flip</b> that ends the match — on the wrong terms. The passive block invited this; the wild bail-out sealed it. Down match point, make them win it: swing on the return, not on the scramble."
+    }
   }
 ];
 
