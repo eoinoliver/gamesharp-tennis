@@ -721,6 +721,155 @@ const SCENARIOS = [
       midTitle:"Off the frame.",
       midTxt:"Off a full stretch with no base, a clean winner is a <b>coin-flip</b> at best — exactly the low-percentage swing they wrong-footed you into trying. Reset, reload, and pick a smarter moment. Defense wins by surviving one more ball."
     }
+  },
+  /* ═══ SERVING BATCH ═══ the serve is the first gold shot (baseline → service box), the
+     return is the red reply, the +1 is the finish. Placement under pressure, not power. */
+  {
+    id:"break_point_down", title:"Break Point Down",
+    opp:"<b>Break point down.</b> The returner is dialled in and set for your biggest serve. The serve is the shot that wins or loses this — before a ball comes back.",
+    d1:{
+      sit:"Break point against you. Everything says crush it — but a returner set for pace feeds on pace. Placement, not power, is the play here.",
+      q:"How do you serve it?",
+      opts:[
+        {lbl:"Jam the body", sub:"Handcuff them — no room to swing", br:"A"},
+        {lbl:"Serve out wide", sub:"Drag them off the court", br:"B"}
+      ],
+      court:{shots:[], sitter:[114,260]}
+    },
+    A:{
+      seq:{youStart:[118,270], oppStart:[90,112], oppEnd:[100,120], shots:[
+        {from:[118,264], to:[92,114], bend:-6, color:GOLD, snd:"drive", label:"BODY SERVE"},
+        {from:[94,114], to:[104,202], bend:8, color:RED, snd:"weak", label:"JAMMED RETURN"} ]},
+      reveal:"The body serve handcuffs them — no room to extend, so the return floats back short and central. You're inside the baseline with the whole court in front of you.",
+      d2:{sit:"Their jammed return sits up short and central. They're stuck near the middle, recovering. Where's your +1?", q:"Put the +1 away — where?",
+        opts:[
+          {lbl:"Drive into the open corner", sub:"Take the space — two-shot point", win:true},
+          {lbl:"Crush a flat winner down the middle", sub:"End it with pace", win:false} ]},
+      win:{youStart:[100,205], oppStart:[100,120], oppEnd:[100,120], shots:[
+        {from:[100,200], to:[156,50], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Point saved.",
+      winTxt:"The serve did the hard work — the jam took away their swing, so the +1 is a free hit into the <b>open</b> court. On break point you don't need an ace; you need a serve that hands you an easy next ball. Placement beats power against a returner set for pace.",
+      mid:{youStart:[100,205], oppStart:[100,120], oppEnd:[100,120], shots:[
+        {from:[100,200], to:[100,46], bend:0, color:GOLD, snd:"drive", label:"FLAT WINNER", intent:"risk", miss:"long"} ]},
+      midTitle:"Just long.",
+      midTxt:"You had a free mid-court ball and went for a <b>coin-flip</b> winner down the middle — no angle, all pace, and it sails. The jam already won the point for you; the open court was the safe finish. Don't turn the gift into a gamble."
+    },
+    B:{
+      seq:{youStart:[118,270], oppStart:[90,112], oppEnd:[44,110], shots:[
+        {from:[118,264], to:[40,110], bend:6, color:GOLD, snd:"drive", label:"WIDE SERVE"},
+        {from:[44,110], to:[112,198], bend:-10, color:RED, snd:"slice", label:"STRETCH RETURN"} ]},
+      reveal:"The wide serve drags them off the court to reach it — their stretched return floats back short, and now there's a huge hole where they were standing.",
+      d2:{sit:"Their stretched return sits up short. They're stranded out wide and sprinting back toward the middle. Where's your +1?", q:"Finish it — where?",
+        opts:[
+          {lbl:"Behind them — into the corner they left", sub:"Wrong-foot the recovery", win:true},
+          {lbl:"Into the open court they're sprinting to", sub:"Hit the big space", win:false} ]},
+      win:{youStart:[100,205], oppStart:[50,110], oppEnd:[118,116], shots:[
+        {from:[100,200], to:[42,54], bend:6, color:GREEN, snd:"pop", payoff:true, label:"BEHIND THEM", intent:"behind"} ]},
+      winTitle:"Point saved.",
+      winTxt:"They committed everything to sprinting back to the middle — so the ball <b>behind</b> them freezes them and makes them reverse. The wide serve opened the court; the wrong-foot closes it. The serve and the +1 are one pattern, not two shots.",
+      mid:{youStart:[100,205], oppStart:[50,110], oppEnd:[150,60], shots:[
+        {from:[100,200], to:[152,58], bend:-6, color:GOLD, snd:"drive", label:"OPEN COURT", intent:"into_run"} ]},
+      midTitle:"They ran it down.",
+      midTxt:"Clean strike — but they were already sprinting that way, so you hit it straight into their <b>run</b>. When the serve has pulled them wide, the kill is behind them, into the space they abandoned — not the space they're covering."
+    }
+  },
+  {
+    id:"serving_for_set", title:"Serving for the Set",
+    opp:"<b>Serving for the set.</b> Your heart rate's up and they know it. The temptation is to change what's working — the discipline is to trust it.",
+    d1:{
+      sit:"You're serving for the set. You've won points all day serving to your spot and stepping in. Now the nerves whisper: do something different, go bigger.",
+      q:"How do you play it?",
+      opts:[
+        {lbl:"Trust the pattern — serve your spot, step in", sub:"Do what got you here", br:"A"},
+        {lbl:"Go bigger — flatten it for a bomb", sub:"End it before they can hurt you", br:"B"}
+      ],
+      court:{shots:[], sitter:[112,260]}
+    },
+    A:{
+      seq:{youStart:[112,270], oppStart:[85,112], oppEnd:[100,120], shots:[
+        {from:[112,264], to:[60,116], bend:4, color:GOLD, snd:"drive", label:"SERVE + STEP IN"},
+        {from:[62,116], to:[104,200], bend:8, color:RED, snd:"weak", label:"WEAK RETURN"} ]},
+      reveal:"Exactly what you've done all day — the serve to your spot, a step inside the baseline, a weak return floating up. You've hit this +1 a hundred times.",
+      d2:{sit:"Their weak return sits up short. They're recovering to the middle. Play the +1 you've drilled — where?", q:"Where's the +1?",
+        opts:[
+          {lbl:"Into the open court, like always", sub:"The shot you trust", win:true},
+          {lbl:"Get cute — thread the sideline", sub:"Try something special on the big point", win:false} ]},
+      win:{youStart:[100,205], oppStart:[100,120], oppEnd:[100,120], shots:[
+        {from:[100,200], to:[156,52], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Set point converted.",
+      winTxt:"The big point is exactly when you trust the pattern, not abandon it. A drive into the <b>open</b> court is the shot you've made all day — high margin, huge target. Nerves make you want to do more; the discipline is to do the same thing that earned the lead.",
+      mid:{youStart:[100,205], oppStart:[100,120], oppEnd:[100,120], shots:[
+        {from:[100,200], to:[46,110], bend:6, color:GOLD, snd:"drive", label:"SIDELINE", intent:"risk", miss:"wide"} ]},
+      midTitle:"Just wide.",
+      midTxt:"On the biggest point you reached for a <b>low-percentage</b> line you hadn't hit all match. The open court was the shot you trust; the sideline was the nerves talking. Do what got you here — the moment is not the time to invent."
+    },
+    B:{
+      seq:{youStart:[112,270], oppStart:[85,112], oppEnd:[95,120], shots:[
+        {from:[112,264], to:[70,108], bend:2, color:GOLD, snd:"drive", label:"FLATTENED BOMB"},
+        {from:[72,108], to:[108,230], bend:-6, color:RED, snd:"drive", label:"DEEP BLOCK"} ]},
+      reveal:"The flat bomb is a fine serve — but flat means a good returner blocks your own pace back, deep and heavy. You're pushed behind the baseline, not stepping in. You went for more and got less control.",
+      d2:{sit:"Their block comes back deep and heavy. You're pushed back behind the baseline, on the stretch — not the easy +1 you'd have had. What now?", q:"What's the play?",
+        opts:[
+          {lbl:"Reset deep and neutral, rebuild", sub:"You're not in control — get back to even", win:true},
+          {lbl:"Force a winner from the back foot", sub:"End the point you started", win:false} ]},
+      win:{youStart:[100,240], oppStart:[95,120], oppEnd:[95,120], shots:[
+        {from:[100,235], to:[100,52], bend:0, color:GREEN, snd:"drive", payoff:true, label:"RESET DEEP", intent:"reset"} ]},
+      winTitle:"Back to even.",
+      winTxt:"Going bigger cost you the easy +1 — so don't compound it. A deep, <b>neutral</b> reset down the middle gets you back to even and lets you win the point from balance. The lesson of the set point: the serve you trust hands you control; the bomb gambles it.",
+      mid:{youStart:[100,240], oppStart:[95,120], oppEnd:[95,120], shots:[
+        {from:[100,235], to:[52,48], bend:4, color:GOLD, snd:"drive", label:"FORCED WINNER", intent:"risk", miss:"long"} ]},
+      midTitle:"Forced it long.",
+      midTxt:"From behind the baseline, off balance, a winner is a <b>coin-flip</b> you didn't need. This is the cost of the bomb — you swapped a controllable +1 for a scramble, then tried to bail yourself out with a hero ball. Reset, and make them beat you from neutral."
+    }
+  },
+  {
+    id:"second_serve_big", title:"Second Serve, Big Point",
+    opp:"<b>Second serve on a big point.</b> The most-choked shot in tennis. Dink it safe and they attack; flatten it and you flirt with the double. The read is what they're set to punish.",
+    d1:{
+      sit:"Second serve, break point on the line. A cautious dink invites an attack; a flat gamble risks the double fault. You have to commit to a real second serve.",
+      q:"How do you hit it?",
+      opts:[
+        {lbl:"Heavy kick up to the backhand", sub:"High and safe — awkward to attack", br:"A"},
+        {lbl:"Flatten it and charge in", sub:"Take the initiative, surprise them", br:"B"}
+      ],
+      court:{shots:[], sitter:[112,260]}
+    },
+    A:{
+      seq:{youStart:[112,270], oppStart:[80,112], oppEnd:[96,120], shots:[
+        {from:[112,264], to:[54,112], bend:6, color:GOLD, snd:"drive", label:"KICK SERVE"},
+        {from:[56,112], to:[100,196], bend:6, color:RED, snd:"weak", label:"HIGH BLOCK"} ]},
+      reveal:"The kick jumps up above the shoulder on the backhand — the hardest ball to attack. All they can do is block it back high and short. You've turned a second serve into an attacking ball.",
+      d2:{sit:"Their high block sits up short and central. They're pinned back, recovering. Attack it — where?", q:"Where's the +1?",
+        opts:[
+          {lbl:"Drive it into the open corner", sub:"Take the space you built", win:true},
+          {lbl:"Go for the spectacular line winner", sub:"Make a statement", win:false} ]},
+      win:{youStart:[100,205], oppStart:[96,120], oppEnd:[96,120], shots:[
+        {from:[100,200], to:[156,52], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Break point saved.",
+      winTxt:"A kick to the backhand is the safest second serve that still attacks — it takes their swing away and hands you a floater. A controlled drive into the <b>open</b> court finishes it. Safe and heavy beats flat and risky when a double fault ends everything.",
+      mid:{youStart:[100,205], oppStart:[96,120], oppEnd:[96,120], shots:[
+        {from:[100,200], to:[154,48], bend:-6, color:GOLD, snd:"drive", label:"LINE WINNER", intent:"risk", miss:"wide"} ]},
+      midTitle:"Just wide.",
+      midTxt:"You built a free ball and reached for the paint — a <b>low-percentage</b> line winner when the open court was begging. The kick did the work; don't undo it. The statement is winning the point, not finding the line."
+    },
+    B:{
+      seq:{youStart:[112,270], youEnd:[100,196], oppStart:[80,112], oppEnd:[70,110], shots:[
+        {from:[112,264], to:[64,110], bend:4, color:GOLD, snd:"drive", label:"FLAT + CHARGE"},
+        {from:[66,110], to:[104,186], bend:10, color:RED, snd:"drive", label:"DRIVE AT YOUR FEET"} ]},
+      reveal:"The flat serve surprises them, but it sits up — and a flat second serve with no margin invites a big swing. They step in and drive it back low at your feet as you charge, stranding you in no-man's-land.",
+      d2:{sit:"You're caught in no-man's-land with the ball dipping at your feet — the exact trap a flat second serve walks you into. What's the play?", q:"How do you handle it?",
+        opts:[
+          {lbl:"Block it deep and get back to neutral", sub:"Survive the trap, take away their angle", win:true},
+          {lbl:"Swing a half-volley winner", sub:"Rip yourself out of trouble", win:false} ]},
+      win:{youStart:[100,190], oppStart:[70,110], oppEnd:[70,110], shots:[
+        {from:[100,186], to:[100,54], bend:0, color:GREEN, snd:"slice", payoff:true, label:"DEEP BLOCK", intent:"deep"} ]},
+      winTitle:"Survived it.",
+      winTxt:"Off a dipping ball in no-man's-land you can't attack — so you don't. A controlled block <b>deep</b> and central buys time, kills their angle and gets you back to neutral. The flat serve created this mess; a smart block is how you escape it instead of doubling the gamble.",
+      mid:{youStart:[100,190], oppStart:[70,110], oppEnd:[70,110], shots:[
+        {from:[100,186], to:[52,60], bend:6, color:GOLD, snd:"drive", label:"SWING VOLLEY", intent:"risk", miss:"long"} ]},
+      midTitle:"Sailed long.",
+      midTxt:"A swinging half-volley from a ball at your shoelaces is a <b>coin-flip</b> — no base, no margin, and it sails. The flat serve already put you in trouble; the hero ball buries you. Block, reset, and make them win it from neutral."
+    }
   }
 ];
 
@@ -809,7 +958,7 @@ const READ_PAUSE=520;
 // Pilot: scenarios where "Watch the whole point" is live. Roll out = add ids (or clear the gate).
 // Rolled out to every scenario — the whole-point replay is derived generically from each
 // scenario's own seq + chosen finish (assembleFullPoint), so no per-scenario authoring.
-const FULLPOINT_ENABLED=new Set(['short_ball','serve_plus_one','second_serve','beat_moonballer','big_server','change_direction','passing_shot','defending']);
+const FULLPOINT_ENABLED='all';   // whole-point replay is rolled out to every scenario, incl. new batches
 
 let lastCourt=null;   // {fn:'multi'|'full', play} — what's on the court now, so Focus View can replay it
 function paint(play){ court.innerHTML=buildMultiShotSVG(play); lastCourt={fn:'multi',play}; if(lpfsOpen()) renderLastInto(lpfsCourt,false); }
@@ -887,7 +1036,7 @@ async function choose2(i,btns){
 function result(isWin,title,txt){
   dots(3);
   const hasNext=cur<LIVE.length-1;
-  const canReplay=FULLPOINT_ENABLED.has(S().id) && !!lastLine;
+  const canReplay=(FULLPOINT_ENABLED==='all'||FULLPOINT_ENABLED.has(S().id)) && !!lastLine;
   stage.innerHTML=`
     <div class="reveal ${isWin?'good':'mid'} show" style="margin-top:16px;">
       <div class="result-title ${isWin?'win':'neutral'}">${title}</div>
