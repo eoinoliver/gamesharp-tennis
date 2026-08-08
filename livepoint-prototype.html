@@ -37,6 +37,19 @@ body{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset
 .court-wrap{margin:14px 0 4px;border-radius:16px;overflow:hidden;background:radial-gradient(120% 90% at 50% 12%,#0e2312,#070d08);border:1px solid rgba(255,255,255,.06);position:relative;}
 .court-label{position:absolute;top:9px;left:12px;font-size:8.5px;letter-spacing:1.4px;font-weight:800;color:rgba(200,168,75,.9);z-index:2;text-shadow:0 1px 3px rgba(0,0,0,.6);}
 .court-label b{color:#fff;font-weight:800;}
+.lp-expand{position:absolute;top:7px;right:9px;z-index:5;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(5,12,7,.78);color:#fff;font-size:15px;cursor:pointer;display:grid;place-items:center;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+.lp-expand:active{transform:scale(.94);}
+.lpfs{position:fixed;inset:0;z-index:9000;display:none;flex-direction:column;background:radial-gradient(120% 80% at 50% 26%,#102c15,#070b08 66%,#030504);padding:max(10px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));box-sizing:border-box;}
+.lpfs.open{display:flex;}
+.lpfs-bar{display:flex;align-items:center;gap:10px;min-height:48px;}
+.lpfs-kicker{font-size:9px;font-weight:800;letter-spacing:1.8px;color:var(--gold);white-space:nowrap;}
+.lpfs-title{flex:1;min-width:0;font-size:13px;font-weight:800;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lpfs-btn{height:40px;padding:0 15px;border-radius:20px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:13px;font-weight:700;cursor:pointer;flex:0 0 auto;}
+.lpfs-btn.x{width:40px;padding:0;font-size:20px;}
+.lpfs-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;}
+.lpfs-court{width:min(100%,920px);}
+.lpfs-court svg{width:100%;height:auto;max-height:78vh;display:block;}
+.lpfs-foot{min-height:32px;padding-top:6px;text-align:center;font-size:10px;letter-spacing:1.4px;color:rgba(200,168,75,.72);text-transform:uppercase;}
 .ms-svg{width:100%;height:auto;display:block;}
 @keyframes drawPath{to{stroke-dashoffset:0}}
 @keyframes tpop{from{opacity:0;transform-origin:center;transform:scale(0.2)}to{opacity:1;transform:scale(1)}}
@@ -102,7 +115,14 @@ body{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset
 
   <div class="court-wrap">
     <div class="court-label">◉ GAME<b>SHARP</b> REPLAY · LIVE POINT</div>
+    <button class="lp-expand" id="lpExpand" type="button" aria-label="Expand animation to full screen" title="Expand">⛶</button>
     <div id="court"></div>
+  </div>
+
+  <div class="lpfs" id="lpfs" role="dialog" aria-modal="true" aria-label="GAMESHARP Focus View">
+    <div class="lpfs-bar"><span class="lpfs-kicker">◉ GAME<b>SHARP</b> FOCUS VIEW</span><span class="lpfs-title" id="lpfsTitle">Live Point</span><button class="lpfs-btn" id="lpfsReplay" type="button">↻ Replay</button><button class="lpfs-btn x" id="lpfsClose" type="button" aria-label="Close full screen">×</button></div>
+    <div class="lpfs-stage"><div class="lpfs-court" id="lpfsCourt"></div></div>
+    <div class="lpfs-foot">Watch the movement · close to continue</div>
   </div>
   <div class="step-dots" id="dots"></div>
 
@@ -787,9 +807,12 @@ const badge=document.getElementById('badge');
 let cur=0, branch=null, lastLine=null, fpTimers=[];
 const READ_PAUSE=520;
 // Pilot: scenarios where "Watch the whole point" is live. Roll out = add ids (or clear the gate).
-const FULLPOINT_ENABLED=new Set(['short_ball']);
+// Rolled out to every scenario — the whole-point replay is derived generically from each
+// scenario's own seq + chosen finish (assembleFullPoint), so no per-scenario authoring.
+const FULLPOINT_ENABLED=new Set(['short_ball','serve_plus_one','second_serve','beat_moonballer','big_server','change_direction','passing_shot','defending']);
 
-function paint(play){ court.innerHTML=buildMultiShotSVG(play); }
+let lastCourt=null;   // {fn:'multi'|'full', play} — what's on the court now, so Focus View can replay it
+function paint(play){ court.innerHTML=buildMultiShotSVG(play); lastCourt={fn:'multi',play}; if(lpfsOpen()) renderLastInto(lpfsCourt,false); }
 function seqLen(play){ return 0.3 + (play.shots||[]).length*1.25; }
 function playSeq(play, done){
   paint(play);
@@ -886,13 +909,42 @@ function playFullPoint(btn){
   const fp=assembleFullPoint(S(), lastLine.br, lastLine.fk);
   const label=document.querySelector('.court-label');
   if(label) label.innerHTML='◉ GAME<b>SHARP</b> REPLAY · THE WHOLE POINT';
-  court.innerHTML=buildFullPointSVG(fp);
+  court.innerHTML=buildFullPointSVG(fp); lastCourt={fn:'full',play:fp};
+  if(lpfsOpen()) renderLastInto(lpfsCourt,false);
   document.querySelector('.court-wrap').scrollIntoView({behavior:'smooth',block:'center'});
   fp.shots.forEach((s,i)=>{ fpTimers.push(setTimeout(()=>{(SND[s.snd]||SND.drive)();}, fpShotTime(i)*1000+40)); });
   const last=fp.shots[fp.shots.length-1];
   if(last && last.payoff) fpTimers.push(setTimeout(()=>{ flashParticles(); SND.point(); }, (fpShotTime(fp.shots.length-1)+0.5)*1000));
   if(btn){ btn.disabled=true; btn.textContent='Playing…'; fpTimers.push(setTimeout(()=>{ btn.disabled=false; btn.textContent='↻ Replay the whole point'; }, fpTotal(fp)*1000)); }
 }
+
+// ── FOCUS VIEW (fullscreen) for Live Point — the same expand-to-study affordance the app
+// uses on its animations, self-contained here. Replays whatever is on the court, large.
+const lpfsEl=document.getElementById('lpfs'), lpfsCourt=document.getElementById('lpfsCourt'), lpfsTitle=document.getElementById('lpfsTitle');
+function lpfsOpen(){ return lpfsEl && lpfsEl.classList.contains('open'); }
+function renderLastInto(el, withSound){
+  if(!el) return;
+  if(!lastCourt){ el.innerHTML=court.innerHTML; return; }
+  fpTimers.forEach(clearTimeout); fpTimers=[];
+  const sh=lastCourt.play.shots||[];
+  if(lastCourt.fn==='full'){
+    el.innerHTML=buildFullPointSVG(lastCourt.play);
+    if(withSound){ sh.forEach((s,i)=>fpTimers.push(setTimeout(()=>{(SND[s.snd]||SND.drive)();}, fpShotTime(i)*1000+40)));
+      const last=sh[sh.length-1]; if(last&&last.payoff) fpTimers.push(setTimeout(()=>SND.point(),(fpShotTime(sh.length-1)+0.5)*1000)); }
+  } else {
+    el.innerHTML=buildMultiShotSVG(lastCourt.play);
+    if(withSound) sh.forEach((s,i)=>fpTimers.push(setTimeout(()=>{(SND[s.snd]||SND.drive)();}, (0.3+i*1.25)*1000+40)));
+  }
+}
+function openFullscreen(){ if(!lpfsEl) return; lpfsTitle.textContent=(typeof S==='function'&&S()?S().title:'Live Point'); lpfsEl.classList.add('open'); document.body.style.overflow='hidden'; renderLastInto(lpfsCourt,true); }
+function closeFullscreen(){ if(!lpfsEl) return; lpfsEl.classList.remove('open'); document.body.style.overflow=''; fpTimers.forEach(clearTimeout); fpTimers=[]; }
+(function wireFullscreen(){
+  const ex=document.getElementById('lpExpand'); if(ex) ex.onclick=()=>{ try{SND.tap&&SND.tap();}catch(e){} openFullscreen(); };
+  const cl=document.getElementById('lpfsClose'); if(cl) cl.onclick=closeFullscreen;
+  const rp=document.getElementById('lpfsReplay'); if(rp) rp.onclick=()=>renderLastInto(lpfsCourt,true);
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&lpfsOpen()) closeFullscreen(); });
+  if(lpfsEl) lpfsEl.addEventListener('click',e=>{ if(e.target===lpfsEl) closeFullscreen(); });
+})();
 
 intro();
 </script>
