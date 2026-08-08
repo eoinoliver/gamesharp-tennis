@@ -870,6 +870,155 @@ const SCENARIOS = [
       midTitle:"Sailed long.",
       midTxt:"A swinging half-volley from a ball at your shoelaces is a <b>coin-flip</b> — no base, no margin, and it sails. The flat serve already put you in trouble; the hero ball buries you. Block, reset, and make them win it from neutral."
     }
+  },
+  /* ═══ RALLY CRAFT BATCH ═══ manufacturing and reading the rally: your weapon, contact
+     height, and the discipline of not forcing the ball that isn't there yet. */
+  {
+    id:"inside_out_forehand", title:"The Inside-Out Forehand",
+    opp:"<b>Grinding to your backhand.</b> They keep feeding the backhand corner, content to rally. There's a ball here to run around and take over with the forehand — if you dare leave the backhand corner open.",
+    d1:{
+      sit:"They've parked another ball in your backhand corner, expecting a neutral backhand back. But it sits up just enough — you could run around it and crack an inside-out forehand.",
+      q:"Do you run around the backhand?",
+      opts:[
+        {lbl:"Run around it — inside-out forehand", sub:"Take control, dictate with the weapon", br:"A"},
+        {lbl:"Stay solid — steady backhand crosscourt", sub:"Don't open the court, keep grinding", br:"B"}
+      ],
+      court:{shots:[], sitter:[60,226]}
+    },
+    A:{
+      seq:{youStart:[55,262], oppStart:[100,40], oppEnd:[150,52], shots:[
+        {from:[58,256], to:[150,50], bend:-8, color:GOLD, snd:"drive", label:"INSIDE-OUT FH"},
+        {from:[148,50], to:[95,198], bend:10, color:RED, snd:"slice", label:"SCRAMBLE"} ]},
+      reveal:"Running around the backhand turns a neutral rally into your point — the inside-out forehand drives them into the far corner. They scramble it back short, and now the whole court is yours to direct.",
+      d2:{sit:"Their scramble floats up short. They're stranded in the corner you drove them to, sprinting back across. Finish it — where?", q:"Where's the kill?",
+        opts:[
+          {lbl:"Inside-in behind them — down the line", sub:"Wrong-foot the recovery", win:true},
+          {lbl:"Into the open court they're sprinting to", sub:"Hit the big space", win:false} ]},
+      win:{youStart:[100,205], oppStart:[150,52], oppEnd:[80,120], shots:[
+        {from:[100,200], to:[152,56], bend:-4, color:GREEN, snd:"pop", payoff:true, label:"BEHIND THEM", intent:"behind"} ]},
+      winTitle:"Point won.",
+      winTxt:"The inside-out forehand pulled them into the corner; going <b>behind</b> them, inside-in down the line, catches them reversing. When your weapon has moved someone, the kill is back where they came from — they can't change direction as fast as the ball can.",
+      mid:{youStart:[100,205], oppStart:[150,52], oppEnd:[52,60], shots:[
+        {from:[100,200], to:[50,58], bend:6, color:GOLD, snd:"drive", label:"OPEN COURT", intent:"into_run"} ]},
+      midTitle:"They ran it down.",
+      midTxt:"Good ball — but they'd already committed that way, so it went straight into their <b>run</b>. The forehand did the hard work of moving them; wasting it into the space they're covering lets them off the hook. Behind them was the finish."
+    },
+    B:{
+      seq:{youStart:[55,262], oppStart:[100,40], oppEnd:[70,50], shots:[
+        {from:[58,256], to:[50,52], bend:6, color:GOLD, snd:"drive", label:"STEADY BACKHAND"},
+        {from:[52,52], to:[92,190], bend:-8, color:RED, snd:"slice", label:"SHORTER REPLY"} ]},
+      reveal:"The steady backhand keeps the rally honest and denies them anything to attack. Grind long enough and they blink — this reply lands shorter and softer. The ball you were waiting for.",
+      d2:{sit:"Their reply finally sits up short and central. You've earned a clean look — but only if you take it. What now?", q:"What do you do with it?",
+        opts:[
+          {lbl:"Step in and drive it into the open court", sub:"Cash in the patience", win:true},
+          {lbl:"Play it safe — another steady rally ball", sub:"Wait for something even better", win:false} ]},
+      win:{youStart:[100,195], oppStart:[70,50], oppEnd:[70,50], shots:[
+        {from:[100,190], to:[156,52], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Point won.",
+      winTxt:"Patience only pays if you cash it in. The short ball is the reward for grinding — step in and drive the <b>open</b> court. Waiting is a weapon until the ball to attack arrives; then hesitation just hands the initiative back.",
+      mid:{youStart:[100,195], oppStart:[70,50], oppEnd:[70,50], shots:[
+        {from:[100,190], to:[100,54], bend:0, color:GOLD, snd:"drive", label:"ANOTHER RALLY BALL", intent:"reset"} ]},
+      midTitle:"Chance gone.",
+      midTxt:"You had the ball you'd worked for and patted back another <b>neutral</b> rally ball — handing them a free reset. Over-patience is a decision too: the point you built dissolves. When the short ball comes, the waiting is over."
+    }
+  },
+  {
+    id:"high_ball_backhand", title:"High Ball to the Backhand",
+    opp:"<b>Heavy topspin to your backhand.</b> They're loading spin that kicks high to your weakest wing. Let it play you and you're stuck defending shoulder-high balls all day.",
+    d1:{
+      sit:"A heavy topspin ball kicks up around shoulder height on your backhand — awkward and rising. You can slice it back low to reset, or step in and take it early with a drive.",
+      q:"How do you handle the high backhand?",
+      opts:[
+        {lbl:"Slice it back low and deep", sub:"Neutralise the height, deny them pace", br:"A"},
+        {lbl:"Step in and take it early", sub:"Drive it before it kicks up", br:"B"}
+      ],
+      court:{shots:[], sitter:[58,214]}
+    },
+    A:{
+      seq:{youStart:[55,258], oppStart:[100,40], oppEnd:[60,52], shots:[
+        {from:[58,252], to:[62,52], bend:2, color:GOLD, snd:"slice", label:"LOW SLICE"},
+        {from:[64,52], to:[152,206], bend:-10, color:RED, snd:"drive", label:"THEY ATTACK"} ]},
+      reveal:"The slice kills the height and keeps you in the rally — but a low ball is an invitation, and a sharp opponent steps in and drives it. You're pushed wide, back on defense. Height neutralised, initiative surrendered.",
+      d2:{sit:"Their drive has pushed you wide to the forehand corner, stretched and off balance. What now?", q:"What's the play?",
+        opts:[
+          {lbl:"High, deep reset down the middle", sub:"Buy time, get back to neutral", win:true},
+          {lbl:"Rip a winner off the stretch", sub:"End the scramble", win:false} ]},
+      win:{youStart:[150,205], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[150,200], to:[100,52], bend:0, color:GREEN, snd:"slice", payoff:true, label:"RESET DEEP", intent:"reset"} ]},
+      winTitle:"Neutralised.",
+      winTxt:"You chose the slice, so you chose to defend — now don't compound it. A high, deep, <b>neutral</b> reset resets the rally and takes their pace away. The slice buys time by design; the follow-up has to respect that, not gamble it away.",
+      mid:{youStart:[150,205], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[150,200], to:[50,56], bend:6, color:GOLD, snd:"drive", label:"STRETCH WINNER", intent:"risk", miss:"wide"} ]},
+      midTitle:"Just wide.",
+      midTxt:"Off the stretch, off balance, a clean winner is a <b>coin-flip</b>. You sliced to survive, then threw the survival away on a hero ball. Reset, get your feet set, and pick a real moment — the slice already committed you to patience."
+    },
+    B:{
+      seq:{youStart:[55,258], oppStart:[100,40], oppEnd:[150,52], shots:[
+        {from:[58,252], to:[150,48], bend:-8, color:GOLD, snd:"drive", label:"DRIVE ON THE RISE"},
+        {from:[148,48], to:[98,196], bend:10, color:RED, snd:"slice", label:"RUSHED REPLY"} ]},
+      reveal:"Taking it early, before the ball kicks up, turns your weakness into a strike. The drive on the rise robs them of time and drives deep — they can only rush a floated reply back short. Now you're dictating off your own backhand.",
+      d2:{sit:"Their rushed reply sits up short. They're stranded in the corner and the whole other side is open. Finish it — where?", q:"Where's the kill?",
+        opts:[
+          {lbl:"Drive it into the open court", sub:"Take the space you built", win:true},
+          {lbl:"Flatten it out for the corner line", sub:"Go for the biggest target", win:false} ]},
+      win:{youStart:[100,195], oppStart:[130,58], oppEnd:[130,58], shots:[
+        {from:[100,190], to:[46,52], bend:6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Point won.",
+      winTxt:"Taking the high ball early flipped the rally — they're stranded in the corner and the whole <b>open</b> court is yours. A drive into the space finishes what the early contact started. The lesson of the high backhand: take the height away and you take control.",
+      mid:{youStart:[100,195], oppStart:[130,58], oppEnd:[130,58], shots:[
+        {from:[100,190], to:[44,48], bend:6, color:GOLD, snd:"drive", label:"FLAT LINE", intent:"risk", miss:"long"} ]},
+      midTitle:"Just long.",
+      midTxt:"You earned the open court, then over-hit it — flat and flat from mid-court is a <b>coin-flip</b> that sails long. The early drive gave you a simple finish; a controlled drive wins it, brute force sprays. Placement over power on the ball you built."
+    }
+  },
+  {
+    id:"rally_tolerance", title:"Rally Tolerance",
+    opp:"<b>A patient baseliner.</b> They give you nothing loose and wait for you to over-press. The trap is impatience — going for a winner off a ball that isn't there yet.",
+    d1:{
+      sit:"A long neutral rally. The ball you've just got is fine — deep-ish, medium pace — but it's not a clear attacking ball. Your legs are tired and the temptation is to end it now.",
+      q:"Do you pull the trigger?",
+      opts:[
+        {lbl:"Go for it — drive a winner now", sub:"End the grind", br:"A"},
+        {lbl:"One more heavy ball, stay patient", sub:"Wait for the real opening", br:"B"}
+      ],
+      court:{shots:[], sitter:[100,214]}
+    },
+    A:{
+      seq:{youStart:[100,262], oppStart:[100,40], oppEnd:[55,52], shots:[
+        {from:[100,256], to:[52,50], bend:6, color:GOLD, snd:"drive", label:"EARLY WINNER"},
+        {from:[54,50], to:[150,208], bend:-10, color:RED, snd:"drive", label:"COUNTERED"} ]},
+      reveal:"The ball wasn't there — driving a winner off a neutral, deep ball means hitting from defense disguised as offense. They were balanced, read it, and countered into the space you vacated. Now you're the one scrambling.",
+      d2:{sit:"Their counter has pushed you wide and deep — you forced the point and it flipped. What now?", q:"What's the play?",
+        opts:[
+          {lbl:"Reset high and deep, get back to neutral", sub:"Undo the damage, stay in the point", win:true},
+          {lbl:"Go for another winner to get even", sub:"Fight fire with fire", win:false} ]},
+      win:{youStart:[150,205], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[150,200], to:[100,54], bend:0, color:GREEN, snd:"slice", payoff:true, label:"RESET DEEP", intent:"reset"} ]},
+      winTitle:"Recovered.",
+      winTxt:"Forcing the point put you on defense — so stop forcing. A high, deep <b>neutral</b> reset climbs you back to even. The discipline of tolerance isn't passivity; it's declining the ball that isn't there yet. Reset and wait for the real one.",
+      mid:{youStart:[150,205], oppStart:[100,44], oppEnd:[100,44], shots:[
+        {from:[150,200], to:[50,56], bend:6, color:GOLD, snd:"drive", label:"SECOND WINNER", intent:"risk", miss:"wide"} ]},
+      midTitle:"Just wide.",
+      midTxt:"Down and scrambling, you doubled the gamble — a second forced winner off no balance is a <b>coin-flip</b> on a coin-flip. Impatience compounds. Reset, breathe, and make them earn it; the opening comes to the patient."
+    },
+    B:{
+      seq:{youStart:[100,262], oppStart:[100,40], oppEnd:[80,50], shots:[
+        {from:[100,256], to:[100,48], bend:0, color:GOLD, snd:"drive", label:"HEAVY BALL"},
+        {from:[100,48], to:[96,192], bend:6, color:RED, snd:"slice", label:"SHORT REPLY"} ]},
+      reveal:"One more heavy, deep ball — no risk, just pressure. Patience does the work a winner couldn't: pinned deep, they finally cough up a short, central reply. Now the ball is actually there.",
+      d2:{sit:"Their reply finally sits up short. This is the ball you waited for — a real attacking ball, not a hopeful one. Finish it — where?", q:"Where's the kill?",
+        opts:[
+          {lbl:"Step in and drive the open corner", sub:"Now the winner is on", win:true},
+          {lbl:"Keep grinding — one more safe ball", sub:"Wait for something even better", win:false} ]},
+      win:{youStart:[100,190], oppStart:[80,50], oppEnd:[80,50], shots:[
+        {from:[100,186], to:[156,52], bend:-6, color:GREEN, snd:"drive", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Point won.",
+      winTxt:"Patience earned the ball impatience gambled on. Now it's a real short ball — step in and drive the <b>open</b> court with margin. Tolerance is a weapon that sets up the winner; the trick is telling the ball that's there from the ball that isn't.",
+      mid:{youStart:[100,190], oppStart:[80,50], oppEnd:[80,50], shots:[
+        {from:[100,186], to:[100,54], bend:0, color:GOLD, snd:"drive", label:"ANOTHER RALLY BALL", intent:"reset"} ]},
+      midTitle:"Chance gone.",
+      midTxt:"You waited for the perfect ball and passed on the very good one — over-patience hands back a <b>neutral</b> reset you earned. Tolerance wins the rally; hesitation loses the point you built. When the real ball comes, take it."
+    }
   }
 ];
 
