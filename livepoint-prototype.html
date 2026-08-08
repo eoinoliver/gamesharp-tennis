@@ -1069,6 +1069,155 @@ const SCENARIOS = [
       midTitle:"Just long.",
       midTxt:"From a floating ball you reached for a flat winner — a <b>coin-flip</b> that sails when a deep, controlled drive already wins it. You did the hard work with the lob; don't gamble the easy finish. Placement over power on the sitter."
     }
+  },
+  /* ═══ NET + PATTERN BATCH ═══ Bring Them In introduces the DROP intent (a short ball
+     that wins outright while they're stranded deep). Plus approach selection + net-rusher. */
+  {
+    id:"bring_them_in", title:"Bring Them In",
+    opp:"<b>Deep-camping baseliner.</b> They stand four feet behind the baseline and hit everything back with interest. They're comfortable deep — so make them uncomfortable at the net.",
+    d1:{
+      sit:"You've traded heavy groundstrokes and they're camped way behind the baseline, loving the long rally. This ball sits up at your service line — short enough to change the pattern completely.",
+      q:"How do you change it up?",
+      opts:[
+        {lbl:"Push them back, then bring them in", sub:"Drive deep first, set up the trap", br:"A"},
+        {lbl:"Out-grind them — heavy ball deep", sub:"Beat them at their own game", br:"B"}
+      ],
+      court:{shots:[], sitter:[100,214]}
+    },
+    A:{
+      seq:{youStart:[100,262], oppStart:[100,42], oppEnd:[100,30], shots:[
+        {from:[100,256], to:[100,44], bend:0, color:GOLD, snd:"drive", label:"DEEP DRIVE"},
+        {from:[100,44], to:[104,198], bend:6, color:RED, snd:"weak", label:"DEEP REPLY"} ]},
+      reveal:"You drive them even deeper — they're hitting from behind the baseline now, and the reply floats up short. They're a mile from the net, camped on the back fence. This is the moment to bring them in.",
+      d2:{sit:"Their deep reply sits up short at your service line. They're camped way behind their baseline, flat-footed and deep. What's the kill?", q:"Finish it — where?",
+        opts:[
+          {lbl:"Drop shot — they're miles back", sub:"They can't cover the forecourt", win:true},
+          {lbl:"Drive it deep into the corner", sub:"Blast a winner past them", win:false} ]},
+      win:{youStart:[100,190], oppStart:[100,30], oppEnd:[100,30], shots:[
+        {from:[100,186], to:[92,132], bend:6, color:GREEN, snd:"tap", payoff:true, label:"DROP SHOT", intent:"drop"} ]},
+      winTitle:"Point won.",
+      winTxt:"Camped on the back fence, they can't cover twenty-five feet to a <b>drop</b>. Against a deep baseliner the drop shot is a weapon, not a gimmick — you spent two shots pushing them back so this one would be unreachable. Bring them where they hate to be.",
+      mid:{youStart:[100,190], oppStart:[100,30], oppEnd:[140,44], shots:[
+        {from:[100,186], to:[150,46], bend:-6, color:GOLD, snd:"drive", label:"DEEP CORNER", intent:"into_run"} ]},
+      midTitle:"They ran it down.",
+      midTxt:"A deep camper is set up for exactly this — you drove it into the <b>space</b> they live in, and they're back there waiting. Power doesn't move a deep baseliner; a drop does. The whole point was to bring them forward, not feed their comfort zone."
+    },
+    B:{
+      seq:{youStart:[100,262], oppStart:[100,42], oppEnd:[100,42], shots:[
+        {from:[100,256], to:[100,46], bend:0, color:GOLD, snd:"drive", label:"HEAVY DEEP"},
+        {from:[100,46], to:[100,205], bend:0, color:RED, snd:"drive", label:"HEAVY REPLY"} ]},
+      reveal:"You match them deep, heavy for heavy — but this is their game. They've hit a thousand of these. The rally resets to neutral and this reply lands a little shorter. You're grinding a grinder; someone has to change it.",
+      d2:{sit:"Their reply lands a touch short. You've out-lasted one exchange — but they're still deep and comfortable. What now?", q:"What's the play?",
+        opts:[
+          {lbl:"Short angle to drag them forward and wide", sub:"Change the shape — make them move", win:true},
+          {lbl:"Another heavy ball down the middle", sub:"Keep grinding, out-last them", win:false} ]},
+      win:{youStart:[100,200], oppStart:[100,42], oppEnd:[100,42], shots:[
+        {from:[100,196], to:[46,116], bend:6, color:GREEN, snd:"pop", payoff:true, label:"SHORT ANGLE", intent:"angle"} ]},
+      winTitle:"Point won.",
+      winTxt:"Grinding a grinder plays into their hands — so change the shape. A short <b>angle</b> drags them forward and wide, out of the deep comfort zone they hate to leave. You don't out-last a backboard; you make it move.",
+      mid:{youStart:[100,200], oppStart:[100,42], oppEnd:[100,42], shots:[
+        {from:[100,196], to:[100,54], bend:0, color:GOLD, snd:"drive", label:"HEAVY BALL", intent:"reset"} ]},
+      midTitle:"Stalemate.",
+      midTxt:"Another heavy <b>neutral</b> ball down the middle is exactly what they want — you're trading blows with a backboard and hoping they blink first. Hope isn't a tactic. Change the pattern; make them play a ball they don't like."
+    }
+  },
+  {
+    id:"approach_selection", title:"Approach-Shot Selection",
+    opp:"<b>They float a short ball.</b> It's an invitation to the net — but which way you approach decides whether you're volleying a sitter or getting passed clean.",
+    d1:{
+      sit:"A short ball floats up near your service line. You want to attack the net — but where you approach determines the pass they get to hit back.",
+      q:"How do you approach?",
+      opts:[
+        {lbl:"Approach down the line", sub:"Cut off their angle, cover from one side", br:"A"},
+        {lbl:"Approach crosscourt", sub:"Bigger target, safer over the net", br:"B"}
+      ],
+      court:{shots:[], sitter:[64,214]}
+    },
+    A:{
+      seq:{youStart:[80,244], youEnd:[60,178], oppStart:[100,40], oppEnd:[58,50], shots:[
+        {from:[64,214], to:[56,46], bend:2, color:GOLD, snd:"drive", label:"APPROACH DTL"},
+        {from:[58,46], to:[66,178], bend:8, color:RED, snd:"drive", label:"DIPPING PASS"} ]},
+      reveal:"Down the line is the textbook approach — it cuts off their crosscourt angle and lets you cover the net from one side. Their pass has to thread the line and it dips at your feet. Low ball, but you're in position.",
+      d2:{sit:"You're at the net, well-positioned by the approach. Their pass dips low at your feet, below the net cord. Volley it — how?", q:"How do you volley?",
+        opts:[
+          {lbl:"Punch it deep and hold your position", sub:"Can't hit down — reset deep, stay at net", win:true},
+          {lbl:"Go for the sharp-angle winner", sub:"End it now with touch", win:false} ]},
+      win:{youStart:[60,178], oppStart:[58,46], oppEnd:[58,46], shots:[
+        {from:[60,176], to:[60,44], bend:0, color:GREEN, snd:"volley", payoff:true, label:"DEEP VOLLEY", intent:"deep"} ]},
+      winTitle:"Point won.",
+      winTxt:"The down-the-line approach did its job — you're in position, so from a ball below the net you don't gamble. Punch it <b>deep</b>, keep them pinned, hold the net. The right approach earns the easy volley; the winner comes on the next ball.",
+      mid:{youStart:[60,178], oppStart:[58,46], oppEnd:[58,46], shots:[
+        {from:[60,176], to:[30,120], bend:4, color:GOLD, snd:"volley", label:"ANGLE VOLLEY", intent:"risk", miss:"net"} ]},
+      midTitle:"Into the net.",
+      midTxt:"From below the net cord the sharp angle has almost no margin — you have to lift it and hope. The approach set you up perfectly; don't undo it with a <b>low-percentage</b> swing. Deep and boring holds the net; the winner comes next."
+    },
+    B:{
+      seq:{youStart:[80,244], youEnd:[110,180], oppStart:[100,40], oppEnd:[150,52], shots:[
+        {from:[64,214], to:[150,50], bend:-6, color:GOLD, snd:"drive", label:"APPROACH CC"},
+        {from:[148,50], to:[40,182], bend:-8, color:RED, snd:"drive", label:"PASS DOWN THE LINE"} ]},
+      reveal:"Crosscourt feels safer over the net — but it opens the line, and you follow the ball toward the middle. They step in and rip the pass down the line you just vacated. Now you're lunging, out of position.",
+      d2:{sit:"You're stretched wide, lunging at their down-the-line pass — the hole the crosscourt approach opened. Best you can do is get a racket on it. What now?", q:"What's the play?",
+        opts:[
+          {lbl:"Block it back deep and recover", sub:"Survive, reset the point", win:true},
+          {lbl:"Flick a reflex winner", sub:"Rip it out of trouble", win:false} ]},
+      win:{youStart:[45,182], oppStart:[150,52], oppEnd:[150,52], shots:[
+        {from:[45,180], to:[100,48], bend:0, color:GREEN, snd:"slice", payoff:true, label:"BLOCK DEEP", intent:"deep"} ]},
+      winTitle:"Survived it.",
+      winTxt:"The crosscourt approach left the line open and put you here — so don't compound it. A block <b>deep</b> and central buys time to recover the net position you gave up. The lesson: approach down the line to cut the pass off; crosscourt hands them the target.",
+      mid:{youStart:[45,182], oppStart:[150,52], oppEnd:[150,52], shots:[
+        {from:[45,180], to:[150,60], bend:6, color:GOLD, snd:"drive", label:"REFLEX WINNER", intent:"risk", miss:"wide"} ]},
+      midTitle:"Just wide.",
+      midTxt:"A reflex winner off a full-stretch lunge is a <b>coin-flip</b> — no base, no time. The crosscourt approach already cost you position; the hero flick costs you the point. Block, recover, and next time approach down the line."
+    }
+  },
+  {
+    id:"counter_net_rusher", title:"Counter the Net-Rusher",
+    opp:"<b>Relentless net-rusher.</b> They attack the net at every chance and cover the corners like a wall. Try to thread them and the margins vanish — the answer isn't a better pass, it's a different one.",
+    d1:{
+      sit:"They've chipped an approach and charged in, tight to the net and set, covering both corners. You've got a passing shot — but the angles are all covered. Where do you go?",
+      q:"How do you pass a set volleyer?",
+      opts:[
+        {lbl:"Jam it straight at the body", sub:"Take their reach away", br:"A"},
+        {lbl:"Thread the pass down the line", sub:"Beat them into the corner", br:"B"}
+      ],
+      court:{shots:[], sitter:[100,214]}
+    },
+    A:{
+      seq:{youStart:[100,262], oppStart:[100,138], oppEnd:[92,140], shots:[
+        {from:[100,220], to:[100,140], bend:0, color:GOLD, snd:"drive", label:"BODY DRILL"},
+        {from:[100,140], to:[92,192], bend:6, color:RED, snd:"volley", label:"JAMMED POP-UP"} ]},
+      reveal:"Drilled at the body, a set volleyer has nowhere to put their hands — they can reach a corner but not a ball at their hip. It jams them and pops up weak and short. You've turned a tough pass into an easy one.",
+      d2:{sit:"Their jammed volley pops up short and central. They're stuck at the net, off balance from the body shot. Put it away — where?", q:"Finish it — where?",
+        opts:[
+          {lbl:"Roll it into the open court", sub:"Now the space is there", win:true},
+          {lbl:"Drill the body again", sub:"It worked once", win:false} ]},
+      win:{youStart:[92,190], oppStart:[92,140], oppEnd:[92,140], shots:[
+        {from:[92,188], to:[152,128], bend:-6, color:GREEN, snd:"pop", payoff:true, label:"OPEN COURT", intent:"space"} ]},
+      winTitle:"Point won.",
+      winTxt:"The body jam did the hard work — now they've popped it up and the <b>open</b> court is wide. Roll it into the space with margin. The body is the answer to a tight volleyer; the open court is the answer once you've knocked them off balance.",
+      mid:{youStart:[92,190], oppStart:[92,140], oppEnd:[92,140], shots:[
+        {from:[92,188], to:[94,138], bend:0, color:GOLD, snd:"drive", label:"BODY AGAIN", intent:"risk"} ]},
+      midTitle:"Right at them.",
+      midTxt:"The body worked because it surprised a set volleyer — do it again and they're ready, hands set, and they punch it away. A <b>low-percentage</b> repeat. Once you've popped them up, the open court is the finish; save the jam for when they're tight."
+    },
+    B:{
+      seq:{youStart:[100,262], oppStart:[100,138], oppEnd:[70,136], shots:[
+        {from:[100,220], to:[64,124], bend:-4, color:GOLD, snd:"drive", label:"LINE PASS"},
+        {from:[66,124], to:[130,196], bend:10, color:RED, snd:"volley", label:"REFLEX VOLLEY"} ]},
+      reveal:"Against a set volleyer the fine line pass is a coin-flip — they're covering exactly that. They reach it and reflex-volley crosscourt, and now you're the one scrambling wide. The margin was paper-thin to begin with.",
+      d2:{sit:"Their reflex volley pulls you wide and you're lunging, out of position. What now?", q:"What's the play?",
+        opts:[
+          {lbl:"Block it deep and reset", sub:"Survive, get back in the point", win:true},
+          {lbl:"Flick a winner off the stretch", sub:"Rip it back", win:false} ]},
+      win:{youStart:[135,190], oppStart:[70,136], oppEnd:[70,136], shots:[
+        {from:[135,188], to:[100,50], bend:0, color:GREEN, snd:"slice", payoff:true, label:"BLOCK DEEP", intent:"deep"} ]},
+      winTitle:"Survived it.",
+      winTxt:"Threading a set volleyer left you exposed — so don't gamble again. A block <b>deep</b> and central buys time to recover. The lesson stands: when they're tight to the net covering the corners, the body beats the line; the fine pass is the low-percentage option.",
+      mid:{youStart:[135,190], oppStart:[70,136], oppEnd:[70,136], shots:[
+        {from:[135,188], to:[46,54], bend:6, color:GOLD, snd:"drive", label:"STRETCH WINNER", intent:"risk", miss:"wide"} ]},
+      midTitle:"Just wide.",
+      midTxt:"A winner off a stretched lunge is a <b>coin-flip</b> — no base, no margin. The fine pass already put you in trouble; the flick buries you. Block, reset, and remember: the body was the higher-percentage pass all along."
+    }
   }
 ];
 
@@ -1088,12 +1237,13 @@ const INTENT_GEO = {
   into_run:(s,c)=> dist(s.to,c.oppEnd) < 34,                       // into their recovery
   angle:   (s)=> s.to[1] > 100 && Math.abs(s.to[0]-100) > 46,      // short + wide (low %)
   reset:   (s)=> s.to[1] < 120 && Math.abs(s.to[0]-100) < 46,      // deep + central
+  drop:    (s,c)=> s.to[1] > 112 && s.to[1] < 148 && dist(s.to,c.oppEnd) > 45, // short into forecourt, they're deep
   risk:    ()=> true                                               // greedy option — checked via text
 };
 const INTENT_WORD = {
   behind:/behind|wrong.?foot/i, space:/open|space|behind|away/i, deep:/deep/i,
   jam:/body|jam|hip/i, into_run:/open|run|their run|space/i, angle:/angle/i,
-  reset:/reset|neutral|deep|middle|rebuild|buy/i, risk:/margin|coin.?flip|low.?percentage|long|net|miss|gamble/i
+  reset:/reset|neutral|deep|middle|rebuild|buy/i, drop:/drop|short|forecourt|dink/i, risk:/margin|coin.?flip|low.?percentage|long|net|miss|gamble/i
 };
 function dist(a,b){return Math.hypot(a[0]-b[0],a[1]-b[1]);}
 function inBounds(p){return p[0]>=12&&p[0]<=188&&p[1]>=8&&p[1]<=292;}

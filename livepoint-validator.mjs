@@ -37,13 +37,15 @@ const INTENT_GEO = {
   into_run: (s, c) => dist(s.to, c.oppEnd) < 34,
   angle:    (s)    => s.to[1] > 100 && Math.abs(s.to[0] - 100) > 46,
   reset:    (s)    => s.to[1] < 120 && Math.abs(s.to[0] - 100) < 46,
+  drop:     (s, c) => s.to[1] > 112 && s.to[1] < 148 && dist(s.to, c.oppEnd) > 45,  // short into their forecourt while they're stranded deep
   risk:     ()     => true,        // greedy option — validated purely through the text
 };
 // intent → a word its coaching text MUST contain (text and tactic can't drift apart)
 const INTENT_WORD = {
   behind: /behind|wrong.?foot/i, space: /open|space|behind|away/i, deep: /deep/i,
   jam: /body|jam|hip/i, into_run: /open|run|their run|space/i, angle: /angle/i,
-  reset: /reset|neutral|deep|middle|rebuild|buy/i, risk: /margin|coin.?flip|low.?percentage|long|net|miss|gamble/i,
+  reset: /reset|neutral|deep|middle|rebuild|buy/i, drop: /drop|short|forecourt|dink/i,
+  risk: /margin|coin.?flip|low.?percentage|long|net|miss|gamble/i,
 };
 // content integrity — no fabricated certainty in any coaching prose (matches the app's trust gate)
 const ABSOLUTES = /\b(always|never|every time|guaranteed|automatically|the only)\b/i;
