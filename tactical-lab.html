@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>GAMESHARP Tactical Engine</title>
+  <title>GAMESHARP Tactical Engine - Multi-Shot Rally Engine</title>
   <style>
     :root {
       --bg: #090c10;
@@ -16,13 +16,19 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
     body { background: var(--bg); color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
-    /* dvh accounts for mobile browser chrome without the -webkit-fill-available collapse */
+    /* dvh accounts for mobile browser chrome. Do not use -webkit-fill-available here:
+       outside iOS Safari it collapses body to ~250px and shrinks the court to a stamp. */
     @supports (height: 100dvh) { body { height: 100dvh; } }
 
     /* Top Bar */
-    #header { height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: rgba(18, 24, 36, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); z-index: 10; }
-    .brand { font-weight: 900; tracking: 1.5px; color: var(--accent-green); font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; }
+    #header { height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: rgba(18, 24, 36, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); z-index: 10; }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .brand { font-weight: 900; color: var(--accent-green); font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; }
     .day-tag { font-size: 12px; color: var(--text-sub); font-weight: 600; }
+    .rally-badge { background: rgba(0, 230, 118, 0.15); color: var(--accent-green); font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 12px; border: 1px solid rgba(0,230,118,0.3); }
+
+    .hdr-btn { background: #1a2233; color: var(--text-main); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .hdr-btn:hover { border-color: var(--accent-green); color: var(--accent-green); }
 
     /* Main Viewport Container */
     #stage { flex: 1; position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle at center, #111723 0%, #090c10 100%); overflow: hidden; }
@@ -45,18 +51,34 @@
     .status-badge.misread { background: rgba(255, 51, 102, 0.15); color: var(--accent-red); }
 
     .card-title { font-size: 11px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700; }
-    .card-text { font-size: 15px; line-height: 1.45; font-weight: 500; color: var(--text-main); margin-bottom: 20px; }
+    .card-text { font-size: 14px; line-height: 1.5; font-weight: 500; color: var(--text-main); margin-bottom: 20px; white-space: pre-line; }
 
     .action-btn { width: 100%; padding: 15px; background: var(--accent-green); color: #090c10; border: none; border-radius: 10px; font-weight: 800; font-size: 14px; letter-spacing: 0.5px; cursor: pointer; transition: opacity 0.2s; }
     .action-btn:active { opacity: 0.85; }
     .action-btn.retry { background: #26334d; color: var(--text-main); }
+
+    /* Modal for JSON Import */
+    #modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 100; padding: 16px; }
+    #modal-overlay.open { display: flex; }
+    .modal { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 550px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .modal-title { font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-green); }
+    .close-btn { background: none; border: none; color: var(--text-sub); font-size: 20px; cursor: pointer; }
+    textarea { width: 100%; height: 220px; background: #090c10; border: 1px solid var(--border); border-radius: 8px; color: var(--accent-green); font-family: monospace; font-size: 12px; padding: 12px; resize: none; margin-bottom: 12px; }
+    textarea:focus { outline: none; border-color: var(--accent-green); }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .error-msg { color: var(--accent-red); font-size: 11px; margin-bottom: 8px; font-weight: 600; display: none; }
   </style>
 </head>
 <body>
 
   <div id="header">
-    <div class="brand">GAMESHARP</div>
-    <div class="day-tag" id="day-indicator">Day 1 • The Trapped Volleyer</div>
+    <div class="header-left">
+      <div class="brand">GAMESHARP</div>
+      <div class="day-tag" id="day-indicator">Day 1 • The Trapped Volleyer</div>
+      <div class="rally-badge" id="rally-step-badge">Rally Step 1/2</div>
+    </div>
+    <button class="hdr-btn" onclick="Engine.toggleJsonModal(true)">Load JSON</button>
   </div>
 
   <div id="stage">
@@ -71,106 +93,164 @@
     </div>
   </div>
 
+  <!-- JSON Loader Modal -->
+  <div id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Scenario JSON Importer</div>
+        <button class="close-btn" onclick="Engine.toggleJsonModal(false)">&times;</button>
+      </div>
+      <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 10px;">Paste dynamic multi-shot scenario JSON below to update engine runtime:</p>
+      <div id="json-error" class="error-msg">Invalid JSON Structure!</div>
+      <textarea id="json-input" spellcheck="false"></textarea>
+      <div class="modal-actions">
+        <button class="hdr-btn" onclick="Engine.loadPresetScenario()">Reset Sample JSON</button>
+        <button class="action-btn" style="width: auto; padding: 8px 16px;" onclick="Engine.importJsonScenario()">Load Scenario</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     /**
-     * GameSharp Scenario Repository (Data Layer)
+     * Multi-Shot Tactical Rally Scenarios (Data Layer)
      */
-    const SCENARIOS = [
+    let SCENARIOS = [
       {
         id: 1,
-        title: "Day 1 • The Trapped Volleyer",
+        title: "Day 1 • The Net Rusher Trapper",
         ruleTitle: "Court Rule #1",
-        player: { x: 0.2, y: 1.7 }, // Deep wide backhand corner
-        opponent: { x: 0.0, y: 0.6 }, // Approaching net at service line
-        options: [
+        shots: [
           {
-            id: 'A',
-            label: 'Open Court',
-            target: { x: -0.7, y: 0.2 },
-            isCorrect: false,
-            revelation: "Open court feels right, but gives the volleyer a full 160° wing-reach to hit an unreturnable drop volley."
+            shotIndex: 1,
+            stepTitle: "Shot 1: The Net Rush Counter",
+            player: { x: 0.2, y: 1.7 },
+            opponent: { x: 0.0, y: 0.6 },
+            options: [
+              {
+                id: 'A',
+                label: 'Open Court',
+                target: { x: -0.7, y: 0.2 },
+                isCorrect: false,
+                revelation: "Open court gives the volleyer a 160° wing-reach to hit an unreturnable drop volley."
+              },
+              {
+                id: 'B',
+                label: 'Right Hip',
+                target: { x: 0.05, y: 0.58 },
+                isCorrect: true,
+                revelation: "Jamming the dominant hip shrinks their reaction wing to under 30°, forcing a weak pop-up volley over the net!",
+                nextPlayer: { x: 0.0, y: 1.25 },
+                nextOpponent: { x: 0.1, y: 0.75 }
+              }
+            ],
+            ruleText: "When an opponent rushes the net: Stop looking at open space. Aim directly for their dominant hip."
           },
           {
-            id: 'B',
-            label: 'Right Hip',
-            target: { x: 0.05, y: 0.58 },
-            isCorrect: true,
-            revelation: "Attacking the dominant hip shrinks their reaction wing to under 30°, forcing a weak pop-up."
+            shotIndex: 2,
+            stepTitle: "Shot 2: The Down-The-Line Putaway",
+            player: { x: 0.0, y: 1.25 },
+            opponent: { x: 0.1, y: 0.75 },
+            options: [
+              {
+                id: 'A',
+                label: 'Down the Line',
+                target: { x: 0.85, y: 0.1 },
+                isCorrect: true,
+                revelation: "With the opponent off-balance in net-center, driving down the alley closes out the rally clean!"
+              },
+              {
+                id: 'B',
+                label: 'High Defensive Lob',
+                target: { x: 0.0, y: 0.1 },
+                isCorrect: false,
+                revelation: "A low defensive lob gives them time to recover backward and hit a smash winner."
+              }
+            ],
+            ruleText: "Punish jammed pop-ups immediately with aggressive line drives."
           }
-        ],
-        ruleText: "When an opponent rushes the net: Stop looking at open space. Aim directly for their dominant hip."
+        ]
       },
       {
         id: 2,
-        title: "Day 2 • The Deep Crosscourt Lie",
+        title: "Day 2 • The Short Crosscourt Angle",
         ruleTitle: "Court Rule #2",
-        player: { x: -0.6, y: 1.6 },
-        opponent: { x: 0.0, y: 0.2 },
-        options: [
+        shots: [
           {
-            id: 'A',
-            label: 'Deep Corner',
-            target: { x: 0.75, y: 0.2 },
-            isCorrect: false,
-            revelation: "Deep balls take 1.4s to travel. Without lateral displacement, your opponent takes it early on the rise and steals your recovery time."
+            shotIndex: 1,
+            stepTitle: "Shot 1: Displace Opponent Wide",
+            player: { x: -0.6, y: 1.6 },
+            opponent: { x: 0.0, y: 0.2 },
+            options: [
+              {
+                id: 'A',
+                label: 'Deep Corner',
+                target: { x: 0.75, y: 0.2 },
+                isCorrect: false,
+                revelation: "Deep balls take 1.4s to travel. Without lateral displacement, your opponent takes it early on the rise."
+              },
+              {
+                id: 'B',
+                label: 'Short Angle',
+                target: { x: 0.75, y: 0.7 },
+                isCorrect: true,
+                revelation: "Working the short side-T forces the opponent 4.5 meters off court, opening court geometry wide!",
+                nextPlayer: { x: 0.2, y: 1.5 },
+                nextOpponent: { x: 0.85, y: 0.4 }
+              }
+            ],
+            ruleText: "Depth without angle gives your opponent time. Work short side-T angles first."
           },
           {
-            id: 'B',
-            label: 'Short Angle',
-            target: { x: 0.75, y: 0.7 },
-            isCorrect: true,
-            revelation: "Working the short side-T forces the opponent 4.5 meters off court, expanding your next target geometry by 200%."
+            shotIndex: 2,
+            stepTitle: "Shot 2: The Open Court Winner",
+            player: { x: 0.2, y: 1.5 },
+            opponent: { x: 0.85, y: 0.4 },
+            options: [
+              {
+                id: 'A',
+                label: 'Open Court Target',
+                target: { x: -0.8, y: 0.25 },
+                isCorrect: true,
+                revelation: "Opponent stretched wide off-court cannot recover 8 meters across in time. Easy winner!"
+              },
+              {
+                id: 'B',
+                label: 'Behind Opponent',
+                target: { x: 0.8, y: 0.2 },
+                isCorrect: false,
+                revelation: "Wrong-footing works occasionally, but here it gives them an easy stroke without moving."
+              }
+            ],
+            ruleText: "Once court geometry opens up, exploit the vacant open court."
           }
-        ],
-        ruleText: "Depth without angle gives your opponent time. Work the short side-T to open the court geometry."
-      },
-      {
-        id: 3,
-        title: "Day 3 • The Invisible Recovery Step",
-        ruleTitle: "Court Rule #3",
-        player: { x: 0.0, y: 1.8 },
-        opponent: { x: 0.6, y: 0.3 },
-        options: [
-          {
-            id: 'A',
-            label: 'Recover to Center',
-            target: { x: 0.0, y: 1.8 },
-            isCorrect: false,
-            revelation: "Defaulting to center baseline leaves you vulnerable to behind-the-body wrong-footing against aggressive counters."
-          },
-          {
-            id: 'B',
-            label: 'Shaded Bisector',
-            target: { x: 0.3, y: 1.7 },
-            isCorrect: true,
-            revelation: "Always recover to the bisector of your opponent's available shot angles, not the geometric middle of the court."
-          }
-        ],
-        ruleText: "Never recover to the middle of the court. Recover to the middle of their safest two targets."
+        ]
       }
     ];
 
     /**
-     * Core Render & Physics Engine
+     * Multi-Shot Tactical Engine Core
      */
     const Engine = (function() {
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
       const cardEl = document.getElementById('card');
+      const modalOverlay = document.getElementById('modal-overlay');
+      const jsonInput = document.getElementById('json-input');
 
-      let currentIdx = 0;
+      let currentScenarioIdx = 0;
+      let currentShotIdx = 0;
       let state = 'FREEZE'; // FREEZE, REVEAL
       let selectedOption = null;
       let dpr = window.devicePixelRatio || 1;
+      let rallyHistory = [];
 
-      // Coordinate Transform Matrix (Court relative to Screen Pixels)
       let courtBounds = { left: 0, top: 0, width: 0, height: 0, scale: 1 };
 
       function init() {
         resize();
         window.addEventListener('resize', resize);
         setupGestures();
-        loadScenario(0);
+        loadShot(0, 0);
         requestAnimationFrame(loop);
       }
 
@@ -181,11 +261,10 @@
         canvas.height = rect.height * dpr;
         ctx.scale(dpr, dpr);
 
-        // Calculate Responsive Isometric Court Box (Keeps court perfectly proportioned & off card)
         const availWidth = rect.width * 0.85;
-        const availHeight = rect.height * 0.62; // Reserve lower 38% for card & interaction space
+        const availHeight = rect.height * 0.62;
 
-        const courtRatio = 0.55; // width / length ratio
+        const courtRatio = 0.55;
         let cWidth = availWidth;
         let cHeight = cWidth / courtRatio;
 
@@ -196,14 +275,13 @@
 
         courtBounds = {
           left: (rect.width - cWidth) / 2,
-          top: 54, // Clear top bar
+          top: 58,
           width: cWidth,
           height: cHeight,
-          scale: cWidth / 2.0 // Map [-1, 1] court width to pixel scale
+          scale: cWidth / 2.0
         };
       }
 
-      // Convert Tactical Coordinates (X: [-1, 1], Y: [0, 2]) to Screen Pixels
       function toScreen(x, y) {
         return {
           x: courtBounds.left + courtBounds.width / 2 + (x * courtBounds.scale),
@@ -211,15 +289,21 @@
         };
       }
 
-      function loadScenario(idx) {
-        currentIdx = idx;
+      function loadShot(scenarioIdx, shotIdx) {
+        currentScenarioIdx = scenarioIdx;
+        currentShotIdx = shotIdx;
         state = 'FREEZE';
         selectedOption = null;
         cardEl.classList.remove('visible', 'misread');
 
-        const sc = SCENARIOS[currentIdx];
+        const sc = SCENARIOS[currentScenarioIdx];
+        const shot = sc.shots[currentShotIdx];
+
         document.getElementById('day-indicator').innerText = sc.title;
-        document.getElementById('card-subtitle').innerText = sc.ruleTitle;
+        document.getElementById('card-subtitle').innerText = shot.stepTitle || sc.ruleTitle;
+        document.getElementById('rally-step-badge').innerText = `Rally Step ${currentShotIdx + 1}/${sc.shots.length}`;
+
+        if (shotIdx === 0) rallyHistory = [];
       }
 
       function handleTap(evt) {
@@ -230,17 +314,18 @@
         const tapX = (evt.touches ? evt.touches[0].clientX : evt.clientX) - rect.left;
         const tapY = (evt.touches ? evt.touches[0].clientY : evt.clientY) - rect.top;
 
-        const sc = SCENARIOS[currentIdx];
+        const sc = SCENARIOS[currentScenarioIdx];
+        const shot = sc.shots[currentShotIdx];
 
         // Take the nearest option inside the radius, not the last one that happens to match
         let nearest = null;
         let nearestDist = Infinity;
 
-        for (const opt of sc.options) {
+        for (const opt of shot.options) {
           const pos = toScreen(opt.target.x, opt.target.y);
           const dist = Math.hypot(tapX - pos.x, tapY - pos.y);
 
-          if (dist < 48 && dist < nearestDist) { // Generous 48px hit target
+          if (dist < 48 && dist < nearestDist) {
             nearest = opt;
             nearestDist = dist;
           }
@@ -250,30 +335,44 @@
           selectedOption = nearest;
           state = 'REVEAL';
           if (navigator.vibrate) navigator.vibrate(35);
-          showInsight(nearest);
+
+          rallyHistory.push({
+            from: { ...shot.player },
+            to: { ...nearest.target },
+            isCorrect: nearest.isCorrect
+          });
+
+          showInsight(nearest, shot);
         }
       }
 
-      function showInsight(option) {
-        const sc = SCENARIOS[currentIdx];
+      function showInsight(option, shot) {
+        const sc = SCENARIOS[currentScenarioIdx];
         const badge = document.getElementById('badge');
         const text = document.getElementById('card-text');
         const btn = document.getElementById('action-btn');
 
+        const isLastShot = currentShotIdx >= sc.shots.length - 1;
+
         if (option.isCorrect) {
           cardEl.classList.remove('misread');
           badge.className = "status-badge correct";
-          badge.innerText = "Tactical Revelation";
-          text.innerText = `${option.revelation}\n\n${sc.ruleText}`;
+          badge.innerText = isLastShot ? "Rally Won • Tactical Masterclass" : "Shot Executed Successfully";
+          text.innerText = `${option.revelation}\n\n${shot.ruleText || sc.ruleText || ''}`;
           btn.className = "action-btn";
-          btn.innerText = currentIdx < SCENARIOS.length - 1 ? `Continue to Day ${currentIdx + 2}` : "Restart Loop";
+
+          if (!isLastShot) {
+            btn.innerText = `Advance to Shot ${currentShotIdx + 2}`;
+          } else {
+            btn.innerText = currentScenarioIdx < SCENARIOS.length - 1 ? "Next Scenario" : "Restart Loop";
+          }
         } else {
           cardEl.classList.add('misread');
           badge.className = "status-badge misread";
           badge.innerText = "Misread Court Spatial Geometry";
           text.innerText = `${option.revelation}\n\nNotice how space opens up when targeted differently.`;
           btn.className = "action-btn retry";
-          btn.innerText = "Try Alternative Angle";
+          btn.innerText = "Retry Shot";
         }
 
         setTimeout(() => cardEl.classList.add('visible'), 400);
@@ -282,13 +381,27 @@
       function handleAction() {
         if (!selectedOption) return;
 
+        const sc = SCENARIOS[currentScenarioIdx];
+
         if (!selectedOption.isCorrect) {
-          // Retry current day scenario
-          loadScenario(currentIdx);
+          // Retry current shot
+          rallyHistory.pop();
+          loadShot(currentScenarioIdx, currentShotIdx);
         } else {
-          // Advance to next day
-          const nextIdx = (currentIdx + 1) % SCENARIOS.length;
-          loadScenario(nextIdx);
+          if (currentShotIdx < sc.shots.length - 1) {
+            // Apply position overrides if specified in option
+            if (selectedOption.nextPlayer) {
+              sc.shots[currentShotIdx + 1].player = { ...selectedOption.nextPlayer };
+            }
+            if (selectedOption.nextOpponent) {
+              sc.shots[currentShotIdx + 1].opponent = { ...selectedOption.nextOpponent };
+            }
+            loadShot(currentScenarioIdx, currentShotIdx + 1);
+          } else {
+            // Advance to next scenario
+            const nextScenIdx = (currentScenarioIdx + 1) % SCENARIOS.length;
+            loadShot(nextScenIdx, 0);
+          }
         }
       }
 
@@ -296,8 +409,8 @@
         canvas.addEventListener('touchstart', handleTap, { passive: true });
         canvas.addEventListener('mousedown', handleTap);
 
-        // Swipe down commits the card's action, so the gesture can never strand the user
-        // with a hidden card and a REVEAL state that ignores taps.
+        // Swipe down commits the card's action. Merely hiding the card would strand the
+        // user in REVEAL state with no live targets and no way to bring the card back.
         let startY = 0;
         let swipeHandled = false;
         cardEl.addEventListener('touchstart', e => {
@@ -314,13 +427,46 @@
         }, { passive: true });
       }
 
+      function toggleJsonModal(show) {
+        if (show) {
+          jsonInput.value = JSON.stringify(SCENARIOS, null, 2);
+          document.getElementById('json-error').style.display = 'none';
+          modalOverlay.classList.add('open');
+        } else {
+          modalOverlay.classList.remove('open');
+        }
+      }
+
+      function importJsonScenario() {
+        try {
+          const parsed = JSON.parse(jsonInput.value);
+          if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].shots) {
+            SCENARIOS = parsed;
+            toggleJsonModal(false);
+            loadShot(0, 0);
+          } else {
+            throw new Error("Missing shots array");
+          }
+        } catch (e) {
+          const errEl = document.getElementById('json-error');
+          errEl.innerText = "Invalid JSON structure! Ensure root is an array of scenarios with a 'shots' list.";
+          errEl.style.display = 'block';
+        }
+      }
+
+      function loadPresetScenario() {
+        jsonInput.value = JSON.stringify(SCENARIOS, null, 2);
+        document.getElementById('json-error').style.display = 'none';
+      }
+
       function loop() {
         const rect = canvas.getBoundingClientRect();
         ctx.clearRect(0, 0, rect.width, rect.height);
 
-        const sc = SCENARIOS[currentIdx];
+        const sc = SCENARIOS[currentScenarioIdx];
+        const shot = sc.shots[currentShotIdx];
 
-        // 1. Draw High-Contrast Geometric Court Lines
+        // 1. Draw Geometric Court Lines
         ctx.strokeStyle = '#1e283d';
         ctx.lineWidth = 2;
 
@@ -355,9 +501,20 @@
         ctx.moveTo(netL.x, netL.y); ctx.lineTo(netR.x, netR.y);
         ctx.stroke();
 
-        // 2. Draw Player Entities
-        const pPos = toScreen(sc.player.x, sc.player.y);
-        const oPos = toScreen(sc.opponent.x, sc.opponent.y);
+        // 2. Render Past Shots Rally History
+        rallyHistory.forEach(h => {
+          const p1 = toScreen(h.from.x, h.from.y);
+          const p2 = toScreen(h.to.x, h.to.y);
+          ctx.strokeStyle = h.isCorrect ? 'rgba(0, 230, 118, 0.4)' : 'rgba(255, 51, 102, 0.4)';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([4, 4]);
+          ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+          ctx.setLineDash([]);
+        });
+
+        // 3. Draw Players
+        const pPos = toScreen(shot.player.x, shot.player.y);
+        const oPos = toScreen(shot.opponent.x, shot.opponent.y);
 
         // Opponent (Pink)
         ctx.fillStyle = '#ff3366';
@@ -367,22 +524,19 @@
         ctx.fillStyle = '#00e676';
         ctx.beginPath(); ctx.arc(pPos.x, pPos.y, 9, 0, Math.PI * 2); ctx.fill();
 
-        // 3. Render Freeze State Options
+        // 4. Render Options (Freeze State)
         if (state === 'FREEZE') {
-          sc.options.forEach(opt => {
+          shot.options.forEach(opt => {
             const pos = toScreen(opt.target.x, opt.target.y);
 
-            // Pulsing Ring
             const pulse = Math.sin(Date.now() / 160) * 4;
             ctx.strokeStyle = '#00e676';
             ctx.lineWidth = 2;
             ctx.beginPath(); ctx.arc(pos.x, pos.y, 18 + pulse, 0, Math.PI * 2); ctx.stroke();
 
-            // Core Touch Node
             ctx.fillStyle = 'rgba(0, 230, 118, 0.25)';
             ctx.beginPath(); ctx.arc(pos.x, pos.y, 16, 0, Math.PI * 2); ctx.fill();
 
-            // Option Text Label
             ctx.fillStyle = '#ffffff';
             ctx.font = '600 12px -apple-system, sans-serif';
             ctx.textAlign = 'center';
@@ -390,13 +544,12 @@
           });
         }
 
-        // 4. Render Spatial Reveal Overlay Vectors
+        // 5. Render Reveal Overlay
         if (state === 'REVEAL' && selectedOption) {
           const tPos = toScreen(selectedOption.target.x, selectedOption.target.y);
           const isCorrect = selectedOption.isCorrect;
           const strokeColor = isCorrect ? '#00e676' : '#ff3366';
 
-          // Trajectory Path Line
           ctx.strokeStyle = strokeColor;
           ctx.lineWidth = 3.5;
           ctx.setLineDash([6, 6]);
@@ -406,8 +559,7 @@
           ctx.stroke();
           ctx.setLineDash([]);
 
-          // Geometry Reach Wedge Cone
-          const spread = isCorrect ? 18 : 65; // Narrow cone for correct hip jam; wide cone for open court reach
+          const spread = isCorrect ? 18 : 65;
           ctx.fillStyle = isCorrect ? 'rgba(0, 230, 118, 0.18)' : 'rgba(255, 51, 102, 0.22)';
           ctx.beginPath();
           ctx.moveTo(oPos.x, oPos.y);
@@ -420,7 +572,7 @@
         requestAnimationFrame(loop);
       }
 
-      return { init, handleAction };
+      return { init, handleAction, toggleJsonModal, importJsonScenario, loadPresetScenario };
     })();
 
     window.onload = Engine.init;
