@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>GAMESHARP Tactical Engine</title>
+  <style>
+    :root {
+      --bg: #090c10;
+      --card-bg: #121824;
+      --accent-green: #00e676;
+      --accent-red: #ff3366;
+      --text-main: #f0f4f8;
+      --text-sub: #8a99ad;
+      --border: #1e2638;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+    body { background: var(--bg); color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+    /* dvh accounts for mobile browser chrome without the -webkit-fill-available collapse */
+    @supports (height: 100dvh) { body { height: 100dvh; } }
+
+    /* Top Bar */
+    #header { height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: rgba(18, 24, 36, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); z-index: 10; }
+    .brand { font-weight: 900; tracking: 1.5px; color: var(--accent-green); font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; }
+    .day-tag { font-size: 12px; color: var(--text-sub); font-weight: 600; }
+
+    /* Main Viewport Container */
+    #stage { flex: 1; position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle at center, #111723 0%, #090c10 100%); overflow: hidden; }
+    canvas { width: 100%; height: 100%; display: block; }
+
+    /* Swipeable Insight Card */
+    #card {
+      position: absolute; bottom: 0; left: 0; right: 0; margin: auto; max-width: 500px;
+      background: var(--card-bg); border-top: 2px solid var(--accent-green);
+      padding: 24px 20px 32px 20px; border-radius: 20px 20px 0 0;
+      transform: translateY(105%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 -12px 40px rgba(0,0,0,0.7); z-index: 20; touch-action: none;
+    }
+    #card.visible { transform: translateY(0); }
+    #card.misread { border-top-color: var(--accent-red); }
+
+    .card-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px auto; }
+    .status-badge { display: inline-block; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; padding: 4px 8px; border-radius: 4px; margin-bottom: 10px; }
+    .status-badge.correct { background: rgba(0, 230, 118, 0.15); color: var(--accent-green); }
+    .status-badge.misread { background: rgba(255, 51, 102, 0.15); color: var(--accent-red); }
+
+    .card-title { font-size: 11px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700; }
+    .card-text { font-size: 15px; line-height: 1.45; font-weight: 500; color: var(--text-main); margin-bottom: 20px; }
+
+    .action-btn { width: 100%; padding: 15px; background: var(--accent-green); color: #090c10; border: none; border-radius: 10px; font-weight: 800; font-size: 14px; letter-spacing: 0.5px; cursor: pointer; transition: opacity 0.2s; }
+    .action-btn:active { opacity: 0.85; }
+    .action-btn.retry { background: #26334d; color: var(--text-main); }
+  </style>
+</head>
+<body>
+
+  <div id="header">
+    <div class="brand">GAMESHARP</div>
+    <div class="day-tag" id="day-indicator">Day 1 • The Trapped Volleyer</div>
+  </div>
+
+  <div id="stage">
+    <canvas id="canvas"></canvas>
+
+    <div id="card">
+      <div class="card-handle"></div>
+      <div id="badge" class="status-badge correct">Tactical Revelation</div>
+      <div id="card-subtitle" class="card-title">Court Rule #1</div>
+      <p id="card-text" class="card-text">Loading insight...</p>
+      <button id="action-btn" class="action-btn" onclick="Engine.handleAction()">Continue</button>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * GameSharp Scenario Repository (Data Layer)
+     */
+    const SCENARIOS = [
+      {
+        id: 1,
+        title: "Day 1 • The Trapped Volleyer",
+        ruleTitle: "Court Rule #1",
+        player: { x: 0.2, y: 1.7 }, // Deep wide backhand corner
+        opponent: { x: 0.0, y: 0.6 }, // Approaching net at service line
+        options: [
+          {
+            id: 'A',
+            label: 'Open Court',
+            target: { x: -0.7, y: 0.2 },
+            isCorrect: false,
+            revelation: "Open court feels right, but gives the volleyer a full 160° wing-reach to hit an unreturnable drop volley."
+          },
+          {
+            id: 'B',
+            label: 'Right Hip',
+            target: { x: 0.05, y: 0.58 },
+            isCorrect: true,
+            revelation: "Attacking the dominant hip shrinks their reaction wing to under 30°, forcing a weak pop-up."
+          }
+        ],
+        ruleText: "When an opponent rushes the net: Stop looking at open space. Aim directly for their dominant hip."
+      },
+      {
+        id: 2,
+        title: "Day 2 • The Deep Crosscourt Lie",
+        ruleTitle: "Court Rule #2",
+        player: { x: -0.6, y: 1.6 },
+        opponent: { x: 0.0, y: 0.2 },
+        options: [
+          {
+            id: 'A',
+            label: 'Deep Corner',
+            target: { x: 0.75, y: 0.2 },
+            isCorrect: false,
+            revelation: "Deep balls take 1.4s to travel. Without lateral displacement, your opponent takes it early on the rise and steals your recovery time."
+          },
+          {
+            id: 'B',
+            label: 'Short Angle',
+            target: { x: 0.75, y: 0.7 },
+            isCorrect: true,
+            revelation: "Working the short side-T forces the opponent 4.5 meters off court, expanding your next target geometry by 200%."
+          }
+        ],
+        ruleText: "Depth without angle gives your opponent time. Work the short side-T to open the court geometry."
+      },
+      {
+        id: 3,
+        title: "Day 3 • The Invisible Recovery Step",
+        ruleTitle: "Court Rule #3",
+        player: { x: 0.0, y: 1.8 },
+        opponent: { x: 0.6, y: 0.3 },
+        options: [
+          {
+            id: 'A',
+            label: 'Recover to Center',
+            target: { x: 0.0, y: 1.8 },
+            isCorrect: false,
+            revelation: "Defaulting to center baseline leaves you vulnerable to behind-the-body wrong-footing against aggressive counters."
+          },
+          {
+            id: 'B',
+            label: 'Shaded Bisector',
+            target: { x: 0.3, y: 1.7 },
+            isCorrect: true,
+            revelation: "Always recover to the bisector of your opponent's available shot angles, not the geometric middle of the court."
+          }
+        ],
+        ruleText: "Never recover to the middle of the court. Recover to the middle of their safest two targets."
+      }
+    ];
+
+    /**
+     * Core Render & Physics Engine
+     */
+    const Engine = (function() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const cardEl = document.getElementById('card');
+
+      let currentIdx = 0;
+      let state = 'FREEZE'; // FREEZE, REVEAL
+      let selectedOption = null;
+      let dpr = window.devicePixelRatio || 1;
+
+      // Coordinate Transform Matrix (Court relative to Screen Pixels)
+      let courtBounds = { left: 0, top: 0, width: 0, height: 0, scale: 1 };
+
+      function init() {
+        resize();
+        window.addEventListener('resize', resize);
+        setupGestures();
+        loadScenario(0);
+        requestAnimationFrame(loop);
+      }
+
+      function resize() {
+        dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+
+        // Calculate Responsive Isometric Court Box (Keeps court perfectly proportioned & off card)
+        const availWidth = rect.width * 0.85;
+        const availHeight = rect.height * 0.62; // Reserve lower 38% for card & interaction space
+
+        const courtRatio = 0.55; // width / length ratio
+        let cWidth = availWidth;
+        let cHeight = cWidth / courtRatio;
+
+        if (cHeight > availHeight) {
+          cHeight = availHeight;
+          cWidth = cHeight * courtRatio;
+        }
+
+        courtBounds = {
+          left: (rect.width - cWidth) / 2,
+          top: 54, // Clear top bar
+          width: cWidth,
+          height: cHeight,
+          scale: cWidth / 2.0 // Map [-1, 1] court width to pixel scale
+        };
+      }
+
+      // Convert Tactical Coordinates (X: [-1, 1], Y: [0, 2]) to Screen Pixels
+      function toScreen(x, y) {
+        return {
+          x: courtBounds.left + courtBounds.width / 2 + (x * courtBounds.scale),
+          y: courtBounds.top + (y / 2.0 * courtBounds.height)
+        };
+      }
+
+      function loadScenario(idx) {
+        currentIdx = idx;
+        state = 'FREEZE';
+        selectedOption = null;
+        cardEl.classList.remove('visible', 'misread');
+
+        const sc = SCENARIOS[currentIdx];
+        document.getElementById('day-indicator').innerText = sc.title;
+        document.getElementById('card-subtitle').innerText = sc.ruleTitle;
+      }
+
+      function handleTap(evt) {
+        if (state !== 'FREEZE') return;
+
+        // toScreen() works in canvas-local space, so convert the tap out of viewport space
+        const rect = canvas.getBoundingClientRect();
+        const tapX = (evt.touches ? evt.touches[0].clientX : evt.clientX) - rect.left;
+        const tapY = (evt.touches ? evt.touches[0].clientY : evt.clientY) - rect.top;
+
+        const sc = SCENARIOS[currentIdx];
+
+        // Take the nearest option inside the radius, not the last one that happens to match
+        let nearest = null;
+        let nearestDist = Infinity;
+
+        for (const opt of sc.options) {
+          const pos = toScreen(opt.target.x, opt.target.y);
+          const dist = Math.hypot(tapX - pos.x, tapY - pos.y);
+
+          if (dist < 48 && dist < nearestDist) { // Generous 48px hit target
+            nearest = opt;
+            nearestDist = dist;
+          }
+        }
+
+        if (nearest) {
+          selectedOption = nearest;
+          state = 'REVEAL';
+          if (navigator.vibrate) navigator.vibrate(35);
+          showInsight(nearest);
+        }
+      }
+
+      function showInsight(option) {
+        const sc = SCENARIOS[currentIdx];
+        const badge = document.getElementById('badge');
+        const text = document.getElementById('card-text');
+        const btn = document.getElementById('action-btn');
+
+        if (option.isCorrect) {
+          cardEl.classList.remove('misread');
+          badge.className = "status-badge correct";
+          badge.innerText = "Tactical Revelation";
+          text.innerText = `${option.revelation}\n\n${sc.ruleText}`;
+          btn.className = "action-btn";
+          btn.innerText = currentIdx < SCENARIOS.length - 1 ? `Continue to Day ${currentIdx + 2}` : "Restart Loop";
+        } else {
+          cardEl.classList.add('misread');
+          badge.className = "status-badge misread";
+          badge.innerText = "Misread Court Spatial Geometry";
+          text.innerText = `${option.revelation}\n\nNotice how space opens up when targeted differently.`;
+          btn.className = "action-btn retry";
+          btn.innerText = "Try Alternative Angle";
+        }
+
+        setTimeout(() => cardEl.classList.add('visible'), 400);
+      }
+
+      function handleAction() {
+        if (!selectedOption) return;
+
+        if (!selectedOption.isCorrect) {
+          // Retry current day scenario
+          loadScenario(currentIdx);
+        } else {
+          // Advance to next day
+          const nextIdx = (currentIdx + 1) % SCENARIOS.length;
+          loadScenario(nextIdx);
+        }
+      }
+
+      function setupGestures() {
+        canvas.addEventListener('touchstart', handleTap, { passive: true });
+        canvas.addEventListener('mousedown', handleTap);
+
+        // Swipe down commits the card's action, so the gesture can never strand the user
+        // with a hidden card and a REVEAL state that ignores taps.
+        let startY = 0;
+        let swipeHandled = false;
+        cardEl.addEventListener('touchstart', e => {
+          startY = e.touches[0].clientY;
+          swipeHandled = false;
+        }, { passive: true });
+        cardEl.addEventListener('touchmove', e => {
+          if (swipeHandled || !cardEl.classList.contains('visible')) return;
+          const deltaY = e.touches[0].clientY - startY;
+          if (deltaY > 50) {
+            swipeHandled = true;
+            handleAction();
+          }
+        }, { passive: true });
+      }
+
+      function loop() {
+        const rect = canvas.getBoundingClientRect();
+        ctx.clearRect(0, 0, rect.width, rect.height);
+
+        const sc = SCENARIOS[currentIdx];
+
+        // 1. Draw High-Contrast Geometric Court Lines
+        ctx.strokeStyle = '#1e283d';
+        ctx.lineWidth = 2;
+
+        const topLeft = toScreen(-1, 0);
+        const topRight = toScreen(1, 0);
+        const botLeft = toScreen(-1, 2);
+        const botRight = toScreen(1, 2);
+        const netL = toScreen(-1, 1);
+        const netR = toScreen(1, 1);
+        const servTopL = toScreen(-1, 0.5);
+        const servTopR = toScreen(1, 0.5);
+        const servBotL = toScreen(-1, 1.5);
+        const servBotR = toScreen(1, 1.5);
+
+        // Outer Frame
+        ctx.beginPath();
+        ctx.moveTo(topLeft.x, topLeft.y); ctx.lineTo(topRight.x, topRight.y);
+        ctx.lineTo(botRight.x, botRight.y); ctx.lineTo(botLeft.x, botLeft.y);
+        ctx.closePath();
+        ctx.stroke();
+
+        // Service Lines
+        ctx.beginPath();
+        ctx.moveTo(servTopL.x, servTopL.y); ctx.lineTo(servTopR.x, servTopR.y);
+        ctx.moveTo(servBotL.x, servBotL.y); ctx.lineTo(servBotR.x, servBotR.y);
+        ctx.stroke();
+
+        // Net Line Accent
+        ctx.strokeStyle = '#00e676';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(netL.x, netL.y); ctx.lineTo(netR.x, netR.y);
+        ctx.stroke();
+
+        // 2. Draw Player Entities
+        const pPos = toScreen(sc.player.x, sc.player.y);
+        const oPos = toScreen(sc.opponent.x, sc.opponent.y);
+
+        // Opponent (Pink)
+        ctx.fillStyle = '#ff3366';
+        ctx.beginPath(); ctx.arc(oPos.x, oPos.y, 9, 0, Math.PI * 2); ctx.fill();
+
+        // Player (Green)
+        ctx.fillStyle = '#00e676';
+        ctx.beginPath(); ctx.arc(pPos.x, pPos.y, 9, 0, Math.PI * 2); ctx.fill();
+
+        // 3. Render Freeze State Options
+        if (state === 'FREEZE') {
+          sc.options.forEach(opt => {
+            const pos = toScreen(opt.target.x, opt.target.y);
+
+            // Pulsing Ring
+            const pulse = Math.sin(Date.now() / 160) * 4;
+            ctx.strokeStyle = '#00e676';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(pos.x, pos.y, 18 + pulse, 0, Math.PI * 2); ctx.stroke();
+
+            // Core Touch Node
+            ctx.fillStyle = 'rgba(0, 230, 118, 0.25)';
+            ctx.beginPath(); ctx.arc(pos.x, pos.y, 16, 0, Math.PI * 2); ctx.fill();
+
+            // Option Text Label
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '600 12px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(opt.label, pos.x, pos.y + 32);
+          });
+        }
+
+        // 4. Render Spatial Reveal Overlay Vectors
+        if (state === 'REVEAL' && selectedOption) {
+          const tPos = toScreen(selectedOption.target.x, selectedOption.target.y);
+          const isCorrect = selectedOption.isCorrect;
+          const strokeColor = isCorrect ? '#00e676' : '#ff3366';
+
+          // Trajectory Path Line
+          ctx.strokeStyle = strokeColor;
+          ctx.lineWidth = 3.5;
+          ctx.setLineDash([6, 6]);
+          ctx.beginPath();
+          ctx.moveTo(pPos.x, pPos.y);
+          ctx.lineTo(tPos.x, tPos.y);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Geometry Reach Wedge Cone
+          const spread = isCorrect ? 18 : 65; // Narrow cone for correct hip jam; wide cone for open court reach
+          ctx.fillStyle = isCorrect ? 'rgba(0, 230, 118, 0.18)' : 'rgba(255, 51, 102, 0.22)';
+          ctx.beginPath();
+          ctx.moveTo(oPos.x, oPos.y);
+          ctx.lineTo(tPos.x - spread, tPos.y);
+          ctx.lineTo(tPos.x + spread, tPos.y);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        requestAnimationFrame(loop);
+      }
+
+      return { init, handleAction };
+    })();
+
+    window.onload = Engine.init;
+  </script>
+</body>
+</html>
