@@ -1,5 +1,10 @@
 # Animation Review Queue — RESOLVED (2026-06)
 
+Historical June review only. “Resolved” below describes that batch, not current
+whole-app visual truth or approval to reactivate these renderers. Current
+contracts and launch eligibility supersede these mappings. See the dated
+[alignment and open-defect record](../gamesharp-tennis-alignment/PROJECT_ALIGNMENT.md).
+
 All 41 topic-mismatch questions reassigned to a content-matched animation
 (34 changed, 7 already correct). Rule applied: *the animation depicts THIS
 decision, or it shows none.*

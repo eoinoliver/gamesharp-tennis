@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GameSharp · High Ball evidence proof</title>
+<link rel="stylesheet" href="../../gold-daily-prototypes.css">
+<style>
+body{margin:0}.proof .gs-gold-daily-step{max-width:560px}.proof header{text-align:center;padding:15px 0;color:#c8a84b;letter-spacing:2px;font-weight:800;font-size:14px}
+.proof .proof-status{text-align:center;color:#adb7a6;font-size:12px;margin:0 0 20px}.proof .proof-tabs{display:flex;gap:6px;margin:0 0 20px}.proof .proof-tabs button{flex:1;min-height:44px;background:#17291c;border:1px solid #53604c;border-radius:10px;color:inherit;font-size:13px}.proof button[aria-pressed=true]{border-color:#d3e267;background:#243c21}
+.proof .proof-stage{border:1px solid #365036;border-radius:16px;overflow:hidden}.proof svg{display:block;width:100%;height:auto}.proof .proof-tools{display:flex;gap:5px;justify-content:flex-end;padding:5px}.proof .proof-tools button{min-height:44px;border:0;border-radius:8px;color:#dddcca;background:#203423;font-size:12px;padding:8px}
+.proof .proof-cues{display:flex;justify-content:space-around;font-size:11px;line-height:1.4;padding:10px 5px;min-height:37px;color:#c7d0bd}.proof .proof-cues span{transition:opacity .2s}.proof .proof-frame{background:#0e2417}
+.proof .proof-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.proof .proof-actions button{min-height:48px;padding:8px;border-radius:12px;border:1px solid #61704f;background:#192b1c;color:inherit;font-size:14px}
+.proof .proof-feedback{font-size:15px;line-height:1.5;min-height:85px;color:#d9dfcb;margin:16px 0}.proof .proof-explain{font-size:12px;line-height:1.5;color:#a9b4a1;margin:16px 0}.proof .proof-question{font-size:22px;line-height:1.2;margin:16px 0 12px}.proof .proof-actions[data-ready=false]{opacity:.35}
+.proof .proof-focus{position:fixed;inset:0;z-index:9;background:#0b170f;padding:16px;display:flex;flex-direction:column;justify-content:center}.proof .proof-focus[hidden]{display:none}.proof .proof-focus .proof-frame{width:min(100%,calc((100dvh - 130px)*1.627),960px);margin:auto}.proof .proof-focus button{min-height:44px;align-self:flex-end;background:#233b25;color:white;border:1px solid #809172;border-radius:8px;padding:10px}.proof .proof-focus h2{font-size:17px;margin:0}.proof .proof-focus p{font-size:12px;color:#b9c8b0}
+@media(prefers-reduced-motion:reduce){.proof *{transition:none!important}}
+</style></head><body>
+<div class="gs-gold-daily proof"><div class="gs-gold-daily-shell">
+<header>GAMESHARP</header><p class="proof-status">Local visual proof · not scored · no sound</p>
+<nav class="proof-tabs" aria-label="Evidence cases"><button data-case="0">1 · Shorter</button><button data-case="1">2 · Deeper</button><button data-case="2">3 · More space</button></nav>
+<main class="gs-gold-daily-step is-guided-coaching">
+<div class="gs-gold-daily-step-meta"><div class="gs-gold-daily-step-copy"><span>One High Ball. Two Opposite Answers.</span></div><span class="gs-gold-daily-step-count"></span></div>
+<p class="gs-gold-daily-coach-setup" id="setup"></p>
+<section class="proof-stage" aria-label="Ball and player evidence"><div class="proof-tools"><button id="captions" aria-pressed="true">Labels on</button><button id="focus">Expand</button><button id="replay">Replay</button></div><div class="proof-cues"><span>1 · Landing</span><span>2 · Your position</span><span>3 · Ball height</span></div><div class="proof-frame" id="frame"></div></section>
+<h1 class="proof-question" tabindex="-1" aria-describedby="setup">Compare your movement</h1>
+<div class="proof-actions"><button data-move="forward">Step in</button><button data-move="hold">Hold depth</button><button data-move="back">Give ground</button></div>
+<p class="proof-feedback" aria-live="polite"></p>
+<p class="proof-explain">This tests the visual, not a finished lesson. Each choice replays the same ball. The faint body band marks this player's contact range; it is not a universal technique rule. A contact sample is not a completed shot.</p>
+</main></div>
+<div class="proof-focus" hidden role="dialog" aria-modal="true" aria-labelledby="focus-title"><h2 id="focus-title">High Ball · same live evidence</h2><button id="close-focus">Close</button><div class="proof-frame" id="focus-frame"></div><p>Same camera, ball and player. Close to compare another movement.</p></div>
+</div><script src="../../gold-daily-high-ball.js"></script><script>
+const E=HighBallEvidence,$=s=>document.querySelector(s);let index=0,action=null,t=0,raf=0,labels=true,ended=false,startClock=0,focusOpen=false;
+const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+function draw(){const html=E.svg(E.scenes[index],t,action,labels);$('#frame').innerHTML=html;if(focusOpen)$('#focus-frame').innerHTML=html;document.querySelectorAll('.proof-cues span').forEach((e,i)=>{e.style.opacity=labels&&(reduced()||t>=[.35,1.02,1.4][i])?'1':'0'});$('.proof-actions').dataset.ready=String(ended);}
+function feedback(){const s=E.scenes[index],c=E.contact(s,action);if(!action)return;const observation=!c?'The second bounce arrives before that contact position.':c.comfortable?'The ball reaches a comfortable height at this position.':'The ball is above this player’s comfortable contact range.';$('.proof-feedback').textContent=observation+' '+(action===s.best?s.note:action==='hold'&&index===0?'Waiting is possible here, but stepping in uses the available time and court.':'Compare another movement on the same ball.');}
+function frame(now){t=Math.min((now-startClock)/1800,action?(E.contact(E.scenes[index],action)?.t||E.end):E.readEnd);const end=action?(E.contact(E.scenes[index],action)?.t||E.end):E.readEnd;ended=t>=end;draw();if(ended)feedback();else raf=requestAnimationFrame(frame);}
+function play(move=null){cancelAnimationFrame(raf);action=move;ended=false;$('.proof-feedback').textContent='';document.querySelectorAll('[data-move]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.move===move)));if(reduced()){t=move?(E.contact(E.scenes[index],move)?.t||E.end):E.readEnd;ended=true;draw();feedback();}else{t=0;startClock=performance.now();draw();raf=requestAnimationFrame(frame)}}
+function select(i){index=i;$('#setup').textContent=E.scenes[i].setup;$('.gs-gold-daily-step-count').textContent=(i+1)+' of 3';document.querySelectorAll('[data-case]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.case===i)));play();}
+document.querySelectorAll('[data-case]').forEach(b=>b.onclick=()=>select(+b.dataset.case));document.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>play(b.dataset.move));$('#replay').onclick=()=>play(action);$('#captions').onclick=()=>{labels=!labels;$('#captions').textContent=labels?'Labels on':'Labels off';$('#captions').setAttribute('aria-pressed',String(labels));draw()};
+function closeFocus(){focusOpen=false;$('.proof-focus').hidden=true;$('.gs-gold-daily-shell').inert=false;$('#focus').focus({preventScroll:true});}
+$('#focus').onclick=()=>{focusOpen=true;$('.proof-focus').hidden=false;$('.gs-gold-daily-shell').inert=true;draw();$('#close-focus').focus()};$('#close-focus').onclick=closeFocus;document.addEventListener('keydown',e=>{if(focusOpen&&e.key==='Escape')closeFocus();if(focusOpen&&e.key==='Tab'){e.preventDefault();$('#close-focus').focus()}});
+window.proof={select,play,get state(){return {index,action,t,ended,labels}},seek(time){cancelAnimationFrame(raf);t=time;ended=true;draw();feedback()}};select(0);
+</script></body></html>

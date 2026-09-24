@@ -5,6 +5,7 @@
 // Routed via vercel.json:  /s/:id -> ?id=,  /play/:pid -> ?play=
 // Zero dependencies; share-data.json is regenerated from QBANK when content changes.
 const data = require('../share-data.json');
+const release = require('../gamesharp-release-policy.js');
 
 const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
   .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -13,21 +14,22 @@ module.exports = (req, res) => {
   const { id = '', play = '' } = req.query || {};
   const HOST = 'https://www.gamesharptennis.com';
   let title, desc, dest;
-  if (play && data.play[play]) {
+  if (play && release.isPlaybookReleased(play) && data.play[play]) {
     const p = data.play[play];
     title = p.t + ' — GAMESHARP Tennis';
     desc  = p.g || 'Watch the pattern move, then drill it.';
     dest  = '/?play=' + encodeURIComponent(play);
-  } else if (id && data.q[id]) {
+  } else if (!play && id && release.isQuestionReleased(id) && data.q[id]) {
     const q = data.q[id];
     title = q.t;
     desc  = 'Make the call — ' + (q.m ? q.m + ' · ' : '') + 'GAMESHARP Tennis';
     dest  = '/?p=' + encodeURIComponent(id);
   } else {
-    // Unknown id: fall back to the homepage (still unfurls the hero card).
-    title = 'GAMESHARP Tennis — See the game differently';
-    desc  = 'Decision training that sharpens how you read every point.';
-    dest  = '/';
+    // Never unfurl withheld teaching or silently substitute another scenario.
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-store');
+    res.status(404).send('<!doctype html><html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Item unavailable — GAMESHARP</title><body style="background:#0d1a0f;color:#fff;font:18px system-ui;padding:32px"><h1>This item is unavailable</h1><p>This older item is not in the current reviewed collection.</p><a style="color:#e6cf83" href="/?goldDaily=1">Choose a current lesson</a></body></html>');
+    return;
   }
   const url = HOST + (req.url || '/');
   res.setHeader('Content-Type', 'text/html; charset=utf-8');

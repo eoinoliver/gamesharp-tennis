@@ -1,335 +1,456 @@
-(function(){
+(function(root){
 'use strict';
-const STORE_KEY='gamesharp_pain_coach_v1';
-const DRAFT_KEY='gamesharp_pain_coach_draft_v1';
-const FEEDBACK=['Yes, noticeably','A little','Not really','I haven’t tried it yet'];
-const PAIN_ALIASES={lose_to_worse:'style',style:'style',choke:'pressure',pressure:'pressure',serve:'serve',decisions:'decisions'};
-const ROUTE_COVERAGE={forehand:'Strong',backhand:'Strong',serve:'Partial',net:'Strong',pressure:'Strong',decisions:'Strong',position:'Strong',read:'Strong',style:'Strong',technique:'Partial',confidence:'Strong',unknown:'Partial'};
-const ASSETS={
-  mod_forehand:{type:'Module',title:'Forehand',kind:'module',pillar:'Technique',module:'Forehand'},
-  mod_backhand:{type:'Module',title:'Backhand',kind:'module',pillar:'Technique',module:'Backhand'},
-  mod_serve:{type:'Module',title:'Serve Mechanics',kind:'module',pillar:'Technique',module:'Serve Mechanics'},
-  mod_pressure:{type:'Module',title:'Pressure Points',kind:'module',pillar:'Mental',module:'Pressure Points'},
-  mod_decisions:{type:'Module',title:'Rally Tactics',kind:'module',pillar:'Win More',module:'Rally Tactics'},
-  mod_position:{type:'Module',title:'Movement & Footwork',kind:'module',pillar:'Technique',module:'Movement & Footwork'},
-  mod_read:{type:'Module',title:'Reading the Game',kind:'module',pillar:'Game IQ',module:'Reading the Game'},
-  mod_styles:{type:'Module',title:'Beat Opponent Types',kind:'module',pillar:'Win More',module:'Beat Opponent Types'},
-  mod_mindset:{type:'Module',title:'Match Mindset',kind:'module',pillar:'Mental',module:'Match Mindset'},
-  mod_routine:{type:'Module',title:'Between-Point Routine',kind:'module',pillar:'Mental',module:'Between-Point Routine'},
-  mod_return:{type:'Module',title:'Return of Serve',kind:'module',pillar:'Win More',module:'Return of Serve'},
-  mod_net:{type:'Module',title:'Net Play',kind:'module',pillar:'Win More',module:'Net Play'},
-  mod_net_technique:{type:'Module',title:'Volley Technique',kind:'module',pillar:'Technique',module:'Net Play'},
-  seq_wide:{type:'Predict the Point',title:'Wide Serve Pattern',kind:'sequence',id:'seq_001'},
-  seq_pusher:{type:'Predict the Point',title:'Beat the Pusher',kind:'sequence',id:'seq_003'},
-  seq_moon:{type:'Predict the Point',title:'Beat the Moonballer',kind:'sequence',id:'seq_004'},
-  seq_close:{type:'Predict the Point',title:'Closing Out a Set',kind:'sequence',id:'seq_005'},
-  seq_return:{type:'Predict the Point',title:'Return Pressure Sequence',kind:'sequence',id:'seq_006'},
-  seq_defend:{type:'Predict the Point',title:'Defending Under Pressure',kind:'sequence',id:'seq_008'},
-  seq_approach:{type:'Predict the Point',title:'Approach Shot Sequence',kind:'sequence',id:'seq_009'},
-  seq_tiebreak:{type:'Predict the Point',title:'Tiebreak Discipline',kind:'sequence',id:'seq_011'},
-  seq_direction:{type:'Predict the Point',title:'Change Direction Sequence',kind:'sequence',id:'seq_015'},
-  seq_recovery:{type:'Predict the Point',title:'Recovery After Being Pulled Wide',kind:'sequence',id:'seq_017'},
-  seq_weakwing:{type:'Predict the Point',title:'Attack the Backhand Pattern',kind:'sequence',id:'seq_018'},
-  seq_bigserver:{type:'Predict the Point',title:'Playing the Big Server',kind:'sequence',id:'seq_019'},
-  seq_sv:{type:'Predict the Point',title:'Exploit the Serve and Volley',kind:'sequence',id:'seq_020'},
-  fault_forehand:{type:'Fix a Shot',title:'Forehand fault mirror',kind:'fault',group:'forehand'},
-  fault_serve:{type:'Fix a Shot',title:'Serve fault mirror',kind:'fault',group:'serve'},
-  fault_volley:{type:'Fix a Shot',title:'Volley fault mirror',kind:'fault',group:'volley'},
-  fault_spacing:{type:'Fix a Shot',title:'Spacing / Jam fault mirror',kind:'fault',group:'spacing'},
-  fault_library:{type:'Fix a Shot',title:'Choose the stroke that felt wrong',kind:'faultLibrary'},
-  daily:{type:'Daily Challenge',title:"Today's four quick calls",kind:'daily'}
-};
-const A=(label,issue,read,lens,focus,cue,assets)=>({label,issue,read,lens,focus,cue,assets});
-const ROUTES={
-  forehand:{label:'Forehand breaking down',question:'What did the forehand miss look like most often?',answers:[
-    A('Jammed or off the frame','A spacing problem may be arriving before the swing','If the ball reaches your body before your feet make room, even a sound forehand becomes cramped. The contact is the symptom; the lost space started earlier.','The final swing is easy to blame because it is visible. The more useful evidence is the distance between your body and the ball before the racket moves.','Create hitting space before you change the swing.','Make room. Meet it out front.',['fault_spacing','mod_position']),
-    A('Late and pushed wide','Preparation may be starting after the bounce','A late contact often begins with a late first read. The incoming depth and pace should trigger the turn before the ball reaches your side of the court.','“Swing earlier” is incomplete. Earlier recognition gives the feet and shoulders time to organise without rushing the arm.','Turn on the read, not at contact.','Read. Turn. Then move.',['mod_forehand','fault_forehand']),
-    A('Into the net','The swing may be losing shape under pressure','Repeated net misses often come from a finish that shortens or decelerates. The decision can be right while the execution stops halfway.','The net is not always an aiming mistake. Under pressure it often exposes a swing that no longer travels through the ball.','Keep racket speed through a high-margin shape.','Finish the thought.',['fault_forehand','mod_forehand']),
-    A('Long or flying','Balance may be sending the ball upward','If your weight is drifting backward, the racket path and face can lift the ball even when the intended target is sensible.','The miss occurs at the strings, but the direction of your body through contact often chose the trajectory first.','Finish balanced into the court.','Up and in—not back.',['fault_forehand','mod_position']),
-    A('Only on important points','Pressure may be changing selection before technique','If the breakdown appears mainly at big scores, check whether you are attacking a neutral ball or shrinking the swing. The score may be changing the decision that precedes the miss.','A “forehand problem” that vanishes at 15–love is often partly a pressure-pattern problem.','Use the same trusted pattern at important scores.','Normal ball. Normal shape.',['mod_pressure','seq_close']),
-    A('I’m not sure','Separate the incoming ball from the final miss','Start by noticing depth, balance and contact position. Those three observations distinguish a movement leak from a swing-shape leak.','Do not diagnose from the outcome alone. Two balls can both land long for completely different reasons.','Collect one clean piece of evidence before changing anything.','Depth. Balance. Contact.',['fault_forehand','mod_forehand'])
-  ]},
-  backhand:{label:'Backhand breaking down',question:'What did the backhand problem look like most often?',answers:[
-    A('Jammed or reaching','Spacing may be breaking before the stroke','A backhand needs enough room for the shoulders and racket to travel through contact. Crowding and reaching can create opposite-looking misses from the same spacing problem.','The strings report the final error, but the useful evidence is how far the ball was from your body when the turn began.','Create the hitting distance before changing the swing.','Turn. Make room. Meet it.',['mod_backhand','fault_library']),
-    A('Late or pushed wide','Preparation may be starting after the ball has already arrived','Backhand timing often depends on recognising depth early enough to turn and organise the feet. Trying to accelerate the arm later rarely repays a delayed first read.','“Swing sooner” treats the visible ending. Earlier recognition creates the time the stroke was missing.','Trigger the shoulder turn from the incoming ball, not the bounce beside you.','Read early. Turn together.',['mod_backhand','fault_library']),
-    A('Into the net','The swing may be shortening through contact','A repeated net miss can come from deceleration, a falling base or contact drifting too far back. The miss direction is evidence, not proof of one cause.','Do not automatically aim higher. First notice whether the body and racket continued through the contact.','Keep a balanced base and complete the intended shape.','Base first. Finish through.',['mod_backhand','fault_library']),
-    A('Long or floating','Balance or racket-face control may be lifting the ball','If the body moves away from contact or spacing collapses, the racket face can lose its repeatable window. More arm effort may magnify rather than solve it.','A long backhand is not automatically a target mistake. Check body direction and contact position before changing aim.','Hold balance through a clear contact window.','Stable body. Clear window.',['mod_backhand','seq_defend']),
-    A('High or heavy balls caused it','Contact height may require a positional decision before a technical one','A rising heavy ball can be taken earlier when time and skill allow, or managed with more space until it returns to a controllable height. The depth of the ball decides which option is realistic.','The useful distinction is not simply “high ball.” Short may invite you in; deep may force you to buy time.','Read depth before choosing where to meet the bounce.','Short: take time. Deep: make time.',['mod_backhand','seq_moon']),
-    A('I’m not sure','Separate spacing, timing and ball height','Notice whether you were crowded, late or contacting outside a comfortable height. Those observations are safer than rebuilding a backhand from the result alone.','A backhand can miss for several interacting reasons. The first focus should remain a testable hypothesis.','Collect one repeating clue before changing mechanics.','Space. Time. Height.',['mod_backhand','fault_library'])
-  ]},
-  serve:{label:'Serve unreliable',question:'Which serve problem repeated most?',answers:[
-    A('The toss moved around','The serve may be following an unstable first event','When the toss changes location, every later movement becomes a rescue. Rhythm and contact cannot repeat if the ball starts somewhere new.','The toss is not decoration before the serve; it is the first piece of shot direction and spacing.','Make the toss repeatable before adding pace.','Same release. Same window.',['fault_serve','mod_serve']),
-    A('Too many double faults','The second serve may lack a trusted shape','Double faults often grow when the player tries to guide the ball rather than commit to a repeatable spin and target. Safety without shape becomes hesitation.','The safest second serve is not the slowest one. It is the one with the clearest margin and fullest commitment.','Choose one second-serve shape and own it.','Spin to space—not hope.',['mod_serve','seq_wide']),
-    A('First serve kept missing long','Contact height or body direction may be leaking','A low contact or backward-moving body can send the serve outward instead of up-and-down into the box. More effort usually magnifies it.','A serve that lands long can be an angle problem before it is a power problem.','Reach fully and drive upward into court.','Reach up. Land in.',['fault_serve','mod_serve']),
-    A('No pace or weight','Tension may be disconnecting the chain','Trying to muscle the serve can tighten the arm and remove the contribution of the legs and trunk. Effort rises while racket speed falls.','The serve often feels weaker precisely when the player tries hardest with the smallest part of the chain.','Create speed from a loose, connected motion.','Loose arm. Drive up.',['fault_serve','mod_serve']),
-    A('The returner read it early','The pattern may be too visible or repetitive','A reliable serve still becomes vulnerable if location and next-ball intent are obvious. Similar preparation with trusted variation protects the pattern.','The serve is not finished at the bounce. Its value depends on the reply it is designed to create.','Serve with the next ball already chosen.','Location plus one.',['seq_wide','mod_serve']),
-    A('I’m not sure','Stabilise the start before judging the whole motion','Track toss location, contact height and miss direction for ten serves. That evidence is more useful than changing several mechanics at once.','Serve diagnosis becomes guesswork when every repetition changes. Make the experiment repeatable first.','Test one variable at a time.','Ten serves. One change.',['mod_serve','fault_serve'])
-  ]},
-  net:{label:'Volley or net play breaking down',question:'Which net problem repeated most?',answers:[
-    A('The volley swing became too big','The racket may be trying to manufacture pace it already receives','A groundstroke-sized backswing costs time at net and makes the contact window harder to repeat. A compact set lets the incoming ball provide much of the speed.','The volley is not a shortened groundstroke. Its advantage comes from early preparation, stability and simple redirection.','Set the racket early and keep the contact compact.','Set. Meet. Hold.',['mod_net_technique','fault_volley']),
-    A('Volleys floated or popped up','The racket face or body line may be losing stability','A floating volley can come from an opening face, late contact or the body falling away. The ball flight narrows the test but does not prove one mechanical cause.','Trying to chop down harder often adds movement to an already unstable contact.','Stabilise the face and move through a generous target.','Quiet face. Strong line.',['mod_net_technique','fault_volley']),
-    A('I arrived in the wrong position','Position may not be following the approach shot','Your best net position changes with the direction and quality of the approach. Moving with the ball and splitting before opponent contact protects more passing lanes.','The volley is often won or lost during the flight of your previous shot.','Follow the ball, then split before the pass.','Hit. Close. Split.',['mod_net','seq_approach']),
-    A('I approached on the wrong ball','Short landing depth may be hiding poor contact quality','A short ball invites the approach, but late or off-balance contact can leave the opponent time and angle. Both the incoming ball and your contact must support the move forward.','The approach is earned twice: by the ball you receive and the ball you produce.','Go forward only from a short ball and balanced contact.','Short and balanced—then go.',['mod_net','seq_approach']),
-    A('It broke down under pressure','Pressure may be enlarging the swing or freezing the feet','If the volley works in ordinary play, big points may be changing preparation, movement or target size rather than revealing a completely new stroke.','Do not rebuild a functional volley because the score changed its tempo. Protect one stable cue.','Use the same compact preparation and a larger target.','Compact set. Big window.',['mod_net_technique','seq_approach']),
-    A('I’m not sure','Separate contact, position and approach selection','Notice whether the first problem was the racket contact, where you arrived, or the ball you chose to approach behind. Those require different fixes.','“Bad at net” is too broad to train. Find which decision happened first.','Identify the first failing link before choosing a cue.','Contact. Position. Selection.',['mod_net_technique','fault_volley'])
-  ]},
-  pressure:{label:'Losing important points',question:'What changed most when the score tightened?',answers:[
-    A('I rushed between points','The next point may be starting before the previous one ends','A shortened routine carries emotion and tempo directly into the next decision. The tactical error can begin before you reach the line.','Pressure often changes time first: quicker walk, quicker breath, quicker decision. Restoring tempo protects everything downstream.','Use one repeatable reset before choosing the pattern.','Turn away. Exhale. Decide.',['mod_routine','seq_tiebreak']),
-    A('I went for too much','The score may be turning neutral balls into false opportunities','Trying to “win the big point” can make ordinary balls look attackable. The issue is classification, not courage.','The final miss is not the first error if the ball was never truly attacking quality.','Keep the target margin until the ball earns more.','Big point. Big target.',['mod_pressure','seq_close']),
-    A('I became passive','Fear may be removing commitment from the trusted pattern','Playing not to miss often produces shorter balls and unclear movement. Margin is useful; indecision is not.','Conservative selection and tentative execution are different. Choose safety, then execute it fully.','Commit to the highest-percentage pattern.','Safer choice. Full swing.',['mod_pressure','seq_tiebreak']),
-    A('My second serve disappeared','Pressure may be exposing an unowned second-serve pattern','If the second serve exists only as a slower first serve, pressure removes its margin. A distinct shape and target create something to trust.','Confidence follows evidence. A serve you have not defined cannot suddenly become trustworthy at break point.','Use one rehearsed spin-and-target combination.','Shape first. Score second.',['mod_serve']),
-    A('I kept thinking about the score','Outcome attention may be crowding out the next decision','Score awareness matters, but replaying consequences consumes the attention needed to read the incoming ball and execute the pattern.','You do not need to feel calm. You need a small enough job for attention to complete.','Reduce the point to one controllable intention.','One pattern. One ball.',['mod_routine','seq_close']),
-    A('I’m not sure','Compare your tempo, target and commitment','The useful question is not only what you missed, but what changed from routine points: speed between points, target size or swing commitment.','Pressure rarely invents a completely new game. It exaggerates the least stable part of the existing one.','Identify the first change, not the final error.','What changed first?',['mod_pressure','seq_tiebreak'])
-  ]},
-  decisions:{label:'Making poor shot decisions',question:'Which decision kept costing you?',answers:[
-    A('Attacking neutral balls','The ball may be getting promoted before it earns attack status','A ball can feel comfortable without being short, slow or inside the court. Attacking from neutral often removes margin before it removes the opponent’s time.','The mistake is not “being aggressive.” It is misclassifying the incoming ball.','Match intent to ball quality.','Neutral ball. Neutral job.',['mod_decisions','seq_direction','daily']),
-    A('Changing direction at the wrong time','The line may be chosen from a poor contact position','Direction changes shorten the court and demand better balance. A deep or stretched contact rarely supplies that control.','The target is decided by the incoming ball and your position together—not by the open space alone.','Change direction only from a balanced, suitable ball.','Earn the line.',['seq_direction','mod_decisions']),
-    A('Going for small targets','Precision may be replacing pressure','A target near the line is not automatically more effective. Depth, height or width can create pressure while retaining recovery margin.','The opponent experiences ball quality, not the bravery of the target.','Use targets large enough to repeat under stress.','Pressure with margin.',['mod_decisions','seq_defend']),
-    A('Approaching on the wrong ball','Short landing depth may be hiding poor contact quality','A short ball is an invitation, not automatic permission. If you arrive late or off balance, the approach can give the opponent time and angle.','The approach is earned twice: by the incoming ball and by the quality of your contact.','Check short ball plus balanced contact.','Short and balanced—then go.',['seq_approach','mod_net']),
-    A('I had no pattern','Each shot may be solving a new problem','Without a planned first two balls, decisions become reactive and pressure amplifies uncertainty. A simple pattern reduces choices without becoming rigid.','Confidence often looks mental but improves when the player knows what the next useful ball is.','Choose one repeatable two-ball pattern.','Set up. Then strike.',['mod_decisions','seq_weakwing']),
-    A('I’m not sure','Name the incoming ball before judging the choice','Classify the ball as defensive, neutral or attacking, then compare the shot you chose. That reveals whether the error was execution or selection.','The result cannot tell you whether the decision was sound. The incoming ball can.','Judge the decision before the outcome.','Defend. Build. Attack.',['mod_decisions','daily'])
-  ]},
-  position:{label:'Positioning felt wrong',question:'Where did you most often lose the court?',answers:[
-    A('I was jammed by the ball','Your feet may be stopping before spacing is finished','Reaching the approximate location is not enough. Small adjustment steps create the final hitting distance after the first movement gets you there.','Many “swing” errors are the racket reporting a footwork problem.','Keep adjusting until contact distance is clear.','Arrive—then make room.',['fault_spacing','mod_position']),
-    A('I was reaching or stretched','The first move may be late','A delayed first step turns ordinary coverage into a lunge. The contact looks weak because the body never arrives behind it.','Speed over the final metre cannot fully repay hesitation over the first one.','React earlier rather than swing harder.','First step wins space.',['mod_position','seq_recovery']),
-    A('I could not recover after wide balls','The defensive shot may not be buying enough time','A low, fast reply can leave before you recover. Height and crosscourt distance can turn the ball into recovery time.','Recovery is partly a shot-selection skill. Your ball can help your feet get home.','Use height and depth when court position is lost.','High. Deep. Home.',['seq_recovery','mod_position']),
-    A('My return position felt wrong','Serve quality may require a different starting distance','Standing in one return position against every pace and shape trades consistency for habit. Depth should buy time against pace; moving forward should claim time against a weak serve.','Return position is a decision made before the opponent hits. It should change the contact you expect to receive.','Match starting depth to serve quality.','Pace: buy time. Weak: take time.',['mod_return','seq_bigserver']),
-    A('I was lost at the net','Your position may not be following the ball','Net position changes with ball direction and opponent contact. Watching the result instead of moving with the shot opens passing lanes.','The best volley is often created by the positioning step taken while your own ball travels.','Move with your shot and split before contact.','Hit. Close. Split.',['mod_net','seq_approach']),
-    A('I’m not sure','Track balance at opponent contact','Notice where you are when the opponent strikes: balanced, moving, rushed or stretched. That moment explains more than where your own shot eventually lands.','Position is useful only in relation to time. The same spot can be correct early and helpless late.','Judge position at the opponent’s contact.','Where am I when they hit?',['mod_position','seq_defend'])
-  ]},
-  read:{label:'Could not read the opponent',question:'Which clue did you keep missing?',answers:[
-    A('Shot direction','Opponent contact position may be narrowing the options','Balance, spacing and racket preparation reduce the realistic targets before the ball leaves the strings. Read constraints rather than guessing.','Experts often appear faster because they start from fewer plausible outcomes.','Look for what the opponent cannot comfortably play.','Read the contact—not the result.',['mod_read','daily']),
-    A('Their court position','Position may be donating space before the stroke begins','A player protecting one side, standing deep or crowding the net gives up something elsewhere. The open court is created before the ball is struck.','Court position is a tactical sentence. Learn to read what it offers and what it protects.','Name the space their position concedes.','Protected here. Open there.',['mod_read','seq_wide']),
-    A('Serve patterns','The toss and score may be carrying repeatable information','Players often favour trusted locations at important scores or reveal shape through toss position and starting stance. Look for repetition, not certainty.','A useful read changes probability; it does not promise the exact serve.','Track one visible cue and one score tendency.','Cue plus pattern—not a guess.',['mod_read']),
-    A('Their weaker side','The weakness may need to be opened before it can be attacked','Hitting repeatedly to a weak wing lets the opponent camp there. Moving them first creates the angle and time pressure that exposes it.','A weakness is not simply a destination. It is a space you construct access to.','Open one side, then attack the weakness.','Move them. Then test them.',['seq_weakwing','mod_read']),
-    A('Their adjustment during the match','Your old pattern may still be answering an old opponent','Once an opponent changes depth, return position or direction, repeating the original plan can become stubborn rather than disciplined.','Good patterns are stable in purpose but flexible in execution.','Re-read after every clear adjustment.','Notice. Name. Adapt.',['mod_read']),
-    A('I’m not sure','Choose one observable tell per point','Trying to read everything creates noise. Start with opponent position at contact and whether they are balanced, rushed or stretched.','Anticipation grows from disciplined observation, not intuition alone.','Collect one tell before predicting direction.','One tell. Then move.',['mod_read','daily'])
-  ]},
-  style:{label:'Struggled against a playing style',question:'Which opponent caused the problem?',answers:[
-    A('A pusher or retriever','You may be attacking patience instead of changing geometry','Trying to hit through a player who absorbs pace often produces low-percentage winners. Width, depth and forward movement make them solve a different problem.','Retrievers do not fear one corner; they fear the distance between repeated contacts.','Create space before trying to finish.','Move them. Earn the attack.',['seq_pusher','mod_styles']),
-    A('A moonballer','The first read should be depth, not height','A short high ball can be taken earlier; a deep heavy one may require space. Treating every high bounce the same creates opposite errors.','The ball’s height is obvious, but its landing depth decides whether to steal time or buy it.','Classify depth before choosing contact position.','Short: step in. Deep: make space.',['seq_moon','mod_styles']),
-    A('A big server','The return may be trying to win too much too soon','Against pace, the first job is to make a playable return and neutralise the next ball. Depth in your position and compact contact can extend the point.','A big server benefits when every return point ends in one swing. Make them play the third ball.','Return first; build pressure afterward.','Block deep. Start the point.',['seq_bigserver','mod_return']),
-    A('A serve-and-volleyer','Your return target may be too ambitious','A low return at the incoming player’s feet forces contact below net height and can create the easier second pass.','The first passing shot does not always need to pass. It can make the next volley attackable.','Make the first volley difficult before seeking the finish.','Low first. Open court next.',['seq_sv','mod_return']),
-    A('A hard hitter','Your contact may be fighting their pace','Trying to match pace with a full swing reduces time and spacing. Compact preparation, depth and direction can redirect their speed.','The opponent already supplied the pace. Your job is to organise it.','Shorten preparation and use their speed.','Compact. Deep. Recover.',['seq_defend','mod_position']),
-    A('I’m not sure','Identify what the opponent repeatedly made you do','Classify the repeated demand: move forward, defend pace, handle height, pass at net or create your own speed. That reveals the style problem.','Playing style matters because it repeats the same decision pressure—not because of a label.','Name the repeated problem, not the opponent.','What did they make repeat?',['mod_styles'])
-  ]},
-  technique:{label:'Technique felt wrong',question:'What changed in the ball or your body?',answers:[
-    A('Contact felt late','Timing may have broken before mechanics','Late contact can come from recognition, preparation or movement. Changing the grip or swing shape first may treat the wrong link.','The racket is last in the chain. Check what delayed it before rebuilding it.','Move the preparation trigger earlier.','Early read. Early turn.',['mod_position']),
-    A('I lost balance','The base may not be set at contact','A technically recognisable swing cannot control the ball if the body is still falling, reaching or sprinting.','Balance is not a finishing pose; it is the platform that makes racket-face control repeatable.','Arrive early enough to hit from a base.','Set. Hit. Recover.',['mod_position','fault_spacing']),
-    A('The ball had no weight','Power may be leaking before the arm','Ground force and rotation create racket speed efficiently. Adding arm effort to a disconnected base often adds tension, not penetration.','The arm is usually the visible messenger, not the original source of pace.','Reconnect legs, rotation and relaxed release.','Ground first. Arm last.',['fault_forehand','mod_forehand']),
-    A('I could not control height or spin','Contact position and swing path may not be matching','Spin and trajectory depend on racket path, face and contact location together. Changing only the target rarely fixes a repeating shape.','A ball-flight problem is evidence. Note whether the miss is consistently net, long, short or floating before choosing the fix.','Use the miss pattern to test one cause.','Same miss. One test.',['fault_library']),
-    A('It broke only under pressure','The stable movement may not yet survive changed tempo','Pressure often shortens preparation, freezes the feet or tightens the finish. The technique may need a simpler pressure cue rather than a rebuild.','If the stroke works in routine rallies, do not erase it because the score changed its tempo.','Protect one movement cue under pressure.','One cue. Full commitment.',['mod_pressure','fault_forehand']),
-    A('I’m not sure','Use video or the fault mirror to test, not declare','Real misses can have more than one cause. Compare the repeating ball flight and body position, then test the most likely cue.','Certainty without evidence is the trust-buster. Treat the first diagnosis as a hypothesis.','Test one likely cause and keep only what changes the miss.','Observe. Test. Keep.',['fault_library','mod_position'])
-  ]},
-  confidence:{label:'Confidence collapsed',question:'What seemed to trigger the drop?',answers:[
-    A('One bad miss','The miss may be changing the next decision','A single error becomes costly when it makes the next target smaller, the swing more tentative or the selection more desperate.','The emotional reaction matters mainly through what it changes on the next point.','Reset the decision before fixing the feeling.','Miss over. Pattern clear.',['mod_mindset']),
-    A('Losing a lead','The scoreboard may be replacing the point plan','Protecting a lead often changes aggression, depth and tempo. The opponent may improve, but your own pattern can also become less recognisable.','A lead is not defended by playing smaller; it is defended by continuing the pattern that earned it.','Return to the trusted point pattern.','Same game. New score.',['mod_pressure','seq_close']),
-    A('A run of lost points','Momentum may be hiding a repeating tactical leak','Several points can feel emotionally connected while sharing a concrete cause: the same return, target or transition decision.','Stopping momentum starts with finding what is repeating—not generating a different emotion.','Interrupt the repeated pattern with one clear adjustment.','Name the repeat. Change one thing.',['mod_read']),
-    A('Anger or frustration','The previous point may be occupying the next one','Emotion is not the failure. The problem is when it disrupts routine, selection or attention at the next contact.','You do not have to eliminate emotion; you need a reliable route back to useful behaviour.','Use a physical reset and a specific next intention.','Exhale. Turn away. Choose.',['mod_routine']),
-    A('I became tentative','Uncertainty may be masquerading as low confidence','When the player does not know the right pattern, “confidence” drops because every swing carries a new decision. Tactical clarity can restore commitment faster than encouragement.','Confidence often follows a clear job. Give the point fewer decisions.','Choose one high-margin pattern and execute it fully.','Clear plan. Free swing.',['mod_mindset','seq_tiebreak']),
-    A('I’m not sure','Look for the first behavioural change','Notice whether the collapse first altered tempo, target, movement or selection. That identifies something trainable without pretending to diagnose emotion.','The useful question is not “why am I like this?” but “what changed in the next point?”','Track the first change after a setback.','What changed next?',['mod_mindset'])
-  ]},
-  unknown:{label:'I don’t know what went wrong',unknown:true}
-};
+const VERSION='2026-09-14.sharpen-beta.4';
 const PLAYER_IMAGE='GS-tennis-player-pose.png';
-// Single source of truth for the illustrated entry: canonical region IDs,
-// percentage-based hotspots, language and the existing Sharpen routes they open.
 const PLAYER_REGIONS={
-  mindset:{label:'Mindset',description:'Pressure & confidence',aha:'The score may be changing your tempo, decisions or commitment before it changes your technique.',hotspots:[{x:50,y:6,labelSide:'right',displayLabel:'Mental Game',ariaLabel:'Mental Game: Pressure & confidence',lineAngle:90}],issues:[
-    {id:'big_points',label:'Important points changed how I played',route:'pressure'},
-    {id:'confidence_drop',label:'My confidence dropped after a setback',route:'confidence'},
-    {id:'reset_lost',label:'I could not reset between points',route:'pressure'},
-    {id:'mind_unsure',label:'I could not tell what changed',route:'unknown'}]},
-  // The player faces the viewer. For a right-hander, the player's forehand
-  // side is therefore viewer-left; backhand is viewer-right.
-  forehand:{label:'Forehand',description:'Contact, shape & timing',aha:'Your forehand may be reporting an earlier problem: spacing, recognition, pressure or shot selection.',hotspots:[{x:9,y:34,labelSide:'below',lineAngle:0}],issues:[
-    {id:'fh_contact',label:'Contact felt inconsistent',route:'forehand'},
-    {id:'fh_late',label:'Preparation or contact felt late',route:'forehand'},
-    {id:'fh_space',label:'I was jammed, reaching or off balance',route:'position'},
-    {id:'fh_pressure',label:'It broke down mainly on important points',route:'pressure'},
-    {id:'fh_choice',label:'I could not choose a safe direction',route:'decisions'}]},
-  backhand:{label:'Backhand',description:'Spacing, timing & shape',aha:'A backhand miss may begin with the distance, time or contact height the stroke received.',hotspots:[{x:91,y:34,labelSide:'below',lineAngle:180}],issues:[
-    {id:'bh_contact',label:'Contact or ball flight felt inconsistent',route:'backhand'},
-    {id:'bh_late',label:'Preparation or contact felt late',route:'backhand'},
-    {id:'bh_space',label:'I was jammed, reaching or off balance',route:'position'},
-    {id:'bh_high',label:'High or heavy balls caused the problem',route:'backhand'},
-    {id:'bh_pressure',label:'It failed mainly under pressure',route:'pressure'}]},
-  serve_return:{label:'Serve & Return',description:'Start the point clearly',aha:'Serve and return problems can come from execution, starting position or a pattern the opponent has already read.',hotspots:[{x:91,y:53,labelSide:'below',lineAngle:180}],issues:[
-    {id:'serve_unreliable',label:'My serve was unreliable',route:'serve'},
-    {id:'return_position',label:'My return position or timing felt wrong',route:'position'},
-    {id:'serve_read',label:'I could not read the serve pattern',route:'read'},
-    {id:'serve_style',label:'A particular server kept troubling me',route:'style'},
-    {id:'serve_unsure',label:'I could not identify the first problem',route:'unknown'}]},
-  net:{label:'Net Play',description:'Approach, position & volley',aha:'A missed volley may start with the approach ball or court position before the racket ever meets it.',hotspots:[{x:9,y:53,labelSide:'below',lineAngle:0}],issues:[
-    {id:'net_contact',label:'The volley contact or swing felt wrong',route:'net'},
-    {id:'net_position',label:'I arrived in the wrong net position',route:'position'},
-    {id:'net_approach',label:'I approached on the wrong ball',route:'decisions'},
-    {id:'net_pressure',label:'My net game tightened under pressure',route:'pressure'},
-    {id:'net_unsure',label:'I could not separate contact from position',route:'net'}]},
-  movement:{label:'Movement',description:'Positioning, footwork & balance',aha:'Many stroke errors are the racket reporting where the feet arrived—and whether they ever became balanced. Better footwork improves the time, space and balance every stroke receives.',hotspots:[{x:91,y:70,labelSide:'below',lineAngle:180},{x:50,y:96,labelSide:'below',displayLabel:'Footwork',ariaLabel:'Footwork: Balance, recovery & first-step speed',motion:'footwork',lineAngle:-90}],issues:[
-    {id:'move_jammed',label:'I was repeatedly jammed or stretched',route:'position'},
-    {id:'move_recovery',label:'I could not recover after wide balls',route:'position'},
-    {id:'move_balance',label:'I kept losing balance at contact',route:'technique'},
-    {id:'move_late',label:'My first move or split step felt late',route:'position'},
-    {id:'move_unsure',label:'I could not tell where movement failed',route:'unknown'}]},
-  decisions:{label:'Decisions',description:'Selection, patterns & reads',aha:'The outcome cannot prove whether the choice was sound. Start with the incoming ball and the opponent’s position.',hotspots:[{x:15,y:19,labelSide:'below',displayLabel:'Decision Making',ariaLabel:'Decision Making: Selection, patterns & reads',lineAngle:0}],issues:[
-    {id:'decision_attack',label:'I attacked the wrong ball or target',route:'decisions'},
-    {id:'decision_read',label:'I could not read what the opponent would do',route:'read'},
-    {id:'decision_style',label:'One opponent style kept exposing me',route:'style'},
-    {id:'decision_pattern',label:'I had no repeatable point pattern',route:'decisions'},
-    {id:'decision_unsure',label:'I could not tell decision from execution',route:'unknown'}]}
+  "mindset": {
+    "label": "Mindset",
+    "description": "Pressure & confidence",
+    "hotspots": [
+      {
+        "x": 50,
+        "y": 6,
+        "labelSide": "right",
+        "displayLabel": "Mental Game",
+        "ariaLabel": "Mental Game: Pressure & confidence",
+        "lineAngle": 90
+      }
+    ]
+  },
+  "forehand": {
+    "label": "Forehand",
+    "description": "Contact, shape & timing",
+    "hotspots": [
+      {
+        "x": 9,
+        "y": 34,
+        "labelSide": "below",
+        "lineAngle": 0
+      }
+    ]
+  },
+  "backhand": {
+    "label": "Backhand",
+    "description": "Spacing, timing & shape",
+    "hotspots": [
+      {
+        "x": 91,
+        "y": 34,
+        "labelSide": "below",
+        "lineAngle": 180
+      }
+    ]
+  },
+  "serve_return": {
+    "label": "Serve & Return",
+    "description": "Start the point clearly",
+    "hotspots": [
+      {
+        "x": 91,
+        "y": 53,
+        "labelSide": "below",
+        "lineAngle": 180
+      }
+    ]
+  },
+  "net": {
+    "label": "Net Play",
+    "description": "Approach, position & volley",
+    "hotspots": [
+      {
+        "x": 9,
+        "y": 53,
+        "labelSide": "below",
+        "lineAngle": 0
+      }
+    ]
+  },
+  "movement": {
+    "label": "Movement",
+    "description": "Positioning, footwork & balance",
+    "hotspots": [
+      {
+        "x": 50,
+        "y": 88,
+        "labelSide": "below",
+        "displayLabel": "Movement",
+        "ariaLabel": "Movement and Footwork: Balance, recovery and first-step speed",
+        "motion": "footwork",
+        "lineAngle": -90
+      }
+    ]
+  },
+  "decisions": {
+    "label": "Decisions",
+    "description": "Selection, patterns & reads",
+    "hotspots": [
+      {
+        "x": 15,
+        "y": 19,
+        "labelSide": "below",
+        "displayLabel": "Decision Making",
+        "ariaLabel": "Decision Making: Selection, patterns & reads",
+        "lineAngle": 0
+      }
+    ]
+  }
 };
-const UNKNOWN_QS=[
-  {key:'outcome',q:'Were most points lost through your errors or opponent winners?',opts:[['errors','Mostly my errors'],['winners','Mostly opponent winners'],['mixed','A mix'],['unsure','I’m not sure']]},
-  {key:'phase',q:'Where did the problem happen most?',opts:[['serve','Serve'],['return','Return'],['rally','Rally'],['net','At the net'],['all','Across everything'],['unsure','I’m not sure']]},
-  {key:'pressure',q:'Did it become worse under pressure?',opts:[['yes','Yes, clearly'],['some','A little'],['no','No'],['unsure','I’m not sure']]},
-  {key:'balance',q:'How did you usually feel at contact?',opts:[['balanced','Balanced'],['rushed','Rushed'],['stretched','Stretched'],['mixed','It varied'],['unsure','I’m not sure']]},
-  {key:'repeat',q:'Did the same pattern keep repeating?',opts:[['yes','Yes'],['no','No'],['unsure','I couldn’t tell']]}
-];
-let state={stage:'categories',category:null,answer:null,result:null,playerRegion:null,playerIssue:null,unknownIndex:0,unknownAnswers:{},suggested:null,source:'home',abandonTracked:false,returningPrescription:false};
-let overlay,stageEl,backBtn,progressEl,lastFocus,labelLayoutFrame=0;
-// Recommended content is a detour inside the current focus, not a new top-level
-// destination. Keep its origin in memory so Back restores the exact prescription
-// without hijacking a later visit or a fresh page load.
-let contentReturnContext=null,restoringContentReturn=false;
-// While a recommendation is open, these are the only full-screen destinations
-// that remain inside that learning detour. Every other showScreen request is an
-// exit and must resolve through the saved prescription first.
-const RECOMMENDED_CONTENT_SCREENS=new Set(['quizScreen','scoreScreen','sequenceScreen']);
-function loadStore(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||'{"history":[],"feedback":{},"completed":[],"opened":[]}')}catch(e){return {history:[],feedback:{},completed:[],opened:[]}}}
-function saveStore(v){try{localStorage.setItem(STORE_KEY,JSON.stringify(v))}catch(e){}}
-function saveDraft(){try{localStorage.setItem(DRAFT_KEY,JSON.stringify({stage:state.stage,category:state.category,answer:state.answer,result:state.result,playerRegion:state.playerRegion,playerIssue:state.playerIssue,unknownIndex:state.unknownIndex,unknownAnswers:state.unknownAnswers,suggested:state.suggested,source:state.source,returningPrescription:state.returningPrescription}))}catch(e){}}
-function clearDraft(){try{localStorage.removeItem(DRAFT_KEY)}catch(e){}}
-function analytics(name,data){try{if(typeof trackEvent==='function')trackEvent(name,data||{})}catch(e){}}
-function esc(s){return String(s||'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function validateAssets(){const valid={};Object.entries(ASSETS).forEach(([id,a])=>{let ok=true;if(a.kind==='module')ok=typeof QBANK!=='undefined'&&QBANK.some(q=>q.pillar===a.pillar&&q.module===a.module);if(a.kind==='sequence')ok=typeof LINKED_SEQUENCES!=='undefined'&&LINKED_SEQUENCES.some(s=>s.id===a.id&&s.title===a.title);if(a.kind==='fault')ok=typeof fixGroups==='function'&&fixGroups().some(g=>g.key===a.group);if(a.kind==='faultLibrary')ok=typeof openFixAShot==='function';if(ok)valid[id]=a;else console.warn('[GAMESHARP PAIN MAP] Asset omitted because it does not exist:',id,a.title)});return valid}
-let VALID_ASSETS={};
-let CONTENT_MAP={};
-function assetFamily(asset){if(!asset)return null;if(asset.kind==='module')return'module';if(asset.kind==='sequence')return'sequence';if(['fault','faultLibrary','daily'].includes(asset.kind))return'fault';return null}
-function sanitizeAssetIds(ids){const seen=new Set();const families=new Set();const clean=[];(Array.isArray(ids)?ids:[]).forEach(id=>{const asset=VALID_ASSETS[id];const family=assetFamily(asset);if(!asset||!family||seen.has(id)||families.has(family)||clean.length>=3)return;seen.add(id);families.add(family);clean.push(id)});return clean}
-function sanitizeResult(result){if(!result||typeof result!=='object')return null;return{...result,assets:sanitizeAssetIds(result.assets)}}
-function buildContentMap(){const map={};const seed=(id,a,extra={})=>{if(!map[id])map[id]={id,title:a.title,type:a.type,strokeOrSkill:a.module||a.pillar||a.title,playerPains:[],matchSituations:[],likelyCauses:[],principles:[],playerLevel:[],playFormat:[],relatedContent:[],...extra};return map[id]};Object.entries(VALID_ASSETS).forEach(([id,a])=>seed(id,a,{source:'recommendation registry'}));if(typeof QBANK!=='undefined'){const modules=new Map();QBANK.forEach(q=>{const key=`${q.pillar}|${q.module}`;if(!modules.has(key))modules.set(key,[]);modules.get(key).push(q)});modules.forEach((questions,key)=>{const [pillar,module]=key.split('|');const registered=Object.entries(VALID_ASSETS).find(([,a])=>a.kind==='module'&&a.pillar===pillar&&a.module===module);const id=registered?registered[0]:`library_module:${key}`;const item=seed(id,{title:module,type:'Module',module,pillar},{source:'question bank',pillar});item.strokeOrSkill=[...new Set(questions.map(q=>q.skill_target).filter(Boolean))];item.playerLevel.push(...questions.map(q=>q.audience).filter(Boolean));item.playFormat.push(...questions.map(q=>String(q.tags||'').includes('doubles')?'Doubles':String(q.tags||'').includes('singles')?'Singles':'Singles and doubles'));seed(`daily_category:${key}`,{title:`${pillar} · ${module}`,type:'Daily Challenge category',module,pillar},{source:'question bank',pillar,strokeOrSkill:item.strokeOrSkill,playerLevel:[...item.playerLevel],playFormat:[...item.playFormat]})})}if(typeof LINKED_SEQUENCES!=='undefined')LINKED_SEQUENCES.forEach(seq=>{const registered=Object.entries(VALID_ASSETS).find(([,a])=>a.kind==='sequence'&&a.id===seq.id);seed(registered?registered[0]:`library_sequence:${seq.id}`,{title:seq.title,type:'Predict the Point'},{source:'linked sequence',strokeOrSkill:seq.title})});if(typeof fixGroups==='function')fixGroups().forEach(group=>{const registered=Object.entries(VALID_ASSETS).find(([,a])=>a.kind==='fault'&&a.group===group.key);seed(registered?registered[0]:`library_fault:${group.key}`,{title:group.title||group.label||group.key,type:'Fix a Shot'},{source:'fault library',strokeOrSkill:group.title||group.label||group.key})});Object.entries(ROUTES).forEach(([,route])=>(route.answers||[]).forEach(answer=>{const ids=sanitizeAssetIds(answer.assets);ids.forEach(id=>{const item=map[id];if(!item)return;item.playerPains.push(route.label);item.matchSituations.push(answer.label);item.likelyCauses.push(answer.issue);item.principles.push(answer.focus);item.relatedContent.push(...ids.filter(other=>other!==id))})}));Object.values(map).forEach(item=>['playerPains','matchSituations','likelyCauses','principles','playerLevel','playFormat','relatedContent'].forEach(field=>item[field]=[...new Set(Array.isArray(item[field])?item[field]:[item[field]].filter(Boolean))]));return map}
-function auditRoutes(){const errors=[];let resultCount=0;Object.entries(ROUTES).forEach(([key,r])=>{if(!ROUTE_COVERAGE[key])errors.push(key+': missing coverage classification');if(r.unknown)return;if(!r.question||!Array.isArray(r.answers)||r.answers.length!==6)errors.push(key+': expected one question and six answers');const distinct={issue:new Set(),focus:new Set(),cue:new Set()};(r.answers||[]).forEach((a,i)=>{resultCount++;if(!a.issue||!a.read||!a.focus||!a.cue)errors.push(key+'['+i+']: incomplete prescription');if(!a.lens||a.lens===a.read)errors.push(key+'['+i+']: Coach’s Lens must add a distinct observation');if(/\b(definitely|guaranteed|the diagnosis is|always caused by)\b/i.test([a.issue,a.read,a.lens,a.focus].join(' ')))errors.push(key+'['+i+']: overstates certainty');['issue','focus','cue'].forEach(field=>{const value=String(a[field]||'').trim().toLowerCase();if(distinct[field].has(value))errors.push(key+'['+i+']: duplicate '+field);distinct[field].add(value)});if((a.assets||[]).length>3)errors.push(key+'['+i+']: more than three assets');const kinds={module:0,sequence:0,fault:0};(a.assets||[]).forEach(id=>{const asset=VALID_ASSETS[id];if(!asset){errors.push(key+'['+i+']: unavailable asset '+id);return}if(asset.kind==='module')kinds.module++;else if(asset.kind==='sequence')kinds.sequence++;else if(asset.kind==='fault'||asset.kind==='faultLibrary'||asset.kind==='daily')kinds.fault++});if(kinds.module>1||kinds.sequence>1||kinds.fault>1)errors.push(key+'['+i+']: asset-type limit exceeded')})});document.documentElement.dataset.gspcIntegrity=errors.length?'fail':'ok';document.documentElement.dataset.gspcEditorialAudit=errors.length?'fail':'ok';document.documentElement.dataset.gspcResultCount=String(resultCount);document.documentElement.dataset.gspcErrors=errors.join('|');if(errors.length)console.error('[GAMESHARP PAIN MAP] Integrity failed',errors);return errors}
-function auditPlayerRegions(){const errors=[],required=['mindset','forehand','backhand','serve_return','net','movement','decisions'],issueIds=new Set(),hotspotNames=new Set(),reachable=new Set();required.forEach(id=>{if(!PLAYER_REGIONS[id])errors.push('missing region '+id)});Object.entries(PLAYER_REGIONS).forEach(([id,r])=>{if(!r.label||!r.description||!r.aha)errors.push(id+': incomplete language');if(!Array.isArray(r.hotspots)||!r.hotspots.length)errors.push(id+': no hotspot');(r.hotspots||[]).forEach((h,i)=>{if(!Number.isFinite(h.x)||!Number.isFinite(h.y)||h.x<0||h.x>100||h.y<0||h.y>100)errors.push(id+': invalid hotspot '+i);if(!Number.isFinite(h.lineAngle))errors.push(id+': missing directional cue '+i);const name=h.ariaLabel||`${h.displayLabel||r.label}: ${r.description}`;if(hotspotNames.has(name))errors.push(id+': duplicate hotspot name '+name);hotspotNames.add(name)});if(!Array.isArray(r.issues)||r.issues.length<3||r.issues.length>5)errors.push(id+': expected 3–5 issues');(r.issues||[]).forEach(issue=>{if(!issue.id||!issue.label||!ROUTES[issue.route])errors.push(id+': invalid issue route '+(issue.id||'?'));if(issueIds.has(issue.id))errors.push(id+': duplicate issue '+issue.id);issueIds.add(issue.id);reachable.add(issue.route)})});const first=id=>PLAYER_REGIONS[id]&&PLAYER_REGIONS[id].hotspots[0];const fh=first('forehand'),bh=first('backhand'),mind=first('mindset'),serve=first('serve_return'),net=first('net'),move=first('movement'),decisions=first('decisions'),foot=(PLAYER_REGIONS.movement.hotspots||[]).find(h=>h.motion==='footwork');if(!fh||fh.x>15)errors.push('forehand navigation must remain outside the viewer-left silhouette');if(!bh||bh.x<85)errors.push('backhand navigation must remain outside the viewer-right silhouette');if(!fh||!bh||fh.labelSide!=='below'||bh.labelSide!=='below')errors.push('stroke-side labels must stack below their hotspots on narrow phones');if(!mind||mind.y>10)errors.push('mental game must remain above the head');if(!serve||serve.x<85||serve.y<45||serve.y>60)errors.push('serve & return navigation must remain outside the ready-position hands');if(!net||net.x>15||net.y<45||net.y>60)errors.push('net-play navigation must remain outside the forehand silhouette');if(!move||move.x<85||move.y<62||move.y>78)errors.push('movement navigation must remain outside the hips and thighs');if(!decisions||decisions.x>24||decisions.y<12||decisions.y>28)errors.push('decision-making navigation must remain offset from the upper chest');if(fh&&net&&(net.y-fh.y<15||(decisions&&decisions.x<50&&fh.y-decisions.y<12)))errors.push('viewer-left labels require a clear vertical lane');if(bh&&serve&&serve.y-bh.y<15)errors.push('viewer-right upper labels require a clear vertical lane');if(serve&&move&&move.y-serve.y<14)errors.push('viewer-right lower labels require a clear vertical lane');if(!foot||foot.y<92||!foot.ariaLabel)errors.push('footwork cue must remain centred below the feet');Object.keys(ROUTES).forEach(id=>{if(!reachable.has(id))errors.push('unreachable route '+id)});document.documentElement.dataset.gspcPlayerIntegrity=errors.length?'fail':'ok';document.documentElement.dataset.gspcPlayerRegions=String(Object.keys(PLAYER_REGIONS).length);document.documentElement.dataset.gspcPlayerErrors=errors.join('|');if(errors.length)console.error('[GAMESHARP PLAYER] Integrity failed',errors);return errors}
-function ensureOverlay(){if(overlay)return;overlay=document.createElement('div');overlay.className='gspc-overlay';overlay.id='gspcOverlay';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-labelledby','gspcTitle');overlay.innerHTML=`<div class="gspc-shell"><div class="gspc-top"><button class="gspc-back" type="button" aria-label="Go back">←</button><div class="gspc-topcopy"><div class="gspc-brand">GameSharp · Your next focus</div><div class="gspc-progress" aria-live="polite"></div></div><button class="gspc-close" type="button" aria-label="Exit">×</button></div><div class="gspc-scroll"><main class="gspc-stage"></main></div></div>`;document.body.appendChild(overlay);stageEl=overlay.querySelector('.gspc-stage');backBtn=overlay.querySelector('.gspc-back');progressEl=overlay.querySelector('.gspc-progress');overlay.querySelector('.gspc-close').addEventListener('click',close);backBtn.addEventListener('click',back);document.addEventListener('keydown',e=>{if(!overlay.classList.contains('open'))return;if(e.key==='Escape'){close();return}if(e.key==='Tab'){const focusable=[...overlay.querySelectorAll('button:not([disabled]),[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>el.offsetParent!==null);if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});}
-function open(source){ensureOverlay();VALID_ASSETS=validateAssets();CONTENT_MAP=buildContentMap();lastFocus=document.activeElement;const directPlayer=source==='sharpen';state={stage:'categories',category:null,answer:null,result:null,playerRegion:null,playerIssue:null,unknownIndex:0,unknownAnswers:{},suggested:null,source:source||'home',abandonTracked:false,returningPrescription:false};const store=loadStore();const latest=store.history&&store.history[0];let draft=null;try{draft=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null')}catch(e){}if(!directPlayer&&draft&&draft.stage&&draft.stage!=='categories'){state={...state,...draft,result:sanitizeResult(draft.result),source:source||draft.source||'home',abandonTracked:false,returningPrescription:draft.stage==='result'?true:!!draft.returningPrescription}}else if(!directPlayer&&latest){state.stage='result';state.category=latest.category;state.answer=latest.answer;state.result=sanitizeResult(latest.result);state.playerRegion=latest.playerRegion||null;state.playerIssue=latest.playerIssue||null;state.returningPrescription=true;if(state.result&&latest.result&&JSON.stringify(state.result.assets)!==JSON.stringify(latest.result.assets)){latest.result=state.result;saveStore(store)}}overlay.classList.add('open');document.body.classList.add('gspc-open');analytics('pain_flow_opened',{source:state.source,returning:state.returningPrescription,resumed:!directPlayer&&!!draft});if(state.returningPrescription&&latest)analytics('pain_return_after_prescription',{category:latest.category,source:state.source});render();overlay.querySelector('.gspc-close').focus({preventScroll:true})}
-function close(){if(!overlay||!overlay.classList.contains('open'))return;if(!['result','feedback'].includes(state.stage)&&!state.abandonTracked){analytics('pain_flow_abandoned',{stage:state.stage,category:state.category});state.abandonTracked=true}overlay.classList.remove('open');document.body.classList.remove('gspc-open');saveDraft();if(lastFocus&&lastFocus.isConnected)lastFocus.focus({preventScroll:true})}
-function back(){if(state.stage==='categories'){close();return}if(state.stage==='region'){state.stage='categories';state.playerRegion=null;state.playerIssue=null;state.category=null}else if(state.stage==='followup'){state.stage=state.playerRegion?'region':'categories';state.category=null;state.answer=null}else if(state.stage==='unknown'){if(state.unknownIndex>0)state.unknownIndex--;else{state.stage=state.playerRegion?'region':'categories';state.category=null}}else if(state.stage==='suggest'){state.stage='unknown';state.unknownIndex=UNKNOWN_QS.length-1}else if(state.stage==='result'){state.stage='categories';state.category=null;state.answer=null;state.result=null;state.playerRegion=null;state.playerIssue=null}else if(state.stage==='feedback'){state.stage='result'}saveDraft();render()}
-function setFrame(label,back=true){progressEl.textContent=label;backBtn.style.visibility=back?'visible':'hidden'}
-function render(){const scroll=overlay&&overlay.querySelector('.gspc-scroll');if(scroll)scroll.scrollTop=0;stageEl.classList.remove('gspc-stage');void stageEl.offsetWidth;stageEl.classList.add('gspc-stage');if(state.stage==='categories')renderCategories();else if(state.stage==='region')renderRegionIssues();else if(state.stage==='followup')renderFollowup();else if(state.stage==='unknown')renderUnknown();else if(state.stage==='suggest')renderSuggest();else if(state.stage==='result')renderResult();else renderCategories();saveDraft()}
+
+function auditPlayerRegions(){
+  const errors=[],names=new Set();
+  for(const [id,r] of Object.entries(PLAYER_REGIONS)){
+    for(const h of r.hotspots){
+      if(!Number.isFinite(h.x)||!Number.isFinite(h.y)||h.x<0||h.x>100||h.y<0||h.y>100)errors.push(id+': invalid coordinates');
+      const name=h.ariaLabel||r.label;
+      if(names.has(name))errors.push('duplicate hotspot name');names.add(name);
+      if(!Number.isFinite(h.lineAngle))errors.push('missing directional cue');
+    }
+  }
+  const first=id=>PLAYER_REGIONS[id].hotspots[0];
+  if(first('forehand').x>15)errors.push('forehand navigation must remain outside the viewer-left silhouette');
+  if(first('backhand').x<85)errors.push('backhand navigation must remain outside the viewer-right silhouette');
+  if(first('mindset').y>10)errors.push('mental game must remain above the head');
+  if(first('serve_return').x<85||first('serve_return').y<45||first('serve_return').y>60)errors.push('serve & return navigation must remain outside the ready-position hands');
+  if(first('net').x>15||first('net').y<45||first('net').y>60)errors.push('net-play navigation must remain outside the forehand silhouette');
+  if(PLAYER_REGIONS.movement.hotspots.length!==1)errors.push('movement must have exactly one hotspot');
+  if(first('movement').x!==50||first('movement').motion!=='footwork')errors.push('movement hotspot must shuttle visibly between the stance anchors');
+  if(first('decisions').x>24||first('decisions').y<12||first('decisions').y>28)errors.push('decision-making navigation must remain offset from the upper chest');
+  if(first('forehand').labelSide!=='below'||first('backhand').labelSide!=='below')errors.push('stroke-side labels must stack below their hotspots on narrow phones');
+  if(first('net').y-first('forehand').y<15||first('forehand').y-first('decisions').y<12)errors.push('viewer-left labels require a clear vertical lane');
+  if(first('serve_return').y-first('backhand').y<15)errors.push('viewer-right upper labels require a clear vertical lane');
+  return errors;
+}
+if(typeof module==='object'&&module.exports){module.exports={version:VERSION,playerRegions:PLAYER_REGIONS,auditPlayerRegions};return;}
+let state={stage:'categories',playerRegion:null,playerIssue:null,lessonId:null,source:'sharpen',contextualEntry:false};
+let overlay,stageEl,backBtn,progressEl,lastFocus,labelLayoutFrame=0,priorNavState=null,store=null,launchBusy=false;
+let notice='';
+let forehandStore=null,courtStore=null;
+const esc=s=>String(s||'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const now=()=>new Date().toISOString();
+function analytics(name,data){try{if(typeof root.trackEvent==='function')root.trackEvent(name,data||{});}catch(e){}}
+function getStore(){
+  if(!store&&root.GameSharpSharpenState){
+    let storage;try{storage=root.localStorage;}catch(e){storage={getItem(){throw e;},setItem(){throw e;}};}
+    store=root.GameSharpSharpenState.createStore(storage);
+  }
+  return store;
+}
+function lesson(id){
+  const engine=root.GameSharpGoldDaily;
+  if(!engine||!root.GS_GOLD_DAILY_CSS_READY||!engine.openPractice||!engine.isAvailable?.(id))return null;
+  const c=engine.challenges.find(c=>c.id===id&&!c.reviewOnly);
+  if(!c||!root.GameSharpGoldLessonSpines?.byId[c.lessonSpineId])return null;
+  return c;
+}
+function registry(){
+  const p=root.GameSharpSharpenPaths,e=root.GameSharpGoldDaily,s=root.GameSharpGoldLessonSpines;
+  if(!p||!e||!s||!getStore())return null;
+  return p.audit(e,s).ok?p:null;
+}
+function pathFor(id){const p=registry();return p&&p.byId[id]||null;}
+function pathsFor(region){const p=registry();return p?p.paths.filter(p=>p.region===region&&lesson(p.lessonId)):[];}
+// User-authorised beta release; independent coach review is still pending.
+function checkReleaseEnabled(d){
+  const release=root.GameSharpCourtChecks?.release;
+  return release?.status==='user_authorized_beta'&&Array.isArray(release.experimentIds)&&release.experimentIds.includes(d.id);
+}
+function checkDefinition(id=state.checkId||state.lessonId){
+  const checks=root.GameSharpCourtChecks,d=checks&&(checks.byId[id]||checks.byLessonId[id]);
+  if(!d||!checkReleaseEnabled(d))return null;
+  if(d.storage==='forehand'?(!root.GameSharpForehandCheck||!root.GameSharpForehandCheckState):!root.GameSharpCourtCheckState)return null;
+  const c=lesson(d.lessonId),s=c&&root.GameSharpGoldLessonSpines.byId[c.lessonSpineId];
+  return c&&checks.audit(d,c,s).ok?d:null;
+}
+function getCheckStore(d){
+  let storage;try{storage=root.localStorage;}catch(e){storage={getItem(){throw e;},setItem(){throw e;}};}
+  // The first prototype's key and record stay intact. No migration or relabelling.
+  if(d.storage==='forehand'){
+    if(!forehandStore)forehandStore=root.GameSharpForehandCheckState.createStore(storage);
+    return forehandStore;
+  }
+  if(!courtStore)courtStore=root.GameSharpCourtCheckState.createStore(storage,root.GameSharpCourtChecks.definitions.filter(x=>x.storage==='shared'),root.GameSharpCourtChecks.validateReport);
+  return {read:()=>courtStore.read(d.id),plan:at=>courtStore.plan(d.id,at),report:(payload,at)=>courtStore.report(d.id,payload,at),persistent:()=>courtStore.persistent()};
+}
+function validSavedFocus(f){
+  if(!f||!Object.hasOwn(PLAYER_REGIONS,f.region))return null;
+  const c=lesson(f.lessonId);if(!c)return null;
+  if(f.pathId){const p=pathFor(f.pathId);if(!p||p.region!==f.region||p.lessonId!==f.lessonId)return null;}
+  else if(root.GameSharpGoldLessonSpines.byId[c.lessonSpineId].sharpenTarget!==f.region)return null;
+  return f;
+}
+function storageNote(){
+  const s=getStore();if(!s)return '<p class="gspc-storage-note">Saving is unavailable. You can still explore the lessons.</p>';
+  s.read();return '<p class="gspc-storage-note">'+(s.persistent()?'Saves to this browser only.':'Saving is unavailable. Your focus lasts only while this page stays open.')+'</p>';
+}
 function playerMarkup(selected){const hotspots=Object.entries(PLAYER_REGIONS).flatMap(([id,r])=>r.hotspots.map((h,i)=>`<button class="gspc-hotspot${h.motion==='footwork'?' gspc-hotspot-footwork':''}${selected===id?' selected':selected?' dimmed':''}" type="button" data-player-region="${id}" style="--x:${h.x}%;--y:${h.y}%;--line-angle:${h.lineAngle}deg" aria-label="${esc(h.ariaLabel||`${h.displayLabel||r.label}: ${r.description}`)}"><span class="gspc-hotspot-line" aria-hidden="true"></span><span class="gspc-hotspot-dot" aria-hidden="true"></span><span class="gspc-hotspot-label ${h.labelSide||'right'}"><b>${esc(h.displayLabel||r.label)}</b><small>${esc(r.description)}</small></span></button>`)).join('');return `<div class="gspc-player${selected?' has-selection':''}" data-selected-region="${selected||''}"><img class="gspc-player-img" src="${PLAYER_IMAGE}" alt="Illustrated front-facing right-handed tennis player in a ready position" draggable="false">${hotspots}<div class="gspc-player-fallback" hidden><div class="gspc-player-fallback-title">Choose an area to sharpen</div>${Object.entries(PLAYER_REGIONS).map(([id,r])=>`<button type="button" data-player-region="${id}">${esc(r.label)}<span>${esc(r.description)}</span></button>`).join('')}</div></div>`}
 function settleHotspotLabels(){if(labelLayoutFrame)cancelAnimationFrame(labelLayoutFrame);labelLayoutFrame=requestAnimationFrame(()=>{labelLayoutFrame=0;if(!stageEl)return;const player=stageEl.querySelector('.gspc-player');if(!player)return;const labels=[...player.querySelectorAll('.gspc-hotspot-label')].filter(label=>label.getClientRects().length);labels.forEach(label=>{label.style.removeProperty('--label-nudge-x');label.style.removeProperty('--label-nudge-y')});const safe=8,gap=7,viewportWidth=document.documentElement.clientWidth,placed=[];labels.sort((a,b)=>a.getBoundingClientRect().top-b.getBoundingClientRect().top);labels.forEach(label=>{let rect=label.getBoundingClientRect(),dx=rect.left<safe?safe-rect.left:rect.right>viewportWidth-safe?(viewportWidth-safe)-rect.right:0;if(dx)label.style.setProperty('--label-nudge-x',`${dx}px`);rect=label.getBoundingClientRect();let dy=0;for(const prior of placed){if(rect.left<prior.right+gap&&rect.right>prior.left-gap&&rect.top<prior.bottom+gap&&rect.bottom>prior.top-gap){dy=Math.max(dy,prior.bottom+gap-rect.top);label.style.setProperty('--label-nudge-y',`${dy}px`);rect=label.getBoundingClientRect()}}placed.push(rect)})})}
-function bindPlayer(){const img=stageEl.querySelector('.gspc-player-img'),fallback=stageEl.querySelector('.gspc-player-fallback');if(img){img.addEventListener('error',()=>{const player=img.closest('.gspc-player');if(player)player.classList.add('image-failed');if(fallback)fallback.hidden=false},{once:true});if(!img.complete)img.addEventListener('load',settleHotspotLabels,{once:true})}settleHotspotLabels();stageEl.querySelectorAll('[data-player-region]').forEach(b=>{const select=()=>selectPlayerRegion(b.dataset.playerRegion);b.addEventListener('click',select);b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select()}})})}
-function selectPlayerRegion(id){if(!PLAYER_REGIONS[id])return;state.playerRegion=id;state.playerIssue=null;state.stage='region';try{if(navigator.vibrate)navigator.vibrate(10)}catch(e){}analytics('pain_player_region_selected',{region:id});render()}
-function renderCategories(){setFrame('Choose an area',true);const store=loadStore();const recent=store.history&&store.history[0];stageEl.innerHTML=`<div class="gspc-player-intro"><div class="gspc-eyebrow">See clearer. Think sharper.</div><h1 class="gspc-title" id="gspcTitle">What do you want to sharpen?</h1><p class="gspc-lead">Start with what’s hurting your game most.</p></div>${playerMarkup(null)}<button class="gspc-player-unsure" type="button" data-player-unsure="1">I’m not sure what went wrong <span>→</span></button>${recent?`<div class="gspc-history"><button type="button" data-review="1">Review my last focus: ${esc(recent.result.issue)}</button></div>`:''}`;bindPlayer();stageEl.querySelector('[data-player-unsure]').addEventListener('click',()=>{state.playerRegion=null;state.playerIssue='unsure';chooseCategory('unknown')});const review=stageEl.querySelector('[data-review]');if(review)review.addEventListener('click',()=>{state.stage='result';state.category=recent.category;state.answer=recent.answer;state.result=sanitizeResult(recent.result);state.playerRegion=recent.playerRegion||null;state.playerIssue=recent.playerIssue||null;render()})}
-function renderRegionIssues(){const r=PLAYER_REGIONS[state.playerRegion];if(!r){state.stage='categories';render();return}setFrame(`${r.label} · Which felt closest?`,true);stageEl.innerHTML=`<div class="gspc-region-compact">${playerMarkup(state.playerRegion)}</div><div class="gspc-region-panel"><div class="gspc-eyebrow">${esc(r.label)} · ${esc(r.description)}</div><h1 class="gspc-region-title" id="gspcTitle">What felt closest?</h1><div class="gspc-region-aha">${esc(r.aha)}</div><div class="gspc-grid">${r.issues.map(issue=>`<button class="gspc-choice" type="button" data-player-issue="${issue.id}"><span class="gspc-choice-copy">${esc(issue.label)}</span><span class="gspc-choice-arrow">→</span></button>`).join('')}</div><button class="gspc-player-reset" type="button" data-player-reset="1">← Choose another area</button></div>`;bindPlayer();stageEl.querySelectorAll('[data-player-issue]').forEach(b=>b.addEventListener('click',()=>selectPlayerIssue(b.dataset.playerIssue)));stageEl.querySelector('[data-player-reset]').addEventListener('click',()=>{state.stage='categories';state.playerRegion=null;state.playerIssue=null;render()})}
-function selectPlayerIssue(issueId){const region=PLAYER_REGIONS[state.playerRegion],issue=region&&region.issues.find(x=>x.id===issueId);if(!issue)return;state.playerIssue=issueId;analytics('pain_player_issue_selected',{region:state.playerRegion,issue:issueId,route:issue.route});chooseCategory(issue.route)}
-function chooseCategory(key){const store=loadStore();const repeat=(store.history||[]).some(h=>h.category===key);state.category=key;analytics('pain_category_selected',{category:key,repeat});if(ROUTES[key].unknown){state.stage='unknown';state.unknownIndex=0;state.unknownAnswers={}}else state.stage='followup';render()}
-function playerContext(){const region=PLAYER_REGIONS[state.playerRegion],issue=region&&region.issues.find(x=>x.id===state.playerIssue);return{region,issue}}
-function renderFollowup(){const r=ROUTES[state.category],ctx=playerContext();setFrame('Let’s narrow it down',true);stageEl.innerHTML=`${ctx.region&&ctx.issue?`<div class="gspc-context"><span>${esc(ctx.region.label)}</span><strong>${esc(ctx.issue.label)}</strong></div>`:''}<div class="gspc-eyebrow">One useful distinction</div><h1 class="gspc-title" id="gspcTitle">${esc(r.question)}</h1><p class="gspc-lead">Which felt closest? This is a useful hypothesis—not a remote diagnosis.</p><div class="gspc-grid">${r.answers.map((a,i)=>`<button class="gspc-choice${i===r.answers.length-1?' gspc-unsure':''}" type="button" data-answer="${i}"><span class="gspc-choice-copy">${esc(a.label)}</span><span class="gspc-choice-arrow">→</span></button>`).join('')}</div>`;stageEl.querySelectorAll('[data-answer]').forEach(b=>b.addEventListener('click',()=>chooseAnswer(Number(b.dataset.answer))))}
-function chooseAnswer(i){const a=ROUTES[state.category].answers[i];state.answer=i;state.returningPrescription=false;state.result={issue:a.issue,read:a.read,lens:a.lens||'',focus:a.focus,cue:a.cue,assets:sanitizeAssetIds(a.assets)};analytics('pain_followup_answered',{category:state.category,answer:a.label});persistResult();state.stage='result';render()}
-function persistResult(){const store=loadStore();let tags={};try{if(typeof getPlayerTags==='function')tags=getPlayerTags()||{}}catch(e){}const item={id:'pain_'+Date.now(),at:new Date().toISOString(),category:state.category,answer:state.answer,playerRegion:state.playerRegion,playerIssue:state.playerIssue,result:state.result,playerLevel:tags.player_level||null,format:tags.play_format||tags.format||null,feedback:null,savedAt:null};store.history=[item,...(store.history||[])].slice(0,30);saveStore(store);clearDraft();analytics('pain_prescription_shown',{category:state.category,region:state.playerRegion,playerIssue:state.playerIssue,issue:state.result.issue,assets:state.result.assets});}
-function renderUnknown(){const q=UNKNOWN_QS[state.unknownIndex];setFrame(`Clarifying ${state.unknownIndex+1} of ${UNKNOWN_QS.length}`,true);stageEl.innerHTML=`<div class="gspc-eyebrow">We’ll narrow it down together</div><h1 class="gspc-title" id="gspcTitle">${esc(q.q)}</h1><p class="gspc-lead">One observation at a time. You can choose “I’m not sure.”</p><div class="gspc-grid">${q.opts.map(o=>`<button class="gspc-choice" type="button" data-value="${o[0]}"><span class="gspc-choice-copy">${esc(o[1])}</span><span class="gspc-choice-arrow">→</span></button>`).join('')}</div>`;stageEl.querySelectorAll('[data-value]').forEach(b=>b.addEventListener('click',()=>{state.unknownAnswers[q.key]=b.dataset.value;analytics('pain_unknown_answered',{question:q.key,answer:b.dataset.value});if(state.unknownIndex<UNKNOWN_QS.length-1){state.unknownIndex++;render()}else{state.suggested=classifyUnknown(state.unknownAnswers);state.stage='suggest';render()}}))}
-function classifyUnknown(x){if(x.phase==='serve')return'serve';if(x.pressure==='yes'&&(x.outcome==='errors'||x.phase==='all'))return'pressure';if(x.balance==='rushed'||x.balance==='stretched')return'position';if(x.phase==='return'||x.phase==='net')return x.outcome==='winners'?'read':'decisions';if(x.repeat==='yes'&&x.outcome==='winners')return'read';if(x.repeat==='yes')return'decisions';if(x.outcome==='errors')return'technique';if(x.outcome==='winners')return'read';return'decisions'}
-function renderSuggest(){const r=ROUTES[state.suggested];setFrame('Possible direction · confirm the fit',true);stageEl.innerHTML=`<div class="gspc-eyebrow">A likely starting point</div><div class="gspc-suggest"><div class="gspc-suggest-prefix">This is a hypothesis</div><div class="gspc-suggest-title" id="gspcTitle">This sounds more like ${esc(r.label.toLowerCase())}.</div><div class="gspc-suggest-copy">The answers point here more strongly than to a single stroke diagnosis. Does that feel close enough to test?</div></div><div class="gspc-actions"><button class="gspc-primary" type="button" data-accept="1">Yes—ask the follow-up</button><button class="gspc-secondary" type="button" data-reject="1">No—choose myself</button></div>`;stageEl.querySelector('[data-accept]').addEventListener('click',()=>{analytics('pain_unknown_classification',{suggested:state.suggested,accepted:true});state.category=state.suggested;state.stage='followup';render()});stageEl.querySelector('[data-reject]').addEventListener('click',()=>{analytics('pain_unknown_classification',{suggested:state.suggested,accepted:false});state.stage='categories';state.category=null;render()})}
-
-function resultVisual(ctx,r){
-  if(!ctx||!ctx.region)return '';
-  const region=ctx.region,rid=state.playerRegion;
-  const spots=(region.hotspots||[]).map(h=>`<span class="gspc-rv-dot" style="--x:${h.x}%;--y:${h.y}%"></span>`).join('');
-  return `<figure class="gspc-result-visual" data-region="${esc(rid||'')}">`+
-    `<img class="gspc-rv-img" src="${PLAYER_IMAGE}" alt="Illustrated tennis player with the ${esc(region.label)} area highlighted" draggable="false">`+
-    spots+
-    `<figcaption class="gspc-rv-cap"><span class="gspc-rv-area">Watch for</span><strong>${esc(r.cue||'')}</strong></figcaption>`+
-  `</figure>`;
-}
-function renderResult(){state.result=sanitizeResult(state.result);const r=state.result;if(!r){state.stage='categories';render();return}const returning=!!state.returningPrescription,ctx=playerContext();setFrame(returning?'Your current focus · Check back':'Your focus',true);const assets=(r.assets||[]).map(id=>`<button class="gspc-asset" type="button" data-asset="${id}"><span><span class="gspc-asset-type">${esc(VALID_ASSETS[id].type)}</span><span class="gspc-asset-title">${esc(VALID_ASSETS[id].title)}</span></span><span class="gspc-asset-arrow">→</span></button>`).join('');const store=loadStore();const latest=store.history&&store.history[0];const feedback=latest&&latest.feedback;const returnBlock=returning?`<div class="gspc-checkback"><div class="gspc-check-title">Did this help in your next match or practice?</div><div class="gspc-feedback">${FEEDBACK.map(x=>`<button type="button" data-feedback="${esc(x)}" class="${feedback===x?'selected':''}">${esc(x)}</button>`).join('')}</div></div>`:`<div class="gspc-pending"><div class="gspc-pending-title">Take this focus to your next hit</div><div class="gspc-pending-copy">Save it now. We’ll ask what changed when you come back—not before you have tested it.</div></div>`;stageEl.innerHTML=`${ctx.region&&ctx.issue?`<div class="gspc-context result-context"><span>${esc(ctx.region.label)}</span><strong>${esc(ctx.issue.label)}</strong></div>`:''}${resultVisual(ctx,r)}<div class="gspc-result-head"><div class="gspc-result-label">${returning?'Your current focus':'Most likely place to look'}</div><div class="gspc-result-issue" id="gspcTitle">${esc(r.issue)}</div></div><section class="gspc-block"><div class="gspc-block-label">The Read</div><div class="gspc-block-copy">${esc(r.read)}</div></section>${r.lens?`<section class="gspc-block"><div class="gspc-block-label">Coach’s Lens</div><div class="gspc-block-copy">${esc(r.lens)}</div></section>`:''}<section class="gspc-block"><div class="gspc-block-label">Your Focus</div><div class="gspc-focus">${esc(r.focus)}</div></section>${assets?`<section class="gspc-block"><div class="gspc-block-label">Sharpen It</div><div class="gspc-assets">${assets}</div></section>`:''}<section class="gspc-block"><div class="gspc-block-label">Take It to Court</div><div class="gspc-cue">${esc(r.cue)}</div></section>${returnBlock}<div class="gspc-result-actions">${returning?'':`<button class="gspc-primary" type="button" data-save="1">Save for later</button>`}<button class="gspc-secondary" type="button" data-share="1">Share with coach or friend</button><button class="gspc-secondary" type="button" data-copy="1">Copy clean summary</button><button class="gspc-secondary" type="button" data-card="1">Share visual card</button><button class="gspc-tertiary" type="button" data-update="1">Choose another focus</button></div><div class="gspc-share-status" role="status" aria-live="polite"></div>`;stageEl.querySelectorAll('[data-asset]').forEach(b=>b.addEventListener('click',()=>openAsset(b.dataset.asset)));stageEl.querySelectorAll('[data-feedback]').forEach(b=>b.addEventListener('click',()=>setFeedback(b.dataset.feedback)));const save=stageEl.querySelector('[data-save]');if(save)save.addEventListener('click',saveFocus);stageEl.querySelector('[data-share]').addEventListener('click',shareFocus);stageEl.querySelector('[data-copy]').addEventListener('click',copyFocus);stageEl.querySelector('[data-card]').addEventListener('click',shareFocusCard);stageEl.querySelector('[data-update]').addEventListener('click',()=>{state.stage='categories';state.category=null;state.answer=null;state.result=null;state.playerRegion=null;state.playerIssue=null;state.returningPrescription=false;clearDraft();render()})}
-function saveFocus(){const store=loadStore();if(store.history&&store.history[0])store.history[0].savedAt=new Date().toISOString();saveStore(store);state.returningPrescription=true;analytics('pain_focus_saved',{category:state.category});close()}
-function focusSummary(){const r=state.result,ctx=playerContext();if(!r)return'';return `Today’s Sharpen${ctx.region?' · '+ctx.region.label:''}\nFocus: ${r.focus}\nWatch for: ${r.cue}\nNext session: ${r.read}\n\nSee clearer. Think sharper.\nhttps://www.gamesharptennis.com`}
-function setShareStatus(text){const status=stageEl.querySelector('.gspc-share-status');if(status)status.textContent=text||''}
-async function copyText(text){if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(text);return true}const area=document.createElement('textarea');area.value=text;area.setAttribute('readonly','');area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();const ok=document.execCommand('copy');area.remove();return ok}
-async function copyFocus(){const text=focusSummary();if(!text)return;try{const ok=await copyText(text);setShareStatus(ok?'Clean summary copied.':'Copying is unavailable on this device.');analytics('pain_focus_copied',{category:state.category,ok})}catch(e){setShareStatus('Copying is unavailable on this device.')}}
-async function shareFocus(){const text=focusSummary();if(!text)return;let shared=false;try{if(navigator.share){await navigator.share({title:'Today’s GameSharp focus',text});shared=true}else shared=await copyText(text)}catch(e){if(e&&e.name==='AbortError')return}setShareStatus(shared?(navigator.share?'Shared without private match notes.':'Summary copied—ready to share.'):'Sharing is unavailable on this device.');analytics('pain_focus_shared',{category:state.category,method:navigator.share?'native':shared?'clipboard':'unavailable'})}
-function cardWrap(ctx,text,x,y,maxWidth,lineHeight,maxLines){const words=String(text||'').split(/\s+/),lines=[];let line='';for(const word of words){const test=line?line+' '+word:word;if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=word;if(lines.length===maxLines-1)break}else line=test}if(line&&lines.length<maxLines)lines.push(line);if(words.length&&lines.length===maxLines){let last=lines[maxLines-1];while(ctx.measureText(last+'…').width>maxWidth&&last.includes(' '))last=last.slice(0,last.lastIndexOf(' '));lines[maxLines-1]=last+'…'}lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lineHeight));return y+lines.length*lineHeight}
-
-/* The card used to draw an invented empty court. It now carries the same
-   picture the player chose from, with the sharpened area ringed, so the shared
-   image says something true about their game. Falls back to the court lines
-   when the figure cannot be loaded. */
-function loadFocusFigure(){return new Promise(resolve=>{try{const img=new Image();img.decoding='sync';const done=ok=>resolve(ok&&img.naturalWidth?img:null);img.onload=()=>done(true);img.onerror=()=>done(false);setTimeout(()=>done(!!img.naturalWidth),2500);img.src=PLAYER_IMAGE}catch(e){resolve(null)}})}
-function drawFocusFigure(x,ctxData,BX,BY,BW,BH){
-  const bx=BX!==undefined?BX:150,by=BY!==undefined?BY:470,bw=BW!==undefined?BW:900,bh=BH!==undefined?BH:620;
-  x.save();
-  if(ctxData&&ctxData.figure&&ctxData.figure.naturalWidth){
-    // Contain, not cover: hotspots are percentages of the whole figure, so a
-    // crop would push most regions' rings outside the band and silently drop
-    // the highlight. Fitting the figure guarantees every region maps.
-    const im=ctxData.figure,scale=Math.min(bw/im.naturalWidth,bh/im.naturalHeight);
-    const dw=im.naturalWidth*scale,dh=im.naturalHeight*scale;
-    const ox=bx+(bw-dw)/2,oy=by+(bh-dh)/2;
-    x.beginPath();x.rect(bx,by,bw,bh);x.clip();
-    x.globalAlpha=.72;
-    x.drawImage(im,ox,oy,dw,dh);
-    x.globalAlpha=1;
-    const region=ctxData.region,h=region&&region.hotspots&&region.hotspots[0];
-    if(h){
-      const px=ox+dw*(h.x/100),py=oy+dh*(h.y/100);
-      {
-        x.strokeStyle='#7fe08f';x.lineWidth=6;
-        x.beginPath();x.arc(px,py,34,0,Math.PI*2);x.stroke();
-        x.strokeStyle='rgba(127,224,143,.30)';x.lineWidth=16;
-        x.beginPath();x.arc(px,py,34,0,Math.PI*2);x.stroke();
-      }
-    }
-    x.restore();
-    x.strokeStyle='rgba(200,168,75,.34)';x.lineWidth=3;
-    x.strokeRect(ox-14,oy-14,dw+28,dh+28);
-    return;
+function setBackgroundInert(inert){document.querySelectorAll('.screen').forEach(el=>{el.inert=!!inert;if(inert)el.setAttribute('aria-hidden','true');else el.removeAttribute('aria-hidden')})}
+function setSharpenNav(open){const items=[...document.querySelectorAll('#gsBottomNav .gs-bnav-item,.gs-sidebar .gs-nav-item')];if(open){if(!priorNavState)priorNavState=items.map(el=>({el,bottom:el.classList.contains('gs-bnav-item'),active:el.classList.contains(el.classList.contains('gs-bnav-item')?'gs-bnav-active':'gs-nav-active')}));items.forEach(el=>{const cls=el.classList.contains('gs-bnav-item')?'gs-bnav-active':'gs-nav-active';el.classList.toggle(cls,/\bSharpen\b/i.test(el.textContent||''))})}else if(priorNavState){priorNavState.forEach(item=>{if(!item.el.isConnected)return;item.el.classList.toggle(item.bottom?'gs-bnav-active':'gs-nav-active',item.active)});priorNavState=null}}
+function bindPlayer(){
+  const img=stageEl.querySelector('.gspc-player-img'),fallback=stageEl.querySelector('.gspc-player-fallback');
+  if(img){
+    const failed=()=>{img.closest('.gspc-player').classList.add('image-failed');if(fallback)fallback.hidden=false;};
+    img.addEventListener('error',failed,{once:true});
+    if(img.complete&&!img.naturalWidth)failed();
+    if(!img.complete)img.addEventListener('load',settleHotspotLabels,{once:true});
   }
-  x.strokeStyle='rgba(235,242,228,.18)';x.lineWidth=5;x.beginPath();
-  x.moveTo(210,510);x.lineTo(990,510);x.moveTo(140,1090);x.lineTo(1060,1090);
-  x.moveTo(350,510);x.lineTo(265,1090);x.moveTo(850,510);x.lineTo(935,1090);
-  x.moveTo(600,510);x.lineTo(600,1090);x.stroke();x.restore();
+  settleHotspotLabels();
+  stageEl.querySelectorAll('[data-player-region]').forEach(b=>b.addEventListener('click',()=>selectPlayerRegion(b.dataset.playerRegion)));
 }
-function buildFocusCard(figure){const r=state.result,ctxData=playerContext(),c=document.createElement('canvas');ctxData.figure=figure||null;c.width=1200;c.height=1500;const x=c.getContext('2d'),g=x.createRadialGradient(600,420,80,600,720,900);g.addColorStop(0,'#184b25');g.addColorStop(.58,'#0a2412');g.addColorStop(1,'#030a06');x.fillStyle=g;x.fillRect(0,0,c.width,c.height);x.strokeStyle='rgba(200,168,75,.72)';x.lineWidth=4;x.strokeRect(42,42,1116,1416);
-  const hasFig=!!(ctxData.figure&&ctxData.figure.naturalWidth);
-  x.fillStyle='#fff';x.font='800 66px Arial, sans-serif';x.fillText('GAME',86,150);x.fillStyle='#c8a84b';x.fillText('SHARP',270,150);
-  x.fillStyle='#73d487';x.font='800 25px Arial, sans-serif';x.fillText('TODAY\u2019S SHARPEN',86,240);
-  if(ctxData.region){x.fillStyle='rgba(255,255,255,.62)';x.font='700 27px Arial, sans-serif';x.fillText(ctxData.region.label.toUpperCase(),86,292)}
-  if(hasFig){
-    // Figure leads as a hero band; the card then carries one focus and one cue
-    // rather than a paragraph, so the shared image is looked at, not read.
-    drawFocusFigure(x,ctxData,86,330,1028,470);
-    x.fillStyle='#fff';x.font='800 55px Arial, sans-serif';
-    let y=cardWrap(x,r.focus,86,900,1028,66,3);
-    x.fillStyle='#c8a84b';x.font='800 23px Arial, sans-serif';x.fillText('WATCH FOR',86,y+64);
-    x.fillStyle='#73d487';x.font='800 46px Arial, sans-serif';cardWrap(x,r.cue,86,y+120,1028,54,2);
-  }else{
-    drawFocusFigure(x,ctxData);
-    x.fillStyle='#fff';x.font='800 55px Arial, sans-serif';
-    let y=cardWrap(x,r.focus,86,390,1028,66,4);
-    x.fillStyle='#c8a84b';x.font='800 23px Arial, sans-serif';x.fillText('WATCH FOR',86,y+70);
-    x.fillStyle='#73d487';x.font='800 46px Arial, sans-serif';y=cardWrap(x,r.cue,86,y+128,1028,56,3);
-    x.fillStyle='rgba(255,255,255,.72)';x.font='500 31px Arial, sans-serif';cardWrap(x,r.read,86,1175,1028,43,4);
+function ensureOverlay(){
+  if(overlay)return;
+  overlay=document.createElement('div');overlay.id='gspcOverlay';overlay.className='gspc-overlay gspc-beta';
+  overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-labelledby','gspcTitle');
+  overlay.innerHTML='<div class="gspc-shell"><header class="gspc-top"><button type="button" class="gspc-back" aria-label="Go back">←</button><div class="gspc-topcopy"><div class="gspc-brand">GAMESHARP · Sharpen</div><div class="gspc-progress"></div></div><button type="button" class="gspc-close" aria-label="Exit">×</button></header><div class="gspc-scroll"><main class="gspc-stage"></main></div><div class="gspc-sr" role="status" aria-live="polite"></div></div>';
+  document.body.appendChild(overlay);stageEl=overlay.querySelector('.gspc-stage');backBtn=overlay.querySelector('.gspc-back');progressEl=overlay.querySelector('.gspc-progress');
+  backBtn.addEventListener('click',back);overlay.querySelector('.gspc-close').addEventListener('click',close);
+  document.addEventListener('keydown',e=>{
+    if(!overlay.classList.contains('open'))return;
+    if(e.key==='Escape'){e.preventDefault();close();return;}
+    if(e.key!=='Tab')return;
+    const controls=[...overlay.querySelectorAll('button:not([disabled]),select:not([disabled]),input:not([disabled]),textarea:not([disabled]),a[href],summary,[tabindex="0"]')].filter(x=>x.getClientRects().length);
+    const first=controls[0],last=controls.at(-1);
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  });
+}
+function show(){
+  ensureOverlay();setBackgroundInert(true);setSharpenNav(true);overlay.classList.add('open');document.body.classList.add('gspc-open');
+  render();overlay.querySelector('.gspc-close').focus({preventScroll:true});
+}
+function open(source){
+  ensureOverlay();lastFocus=document.activeElement;notice='';
+  const directPlayer=source==='sharpen';
+  state={stage:'categories',playerRegion:null,playerIssue:null,lessonId:null,source:source||'sharpen',contextualEntry:false};
+  show();analytics('sharpen_opened',{source:state.source,directPlayer});return true;
+}
+function openRegion(id,source){
+  if(!PLAYER_REGIONS[id])return false;
+  open(source);state.stage='region';state.playerRegion=id;state.contextualEntry=!!source&&source!=='sharpen';render();return true;
+}
+function openLessonFocus(id,source){
+  const c=lesson(id),spine=c&&root.GameSharpGoldLessonSpines.byId[c.lessonSpineId];
+  if(!c||!PLAYER_REGIONS[spine.sharpenTarget])return false;
+  open(source);state.stage='focus';state.playerRegion=spine.sharpenTarget;state.lessonId=id;state.contextualEntry=!!source&&source!=='sharpen';render();return true;
+}
+function close(){
+  if(!overlay||!overlay.classList.contains('open'))return;
+  overlay.classList.remove('open');document.body.classList.remove('gspc-open');setBackgroundInert(false);setSharpenNav(false);
+  if(lastFocus&&lastFocus.isConnected)lastFocus.focus({preventScroll:true});
+}
+function back(){
+  notice='';
+  if(state.stage.startsWith('check-')){
+    const parents={'check-match':'focus','check-plan':'check-match','check-plan-review':'check-result','check-observe':'check-match','check-boundary':'check-match','check-report':'check-plan','check-result':'focus'};
+    state.stage=parents[state.stage]||'focus';render();return;
   }
-  x.fillStyle='rgba(255,255,255,.55)';x.font='700 25px Arial, sans-serif';x.fillText('SEE CLEARER. THINK SHARPER.',86,1380);
-  x.fillStyle='#c8a84b';x.fillText('GAMESHARPTENNIS.COM',790,1380);return c}
-let focusCardBusy=false;
-async function shareFocusCard(){if(!state.result)return;if(focusCardBusy)return;focusCardBusy=true;setShareStatus('Preparing your GameSharp card…');try{const figure=await loadFocusFigure(),canvas=buildFocusCard(figure),blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png',.94));if(!blob)throw Error('card unavailable');let nativeShared=false;if(typeof File==='function'&&navigator.share&&navigator.canShare){const file=new File([blob],'GameSharp-Tennis-Focus.png',{type:'image/png'});if(navigator.canShare({files:[file]})){await navigator.share({title:'Today’s GameSharp focus',text:'See clearer. Think sharper.',files:[file]});nativeShared=true}}if(nativeShared)setShareStatus('Visual focus card shared.');else{const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='GameSharp-Tennis-Focus.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);setShareStatus('Visual focus card saved—ready to share.')}analytics('pain_focus_card_shared',{category:state.category,method:nativeShared?'native':'download'})}catch(e){if(e&&e.name==='AbortError'){setShareStatus('');return}setShareStatus('The visual card could not be created on this device. Your text summary is still available.')}finally{focusCardBusy=false}}
-function setFeedback(value){const store=loadStore();if(store.history&&store.history[0])store.history[0].feedback=value;saveStore(store);analytics('pain_helpfulness_recorded',{category:state.category,response:value});renderResult()}
-function armContentReturn(id){contentReturnContext={asset:id,category:state.category,answer:state.answer,playerRegion:state.playerRegion,playerIssue:state.playerIssue,result:sanitizeResult(state.result),returningPrescription:!!state.returningPrescription}}
-function labelContentReturn(){if(!contentReturnContext)return;const quizBack=document.querySelector('#quizScreen .quiz-header .back-btn');if(quizBack)quizBack.setAttribute('aria-label','Back to your current focus');const sessionBack=document.querySelector('#scoreScreen .session-return-btn');if(sessionBack)sessionBack.textContent='← Back to your focus';const seqBack=document.querySelector('#sequenceScreen .seq-back-btn');if(seqBack)seqBack.setAttribute('aria-label','Back to your current focus')}
-function returnFromRecommendedContent(source){if(!contentReturnContext||restoringContentReturn)return false;const ctx=contentReturnContext;contentReturnContext=null;restoringContentReturn=true;try{const themed=document.getElementById('dailyThemed');if(themed)themed.style.display='none';open('recommendation-return');state.stage='result';state.category=ctx.category;state.answer=ctx.answer;state.playerRegion=ctx.playerRegion;state.playerIssue=ctx.playerIssue;state.result=sanitizeResult(ctx.result);state.returningPrescription=ctx.returningPrescription;clearDraft();render();analytics('pain_content_returned',{asset:ctx.asset,source:source||'back',category:ctx.category,region:ctx.playerRegion});return true}finally{restoringContentReturn=false}}
-function screenActive(id){const el=document.getElementById(id);return!!(el&&el.classList.contains('active'))}
-function faultOverlayActive(){const el=document.getElementById('dailyThemed');return!!(el&&el.style.display!=='none')}
-function launchRecommendedContent(a){if(a.kind==='module'&&typeof startQuiz==='function'){startQuiz(a.pillar,a.module);return screenActive('quizScreen')}if(a.kind==='sequence'&&typeof startLinkedSequence==='function'){startLinkedSequence(a.id);return screenActive('sequenceScreen')}if(a.kind==='daily'&&typeof startDailyChallenge==='function'){startDailyChallenge();return screenActive('quizScreen')}if(a.kind==='faultLibrary'&&typeof openFixAShot==='function'){openFixAShot();return faultOverlayActive()}if(a.kind==='fault'&&typeof openFixAShot==='function'){openFixAShot();if(!faultOverlayActive())return false;setTimeout(()=>{const groups=fixGroups();const i=groups.findIndex(g=>g.key===a.group);if(i>=0)fixOpenStroke(i)},50);return true}return false}
-function openAsset(id){const a=VALID_ASSETS[id];if(!a)return;const store=loadStore();store.opened=[{id,at:new Date().toISOString(),category:state.category},...(store.opened||[])].slice(0,60);store.currentAsset=id;saveStore(store);analytics('pain_content_opened',{asset:id,type:a.kind,category:state.category});armContentReturn(id);close();if(!launchRecommendedContent(a)){contentReturnContext=null;store.currentAsset=null;saveStore(store);open('launch-unavailable');return}setTimeout(labelContentReturn,0)}
-function markCompleted(){const store=loadStore();const id=store.currentAsset;if(!id)return;if(!(store.completed||[]).some(x=>x.id===id))store.completed=[{id,at:new Date().toISOString()},...(store.completed||[])];store.currentAsset=null;saveStore(store);analytics('pain_content_completed',{asset:id})}
-function wrapCompletions(){if(typeof window.showScore==='function'&&!window.showScore._gspc){const orig=window.showScore;window.showScore=function(){const out=orig.apply(this,arguments);markCompleted();labelContentReturn();return out};window.showScore._gspc=true}if(typeof window.renderSeq==='function'&&!window.renderSeq._gspc){const orig=window.renderSeq;window.renderSeq=function(phase){const out=orig.apply(this,arguments);if(phase==='result')markCompleted();labelContentReturn();return out};window.renderSeq._gspc=true}if(typeof window.fixAnswer==='function'&&!window.fixAnswer._gspc){const orig=window.fixAnswer;window.fixAnswer=function(){const out=orig.apply(this,arguments);markCompleted();return out};window.fixAnswer._gspc=true}}
-function wrapReturnNavigation(name){const fn=window[name];if(typeof fn!=='function'||fn._gspcReturn)return;window[name]=function(){if(returnFromRecommendedContent(name))return;return fn.apply(this,arguments)};window[name]._gspcReturn=true}
-function wrapScreenBoundary(){const fn=window.showScreen;if(typeof fn!=='function'||fn._gspcReturnBoundary)return;window.showScreen=function(id){if(contentReturnContext&&!restoringContentReturn&&!RECOMMENDED_CONTENT_SCREENS.has(id)){returnFromRecommendedContent('showScreen:'+id);return}return fn.apply(this,arguments)};window.showScreen._gspcReturnBoundary=true}
-function auditReturnContract(){const required=['showScreen','goHome','initHome','fixExit','dtcExit'];const missing=required.filter(name=>typeof window[name]!=='function');const guarded=typeof window.showScreen==='function'&&!!window.showScreen._gspcReturnBoundary;document.documentElement.dataset.gspcReturnContract=!missing.length&&guarded?'ok':'fail';document.documentElement.dataset.gspcReturnContractMissing=missing.join(',');if(missing.length||!guarded)console.error('[GAMESHARP NAVIGATION] Return contract failed',{missing,boundary:guarded})}
-function wrapNavigation(){wrapScreenBoundary();['goHome','initHome','fixExit','dtcExit'].forEach(wrapReturnNavigation);auditReturnContract()}
-function init(){ensureOverlay();VALID_ASSETS=validateAssets();CONTENT_MAP=buildContentMap();document.documentElement.dataset.gspcContentMapCount=String(Object.keys(CONTENT_MAP).length);auditRoutes();auditPlayerRegions();wrapNavigation();wrapCompletions();window.addEventListener('resize',settleHotspotLabels,{passive:true});window.GameSharpPainCoach={open,close,assets:VALID_ASSETS,contentMap:CONTENT_MAP,routes:ROUTES,playerRegions:PLAYER_REGIONS,playerImage:PLAYER_IMAGE,painAliases:PAIN_ALIASES,coverage:ROUTE_COVERAGE,getData:loadStore,markCompleted,returnFromRecommendedContent,returnContract:()=>document.documentElement.dataset.gspcReturnContract,playerContract:()=>({status:document.documentElement.dataset.gspcPlayerIntegrity,regions:Number(document.documentElement.dataset.gspcPlayerRegions||0),errors:document.documentElement.dataset.gspcPlayerErrors||''})}}
+  if(state.stage==='categories'||state.stage==='region'&&state.contextualEntry||state.stage==='focus'&&state.contextualEntry&&!state.playerIssue){close();return;}
+  if(state.stage==='focus'||state.stage==='unsupported'){state.stage=state.playerRegion?'region':'categories';state.lessonId=null;state.playerIssue=null;}
+  else{state.stage='categories';state.playerRegion=null;state.playerIssue=null;}
+  render();
+}
+function selectPlayerRegion(id){
+  if(!PLAYER_REGIONS[id])return;
+  state.stage='region';state.playerRegion=id;state.playerIssue=null;state.lessonId=null;state.checkJourney=false;state.checkId=null;state.checkDraft=null;notice='';render();
+  analytics('sharpen_region_selected',{region:id});
+}
+function render(){
+  if(!stageEl)return;overlay.querySelector('.gspc-scroll').scrollTop=0;
+  if(state.stage.startsWith('check-'))renderCheck();else if(state.stage==='region')renderRegion();else if(state.stage==='focus')renderFocus();else if(state.stage==='unsupported')renderUnsupported();else renderCategories();
+  overlay.querySelector('.gspc-sr').textContent=notice;
+  const h=stageEl.querySelector('#gspcTitle');if(h){h.tabIndex=-1;h.focus({preventScroll:true});}
+}
+function renderCategories(){
+  progressEl.textContent='Find one useful next step';
+  const s=getStore(),f=validSavedFocus(s&&s.read().focus),c=f&&lesson(f.lessonId);
+  stageEl.innerHTML='<div class="gspc-player-intro"><h1 class="gspc-title" id="gspcTitle">What do you want to sharpen?</h1><p class="gspc-lead">Start with what’s hurting your game most.</p></div>'+playerMarkup(null)+
+    (c?'<button type="button" class="gspc-focus-summary" data-saved-focus><span>Your saved court cue</span><strong>'+esc(c.memory)+'</strong><small>Return to your focus →</small></button>':'')+
+    '<button type="button" class="gspc-player-unsure" data-unsure>I’m not sure yet <span aria-hidden="true">→</span></button>';
+  bindPlayer();
+  stageEl.querySelector('[data-unsure]').addEventListener('click',()=>{state.stage='unsupported';render();});
+  stageEl.querySelector('[data-saved-focus]')?.addEventListener('click',()=>{state.playerRegion=f.region;state.playerIssue=f.pathId||null;state.lessonId=f.lessonId;state.stage='focus';render();});
+}
+function thumb(path){
+  let html='';try{html=root.GameSharpGoldDaily.preview(path.lessonId)||'';}catch(e){}
+  return '<span class="gspc-situation-picture" aria-hidden="true">'+(html||'<span class="gspc-contact-tile">Contact<br>+ space</span>')+'</span>';
+}
+function renderRegion(){
+  const r=PLAYER_REGIONS[state.playerRegion],paths=pathsFor(state.playerRegion);
+  progressEl.textContent=r.label+' · one situation';
+  stageEl.innerHTML='<header class="gspc-region-head"><div class="gspc-eyebrow">'+esc(r.label)+'</div><h1 class="gspc-title" id="gspcTitle">Which moment feels familiar?</h1><p>Pick one. See it more clearly.</p></header>'+
+    (paths.length?'<div class="gspc-situations">'+paths.map(p=>{const candidate=checkDefinition(p.lessonId),check=candidate?.pathId===p.id?candidate:null;return '<button type="button" class="gspc-situation" data-path="'+esc(p.id)+'">'+thumb(p)+'<span class="gspc-situation-copy"><strong>'+esc(check?check.label:p.label)+'</strong><small>'+esc(check?check.invitation:p.invitation)+'</small></span><span class="gspc-situation-arrow" aria-hidden="true">↗</span></button>';}).join('')+'</div>':'<div class="gspc-empty">These lessons are not available right now. Nothing else will be substituted.</div>')+
+    '<button type="button" class="gspc-player-reset" data-not-fit>None of these fits</button>'+
+    (notice?'<p class="gspc-save-status" role="status">'+esc(notice)+'</p>':'');
+  stageEl.querySelectorAll('[data-path]').forEach(b=>b.addEventListener('click',()=>launchPath(b.dataset.path)));
+  stageEl.querySelector('[data-not-fit]').addEventListener('click',()=>{state.stage='unsupported';render();});
+}
+function renderUnsupported(){
+  progressEl.textContent='No guesswork';
+  stageEl.innerHTML='<div class="gspc-region-head"><div class="gspc-eyebrow">Find the right starting point</div><h1 class="gspc-title" id="gspcTitle">We don’t have to name a fault.</h1><p>A miss alone cannot tell us its cause. These lessons help you observe and make decisions—not diagnose your stroke.</p></div><div class="gspc-empty"><strong>Next time, notice one moment.</strong><p>Where was the ball relative to you at contact? Bring that observation back, or show the moment to your coach.</p></div><button type="button" class="gspc-primary" data-choose-area>Choose another area →</button>';
+  stageEl.querySelector('[data-choose-area]').addEventListener('click',()=>{state.stage='categories';state.playerRegion=null;state.contextualEntry=false;render();});
+}
+function launchPath(id){
+  const p=pathFor(id);if(!p||!lesson(p.lessonId)){notice='That lesson is unavailable. No other lesson has been substituted.';render();return false;}
+  state.playerIssue=p.id;state.lessonId=p.lessonId;
+  const d=checkDefinition(p.lessonId);
+  state.checkJourney=!!d&&d.pathId===p.id;state.checkId=state.checkJourney?d.id:null;state.checkDraft=null;
+  return launchLesson(p.lessonId);
+}
+function launchLesson(id){
+  const c=lesson(id),engine=root.GameSharpGoldDaily;if(!c||launchBusy)return false;
+  const origin={...state};launchBusy=true;close();
+  let opened=false;
+  try{
+    opened=engine.openPractice(id,{returnLabel:'Take this to court →',onReturn:result=>{
+      launchBusy=false;state={...origin};
+      if(result&&result.lessonId===id&&result.completed){
+        getStore()?.recordSeen(id,now());state.stage=origin.checkJourney&&checkDefinition(origin.checkId)?.lessonId===id?'check-match':'focus';state.lessonId=id;
+      }else{state.stage=origin.stage;notice='Your Daily is unchanged. You can try this lesson again whenever you want.';}
+      show();
+    }});
+  }catch(e){opened=false;}
+  if(!opened){launchBusy=false;state=origin;notice='That lesson could not open. Your focus and Daily progress are unchanged.';show();return false;}
+  analytics('sharpen_lesson_opened',{lessonId:id,pathId:state.playerIssue,region:state.playerRegion});return true;
+}
+function renderFocus(){
+  const c=lesson(state.lessonId);if(!c){stageEl.innerHTML='<div class="gspc-empty"><h1 id="gspcTitle">This lesson is unavailable.</h1><p>Your saved focus has not been changed.</p></div>';return;}
+  const s=getStore(),saved=validSavedFocus(s&&s.read().focus),isSaved=saved&&saved.lessonId===c.id&&saved.region===state.playerRegion,d=checkDefinition(c.id);
+  progressEl.textContent='One idea for your next hit';
+  stageEl.innerHTML='<article class="gspc-court-card"><div class="gspc-eyebrow">Take it to court</div><h1 class="gspc-title" id="gspcTitle">'+esc(c.title)+'</h1><blockquote>'+esc(c.memory)+'</blockquote><p>'+esc(c.takeItToCourt)+'</p></article>'+
+    (d?'<button type="button" class="gspc-secondary gspc-check-full" data-court-check>'+esc(d.cta)+'</button><p class="gspc-storage-note">Beta practice check · not yet coach-reviewed.</p>':'')+
+    '<button type="button" class="gspc-primary" data-save-focus'+(!s||isSaved?' disabled':'')+'>'+(!s?'Saving unavailable':isSaved?(s.persistent()?'Saved for next session':'Kept for this visit'):'Save this court cue')+'</button>'+
+    '<p class="gspc-save-status" role="status">'+esc(notice)+'</p>'+storageNote()+
+    (isSaved?'<section class="gspc-feedback-card"><strong>'+(saved.practicedAt?'What did you notice?':'Try it on court first.')+'</strong>'+
+      (saved.practicedAt?'<p>This is your observation—not a technique score.</p><div class="gspc-feedback">'+[['clearer','The decision felt clearer'],['mixed','It depended on the ball'],['unclear','I’m still unsure']].map(([id,label])=>'<button type="button" data-feedback="'+id+'" aria-pressed="'+(saved.feedback===id)+'">'+label+'</button>').join('')+'</div>':'<p>Replaying a lesson is not on-court practice.</p><button type="button" class="gspc-secondary" data-tried>I have tried this on court</button>')+'</section>':'')+
+    '<div class="gspc-actions"><button type="button" class="gspc-secondary" data-replay>Replay the lesson</button><button type="button" class="gspc-secondary" data-share>Share court cue</button></div><button type="button" class="gspc-player-reset" data-change>Choose another focus</button>';
+  stageEl.querySelector('[data-save-focus]').addEventListener('click',saveFocus);
+  stageEl.querySelector('[data-court-check]')?.addEventListener('click',()=>{
+    state.checkJourney=true;state.checkId=d.id;
+    const e=getCheckStore(d).read().experiment;
+    state.stage=e?(e.report?'check-result':'check-plan'):'check-match';render();
+  });
+  stageEl.querySelector('[data-tried]')?.addEventListener('click',()=>{if(s.markPracticed(c.id,now())){notice='Your on-court trial is recorded as your own report.';renderFocus();}});
+  stageEl.querySelectorAll('[data-feedback]').forEach(b=>b.addEventListener('click',()=>{if(s.feedback(c.id,b.dataset.feedback)){notice='Your observation is saved.';renderFocus();}}));
+  stageEl.querySelector('[data-replay]').addEventListener('click',()=>launchLesson(c.id));
+  stageEl.querySelector('[data-share]').addEventListener('click',shareFocus);
+  stageEl.querySelector('[data-change]').addEventListener('click',()=>{state.stage='categories';state.playerRegion=null;state.playerIssue=null;state.lessonId=null;state.checkId=null;state.checkJourney=false;state.checkDraft=null;state.contextualEntry=false;notice='';render();});
+}
+function saveFocus(){const c=lesson(state.lessonId),s=getStore();if(!c||!s)return; s.saveFocus({lessonId:c.id,region:state.playerRegion,pathId:state.playerIssue},now());notice=s.persistent()?'Saved for next session':'Kept for this visit only';renderFocus();}
+function checkHeading(d,title,lead){
+  const area=d&&PLAYER_REGIONS[d.region]?.label||'Sharpen';
+  return '<header class="gspc-region-head"><div class="gspc-eyebrow">'+esc(area)+' · one useful check</div><h1 class="gspc-title" id="gspcTitle">'+esc(title)+'</h1><p>'+esc(lead)+'</p></header>';
+}
+function checkSources(d){
+  return '<details class="gspc-check-sources"><summary>Why this check—and its limits</summary><p>'+esc(d.disclosure)+'</p><ul>'+d.limits.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><p>'+esc(d.adaptation)+'</p>'+d.sources.map(s=>'<a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.title)+'</a>').join('')+'</details>';
+}
+function checkSaveNote(s){return '<p class="gspc-storage-note">'+(s.persistent()?'This check stays in this browser.':'Saving is unavailable. This check lasts only while this page stays open.')+'</p>';}
+function moveCheck(stage){state.stage='check-'+stage;render();}
+function leaveCheck(){state.stage='focus';state.checkJourney=false;render();}
+function checkField(f,draft){
+  const values=f.type==='count'?Array.from({length:f.max-f.min+1},(_,i)=>[String(i+f.min),String(i+f.min)]):f.options;
+  const options='<option value="">Choose…</option>'+values.map(([v,label])=>'<option value="'+esc(v)+'"'+(String(draft[f.name])===String(v)?' selected':'')+'>'+esc(label)+'</option>').join('');
+  return '<label>'+esc(f.label)+'<select name="'+esc(f.name)+'" required>'+options+'</select></label>';
+}
+function checkPayload(d,fields){
+  const payload={};
+  for(const f of d.report.fields){
+    const v=fields[f.name];
+    if(typeof v!=='string'||v==='')return null;
+    if(f.type==='count'){
+      if(!/^\d+$/.test(v))return null;
+      payload[f.name]=Number(v);
+    }else if(f.type==='boolean'){
+      if(v!=='true'&&v!=='false')return null;
+      payload[f.name]=v==='true';
+    }else payload[f.name]=v;
+  }
+  return root.GameSharpCourtChecks.validateReport(d.id,payload)?payload:null;
+}
+function renderCheck(){
+  const d=checkDefinition();
+  if(!d||d.lessonId!==state.lessonId){
+    stageEl.innerHTML=checkHeading(null,'This court check is unavailable.','Your lesson and saved progress are unchanged.')+'<button type="button" class="gspc-secondary" data-check-focus>Back to the lesson cue</button>';
+    stageEl.querySelector('[data-check-focus]').onclick=leaveCheck;return;
+  }
+  state.checkId=d.id;
+  const s=getCheckStore(d),record=s.read().experiment;
+  progressEl.textContent=PLAYER_REGIONS[d.region].label+' · beta practice check';
+  if(state.stage==='check-match'){
+    const r=d.recognition;
+    stageEl.innerHTML=checkHeading(d,r.title,r.lead)+'<div class="gspc-check-choices">'+['yes','unsure','no'].map(id=>'<button type="button" class="gspc-secondary" data-check-match="'+id+'"><strong>'+esc(r[id].label)+'</strong><span>'+esc(r[id].detail)+'</span></button>').join('')+'</div><button type="button" class="gspc-tertiary" data-check-replay>See the comparison again</button>';
+    stageEl.querySelectorAll('[data-check-match]').forEach(b=>b.onclick=()=>moveCheck({yes:'plan',unsure:'observe',no:'boundary'}[b.dataset.checkMatch]));
+    stageEl.querySelector('[data-check-replay]').onclick=()=>launchLesson(d.lessonId);return;
+  }
+  if(state.stage==='check-observe'||state.stage==='check-boundary'){
+    const r=d.recognition[state.stage==='check-observe'?'unsure':'no'];
+    stageEl.innerHTML=checkHeading(d,r.title,r.lead)+'<div class="gspc-empty"><strong>One useful next step</strong><p>'+esc(r.body)+'</p></div><button type="button" class="gspc-primary" data-check-match>Return to the clue</button><button type="button" class="gspc-tertiary" data-check-focus>Keep the lesson cue</button>';
+    stageEl.querySelector('[data-check-match]').onclick=()=>moveCheck('match');
+    stageEl.querySelector('[data-check-focus]').onclick=leaveCheck;return;
+  }
+  if(state.stage==='check-plan'||state.stage==='check-plan-review'){
+    const reviewing=state.stage==='check-plan-review'&&!!record?.report,p=d.plan;
+    if(record?.report&&!reviewing){state.stage='check-result';renderCheck();return;}
+    const blocks=p.blocks.map(b=>'<article><div class="gspc-check-ten" aria-hidden="true">'+esc(b.number)+(b.label?'<span>'+esc(b.label)+'</span>':'')+'</div><div><h2>'+esc(b.title)+'</h2><p>'+esc(b.body)+'</p>'+(b.cue?'<blockquote class="gspc-check-cue">'+esc(b.cue)+'</blockquote>':'')+'</div></article>').join('');
+    stageEl.innerHTML=checkHeading(d,p.title,p.lead)+'<p class="gspc-check-setup">'+esc(p.setup)+'</p><div class="gspc-check-blocks">'+blocks+'</div>'+(p.counting?'<p class="gspc-check-counting">'+esc(p.counting)+'</p>':'')+'<p class="gspc-check-boundary">'+esc(p.boundary)+'</p><p class="gspc-storage-note">Source-informed prototype · coach review pending.</p>'+
+      (reviewing?'<button type="button" class="gspc-primary" data-check-result>Back to my first observation</button><p class="gspc-storage-note">This prototype keeps one observation per check. Reviewing the instructions does not change your report.</p>':'<button type="button" class="gspc-primary" data-check-plan'+(record?' disabled':'')+'>'+(record?(s.persistent()?'Saved for your next hit':'Kept for this visit'):'Save this experiment for my next hit')+'</button>'+
+      (record?'<p class="gspc-save-status">Planning it does not record court practice.</p><button type="button" class="gspc-secondary gspc-check-full" data-check-record>'+esc(d.report.cta||'I’ve tried this—record what happened')+'</button>':''))+checkSaveNote(s)+checkSources(d);
+    stageEl.querySelector('[data-check-result]')?.addEventListener('click',()=>moveCheck('result'));
+    stageEl.querySelector('[data-check-plan]')?.addEventListener('click',()=>{
+      s.plan(now());
+      const p=pathFor(state.playerIssue);
+      getStore()?.saveFocus({lessonId:d.lessonId,region:d.region,pathId:p?.lessonId===d.lessonId&&p.region===d.region?p.id:null},now());
+      renderCheck();
+      stageEl.querySelector('[data-check-record]')?.focus({preventScroll:true});
+    });
+    stageEl.querySelector('[data-check-record]')?.addEventListener('click',()=>moveCheck('report'));return;
+  }
+  if(state.stage==='check-report'){
+    if(!record){state.stage='check-plan';renderCheck();return;}
+    if(record.report){state.stage='check-result';renderCheck();return;}
+    const draft=state.checkDraft?.id===d.id?state.checkDraft.fields:{};
+    const counts=d.report.fields.filter(f=>f.type==='count'),other=d.report.fields.filter(f=>f.type!=='count');
+    const countGroup=counts.length?'<fieldset><legend>'+esc(d.report.countLegend||'Your counts')+'</legend>'+(d.report.countHint?'<p>'+esc(d.report.countHint)+'</p>':'')+'<div class="gspc-check-count-fields">'+counts.map(f=>checkField(f,draft)).join('')+'</div></fieldset>':'';
+    stageEl.innerHTML=checkHeading(d,d.report.title,d.report.lead)+'<form class="gspc-check-form">'+countGroup+other.map(f=>checkField(f,draft)).join('')+'<p class="gspc-check-error" role="status"></p><button type="submit" class="gspc-primary" data-check-submit>Save my observation</button><p class="gspc-storage-note">'+esc(d.report.hint)+'</p></form>';
+    const form=stageEl.querySelector('form');
+    const readFields=()=>Object.fromEntries(new FormData(form));
+    form.addEventListener('change',()=>{state.checkDraft={id:d.id,fields:readFields()};});
+    form.addEventListener('submit',e=>{
+      e.preventDefault();if(!form.reportValidity())return;
+      const fields=readFields();state.checkDraft={id:d.id,fields};
+      const payload=checkPayload(d,fields);
+      if(!payload||!s.report(payload,now())){form.querySelector('.gspc-check-error').textContent='That observation could not be saved. Check the fields; an existing report is never overwritten.';return;}
+      const focus=validSavedFocus(getStore()?.read().focus);
+      if(focus?.lessonId===d.lessonId&&root.GameSharpCourtChecks.didPractice(d.id,payload))getStore().markPracticed(d.lessonId,now());
+      state.checkDraft=null;moveCheck('result');
+    });return;
+  }
+  if(state.stage==='check-result'){
+    if(!record?.report){state.stage='check-plan';renderCheck();return;}
+    const reading=root.GameSharpCourtChecks.interpret(d.id,record.report);
+    const summaries=(reading.summaries||[]).map(item=>'<div><span>'+esc(item.label)+'</span><strong>'+esc(item.value)+'</strong></div>').join('');
+    stageEl.innerHTML=checkHeading(d,reading.title,reading.body)+'<div class="gspc-check-result-counts">'+summaries+'</div><div class="gspc-empty"><strong>Your next useful step</strong><p>'+esc(reading.next)+'</p></div><p class="gspc-storage-note">Your first observation is kept as entered. This is not proof of a cause or a lasting improvement.</p>'+checkSaveNote(s)+'<button type="button" class="gspc-primary" data-check-focus>Back to my court cue</button><button type="button" class="gspc-secondary gspc-check-full" data-check-plan-review>Review this experiment</button>'+checkSources(d);
+    stageEl.querySelector('[data-check-plan-review]').onclick=()=>moveCheck('plan-review');
+    stageEl.querySelector('[data-check-focus]').onclick=leaveCheck;
+  }
+}
+async function shareFocus(){
+  const c=lesson(state.lessonId);if(!c)return;
+  const text=c.memory+'\n\n'+c.takeItToCourt+'\nhttps://www.gamesharptennis.com/?goldDaily='+encodeURIComponent(c.slug);
+  try{if(navigator.share)await navigator.share({title:'GAMESHARP · My court cue',text});else if(navigator.clipboard){await navigator.clipboard.writeText(text);notice='Court cue copied.';}else notice='Sharing is unavailable in this browser.';}catch(e){if(e.name!=='AbortError')notice='Could not share. Your court cue is still here.';}
+  renderFocus();
+}
+function init(){
+  ensureOverlay();
+  const errors=auditPlayerRegions();
+  document.documentElement.dataset.gspcPlayerIntegrity=errors.length?'fail':'ok';
+  document.documentElement.dataset.gspcPlayerRegions=String(Object.keys(PLAYER_REGIONS).length);
+  document.documentElement.dataset.gspcPlayerErrors=errors.join('|');
+  document.documentElement.dataset.gspcReturnContract='ok';
+  window.GameSharpPainCoach={open,openRegion,close,openLessonFocus,version:VERSION,playerRegions:PLAYER_REGIONS,playerImage:PLAYER_IMAGE,
+    getData:()=>getStore()?.read(),pathFor,pathsFor,
+    playerContract:()=>({status:errors.length?'fail':'ok',regions:Object.keys(PLAYER_REGIONS).length,errors:errors.join('|')}),
+    returnContract:()=>document.documentElement.dataset.gspcReturnContract};
+  window.addEventListener('resize',settleHotspotLabels,{passive:true});
+}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
+})(typeof window==='object'?window:globalThis);

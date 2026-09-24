@@ -1,0 +1,13 @@
+{
+  "policy": "Only natural location recordings licensed CC0 are used. No synthesized success or failure tones are present.",
+  "license": "CC0 1.0",
+  "sources": [
+    {"sourceFile":"forehand-source.mp3","creator":"jamesdrake89","title":"Tennis Forehand 2","url":"https://freesound.org/people/jamesdrake89/sounds/662263/","license":"CC0"},
+    {"sourceFile":"slice-source.mp3","creator":"jamesdrake89","title":"Tennis Slices 1","url":"https://freesound.org/people/jamesdrake89/sounds/662270/","license":"CC0"},
+    {"sourceFile":"serve-source.mp3","creator":"jamesdrake89","title":"Tennis Serves 1","url":"https://freesound.org/people/jamesdrake89/sounds/662265/","license":"CC0"},
+    {"sourceFile":"smash-source.mp3","creator":"gprosser","title":"Tennis smash","url":"https://freesound.org/people/gprosser/sounds/412863/","license":"CC0"},
+    {"sourceFile":"impact-source.mp3","creator":"rvdw2004","title":"Hitting a tennis ball","url":"https://freesound.org/people/rvdw2004/sounds/709678/","license":"CC0"},
+    {"sourceFile":"bounce-source.mp3","creator":"drivr3joe","title":"TennisBallBounce.wav","url":"https://freesound.org/people/drivr3joe/sounds/533410/","license":"CC0"},
+    {"sourceFile":"shoe-source.mp3","creator":"apovedq","title":"Tennis shoe movement","url":"https://freesound.org/people/apovedq/sounds/585748/","license":"CC0"}
+  ]
+}

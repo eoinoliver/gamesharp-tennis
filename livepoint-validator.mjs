@@ -11,19 +11,17 @@ const html = fs.readFileSync(file, 'utf8');
 
 const GOLD = '#c8a84b', RED = '#e07070', GREEN = '#5bba6f';
 
-// ── Extract the SCENARIOS literal by balanced-bracket match, then eval as pure data ──
-const anchor = html.indexOf('const SCENARIOS = [');
-if (anchor < 0) { console.error('[LIVE POINT] SCENARIOS array not found'); process.exit(1); }
-const from = html.indexOf('[', anchor);
-let depth = 0, end = -1;
-for (let i = from; i < html.length; i++) {
-  const ch = html[i];
-  if (ch === '[') depth++;
-  else if (ch === ']') { depth--; if (depth === 0) { end = i; break; } }
-}
+// The prototype, Daily and Playbook all consume this one approved bank.
+// If the shared module cannot load, nothing ships.
 let SCENARIOS;
-try { SCENARIOS = eval(html.slice(from, end + 1)); }        // literal references GOLD/RED/GREEN, defined above
-catch (e) { console.error('[LIVE POINT] SCENARIOS did not parse:', e.message); process.exit(1); }
+try { SCENARIOS = (await import('./livepoint-content.js')).default?.scenarios; }
+catch (e) { console.error('[LIVE POINT] shared content did not load:', e.message); process.exit(1); }
+if (!Array.isArray(SCENARIOS)) {
+  try {
+    const { createRequire } = await import('node:module');
+    SCENARIOS = createRequire(import.meta.url)('./livepoint-content.js').scenarios;
+  } catch (e) { console.error('[LIVE POINT] shared scenario bank missing:', e.message); process.exit(1); }
+}
 
 const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
 const inBounds = p => Array.isArray(p) && p.length === 2 && p[0] >= 12 && p[0] <= 188 && p[1] >= 8 && p[1] <= 292;

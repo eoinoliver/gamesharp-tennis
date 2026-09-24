@@ -1,5 +1,10 @@
 # Read The Game (Predict the Point) — Continuity QA
 
+Historical review only. Its counts, renderer assumptions and resolved labels do
+not establish current eligibility or a completed release. Use the current launch
+manifest and contracts, with the dated state and open issues in
+[PROJECT_ALIGNMENT.md](../gamesharp-tennis-alignment/PROJECT_ALIGNMENT.md).
+
 Forensic audit of the linked-sequence content. Method: extracted all 19 sequences,
 and for every step compared **correct-answer text → ball target geometry →
 consequence → the next step's premise**, flagging any disagreement.

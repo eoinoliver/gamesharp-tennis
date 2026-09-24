@@ -1,0 +1,798 @@
+{
+  "version": "2026-09-21-trust-repair-5",
+  "status": "candidate",
+  "trustRepairReview": {
+    "date": "2026-09-21",
+    "record": "TRUST_REPAIR_EVIDENCE.json",
+    "scope": "Bounded implementation repair; prior dated reviews are historical, not approval of changed runtime dependencies.",
+    "coachApproved": false,
+    "openLimitations": [
+      "Contact D2 still varies height as well as spacing; not an isolated causal demonstration.",
+      "Court-map contact height, balance and body spacing are supplied conditions, not visible biomechanics.",
+      "Tactical answer uniqueness and learning effectiveness need independent coach/player challenge.",
+      "No new physical iPhone, assistive-technology or measured audio-quality certification."
+    ]
+  },
+  "canonicalSource": "/Users/eoinlynn/Downloads/gamesharp-tennis-integration",
+  "localReviewOnly": [],
+  "courtChecksBeta": {
+    "status": "user_authorized_beta",
+    "approvedOn": "2026-09-14",
+    "approval": "User explicitly requested deploy all after being told independent coach review remains pending.",
+    "registryVersion": "2026-09-21.court-checks.3",
+    "renderer": "Shared gamesharp-pain-coach.js renderCheck; exact existing Daily renderer bound and audited for each experiment",
+    "mobileReview": "All four complete unflagged 430px journeys pass for release; 320px layout, text, keyboard and unchanged protocol evidence retained from the full four-check local review.",
+    "desktopReview": "All four complete unflagged 1280px journeys pass for release.",
+    "reviewedOn": "2026-09-14",
+    "reviewerNote": "Codex implementation and browser review, not independent coaching sign-off. First reports, Daily isolation, exact routes and disclosure retained. Final evidence in release record.",
+    "reviewRecord": "SHARPEN_COURT_CHECKS_RELEASE_2026-09-14.md",
+    "experiments": [
+    {
+      "id": "forehand-space-check-v1",
+      "version": 1,
+      "type": "sharpen-court-experiment",
+      "lessonId": "gold_contact_point_v1",
+      "route": "Sharpen > Forehand; available without a query flag",
+      "status": "user_authorized_beta",
+      "coachApproved": false,
+      "coachReview": "pending",
+      "reviewRecord": "FOREHAND_CHECK_REVIEW_2026-09-14.md; shared architecture: SHARPEN_COURT_CHECKS_REVIEW_2026-09-14.md",
+      "releaseBoundary": "User-authorised public beta, not independently coach-approved. Sources inform this original practice comparison; they do not validate its intervention or causal interpretation. No additional lesson, diagnostic bank or Predict link is enabled."
+    },
+    {
+      "id": "return-position-check-v1",
+      "version": 1,
+      "type": "sharpen-court-experiment",
+      "lessonId": "gold_return_position_v1",
+      "route": "Sharpen > Serve & Return; available without a query flag",
+      "status": "user_authorized_beta",
+      "coachApproved": false,
+      "coachReview": "pending",
+      "reviewRecord": "SHARPEN_COURT_CHECKS_REVIEW_2026-09-14.md",
+      "releaseBoundary": "User-authorised public beta, not independently coach-approved. Three paired returns compare felt time and possible costs; they do not diagnose technique or establish a permanent best position."
+    },
+    {
+      "id": "next-point-reset-check-v1",
+      "version": 1,
+      "type": "sharpen-court-experiment",
+      "lessonId": "gold_miss_two_points_v1",
+      "route": "Sharpen > Mental Game; available without a query flag",
+      "status": "user_authorized_beta",
+      "coachApproved": false,
+      "coachReview": "pending",
+      "reviewRecord": "SHARPEN_COURT_CHECKS_REVIEW_2026-09-14.md",
+      "releaseBoundary": "User-authorised public beta, not independently coach-approved. Record a natural opportunity, routine and intention, never point wins as success; no opportunity or unattempted routine cannot mark reset practice."
+    },
+    {
+      "id": "approach-volley-check-v1",
+      "version": 1,
+      "type": "sharpen-court-experiment",
+      "lessonId": "gold_approach_volley_v1",
+      "route": "Sharpen > Net Play; available without a query flag",
+      "status": "user_authorized_beta",
+      "coachApproved": false,
+      "coachReview": "pending",
+      "reviewRecord": "SHARPEN_COURT_CHECKS_REVIEW_2026-09-14.md",
+      "releaseBoundary": "User-authorised public beta, not independently coach-approved. Three paired approach sequences retain receiver contact, volley height, approach misses and missing volleys; no universal depth rule or volley mechanics diagnosis."
+    }
+    ]
+  },
+  "goldDailyPilot": {
+    "version": "2026-09-14.daily-loop.5",
+    "route": "?goldDaily=today",
+    "status": "promoted-to-main-daily",
+    "mainDailyPromotions": 21,
+    "calendar": "Published nine, twelve, fifteen and eighteen-day cycles unchanged through 2026-11-04; twenty-one-day cycle begins 2026-11-05.",
+    "progress": "Pilot answers retained separately from main-format history. Main completion keeps legacy streak and count continuity, credits each date once, and never claims physical mastery or cross-device sync.",
+    "lessonIds": [
+      "gold_return_time_v1",
+      "gold_protect_pattern_v1",
+      "gold_serve_quality_v1",
+      "gold_high_ball_v1",
+      "gold_pattern_clue_v1",
+      "gold_forehand_bill_v1",
+      "gold_runaround_pattern_v1",
+      "gold_close_then_balance_v1",
+      "gold_approach_volley_v1",
+      "gold_direction_change_v1",
+      "gold_serve_adaptation_v1",
+      "gold_middle_return_v1",
+      "gold_serve_plus_one_v1",
+      "gold_future_space_v1",
+      "gold_miss_two_points_v1",
+      "gold_return_position_v1",
+      "gold_short_ball_attack_v1",
+      "gold_split_step_timing_v1",
+      "gold_contact_point_v1",
+      "gold_recovery_position_v1",
+      "gold_winner_wrong_shot_v1"
+    ],
+    "latestBatchReview": "BATCH_SIX_RELEASE_2026-09-14.md: final 21-lesson candidate reviewed; all new alternatives, real-RAF timing, mobile/desktop paths, Focus, chooser and persistence checks pass.",
+    "connectedSequenceIds": [
+      "seq_015",
+      "seq_001",
+      "seq_002",
+      "seq_013"
+    ],
+    "reviewDate": "2026-09-14",
+    "mobileReview": "Batch six: all 36 new choices at 430px; all 27 read/correct/wrong real-RAF checks at 320px; dated Home/completion/Sharpen return at 320x844 and 430x844. Reduced-motion Focus scrolling verified with real wheel input; failed optional audio non-blocking.",
+    "desktopReview": "Batch six: all three dated lessons complete at 1280x844; all 21 chooser destinations and saved Daily preservation; 844x390 Focus comparisons inspected and scroll-accessible.",
+    "reviewerNote": "21 approved lessons from the original 24 briefs. Prior 18 lesson definitions unchanged. Published calendar retained through 4 November; 21-day cycle starts 5 November. Nine Predict/Live Point/Playbook journeys rechecked at 320/430; eleven withheld IDs and four exact Daily/Predict links unchanged. Remaining limits and correction history: BATCH_SIX_RELEASE_2026-09-14.md."
+  },
+  "sharpen": {
+    "version": "2026-09-14.sharpen-beta.4",
+    "status": "reviewed-beta",
+    "pathRegistry": "2026-09-14.sharpen-paths.1",
+    "areas": 7,
+    "concernCount": 19,
+    "uniqueLessonDestinations": 17,
+    "teaching": "Canonical Daily renderer, decisions, memory and on-court action. No separate prescriptions or symptom-only diagnoses.",
+    "progress": "Unscored practice leaves Daily checkpoint and credit unchanged. One browser-local cue; court practice and feedback require explicit self-report. Legacy records preserved.",
+    "review": "SHARPEN_BETA_RELEASE_2026-09-14.md",
+    "routes": [
+      {
+        "id": "mindset_after_miss",
+        "version": 1,
+        "region": "mindset",
+        "lessonId": "gold_miss_two_points_v1",
+        "renderer": "two_point_sequence",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "mindset_protecting_lead",
+        "version": 1,
+        "region": "mindset",
+        "lessonId": "gold_protect_pattern_v1",
+        "renderer": "score_pressure",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "forehand_crowded_contact",
+        "version": 1,
+        "region": "forehand",
+        "lessonId": "gold_contact_point_v1",
+        "renderer": "contact",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "forehand_high_bounce",
+        "version": 1,
+        "region": "forehand",
+        "lessonId": "gold_high_ball_v1",
+        "renderer": "high_ball_contrast",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "forehand_runaround_exposure",
+        "version": 1,
+        "region": "forehand",
+        "lessonId": "gold_forehand_bill_v1",
+        "renderer": "inside_out_consequence",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "backhand_stretched_line",
+        "version": 1,
+        "region": "backhand",
+        "lessonId": "gold_direction_change_v1",
+        "renderer": "direction_change",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "backhand_runaround_choice",
+        "version": 1,
+        "region": "backhand",
+        "lessonId": "gold_runaround_pattern_v1",
+        "renderer": "court_read",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "serve_return_crowded",
+        "version": 1,
+        "region": "serve_return",
+        "lessonId": "gold_return_position_v1",
+        "renderer": "return_position",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "serve_return_second_serve",
+        "version": 1,
+        "region": "serve_return",
+        "lessonId": "gold_serve_quality_v1",
+        "renderer": "serve_quality",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "serve_return_first_ball",
+        "version": 1,
+        "region": "serve_return",
+        "lessonId": "gold_serve_plus_one_v1",
+        "renderer": "serve_plus_one",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "net_short_ball_choice",
+        "version": 1,
+        "region": "net",
+        "lessonId": "gold_short_ball_attack_v1",
+        "renderer": "shortBall",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "net_first_volley",
+        "version": 1,
+        "region": "net",
+        "lessonId": "gold_approach_volley_v1",
+        "renderer": "approach_to_volley",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "net_moving_at_pass",
+        "version": 1,
+        "region": "net",
+        "lessonId": "gold_close_then_balance_v1",
+        "renderer": "net_close_timing",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "movement_recovery_default",
+        "version": 1,
+        "region": "movement",
+        "lessonId": "gold_recovery_position_v1",
+        "renderer": "recovery",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "movement_split_timing",
+        "version": 1,
+        "region": "movement",
+        "lessonId": "gold_split_step_timing_v1",
+        "renderer": "split_step_timeline",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "movement_runaround_recovery",
+        "version": 1,
+        "region": "movement",
+        "lessonId": "gold_forehand_bill_v1",
+        "renderer": "inside_out_consequence",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "decisions_short_ball",
+        "version": 1,
+        "region": "decisions",
+        "lessonId": "gold_short_ball_attack_v1",
+        "renderer": "shortBall",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "decisions_open_court",
+        "version": 1,
+        "region": "decisions",
+        "lessonId": "gold_future_space_v1",
+        "renderer": "court_read",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "decisions_surprise_reply",
+        "version": 1,
+        "region": "decisions",
+        "lessonId": "gold_pattern_clue_v1",
+        "renderer": "pattern_conditions",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: exact concern-to-approved-lesson binding, static preview and canonical cue checked. Shared evidence and limitations: SHARPEN_BETA_RELEASE_2026-09-14.md."
+      }
+    ]
+  },
+  "daily": {
+    "format": "one-insight-three-connected-decisions",
+    "version": "2026-09-13.main-daily.1",
+    "renderer": "gold-daily-prototypes.js@2026-09-21.gold-daily.35",
+    "lessonPicker": "All 21 built lessons are selectable in free practice without changing the Daily checkpoint or credit.",
+    "trustRepairReview": "Historical twelve-lesson repair evidence is retained: ../gamesharp-tennis-alignment/TRUST_REPAIR_RELEASE_2026-09-13.md. High Ball local-only status is superseded by BATCH_FOUR_RELEASE_2026-09-13.md; all prior lesson definitions remain unchanged.",
+    "coachingLayoutReview": "User approved the Runaround coaching card and its extension to all twelve lessons. Shared setup/evidence/question hierarchy and numbered progress; content, geometry and timelines unchanged. COACHING_ALL_RELEASE_2026-09-13.md records full mobile/desktop evidence and limits.",
+    "mobileReview": "approved",
+    "desktopReview": "approved",
+    "approvalDate": "2026-09-14",
+    "lessonIds": [
+      "gold_return_time_v1",
+      "gold_protect_pattern_v1",
+      "gold_serve_quality_v1",
+      "gold_high_ball_v1",
+      "gold_pattern_clue_v1",
+      "gold_forehand_bill_v1",
+      "gold_runaround_pattern_v1",
+      "gold_close_then_balance_v1",
+      "gold_approach_volley_v1",
+      "gold_direction_change_v1",
+      "gold_serve_adaptation_v1",
+      "gold_middle_return_v1",
+      "gold_serve_plus_one_v1",
+      "gold_future_space_v1",
+      "gold_miss_two_points_v1",
+      "gold_return_position_v1",
+      "gold_short_ball_attack_v1",
+      "gold_split_step_timing_v1",
+      "gold_contact_point_v1",
+      "gold_recovery_position_v1",
+      "gold_winner_wrong_shot_v1"
+    ],
+    "expansionReview": "Approved after final scoped corrections and browser checks; exact evidence and limitations: BATCH_THREE_RELEASE_2026-09-13.md.",
+    "additions": [
+      {
+        "id": "gold_high_ball_v1",
+        "version": "1",
+        "renderer": "high_ball_contrast@2026-09-13.gold-daily.27",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-13",
+        "reviewerNote": "Codex: all twelve choices, forward/back/hold contrasts, Focus and dated completion inspected. Height/depth sampling does not model full lateral racket reach. WTA training-topic anchor only."
+      },
+      {
+        "id": "gold_approach_volley_v1",
+        "version": "1",
+        "renderer": "approach_to_volley@2026-09-13.gold-daily.27",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-13",
+        "reviewerNote": "Codex: landing, receiver depth, line-following close, response after receiver contact and no-bounce first volley reviewed. Original illustrative replies, not guaranteed outcomes. Crooks PDF frames inspected. BATCH_FOUR_RELEASE_2026-09-13.md."
+      },
+      {
+        "id": "gold_serve_adaptation_v1",
+        "version": "1",
+        "renderer": "serve_adjustment@2026-09-13.gold-daily.27",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-13",
+        "reviewerNote": "Codex: legal diagonal landings, same-landing contrast, visible lateral adjustment, body-relative spacing and right-handed ad-court backhand retained. Murray source supports adaptation to position, not this exact body-serve drill. BATCH_FOUR_RELEASE_2026-09-13.md."
+      },
+      {
+        "id": "gold_runaround_pattern_v1",
+        "version": "1",
+        "renderer": "court_read@2026-09-13.gold-daily.22",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-13",
+        "reviewerNote": "Codex: slower/deeper contrast, right-handed contact sides, actual net recovery on that alternative and exposed reply lanes inspected; Barty source supports construction, not guaranteed outcomes."
+      },
+      {
+        "id": "gold_middle_return_v1",
+        "version": "1",
+        "renderer": "court_read@2026-09-13.gold-daily.22",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-13",
+        "reviewerNote": "Codex: diagonal first/second serve, deep versus short central contact and earned attacking transfer inspected; De Minaur first-serve return analysis checked."
+      },
+      {
+        "id": "gold_future_space_v1",
+        "version": "1",
+        "renderer": "court_read@2026-09-13.gold-daily.22",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-13",
+        "reviewerNote": "Codex: moving/stationary/opposite-direction contrast, real rendered brake-turn and reduced-motion direction inspected; Jankovic coaching exchange checked in contemporary report."
+      },
+      {
+        "id": "gold_protect_pattern_v1",
+        "version": "1",
+        "renderer": "score_pressure@2026-09-14.gold-daily.30",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: all alternatives rendered, small-phone normal motion, large-phone reduced motion, desktop and landscape Focus, dated completion and exact Sharpen return checked. Original schematic; source and physical/learning limits in BATCH_FIVE_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "gold_forehand_bill_v1",
+        "version": "1",
+        "renderer": "inside_out_consequence@2026-09-14.gold-daily.30",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: all alternatives rendered, small-phone normal motion, large-phone reduced motion, desktop and landscape Focus, dated completion and exact Sharpen return checked. Original schematic; source and physical/learning limits in BATCH_FIVE_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "gold_close_then_balance_v1",
+        "version": "1",
+        "renderer": "net_close_timing@2026-09-14.gold-daily.30",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: all alternatives rendered, small-phone normal motion, large-phone reduced motion, desktop and landscape Focus, dated completion and exact Sharpen return checked. Original schematic; source and physical/learning limits in BATCH_FIVE_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "gold_return_time_v1",
+        "version": "1",
+        "renderer": "return_time@2026-09-14.gold-daily.31",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: all twelve choices, real-RAF read/correct/wrong timings, compact/reduced evidence, Focus and dated Home/completion/Sharpen return reviewed. Original schematic; no coach sign-off, physical iPhone listening or measured learning. BATCH_SIX_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "gold_serve_quality_v1",
+        "version": "1",
+        "renderer": "serve_quality@2026-09-14.gold-daily.31",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: all twelve choices, real-RAF read/correct/wrong timings, compact/reduced evidence, Focus and dated Home/completion/Sharpen return reviewed. Original schematic; no coach sign-off, physical iPhone listening or measured learning. BATCH_SIX_RELEASE_2026-09-14.md."
+      },
+      {
+        "id": "gold_pattern_clue_v1",
+        "version": "1",
+        "renderer": "pattern_conditions@2026-09-14.gold-daily.31",
+        "mobileReview": "approved",
+        "desktopReview": "approved",
+        "approvalDate": "2026-09-14",
+        "reviewerNote": "Codex: all twelve choices, real-RAF read/correct/wrong timings, compact/reduced evidence, Focus and dated Home/completion/Sharpen return reviewed. Original schematic; no coach sign-off, physical iPhone listening or measured learning. BATCH_SIX_RELEASE_2026-09-14.md."
+      }
+    ],
+    "legacyRecovery": "Retained in source for rollback; normal Daily and repeat entry points redirect to the new format",
+    "promotionReview": "2026-09-13: all nine lessons from Home at 320x844 and 430x844, card and Focus, credit and Sharpen return; desktop and persistence/midnight cases. New source-of-truth progress tests preserve old credit and first main answers. See MAIN_DAILY_RELEASE_2026-09-13.md.",
+    "supportingReads": "explicitly approved text-only launch pool",
+    "approvedReadIds": [
+      "Q004",
+      "Q007",
+      "Q009",
+      "Q013",
+      "Q015",
+      "Q017",
+      "Q020",
+      "Q025",
+      "Q026",
+      "Q027",
+      "Q028",
+      "Q029",
+      "Q035",
+      "Q038",
+      "Q042",
+      "Q044",
+      "Q047",
+      "Q049",
+      "Q053",
+      "Q054"
+    ],
+    "contentReview": "approved",
+    "reviewerNote": "All 20 questions, four choices, correct answers and explanations personally reviewed for ambiguity, instructional value and tennis accuracy on 2026-09-01.",
+    "visualAnchor": "lesson-specific-evidence",
+    "fixTheCulprit": "quarantined"
+  },
+  "predictJourneys": [
+    {
+      "id": "seq_001",
+      "connectionType": "direct",
+      "livePointId": "serve_plus_one",
+      "playbookId": "wide_serve",
+      "renderer": "point-iq-timeline-v1",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "seq_002",
+      "connectionType": "direct",
+      "livePointId": "second_serve",
+      "playbookId": "net_approach",
+      "renderer": "point-iq-timeline-v1",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "seq_003",
+      "connectionType": "transfer",
+      "livePointId": "bring_them_in",
+      "playbookId": "drop_lob",
+      "renderer": "point-iq-timeline-v1",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "seq_004",
+      "connectionType": "direct",
+      "livePointId": "high_ball_backhand",
+      "playbookId": "high_ball_backhand",
+      "renderer": "point-iq-timeline-v1",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "seq_009",
+      "connectionType": "direct",
+      "livePointId": "approach_selection",
+      "playbookId": "net_approach",
+      "renderer": "point-iq-timeline-v1",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "seq_010",
+      "connectionType": "transfer",
+      "livePointId": "serve_plus_one",
+      "playbookId": "serve_plus_one",
+      "renderer": "point-iq-timeline-v1",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "seq_013",
+      "connectionType": "direct",
+      "livePointId": "short_ball",
+      "playbookId": "short_ball",
+      "renderer": "point-iq-timeline-v1",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "seq_015",
+      "connectionType": "direct",
+      "livePointId": "change_direction",
+      "playbookId": "down_the_line",
+      "renderer": "point-iq-timeline-v1",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "seq_020",
+      "connectionType": "transfer",
+      "livePointId": "passing_shot",
+      "playbookId": "pass_or_lob",
+      "renderer": "point-iq-timeline-v1",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    }
+  ],
+  "livePoints": [
+    {
+      "id": "short_ball",
+      "target": "decision-making",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "serve_plus_one",
+      "target": "serve-return",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "second_serve",
+      "target": "serve-return",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "beat_moonballer",
+      "target": "movement",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "big_server",
+      "target": "serve-return",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "change_direction",
+      "target": "decision-making",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "passing_shot",
+      "target": "net-play",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "defending",
+      "target": "movement",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "break_point_down",
+      "target": "serve-return",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "serving_for_set",
+      "target": "mental-game",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "second_serve_big",
+      "target": "serve-return",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "inside_out_forehand",
+      "target": "forehand",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "high_ball_backhand",
+      "target": "backhand",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "rally_tolerance",
+      "target": "mental-game",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "defend_drop",
+      "target": "movement",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "bring_them_in",
+      "target": "decision-making",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "approach_selection",
+      "target": "net-play",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "counter_net_rusher",
+      "target": "net-play",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "two_breaks_up",
+      "target": "mental-game",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "serving_to_stay",
+      "target": "mental-game",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "tiebreak_first",
+      "target": "mental-game",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    },
+    {
+      "id": "return_match_point",
+      "target": "serve-return",
+      "renderer": "live-point-timeline-v1",
+      "contentReview": "approved",
+      "mobileReview": "approved",
+      "desktopReview": "approved"
+    }
+  ],
+  "livePointReviewerNote": "Every scenario, both opening branches, both second decisions, all four outcomes and both rendered winning lines personally reviewed in five mobile batches on 2026-09-01; the shared desktop renderer and all 44 winning branches were re-rendered and personally reviewed on 2026-09-02.",
+  "journeyReviewerNote": "Prior review: 2026-09-02. Bounded repair rechecked 2026-09-11: all nine Predict journeys at 320x844 and 430x844, both Live Point branches and immutable first results, exact Playbook handoffs, two desktop journeys at 1280x844, shared renderer and Focus inspection. Evidence and limitations: CONNECTED_JOURNEYS_RELEASE_2026-09-11.md. This is not a fresh full coaching audit of all 22 Live Point scenes.",
+  "quarantinedPredictIds": [
+    "seq_005",
+    "seq_006",
+    "seq_007",
+    "seq_008",
+    "seq_011",
+    "seq_012",
+    "seq_014",
+    "seq_016",
+    "seq_017",
+    "seq_018",
+    "seq_019"
+  ],
+  "approvedFocusRenderers": [
+    "point-iq-timeline-v1",
+    "live-point-timeline-v1"
+  ]
+}

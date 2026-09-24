@@ -1,24 +1,34 @@
-# GameSharp Tennis — Claude Instructions
+# GameSharp Tennis — Builder Entry Point
+
+Read `AGENTS.md`, `PRODUCT_CONTRACT.md`, `CONTENT_CONTRACT.md`, and
+`RELEASE_PROTOCOL.md` before making changes. Those files supersede every older
+instruction in this document.
+
+Start new work with the [shared alignment record](../gamesharp-tennis-alignment/PROJECT_ALIGNMENT.md)
+as required by `AGENTS.md`. It separates agreed direction from dated state and
+recommendations; a local prototype, public review pilot and main-product release
+are different statuses.
 
 ## Project
-Single-file HTML PWA for tennis decision training. Live at **gamesharptennis.com**.
+Static PWA for tennis decision training. Live at **gamesharptennis.com**.
 
 ## Files
-- `~/Desktop/gamesharp-tennis/index.html` — the entire app (HTML + CSS + JS, ~4700 lines)
-- `/tmp/gamesharp/index.html` — preview server copy (must stay in sync)
-- Preview server: `python3 -m http.server 7432 --directory /tmp/gamesharp` → http://localhost:7432
+- `/Users/eoinlynn/Downloads/gamesharp-tennis-integration` — the only canonical source.
+- Local preview directly from the canonical directory. Hosted previews build
+  from its pushed GitHub task branch. Do not maintain a second source copy.
 
 ## Git / Deploy
-- Repo: https://github.com/eoinoliver/gamesharp-tennis
-- Vercel auto-deploys on push to `main` → gamesharptennis.com
-- **Always commit and push at the end of every session** without being asked.
+- Follow the branch, ownership, handoff and exact-version “ship it” rules in
+  `AGENTS.md`. Commit/push/log before switching agents; never push to main.
+- Production requires “ship it” after the named commit/deployment has passed
+  `RELEASE_PROTOCOL.md` and been shown as a preview. GitHub supplies Vercel's
+  source; only verified staged production builds may be promoted.
 - Keep `.DS_Store` out of commits.
 
 ## Architecture
-- **`index.html` is the app** — HTML, CSS and JS stay inline here. Do not split it further.
-- **Two companion files only** — the Sharpen player journey ships as
-  `gamesharp-pain-coach.js` and `gamesharp-pain-coach.css`, loaded by `index.html`.
-  These are the sole permitted exceptions; anything new belongs in `index.html`.
+- `index.html` is the shell. Point IQ, Live Point and Sharpen already have
+  companion files. Do not add another renderer or parallel content source when
+  an approved engine can own the behavior.
 - **QBANK** — 549 questions, each with id, pillar, module, format, difficulty, tier, visual, techAnim
 - **TECH_ANIMS** — animation library, each entry has svg, init(params,cbs), conseqAnim(ok), captions, hasMistakeToggle
 - **Play a Point** — `buildPlayAPoint(pillar, module, pool?)` builds 3–5 linked decision bundles with anti-repeat logic
@@ -26,12 +36,11 @@ Single-file HTML PWA for tennis decision training. Live at **gamesharptennis.com
 - **Five screens** — homeScreen, onboardScreen, profileScreen, quizScreen, scoreScreen — all toggled via `showScreen(id)`
 
 ## Release gates
-Run all three from the repo root before pushing. They must test *this* folder,
-never a copy in `~/Downloads`:
+Run the complete local contract suite from this canonical directory before any
+preview is described as ready:
 ```
-node gamesharp-player-contract.test.mjs
-node gamesharp-master-brand-contract.test.mjs
-node tools/launch-trust-audit.js
+node --test *.test.mjs
+node tools/launch-trust-audit.js index.html
 ```
 - **launch-trust-audit** enforces question integrity: four distinct options, a
   real correct answer, teaching present, no self-disqualifying absolutes
@@ -43,7 +52,8 @@ node tools/launch-trust-audit.js
 
 ## Key Functions
 - `startQuiz(pillar, module)` — starts a Play a Point session
-- `startDailyChallenge()` — daily mode, routes through buildPlayAPoint
+- `startDailyChallenge()` — current recovery Daily entry; inspect its trusted
+  four-item builder rather than assuming it shares the legacy module path
 - `loadQ()` — renders current question with point header + format badge
 - `pickAnswer(letter)` — handles answer, triggers consequence anim + pro lens
 - `mountTechAnim(key)` — mounts a TECH_ANIMS entry into #techAnimBox
@@ -57,7 +67,8 @@ node tools/launch-trust-audit.js
 - No emoji in commits unless already in the codebase
 
 ## Workflow
-1. Edit `~/Desktop/gamesharp-tennis/index.html`
-2. `cp ~/Desktop/gamesharp-tennis/index.html /tmp/gamesharp/index.html` to sync preview
-3. Test in preview (serverId from launch.json: `gamesharp` on port 7432)
-4. Commit and push at session end
+1. Work only in the canonical directory.
+2. Quarantine anything that does not satisfy the current launch manifest.
+3. Test the exact files in place and personally inspect the complete journey.
+4. Push the task branch and show the Git preview with project and exact commit.
+   Eoin's “ship it” authorises the release routine for that reviewed version.

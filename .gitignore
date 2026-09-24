@@ -1,1 +1,11 @@
 .DS_Store
+.vercel
+node_modules/
+.env
+.env.*
+!.env.example
+*.sparsebundle/
+*.dmg
+*.tar
+*.tar.gz
+*.zip
