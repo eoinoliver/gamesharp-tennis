@@ -1,0 +1,21 @@
+name: Tennis checks
+on:
+  pull_request:
+  push:
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Structural contracts and deployment evidence
+        run: |
+          node --test *.test.mjs
+          node tools/launch-trust-audit.js index.html
+          node tools/connected-journey-audit.mjs
+          node tools/build-share-data.mjs --check
+          node tools/verify-review-evidence.cjs

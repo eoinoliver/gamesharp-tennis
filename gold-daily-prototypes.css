@@ -1,0 +1,864 @@
+.gs-gold-daily[hidden]{display:none!important}
+.gs-gold-daily{
+  --gd-gold:#c8a84b;
+  --gd-lime:#d3e267;
+  --gd-green:#59bd70;
+  --gd-red:#e07070;
+  position:fixed;
+  inset:0;
+  /* The review must sit above the host app's one-per-day master intro. */
+  z-index:2147483646;
+  overflow:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  background:
+    radial-gradient(90% 52% at 50% 7%,rgba(39,89,48,.34),transparent 74%),
+    linear-gradient(180deg,#0b160e 0%,#0a0f0b 58%,#090a09 100%);
+  color:#f0ece3;
+  font-family:'DM Sans',system-ui,sans-serif;
+}
+.gs-gold-daily *{box-sizing:border-box}
+.gs-gold-daily button{font:inherit}
+.gs-gold-daily-shell{
+  width:min(100%,680px);
+  min-height:100%;
+  margin:0 auto;
+  padding:calc(12px + env(safe-area-inset-top)) 16px calc(26px + env(safe-area-inset-bottom));
+}
+.gs-gold-daily-head{
+  display:grid;
+  grid-template-columns:44px minmax(0,1fr) 44px;
+  align-items:center;
+  min-height:48px;
+  margin-bottom:8px;
+}
+.gs-gold-daily-brand{
+  text-align:center;
+  font-family:'Bebas Neue','Arial Narrow',sans-serif;
+  font-size:19px;
+  letter-spacing:2.7px;
+  white-space:nowrap;
+}
+.gs-gold-daily-brand span{color:var(--gd-gold)}
+.gs-gold-daily-icon{
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:50%;
+  background:rgba(255,255,255,.035);
+  color:#f0ece3;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+}
+.gs-gold-daily-icon:active{transform:scale(.96)}
+.gs-gold-daily-icon:focus-visible,
+.gs-gold-daily button:focus-visible{
+  outline:3px solid var(--gd-lime);
+  outline-offset:3px;
+}
+.gs-gold-daily-kicker{
+  margin:22px 0 7px;
+  color:var(--gd-gold);
+  font-size:10px;
+  line-height:1.2;
+  font-weight:800;
+  letter-spacing:2.3px;
+  text-transform:uppercase;
+}
+.gs-gold-daily-h1{
+  max-width:580px;
+  font-size:clamp(27px,7.4vw,42px);
+  line-height:1.08;
+  letter-spacing:-.9px;
+  font-weight:780;
+  text-wrap:balance;
+}
+.gs-gold-daily-lede{
+  max-width:540px;
+  margin-top:12px;
+  color:rgba(255,255,255,.63);
+  font-size:14px;
+  line-height:1.55;
+}
+.gs-gold-daily-list{display:grid;gap:12px;margin-top:26px}
+.gs-gold-daily-card{
+  width:100%;
+  min-height:116px;
+  padding:17px 18px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(36,76,42,.38),rgba(255,255,255,.025));
+  color:#f0ece3;
+  text-align:left;
+  cursor:pointer;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px 14px;
+  align-items:center;
+  box-shadow:0 14px 35px rgba(0,0,0,.18);
+}
+.gs-gold-daily-card:active{transform:scale(.986)}
+.gs-gold-daily-card>span:first-child{display:block;min-width:0}
+.gs-gold-daily-card-num{
+  display:block;
+  color:var(--gd-gold);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.7px;
+  text-transform:uppercase;
+}
+.gs-gold-daily-card-title{display:block;margin-top:5px;font-size:19px;font-weight:760;line-height:1.2}
+.gs-gold-daily-card-insight{display:block;margin-top:6px;color:rgba(255,255,255,.56);font-size:12px;line-height:1.45}
+.gs-gold-daily-card-arrow{color:var(--gd-lime);font-size:21px}
+.gs-gold-daily-note{
+  margin-top:20px;
+  color:rgba(255,255,255,.36);
+  font-size:10px;
+  line-height:1.5;
+  text-align:center;
+}
+.gs-gold-daily-step{width:100%;max-width:560px;margin:0 auto}
+.gs-gold-daily .gd-sequence-caption{font-size:11px;line-height:1.4;color:#bbc6b2;text-align:center;padding:7px 4px;min-height:30px}
+.gs-gold-daily .gd-sequence-frame svg{display:block;width:100%;height:auto}
+/* Batch-six evidence owns its annotations. Tall reduced-motion comparisons
+   remain readable and scrollable inside Focus instead of being clipped. */
+.gs-gold-daily :is(.is-return_time,.is-serve_quality,.is-pattern_conditions) .gs-gold-daily-visual-canvas{aspect-ratio:auto;min-height:0}
+.gs-gold-daily :is(.is-return_time,.is-serve_quality,.is-pattern_conditions) .gs-gold-daily-ink{display:none}
+.gs-gold-daily :is(.is-return_time,.is-serve_quality,.is-pattern_conditions) .gd-sequence-caption{font-size:12px}
+.gs-gold-daily :is(.is-return_time,.is-serve_quality,.is-pattern_conditions) .gd-sequence-evidence>.gd-sequence-caption{grid-column:1/-1}
+.gs-gold-daily .gs-gold-daily-focus-stage>:is(.is-return_time,.is-serve_quality,.is-pattern_conditions){width:min(100%,600px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.gs-gold-daily .gs-gold-daily-focus-stage>:is(.is-return_time,.is-serve_quality,.is-pattern_conditions) .gs-gold-daily-visual-tools{position:sticky;top:0;z-index:5;background:#10291a}
+.gs-gold-daily .gd-serve-contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:6px}
+.gs-gold-daily .gd-serve-contact-card{min-width:0;border:1px solid #54724d;border-radius:9px;background:#10291a;padding:6px}
+.gs-gold-daily .gd-serve-contact-card>strong{display:block;font-size:14px;line-height:1.3;color:#e6e9d8}
+.gs-gold-daily .gd-serve-contact-card svg{display:block;width:100%;height:auto}
+.gs-gold-daily .gd-serve-contact-facts{font-size:12px;line-height:1.35;color:#ced8c4}
+.gs-gold-daily .gd-serve-contact-facts span{display:block}
+.gs-gold-daily .gd-serve-contact-key{font-size:12px;line-height:1.35;color:#c2ceb8;padding:6px 10px;margin:0}
+.gs-gold-daily :is(.is-score_pressure,.is-inside_out_consequence,.is-net_close_timing,.is-approach_to_volley) .gs-gold-daily-visual-canvas,.gs-gold-daily .is-serve_adjustment .gs-gold-daily-visual-canvas{aspect-ratio:auto;min-height:0}
+.gs-gold-daily :is(.is-score_pressure,.is-inside_out_consequence,.is-net_close_timing,.is-approach_to_volley) .gs-gold-daily-ink,.gs-gold-daily .is-serve_adjustment .gs-gold-daily-ink{display:none}
+.gs-gold-daily .gs-gold-daily-focus-stage>:is(.is-score_pressure,.is-inside_out_consequence,.is-net_close_timing,.is-approach_to_volley,.is-serve_adjustment){width:min(100%,calc((100dvh - 205px)*1.371),760px)}
+.gs-gold-daily .gs-gold-daily-focus-stage>:is(.is-score_pressure,.is-inside_out_consequence,.is-net_close_timing,.is-approach_to_volley,.is-serve_adjustment):has(.gd-sequence-frame + .gd-sequence-frame){width:min(100%,calc((100dvh - 240px)*.685),640px)}
+@media(orientation:landscape){
+.gs-gold-daily .gs-gold-daily-focus-stage>:is(.is-score_pressure,.is-inside_out_consequence,.is-net_close_timing,.is-approach_to_volley,.is-serve_adjustment):has(.gd-sequence-frame + .gd-sequence-frame){width:min(100%,calc((100dvh - 205px)*2.742),1000px)}
+.gs-gold-daily .gs-gold-daily-focus-stage .gd-sequence-evidence:has(.gd-sequence-frame + .gd-sequence-frame){display:grid;grid-template-columns:1fr 1fr;gap:8px}
+}
+.gs-gold-daily .gd-high-caption{font-size:11px;line-height:1.4;color:#bbc6b2;text-align:center;padding:7px 4px}
+.gs-gold-daily .gd-high-frame svg{display:block;width:100%;height:auto}
+.gs-gold-daily .is-high_ball_contrast .gs-gold-daily-visual-canvas{aspect-ratio:auto;min-height:0}
+.gs-gold-daily .is-high_ball_contrast .gs-gold-daily-ink{display:none}
+.gs-gold-daily .gs-gold-daily-focus-stage>.is-high_ball_contrast{width:min(100%,calc((100dvh - 200px)*1.627),760px)}
+.gs-gold-daily .gs-gold-daily-focus-stage>.is-high_ball_contrast:has(.gd-high-frame + .gd-high-frame){width:min(100%,calc((100dvh - 225px)*.813),640px)}
+@media(orientation:landscape){
+.gs-gold-daily .gs-gold-daily-focus-stage>.is-high_ball_contrast:has(.gd-high-frame + .gd-high-frame){width:min(100%,calc((100dvh - 200px)*3.254),1000px)}
+.gs-gold-daily .gs-gold-daily-focus-stage .gd-high-evidence:has(.gd-high-frame + .gd-high-frame){display:grid;grid-template-columns:1fr 1fr;gap:8px}
+}
+.gs-gold-daily-step-meta{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:end;
+  gap:12px;
+  margin:1px auto 8px;
+}
+.gs-gold-daily-step-copy{min-width:0;line-height:1.15}
+.gs-gold-daily-step-copy span{
+  display:block;
+  overflow:hidden;
+  color:rgba(255,255,255,.43);
+  font-size:10px;
+  font-weight:680;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.gs-gold-daily-step-copy strong{
+  display:block;
+  margin-top:4px;
+  color:var(--gd-gold);
+  font-size:8px;
+  font-weight:850;
+  letter-spacing:1.55px;
+  text-transform:uppercase;
+}
+.gs-gold-daily-progress{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:5px;
+  margin:0 0 2px;
+}
+.gs-gold-daily-progress span{
+  width:18px;
+  height:3px;
+  border-radius:999px;
+  background:rgba(255,255,255,.13);
+}
+.gs-gold-daily-progress span.is-current{width:23px;background:var(--gd-gold)}
+.gs-gold-daily-progress span.is-done{background:var(--gd-green)}
+.gs-gold-daily-visual{
+  position:relative;
+  width:min(100%,470px);
+  margin:0 auto;
+  overflow:hidden;
+  border:1px solid rgba(111,205,130,.21);
+  border-radius:17px;
+  background:radial-gradient(95% 82% at 50% 43%,#174b22 0%,#0b2511 66%,#071309 100%);
+  box-shadow:inset 0 0 42px rgba(0,0,0,.22),0 13px 30px rgba(0,0,0,.22);
+}
+.gs-gold-daily-visual svg{display:block;width:100%;height:auto}
+.gs-gold-daily-visual-tools{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 44px 44px;
+  align-items:center;
+  min-height:44px;
+  padding-left:10px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  background:rgba(2,10,4,.22);
+}
+.gs-gold-daily-cue-rail{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:center;
+  gap:5px;
+  min-width:0;
+  color:rgba(255,255,255,.43);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.22px;
+  text-transform:uppercase;
+}
+.gs-gold-daily-cue-rail span{
+  --gd-cue-opacity:.68;
+  min-width:0;
+  overflow:hidden;
+  opacity:0;
+  line-height:1.12;
+  text-align:center;
+  text-overflow:clip;
+  white-space:normal;
+  animation:gsGoldDailyCueIn .26s ease-out var(--gd-cue-delay) forwards;
+}
+.gs-gold-daily-cue-rail span:first-child{text-align:left}
+.gs-gold-daily-cue-rail span.is-final{--gd-cue-opacity:.96;color:rgba(228,218,172,.88)}
+.gs-gold-daily-cue-rail span.is-set{opacity:var(--gd-cue-opacity);animation:none}
+@keyframes gsGoldDailyCueIn{from{opacity:0;transform:translateY(3px)}to{opacity:var(--gd-cue-opacity,1);transform:none}}
+.gs-gold-daily-visual-expand,
+.gs-gold-daily-visual-replay{
+  width:44px;
+  height:44px;
+  border:0;
+  border-left:1px solid rgba(255,255,255,.07);
+  background:transparent;
+  color:rgba(240,236,227,.7);
+  cursor:pointer;
+  font-size:19px;
+}
+.gs-gold-daily-visual-expand{font-size:17px}
+.gs-gold-daily-visual-expand:active,
+.gs-gold-daily-visual-replay:active{background:rgba(255,255,255,.045)}
+.gs-gold-daily-visual-canvas{position:relative;overflow:hidden}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-court_read{width:min(100%,calc((100dvh - 150px) * 1.3298),920px)}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-court_read.is-answered{width:min(100%,calc((100dvh - 185px) * 1.3298),920px)}
+.gs-gold-daily-visual.is-court_read .gs-gold-daily-visual-canvas>svg{display:block;width:100%;height:auto}
+.gs-gold-daily .gd-court-panels{display:grid;grid-template-columns:minmax(0,1fr)}
+.gs-gold-daily .gd-court-panels>div{min-width:0}
+.gs-gold-daily .gd-court-panels p{font-size:12px;line-height:1.3;text-align:center;margin:5px 0;color:#dddcca}
+.gs-gold-daily .gd-court-panels svg{display:block;width:100%;height:auto}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-court_read:has(.gd-court-panels){width:min(100%,calc((100dvh - 280px) * .665),580px)}
+@media(orientation:landscape){
+  .gs-gold-daily-focus-stage .gd-court-panels{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-court_read:has(.gd-court-panels){width:min(100%,calc((100dvh - 210px) * 2.66),920px)}
+}
+.gs-gold-daily-ink{
+  position:absolute;
+  z-index:4;
+  right:11px;
+  bottom:9px;
+  left:11px;
+  pointer-events:none;
+  text-align:center;
+}
+.gs-gold-daily-ink span{
+  display:inline-block;
+  padding:5px 10px 4px;
+  border-bottom:1px solid rgba(211,226,103,.72);
+  background:linear-gradient(90deg,rgba(4,17,7,.12),rgba(4,17,7,.86) 18%,rgba(4,17,7,.86) 82%,rgba(4,17,7,.12));
+  clip-path:inset(0 100% 0 0);
+  color:#eef2d4;
+  font-family:Georgia,serif;
+  font-size:14px;
+  font-style:italic;
+  font-weight:700;
+  animation:gsGoldDailyInkWrite .42s cubic-bezier(.22,.78,.25,1) var(--gd-ink-delay) forwards;
+}
+@keyframes gsGoldDailyInkWrite{from{clip-path:inset(0 100% 0 0);filter:blur(1px)}to{clip-path:inset(0);filter:none}}
+.gs-gold-daily-visual.is-contact.is-answered .gs-gold-daily-contact-focus{display:none}
+.gs-gold-daily-visual.is-court_read .gs-gold-daily-ink,
+.gs-gold-daily-visual.is-contact .gs-gold-daily-ink,
+.gs-gold-daily-visual.is-return_position .gs-gold-daily-ink,
+.gs-gold-daily-visual.is-split_step_timeline .gs-gold-daily-ink{
+  position:relative;
+  right:auto;
+  bottom:auto;
+  left:auto;
+  min-height:32px;
+  padding:3px 9px 6px;
+  background:#08170b;
+}
+.gs-gold-daily.is-focus-open{overflow:hidden}
+.gs-gold-daily-focus[hidden]{display:none!important}
+.gs-gold-daily-focus{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  min-width:0;
+  padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+  background:radial-gradient(105% 78% at 50% 33%,#153a1b 0%,#08150b 61%,#030604 100%);
+  color:#f0ece3;
+}
+.gs-gold-daily-focus-head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 44px;
+  align-items:center;
+  gap:12px;
+  min-height:50px;
+}
+.gs-gold-daily-focus-copy{min-width:0}
+.gs-gold-daily-focus-copy span{
+  display:block;
+  color:var(--gd-gold);
+  font-size:8px;
+  font-weight:850;
+  letter-spacing:1.7px;
+}
+.gs-gold-daily-focus-copy strong{
+  display:-webkit-box;
+  margin-top:3px;
+  overflow:hidden;
+  color:#f0ece3;
+  font-size:15px;
+  line-height:1.2;
+  white-space:normal;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+}
+.gs-gold-daily-focus-close{
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:50%;
+  background:rgba(255,255,255,.055);
+  color:#f0ece3;
+  cursor:pointer;
+  font-size:21px;
+}
+.gs-gold-daily-focus-stage{
+  min-width:0;
+  min-height:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:5px 0;
+}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual{
+  max-width:100%;
+  max-height:100%;
+  margin:0;
+  flex:0 1 auto;
+  box-shadow:inset 0 0 54px rgba(0,0,0,.23),0 18px 44px rgba(0,0,0,.36);
+}
+.gs-gold-daily-focus-stage .gs-gold-daily-visual-tools{grid-template-columns:minmax(0,1fr) 44px}
+.gs-gold-daily-focus-stage .gs-gold-daily-cue-rail{font-size:7px;letter-spacing:.3px}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-recovery,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-shortBall,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-direction_change,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-serve_plus_one,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-return_position,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-split_step_timeline,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-outcome_vs_decision,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-two_point_sequence{
+  width:min(100%,calc((100dvh - 150px) * 1.4706),920px);
+}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-split_step_timeline,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-return_position{
+  width:min(100%,calc((100dvh - 150px) * 1.3298),920px);
+}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-contact{
+  width:min(100%,calc((100dvh - 166px) * 1.43),720px);
+}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-recovery .gs-gold-daily-visual-canvas,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-shortBall .gs-gold-daily-visual-canvas,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-direction_change .gs-gold-daily-visual-canvas,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-serve_plus_one .gs-gold-daily-visual-canvas,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-return_position .gs-gold-daily-visual-canvas,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-split_step_timeline .gs-gold-daily-visual-canvas,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-outcome_vs_decision .gs-gold-daily-visual-canvas,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-two_point_sequence .gs-gold-daily-visual-canvas{
+  aspect-ratio:250/170;
+}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-split_step_timeline .gs-gold-daily-visual-canvas,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-return_position .gs-gold-daily-visual-canvas{
+  aspect-ratio:250/188;
+}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-recovery .gs-gold-daily-visual-canvas>svg,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-shortBall .gs-gold-daily-visual-canvas>svg,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-direction_change .gs-gold-daily-visual-canvas>svg,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-serve_plus_one .gs-gold-daily-visual-canvas>svg,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-return_position .gs-gold-daily-visual-canvas>svg,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-split_step_timeline .gs-gold-daily-visual-canvas>svg,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-outcome_vs_decision .gs-gold-daily-visual-canvas>svg,
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-two_point_sequence .gs-gold-daily-visual-canvas>svg{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.gs-gold-daily-focus-stage .gs-gold-daily-contact-stage.fasp-stage{
+  width:100%;
+  height:auto;
+  min-height:0;
+  aspect-ratio:1.43;
+}
+.gs-gold-daily-focus-stage .gs-gold-daily-contact-stage.fasp-stage svg{
+  width:100%;
+  height:100%;
+}
+.gs-gold-daily-focus-stage .gs-gold-daily-visual-expand{display:none}
+.gs-gold-daily .gd-mental-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.gs-gold-daily .gd-mental-panels>svg{display:block;width:100%;height:auto}
+.gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-two_point_sequence .gs-gold-daily-visual-canvas{aspect-ratio:auto}
+@media(orientation:portrait){
+  .gs-gold-daily-focus-stage .gd-mental-panels{grid-template-columns:minmax(0,1fr)}
+  .gs-gold-daily-focus-stage>.gs-gold-daily-visual.is-two_point_sequence{width:min(100%,calc((100dvh - 190px) * .3676))}
+}
+.gs-gold-daily-focus-foot{
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding-top:5px;
+  color:rgba(200,168,75,.74);
+  font-size:8px;
+  font-weight:750;
+  letter-spacing:1.2px;
+  text-align:center;
+  text-transform:uppercase;
+}
+.gs-gold-daily-decision-zone{
+  min-height:276px;
+  padding-top:8px;
+}
+.gs-gold-daily-scene-line{
+  max-width:560px;
+  margin:0 auto;
+  color:rgba(255,255,255,.62);
+  font-size:12px;
+  line-height:1.42;
+  text-align:center;
+  text-wrap:balance;
+}
+.gs-gold-daily-scene-line span{position:relative;display:inline}
+.gs-gold-daily-scene-line span::after{
+  content:"";
+  position:absolute;
+  right:0;
+  bottom:-3px;
+  left:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(200,168,75,.52),transparent);
+  transform:scaleX(0);
+  transform-origin:left;
+  animation:gsGoldDailyCoachLine .38s ease-out var(--gd-question-delay) forwards;
+}
+@keyframes gsGoldDailyCoachLine{to{transform:scaleX(1)}}
+.gs-gold-daily-question{
+  max-width:560px;
+  margin:7px auto 9px;
+  font-size:clamp(19px,5.2vw,27px);
+  line-height:1.18;
+  font-weight:760;
+  letter-spacing:-.35px;
+  text-align:center;
+  text-wrap:balance;
+}
+.gs-gold-daily-options{display:grid;gap:8px;max-width:560px;margin:0 auto}
+.gs-gold-daily-step.is-paced.is-reading .gs-gold-daily-question{
+  opacity:.62;
+  animation:gsGoldDailyDecisionIn .30s ease-out var(--gd-question-delay) both;
+}
+.gs-gold-daily-step.is-paced.is-reading .gs-gold-daily-options{
+  opacity:.30;
+  filter:saturate(.62);
+  transform:translateY(4px);
+  animation:gsGoldDailyChoicesIn .34s ease-out var(--gd-question-delay) both;
+}
+@keyframes gsGoldDailyDecisionIn{from{opacity:.62}to{opacity:1}}
+@keyframes gsGoldDailyChoicesIn{from{opacity:.30;filter:saturate(.62);transform:translateY(4px)}to{opacity:1;filter:none;transform:none}}
+.gs-gold-daily-option{
+  width:100%;
+  min-height:52px;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  background:rgba(255,255,255,.037);
+  color:rgba(255,255,255,.88);
+  display:grid;
+  grid-template-columns:32px minmax(0,1fr);
+  gap:10px;
+  align-items:center;
+  text-align:left;
+  cursor:pointer;
+  font-size:13px;
+  line-height:1.35;
+}
+.gs-gold-daily-option-letter{
+  width:31px;
+  height:31px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.07);
+  color:rgba(255,255,255,.7);
+  font-size:11px;
+  font-weight:800;
+}
+.gs-gold-daily-option:not(:disabled):active{transform:scale(.992);border-color:rgba(211,226,103,.42)}
+.gs-gold-daily-option:disabled{cursor:default}
+.gs-gold-daily-option.is-correct{
+  border-color:rgba(89,189,112,.82);
+  background:rgba(89,189,112,.12);
+  color:#fff;
+}
+.gs-gold-daily-option.is-correct .gs-gold-daily-option-letter{background:var(--gd-green);color:#071109}
+.gs-gold-daily-option.is-wrong{
+  border-color:rgba(224,112,112,.74);
+  background:rgba(224,112,112,.10);
+}
+.gs-gold-daily-option.is-wrong .gs-gold-daily-option-letter{background:var(--gd-red);color:#170707}
+.gs-gold-daily-option.is-muted{opacity:.37}
+.gs-gold-daily-options.is-answered .gs-gold-daily-option.is-muted{display:none}
+.gs-gold-daily .gd-svg-cue{
+  opacity:0;
+  animation:gsGoldDailyCueIn .24s ease-out var(--gd-cue-delay) forwards;
+}
+.gs-gold-daily .gd-choice-target{
+  opacity:0;
+  animation:gsGoldDailyCueIn .24s ease-out var(--gd-target-delay) forwards;
+}
+.gs-gold-daily .gd-contact-ball{filter:drop-shadow(0 0 3px rgba(219,230,95,.7))}
+.gs-gold-daily-step.is-motion-finished .gs-gold-daily-scene-line span::after{animation:none;transform:scaleX(1)}
+.gs-gold-daily-step.is-motion-finished .gs-gold-daily-question,
+.gs-gold-daily-step.is-motion-finished .gs-gold-daily-options,
+.gs-gold-daily-step.is-motion-finished .gs-gold-daily-feedback,
+.gs-gold-daily-step.is-motion-finished .gs-gold-daily-next{animation:none;filter:none;opacity:1;transform:none}
+.gs-gold-daily-visual.is-motion-finished .gs-gold-daily-cue-rail span,
+.gs-gold-daily-visual.is-motion-finished .gd-svg-cue,
+.gs-gold-daily-visual.is-motion-finished .gd-choice-target{animation:none;opacity:1;transform:none}
+.gs-gold-daily-visual.is-motion-finished .gs-gold-daily-ink span{animation:none;clip-path:inset(0);filter:none}
+.gs-gold-daily-feedback{
+  max-width:560px;
+  margin:10px auto 0;
+  padding:11px 13px;
+  border-left:2px solid var(--gd-green);
+  border-radius:4px 13px 13px 4px;
+  background:rgba(89,189,112,.075);
+}
+.gs-gold-daily-feedback.is-miss{border-left-color:var(--gd-gold);background:rgba(200,168,75,.065)}
+.gs-gold-daily-feedback-label{
+  margin-bottom:5px;
+  color:var(--gd-green);
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:1.6px;
+  text-transform:uppercase;
+}
+.gs-gold-daily-feedback.is-miss .gs-gold-daily-feedback-label{color:var(--gd-gold)}
+.gs-gold-daily-feedback-copy{color:rgba(255,255,255,.78);font-size:13px;line-height:1.48}
+.gs-gold-daily-feedback-principle{
+  margin-top:6px;
+  color:rgba(255,255,255,.58);
+  font-size:12px;
+  line-height:1.48;
+}
+.gs-gold-daily-why{
+  min-width:62px;
+  min-height:44px;
+  margin:7px 0 -7px -10px;
+  padding:8px 10px;
+  border:0;
+  background:transparent;
+  color:var(--gd-gold);
+  cursor:pointer;
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.4px;
+  text-align:left;
+}
+.gs-gold-daily-why span{display:inline-block;margin-left:3px;font-size:15px}
+.gs-gold-daily-why-panel{
+  margin-top:8px;
+  padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.09);
+  color:rgba(255,255,255,.58);
+  font-size:11.5px;
+  line-height:1.48;
+}
+.gs-gold-daily-why-panel[hidden]{display:none!important}
+.gs-gold-daily-contact-motion{
+  position:relative;
+  background:radial-gradient(120% 90% at 50% 5%,rgba(42,91,48,.28),rgba(2,9,4,.2));
+}
+.gs-gold-daily .gs-gold-daily-contact-stage.fasp-stage{
+  position:relative;
+  min-height:0;
+  height:250px;
+  overflow:hidden;
+}
+.gs-gold-daily .gs-gold-daily-contact-stage.fasp-stage svg{
+  display:block;
+  width:100%;
+  height:250px;
+}
+.gs-gold-daily-contact-motion.is-reading .gs-gold-daily-contact-stage::after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  left:0;
+  right:0;
+  bottom:0;
+  height:24px;
+  background:linear-gradient(180deg,rgba(6,16,8,0),#08170b 45%);
+  pointer-events:none;
+}
+.gs-gold-daily-contact-focus{
+  min-height:34px;
+  padding:8px 12px 5px;
+  color:rgba(255,255,255,.66);
+  font-size:11px;
+  line-height:1.4;
+  text-align:center;
+}
+.gs-gold-daily-contact-focus span{margin-right:6px;color:var(--gd-gold)}
+.gs-gold-daily-next{
+  width:min(100%,560px);
+  min-height:51px;
+  margin:12px auto 0;
+  border:0;
+  border-radius:16px;
+  background:var(--gd-gold);
+  color:#10130c;
+  display:block;
+  cursor:pointer;
+  font-weight:850;
+  font-size:13px;
+}
+.gs-gold-daily-result{
+  max-width:570px;
+  margin:0 auto;
+  padding:13px 0 20px;
+  text-align:center;
+}
+.gs-gold-daily-score{
+  margin:24px auto 7px;
+  color:rgba(255,255,255,.42);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  text-transform:uppercase;
+}
+.gs-gold-daily-result h1{font-size:clamp(27px,7.2vw,40px);line-height:1.1;letter-spacing:-.7px}
+.gs-gold-daily-pro-insight{
+  position:relative;
+  max-width:520px;
+  margin:18px auto 0;
+  padding:17px 16px 13px;
+  overflow:hidden;
+  border-top:1px solid rgba(200,168,75,.38);
+  border-bottom:1px solid rgba(200,168,75,.18);
+  background:linear-gradient(125deg,rgba(200,168,75,.09),rgba(31,98,48,.08) 58%,rgba(0,0,0,0));
+  text-align:left;
+  animation:gsGoldDailyProReveal .42s ease-out both;
+}
+@keyframes gsGoldDailyProReveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.gs-gold-daily-pro-eyebrow{
+  color:var(--gd-gold);
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.gs-gold-daily-pro-insight h2{
+  margin:5px 0 0;
+  color:#f4f0e6;
+  font-size:22px;
+  line-height:1.15;
+  letter-spacing:-.25px;
+}
+.gs-gold-daily-pro-story{
+  margin:9px 0 0;
+  color:rgba(255,255,255,.72);
+  font-size:13.5px;
+  line-height:1.46;
+}
+.gs-gold-daily-pro-read{
+  margin-top:12px;
+  padding-left:11px;
+  border-left:2px solid rgba(104,204,126,.66);
+}
+.gs-gold-daily-pro-read span{
+  display:block;
+  color:#72d089;
+  font-size:8px;
+  font-weight:850;
+  letter-spacing:1.45px;
+  text-transform:uppercase;
+}
+.gs-gold-daily-pro-read p{
+  margin:4px 0 0;
+  color:#f0ece3;
+  font-size:14px;
+  font-weight:720;
+  line-height:1.38;
+}
+.gs-gold-daily-pro-source{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:9px;
+  color:rgba(255,255,255,.35);
+  font-size:9px;
+}
+.gs-gold-daily-pro-source a{
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  color:rgba(216,187,101,.84);
+  font-weight:780;
+  text-decoration:none;
+}
+.gs-gold-daily-pro-disclosure{
+  margin:-5px 0 0;
+  color:rgba(255,255,255,.42);
+  font-size:9.5px;
+  line-height:1.4;
+}
+.gs-gold-daily-court-cue{
+  margin:18px auto 0;
+  padding:17px 16px;
+  border-top:1px solid rgba(200,168,75,.34);
+  border-bottom:1px solid rgba(200,168,75,.18);
+  background:rgba(200,168,75,.04);
+}
+.gs-gold-daily-court-cue-label{color:var(--gd-gold);font-size:9px;font-weight:850;letter-spacing:2px;text-transform:uppercase}
+.gs-gold-daily-court-cue-copy{margin-top:8px;color:#f0ece3;font-size:17px;line-height:1.38;font-weight:690;text-wrap:balance}
+.gs-gold-daily-result-actions{display:grid;gap:9px;margin-top:20px}
+.gs-gold-daily-secondary{
+  width:100%;
+  min-height:48px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:15px;
+  background:rgba(255,255,255,.03);
+  color:rgba(255,255,255,.77);
+  cursor:pointer;
+  font-size:12px;
+  font-weight:750;
+}
+.gs-gold-daily-step.is-paced.is-answered .gs-gold-daily-feedback,
+.gs-gold-daily-step.is-paced.is-answered .gs-gold-daily-next{
+  opacity:.22;
+  transform:translateY(4px);
+  animation:gsGoldDailyPayoffIn .32s ease-out var(--gd-payoff-delay) both;
+}
+.gs-gold-daily-step.is-paced.is-answered .gs-gold-daily-next{opacity:.32}
+@keyframes gsGoldDailyPayoffIn{from{opacity:.22;transform:translateY(4px)}to{opacity:1;transform:none}}
+.gs-gold-daily-sr{
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  padding:0!important;
+  margin:-1px!important;
+  overflow:hidden!important;
+  clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;
+  border:0!important;
+}
+/* Approved coaching hierarchy shared by every Daily lesson. */
+.gs-gold-daily-step.is-guided-coaching .gs-gold-daily-step-meta{align-items:center;margin-bottom:10px}
+.gs-gold-daily-step.is-guided-coaching .gs-gold-daily-step-copy span{font-size:13px;line-height:1.3;white-space:normal;color:rgba(255,255,255,.7)}
+.gs-gold-daily-step-count{font-size:12px;color:var(--gd-gold);white-space:nowrap}
+.gs-gold-daily-coach-setup{margin:0 0 12px;font-size:16px;line-height:1.4;color:rgba(255,255,255,.9);text-wrap:pretty}
+.gs-gold-daily-step.is-guided-coaching>.gs-gold-daily-visual{max-width:340px;margin-left:auto;margin-right:auto}
+.gs-gold-daily-step.is-guided-coaching .gs-gold-daily-decision-zone{padding-top:12px;min-height:0}
+.gs-gold-daily-step.is-guided-coaching .gs-gold-daily-question{font-size:22px;line-height:1.2;text-align:left;text-wrap:pretty;margin:0 0 12px}
+.gs-gold-daily-step.is-guided-coaching .gs-gold-daily-options{gap:6px}
+.gs-gold-daily .is-guided-coaching .gs-gold-daily-option{font-size:14px;line-height:1.35;min-height:48px;padding:9px 10px;grid-template-columns:26px minmax(0,1fr);gap:9px}
+.gs-gold-daily-step.is-guided-coaching .gs-gold-daily-option-letter{width:26px;height:26px;border-radius:8px}
+.gs-gold-daily [data-gd-focus]:focus{outline:none}
+@media(max-width:360px){
+  .gs-gold-daily-shell{padding-left:12px;padding-right:12px}
+  .gs-gold-daily-cue-rail{font-size:6px;letter-spacing:-.05px;gap:2px}
+  .gs-gold-daily-decision-zone{min-height:258px;padding-top:7px}
+  .gs-gold-daily-option{font-size:12px;min-height:48px;padding:8px 9px}
+  .gs-gold-daily-options{gap:6px}
+}
+@media(max-height:690px) and (orientation:portrait){
+  .gs-gold-daily-shell{padding-top:calc(5px + env(safe-area-inset-top));padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+  .gs-gold-daily-head{min-height:44px;margin-bottom:1px}
+  .gs-gold-daily-icon{width:44px;height:44px}
+  .gs-gold-daily-step-meta{margin-bottom:5px}
+  .gs-gold-daily-step-copy span{font-size:9px}
+  .gs-gold-daily-step-copy strong{margin-top:3px;font-size:7.5px}
+  .gs-gold-daily-visual{max-width:310px}
+  .gs-gold-daily-visual-canvas>svg{height:136px;object-fit:contain}
+  .gs-gold-daily .gs-gold-daily-contact-stage.fasp-stage,
+  .gs-gold-daily .gs-gold-daily-contact-stage.fasp-stage svg{height:140px}
+  .gs-gold-daily-contact-focus{min-height:28px;font-size:9px;padding:5px 8px 3px}
+  .gs-gold-daily-decision-zone{min-height:252px;padding-top:6px}
+  .gs-gold-daily-scene-line{font-size:10.5px;line-height:1.33}
+  .gs-gold-daily-question{font-size:17px;margin:5px auto 7px}
+  .gs-gold-daily-option{min-height:46px}
+  .gs-gold-daily-feedback{margin-top:7px;padding-top:9px;padding-bottom:9px}
+  .gs-gold-daily-next{margin-top:8px;min-height:48px}
+}
+@media(min-width:700px){
+  .gs-gold-daily-shell{padding-left:24px;padding-right:24px}
+}
+@media(orientation:portrait){
+  .gs-gold-daily-focus-stage{padding-top:12px;padding-bottom:12px}
+}
+@media(orientation:landscape) and (max-height:500px){
+  .gs-gold-daily-focus{
+    padding-top:max(6px,env(safe-area-inset-top));
+    padding-bottom:max(6px,env(safe-area-inset-bottom));
+  }
+  .gs-gold-daily-focus-head{min-height:44px}
+  .gs-gold-daily-focus-copy strong{display:block;font-size:13px;text-overflow:ellipsis;white-space:nowrap}
+  .gs-gold-daily-focus-stage .gs-gold-daily-cue-rail{font-size:6px;letter-spacing:0}
+  .gs-gold-daily-focus-foot{min-height:32px;padding-top:2px}
+}
+@media(prefers-reduced-motion:reduce){
+  .gs-gold-daily *,
+  .gs-gold-daily *::before,
+  .gs-gold-daily *::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+  .gs-gold-daily-cue-rail span,
+  .gs-gold-daily .gd-svg-cue,
+  .gs-gold-daily .gd-choice-target{opacity:1!important;transform:none!important}
+  .gs-gold-daily-step.is-paced .gs-gold-daily-question,
+  .gs-gold-daily-step.is-paced .gs-gold-daily-options,
+  .gs-gold-daily-step.is-paced .gs-gold-daily-feedback,
+  .gs-gold-daily-step.is-paced .gs-gold-daily-next{opacity:1!important;filter:none!important;transform:none!important}
+  .gs-gold-daily-ink span{clip-path:inset(0)!important;filter:none!important}
+  .gs-gold-daily-scene-line span::after{transform:scaleX(1)!important}
+}
+
+/* Calendar shell only; the nine lesson stages retain their approved styling. */
+.gs-gold-daily-calendar>p{line-height:1.5}
+.gs-gold-daily-tomorrow{margin-top:28px;padding-top:18px;border-top:1px solid rgba(200,168,75,.2)}
+.gs-gold-daily-tomorrow h2{font-size:18px;line-height:1.3;margin:9px 0;color:rgba(255,255,255,.8)}
+.gs-gold-daily-tomorrow p{font-size:13px;line-height:1.5;color:rgba(255,255,255,.6)}
+.gs-gold-daily-calendar .gs-gold-daily-note{font-size:12px;line-height:1.5}
+.gs-gold-daily-note>summary,.gs-gold-daily-pro-insight>summary{min-height:44px;align-content:center;cursor:pointer;line-height:1.5}
+.gs-gold-daily-result-actions details.gs-gold-daily-note{font-size:12px;line-height:1.5}

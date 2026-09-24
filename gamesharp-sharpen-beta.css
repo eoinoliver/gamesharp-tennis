@@ -1,0 +1,499 @@
+/* Sharpen beta: familiar moment → canonical lesson → one on-court focus.
+   Load after gamesharp-pain-coach.css. The illustrated player and its hotspot
+   positions remain owned by that stylesheet; no geometry is overridden here. */
+.gspc-beta {
+  --gspc-beta-cream: #f2f0e5;
+  --gspc-beta-muted: #b8c5b3;
+  --gspc-beta-gold: #cfb259;
+  --gspc-beta-line: #354d37;
+  color: var(--gspc-beta-cream);
+}
+
+/* Keep the document locked, while permitting the beta's native scroll owner. */
+body.gspc-open:has(.gspc-beta.open) {
+  touch-action: auto;
+}
+
+.gspc-beta .gspc-shell,
+.gspc-beta .gspc-scroll,
+.gspc-beta .gspc-stage {
+  min-width: 0;
+  min-height: 0;
+}
+
+.gspc-beta .gspc-scroll {
+  overscroll-behavior: contain;
+  scroll-behavior: auto;
+  touch-action: pan-y;
+}
+
+/* Only the missing-image fallback becomes a normal-flow list. The successful
+   illustration and all hotspot coordinates retain their approved geometry. */
+.gspc-beta .gspc-player.image-failed {
+  min-height: 0;
+  margin-top: 18px;
+}
+
+.gspc-beta .gspc-player.image-failed .gspc-player-fallback {
+  position: static;
+  min-height: 0;
+}
+
+.gspc-beta :is(.gspc-back, .gspc-close) {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+}
+
+.gspc-beta :is(.gspc-region-head, .gspc-court-card, .gspc-feedback-card, .gspc-empty) {
+  overflow-wrap: anywhere;
+}
+
+.gspc-beta .gspc-region-head {
+  margin: 0 0 22px;
+  max-width: 34rem;
+}
+
+.gspc-beta #gspcTitle:focus {
+  outline: none;
+}
+
+.gspc-beta :is(.gspc-region-head, .gspc-court-card, .gspc-feedback-card, .gspc-focus-summary) .gspc-eyebrow {
+  margin: 0 0 9px;
+  color: var(--gspc-beta-gold);
+  font-size: .6875rem;
+  line-height: 1.4;
+  letter-spacing: .11em;
+}
+
+.gspc-beta .gspc-region-head :is(h1, h2, .gspc-title) {
+  margin: 0;
+  max-width: 20ch;
+  color: var(--gspc-beta-cream);
+  font-size: clamp(1.625rem, 6vw, 2.125rem);
+  line-height: 1.14;
+  letter-spacing: -.025em;
+}
+
+.gspc-beta .gspc-region-head :is(p, .gspc-lead) {
+  margin: 11px 0 0;
+  color: var(--gspc-beta-muted);
+  font-size: .9375rem;
+  line-height: 1.5;
+}
+
+.gspc-beta .gspc-situations {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 11px;
+}
+
+.gspc-beta .gspc-situation {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  min-height: 110px;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--gspc-beta-line);
+  border-radius: 16px;
+  background: #112317;
+  color: var(--gspc-beta-cream);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .16s ease, border-color .16s ease;
+}
+
+.gspc-beta .gspc-situation-picture {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #0b1a10;
+  color: var(--gspc-beta-muted);
+  font-size: .875rem;
+  font-weight: 650;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.gspc-beta .gspc-situation-picture :is(svg, img) {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.gspc-beta .gspc-situation-picture,
+.gspc-beta .gspc-situation-picture * {
+  animation: none !important;
+  transition: none !important;
+  pointer-events: none;
+}
+
+.gspc-beta .gspc-situation-copy {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.gspc-beta .gspc-situation-copy strong {
+  display: block;
+  color: var(--gspc-beta-cream);
+  font-size: 1rem;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.gspc-beta .gspc-situation-copy small {
+  display: block;
+  margin-top: 7px;
+  color: var(--gspc-beta-muted);
+  font-size: .75rem;
+  font-weight: 450;
+  line-height: 1.5;
+}
+
+.gspc-beta .gspc-situation-arrow {
+  color: var(--gspc-beta-gold);
+  /* Decorative arrow stays within its fixed track when text is enlarged. */
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+}
+
+.gspc-beta .gspc-situation:active {
+  background: #1b3521;
+  border-color: #7f966a;
+}
+
+.gspc-beta :is(.gspc-court-card, .gspc-feedback-card, .gspc-empty) {
+  box-sizing: border-box;
+  padding: 23px;
+  border: 1px solid var(--gspc-beta-line);
+  border-radius: 18px;
+  background: #102015;
+}
+
+.gspc-beta .gspc-court-card {
+  border-color: #635b36;
+  background: linear-gradient(155deg, #172a1b, #0d1b12);
+}
+
+.gspc-beta :is(.gspc-court-card, .gspc-feedback-card, .gspc-empty) :is(h1, h2, h3) {
+  margin: 0;
+  color: var(--gspc-beta-cream);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+
+.gspc-beta .gspc-court-card blockquote {
+  margin: 22px 0 17px;
+  padding: 0 0 0 14px;
+  border-left: 2px solid var(--gspc-beta-gold);
+  color: #e7d89f;
+  font-size: 1.375rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.gspc-beta :is(.gspc-court-card, .gspc-feedback-card, .gspc-empty) p {
+  margin: 12px 0 0;
+  color: var(--gspc-beta-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.gspc-beta .gspc-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.gspc-beta :is(.gspc-primary, .gspc-secondary, .gspc-tertiary) {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font: inherit;
+  font-size: .9375rem;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.gspc-beta .gspc-primary {
+  width: 100%;
+  grid-column: 1 / -1;
+  border: 1px solid transparent;
+  background: var(--gspc-beta-gold);
+  color: #11180e;
+}
+
+.gspc-beta .gspc-court-card + .gspc-primary {
+  margin-top: 14px;
+}
+
+.gspc-beta .gspc-secondary {
+  border: 1px solid var(--gspc-beta-line);
+  background: transparent;
+  color: #d9e0d1;
+  font-weight: 550;
+}
+
+.gspc-beta .gspc-tertiary {
+  border: 0;
+  background: transparent;
+  color: var(--gspc-beta-muted);
+  font-size: .875rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.gspc-beta .gspc-primary.gspc-saved {
+  background: #b9cdae;
+  color: #102015;
+}
+
+.gspc-beta :is(.gspc-primary, .gspc-secondary, .gspc-tertiary):disabled {
+  cursor: default;
+  opacity: .7;
+  transform: none;
+}
+
+.gspc-beta .gspc-feedback-card {
+  margin-top: 18px;
+  background: #0d1b12;
+}
+
+.gspc-beta .gspc-feedback-card :is(h2, h3) {
+  font-size: 1.25rem;
+}
+
+.gspc-beta .gspc-feedback-card .gspc-feedback {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.gspc-beta .gspc-feedback-card .gspc-feedback button {
+  min-height: 48px;
+  padding: 12px 14px;
+  border-color: var(--gspc-beta-line);
+  color: #d9e0d1;
+  font-size: .875rem;
+  line-height: 1.4;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.gspc-beta .gspc-feedback-card .gspc-feedback button:is(.selected, [aria-pressed="true"]) {
+  border-color: var(--gspc-beta-gold);
+  background: #263320;
+  color: var(--gspc-beta-cream);
+}
+
+.gspc-beta .gspc-save-status {
+  min-height: 1.5em;
+  margin: 10px 0 0;
+  color: #c5d9b8;
+  font-size: .8125rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.gspc-beta .gspc-storage-note {
+  margin: 12px 0 0;
+  color: var(--gspc-beta-muted);
+  font-size: .75rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.gspc-beta .gspc-empty {
+  background: transparent;
+  border-style: dashed;
+}
+
+.gspc-beta .gspc-focus-summary {
+  box-sizing: border-box;
+  display: block;
+  width: min(100%, 480px);
+  min-height: 76px;
+  margin: 18px auto 0;
+  padding: 15px 16px;
+  border: 1px solid #596244;
+  border-radius: 14px;
+  background: #142319;
+  color: var(--gspc-beta-cream);
+  font: inherit;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.gspc-beta button.gspc-focus-summary {
+  cursor: pointer;
+}
+
+.gspc-beta .gspc-focus-summary strong {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.gspc-beta .gspc-focus-summary :is(p, small) {
+  display: block;
+  margin: 7px 0 0;
+  color: var(--gspc-beta-muted);
+  font-size: .8125rem;
+  line-height: 1.5;
+}
+
+.gspc-beta :is(.gspc-situation, .gspc-primary, .gspc-secondary, .gspc-tertiary, .gspc-focus-summary, .gspc-feedback button, .gspc-back, .gspc-close):focus-visible {
+  outline: 2px solid var(--gspc-beta-gold);
+  outline-offset: 3px;
+}
+
+.gspc-beta :is(.gspc-court-card, .gspc-feedback-card, .gspc-empty, .gspc-focus-summary, .gspc-save-status)[hidden] {
+  display: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gspc-beta .gspc-situation:hover,
+  .gspc-beta button.gspc-focus-summary:hover {
+    border-color: #7f966a;
+    background: #192f1e;
+  }
+}
+
+/* One local, source-informed court experiment. No player or lesson geometry. */
+.gspc-beta .gspc-check-choices {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0;
+}
+.gspc-beta .gspc-check-choices button {
+  width: 100%;
+  min-height: 64px;
+  padding: 16px;
+  text-align: left;
+  white-space: normal;
+}
+.gspc-beta .gspc-check-choices :is(strong, span) { display: block; }
+.gspc-beta .gspc-check-choices span {
+  margin-top: 6px;
+  color: var(--gspc-beta-muted);
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.gspc-beta :is(.gspc-check-setup, .gspc-check-counting, .gspc-check-boundary) {
+  font-size: .9375rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.gspc-beta :is(.gspc-check-setup, .gspc-check-boundary) { color: var(--gspc-beta-muted); }
+.gspc-beta .gspc-check-blocks { display: grid; gap: 12px; margin: 22px 0; }
+.gspc-beta .gspc-check-blocks article {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--gspc-beta-line);
+  border-radius: 14px;
+  background: #112317;
+  overflow-wrap: anywhere;
+}
+.gspc-beta .gspc-check-ten { color: var(--gspc-beta-gold); font-size: 2.5rem; font-weight: 750; line-height: 1; }
+.gspc-beta .gspc-check-ten span { display: block; margin-top: 7px; font-size: .75rem; line-height: 1.4; font-weight: 450; }
+.gspc-beta .gspc-check-blocks h2 { margin: 0; font-size: 1rem; line-height: 1.4; }
+.gspc-beta .gspc-check-blocks p { margin: 9px 0 0; color: var(--gspc-beta-muted); font-size: .9375rem; line-height: 1.5; }
+.gspc-beta .gspc-check-cue { margin: 15px 0 0; padding: 0 0 0 12px; border-left: 2px solid var(--gspc-beta-gold); font-size: 1rem; line-height: 1.5; }
+.gspc-beta .gspc-check-full { width: 100%; margin-top: 12px; white-space: normal; }
+.gspc-beta .gspc-check-sources { margin-top: 24px; color: var(--gspc-beta-muted); font-size: .875rem; line-height: 1.5; overflow-wrap: anywhere; }
+.gspc-beta .gspc-check-sources summary { min-height: 44px; cursor: pointer; color: var(--gspc-beta-cream); }
+.gspc-beta .gspc-check-sources a { display: block; padding: 12px 0; color: var(--gspc-beta-gold); }
+.gspc-beta .gspc-check-sources ul { padding-left: 20px; }
+.gspc-beta .gspc-check-sources li + li { margin-top: 8px; }
+.gspc-beta .gspc-check-form { display: grid; gap: 20px; }
+.gspc-beta .gspc-check-form fieldset { min-width: 0; margin: 0; padding: 18px; border: 1px solid var(--gspc-beta-line); border-radius: 14px; }
+.gspc-beta .gspc-check-form legend { padding: 0 6px; font-size: 1rem; font-weight: 700; }
+.gspc-beta .gspc-check-form fieldset p { margin: 0 0 16px; color: var(--gspc-beta-muted); font-size: .9375rem; line-height: 1.5; }
+.gspc-beta .gspc-check-form label { display: grid; min-width: 0; gap: 9px; font-size: .9375rem; line-height: 1.5; }
+.gspc-beta .gspc-check-form select {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid #6b7c62;
+  border-radius: 8px;
+  background: #112317;
+  color: var(--gspc-beta-cream);
+  font: inherit;
+  font-size: 1rem;
+  color-scheme: dark;
+}
+.gspc-beta :is(.gspc-check-count-fields, .gspc-check-result-counts) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.gspc-beta .gspc-check-result-counts { margin: 24px 0; }
+.gspc-beta .gspc-check-result-counts > div { min-width: 0; padding: 16px; border: 1px solid var(--gspc-beta-line); border-radius: 12px; overflow-wrap: anywhere; }
+.gspc-beta .gspc-check-result-counts span { display: block; font-size: .875rem; color: var(--gspc-beta-muted); }
+.gspc-beta .gspc-check-result-counts strong { display: block; margin-top: 8px; font-size: 1.0625rem; line-height: 1.45; }
+.gspc-beta .gspc-check-result-counts small { font-size: .875rem; font-weight: 450; }
+.gspc-beta .gspc-check-error { margin: 0; font-size: .875rem; color: #f5bbac; }
+.gspc-beta .gspc-check-error:empty { display: none; }
+.gspc-beta :is(.gspc-check-form select, .gspc-check-sources summary, .gspc-check-sources a):focus-visible { outline: 2px solid var(--gspc-beta-gold); outline-offset: 3px; }
+@media (max-width: 390px) {
+  .gspc-beta .gspc-check-blocks article { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 16px; }
+  .gspc-beta .gspc-check-ten span { display: inline; margin-left: 8px; }
+  .gspc-beta :is(.gspc-check-count-fields, .gspc-check-result-counts) { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 390px) {
+  .gspc-beta .gspc-region-head { margin-bottom: 18px; }
+  .gspc-beta .gspc-situation {
+    grid-template-columns: 88px minmax(0, 1fr) 12px;
+    gap: 9px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+  .gspc-beta :is(.gspc-court-card, .gspc-feedback-card, .gspc-empty) { padding: 18px; }
+  .gspc-beta .gspc-actions { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gspc-beta .gspc-stage { animation: none !important; }
+  .gspc-beta :is(.gspc-situation, .gspc-primary, .gspc-secondary, .gspc-tertiary, .gspc-focus-summary) {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .gspc-beta :is(.gspc-situation, .gspc-court-card, .gspc-feedback-card, .gspc-focus-summary) {
+    border-color: CanvasText;
+  }
+  .gspc-beta :is(.gspc-primary, .gspc-secondary, .gspc-tertiary) {
+    border: 1px solid ButtonText;
+  }
+}

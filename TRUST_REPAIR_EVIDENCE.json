@@ -1,0 +1,84 @@
+{
+  "release": "2026-09-21-trust-repair-5",
+  "date": "2026-09-21",
+  "reviewer": "Codex implementation and native browser review",
+  "coachApproval": false,
+  "report": "TRUST_REPAIR_RELEASE_2026-09-21.md",
+  "coverage": {
+    "connectedJourneyIds": [
+      "seq_001",
+      "seq_002",
+      "seq_003",
+      "seq_004",
+      "seq_009",
+      "seq_010",
+      "seq_013",
+      "seq_015",
+      "seq_020"
+    ],
+    "viewports": [
+      {
+        "width": 320,
+        "height": 740
+      },
+      {
+        "width": 430,
+        "height": 844
+      }
+    ],
+    "nativeCompleteJourneys": 18,
+    "branches": "Both first lines and both second-answer outcomes; exact Playbook handoffs; whole-point replay; original-result UI retained.",
+    "exceptions": "Two 320px paths were resumed after a scroll-reset race. Shared race fixed and regression-tested; both passed normally at 430px after the fix. Final -5 changes only drop-shot badge plus release/cache tokens and review metadata.",
+    "liveCardFocusOpeningSurfaces": 22,
+    "dailyTargetedFullLessons": [
+      "mental",
+      "runaround",
+      "serve-plus-one",
+      "return-position",
+      "pattern-clue",
+      "winner",
+      "recovery"
+    ],
+    "dailyScope": "Fresh targeted full flows/Focus surfaces plus retained September 15 all-63-decision semantic audit. Not a new frame-by-frame replay of every Daily outcome.",
+    "desktop": "1280x844 Home, Explore, Playbook, Sharpen; targeted desktop regression retained.",
+    "sound": "Native off/on checked; event-clock and optional-media/reduced-motion fallbacks covered by automated tests.",
+    "limitations": [
+      "Independent coaching approval pending",
+      "Contact D2 height/spacing confound remains",
+      "Court maps do not demonstrate body spacing, height or balance",
+      "No physical-device audio or screen-reader certification"
+    ]
+  },
+  "dependencies": {
+    "index.html": "240b64ef3f1bfa3a76111f04105c05c0f703da664fe68e8e95b0585dcbbdd801",
+    "LAUNCH_MANIFEST.json": "a7b90ca8b3f79442a930744fef7149a72fb459248720a542d96df9782f8c1d88",
+    "gamesharp-release-policy.js": "cf8f35a95a9079dbc6d65c292bc6fa9acddf3551188b566aea4f1ef47695b35c",
+    "livepoint-content.js": "01dbb0b995f74cc1f0f3fa188dc0ade976ef4aac4b59a34e168cc13e5a86cc65",
+    "livepoint-integrity.js": "71141d6a30ec8b1e4f1cbb0f389a4d918d6f43722d0afa42e1421d8878c71d63",
+    "livepoint-engine.js": "bb3a1a4dec7c9d1ae6684054fd8e3c224b0b64798a48aa66e9ff79edfd149896",
+    "livepoint-scene.js": "15290096b816da64f400d98535fe53feacdc5353e3c1060f94b2a4586ca858cd",
+    "livepoint-prototype.html": "bbf31cd8947829a80b745bede78d7b3b98b1add186b9cb4f61eedbff6df698d9",
+    "predict-live-integration.js": "353026ca291063a259cef8f842c38ff338aa88dc14e9c979491ff8c3f0714b60",
+    "gold-daily-prototypes.js": "6074601bb432aa4748ab0d00651ddc3cb2f69b42e05b3014b717d5612ead066d",
+    "gold-daily-lesson-spines.js": "b635fa437b742a2feebeb927d0254efe614f0b14757255d23e8578ccb01fb9c0",
+    "gold-daily-patterns.js": "7997492fa2f5a2c321b3820887d90a8f23560a32ba2f4d18fc757a83fcca047d",
+    "gold-daily-serve-quality.js": "893f6e17518ba699870949319c3e813e87d7cad23433fb3b20738e8d9f0b8758",
+    "gold-daily-construction.js": "250d3aa029151c47d1d117307a47551da0da0a5a1913d33d55652e5451588216",
+    "gold-daily-tradeoffs.js": "6ecda76b8181cb25e7d55b882bf49e3b2b6f4128a8b89309346bd557ae364df4",
+    "gold-daily-main.js": "bf0c32618ab939eabab7389b572603d0cfcd529e399ba5709c8c167053634f5c",
+    "gold-daily-high-ball.js": "71150beb8b0e801136f04a8b58ccbe76a247a8404f8dbe8116e234093c76d2d9",
+    "gold-daily-return-time.js": "a174491b5d8464e57200045968dfe255f395def764a7f6a425e829bda6985e24",
+    "gold-daily-loop.js": "f46d93933a9810ab4cd9c69d25fe13002ccd6ef005efdf9a50f13bf1b0afc246",
+    "gamesharp-sharpen-state.js": "227952aa2414a9dddbccee6a804b1015f2d1445a0bc9925aa691b1ce058a0f20",
+    "gamesharp-court-checks.js": "7517991f429ff2f90d9dfcd25310a496a4b3ed26654124ec2e179d2e99d83e9d",
+    "gamesharp-court-check-state.js": "d5096b13499eb8194af43e39e64856cc08b2a6246b6f6667080659a4f99ccdcb",
+    "gamesharp-forehand-check.js": "7c1c6b744026fc4a7d761a92df3893a5059c61d8e31feb2a1a1911ac5585548e",
+    "gamesharp-forehand-check-state.js": "47262d0e84655f8c6470ff1f0cd632939cfa6752cac1ade6cf55c0465cd39a7e",
+    "gamesharp-pain-coach.js": "5b6ffd895f78c42153fa29ee23f13ec94ca064b92b736392bfef5b2ea9b26d99",
+    "gamesharp-sharpen-paths.js": "af453faff4c08b9be11b47d836ef3ab1e0422b4f73e45cc3f8d8d0176d81e1e1",
+    "share-data.json": "4bae87e5805454234b85f533fb41e21755937fc907cd70804cbb16987b404c8d",
+    "api/share.js": "82b01e02769fa88ca76d4719f1cc6a67edb4cf28e8737736aa7f7704bc1f2e5c",
+    "vercel.json": "877e7d81615a39814d26f7b587217eac3acd44258cdde783091fb716ba7f8b1f",
+    ".vercelignore": "4fcc79af280e42ce1c79d38caac9edce7725b83e30d289fa8403faa0c10806fb"
+  }
+}

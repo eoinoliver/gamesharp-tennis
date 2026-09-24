@@ -123,6 +123,13 @@ if (lengthTell > LENGTH_TELL_BASELINE) {
   );
 }
 
+try {
+  const review = JSON.parse(fs.readFileSync(require('node:path').join(__dirname, '..', 'TRUST_REPAIR_EVIDENCE.json'), 'utf8'));
+  errors.push(...require('./verify-review-evidence.cjs').verify(review));
+} catch (error) {
+  errors.push('Dependency-bound review is unavailable: ' + error.message);
+}
+
 const summary = {
   questions: QBANK.length,
   lengthTells: lengthTell,

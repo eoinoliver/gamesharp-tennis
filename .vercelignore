@@ -1,0 +1,14 @@
+.proofs/
+Legacy Versions/
+daily.html
+daily2.html
+faultlab.html
+faultmotion.html
+fixashot.html
+technique.html
+*.md
+*.test.mjs
+livepoint-validator.mjs
+tools/
+QBANK_*.json
+_*.py
