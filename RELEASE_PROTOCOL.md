@@ -48,12 +48,14 @@ this release routine. Migration approval alone does not approve production.
 1. Fetch and inspect local changes, create a task branch, then claim WORKLOG.
    Push the branch, verify the remote SHA, inspect its Git-triggered preview and
    present project, full commit SHA and exact deployment URL for review.
-2. After “ship it”, merge the approved branch through GitHub. Never push directly
+2. **Before merging**, confirm Vercel project `gamesharp-tennis` still builds
+   GitHub `eoinoliver/gamesharp-tennis`, production branch `main`, with
+   **Auto-assign Custom Production Domains disabled**. Record the current live
+   deployment and verify the last-good rollback target is available. Stop before
+   merging if any of these checks fail.
+3. After “ship it”, merge the approved branch through GitHub. Never push directly
    to `main`. Confirm the merge has the reviewed content; conflict resolution or
    any changed content requires a fresh preview and approval.
-3. Confirm Vercel project `gamesharp-tennis` still builds GitHub
-   `eoinoliver/gamesharp-tennis`, production branch `main`, with **Auto-assign
-   Custom Production Domains disabled**. Record the live deployment before merge.
 4. Wait for the merge's Git-triggered **production** build to become Ready/Staged.
    Verify its exact Git SHA, reviewed runtime bytes, share function, retired and
    private-source route exclusions, and the required journeys on its unique URL.
@@ -76,8 +78,9 @@ target; it never releases review-only lessons on remote hosts.
 
 Keep `TRUST_REPAIR_EVIDENCE.json` fingerprints intact unless the actual changed
 dependency has received a documented scoped re-review. Never refresh hashes to
-force a pass. During this migration the runtime and reviewed configuration remain
-byte-identical; prove that parity on the actual Git deployment.
+force a pass. During this migration the runtime remains
+byte-identical. The one reviewed `.github/` exclusion addition is recorded in
+`configurationReviews`; verify it and all existing exclusions on the Git deployment.
 
 ## Rollback
 

@@ -79,6 +79,18 @@
     "share-data.json": "4bae87e5805454234b85f533fb41e21755937fc907cd70804cbb16987b404c8d",
     "api/share.js": "82b01e02769fa88ca76d4719f1cc6a67edb4cf28e8737736aa7f7704bc1f2e5c",
     "vercel.json": "877e7d81615a39814d26f7b587217eac3acd44258cdde783091fb716ba7f8b1f",
-    ".vercelignore": "4fcc79af280e42ce1c79d38caac9edce7725b83e30d289fa8403faa0c10806fb"
-  }
+    ".vercelignore": "db4c3dfb9f7250e9bd10194ca2f1334dd818b4bda4c5f57d4d8d0eb726987466"
+  },
+  "configurationReviews": [
+    {
+      "date": "2026-09-24",
+      "reviewer": "Codex implementation review and independent migration_change_review",
+      "file": ".vercelignore",
+      "previousSha256": "4fcc79af280e42ce1c79d38caac9edce7725b83e30d289fa8403faa0c10806fb",
+      "sha256": "db4c3dfb9f7250e9bd10194ca2f1334dd818b4bda4c5f57d4d8d0eb726987466",
+      "change": "Add only .github/ to exclude CI source exposed by the first Git preview. All prior exclusion rules and the other 29 fingerprinted dependencies are unchanged.",
+      "evidence": "Six release-boundary tests pass; source diff independently reviewed. Before promotion, the release protocol requires the actual Git deployment to return 404 for /.github/workflows/checks.yml and all existing excluded routes.",
+      "scope": "Deployment packaging only; no new runtime, tennis, coaching or device approval."
+    }
+  ]
 }

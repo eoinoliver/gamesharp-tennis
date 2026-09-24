@@ -50,7 +50,9 @@ current contracts.
 - Vercel builds from GitHub. No laptop source uploads after cutover. Local
   previews may run from this canonical directory; hosted review previews must
   come from its pushed branch. CLI inspection and promotion remain supported.
-- Tennis: merge approved content, verify the Git-triggered staged **production**
+- Tennis: verify automatic production-domain assignment is disabled and record
+  the last-good deployment **before merging**. Merge approved content, then verify
+  the Git-triggered staged **production**
   build while automatic domain assignment stays disabled, then promote that
   exact production deployment without rebuilding. Do not promote an ordinary
   preview as a substitute. Follow `RELEASE_PROTOCOL.md` and verify live.

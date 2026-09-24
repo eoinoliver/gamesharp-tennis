@@ -45,7 +45,7 @@ test('released share API title comes from the current canonical question',()=>{
 });
 test('all retired standalone pages and working sources are excluded from deployment',()=>{
   const ignore=fs.readFileSync(new URL('./.vercelignore',import.meta.url),'utf8').split(/\r?\n/);
-  for(const page of [...policy.retiredPages,'Legacy Versions/','tools/','*.md','*.test.mjs'])assert.ok(ignore.includes(page),page);
+  for(const page of [...policy.retiredPages,'.github/','Legacy Versions/','tools/','*.md','*.test.mjs'])assert.ok(ignore.includes(page),page);
   assert.ok(html.indexOf('gamesharp-release-policy.js')<html.indexOf('const QBANK ='));
   assert.match(block('checkFirstVisit'),/startSharedPoint\(gsResolveReleasedQuestion\(_pid\)\)/);
 });
