@@ -43,3 +43,32 @@
 - Court-check browser checks in progress. GitHub browser sign-in is needed to
   create the PR and enforce branch protection. Main remains the unchanged August
   commit, unprotected; no merge or production cutover has occurred.
+
+### Review checkpoint — preparation complete, release awaiting Eoin
+
+- Corrected commit `5978b638edc83351e93f5fc024cb43690878520d`, preview
+  `dpl_6ntN9jbaSiki63q1Lvv6LvM8BmHL`,
+  https://gamesharp-tennis-7x8zgkv6g-eoinlynn-5978s-projects.vercel.app .
+  All 121 HTTP/content/boundary checks pass. `.github/workflows/checks.yml`
+  now returns 404. Canonical HTML plus only the identified Vercel Feedback
+  suffix is accepted on previews; all other static files match raw hashes.
+- All 225 structural tests and required GitHub checks pass. All 15 selected
+  additional-court and seven forehand browser cases pass across the initial
+  runs and isolated reruns. Earlier navigation/command timeouts are retained in
+  evidence; none remain unresolved. All four full court-check paths were
+  exercised at 320×740, 430×844 and 1280×844. This is a selected browser suite,
+  not a new certification of every device or every visual frame.
+- Draft PR: https://github.com/eoinoliver/gamesharp-tennis/pull/1 . GitHub sign-in
+  is resolved. Main branch protection is now enabled for everyone, requiring
+  pull requests, current branches, and `contracts` (GitHub Actions) and `Vercel`
+  checks. Direct pushes, force pushes, deletion and administrator bypass are
+  not permitted. Eoin's preview/“ship it” remains the human release approval.
+- This checkpoint changes documentation only. Its Git preview must still be
+  checked for the correct SHA and unchanged served runtime before Eoin reviews
+  it. Final SHA/deployment mapping and full local evidence live in
+  `/Users/eoinlynn/Downloads/tennis-git-migration-2026-09-24/` and the PR.
+- Status: pushed/review preparation complete; **not merged or deployed**.
+  Codex retains Tennis ownership. Next: Eoin reviews the exact final preview
+  and says “ship it”; then the recorded pre-merge safety check, staged Git
+  production verification, promotion of that same deployment and live check.
+  No Desktop archiving, deletion, Golf or PropPocket migration has occurred.
