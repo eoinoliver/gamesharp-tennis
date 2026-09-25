@@ -216,3 +216,11 @@
   whole-lesson fullscreen. Native answered replay also returned to its insight
   with the original score and attempt count unchanged. No material defect remains
   from these checks. Final hosted verification follows on the corrected commit.
+- Corrected hosted build `0fb1c50` passed the full native B/D/B journey, 15
+  layout/state checks, restart and beta navigation, with no page errors. Its
+  three served review assets matched Git and local bytes; production stayed
+  `dpl_Bqmjy3UZtLxUJ9UvSmn6xqY2RAAp`, auto-assignment disabled.
+- Final responsive adjustment also supports 568×320 small-phone landscape.
+  Seventy-four programmatically rendered panel/answer combinations passed bounds
+  checks there, plus a native replay-to-decision check. These layout inspections
+  are separate from the native end-to-end journey above. Final source follows.
