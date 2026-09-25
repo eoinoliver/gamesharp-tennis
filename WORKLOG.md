@@ -140,3 +140,19 @@
   Its main and canonical checkout are unchanged; transfer bundles remain.
 - This completion entry is documentation only; it does not change the released
   source SHA or cause another Production deployment. No deletion or archiving.
+
+## 25 September 2026 — beta menu navigation repair
+
+- Owner: Codex; branch `codex/tennis-beta-navigation-fix-2026-09-25`.
+- Eoin reports every lesson fails from the menu. Reproduced: `/beta` serves the
+  menu without redirecting to `/beta/`, so its four bare filename links resolve
+  to the site root and return 404. Previous checks used the trailing slash and
+  missed this ordinary entry route.
+- Repair only the four menu destinations to `/beta/<lesson>.html`. Lesson pages,
+  main app, noindex, Vercel config and reviewed fingerprints remain unchanged.
+  This corrects navigation for the already approved beta; it is not Git cutover.
+- Verify actual clicks and back navigation from `/beta`, `/beta/` and
+  `/beta/index.html` on the staged Production build and live after promotion.
+  Preserve existing app byte checks and record the exact deployment/commit.
+- Rollback baseline: `dpl_5gv8gtyKMthe23yDpsf2gNVubCZ6`; recheck before promotion.
+  Originals and prior deployment evidence remain. Status: fix prepared.
