@@ -10,3 +10,4 @@ header{height:53px;flex:none;display:flex;align-items:center;padding:0 18px;bord
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
 .shot-details{display:flex;flex-direction:column;gap:10px;font-size:13px;color:#bec5b6}.oc::before{content:'·';color:var(--accent);margin-right:7px}.oc.bad{color:#e9aaa0}.oc.good{color:#b9d2a7}
 .controls button:disabled{display:none}
+#panel[data-phase=evidence] .actions{flex-direction:row;align-items:center;gap:10px}#panel[data-phase=evidence] .primary{flex:1}#panel[data-phase=evidence] .text-btn{flex:none;padding:5px 0}

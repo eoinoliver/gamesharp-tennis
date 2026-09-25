@@ -208,3 +208,11 @@
   unverified. This is one interface review, not a claim to have proved retention.
 - Evidence: `/Users/eoinlynn/Downloads/short-ball-focus-review-2026-09-25/`.
   Git preview identity will be recorded after the branch build is ready.
+- Hosted preview verification found an explanation-panel overlap after adding
+  the deeper-read action. The two explanation actions now share one row;
+  390×700 and 320×568 text/action bounds pass without reducing text or court size.
+- Independent state review passes: callback cancellation, completion-gap View,
+  all five cameras, duplicate choice, first-answer retention, finish/restart and
+  whole-lesson fullscreen. Native answered replay also returned to its insight
+  with the original score and attempt count unchanged. No material defect remains
+  from these checks. Final hosted verification follows on the corrected commit.
