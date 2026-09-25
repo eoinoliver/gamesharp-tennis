@@ -173,3 +173,38 @@
   migration is still pending and must include both the beta and this repair.
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-navigation-fix-2026-09-25/`.
   This completion entry changes documentation only; no additional promotion.
+
+## 25 September 2026 — Short Ball focused experience review
+
+- Owner: Codex; branch `codex/short-ball-focus-review-2026-09-25`, based on
+  navigation repair `21ec80e`. Eoin approved proceeding with one review candidate.
+- Keep Claude's detailed 3D scenes and all three four-choice decisions. Sequence
+  the story in one panel and fit the whole lesson, including controls, to the
+  phone. Original beta pages and the main app remain unchanged.
+- Deliver `beta/short-ball-review.html` through a Git branch preview. No merge,
+  production promotion, migration cutover or deletion is included in this task.
+- Status: implementation and phone viewport review in progress.
+
+### Review implementation and local checks
+
+- Added separate `/beta/short-ball-review.html`, with its own CSS/controller.
+  Situation → watch → four choices → chosen consequence → insight share one
+  story panel. Deeper explanation and the pro example use the same panel.
+- Preserved the original inline scene data (810,597 bytes), detailed figure,
+  motion/ball functions and entire lesson definition. All 12 choices remain.
+  Camera framing now follows the available court area, and labels stay within it.
+- The whole lesson enters fullscreen, including the answers and next control.
+  Relevant playback controls appear by phase. Retries preserve the first answer;
+  cancellation tokens prevent stale playback callbacks after replay/navigation.
+- Completed all three decisions through native browser controls. Inspected
+  390×700 and 320×568 portrait, 844×390 landscape and 1440×900 desktop, including
+  explanations, final takeaway and pro example. No observed page/option overflow
+  or script errors. Rotation preserved the current decision and chosen outcome.
+- Existing checks: 225/225 tests; trust audit 0 errors; connected audit 9 journeys,
+  22 scenes, 0 failures; share-data and review fingerprints pass. Existing
+  answer-length warning and independent coaching-approval caveat are unchanged.
+- Original beta pages and all other baseline tracked files remain byte-identical
+  apart from this work log. Physical iPhone/Safari and actual user preference are
+  unverified. This is one interface review, not a claim to have proved retention.
+- Evidence: `/Users/eoinlynn/Downloads/short-ball-focus-review-2026-09-25/`.
+  Git preview identity will be recorded after the branch build is ready.
