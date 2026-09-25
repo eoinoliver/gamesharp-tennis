@@ -72,3 +72,33 @@
   and says “ship it”; then the recorded pre-merge safety check, staged Git
   production verification, promotion of that same deployment and live check.
   No Desktop archiving, deletion, Golf or PropPocket migration has occurred.
+
+
+## 25 September 2026 — approved unlisted 3D beta
+
+- Owner: Codex; branch `codex/tennis-unlisted-3d-beta-2026-09-25`, based on
+  reviewed migration candidate `1ca9212538afef8dc3a496c144967dd3d89209b6`.
+- Eoin explicitly approves publishing the five supplied, checksummed static
+  pages under `/beta/`, unlinked from Home. Preserve source pages unchanged.
+- This is an authorised pre-cutover CLI Production stage → verify → promote
+  release. It does not merge migration PR #1 or complete the Git cutover.
+- Verify manifest after copy, noindex, relative navigation, main-app audit
+  boundaries, staged HTTP hashes and mobile browser interactions on all pages.
+  Physical-phone testing is not available from this Mac session.
+- Main application files/configuration remain unchanged. Skip the optional
+  response header: every supplied page already has noindex,nofollow.
+- Rollback baseline remains `dpl_EBEYezrjLafgyLZcF2RC1JSHK2Px`; confirm before
+  promotion. Main-app static/function comparisons support the scoped release;
+  do not claim complete platform/runtime equivalence from HTTP samples.
+- Status: preparation started; not yet staged or promoted.
+
+### Pre-stage checks
+
+- All five SHA256SUMS match after copy; embedded scripts parse. Every page has
+  noindex,nofollow; relative menu/back links resolve. No automatic external
+  resources other than Google Fonts, and no storage/analytics calls found.
+- Existing CI scopes named main-app HTML, so no audit exclusions or page edits
+  are needed. All 225 tests, trust/connected/share audits and all 30 existing
+  reviewed fingerprints pass. Every previously tracked file other than this log
+  is unchanged, including main index.html, api/share.js and Vercel config.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-3d-release-2026-09-25/`.

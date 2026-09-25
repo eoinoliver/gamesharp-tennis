@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#111111">
+<title>GameSharp Beta · 3D Lessons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
+<style>
+:root{color-scheme:dark;--bg:#111111;--surface:#1c1c1c;--surface-2:#242424;--ink:#f0ece3;--muted:rgba(240,236,227,.68);
+  --faint:rgba(240,236,227,.45);--line:rgba(255,255,255,.12);--accent:#c8a84b;--court:#1e5a22}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:max(22px,env(safe-area-inset-top)) 48px}
+.brand{font-family:"Bebas Neue",Impact,sans-serif;font-size:22px;letter-spacing:.06em}
+.brand span{color:var(--accent)}
+.tag{display:inline-block;margin-left:8px;vertical-align:3px;font:700 10px "DM Sans",sans-serif;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(200,168,75,.5);border-radius:999px;padding:3px 8px}
+h1{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:clamp(30px,7vw,42px);letter-spacing:.03em;line-height:1;margin:18px 0 8px;text-wrap:balance}
+.lede{font-size:14px;line-height:1.55;color:var(--muted);margin:0 0 20px;max-width:56ch}
+.list{display:grid;gap:10px}
+a.card{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;text-decoration:none;color:inherit;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;transition:border-color .15s}
+a.card:hover,a.card:focus-visible{border-color:var(--accent);outline:none}
+.num{font-family:"Bebas Neue",Impact,sans-serif;font-size:30px;color:var(--accent);text-align:center;line-height:1}
+.t{font-family:"Bebas Neue",Impact,sans-serif;font-size:21px;letter-spacing:.03em;line-height:1.05}
+.d{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.4}
+.go{font-size:12px;color:var(--faint);white-space:nowrap}
+.how{margin-top:22px;border-top:1px solid var(--line);padding-top:16px;font-size:13px;line-height:1.6;color:var(--muted)}
+.how b{color:var(--ink);font-weight:600}
+.how ol{margin:6px 0 0;padding-left:18px}
+.foot{margin-top:18px;font-size:11.5px;color:var(--faint);line-height:1.5}
+@media(max-width:480px){a.card{grid-template-columns:34px 1fr}.go{display:none}.num{font-size:26px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">GAME<span>SHARP</span><span class="tag">Beta</span></div>
+  <h1>Four lessons, played out in 3D</h1>
+  <p class="lede">Each lesson freezes the point at the moment you have to decide. Make your call, then watch what that choice really does.</p>
+
+  <div class="list">
+    <a class="card" href="serve-plus-one.html">
+      <div class="num">1</div>
+      <div><div class="t">The Serve Writes the Next Question</div><div class="d">Read the reply your serve creates, then use the space. Includes a Live Point.</div></div>
+      <div class="go">3 min →</div>
+    </a>
+    <a class="card" href="short-ball.html">
+      <div class="num">2</div>
+      <div><div class="t">The Short Ball Is Not Permission</div><div class="d">Short invites the decision. Height, balance and their position earn the attack.</div></div>
+      <div class="go">3 min →</div>
+    </a>
+    <a class="card" href="the-line.html">
+      <div class="num">3</div>
+      <div><div class="t">The Line Must Be Earned</div><div class="d">The open line is tempting. When is it actually on?</div></div>
+      <div class="go">3 min →</div>
+    </a>
+    <a class="card" href="the-winner.html">
+      <div class="num">4</div>
+      <div><div class="t">The Winner Can Be the Wrong Shot</div><div class="d">One winner proves little. See the same shot hit ten times.</div></div>
+      <div class="go">3 min →</div>
+    </a>
+  </div>
+
+  <div class="how">
+    <b>Try one, then tell us three things:</b>
+    <ol>
+      <li>Did you finish all three steps?</li>
+      <li>What did you look at before choosing?</li>
+      <li>Would you do tomorrow’s lesson?</li>
+    </ol>
+  </div>
+  <p class="foot">Early prototypes. Real players’ motion capture and real ball physics; players glide between shots for now. Best on a phone turned sideways, or full screen on a laptop.</p>
+</div>
+</body>
+</html>
