@@ -224,3 +224,24 @@
   Seventy-four programmatically rendered panel/answer combinations passed bounds
   checks there, plus a native replay-to-decision check. These layout inspections
   are separate from the native end-to-end journey above. Final source follows.
+
+### Short Ball review ready for Eoin
+
+- Reviewed application source: `6ec453a921ea6a5b8641bcbe3eed4e09eaf67ab1`;
+  remote branch SHA verified after push.
+- Git Preview `dpl_2xNyyK2g5BLgymFYuDB1WxbSQBsk`, READY/STAGED:
+  https://gamesharp-tennis-c4yvvcxcf-eoinlynn-5978s-projects.vercel.app/beta/short-ball-review.html
+- All three served review assets match this Git commit and canonical files.
+  Final hosted small-landscape native decision → consequence → explanation and
+  portrait rotation passed six additional layout/state checks with no page errors.
+  Prior full hosted B/D/B, finish, Pro, restart and beta-back journey also passed;
+  the final delta only changes small-landscape CSS and documentation.
+- Existing public production is still `dpl_Bqmjy3UZtLxUJ9UvSmn6xqY2RAAp` and
+  automatic production-domain assignment remains disabled. No main merge,
+  production promotion, migration, beta-menu/home link or deletion occurred.
+- Next owner: Eoin, to assess this one lesson on an actual phone. Physical Safari,
+  subjective delight and return-next-day behaviour remain unproven. Any later
+  release uses a freshly reconciled candidate and the settled exact-version
+  approval workflow; this review does not authorise migration or production.
+- This handoff entry is documentation only; the review URL above remains pinned
+  to the tested application source, not a moving branch alias.
