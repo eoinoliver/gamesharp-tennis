@@ -156,3 +156,20 @@
   Preserve existing app byte checks and record the exact deployment/commit.
 - Rollback baseline: `dpl_5gv8gtyKMthe23yDpsf2gNVubCZ6`; recheck before promotion.
   Originals and prior deployment evidence remain. Status: fix prepared.
+
+### Navigation repair published and verified
+
+- Source `be3ddcb0e14ae725d1c8ce1f2853995aca12e7a8`; staged Production
+  `dpl_Bqmjy3UZtLxUJ9UvSmn6xqY2RAAp` verified and promoted without rebuilding.
+- All 225 tests and trust audit pass. All 70 staged and 70 public HTTP checks
+  pass. On both staged and live builds, all 12 actual menu → lesson → back paths
+  pass from `/beta`, `/beta/` and `/beta/index.html` at 390px. No observed console
+  or page errors. These are browser viewport checks, not a physical-phone test.
+- Only the four menu links differ from the approved transferred pages. All four
+  lessons retain their original hashes; Home, main app and configuration remain
+  unchanged. Corrected menu SHA-256:
+  `e63151dfa9084fe1b6a79cebad343596cb89f76f5a67dee5156c9d71a2934976`.
+- Future copies from Claude's source must retain these fixed destinations. Git
+  migration is still pending and must include both the beta and this repair.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-navigation-fix-2026-09-25/`.
+  This completion entry changes documentation only; no additional promotion.
