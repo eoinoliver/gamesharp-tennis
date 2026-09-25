@@ -102,3 +102,41 @@
   reviewed fingerprints pass. Every previously tracked file other than this log
   is unchanged, including main index.html, api/share.js and Vercel config.
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-3d-release-2026-09-25/`.
+
+### Published and verified — 25 September 2026, 04:55 UTC
+
+- Eoin's explicitly approved beta is live at
+  https://www.gamesharptennis.com/beta/ . Menu and four lesson pages retain the
+  exact supplied SHA-256 hashes and noindex,nofollow. No Home link was added.
+- Released source: `d9c107f0802a53f9b07897d04afa73bdbd6a6d8d` on this branch.
+  Staged Production deployment `dpl_5gv8gtyKMthe23yDpsf2gNVubCZ6` was verified
+  and then promoted without rebuilding. Vercel reports this same ID as current
+  Production, READY/PROMOTED; automatic custom-domain assignment remains off.
+  Prior deployment `dpl_EBEYezrjLafgyLZcF2RC1JSHK2Px` remains the rollback.
+- All 69 staged and all 69 unauthenticated public HTTP checks pass. Public beta
+  bytes match the approved originals, existing checked static app bytes and four
+  sampled share responses match the recorded previous live responses. The apex
+  beta URL resolves to the www beta. Twelve source/retired-path probes return 404.
+- All four lessons completed at 390px; menu, narrow 320px, controls, navigation
+  and selected landscape views passed. Serve's Live Point and alternate finish
+  passed. No observed console errors or horizontal overflow. These are Chromium
+  mobile viewport checks, not a physical-phone test.
+- Uploaded source comparison: five beta additions, no removals, 57 unchanged
+  prior source files including the function and dependencies. Two prior source
+  files differ: the previously reviewed `.vercelignore` exclusion and
+  `TRUST_REPAIR_EVIDENCE.json` record. All 64 uploaded source identifiers match
+  canonical file hashes. No other app-source change was introduced here.
+- Complete generated function-bundle identity is not established: Vercel reports
+  5,024 versus 4,992 bytes, a different digest and managed layer 1_51_6 versus
+  1_51_5. Those observations do not prove the cause of the difference. Source and
+  sampled responses match; no claim of full runtime equivalence is made.
+- **Git migration remains pending.** Main is still `cc76509`, and draft PR #1
+  remains unmerged. Candidate `1ca9212` omits this now-live beta: integrate this
+  branch's beta into a fresh migration candidate and review it before cutover.
+  Do not release the old candidate as though it contains `/beta/`.
+- Lab handoff separately pushed `claude/3d-prototypes-2026-09-24` to private
+  `eoinoliver/gamesharp-lab`, tip `35500c731fb44b010d65ee7a9c52a6b0aa8b2a4b`.
+  Fresh clone verified 387/387 manifest entries, 388 tracked files and Git fsck.
+  Its main and canonical checkout are unchanged; transfer bundles remain.
+- This completion entry is documentation only; it does not change the released
+  source SHA or cause another Production deployment. No deletion or archiving.
