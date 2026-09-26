@@ -195,3 +195,17 @@
   Automatic custom production-domain assignment remains disabled.
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v2-release-2026-09-26/`.
   Status: verifying approved files, main-app preservation and staged journeys.
+- Initial staged build `dpl_5N585D2DWTkW94q5mRHjGUjVBHYr` passed 83 HTTP checks,
+  but independent native browser checks on Serve and Short Ball found a replay
+  dead end: Replay during the chosen consequence replaced its feedback callback
+  with null, leaving no Next button or enabled choices. It was not promoted.
+- Corrected only the shared playback blocks in all four lessons: preserve pending
+  feedback on Replay, cancel stale delayed callbacks when starting another run,
+  and disable choices until an unanswered replay reaches its decision freeze.
+  Eoin was informed during release work. This is a documented repair to make the
+  approved v2 usable, not a change to its layout, tennis content or scene data.
+- Source checksums remain recorded in approved-files.json; final served checksums
+  are separately recorded in release-files.json and playback-repair.json. A
+  normalised-source comparison proves all content outside run/tick/replay is
+  byte-identical to the supplied four lessons. Main reviewed fingerprints remain
+  unchanged. Re-staging and repeating the affected browser checks before promotion.

@@ -598,7 +598,11 @@ let showDots=false, step=0, scene=null, t=0, stopAt=0, onStop=null, playing=fals
 let ans=[null,null,null], chosen=null, answered=false, showTargets=null, revealPattern=false, railOn=-1, done=false;
 const svg2=$("svg"), zone=$("ask");
 
-function run(key,from,stop,cb){scene=key;t=from;stopAt=Math.min(stop,SC[key].frames-1);onStop=cb;setPlaying(true);}
+let stopTimer=null, stopGeneration=0, pendingStop=null;
+function run(key,from,stop,cb){
+  clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;
+  scene=key;t=from;stopAt=Math.min(stop,SC[key].frames-1);onStop=cb;setPlaying(true);
+}
 function setPlaying(p){playing=p;lastTs=null;$("paused").hidden=p||t>=stopAt;}
 function rate(){const sc=SC[scene];let r=1;
   for(const c of contactsOf(sc,"you")) r=Math.min(r,0.3+0.7*smooth(6,28,Math.abs(t-c)));
@@ -606,7 +610,9 @@ function rate(){const sc=SC[scene];let r=1;
   return r;}
 function tick(ts){
   if(playing){if(lastTs!=null){t+=Math.min(50,ts-lastTs)*0.1*rate()*(window.__speed||1);
-      if(t>=stopAt){t=stopAt;setPlaying(false);const cb=onStop;onStop=null;if(cb)setTimeout(cb,220);}}
+      if(t>=stopAt){t=stopAt;setPlaying(false);const cb=onStop;onStop=null;
+        if(cb){pendingStop=cb;const generation=stopGeneration;
+          stopTimer=setTimeout(()=>{if(generation!==stopGeneration)return;stopTimer=null;pendingStop=null;cb();},220);}}}
     lastTs=ts;}
   render(); requestAnimationFrame(tick);
 }
@@ -780,9 +786,14 @@ $("stage").onclick=()=>{if(t<stopAt){setPlaying(!playing);}};
 $("again").onclick=()=>{
   if(done){const k=LESSON.finaleScene;run(k,Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
   const S=LESSON.steps[step];
-  if(!answered){const key=S.reveal?S.scene:S.scene+"A";run(key,0,SC[key].info.freeze,()=>{if(!S.reveal)showTargets=S.scene;enableAsk();});return;}
+  if(!answered){
+    zone.classList.add("reading");zone.classList.remove("on");
+    $("askOpts").querySelectorAll(".opt").forEach(b=>{b.disabled=true;});
+    const key=S.reveal?S.scene:S.scene+"A";run(key,0,SC[key].info.freeze,()=>{if(!S.reveal)showTargets=S.scene;enableAsk();});return;}
   if(S.reveal) return;
-  const key=S.scene+chosen, fr=SC[key].info.freeze; run(key,Math.max(0,fr-60),SC[key].frames-1,null);};
+  // Preserve feedback when Replay interrupts a choice, including the completion delay.
+  const resume=onStop||pendingStop;
+  const key=S.scene+chosen, fr=SC[key].info.freeze; run(key,Math.max(0,fr-60),SC[key].frames-1,resume);};
 $("back").onclick=()=>{if(step>0&&!done){startStep(step-1);} else if(done){startStep(2);} else location.href="./";};
 const FS_IN='<path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/>',
       FS_OUT='<path d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/>';
