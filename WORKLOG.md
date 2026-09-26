@@ -173,3 +173,25 @@
   migration is still pending and must include both the beta and this repair.
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-navigation-fix-2026-09-25/`.
   This completion entry changes documentation only; no additional promotion.
+
+## 26 September 2026 — approved unlisted 3D beta v2 release
+
+- Owner: Codex; branch `codex/tennis-beta-v2-release-2026-09-26` based on the
+  verified live beta/navigation line `21ec80e`. The separate Short Ball review
+  remains on its own preserved branch and is not part of this release.
+- Eoin explicitly approved updating live `/beta` with the five v2 HTML files in
+  `~/Projects/gamesharp-beta-3d`, following BETA_HANDOFF.md v2 and the same release
+  routine. All five source SHA-256 values match the handoff and SHA256SUMS.
+- Copied the four lessons byte-for-byte. Retained the four established menu href
+  corrections (`/beta/<lesson>.html`); the supplied relative hrefs would restore
+  the known slashless `/beta` 404 bug. No lesson content was edited.
+- V2 adopts the Daily lesson layout, reorders Short Ball with the trap first and
+  omits Serve +1's Live Point pending its own layout pass, as approved in v2.
+- This is the existing pre-cutover stage–verify–promote route, not Git migration.
+  Main remains `cc76509`. No main push/merge or cutover is included.
+- Rollback baseline freshly confirmed: Production
+  `dpl_Bqmjy3UZtLxUJ9UvSmn6xqY2RAAp`, source `be3ddcb`, READY;
+  `https://gamesharp-tennis-p48y95rm7-eoinlynn-5978s-projects.vercel.app`.
+  Automatic custom production-domain assignment remains disabled.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v2-release-2026-09-26/`.
+  Status: verifying approved files, main-app preservation and staged journeys.

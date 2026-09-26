@@ -1,234 +1,190 @@
 <!doctype html>
 <html lang="en">
-<head>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0b160e">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
-<meta name="theme-color" content="#111111">
-<title>GameSharp Beta · Serve Plus One in 3D</title>
-</head>
-<body>
-<meta charset="utf-8">
-
+<title>Serve +1 in 3D</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap">
 <style>
+/* Layout and hierarchy copied from the live app's Daily lesson (gold-daily-prototypes.css,
+   "approved coaching hierarchy"); the 3D stage replaces the court map. */
 :root{
   color-scheme:dark;
-  --bg:#111111; --surface:#1c1c1c; --surface-2:#242424;
-  --ink:#f0ece3; --muted:rgba(240,236,227,.68); --faint:rgba(240,236,227,.45); --line:rgba(255,255,255,.12);
-  --accent:#c8a84b; --accent-ink:#111111; --good:#7fbf7a; --warn:#e05252; --warn-bg:#2a1515;
+  --gold:#c8a84b; --lime:#d3e267; --green:#59bd70; --red:#e07070;
+  --ink:#f0ece3; --line:rgba(255,255,255,.12);
   --court:#132914; --court-in:#1e5a22; --court-line:rgba(233,240,225,.78);
-  --stage-top:#0a1509; --stage-bot:#06140a; --ball:#d2e83a;
-  --stage-ink:#f0ece3; --stage-muted:rgba(240,236,227,.62); --radius:14px;
+  --ball:#d2e83a; --accent:#c8a84b; --warn:#e05252;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
-.eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);
-  font-weight:700;display:flex;align-items:center;gap:9px}
-.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
-h1{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;letter-spacing:.03em;
-  font-size:clamp(28px,7vw,40px);line-height:1;margin:10px 0 6px;text-wrap:balance}
-.hook{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0 0 16px;max-width:60ch}
+html{background:#090a09}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(90% 52% at 50% 7%,rgba(39,89,48,.34),transparent 74%),linear-gradient(180deg,#0b160e 0%,#0a0f0b 58%,#090a09 100%) no-repeat}
+button{font:inherit}
+.shell{width:min(100%,680px);margin:0 auto;padding:calc(12px + env(safe-area-inset-top)) 16px calc(26px + env(safe-area-inset-bottom))}
+@media(min-width:700px){.shell{padding-left:24px;padding-right:24px}}
 
-.modes{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;width:max-content;max-width:100%}
-.modes button{border:0;background:transparent;color:var(--muted);font:600 13px "DM Sans",sans-serif;
-  padding:8px 16px;border-radius:999px;cursor:pointer}
-.modes button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+/* header: back · brand · close */
+.head{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;min-height:48px;margin-bottom:8px}
+.brand{text-align:center;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:19px;letter-spacing:2.7px;white-space:nowrap}
+.brand span{color:var(--gold)}
+.ico{width:44px;height:44px;border:1px solid rgba(255,255,255,.13);border-radius:50%;background:rgba(255,255,255,.035);
+  color:var(--ink);display:grid;place-items:center;cursor:pointer;text-decoration:none;font-size:18px;line-height:1}
+.ico:active{transform:scale(.96)}
+:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 
-.steps{display:flex;gap:6px;margin:14px 0 4px;flex-wrap:wrap}
-.steps span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
-  color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:5px 10px}
-.steps span.on{color:var(--accent);border-color:var(--accent)}
-.steps span.done{color:var(--ink)}
-.steps span.done::before{content:"\2713  ";color:var(--good)}
+/* lesson name · count */
+.meta{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;margin:1px 0 10px}
+.meta .name{font-size:13px;line-height:1.3;color:rgba(255,255,255,.7);font-weight:600}
+.meta .count{font-size:12px;color:var(--gold);white-space:nowrap}
+.setup{margin:0 0 12px;font-size:16px;line-height:1.4;color:rgba(255,255,255,.9);text-wrap:pretty;min-height:2.8em}
 
-.sit{margin:10px 0 12px;min-height:3.1em}
-.sit .ph{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--accent)}
-.sit p{margin:4px 0 0;font-size:13.5px;line-height:1.5;max-width:62ch}
-.sit p b{font-weight:600}
-
-.camrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 10px}
-.camrow .lbl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-right:4px}
-.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;
-  padding:5px 11px;font-size:12px;cursor:pointer;font-family:inherit}
-.chip:hover{border-color:var(--accent)}
-.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:500}
-
-.stage{position:relative;border-radius:var(--radius);overflow:hidden;
-  background:linear-gradient(180deg,var(--stage-top),var(--stage-bot));border:1px solid var(--line);touch-action:none}
+/* the visual card: cue rail + tools, the 3D stage, the ink line */
+.visual{position:relative;overflow:hidden;border:1px solid rgba(111,205,130,.21);border-radius:17px;
+  background:radial-gradient(95% 82% at 50% 43%,#174b22 0%,#0b2511 66%,#071309 100%);
+  box-shadow:inset 0 0 42px rgba(0,0,0,.22),0 13px 30px rgba(0,0,0,.22)}
+.tools{display:grid;grid-template-columns:minmax(0,1fr) 44px 44px 44px;align-items:center;min-height:44px;padding-left:10px;
+  border-bottom:1px solid rgba(255,255,255,.07);background:rgba(2,10,4,.22)}
+.rail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;gap:5px;min-width:0;
+  color:rgba(255,255,255,.43);font-size:8.5px;font-weight:800;letter-spacing:.22px;text-transform:uppercase}
+.rail span{min-width:0;line-height:1.12;text-align:center;opacity:0;transform:translateY(3px);transition:opacity .26s,transform .26s}
+.rail span:first-child{text-align:left}
+.rail span.on{opacity:.72;transform:none}
+.rail span.on:last-child{opacity:.96;color:rgba(228,218,172,.88)}
+.tbtn{width:44px;height:44px;border:0;border-left:1px solid rgba(255,255,255,.07);background:transparent;color:rgba(240,236,227,.7);
+  cursor:pointer;display:grid;place-items:center;padding:0}
+.tbtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tbtn:active{background:rgba(255,255,255,.045)}
+.stage{position:relative;touch-action:manipulation;cursor:pointer}
 .stage svg{display:block;width:100%;height:auto}
-.stage .title{position:absolute;left:14px;top:12px;pointer-events:none;max-width:62%}
-.stage .title .k{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--accent)}
-.stage .title .n{font-family:"Bebas Neue",Impact,sans-serif;font-size:20px;letter-spacing:.04em;color:var(--stage-ink);line-height:1.05}
-.score{position:absolute;right:58px;top:14px;pointer-events:none;text-align:right}
-.score .k{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--stage-muted);font-weight:700}
-.score .v{font-family:"Bebas Neue",Impact,sans-serif;font-size:22px;color:var(--stage-ink);line-height:1}
-.fs{position:absolute;right:10px;top:10px;width:38px;height:38px;border-radius:10px;border:1px solid rgba(240,236,227,.25);
-  background:rgba(10,12,10,.55);color:var(--stage-ink);display:grid;place-items:center;cursor:pointer;z-index:3}
-.fs svg{width:18px;height:18px;fill:currentColor}
-.fs:hover{border-color:var(--accent)}
-.cap{position:absolute;left:50%;top:12px;transform:translate(-50%,-8px);max-width:min(92%,560px);
-  background:rgba(10,12,10,.78);border:1px solid rgba(200,168,75,.45);border-radius:12px;
-  padding:8px 15px 9px;text-align:center;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;
-  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-.cap.on{opacity:1;transform:translate(-50%,0)}
-.cap .t{font-family:"Bebas Neue",Impact,sans-serif;font-size:clamp(15px,3vw,19px);letter-spacing:.04em;color:var(--stage-ink);line-height:1.1}
-.cap .s{font-size:12px;color:var(--stage-muted);margin-top:1px}
+.toast{position:absolute;left:50%;top:10px;transform:translateX(-50%);background:rgba(4,17,7,.82);border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;padding:5px 12px;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink);opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1}
+.paused{position:absolute;right:10px;bottom:10px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(240,236,227,.75);background:rgba(4,17,7,.7);border-radius:6px;padding:4px 7px;pointer-events:none}
+.ink{min-height:34px;padding:3px 9px 7px;background:#08170b;text-align:center}
+.ink span{display:inline-block;padding:5px 10px 4px;border-bottom:1px solid rgba(211,226,103,.72);color:#eef2d4;
+  font-family:Georgia,serif;font-size:15px;font-style:italic;font-weight:700;clip-path:inset(0 100% 0 0)}
+.ink span.on{animation:inkWrite .42s cubic-bezier(.22,.78,.25,1) forwards}
+.ink span.miss{border-bottom-color:rgba(224,112,112,.8);color:#f3d6d6}
+@keyframes inkWrite{from{clip-path:inset(0 100% 0 0);filter:blur(1px)}to{clip-path:inset(0);filter:none}}
 
-.ask{display:none;margin-top:10px}
-.ask.on{display:block}
-.ask .card{background:var(--surface);border:1px solid rgba(200,168,75,.6);border-radius:var(--radius);padding:14px 16px 16px}
-.ask .k{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--accent)}
-.ask .q{font-family:"Bebas Neue",Impact,sans-serif;font-size:20px;letter-spacing:.03em;color:var(--stage-ink);margin:3px 0 10px;line-height:1.05}
-.ask .opts{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
-.ask .opts button{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start;text-align:left;
-  border:1px solid rgba(240,236,227,.18);background:rgba(28,28,28,.9);color:var(--stage-ink);
-  border-radius:10px;padding:8px 12px;font:500 13px/1.35 "DM Sans",sans-serif;cursor:pointer}
-.ask .opts button:hover,.ask .opts button:focus-visible{border-color:var(--accent)}
-.ask .opts .l{font-family:"Bebas Neue",Impact,sans-serif;font-size:19px;color:var(--accent);line-height:1}
-.ask .opts small{display:block;color:var(--stage-muted);font-size:12px;margin-top:2px}
+/* decision zone */
+.zone{padding-top:12px}
+.q{font-size:22px;line-height:1.2;font-weight:700;letter-spacing:-.35px;margin:0 0 12px;text-wrap:pretty}
+.opts{display:grid;gap:6px}
+.opt{width:100%;min-height:48px;padding:9px 10px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.037);
+  color:rgba(255,255,255,.88);display:grid;grid-template-columns:26px minmax(0,1fr);gap:9px;align-items:center;text-align:left;cursor:pointer;
+  font-size:14px;line-height:1.35;transition:opacity .3s,filter .3s,transform .3s}
+.opt .l{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);font-size:11px;font-weight:800}
+.opt:not(:disabled):active{transform:scale(.992);border-color:rgba(211,226,103,.42)}
+.opt:not(:disabled):hover{border-color:rgba(211,226,103,.42)}
+.opt:disabled{cursor:default}
+.zone.reading .q{opacity:.62}
+.zone.reading .opt{opacity:.30;filter:saturate(.62);transform:translateY(4px)}
+.opt.right{border-color:rgba(89,189,112,.82);background:rgba(89,189,112,.12);color:#fff}
+.opt.right .l{background:var(--green);color:#071109}
+.opt.wrong{border-color:rgba(224,112,112,.74);background:rgba(224,112,112,.10)}
+.opt.wrong .l{background:var(--red);color:#170707}
+.opt.hide{display:none}
 
-.viewer.full,.viewer:fullscreen{position:fixed;inset:0;z-index:50;background:#06140a;display:flex;flex-direction:column;padding:10px 12px max(10px,env(safe-area-inset-bottom))}
-.viewer.full .stage,.viewer:fullscreen .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-.viewer.full .stage svg,.viewer:fullscreen .stage svg{width:100%;height:100%}
-.viewer.full .ask,.viewer:fullscreen .ask{flex:none}
+/* feedback */
+.fb{margin:10px 0 0;padding:11px 13px;border-left:2px solid var(--green);border-radius:4px 13px 13px 4px;background:rgba(89,189,112,.075);animation:rise .32s ease-out both}
+.fb.miss{border-left-color:var(--gold);background:rgba(200,168,75,.065)}
+.fb .lab{margin-bottom:5px;color:var(--green);font-size:9.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase}
+.fb.miss .lab{color:var(--gold)}
+.fb .copy{color:rgba(255,255,255,.84);font-size:14px;line-height:1.48}
+.fb .prin{margin-top:6px;color:rgba(255,255,255,.58);font-size:12.5px;line-height:1.48}
+.fb .tries{display:inline-block;margin:0 0 7px;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700}
+.tries.good{background:rgba(89,189,112,.14);color:#8fd49c}.tries.mid{background:rgba(200,168,75,.14);color:var(--gold)}.tries.bad{background:rgba(224,112,112,.14);color:#f0a0a0}
+.why{min-width:62px;min-height:44px;margin:7px 0 -7px -10px;padding:8px 10px;border:0;background:transparent;color:var(--gold);cursor:pointer;
+  font-size:12px;font-weight:800;letter-spacing:.4px;text-align:left}
+.why span{display:inline-block;margin-left:3px;font-size:15px}
+.whyp{margin-top:8px;padding-top:10px;border-top:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.6);font-size:12px;line-height:1.5}
+.whyp p{margin:0 0 6px}
+.next{width:100%;min-height:51px;margin:12px 0 0;border:0;border-radius:16px;background:var(--gold);color:#10130c;display:block;cursor:pointer;font-weight:800;font-size:14px;animation:rise .32s ease-out both}
+.alt{display:block;margin:8px auto 0;min-height:40px;border:0;background:none;color:rgba(240,236,227,.66);font-size:13px;font-weight:600;cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px}
+.alt:hover{color:var(--ink)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* wrap-up */
+.wrapup{margin-top:4px}
+.wrapup .k{font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:var(--gold)}
+.wrapup .mem{font-family:"Bebas Neue",Impact,sans-serif;font-size:clamp(28px,7vw,36px);letter-spacing:.03em;line-height:1.02;margin:6px 0 14px;text-wrap:balance}
+.wrapup .mem span{color:var(--gold)}
+.wrapup .blk{border-top:1px solid rgba(255,255,255,.09);padding-top:12px;margin-top:12px}
+.wrapup p{margin:5px 0 0;font-size:14px;line-height:1.5;color:rgba(255,255,255,.72)}
+.wrapup p b{color:var(--ink);font-weight:600}
+.wrapup .src{font-size:11.5px;color:rgba(255,255,255,.45)}
+.wrapup a{color:var(--gold)}
+.score3{display:flex;gap:6px;margin:2px 0 0}
+.score3 i{width:22px;height:4px;border-radius:999px;background:rgba(255,255,255,.13)}
+.score3 i.ok{background:var(--green)}.score3 i.no{background:var(--gold)}
+
+/* full screen: watch only */
+.visual.full,.visual:fullscreen{position:fixed;inset:0;z-index:50;border-radius:0;border:0;display:flex;flex-direction:column;
+  padding:max(6px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+.visual.full .stage,.visual:fullscreen .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.visual.full .stage svg,.visual:fullscreen .stage svg{width:100%;height:100%}
 body.noscroll{overflow:hidden}
 
-.progress{height:3px;background:var(--line);border-radius:2px;margin-top:10px;overflow:hidden}
-.progress i{display:block;height:100%;width:0;background:var(--accent)}
-.bar{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
-.bar .spacer{flex:1}
-.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;
-  padding:8px 14px;font:500 13px "DM Sans",sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
-.btn:hover{border-color:var(--accent)}
-.btn svg{width:14px;height:14px;fill:currentColor}
-.btn[aria-pressed="true"]{background:var(--surface-2);border-color:var(--accent);color:var(--accent)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
-
-.verdict{margin-top:14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:15px 17px}
-.verdict .tag{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
-.verdict .tag.good{color:var(--good)}.verdict .tag.miss{color:var(--warn)}.verdict .tag.mid{color:var(--accent)}
-.verdict h3{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:21px;letter-spacing:.03em;margin:3px 0 6px;line-height:1.05}
-.verdict p{margin:0 0 8px;font-size:13px;line-height:1.58;color:var(--muted);max-width:66ch}
-.verdict p b{color:var(--ink);font-weight:600}
-.verdict .principle{border-top:1px solid var(--line);margin-top:12px;padding-top:11px}
-.verdict .principle .k{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
-.verdict .principle p{color:var(--ink);margin-top:4px;font-size:13px}
-.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);
-  border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:10px 0 4px}
-.nums>div{background:var(--surface-2);padding:9px 13px}
-.nums .k{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
-.nums .v{font-family:"Bebas Neue",Impact,sans-serif;font-size:23px;line-height:1.15;margin-top:2px;font-variant-numeric:tabular-nums}
-.nums .v.bad{color:var(--warn)}.nums .v.good{color:var(--good)}
-.nums .s{font-size:11.5px;color:var(--muted)}
-.vbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.ocs{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 4px}
-.oc{border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;border:1px solid var(--line);background:var(--surface-2);color:var(--ink)}
-.oc.good{border-color:rgba(127,191,122,.55);color:var(--good)}
-.oc.bad{border-color:rgba(224,82,82,.55);color:#f08a8a}
-.oc.mid{border-color:rgba(200,168,75,.55);color:var(--accent)}
-details.why{margin-top:6px}
-details.why summary{cursor:pointer;font-size:13px;color:var(--accent);font-weight:600}
-details.why p{margin-top:6px}
-.verdict{padding:12px 14px}
-.vhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.badge2{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
-.badge2.good{background:rgba(127,191,122,.14);color:var(--good)}
-.badge2.miss{background:rgba(224,82,82,.14);color:#f08a8a}
-.badge2.mid{background:rgba(200,168,75,.14);color:var(--accent)}
-.vtitle{font-family:"Bebas Neue",Impact,sans-serif;font-size:19px;letter-spacing:.04em;line-height:1}
-.vline{font-size:13.5px;line-height:1.45;color:var(--ink);margin:7px 0 0}
-.take{margin:9px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted)}
-.take b{color:var(--accent);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:10px;margin-right:6px}
-.vfoot{display:flex;align-items:center;gap:14px;margin-top:11px;flex-wrap:wrap}
-.linkbtn{background:none;border:0;color:var(--muted);font:500 12.5px "DM Sans",sans-serif;cursor:pointer;padding:4px 0;text-decoration:underline;text-underline-offset:3px}
-.linkbtn:hover{color:var(--ink)}
-details.more{margin-top:8px}
-details.more summary{cursor:pointer;font-size:12px;color:var(--faint)}
-details.more p{font-size:12px;color:var(--muted);margin:5px 0 0;line-height:1.5}
-
-
-.wrapup{margin-top:14px;border:1px solid rgba(200,168,75,.5);border-radius:var(--radius);background:var(--surface);padding:18px}
-.wrapup .mem{font-family:"Bebas Neue",Impact,sans-serif;font-size:clamp(24px,5vw,32px);letter-spacing:.03em;line-height:1.02;margin:4px 0 12px;text-wrap:balance}
-.wrapup .mem span{color:var(--accent)}
-.wrapup .k{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--accent)}
-.wrapup .blk{border-top:1px solid var(--line);padding-top:11px;margin-top:11px}
-.wrapup p{margin:4px 0 0;font-size:13px;line-height:1.58;color:var(--muted);max-width:66ch}
-.wrapup p b{color:var(--ink);font-weight:600}
-.wrapup a{color:var(--accent)}
-
-details.note{margin-top:26px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:14px 17px}
-details.note summary{cursor:pointer;font-family:"Bebas Neue",Impact,sans-serif;font-size:18px;letter-spacing:.05em;list-style:none}
+details.note{margin-top:30px;border-top:1px solid rgba(255,255,255,.08);padding-top:12px}
+details.note summary{cursor:pointer;font-size:12px;color:rgba(255,255,255,.45);list-style:none;min-height:32px}
 details.note summary::-webkit-details-marker{display:none}
-details.note summary::after{content:" +";color:var(--accent)}
+details.note summary::after{content:" +";color:var(--gold)}
 details.note[open] summary::after{content:" \2013"}
-details.note p{margin:8px 0 0;font-size:12.5px;line-height:1.62;color:var(--muted);max-width:68ch}
+details.note p{margin:8px 0 0;font-size:12px;line-height:1.6;color:rgba(255,255,255,.55)}
 details.note b{color:var(--ink);font-weight:500}
-details.note a{color:var(--accent)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+details.note a{color:var(--gold)}
 [hidden]{display:none!important}
-@media(max-width:600px){
-  .nums>div:last-child:nth-child(odd){grid-column:1/-1}
-  .stage{display:flex;flex-direction:column}
-  .stage .title{position:relative;left:auto;top:auto;order:-1;padding:10px 60px 0 14px;max-width:none}
-  .stage .title .n{font-size:21px}
-  .score{top:12px}
-  .cap,.cap.on{position:relative;left:auto;bottom:auto;transform:none;max-width:none;margin:0 10px 10px;
-    opacity:1;transition:none;min-height:50px;display:flex;flex-direction:column;justify-content:center}
-  .cap:not(.on) .t,.cap:not(.on) .s{visibility:hidden}
-  .viewer.full .stage,.viewer:fullscreen .stage{display:flex;flex-direction:column}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(max-width:360px){.shell{padding-left:12px;padding-right:12px}.rail{font-size:7px;gap:2px}.opt{font-size:13px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}
+  .rail span{opacity:.72;transform:none}.ink span{clip-path:none}}
 </style>
 
-<div class="wrap">
-  <a href="./" style="display:inline-block;margin:0 0 10px;font:600 12px 'DM Sans',system-ui,sans-serif;color:#c8a84b;text-decoration:none">← All beta lessons</a>
+<div class="shell">
+  <header class="head">
+    <button class="ico" id="back" aria-label="Back">&#8592;</button>
+    <div class="brand">GAME<span>SHARP</span></div>
+    <a class="ico" id="close" href="./" aria-label="Close">&#215;</a>
+  </header>
 
-  <div class="eyebrow">GameSharp &middot; In 3D</div>
-  <h1>The Serve Writes the Next Question</h1>
-  <p class="hook" id="hook">You chase a better serve while wasting the predictable ball it already creates.</p>
+  <div id="lessonView">
+    <div class="meta"><span class="name" id="lessonName"></span><span class="count" id="count"></span></div>
+    <p class="setup" id="sitTx"></p>
 
-  <div class="modes" role="group" aria-label="Experience">
-    <button id="mDaily" aria-pressed="true">Daily lesson</button>
-    <button id="mLP" aria-pressed="false">Live Point</button>
-  </div>
-  <div class="steps" id="steps"></div>
-  <div class="sit"><div class="ph" id="sitPh"></div><p id="sitTx"></p></div>
-
-  <div class="viewer" id="viewer">
-    <div class="camrow" id="cams"><span class="lbl">Camera</span></div>
-    <div class="stage" id="stage">
-      <button class="fs" id="fsBtn" aria-label="Full screen"><svg id="fsIcon" viewBox="0 0 24 24"></svg></button>
-      <svg id="svg" viewBox="0 0 820 470" role="img" aria-label="3D replay of the point"></svg>
-      <div class="title"><div class="k" id="tK"></div><div class="n" id="tN"></div></div>
-      <div class="score" id="score" hidden><div class="k">Score</div><div class="v">30&ndash;30</div></div>
-      <div class="cap" id="cap"><div class="t" id="capT"></div><div class="s" id="capS"></div></div>
+    <div class="visual" id="viewer">
+      <div class="tools">
+        <div class="rail" id="rail" aria-hidden="true"></div>
+        <button class="tbtn" id="camBtn" aria-label="Change camera"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
+        <button class="tbtn" id="fsBtn" aria-label="Full screen"><svg viewBox="0 0 24 24" id="fsIcon"></svg></button>
+        <button class="tbtn" id="again" aria-label="Replay"><svg viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4h-4"/></svg></button>
+      </div>
+      <div class="stage" id="stage">
+        <svg id="svg" viewBox="0 0 820 470" role="img" aria-label="3D replay of the point"></svg>
+        <div class="toast" id="toast"></div>
+        <div class="paused" id="paused" hidden>Paused</div>
+      </div>
+      <div class="ink"><span id="ink"></span></div>
     </div>
-    <div class="ask" id="ask"><div class="card">
-      <div class="k" id="askK">Your call</div>
-      <div class="q" id="askQ"></div>
+
+    <section class="zone reading" id="ask" aria-live="polite">
+      <h1 class="q" id="askQ"></h1>
       <div class="opts" id="askOpts"></div>
-    </div></div>
-  </div>
-  <div class="progress"><i id="prog"></i></div>
-  <div class="bar">
-    <button class="btn" id="pp"><svg id="ppIcon" viewBox="0 0 24 24"></svg><span id="ppT">Pause</span></button>
-    <button class="btn" id="again"><svg viewBox="0 0 24 24"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>Watch again</button>
-    <button class="btn" id="slow" aria-pressed="false">Slow</button>
-    <span class="spacer"></span>
+      <div id="verdict" hidden></div>
+    </section>
   </div>
 
-  <div class="verdict" id="verdict" hidden></div>
   <div class="wrapup" id="wrapup" hidden></div>
 
   <details class="note">
     <summary>How it&rsquo;s made</summary>
     <p>Every swing is a real player&rsquo;s motion, captured in a lab. Every ball follows real flight and bounce
-      physics, so what happens after your choice isn&rsquo;t scripted &mdash; it&rsquo;s what that shot would actually do.</p>
+      physics, so what happens after your choice isn&rsquo;t scripted &mdash; it&rsquo;s what that shot would actually do.
+      Tap the court to pause.</p>
     <p><b>Still rough:</b> players glide between shots instead of running, and the opponent reuses the same
       captured swings.</p>
     <p>Motion data: Tennis-MoCap, J.D. Pulgar&iacute;n-Giraldo et al., licensed
@@ -410,10 +366,11 @@ function netGroup(){
   for(let i=0;i<N;i++) seg(g,top[i],top[i+1],"rgba(240,236,227,.85)",2.4);
   return g;
 }
+const LSC=()=>NARROW.matches?1.6:1;
 function label(frag,p,txt,col,size,op,dy){const q=P(p);if(!q)return;
   const e=el_("text",{x:q.s[0].toFixed(1),y:(q.s[1]-(dy||10)).toFixed(1),"text-anchor":"middle",fill:col,
-    "font-family":"Bebas Neue, Impact, sans-serif","font-size":size||16,"letter-spacing":".05em",opacity:op==null?1:op,
-    stroke:"#07130a","stroke-width":3.2,"paint-order":"stroke"});e.textContent=txt;frag.appendChild(e);}
+    "font-family":"Bebas Neue, Impact, sans-serif","font-size":(size||16)*LSC(),"letter-spacing":".05em",opacity:op==null?1:op,
+    stroke:"#07130a","stroke-width":3.2*LSC(),"paint-order":"stroke"});e.textContent=txt;frag.appendChild(e);}
 
 /* ---------- actors: captured clips placed on court ---------- */
 const PRE={fh:70,fhhi:70,fhret:70,lowfv:55,bh:34,serveW:0};
@@ -499,121 +456,154 @@ function ballAt(sc,g){
 
 /* ---------- cameras ---------- */
 const CAMS=[
-  {n:"Broadcast",c:{az:-90,el:24,d:31,fov:31,tgt:[0,-1.7,0]}},
+  {n:"Broadcast",c:{az:-90,el:24,d:31,fov:31,tgt:[0,-1.7,0]},phone:{az:-90,el:26,d:42,fov:21.5,tgt:[0,-1.4,0]}},
   {n:"Behind you",follow:true},
   {n:"Side",c:{az:0,el:17,d:31,fov:44,tgt:[0,0,0.4]}},
   {n:"Overhead",c:{az:-90,el:79,d:38,fov:40,tgt:[0,0,0]}},
   {n:"Their view",c:{az:90,el:15,d:23,fov:44,tgt:[0,-3,0.4]}}
 ];
 let camI=0;
-const NARROW=matchMedia("(max-width:600px)");
-function fitView(){VH=NARROW.matches?700:470;svg2.setAttribute("viewBox",`0 0 ${VW} ${VH}`);}
+const NARROW=matchMedia("(max-width:600px)"), PHONE_VH=600, PHONE_FOV=0.8;
+function fitView(){VH=NARROW.matches?PHONE_VH:470;svg2.setAttribute("viewBox",`0 0 ${VW} ${VH}`);}
 function setCamera(you){
   const C=CAMS[camI];
   if(C.follow&&you){const h=you.pose[I.hips];cam={az:-90,el:11,d:12,fov:50,tgt:[h[0]*0.7,h[1]+4.5,0.9]};}
+  else if(NARROW.matches&&C.phone){cam={...C.phone,tgt:[...C.phone.tgt]};return;}
   else cam={...C.c,tgt:[...C.c.tgt]};
-  if(NARROW.matches) cam.fov*=0.66;
+  if(NARROW.matches) cam.fov*=(window.__fovScale||PHONE_FOV);
 }
 
-/* ---------- lesson + live point content ---------- */
+
+/* ---------- lesson content ---------- */
 const LESSON={
-  memory:"The serve asks. The return answers.",
-  tomorrow:"Next time you serve, name the likely reply—then let the real ball decide.",
-  pro:{player:"Pete Sampras",moment:"In the 1999 Wimbledon final, Sampras served wide to Agassi’s forehand, then steered the first volley into the open Ad court the serve had created.",
-    read:"The serve wins space before the next swing.",
-    src:"ATP Tour · “Pete Sampras: My Perfect Day… Remembering 1999 Wimbledon”, 12 July 2020",
-    url:"https://www.atptour.com/en/news/sampras-1999-wimbledon-atp-heritage-feature"},
-  steps:[
-   {ph:"See · Spot the pattern",short:"See",name:"Watch both replies",scene:"daily1",unlock:"Short middle, twice",take:"Two short replies? Expect a third — but keep watching.",
-    sit:"Your last two wide serves pulled this returner outside the court. Watch both replies.",
-    q:"What return should you be ready for next?",
-    opts:["A deep return into your backhand corner","A shorter return through the middle","A sharp return into your forehand corner","A deep return straight at your feet"],
-    correct:1,payoff:"The pattern suggests short middle—not a guaranteed ball.",
-    principle:"Serve location changes the returner’s time, reach and likely reply lanes.",
-    why:"Two repeated replies earn preparation, not pre-commitment. Be ready to use that pattern while continuing to read the contact."},
-   {ph:"Decide · Use the space",short:"Decide",name:"Your first ball",scene:"daily2",unlock:"Use the space",take:"Wide serve opens the court — hit into it.",
-    sit:"You serve wide again; their stretched return lands short through the middle.",
-    q:"Where should your first ball go?",
-    opts:["Drive firmly back behind the returner","Drive with margin into the open court","Lift deep through middle and hold baseline","Drop short toward the returner’s sideline"],
-    correct:1,payoff:"The serve opened the court; the plus-one collects it.",
-    principle:"Serve placement creates value when the next ball uses the space.",
-    why:"Their stretched return leaves them outside the court and the reply short. Use margin into the opposite side; the serve did the hard work."},
-   {ph:"Transfer · When the pattern breaks",short:"Transfer",name:"The deep return",scene:"daily3",unlock:"The actual ball decides",take:"Pinned deep? Reset high and deep, then rebuild.",
-    sit:"Same serve plan; their return pins you deep and catches you off-balance.",
-    q:"Attack—or reset the point?",
-    opts:["Force a sharp crosscourt forehand immediately","Lift deep through middle and recover","Redirect hard toward the nearest sideline","Slice short and continue moving forward"],
-    correct:1,payoff:"The plan shaped your readiness; the actual return changed the shot.",
-    principle:"Prepare the pattern, then let the ball received make the final call.",
-    why:"The wide serve still created a pattern, but this return removed time and balance. Neutralise first; planning matters only while the evidence supports it."}
-  ]
-};
-const LP={
-  opp:"<b>After the wide serve.</b> The returner has been pulled toward the sideline and their return is short.",
-  d1:{sit:"30–30. Earlier, the returner guarded the middle. Your wide serve has now pulled them toward the sideline; their stretched reply is short. Read this next ball.",
-      q:"Where’s your +1?",opts:[{lbl:"Drive to the open court",sub:"Take the space the serve just made",br:"A"},{lbl:"Approach behind a deep +1",sub:"Come to net off the weak reply",br:"B"}]},
-  A:{reveal:"The wide serve's whole job was to open that court — the +1 just collects the space. They're stranded wide and scrambling, floating it back short.",
-     d2:{sit:"Their scramble floats up short. They lunged wide and are now <b>sprinting back toward the middle.</b>",q:"Finish it — where?",
-       opts:[{lbl:"Behind them — into the corner they left",sub:"Wrong-foot the recovery",k:"win"},{lbl:"Into the open court they're sprinting to",sub:"Hit the far side",k:"mid"}]},
-     winTitle:"Point won.",winTxt:"They committed their weight back to the middle — so the ball <b>behind</b> them freezes them, then makes them reverse and reach. The serve, the +1 and the wrong-foot are one pattern, not three separate shots.",
-     midTitle:"They got there.",midTxt:"Clean — but they were already sprinting that way, so you hit into their run. The kill was behind them, into the <b>open</b> space they'd just left."},
-  B:{reveal:"Deep approach into the open court — so their pass has to climb, and it's dipping at your feet. You're at the net now: low ball, no pace to borrow.",
-     d2:{sit:"You're at the net. Their pass is <b>low and dipping at your feet</b> — below the net cord.",q:"How do you volley it?",
-       opts:[{lbl:"Punch it deep and hold your position",sub:"Can't hit down — reset deep",k:"win"},{lbl:"Go for the sharp angle winner",sub:"End it with touch",k:"mid"}]},
-     winTitle:"Net position held.",winTxt:"From below the net you can't hit down — so you don't gamble. The <b>deep</b> volley pins them back, keeps you at the net and preserves the advantage the serve created. Placement gives you the better next contact.",
-     midTitle:"Into the net.",midTxt:"From a ball at your feet the sharp <b>angle</b> has little margin — you must lift it while also finding width. Deep and controlled keeps the advantage; attack the angle when contact is above the tape."}
-};
-const LETTERS="ABCD";
-
-/* ---------- measured consequences ---------- */
-const BASE=11.885;
-const cm=v=>Math.round(v)+" cm", m1=v=>v.toFixed(1)+" m", m2=v=>v.toFixed(2)+" m";
-function reachVerdict(r){if(!r)return["—",""];if(r.speed<=3)return["Gets there","good-for-them"];if(r.speed<=5.2)return["Scramble","mid"];return["Out of reach","you"];}
-function chip(txt,cls){return `<span class="oc ${cls||""}">${txt}</span>`;}
-function reachChip(r){if(!r)return "";if(r.speed>5.2)return chip("They can’t reach it","good");if(r.speed>3)return chip("They scramble to it","mid");return chip("They get there easily","bad");}
-function netChip(c){return c<20?chip("Barely clears the net","bad"):chip("Clears the net safely","good");}
-function lineChip(m){return m<0.4?chip("Only just inside the line","bad"):chip("Lands safely inside","good");}
-function roomChip(w){return w<3?chip("Almost no room for error","bad"):w<8?chip("Little room for error","mid"):chip("Lots of room for error","good");}
-function consequence(step,X){
-  const sh=SC[LESSON.steps[step].scene+X].info.shot;
-  if(step===1){
-    const line={A:"They’re right there — they punish it.",B:"They can’t get across — point won.",C:"Too safe — they recover and the point restarts.",D:"Barely clears — they run it down."}[X];
-    return {line,chips:reachChip(sh.reach)+netChip(sh.netMarginCm)+lineChip(sh.courtMargin)};
+ "tomorrow": "Next time you serve, name the likely reply—then let the real ball decide.",
+ "pro": {
+  "player": "Pete Sampras",
+  "moment": "In the 1999 Wimbledon final, Sampras served wide to Agassi’s forehand, then steered the first volley into the open Ad court the serve had created.",
+  "read": "The serve wins space before the next swing.",
+  "src": "ATP Tour · “Pete Sampras: My Perfect Day… Remembering 1999 Wimbledon”, 12 July 2020",
+  "url": "https://www.atptour.com/en/news/sampras-1999-wimbledon-atp-heritage-feature"
+ },
+ "steps": [
+  {
+   "ph": "See · Spot the pattern",
+   "short": "See",
+   "name": "Watch both replies",
+   "scene": "daily1",
+   "unlock": "Short middle, twice",
+   "take": "Two short replies? Expect a third — but keep watching.",
+   "sit": "Your last two wide serves pulled this returner outside the court. Watch both replies.",
+   "q": "What return should you be ready for next?",
+   "opts": [
+    "A deep return into your backhand corner",
+    "A shorter return through the middle",
+    "A sharp return into your forehand corner",
+    "A deep return straight at your feet"
+   ],
+   "correct": 1,
+   "payoff": "The pattern suggests short middle—not a guaranteed ball.",
+   "principle": "Serve location changes the returner’s time, reach and likely reply lanes.",
+   "why": "Two repeated replies earn preparation, not pre-commitment. Be ready to use that pattern while continuing to read the contact.",
+   "reveal": true,
+   "pattern": true,
+   "cues": null,
+   "rail": [
+    "1 Slice wide",
+    "2 Stretched",
+    "3 Watch landing"
+   ],
+   "lines": {
+    "A": "Neither reply went deep — both came back short through the middle.",
+    "B": "Both replies came back short through the middle.",
+    "C": "From out wide, both replies came back short — not angled.",
+    "D": "Both replies landed short, not deep."
+   }
+  },
+  {
+   "ph": "Decide · Use the space",
+   "short": "Decide",
+   "name": "Your first ball",
+   "scene": "daily2",
+   "unlock": "Use the space",
+   "take": "Wide serve opens the court — hit into it.",
+   "sit": "You serve wide again; their stretched return lands short through the middle.",
+   "q": "Where should your first ball go?",
+   "opts": [
+    "Drive firmly back behind the returner",
+    "Drive with margin into the open court",
+    "Lift deep through middle and hold baseline",
+    "Drop short toward the returner’s sideline"
+   ],
+   "correct": 1,
+   "payoff": "The serve opened the court; the plus-one collects it.",
+   "principle": "Serve placement creates value when the next ball uses the space.",
+   "why": "Their stretched return leaves them outside the court and the reply short. Use margin into the opposite side; the serve did the hard work.",
+   "rail": [
+    "1 Slice wide",
+    "2 Short return",
+    "3 Space created"
+   ],
+   "lines": {
+    "A": "Back behind them — they’re right there, and they punish it.",
+    "B": "Into the open court — they can’t get across. Point won.",
+    "C": "Too safe — they recover and the point restarts.",
+    "D": "The drop sits up — they run it down and punish it."
+   }
+  },
+  {
+   "ph": "Transfer · When the pattern breaks",
+   "short": "Transfer",
+   "name": "The deep return",
+   "scene": "daily3",
+   "unlock": "The actual ball decides",
+   "take": "Pinned deep? Reset high and deep, then rebuild.",
+   "sit": "Same serve plan; their return pins you deep and catches you off-balance.",
+   "q": "Attack—or reset the point?",
+   "opts": [
+    "Force a sharp crosscourt forehand immediately",
+    "Lift deep through middle and recover",
+    "Redirect hard toward the nearest sideline",
+    "Slice short and continue moving forward"
+   ],
+   "correct": 1,
+   "payoff": "The plan shaped your readiness; the actual return changed the shot.",
+   "principle": "Prepare the pattern, then let the ball received make the final call.",
+   "why": "The wide serve still created a pattern, but this return removed time and balance. Neutralise first; planning matters only while the evidence supports it.",
+   "rail": [
+    "1 Same slice",
+    "2 Pinned back",
+    "3 Contact near baseline"
+   ],
+   "lines": {
+    "A": "Sharp from off-balance — a fraction off and it’s wide.",
+    "B": "High and deep buys time — you’re back in the rally.",
+    "C": "Hard from deep and off-balance — it sails long.",
+    "D": "Short slice, moving in from deep — they pass you."
+   }
   }
-  const wd=sh.window[1]-sh.window[0];
-  const line={A:"Almost no margin — a fraction off and it’s wide.",B:"Hard to miss, and it buys time to recover.",C:"Little margin — a fraction off and it’s long.",D:"You come in from deep — they pass you."}[X];
-  return {line,chips:roomChip(wd)+netChip(sh.netMarginCm)+lineChip(sh.courtMargin)};
-}
-function lpConsequence(br,k){
-  if(br==="A") return k==="win"?chip("They’re running the wrong way","good")+chip("They can’t get back to it","good")
-    :chip("You hit it where they were running","bad")+chip("They get there","bad");
-  return k==="win"?chip("Ball below the net: you can’t hit down","mid")+chip("Deep and safe","good")+chip("You keep the net","good")
-    :chip("From that low, it can’t go over and in at pace","bad")+chip("Only a soft touch would work","mid");
-}
+ ],
+ "title": "The Serve Writes the Next Question",
+ "hook": "Your serve decides what comes back. Read the reply, then use the space.",
+ "memHTML": "The serve asks. <span>The return answers.</span>",
+ "finaleScene": "daily2B"
+};
 
-
-function pick2(html,ok){const a=html.match(/<span class="oc[^"]*">.*?<\/span>/g)||[];
-  const rank=s=>ok?(s.includes('oc good')?0:s.includes('oc mid')?1:2):(s.includes('oc bad')?0:s.includes('oc mid')?1:2);
-  return a.sort((x,y)=>rank(x)-rank(y)).slice(0,2).join("");}
+const LETTERS="ABCD", mode="daily";
+function dotsOf(key){return SC[key]&&SC[key].info.dots||null;}
 function endLabel(key){const ms=SC[key].marks, m=ms[ms.length-1]; if(!m)return "";
   const t=m.kind==="net"?"INTO THE NET":m.kind==="out"?"OUT · "+m.label:m.label; return t.charAt(0)+t.slice(1).toLowerCase();}
-function verdictHTML(o){return `<div class="vhead"><span class="badge2 ${o.cls}">${o.badge}</span><span class="vtitle">${o.title}</span></div>
-  <p class="vline">${o.line}</p>${o.chips?`<div class="ocs">${o.chips}</div>`:""}
-  ${o.take?`<p class="take"><b>Remember</b>${o.take}</p>`:""}
-  ${o.more?`<details class="more"><summary>More on this</summary>${o.more}</details>`:""}
-  <div class="vfoot">${o.buttons}</div>`;}
 
 /* ---------- state ---------- */
-let mode="daily", step=0, scene="daily1", t=0, stopAt=0, onStop=null, playing=false, slow=false, lastTs=null;
-let ans=[null,null,null], chosen=null, showTargets=null, revealPattern=false, lpBr=null, lpK=null;
-const svg2=$("svg");
+let showDots=false, step=0, scene=null, t=0, stopAt=0, onStop=null, playing=false, lastTs=null;
+let ans=[null,null,null], chosen=null, answered=false, showTargets=null, revealPattern=false, railOn=-1, done=false;
+const svg2=$("svg"), zone=$("ask");
 
-function run(key,from,stop,cb){scene=key;t=from;stopAt=Math.min(stop,SC[key].frames-1);onStop=cb;closeAsk();setPlaying(true);}
-function setPlaying(p){playing=p;lastTs=null;
-  $("ppIcon").innerHTML=p?'<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>':'<path d="M7 4l13 8-13 8z"/>';$("ppT").textContent=p?"Pause":"Play";}
+function run(key,from,stop,cb){scene=key;t=from;stopAt=Math.min(stop,SC[key].frames-1);onStop=cb;setPlaying(true);}
+function setPlaying(p){playing=p;lastTs=null;$("paused").hidden=p||t>=stopAt;}
 function rate(){const sc=SC[scene];let r=1;
   for(const c of contactsOf(sc,"you")) r=Math.min(r,0.3+0.7*smooth(6,28,Math.abs(t-c)));
   if(onStop) r*=0.45+0.55*smooth(0,45,stopAt-t);
-  return r*(slow?0.45:1);}
+  return r;}
 function tick(ts){
   if(playing){if(lastTs!=null){t+=Math.min(50,ts-lastTs)*0.1*rate()*(window.__speed||1);
       if(t>=stopAt){t=stopAt;setPlaying(false);const cb=onStop;onStop=null;if(cb)setTimeout(cb,220);}}
@@ -621,102 +611,99 @@ function tick(ts){
   render(); requestAnimationFrame(tick);
 }
 
-/* ---------- ask / verdict ---------- */
-function openAsk(k,q,opts,onPick){
-  $("askK").textContent=k;$("askQ").textContent=q;const box=$("askOpts");box.replaceChildren();
-  opts.forEach((o,i)=>{const b=document.createElement("button");
-    b.innerHTML=`<span class="l">${LETTERS[i]}</span><span>${o.lbl}${o.sub?`<small>${o.sub}</small>`:""}</span>`;
-    b.onclick=()=>onPick(i);box.appendChild(b);});
-  $("ask").classList.add("on"); const f=box.querySelector("button"); if(f) f.focus({preventScroll:true});
-  const r=$("ask").getBoundingClientRect(); if(r.bottom>innerHeight&&!isFull()) window.scrollBy({top:Math.min(r.bottom-innerHeight+16,r.top-12),behavior:"smooth"});
-}
-function closeAsk(){$("ask").classList.remove("on");}
-function paintSteps(){
-  const el=$("steps");
-  if(mode==="daily"){el.innerHTML=LESSON.steps.map((s,i)=>`<span class="${i===step?"on":ans[i]!=null?"done":""}">${i+1} ${s.short}</span>`).join("")+
-      `<span class="${step===3?"on":""}">Take it to court</span>`;}
-  else el.innerHTML=`<span class="${!lpBr?"on":"done"}">Decision 1</span><span class="${lpBr&&!lpK?"on":lpK?"done":""}">Decision 2</span>`;
-}
-function setSit(ph,html){$("sitPh").textContent=ph;$("sitTx").innerHTML=html;}
-function setTitle(k,n){$("tK").textContent=k;$("tN").textContent=n;}
+/* ---------- the visual card ---------- */
+function railFor(S){return S.rail||(S.cues?["1 "+S.cues.ball,"2 You "+S.cues.you,"3 Them "+S.cues.opp]:[S.name]);}
+function paintRail(list){$("rail").innerHTML=list.map(c=>`<span>${c}</span>`).join("");railOn=-1;setRail(0);}
+function setRail(n){if(n===railOn)return;railOn=n;[...$("rail").children].forEach((s,i)=>s.classList.toggle("on",i<n));}
+function setInk(txt,miss){const s=$("ink");s.className="";s.textContent=txt||"";if(!txt)return;void s.offsetWidth;s.className="on"+(miss?" miss":"");}
+let toastT=0;
+function toast(txt){const e=$("toast");e.textContent=txt;e.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove("on"),1300);}
+function stageInView(){const r=$("viewer").getBoundingClientRect();
+  if(r.top<0||r.top>innerHeight*0.45) window.scrollTo({top:scrollY+r.top-72,behavior:"smooth"});}
 
+/* ---------- the decision zone ---------- */
+function paintAsk(S){
+  $("askQ").textContent=S.q; const box=$("askOpts"); box.replaceChildren();
+  S.opts.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.disabled=true;
+    b.innerHTML=`<span class="l">${LETTERS[i]}</span><span>${txt}</span>`;b.onclick=()=>pick(LETTERS[i]);box.appendChild(b);});
+  zone.hidden=false; zone.classList.add("reading"); zone.classList.remove("on");
+  $("verdict").hidden=true; $("verdict").innerHTML="";
+}
+function enableAsk(){
+  if(isFull()) exitFull();
+  zone.classList.remove("reading"); zone.classList.add("on");
+  $("askOpts").querySelectorAll(".opt").forEach(b=>{b.disabled=false;b.className="opt";});
+}
+let pick=()=>{};
+function optEl(X){return $("askOpts").children[LETTERS.indexOf(X)];}
+function showOnly(list){$("askOpts").querySelectorAll(".opt").forEach((b,i)=>{b.disabled=true;b.classList.toggle("hide",!list.includes(LETTERS[i]));});}
+
+/* ---------- lesson flow ---------- */
 function startStep(i){
-  step=i; chosen=null; showTargets=null; revealPattern=false; $("verdict").hidden=true; $("wrapup").hidden=true;
-  paintSteps();
+  step=i; chosen=null; answered=false; showTargets=null; revealPattern=false; showDots=false; done=false;
+  $("wrapup").hidden=true; setInk("");
   if(i===3){finishLesson();return;}
-  const S=LESSON.steps[i]; setSit(S.ph,S.sit); setTitle(`Step ${i+1} of 3`,S.name);
-  const key=i===0?"daily1":S.scene+"A", fr=SC[key].info.freeze;
-  run(key,0,fr,()=>{ if(i>0) showTargets=S.scene;
-    openAsk("Your call",S.q,S.opts.map(x=>({lbl:x})),X=>chooseStep(i,LETTERS[X]));});
+  const S=LESSON.steps[i];
+  $("count").textContent=`${i+1} of 3`; $("sitTx").innerHTML=S.sit;
+  paintRail(railFor(S)); paintAsk(S);
+  pick=X=>choose(i,X,false);
+  const key=S.reveal?S.scene:S.scene+"A", fr=SC[key].info.freeze;
+  run(key,0,fr,()=>{ if(!S.reveal) showTargets=S.scene; enableAsk(); });
 }
-function chooseStep(i,X){
-  closeAsk(); ans[i]=X; chosen=X; const S=LESSON.steps[i];
-  if(i===0){revealPattern=true;showVerdict(i,X);paintSteps();return;}
-  const key=S.scene+X; run(key,t,SC[key].frames-1,()=>{showVerdict(i,X);});
-  paintSteps();
+// Play one option out. demo = watching the better option after a miss (the first answer still counts).
+function choose(i,X,demo){
+  const S=LESSON.steps[i];
+  if(!demo&&ans[i]==null) ans[i]=X;
+  chosen=X; answered=true; zone.classList.remove("on"); showOnly([X]); setRail(3); setInk("");
+  $("verdict").hidden=true;
+  if(S.reveal){showDots=true;if(S.pattern)revealPattern=true;verdict(i,X,demo);return;}
+  showDots=!!LESSON.tenTries;
+  const key=S.scene+X, fr=SC[key].info.freeze;
+  run(key,demo?Math.max(0,fr-45):t,SC[key].frames-1,()=>verdict(i,X,demo));
+  stageInView();
 }
-function showVerdict(i,X){
-  const S=LESSON.steps[i], ok=LETTERS.indexOf(X)===S.correct, v=$("verdict"), corr=LETTERS[S.correct];
-  let line,chips="",title;
-  if(i===0){line={A:"Neither reply went deep — both came back short through the middle.",B:"Both replies came back short through the middle.",C:"From out wide, both replies came back short — not angled.",D:"Both replies landed short, not deep."}[X];title=S.unlock;}
-  else {const c=consequence(i,X); line=c.line; chips=pick2(c.chips,ok); title=ok?S.unlock:endLabel(S.scene+X);}
-  v.innerHTML=verdictHTML({cls:ok?"good":"miss",badge:ok?"\u2713 Good read":"Better: "+corr,title,line,chips,take:S.take,
-    more:`<p>${S.payoff}</p><p>${S.principle}</p><p>${S.why}</p>`,
-    buttons:`<button class="btn primary" id="next">${i<2?"Next":"Finish"}</button>${i>0?`<button class="linkbtn" id="tryOther">Try another option</button>`:""}`});
+function verdict(i,X,demo){
+  const S=LESSON.steps[i], ok=LETTERS.indexOf(X)===S.correct, corr=LETTERS[S.correct];
+  const d=dotsOf(S.reveal?S.scene:S.scene+X), n=d?d.filter(x=>x[2]).length:0;
+  showOnly(ok||demo?[X]:[X,corr]);
+  optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
+  setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
+  const lab=demo?`Option ${X}`:ok?"Good read":`Better: ${corr}`;
+  const v=$("verdict");
+  v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="lab">${lab}</div>
+      ${d?`<div class="tries ${n>=9?"good":n>=7?"mid":"bad"}">In ${n} of 10 tries</div>`:""}
+      <div class="copy">${S.lines[X]}</div>
+      <div class="prin">${S.take}</div>
+      <button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button>
+      <div class="whyp" id="whyp" hidden><p>${S.payoff}</p><p>${S.principle}</p><p>${S.why}</p></div></div>
+    <button class="next" id="next">${i<2?"Next decision →":"Take it to court →"}</button>
+    ${S.reveal?"":`<button class="alt" id="tryOther">${ok||demo?"Try another option":`Watch ${corr} play out`}</button>`}`;
   v.hidden=false;
-  $("next").onclick=()=>{startStep(i+1);scrollToStage();};
-  if(i>0) $("tryOther").onclick=()=>{ $("verdict").hidden=true; const key=LESSON.steps[i].scene+"A", fr=SC[key].info.freeze;
-    chosen=null; showTargets=LESSON.steps[i].scene; run(key,Math.max(0,fr-60),fr,()=>openAsk("Try another",S.q,S.opts.map(x=>({lbl:x})),Y=>chooseStep(i,LETTERS[Y])));scrollToStage();};
+  $("why").onclick=()=>{const p=$("whyp"),o=p.hidden;p.hidden=!o;$("why").setAttribute("aria-expanded",o);$("why").innerHTML=`Why? <span aria-hidden="true">${o?"–":"+"}</span>`;};
+  $("next").onclick=()=>{startStep(i+1);window.scrollTo({top:0,behavior:"smooth"});};
+  if(!S.reveal) $("tryOther").onclick=()=>{
+    if(!ok&&!demo){choose(i,corr,true);return;}
+    const key=S.reveal?S.scene:S.scene+"A", fr=SC[key].info.freeze;
+    chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
+    if(!S.reveal) showTargets=S.scene;
+    run(key,Math.max(0,fr-60),fr,enableAsk); stageInView();};
 }
 function finishLesson(){
-  const n=ans.filter((a,i)=>a!=null&&LETTERS.indexOf(a)===LESSON.steps[i].correct).length;
-  setSit("Take it to court","Three reads, one idea.");setTitle("Lesson complete",`${n} of 3 read right`);
+  done=true; const n=ans.filter((a,i)=>a!=null&&LETTERS.indexOf(a)===LESSON.steps[i].correct).length;
+  $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook;
+  zone.hidden=true; paintRail([]); setInk(`${n} of 3 read right`,false);
   const w=$("wrapup"), p=LESSON.pro;
-  w.innerHTML=`<div class="k">Remember</div><div class="mem">The serve asks. <span>The return answers.</span></div>
+  w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${LESSON.memHTML}</div>
+      <div class="score3">${ans.map((a,i)=>`<i class="${a==null?"":LETTERS.indexOf(a)===LESSON.steps[i].correct?"ok":"no"}"></i>`).join("")}</div></div>
     <div class="blk"><div class="k">Take it to court</div><p><b>${LESSON.tomorrow}</b></p></div>
     <div class="blk"><div class="k">Pro Lens · ${p.player}</div><p>${p.moment}</p><p><b>${p.read}</b></p>
-      <p style="font-size:12.5px">Source: <a href="${p.url}">${p.src}</a></p></div>
-    <div class="vbar"><button class="btn primary" id="toLP">Play the Live Point</button><button class="btn" id="redo">Start the lesson again</button></div>`;
-  w.hidden=false; $("toLP").onclick=()=>{setMode("lp");scrollToStage();}; $("redo").onclick=()=>{ans=[null,null,null];startStep(0);scrollToStage();};
-  run("daily2B",SC.daily2B.info.freeze-40,SC.daily2B.frames-1,null);
+      <p class="src">Source: <a href="${p.url}">${p.src}</a></p></div>
+    <button class="next" id="redo">Start the lesson again</button>`;
+  w.hidden=false; $("redo").onclick=()=>{ans=[null,null,null];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
+  {const k=LESSON.finaleScene;run(k,Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);}
 }
-
-/* ---------- live point ---------- */
-function startLP(){
-  lpBr=null;lpK=null;chosen=null;showTargets=null;$("verdict").hidden=true;$("wrapup").hidden=true;paintSteps();
-  setSit("Live Point · Serve +1 Wide",LP.d1.sit);setTitle("Live Point","Serve +1 Wide");
-  run("lpA_win",0,SC.lpA_win.info.freeze,()=>openAsk("Decision 1 of 2",LP.d1.q,LP.d1.opts,i=>chooseLP1(LP.d1.opts[i].br)));
-}
-function chooseLP1(br){
-  lpBr=br;paintSteps();const key="lp"+br+"_win";
-  setSit("What happened",LP[br].reveal);
-  run(key,t,SC[key].info.freeze2,()=>{setSit("Decision 2 of 2",LP[br].d2.sit);
-    openAsk("Decision 2 of 2",LP[br].d2.q,LP[br].d2.opts,i=>chooseLP2(LP[br].d2.opts[i].k));});
-}
-function chooseLP2(k){
-  lpK=k;paintSteps();const key="lp"+lpBr+"_"+k;
-  run(key,t,SC[key].frames-1,()=>{
-    const B=LP[lpBr], v=$("verdict"), win=k==="win";
-    const LPL={Awin:"They were running the wrong way — frozen.",Amid:"You hit into their run — they get there.",Bwin:"Too low to hit down — the deep volley keeps you in charge.",Bmid:"Too low for an angle — into the net."};
-    v.innerHTML=verdictHTML({cls:win?"good":"mid",badge:win?"\u2713 Best finish":"Not the best",title:win?B.winTitle:B.midTitle,
-      line:LPL[lpBr+k],chips:pick2(lpConsequence(lpBr,k),win),take:"The serve asks. The return answers.",more:`<p>${win?B.winTxt:B.midTxt}</p>`,
-      buttons:`<button class="btn primary" id="lpAgain">Replay the point</button><button class="linkbtn" id="lpOther">Other finish</button><button class="linkbtn" id="lpBranch">Try the ${lpBr==="A"?"approach":"drive"}</button>`});
-    v.hidden=false;
-    $("lpOther").onclick=()=>{$("verdict").hidden=true;const br=lpBr;lpK=null;const f2=SC["lp"+br+"_win"].info.freeze2;
-      run("lp"+br+"_win",f2-50,f2,()=>openAsk("Decision 2 of 2",LP[br].d2.q,LP[br].d2.opts,i=>chooseLP2(LP[br].d2.opts[i].k)));scrollToStage();};
-    $("lpBranch").onclick=()=>{$("verdict").hidden=true;const br=lpBr==="A"?"B":"A";lpBr=null;lpK=null;paintSteps();
-      setSit("Live Point · Serve +1 Wide",LP.d1.sit);run("lpA_win",SC.lpA_win.info.freeze-50,SC.lpA_win.info.freeze,()=>chooseLP1(br));scrollToStage();};
-    $("lpAgain").onclick=()=>{startLP();scrollToStage();};
-  });
-}
-function setMode(m){mode=m;$("mDaily").setAttribute("aria-pressed",m==="daily");$("mLP").setAttribute("aria-pressed",m==="lp");
-  $("score").hidden=m!=="lp";
-  $("hook").innerHTML=m==="daily"?"You chase a better serve while wasting the predictable ball it already creates.":LP.opp+" <span style=\"color:var(--faint)\">(Your \u201c+1\u201d is your first shot after the serve.)</span>";
-  if(m==="daily"){ans=[null,null,null];startStep(0);}else startLP();}
-function scrollToStage(){const r=$("steps").getBoundingClientRect();if(r.top<0||r.top>innerHeight*0.6)$("steps").scrollIntoView({behavior:"smooth",block:"start"});}
 
 /* ---------- render ---------- */
-let lastCap="";
 function render(){
   const sc=SC[scene], g=t, you=actorAt(sc,"you",g), opp=actorAt(sc,"opp",g);
   setCamera(you); buildBasis();
@@ -726,6 +713,8 @@ function render(){
       seg(frag,E[i-1],E[i],"rgba(240,236,227,.5)",1.4,.55);}
     const e=E[E.length-1];ring(frag,[e[0],e[1],0.006],0.16,0.12,"rgba(240,236,227,.7)",1.4,.8);
     label(frag,[e[0],e[1],0],"LAST POINT","rgba(240,236,227,.8)",14,.9,-18);}
+  const St0=mode==="daily"&&step<3?LESSON.steps[step]:null, fz0=St0&&scene.startsWith(St0.scene)?SC[scene].info.freeze:null;
+  const cueOnEarly=fz0!=null&&St0.cues&&g>=fz0-3&&g<=fz0+10;
   // bounces and landings
   for(const m of sc.marks){if(g<m.frame)continue;const age=g-m.frame, p=[m.pos[0],m.pos[1],0.006];
     const fin=m.kind==="land"||m.kind==="reply"||m.kind==="out"||m.kind==="rally";
@@ -735,7 +724,14 @@ function render(){
       if(fin) ring(frag,p,0.1,0.075,"none",0,.9,col);}
     const show=fin||age<130||(revealPattern&&m.label==="SHORT MIDDLE");
     const txt=revealPattern&&m.label==="SHORT MIDDLE"?"SHORT MIDDLE \u00d7"+"2":m.kind==="out"?"OUT \u00b7 "+m.label:m.label;
-    if(show&&m.label&&m.kind!=="net") label(frag,[m.pos[0],m.pos[1],0],txt,txtCol,fin?18:15,fin?1:1-smooth(90,130,age)*(revealPattern?0:1));}
+    if(show&&m.label&&m.kind!=="net"&&!(cueOnEarly&&!fin)) label(frag,[m.pos[0],m.pos[1],0],txt,txtCol,fin?18:15,fin?1:1-smooth(90,130,age)*(revealPattern?0:1));}
+  // ten tries of the chosen plan: where they land
+  const DT=sc.info.dots;
+  if(showDots&&DT){const nx=sc.marks.find(m=>m.frame>sc.info.freeze), t0=nx?nx.frame:sc.info.freeze;
+    if(g>=t0){const a=smooth(0,25,g-t0);
+      let cx=0,cy=0;for(const [x,y,ok] of DT){cx+=x/DT.length;cy+=y/DT.length;
+        ring(frag,[x,y,0.008],0.2,0.16,ok?"#7fbf7a":"#e05252",1.8,.95*a,ok?"rgba(127,191,122,.55)":"rgba(224,82,82,.55)");}
+      const n=DT.filter(d=>d[2]).length; label(frag,[cx,cy-(cy>0?2.8:-2.8),0],`${n} OF 10 IN`,n>=9?"#9fd89a":n>=7?"#c8a84b":"#f08a8a",19,a,0);}}
   // decision targets
   if(showTargets){for(let k=0;k<4;k++){const X=LETTERS[k], inf=SC[showTargets+X].info.shot, p=[inf.land[0],inf.land[1],0.006], on=chosen===X;
       if(chosen&&!on) continue;
@@ -763,49 +759,47 @@ function render(){
       parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:(rr*2.6).toFixed(1),fill:"var(--ball)",opacity:.18}),z:qb.z+0.01});
       parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:rr.toFixed(1),fill:"var(--ball)",stroke:"#6f7d10","stroke-width":.6}),z:qb.z-0.02});}}
   parts.sort((a,b)=>b.z-a.z); for(const {n} of parts) frag.appendChild(n);
-  if(!playing||g<160){const hp=a=>a&&add(a.pose[I.head],[0,0,0.42]);
-    if(you) label(frag,hp(you),"YOU","#c8a84b",15,.95,0);
-    if(opp) label(frag,hp(opp),"THEM","#9fb8d6",15,.95,0);}
+  const St=mode==="daily"&&step<3?LESSON.steps[step]:null, fz=St&&scene.startsWith(St.scene)?SC[scene].info.freeze:null;
+  const cueOn=fz!=null&&St.cues&&g>=fz-3&&g<=fz+10;
+  if(cueOn){const bb=ballAt(sc,g);
+    if(bb){seg(frag,[bb[0],bb[1],0.01],bb,"var(--ball)",2,.9);seg(frag,[bb[0]-0.12,bb[1],0.01],[bb[0]+0.12,bb[1],0.01],"var(--ball)",2,.9);
+      label(frag,[bb[0]+1.0,bb[1]-0.3,0],St.cues.ball,"#e8f27a",15,1,0);}}
+  if(cueOn||!playing||g<160){const hp=a=>a&&add(a.pose[I.head],[0,0,0.42]);
+    if(you) label(frag,hp(you),cueOn?"YOU \u00b7 "+St.cues.you:"YOU","#c8a84b",15,.95,0);
+    if(opp) label(frag,hp(opp),cueOn?"THEM \u00b7 "+St.cues.opp:"THEM","#9fb8d6",15,.95,0);}
   // net fault
   for(const m of sc.marks) if(m.kind==="net"&&g>=m.frame){const bp=sc.ball[m.frame]||b;if(bp){const q=P(bp);
     if(q)frag.appendChild(el_("circle",{cx:q.s[0].toFixed(1),cy:q.s[1].toFixed(1),r:(8+10*smooth(0,20,g-m.frame)).toFixed(1),fill:"none",stroke:"#e05252","stroke-width":2.2,opacity:1-0.5*smooth(0,30,g-m.frame)}));}}
   svg2.replaceChildren(frag);
-  // caption: the latest event
-  let cap="",sub="";for(const m of sc.marks) if(g>=m.frame&&g-m.frame<120){cap=m.kind==="net"?"INTO THE NET":m.kind==="out"?"OUT \u00b7 "+m.label:m.label;}
-  if(revealPattern) {cap="SHORT MIDDLE ×2";sub="Both replies landed in the same lane";}
-  if(cap!==lastCap){lastCap=cap;$("capT").textContent=cap;$("capS").textContent=sub;$("cap").classList.toggle("on",!!cap);}
-  $("prog").style.width=(100*clamp(g/Math.max(1,sc.frames-1),0,1)).toFixed(1)+"%";
+  if(St&&fz!=null){const n=answered?3:[0,1,2].filter(k=>g>=fz-80+30*k).length;setRail(n);}
 }
 
 /* ---------- controls ---------- */
-const camRow=$("cams");
-CAMS.forEach((c,i)=>{const b=document.createElement("button");b.className="chip";b.textContent=c.n;b.setAttribute("aria-pressed",i===camI);
-  b.onclick=()=>{camI=i;camRow.querySelectorAll(".chip").forEach((x,j)=>x.setAttribute("aria-pressed",j===i));};camRow.appendChild(b);});
-$("pp").onclick=()=>{if(!playing&&t>=stopAt&&!onStop){return $("again").onclick();}setPlaying(!playing);};
-$("again").onclick=()=>{closeAsk();
-  if(mode==="daily"&&step<3&&ans[step]==null) return startStep(step);
-  if(mode==="lp"&&!lpK) return startLP();
-  run(scene,0,SC[scene].frames-1,null);};
-$("slow").onclick=()=>{slow=!slow;$("slow").setAttribute("aria-pressed",slow);};
-$("mDaily").onclick=()=>{if(mode!=="daily")setMode("daily");};
-$("mLP").onclick=()=>{if(mode!=="lp")setMode("lp");};
-const FS_IN='<path d="M4 9V4h5v2H6v3zm11-5h5v5h-2V6h-3zM6 15v3h3v2H4v-5zm12 0h2v5h-5v-2h3z"/>',
-      FS_OUT='<path d="M9 4v5H4V7h3V4zm6 0h2v3h3v2h-5zM4 15h5v5H7v-3H4zm11 0h5v2h-3v3h-2z"/>';
+$("camBtn").onclick=()=>{camI=(camI+1)%CAMS.length;toast(CAMS[camI].n);};
+$("stage").onclick=()=>{if(t<stopAt){setPlaying(!playing);}};
+$("again").onclick=()=>{
+  if(done){const k=LESSON.finaleScene;run(k,Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
+  const S=LESSON.steps[step];
+  if(!answered){const key=S.reveal?S.scene:S.scene+"A";run(key,0,SC[key].info.freeze,()=>{if(!S.reveal)showTargets=S.scene;enableAsk();});return;}
+  if(S.reveal) return;
+  const key=S.scene+chosen, fr=SC[key].info.freeze; run(key,Math.max(0,fr-60),SC[key].frames-1,null);};
+$("back").onclick=()=>{if(step>0&&!done){startStep(step-1);} else if(done){startStep(2);} else location.href="./";};
+const FS_IN='<path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/>',
+      FS_OUT='<path d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/>';
 const viewer=$("viewer");
 function isFull(){return !!(document.fullscreenElement||document.webkitFullscreenElement||viewer.classList.contains("full"));}
 function paintFs(){$("fsIcon").innerHTML=isFull()?FS_OUT:FS_IN;document.body.classList.toggle("noscroll",isFull());}
+async function exitFull(){if(document.fullscreenElement)await document.exitFullscreen().catch(()=>{});viewer.classList.remove("full");paintFs();}
 $("fsBtn").onclick=async()=>{
-  if(isFull()){if(document.fullscreenElement)await document.exitFullscreen().catch(()=>{});viewer.classList.remove("full");paintFs();return;}
+  if(isFull()){exitFull();return;}
   try{if(viewer.requestFullscreen)await viewer.requestFullscreen();else throw 0;}catch(e){viewer.classList.add("full");}
   paintFs();};
 document.addEventListener("fullscreenchange",paintFs);
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&viewer.classList.contains("full")){viewer.classList.remove("full");paintFs();}});
 paintFs();
 fitView();NARROW.addEventListener?.("change",fitView);
-setMode(location.hash==="#livepoint"?"lp":"daily");
+$("lessonName").textContent=LESSON.title;
+startStep(0);
 requestAnimationFrame(tick);
 window.__test={SC,go:(k,f)=>{scene=k;t=f;setPlaying(false);},setCam:i=>{camI=i;},state:()=>({mode,step,scene,t,stopAt,playing})};
 </script>
-
-</body>
-</html>
