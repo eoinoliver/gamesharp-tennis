@@ -209,3 +209,54 @@
   normalised-source comparison proves all content outside run/tick/replay is
   byte-identical to the supplied four lessons. Main reviewed fingerprints remain
   unchanged. Re-staging and repeating the affected browser checks before promotion.
+
+### V2 published and verified — 26 September 2026
+
+- Live: https://www.gamesharptennis.com/beta/ . The menu and all four v2 lessons
+  are published, retain noindex,nofollow, and remain unlinked from Home.
+  Serve +1's Live Point is intentionally absent from this supplied v2 release.
+- Released source: `0fab1c4c8ab628a03056cc3b9f81277525d5c42c` on
+  `codex/tennis-beta-v2-release-2026-09-26`, pushed and remote SHA verified.
+  Exact staged Production artifact:
+  https://gamesharp-tennis-b8wo82nf1-eoinlynn-5978s-projects.vercel.app
+  (`dpl_BtDqBy2jTgRduVfEvZVfnCNPHT29`). Verified before promotion and promoted
+  without rebuilding. The production API confirms this ID as current and
+  READY/PROMOTED; automatic custom-domain assignment remains disabled.
+- All 83 staged and all 83 unauthenticated public HTTP checks pass: seven beta
+  routes (four lessons and three menu entry forms), 47 existing app static
+  routes, 25 excluded routes returning 404, and four sampled share routes.
+  Beta bytes match the recorded final release hashes. Existing checked static
+  bytes and sampled share responses match the recorded pre-release baseline.
+  This does not establish complete generated function-bundle equivalence.
+- All four lessons completed their three decisions on the corrected staged
+  artifact. Serve B/B/B and Short Ball D/B/B completed with 3/3; Line and Winner
+  deliberately included a wrong first answer, an alternate demo and a 2/3
+  finish. Replay during a chosen consequence and its 220ms completion gap was
+  retested successfully on Serve and Short Ball. Camera, pause/resume, Why,
+  fullscreen, restart and back navigation were exercised. Initial narrow and
+  desktop checks of unchanged layout blocks are identified separately in the
+  evidence, rather than claimed as reruns of every check after the repair.
+- On the public deployment, Winner completed all three decisions, including
+  wrong-answer/demo behavior, with the first answer preserved. All 12 actual
+  menu-to-lesson-and-back paths passed from `/beta`, `/beta/` and
+  `/beta/index.html`. The public browser report contains 23 passing checks,
+  including 390px, narrow 320px and 1100px views, with no reported page errors.
+  These are Chromium viewport checks, not physical-phone or Safari testing.
+  Supplied v2 uses ordinary vertical scrolling on smaller screens.
+- All 225 structural tests pass; trust audit has zero errors and its existing
+  length-tell warning. Connected/share audits and all 30 previously reviewed
+  fingerprints pass. Only the five beta pages and WORKLOG differ from the
+  prior live source line; main application/configuration are unchanged.
+- Rollback retained: `dpl_Bqmjy3UZtLxUJ9UvSmn6xqY2RAAp`,
+  https://gamesharp-tennis-p48y95rm7-eoinlynn-5978s-projects.vercel.app .
+  Original v2 files remain intact. The exact playback patch and a Claude handoff
+  are retained in the evidence folder for future generation of these pages.
+- Git migration remains pending. Remote main is still
+  `cc765097404aedd8d7412705a2dca2fe4e23ca89`; no main merge/push occurred.
+  A future migration candidate must include this live v2 and its two repairs.
+  The separate Short Ball review prototype remains excluded and preserved.
+- Completion record owner: Codex, documentation branch
+  `codex/tennis-beta-v2-release-log-2026-09-26`. This entry changes documentation
+  only and does not create another Production deployment. No deletion or
+  archiving occurred. No work remains for this approved v2 publication.
+  Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v2-release-2026-09-26/`.
