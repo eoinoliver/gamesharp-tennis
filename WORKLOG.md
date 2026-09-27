@@ -287,3 +287,56 @@
   no Home link, main-app byte checks and known private-route exclusions.
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v3-release-2026-09-27/`.
   Status: copied and preserving prior fixes; not yet staged or promoted.
+
+### V3 published and verified — 27 September 2026
+
+- Live: https://www.gamesharptennis.com/beta/ . All five pages retain
+  noindex,nofollow; no Home link was added. All original v3 source checksums
+  verified before copying. The supplied folder remains intact.
+- Released source `88a412f1b8be826ff73a7b1299974bbd273205e6` on
+  `codex/tennis-beta-v3-release-2026-09-27` is pushed and remote-verified.
+  Production artifact `dpl_Fe2ubNLwWfKTbaf6T4BiCsmLTCAR`:
+  https://gamesharp-tennis-j9yuc4mnh-eoinlynn-5978s-projects.vercel.app .
+  Staged using `deploy --prod --skip-domain`, verified, then promoted without
+  rebuilding. The production API confirms this exact ID as READY/PROMOTED;
+  automatic production-domain assignment remains disabled.
+- All four staged lessons completed all three decisions at 390×664: Serve BBB,
+  Short Ball DBB, Line BBB and Winner BAC (deliberately including a wrong answer
+  and a better-option demo). Every tested decision showed a 2×2 option grid;
+  every tested feedback's Next button was inside the viewport with scrollY=0.
+  The lowest tested Next edge was 648px within the 664px viewport. Play/pause
+  and camera worked in normal and fullscreen views, and the question returned
+  automatically to normal view. Final balls disappeared with outcome markings
+  remaining. Replay recovery, Why, selected wrong/demo/retry paths and desktop
+  coherence passed; first recorded answers stayed intact while exploring.
+- All 83 staged and 83 public HTTP checks pass. All beta bytes match the recorded
+  delivered hashes; 47 checked existing app static routes and four sampled
+  share responses match the pre-release live baseline. Twenty-five excluded
+  routes return 404. This does not prove complete generated-function identity.
+- Public verification completed Winner's three decisions and all 12 actual
+  menu → lesson → back paths from `/beta`, `/beta/` and `/beta/index.html`.
+  All 22 public browser checks passed with no page errors. All 225 structural
+  tests, required audits and 30 reviewed fingerprints pass; the trust audit's
+  existing length-tell warning is unchanged.
+- Deployment error-level logs returned two Node DEP0169 `url.parse()`
+  deprecation warnings on sampled share requests; their 200 and deliberately
+  withheld 404 responses were expected and verified. No warning repair was
+  included in this beta-only change. Continuous monitoring/drains were not
+  assessed; the log query is a bounded observation, not ongoing monitoring.
+- Limits: Chromium at phone-sized viewports, not a physical phone or Safari.
+  Physical-phone checking remains outstanding. Minor clipping of a court cue
+  in Short Ball's Side camera remains; the full cue is readable in the rail.
+  The 390×664 no-scroll result covers the tested decision/feedback paths,
+  not expanded Why text, end-screen content or every device/font setting.
+- Only four beta lessons and WORKLOG changed against the prior live source;
+  the menu already contained the retained absolute links. Main app/configuration
+  are unchanged. Git migration remains pending; no main push or merge occurred.
+  Rollback retained: `dpl_BtDqBy2jTgRduVfEvZVfnCNPHT29`,
+  https://gamesharp-tennis-b8wo82nf1-eoinlynn-5978s-projects.vercel.app .
+- The exact prior menu/playback repairs and a Claude handoff are in the evidence
+  folder, alongside original and delivered SHA256 manifests. Keep those repairs
+  in future generated files. No deletion or archiving occurred.
+- Completion record: Codex, branch
+  `codex/tennis-beta-v3-release-log-2026-09-27`. This documentation-only record
+  does not trigger another Production promotion. Evidence:
+  `/Users/eoinlynn/Downloads/tennis-beta-v3-release-2026-09-27/`.
