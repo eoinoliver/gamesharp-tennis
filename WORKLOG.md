@@ -367,3 +367,63 @@
   physical-phone testing is not. Preserve noindex and no home-page beta link.
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v4-release-2026-09-27/`.
   Status: source copied and main wording corrected; not staged or promoted.
+
+
+## 27 September 2026 — beta v4 published and verified
+
+- Published all nine beta pages (eight lessons), including Recovery, Open Court,
+  Forehand Bill and The Lead. All nine supplied source checksums passed. Kept
+  the already-shipped absolute menu links and callback-safe Replay fixes in the
+  canonical release; source originals remain unchanged. Exact patch and both
+  checksum manifests are in the evidence folder.
+- Also published the requested main Daily step 1 option A wording:
+  “Keep landing it shorter, same pace”. Independent byte comparison proves this
+  is the only change to `gold-daily-tradeoffs.js`; answer B, scene model and all
+  other lesson content remain unchanged. Updated only its reviewed dependency
+  hash, appended the scoped evidence record, and updated the definitions test
+  fingerprint for this approved literal change. The other 29 dependency hashes
+  and `coachApproval: false` remain unchanged.
+- GameSharp Tennis source commit:
+  `435768b643d7ac5d01ae7069aac355c0528bc42e`, pushed and verified on
+  `codex/tennis-beta-v4-release-2026-09-27`.
+  Production artifact: `dpl_GroqYH7sMh41J7Ez2XKMsXgRb1RK`,
+  https://gamesharp-tennis-lmcfg6p63-eoinlynn-5978s-projects.vercel.app .
+  Built from the canonical folder with `--prod --skip-domain`, verified while
+  READY/STAGED, then promoted unchanged. API confirms READY/PROMOTED serving
+  https://www.gamesharptennis.com/beta/ with automatic domain assignment disabled.
+- All 225 structural tests and required audits pass. Trust audit has zero errors
+  and its unchanged length-tell warning (366 of 549). Connected audit: nine
+  journeys, 22 scenes, zero failures. Share audit: 20 questions, eight plays.
+- Stage and public each pass 87 HTTP checks: exact candidate beta bytes,
+  unchanged app bytes except the two documented main/evidence files, noindex,
+  menu destinations, public share probes and 25 excluded routes. Home has no beta
+  link. This is a source-derived static inventory and sampled function responses,
+  not proof of full generated-function bundle equality.
+- Phone-sized Chromium at 390 × 664: all eight staged lessons completed all
+  three decisions; four choices in 2 × 2; Next reachable at scrollY 0. Normal and
+  fullscreen play/pause/camera, automatic return, Replay, and disappearance of
+  the final ball passed. New lessons include wrong choice/correct demonstration;
+  Recovery's alternative C is accepted without overwriting the first answer.
+  Four new desktop openings are coherent at 1100 × 900.
+- Stage and public each passed all 24 menu → lesson → back paths across /beta,
+  /beta/ and /beta/index.html. Public beta The Lead completed B/C/D for 3 of 3.
+  Main Daily completed A/C/D both staged and live, proving A is rejected and B
+  highlighted; stage also verified B is accepted after restarting. Zero page
+  errors in the sampled browser journeys. Screenshots were visually inspected.
+- Limits: no physical phone or Safari test. No-scroll evidence covers the tested
+  decision/feedback paths, not every viewport, enlarged text or expanded Why
+  panel. No independent physics or coaching approval is claimed. A transient
+  immediate fullscreen-exit text repaint in screenshots was rechecked after
+  settling; complete text rendered normally. One case-sensitive harness assertion
+  was corrected and rerun; no product change was needed.
+- Bounded error-level log query returned four Node DEP0169 `url.parse()`
+  deprecation warnings on share requests with expected 200/404 responses; the
+  same warning class existed before this release. No warning repair is included.
+  Continuous monitoring/drains were not assessed.
+- Rollback retained: `dpl_Fe2ubNLwWfKTbaf6T4BiCsmLTCAR`,
+  https://gamesharp-tennis-j9yuc4mnh-eoinlynn-5978s-projects.vercel.app .
+  Git migration remains pending; no main push or merge, deletion, or archiving.
+  The earlier read-only content snapshot remains pinned to v3 and was not changed.
+- Completion record: Codex on `codex/tennis-beta-v4-release-log-2026-09-27`.
+  This documentation-only branch is pushed separately; it causes no new promotion.
+  Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v4-release-2026-09-27/`.
