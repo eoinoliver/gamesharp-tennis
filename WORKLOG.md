@@ -522,3 +522,56 @@
   Chromium emulation only; physical phone/Safari unavailable. Keep noindex/unlisted.
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v6-release-2026-09-27/`.
   Status: copied; not staged or promoted.
+
+
+## 27 September 2026 — beta v6 published and verified
+
+- Published twelve beta files (menu plus eleven lessons), adding The Return That
+  Shrinks Serve +1 (`middle-return.html`). All twelve supplied source checksums
+  passed before copying. Prior ten released lessons and all main-app files remain
+  unchanged from v5. Only menu, new lesson and WORKLOG changed in this release.
+- Retained eleven absolute menu links and the callback-safe run/tick/Replay fix,
+  including the supplied noTargets guard. Independent normalized comparison proves
+  no other differences from the supplied new page. Originals untouched; precise
+  repair patch and source/release checksum manifests are in the evidence folder.
+- GameSharp Tennis source commit:
+  `a3390676b48c846a56fbd32ea664e2804dd379bf`, pushed and remote-verified on
+  `codex/tennis-beta-v6-release-2026-09-27`.
+  Production artifact: `dpl_9n4LDGy43itCNntkkrbS5M23EMoX`,
+  https://gamesharp-tennis-9s06zt2s2-eoinlynn-5978s-projects.vercel.app .
+  Built from canonical with `--prod --skip-domain`, verified READY/STAGED, then
+  promoted unchanged. API confirms READY/PROMOTED on the public domain;
+  automatic custom-domain assignment remains disabled.
+- All 225 structural tests and required audits pass. Trust: zero errors and the
+  unchanged length-tell warning (366 of 549). Connected: nine journeys, 22 scenes,
+  zero failures. Share: 20 questions/eight plays. Reviewed fingerprints unchanged.
+- Stage and public each pass 90 HTTP checks: exact candidate beta bytes,
+  unchanged main app, noindex, menu destinations, share probes and 25 excluded
+  routes. No home-page beta link. These static response comparisons and sampled
+  functions do not prove generated-function bundle equality.
+- All eleven staged lessons completed three decisions natively at 390 × 664:
+  every question in 2 × 2 and every pre-click Next visible at scrollY 0. Existing
+  ten pages additionally pass normal pause/resume; their unchanged fullscreen
+  and Replay edge coverage is retained from earlier releases.
+- Middle Return passes twelve browser checks: complete phone journey including
+  reveal step 2; step 1 wrong answer/correct demonstration and interrupted Replay;
+  normal/fullscreen play/pause/camera and automatic return. Desktop opening,
+  grid and controls checked at 1100 × 900. Screenshots visually inspected.
+- Stage and public each pass all 33 actual menu → lesson → back paths from
+  /beta, /beta/ and /beta/index.html. Public Middle Return completes C/A/D for
+  3 of 3 without credentials, including its reveal comparison. No page errors
+  in sampled journeys; all browser sessions closed.
+- Limits: phone-sized Chromium, not physical phone/Safari. No-scroll evidence
+  covers tested decisions/feedback, not every device, enlarged text or expanded
+  Why. Source/scene integrity checks are not independent physics or coaching
+  approval. Main-app eligibility and withheld items remain unchanged.
+- Bounded error-level logs returned one existing-class DEP0169 url.parse()
+  deprecation warning on a share probe with expected 200 response. No warning
+  repair included; continuous monitoring/drains were not assessed.
+- Rollback retained: `dpl_6dad5RNABjMgbaHiChLonvbFNtvL`,
+  https://gamesharp-tennis-28cr86bvz-eoinlynn-5978s-projects.vercel.app .
+  Git migration remains pending; no main push/merge, deletion or archiving.
+  Earlier read-only content snapshot remains unchanged and pinned to v3.
+- Completion: Codex, `codex/tennis-beta-v6-release-log-2026-09-27`.
+  Documentation pushed separately; no additional Production promotion.
+  Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v6-release-2026-09-27/`.
