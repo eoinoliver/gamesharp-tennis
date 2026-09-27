@@ -502,3 +502,23 @@
 - Completion record: Codex, `codex/tennis-beta-v5-release-log-2026-09-27`.
   Documentation is pushed separately and does not trigger another promotion.
   Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v5-release-2026-09-27/`.
+
+
+## 27 September 2026 — approved beta v6 release claim
+
+- Owner: Codex; branch `codex/tennis-beta-v6-release-2026-09-27`, based on
+  verified live v5 and completion log `4c017eb9a1ca87dd6451e672af2347a3d7fb8980`.
+  Eoin explicitly approved twelve beta files through Production stage → verify → promote.
+- All twelve source checksums pass. Copy all twelve files; add Middle Return
+  (The Return That Shrinks Serve +1). Retain eleven absolute menu links and the
+  existing callback-safe run/tick/Replay repair, preserving source noTargets guards.
+  Prior ten released lesson pages remain byte-identical to v5; originals untouched.
+- Only menu, new middle-return.html and this log change. Main app unchanged.
+- Fresh rollback: `dpl_6dad5RNABjMgbaHiChLonvbFNtvL`, source
+  `50c36938924f03f4a538e34d4b4c5c31ead0b483`,
+  https://gamesharp-tennis-28cr86bvz-eoinlynn-5978s-projects.vercel.app .
+  Automatic production-domain assignment remains disabled; no main push/merge.
+- Verify all eleven lessons at390×664,2×2 decisions and Next without scrolling.
+  Chromium emulation only; physical phone/Safari unavailable. Keep noindex/unlisted.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v6-release-2026-09-27/`.
+  Status: copied; not staged or promoted.
