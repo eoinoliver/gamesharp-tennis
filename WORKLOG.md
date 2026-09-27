@@ -260,3 +260,30 @@
   only and does not create another Production deployment. No deletion or
   archiving occurred. No work remains for this approved v2 publication.
   Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v2-release-2026-09-26/`.
+
+
+## 27 September 2026 — approved unlisted beta v3
+
+- Owner: Codex; branch `codex/tennis-beta-v3-release-2026-09-27`, based on
+  verified live v2 and its completion log (`3b347f4`). Eoin explicitly approves
+  copying and publishing all five v3 files using the existing pre-cutover
+  Production stage → verify → promote routine. Git migration is not included.
+- All five source files passed `shasum -a 256 -c SHA256SUMS` before copying.
+  V3 adds the 2×2 choices, compact phone layout, ball-ending change, running
+  poses, end-screen attribution and dedicated play/pause/fullscreen controls.
+- Retained two previously shipped repairs omitted by the supplied v3: four
+  `/beta/`-absolute menu destinations and callback-safe run/tick/replay blocks.
+  Eoin was informed. All other supplied v3 content is unchanged. Original
+  source remains intact; source and release hashes are separately recorded.
+- Rollback: `dpl_BtDqBy2jTgRduVfEvZVfnCNPHT29`, source
+  `0fab1c4c8ab628a03056cc3b9f81277525d5c42c`,
+  https://gamesharp-tennis-b8wo82nf1-eoinlynn-5978s-projects.vercel.app .
+  Fresh project inspection confirms this is current Production and automatic
+  custom-domain assignment remains disabled. Remote main is still `cc76509`.
+- Check all four staged lessons at 390×664: 2×2 choices, final ball disappearance,
+  play/pause and camera in normal/fullscreen views, and Next reachable without
+  scrolling. Native phone hardware is unavailable; browser viewport verification
+  will be clearly distinguished from physical-phone testing. Keep noindex and
+  no Home link, main-app byte checks and known private-route exclusions.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v3-release-2026-09-27/`.
+  Status: copied and preserving prior fixes; not yet staged or promoted.
