@@ -448,3 +448,57 @@
   Browser emulation only; physical phone/Safari unavailable. Keep noindex/unlisted.
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v5-release-2026-09-27/`.
   Status: copied; not staged or promoted.
+
+
+## 27 September 2026 — beta v5 published and verified
+
+- Published eleven beta files (menu plus ten lessons), adding A Perfect Split
+  Step Can Be Late and Your Approach Shapes Your First Volley. All eleven supplied
+  source checksums passed before copying. The existing eight released lessons
+  and every main-app file remain unchanged from v4. Main Daily step 1 option A
+  already reads “Keep landing it shorter, same pace”; no further edit was needed.
+- Retained ten absolute menu links and the callback-safe run/tick/Replay fixes.
+  The new pages retain their supplied `noTargets` guard; independent normalized
+  comparison proves no other source differences. Source originals are untouched.
+  Both checksum manifests and the precise repair patch are in the evidence folder.
+- GameSharp Tennis source commit:
+  `50c36938924f03f4a538e34d4b4c5c31ead0b483`, pushed and remote-verified on
+  `codex/tennis-beta-v5-release-2026-09-27`.
+  Production artifact: `dpl_6dad5RNABjMgbaHiChLonvbFNtvL`,
+  https://gamesharp-tennis-28cr86bvz-eoinlynn-5978s-projects.vercel.app .
+  Built from canonical with `--prod --skip-domain`, verified READY/STAGED, then
+  promoted unchanged. API confirms READY/PROMOTED on the public domain and
+  automatic custom-domain assignment remains disabled.
+- All 225 structural tests and required audits pass. Trust: zero errors, unchanged
+  length-tell warning (366 of 549). Connected: nine journeys, 22 scenes, zero
+  failures. Share: 20 questions/eight plays. All reviewed fingerprints unchanged.
+- Stage and public each pass 89 HTTP checks: exact candidate beta bytes,
+  byte-identical main app, noindex, menu destinations, share probes and 25 excluded
+  routes. No home-page beta link. This source-derived static inventory plus sampled
+  function responses does not prove generated-function bundle equality.
+- All ten staged lessons completed their three decisions natively in Chromium
+  at 390 × 664: every question is 2 × 2, every pre-click Next is visible at
+  scrollY 0. Existing eight pages additionally pass normal pause/resume; prior
+  v4 fullscreen/Replay edge coverage is retained for their unchanged bytes.
+- Two new lessons: 24 additional browser checks cover complete phone journeys,
+  wrong answer/correct demonstration and interrupted Replay (Split Step decision
+  3; Approach Volley decision 1), normal/fullscreen controls and automatic return.
+  Split Step's first two reveal decisions work without false target markers.
+  Desktop openings/grid/controls checked at 1100 × 900; screenshots inspected.
+- Stage and public each pass all 30 actual menu → lesson → back paths from
+  /beta, /beta/ and /beta/index.html. Public Approach Volley completes C/B/D for
+  3 of 3 without credentials. No page errors in the sampled browser journeys.
+- Limits: phone-sized Chromium, not a physical phone or Safari. No-scroll checks
+  cover tested decisions/feedback, not all devices, enlarged text or expanded Why.
+  Scene/syntax integrity is checked; no independent physics/coaching approval
+  is claimed. Main-app release eligibility and existing withheld items are unchanged.
+- Bounded error-level log scan returned two existing-class DEP0169 url.parse()
+  deprecation warnings on share probes with expected 200/404 responses. No warning
+  repair is included; continuous monitoring/drains were not assessed.
+- Rollback retained: `dpl_GroqYH7sMh41J7Ez2XKMsXgRb1RK`,
+  https://gamesharp-tennis-lmcfg6p63-eoinlynn-5978s-projects.vercel.app .
+  Git migration remains pending. No main push/merge, deletion or archiving.
+  The earlier read-only content snapshot remains unchanged and pinned to v3.
+- Completion record: Codex, `codex/tennis-beta-v5-release-log-2026-09-27`.
+  Documentation is pushed separately and does not trigger another promotion.
+  Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v5-release-2026-09-27/`.
