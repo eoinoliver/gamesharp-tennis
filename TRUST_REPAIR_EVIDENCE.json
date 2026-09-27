@@ -64,7 +64,7 @@
     "gold-daily-patterns.js": "7997492fa2f5a2c321b3820887d90a8f23560a32ba2f4d18fc757a83fcca047d",
     "gold-daily-serve-quality.js": "893f6e17518ba699870949319c3e813e87d7cad23433fb3b20738e8d9f0b8758",
     "gold-daily-construction.js": "250d3aa029151c47d1d117307a47551da0da0a5a1913d33d55652e5451588216",
-    "gold-daily-tradeoffs.js": "6ecda76b8181cb25e7d55b882bf49e3b2b6f4128a8b89309346bd557ae364df4",
+    "gold-daily-tradeoffs.js": "f010816fb28611621ba0787e9f31ac38eb89dc3971f753d0bde2eb774f414405",
     "gold-daily-main.js": "bf0c32618ab939eabab7389b572603d0cfcd529e399ba5709c8c167053634f5c",
     "gold-daily-high-ball.js": "71150beb8b0e801136f04a8b58ccbe76a247a8404f8dbe8116e234093c76d2d9",
     "gold-daily-return-time.js": "a174491b5d8464e57200045968dfe255f395def764a7f6a425e829bda6985e24",
@@ -91,6 +91,21 @@
       "change": "Add only .github/ to exclude CI source exposed by the first Git preview. All prior exclusion rules and the other 29 fingerprinted dependencies are unchanged.",
       "evidence": "Six release-boundary tests pass; source diff independently reviewed. Before promotion, the release protocol requires the actual Git deployment to return 404 for /.github/workflows/checks.yml and all existing excluded routes.",
       "scope": "Deployment packaging only; no new runtime, tennis, coaching or device approval."
+    }
+  ],
+  "scopedContentReviews": [
+    {
+      "date": "2026-09-27",
+      "file": "gold-daily-tradeoffs.js",
+      "lessonId": "gold_protect_pattern_v1",
+      "step": 1,
+      "option": "A",
+      "previousSha256": "6ecda76b8181cb25e7d55b882bf49e3b2b6f4128a8b89309346bd557ae364df4",
+      "sha256": "f010816fb28611621ba0787e9f31ac38eb89dc3971f753d0bde2eb774f414405",
+      "change": "User-requested exact replacement: Keep the shorter landing and add pace \u2192 Keep landing it shorter, same pace.",
+      "reviewer": "Codex source inspection plus independent short_ball_review_checks",
+      "evidence": "Independent exact-byte comparison proves this one literal is the only content change; correct answer B, model, scene geometry, timing, outcomes, feedback and other lessons unchanged. Required staged main-lesson browser verification and final result are recorded in WORKLOG for this release.",
+      "scope": "Only this wording correction; no independent validation of the physics claim or new coaching approval. Other 29 reviewed dependencies retain their fingerprints."
     }
   ]
 }

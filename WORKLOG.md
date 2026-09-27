@@ -340,3 +340,30 @@
   `codex/tennis-beta-v3-release-log-2026-09-27`. This documentation-only record
   does not trigger another Production promotion. Evidence:
   `/Users/eoinlynn/Downloads/tennis-beta-v3-release-2026-09-27/`.
+
+
+## 27 September 2026 — approved beta v4 and Daily option correction
+
+- Owner: Codex; branch `codex/tennis-beta-v4-release-2026-09-27`, based on
+  verified live v3 and its completion log (`285a57b`). Eoin explicitly approves
+  publishing the nine supplied v4 files through Production stage → verify →
+  promote. All nine original SHA256SUMS entries passed before copying.
+- Four new unlisted lessons: Recovery, Open Court, Forehand Bill and The Lead.
+  Retain the existing navigation repair across all eight menu links and the
+  exact prior callback-safe run/tick/replay blocks in every lesson. The user
+  was informed; original source is preserved and delivered hashes are separate.
+- Separately apply the exact user-requested main Daily edit: The Lead That
+  Makes You Smaller, step1 optionA, “Keep landing it shorter, same pace”.
+  Only that string in `gold-daily-tradeoffs.js` changes; answer key, outcomes,
+  animation model and other content remain unchanged. Scoped dependency review
+  and a browser check of the main lesson are required before promotion.
+- Rollback baseline freshly confirmed: `dpl_Fe2ubNLwWfKTbaf6T4BiCsmLTCAR`,
+  source `88a412f1b8be826ff73a7b1299974bbd273205e6`,
+  https://gamesharp-tennis-j9yuc4mnh-eoinlynn-5978s-projects.vercel.app .
+  Automatic custom-domain assignment is disabled. This is not Git migration;
+  no main push/merge, deletion or archiving is included.
+- Verify all eight lessons at390×664: natural playback, 2×2 decisions and
+  Next inside the viewport without scrolling. Browser emulation is available;
+  physical-phone testing is not. Preserve noindex and no home-page beta link.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v4-release-2026-09-27/`.
+  Status: source copied and main wording corrected; not staged or promoted.

@@ -62,6 +62,9 @@ button{font:inherit}
 .toast{position:absolute;left:50%;top:10px;transform:translateX(-50%);background:rgba(4,17,7,.82);border:1px solid rgba(255,255,255,.14);
   border-radius:999px;padding:5px 12px;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink);opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1}
+.scorechip{position:absolute;left:10px;top:10px;padding:4px 9px;border-radius:7px;background:rgba(4,17,7,.78);border:1px solid rgba(200,168,75,.45);
+  color:#f0ece3;font-family:"Bebas Neue",Impact,sans-serif;font-size:17px;letter-spacing:.06em;pointer-events:none}
+.scorechip b{color:var(--gold);font-weight:400}
 .paused{position:absolute;right:10px;bottom:10px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
   color:rgba(240,236,227,.75);background:rgba(4,17,7,.7);border-radius:6px;padding:4px 7px;pointer-events:none}
 .ink{min-height:34px;padding:3px 9px 7px;background:#08170b;text-align:center}
@@ -133,7 +136,7 @@ button{font:inherit}
 .score3 i.ok{background:var(--green)}.score3 i.no{background:var(--gold)}
 
 /* full screen: watch only, with clear controls clear of the notch */
-.visual.full .tools,.visual:fullscreen .tools{position:absolute;z-index:3;top:max(8px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right));left:auto;
+.visual.full .tools,.visual:fullscreen .tools{position:absolute;z-index:3;bottom:auto;top:max(8px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right));left:auto;
   display:flex;min-height:0;padding:0;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(4,17,7,.72)}
 .visual.full .tools .rail,.visual:fullscreen .tools .rail{display:none}
 .visual.full .tbtn,.visual:fullscreen .tbtn{width:46px;height:46px;border-left:0;color:#f0ece3}
@@ -162,7 +165,8 @@ details.note a{color:var(--gold)}
   .brand{font-size:17px}
   .meta{margin:0 0 5px}
   .setup{font-size:15px;line-height:1.35;margin:0 0 8px;min-height:2.7em}
-  .tools{position:absolute;top:0;right:0;z-index:2;display:flex;min-height:0;padding:0;border:0;background:none}
+  .tools{position:absolute;top:auto;bottom:32px;right:0;z-index:2;display:flex;min-height:0;padding:0;border:0;background:none}
+  .paused{right:auto;left:10px;bottom:40px}
   .tbtn{width:38px;height:38px;border:0;color:rgba(240,236,227,.62)}
   .ink{min-height:32px;padding:3px 10px 5px;display:grid;align-items:center}
   .ink .rail{font-size:9px;gap:6px}.ink .rail span:first-child{text-align:center}
@@ -205,6 +209,7 @@ details.note a{color:var(--gold)}
         <svg id="svg" viewBox="0 0 820 470" role="img" aria-label="3D replay of the point"></svg>
         <div class="toast" id="toast"></div>
         <div class="paused" id="paused" hidden>Paused</div>
+        <div class="scorechip" id="scorechip" hidden></div>
       </div>
       <div class="ink" id="inkRow"><span id="ink"></span></div>
     </div>
@@ -760,12 +765,12 @@ function choose(i,X,demo){
   stageInView();
 }
 function verdict(i,X,demo){
-  const S=LESSON.steps[i], ok=LETTERS.indexOf(X)===S.correct, corr=LETTERS[S.correct];
+  const S=LESSON.steps[i], also=(S.alsoOk||[]).includes(LETTERS.indexOf(X)), ok=LETTERS.indexOf(X)===S.correct||also, corr=LETTERS[S.correct];
   const d=dotsOf(S.reveal?S.scene:S.scene+X), n=d?d.filter(x=>x[2]).length:0;
   showOnly(ok||demo?[X]:[X,corr]);
   optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
   setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
-  const lab=demo?`Option ${X}`:ok?"Good read":`Better: ${corr}`;
+  const lab=demo?`Option ${X}`:also?`Also works · best: ${corr}`:ok?"Good read":`Better: ${corr}`;
   const v=$("verdict");
   zone.classList.add("ans");
   v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div>${d?`<div class="tries ${n>=9?"good":n>=7?"mid":"bad"}">In ${n} of 10 tries</div>`:""}<button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
@@ -785,12 +790,13 @@ function verdict(i,X,demo){
     run(key,Math.max(0,fr-60),fr,enableAsk); stageInView();};
 }
 function finishLesson(){
-  done=true; const n=ans.filter((a,i)=>a!=null&&LETTERS.indexOf(a)===LESSON.steps[i].correct).length;
+  done=true; const okA=(a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)));
+  const n=ans.filter(okA).length;
   $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook;
   zone.hidden=true; paintRail([]); setInk(`${n} of 3 read right`,false);
   const w=$("wrapup"), p=LESSON.pro;
   w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${LESSON.memHTML}</div>
-      <div class="score3">${ans.map((a,i)=>`<i class="${a==null?"":LETTERS.indexOf(a)===LESSON.steps[i].correct?"ok":"no"}"></i>`).join("")}</div></div>
+      <div class="score3">${ans.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
     <div class="blk"><div class="k">Take it to court</div><p><b>${LESSON.tomorrow}</b></p></div>
     <div class="blk"><div class="k">Pro Lens · ${p.player}</div><p>${p.moment}</p><p><b>${p.read}</b></p>
       <p class="src">Source: <a href="${p.url}">${p.src}</a></p></div>
@@ -822,6 +828,11 @@ function render(){
     const show=fin||age<130||(revealPattern&&m.label==="SHORT MIDDLE");
     const txt=revealPattern&&m.label==="SHORT MIDDLE"?"SHORT MIDDLE \u00d7"+"2":m.kind==="out"?"OUT \u00b7 "+m.label:m.label;
     if(show&&m.label&&m.kind!=="net"&&!(cueOnEarly&&!fin)) label(frag,[m.pos[0],m.pos[1],0],txt,txtCol,fin?18:15,fin?1:1-smooth(90,130,age)*(revealPattern?0:1));}
+  // evidence from earlier points: faint landing rings, one label
+  if(sc.info.ghosts){let cx=0,cy=0;const G=sc.info.ghosts;
+    for(const [x,y,l] of G){cx+=x/G.length;cy+=y/G.length;ring(frag,[x,y,0.006],0.22,0.17,sc.info.ghostCol||"rgba(240,236,227,.55)",1.4,.8);
+      if(l&&g<=sc.info.freeze+20) label(frag,[x,y+(y<0?-1.0:-1.1),0],l,"rgba(240,236,227,.85)",13,.9,0);}
+    if(sc.info.ghostLabel&&g<=sc.info.freeze+20) label(frag,[cx,cy+(cy<0?-1.4:-1.4),0],sc.info.ghostLabel,"rgba(240,236,227,.85)",14,.9,0);}
   // ten tries of the chosen plan: where they land
   const DT=sc.info.dots;
   if(showDots&&DT){const nx=sc.marks.find(m=>m.frame>sc.info.freeze), t0=nx?nx.frame:sc.info.freeze;
@@ -868,6 +879,7 @@ function render(){
   for(const m of sc.marks) if(m.kind==="net"&&g>=m.frame){const bp=sc.ball[m.frame]||b;if(bp){const q=P(bp);
     if(q)frag.appendChild(el_("circle",{cx:q.s[0].toFixed(1),cy:q.s[1].toFixed(1),r:(8+10*smooth(0,20,g-m.frame)).toFixed(1),fill:"none",stroke:"#e05252","stroke-width":2.2,opacity:1-0.5*smooth(0,30,g-m.frame)}));}}
   svg2.replaceChildren(frag);
+  {const sc2=$("scorechip"), v=sc.info.score||""; if(sc2.dataset.v!==v){sc2.dataset.v=v;sc2.hidden=!v;sc2.innerHTML=v?"YOU <b>"+v+"</b>":"";}}
   if(St&&fz!=null){const n=answered?3:[0,1,2].filter(k=>g>=fz-80+30*k).length;setRail(n);}
 }
 
