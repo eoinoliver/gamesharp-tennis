@@ -427,3 +427,24 @@
 - Completion record: Codex on `codex/tennis-beta-v4-release-log-2026-09-27`.
   This documentation-only branch is pushed separately; it causes no new promotion.
   Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v4-release-2026-09-27/`.
+
+
+## 27 September 2026 — approved beta v5 release claim
+
+- Owner: Codex; branch `codex/tennis-beta-v5-release-2026-09-27`, based on
+  verified live v4 plus completion log `7c436158f57adb497eed552386bf3c4bb052521d`.
+  Eoin explicitly approved eleven beta files via Production stage → verify → promote.
+- All eleven supplied SHA256SUMS pass. Copy all eleven files; add Split Step and
+  Approach Volley. Retain ten absolute menu destinations and prior callback-safe
+  run/tick/Replay repair, preserving the new pages' noTargets behavior. The other
+  eight released lesson pages remain byte-identical to live v4. Originals untouched.
+- Main Daily option A is already “Keep landing it shorter, same pace”; no further
+  main-app edit is needed. Only menu, two new beta pages and this log should differ.
+- Fresh rollback baseline: `dpl_GroqYH7sMh41J7Ez2XKMsXgRb1RK`, source
+  `435768b643d7ac5d01ae7069aac355c0528bc42e`,
+  https://gamesharp-tennis-lmcfg6p63-eoinlynn-5978s-projects.vercel.app .
+  Auto-assign Custom Production Domains remains disabled. No main push/merge.
+- Verify all ten complete lessons at390×664,2×2 choices and Next without scrolling.
+  Browser emulation only; physical phone/Safari unavailable. Keep noindex/unlisted.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v5-release-2026-09-27/`.
+  Status: copied; not staged or promoted.
