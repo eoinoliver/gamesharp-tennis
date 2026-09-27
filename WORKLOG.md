@@ -575,3 +575,26 @@
 - Completion: Codex, `codex/tennis-beta-v6-release-log-2026-09-27`.
   Documentation pushed separately; no additional Production promotion.
   Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v6-release-2026-09-27/`.
+
+
+## 27 September 2026 — approved beta v7 release claim
+
+- Owner: Codex; branch `codex/tennis-beta-v7-release-2026-09-27`, based on v6
+  completion log `6db92d1ad2e0bd7133bae28b238c7072bbe55f75`. Eoin approves v7 publication.
+- All 13 v7 source checksums pass. Source folder advanced to v8 during inspection;
+  recovered the v7 menu by removing only the new v8 card/count and proved exact
+  SHA-256 equality with v7. Frozen 13-file source retained; no v8 file included.
+- Add high-ball.html and updated twelve-lesson menu. Retain established root-relative
+  menu links and callback-safe run/tick/Replay fixes. Eleven existing released
+  lesson pages remain byte-identical to v6. Main application unchanged.
+- Rollback baseline: `dpl_9n4LDGy43itCNntkkrbS5M23EMoX`, source
+  `a3390676b48c846a56fbd32ea664e2804dd379bf`,
+  https://gamesharp-tennis-9s06zt2s2-eoinlynn-5978s-projects.vercel.app .
+  Automatic custom-domain assignment verified disabled; migration remains pending.
+- Keep noindex and no homepage link. Stage Production with --skip-domain, verify
+  exact bytes and new lesson on phone-sized Chromium, then promote the same artifact.
+  Physical phone/Safari unavailable. Source/checksum integrity is not independent
+  coaching or biomechanics approval.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v7-release-2026-09-27/`.
+  Status: prepared, not deployed. Unrelated motion-search.md remains untracked and
+  excluded by *.md; no main push/merge or deletion.
