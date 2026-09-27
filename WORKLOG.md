@@ -598,3 +598,44 @@
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v7-release-2026-09-27/`.
   Status: prepared, not deployed. Unrelated motion-search.md remains untracked and
   excluded by *.md; no main push/merge or deletion.
+
+
+## 27 September 2026 — beta v7 published and verified
+
+- Live: https://www.gamesharptennis.com/beta/ ; new lesson:
+  https://www.gamesharptennis.com/beta/high-ball.html . Twelve lessons plus menu.
+- All 13 supplied v7 checksums passed initially and on frozen source. The source
+  folder advanced to v8 during inspection; the recovered v7 menu matches its exact
+  approved 9f649325… checksum. No second-serve/v8 file or menu card was published.
+- Source and release manifests are distinct: established absolute menu links and
+  callback-safe run/tick/Replay fixes were retained. All eleven existing released
+  lessons and all main-app files remain byte-identical to v6. Source originals
+  untouched. Noindex on all 13 beta files; no homepage link.
+- Source commit `c9834f09f8cc61e0d0b949b18d7de740aa2583be`, pushed and remote-verified
+  on `codex/tennis-beta-v7-release-2026-09-27`. Production deployment
+  `dpl_993CdEJUz58UuXJVQVAkj3WEqoTF`,
+  https://gamesharp-tennis-rhat6eno6-eoinlynn-5978s-projects.vercel.app .
+  Built from canonical via --prod --skip-domain (508 ms build), verified STAGED,
+  promoted unchanged and API-confirmed READY/PROMOTED. Auto-assign stays disabled.
+- 225/225 structural tests and trust/connected/share/fingerprint audits pass.
+  Existing trust length-tell warning unchanged. Stage and public each pass 93
+  HTTP checks, including every beta response hash/noindex, unchanged main runtime,
+  menu destinations, share probes, private routes and absence of v8/research files.
+- Stage: all 36 menu→lesson→back paths pass across /beta, /beta/, /beta/index.html.
+  High Ball passes 12 browser checks: three decisions, 2×2 choices, Next visible
+  without scrolling, wrong-answer feedback, interrupted Replay, correct-option
+  demonstration, normal/fullscreen play/pause and camera, automatic return,
+  plus desktop opening/controls. Screenshots visually inspected.
+- Public High Ball completes B/D/A for 3 of 3 without credentials: 11 checks,
+  all questions 2×2, all Next buttons in view at scrollY0, no page errors.
+  Phone-sized Chromium390×664; desktop1100×900. Physical phone/Safari unavailable.
+  Eleven unchanged lessons retain v6 full-journey evidence; fresh stage checks
+  verify their navigation, rendering and response bytes. No new coaching/physics
+  validation or every-device/enlarged-text guarantee is claimed.
+- Bounded logs: one existing DEP0169 url.parse deprecation warning on a share
+  probe returning200; continuous monitoring/drains not assessed. Rollback retained:
+  `dpl_9n4LDGy43itCNntkkrbS5M23EMoX`. Git migration remains pending; no main push/merge.
+- Completion log branch: `codex/tennis-beta-v7-release-log-2026-09-27`; pushed
+  separately without promoting another build. Unrelated motion-search.md preserved
+  untracked. Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v7-release-2026-09-27/`,
+  including FINAL-VERIFICATION.json and both checksum manifests.
