@@ -662,3 +662,29 @@
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v8-release-2026-09-27/`.
   Status: prepared, not staged/promoted. Migration pending; no main push/merge.
   Preserve unrelated motion-search.md untracked and excluded by *.md.
+
+
+## 28 September 2026 — approved beta v9 release claim; supersedes staged v8
+
+- Owner: Codex; branch `codex/tennis-beta-v9-release-2026-09-28`, based on staged
+  v8 source `4302673ad8508925c069b26ba8dcc20acaf93c7a`. Eoin approves publishing v9.
+  V8 was staged but not promoted before the new request; live remains v7. Its
+  interrupted HTTP run had network timeouts, not content mismatches; v9 gets fresh checks.
+- Frozen16 supplied source files; SHA256SUMS16/16. Add contact-clue.html and
+  running-around.html, update fifteen-lesson menu. Prior13 source lesson files
+  match v8; Second Serve will become newly public alongside the two v9 lessons.
+- Retain established absolute menu links and callback-safe run/tick/Replay repairs.
+  Prior13 canonical lesson bytes unchanged from stagedv8; twelve live lessons
+  remain byte-identical to v7. Main application unchanged. Source originals untouched.
+- Noindex on16 pages, no homepage link, no ignore/audit changes required. Source
+  and release checksum manifests kept separately; no new content/scene edits.
+- Fresh rollback baseline: `dpl_993CdEJUz58UuXJVQVAkj3WEqoTF`, source
+  `c9834f09f8cc61e0d0b949b18d7de740aa2583be`,
+  https://gamesharp-tennis-rhat6eno6-eoinlynn-5978s-projects.vercel.app .
+  Automatic custom-domain assignment remains disabled. Migration pending.
+- Stage with --prod --skip-domain, verify exact files/all menu paths and all three
+  newly public lessons in phone-sized Chromium, then promote the same artifact.
+  Physical phone/Safari unavailable; no independent physics/coaching approval implied.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v9-release-2026-09-28/`.
+  Status: prepared, not staged/promoted. No main push/merge or deletion.
+  Unrelated motion-search.md preserved untracked and excluded by *.md.
