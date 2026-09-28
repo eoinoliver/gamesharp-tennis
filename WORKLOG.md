@@ -808,3 +808,26 @@
 - Completion log is pushed on its own branch without another deployment. No main
   push/merge; migration pending. motion-search.md untouched/untracked/excluded.
   Nothing deleted or archived.
+
+
+## 28 September 2026 — approved beta v12 release claim
+
+- Owner: Codex; branch `codex/tennis-beta-v12-release-2026-09-28`, based on v11
+  completion log44bcc9a. Eoin explicitly approves publishing v12.
+- Frozen17 supplied files, SHA256SUMS17/17 OK. All16 lesson pages rebuilt with
+  new lean athletic player/headband/wristband and Behind-you default camera;
+  High Ball, Second Serve and Contact Clue retain their authored camera choices.
+  Choosing view lifts for readable targets. Menu unchanged from v11.
+- Preserve live absolute links and callback-safe run/tick/Replay fixes, plus
+  Predict cancelFlow/later fix. No new integration fixes; original source untouched.
+  Separate source/release manifests document exact byte differences.
+- All17 pages retain noindex; homepage remains unlinked. Main app unchanged.
+  Verify authored content/scenes unchanged independently; check all16 browser flows.
+- Rollback baseline: v11 `dpl_55zxSnUx6oudtfpYVcyHHforjTqx`, source
+  `d0a440fc7e10c11b5b68447fc54ce68906b1b726`; rechecked via live API before stage.
+  Automatic domain assignment OFF. Stage --prod --skip-domain -> verify -> promote.
+- Phone-sized Chromium390x664 and representative desktop; physicalphone/Safari
+  unavailable. No independent coaching/physics assessment.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v12-release-2026-09-28/`.
+  Status: prepared; not staged/promoted. No main push/merge; migration pending.
+  Existing motion-search.md preserved untracked/excluded. Nothing deleted.
