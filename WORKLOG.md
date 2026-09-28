@@ -757,3 +757,54 @@
   Predict transition/type-in/shared completion timers on each step/replay. Lesson
   text, answers, scenes, camera/rendering code and delay durations are unchanged.
   A replacement stage is required; first stage will not be promoted.
+
+
+## 28 September 2026 — beta v11 live; verification and handoff
+
+- Owner: Codex. User explicitly approved v11. Released v9 -> v11 directly; v10
+  was not separately published. V11 includes Predict the Point plus15 rebuilt Daily
+  lessons. Source branch `codex/tennis-beta-v11-release-2026-09-28`, commit
+  `d0a440fc7e10c11b5b68447fc54ce68906b1b726`; pushed and remote SHA verified.
+- Live: https://www.gamesharptennis.com/beta/ . Deployment
+  `dpl_55zxSnUx6oudtfpYVcyHHforjTqx`, https://gamesharp-tennis-72vvdpdro-eoinlynn-5978s-projects.vercel.app .
+  Canonical CLI stage -> verify -> promote; same Production artifact promoted
+  without rebuilding. Automatic production-domain assignment remains OFF.
+- SHA256SUMS **17/17 OK** before publication. Frozen source retained; originals
+  untouched. Published17 files match separate release hashes. Noindex,nofollow
+  preserved on all17 pages; homepage remains unlinked and byte-identical.
+- Existing navigation/run/tick/Replay fixes retained with v11 finaleFull behavior.
+  All15 existing LESSON blocks/scene data remain unchanged. Source and release
+  hashes differ only through documented integration repairs.
+- First stage `dpl_Hh7pUUriM97W2zcKS9dG41BJeT2e` was NOT promoted.
+  Predict Back/Replay races were reproduced there. Predict-only timer lifecycle
+  correction cancels delayed transitions/type-in/shared callbacks on restart; no
+  text, answer, scene, camera or timing-duration changes.7 independent targeted
+  checks and4 native final-stage race checks pass.
+-225/225 main contract tests and4 audits pass on initial source0df091b; dependency
+  equivalence proves unchanged main runtime/tools/tests/config at finalcommit.
+  Original run attribution retained; Predict fix has separate targeted evidence.
+- Both final-stage and public HTTP **96/96**:47 main static routes,16 lessons,
+  3 menu routes,26 excluded paths,4 share probes. Exact body hashes verified.
+ 48 menu round trips pass on final stage.
+- All15 Daily lessons/45 decisions passed139 phone checks at390x664; wrong-choice
+  interrupted Replay and alternate-demo answer retention passed2 further checks.
+  Their first-stage browser evidence retains its original identity; exact response
+  SHA equality proves all15 same bytes on replacement stage. No results relabelled.
+- Predict final stage:28 flow/layout/control checks plus4 race checks. All3 reads,
+  tracers, point pauses, review, wrong-choice branch, fullscreen camera controls
+  and airborne toss inspected. Desktop1100x900 first read/layout checked.
+  Public:7 Predict checks plus11 complete Second Serve checks, no page errors.
+- Primary visual inspection covered all15 Daily first-question screenshots,
+  representative fullscreen views and Predict read/review/toss/desktop states.
+  Existing normal-card Overhead/Their view framing can clip players; source
+  comparison indicates pre-v11 behavior. Fresh text/geometry checks did not
+  reproduce initial screenshot clipping; its precise capture cause is unproven.
+- Limitations: no physical phone/Safari or independent coaching/physics approval;
+  HTTP tests do not prove generated function-bundle equivalence. Bounded runtime
+  error-level scan found one existing DEP0169 warning on /s/Q004 (HTTP200).
+- Rollback remains v9 `dpl_5EyRoeSSn34UwR9aWbH5o3kbDxtX`.
+  Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v11-release-2026-09-28/FINAL-VERIFICATION.json`.
+  Source/release manifests, repair patches, all reports and screenshots alongside.
+- Completion log is pushed on its own branch without another deployment. No main
+  push/merge; migration pending. motion-search.md untouched/untracked/excluded.
+  Nothing deleted or archived.
