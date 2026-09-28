@@ -750,3 +750,10 @@
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v11-release-2026-09-28/`.
   Status: prepared; not staged or promoted. No main push/merge.
   Unrelated motion-search.md preserved untracked/excluded; nothing deleted.
+
+- Staged verification found two Predict-only navigation races: Back during the
+  answer delay jumped forward again; Replay during a read pause allowed old/new
+  timers to restart playback. Reproduced in stage-predict-races.json. Fix cancels
+  Predict transition/type-in/shared completion timers on each step/replay. Lesson
+  text, answers, scenes, camera/rendering code and delay durations are unchanged.
+  A replacement stage is required; first stage will not be promoted.

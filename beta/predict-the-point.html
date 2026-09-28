@@ -905,6 +905,13 @@ fitView();NARROW.addEventListener?.("change",fitView);addEventListener("resize",
 /* ---------- Predict the Point: answer every read first, then watch the whole point ---------- */
 function setupPredict(){
   const P=LESSON.predict, K=P.scene; let savedTrail=null, typeT=[];
+  let flowGeneration=0; const flowTimers=new Set();
+  function later(fn,delay){const generation=flowGeneration;
+    const timer=setTimeout(()=>{flowTimers.delete(timer);if(generation===flowGeneration)fn();},delay);
+    flowTimers.add(timer);}
+  function cancelFlow(){flowGeneration++;flowTimers.forEach(clearTimeout);flowTimers.clear();
+    typeT.forEach(clearTimeout);typeT=[];
+    clearTimeout(stopTimer);stopTimer=null;pendingStop=null;onStop=null;stopGeneration++;}
   // read the sentence in, a word at a time, so the eye follows it
   function typeIn(el,html,done,wps){typeT.forEach(clearTimeout);typeT=[];
     const words=html.split(/\s+/).filter(Boolean); el.innerHTML=words.map(w=>`<span class="w">${w}</span>`).join(" ");
@@ -917,6 +924,7 @@ function setupPredict(){
     return segs.slice(0,3).map(f=>{const q=sc.ball[f]||sc.ball[f+1];return q?[q[0],q[1],q[2]]:[0,-11,1];});})();
   const okAt=i=>ans[i]!=null&&(LETTERS.indexOf(ans[i])===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(ans[i])));
   startStep=function(i){
+    cancelFlow();
     step=i; chosen=null; answered=false; showTargets=null; showDots=false; done=false;
     $("wrapup").hidden=true;
     if(i===3){watchPoint();return;}
@@ -929,7 +937,7 @@ function setupPredict(){
     pick=X=>{ans[i]=X; optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
       const land=SC[S.scene+X].info.shot.land;
       window.__trail.push({from:hitFrom[i],to:land,h:hitFrom[i][2],arc:i===0?0.4:1,X,col:"#c8a84b",t0:performance.now()});
-      setTimeout(()=>startStep(i+1),1700);};
+      later(()=>startStep(i+1),1700);};
     typeIn($("sitTx"),S.sit,enableAsk);   // the options open once the situation has been read in
   };
   function chip(k){const S=LESSON.steps[k],ok=okAt(k); typeIn($("sitTx"),(P.says&&P.says[k])||S.payoff,null,6);   // say what just happened const tr=savedTrail[k]; if(tr){window.__trail.push({...tr,col:ok?"#7fbf7a":"#e05252",t0:performance.now()});}
@@ -940,8 +948,8 @@ function setupPredict(){
     paintRail(LESSON.steps.map((s,j)=>`${j+1} ${s.short}`)); setInk(""); stageInView();
     let k=0;
     const next=()=>{
-      if(k<readAt.length){const from=k?readAt[k-1]:0; run(K,from,readAt[k],()=>{chip(k);setRail(k+1);k++;setTimeout(next,1700);});}
-      else run(K,readAt[readAt.length-1],SC[K].frames-1,()=>setTimeout(review,600));};
+      if(k<readAt.length){const from=k?readAt[k-1]:0; run(K,from,readAt[k],()=>{chip(k);setRail(k+1);k++;later(next,1700);});}
+      else run(K,readAt[readAt.length-1],SC[K].frames-1,()=>later(review,600));};
     next();
   }
   function review(){
