@@ -688,3 +688,43 @@
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v9-release-2026-09-28/`.
   Status: prepared, not staged/promoted. No main push/merge or deletion.
   Unrelated motion-search.md preserved untracked and excluded by *.md.
+
+
+## 28 September 2026 — beta v9 live; verification and handoff
+
+- Owner: Codex. Published approved v9 via canonical CLI stage -> verify -> promote;
+  no main push/merge. Source branch `codex/tennis-beta-v9-release-2026-09-28`,
+  source commit `997ca94f07d5ed70605d8e08c1cb295d362fb8db` (pushed and remote SHA verified).
+- Live: https://www.gamesharptennis.com/beta/ ; apex redirects there.
+  Production deployment `dpl_5EyRoeSSn34UwR9aWbH5o3kbDxtX`;
+  https://gamesharp-tennis-gywehwxm9-eoinlynn-5978s-projects.vercel.app .
+  Same staged artifact promoted without rebuilding. Automatic domain assignment
+  remains disabled. V8 was staged but never promoted; live moved from v7 to v9.
+- Supplied SHA256SUMS: **16/16 OK** before publication. Separate release hashes
+  verify all16 live pages after established absolute-link and callback-safe
+  run/tick/Replay integration fixes. Source originals untouched. New v9 lessons:
+  contact-clue.html and running-around.html; Second Serve from v8 is also newly live.
+- Prior13 canonical lessons unchanged vs v8; prior12 live lessons unchanged vs v7.
+  Main application static bytes unchanged; all16 beta pages retain noindex,nofollow
+  and homepage has no beta link. No new ignore/audit/content edits.
+- Local: 225/225 tests; trust audit, connected9 journeys/22 scenes, share data and
+  review fingerprints pass. Existing trust lengthTell warning unchanged.
+- Staged and public HTTP: **95/95 each** (47 main static routes,15 beta lessons,
+  3 menu forms,26 excluded paths,4 share probes). Exact response hashes checked.
+  All45 native menu round trips pass across /beta, /beta/, /beta/index.html.
+- Staged browser:35 checks across all3 newly public lessons. Phone390x664 covers
+  all3 decisions,2x2 options, Next without scrolling, play/pause, camera, fullscreen
+  and Why; Second Serve/Running Around include wrong-answer interrupted Replay
+  and alternate demonstrations. Contact Clue deliberately holds at contact.
+  Desktop1100x900 first-question/controls and visual screenshots reviewed.
+- Public browser:33 checks,3 complete correct-answer journeys, no page errors.
+  Physical phone/Safari not tested; no independent coaching/physics validation.
+  HTTP tests do not establish generated function-bundle equivalence.
+- Runtime error-level scan: one existing DEP0169 url.parse deprecation warning on
+  /s/Q004, which returned200; no new error observed in the bounded scan.
+- Rollback retained: `dpl_993CdEJUz58UuXJVQVAkj3WEqoTF` (v7).
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v9-release-2026-09-28/FINAL-VERIFICATION.json`.
+  Source/release manifests, raw checks, browser reports and screenshots alongside.
+- Completion log goes through this follow-up branch; no new deployment for logs.
+  Migration remains pending. Unrelated motion-search.md stays untracked/excluded.
+  Nothing deleted or archived.
