@@ -831,3 +831,11 @@
 - Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v12-release-2026-09-28/`.
   Status: prepared; not staged/promoted. No main push/merge; migration pending.
   Existing motion-search.md preserved untracked/excluded. Nothing deleted.
+
+- First-stage visual review found a v12 regression: elevated choosing camera
+  cropped required player/contact evidence and Recovery answer targets. First
+  stage will not be promoted. A projection-fit repair on12 ordinary Daily pages
+  keeps actors/contact/target anchors in frame while reserving control space.
+  Behind-you defaults, player appearance, content/scenes and4 specialized pages
+  stay unchanged. Source originals untouched; separate repair patch/manifests.
+  Recheck all affected decisions before promotion of a replacement stage.

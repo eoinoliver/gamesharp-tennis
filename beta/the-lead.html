@@ -585,6 +585,25 @@ function fitFull(){window.__pc=null; if(!isFull()) return; const C=camI===0&&LES
     const u=q.x/q.z, v=q.y/q.z; x0=Math.min(x0,u);x1=Math.max(x1,u);y0=Math.min(y0,v);y1=Math.max(y1,v);}
   FOCAL=Math.min(VW*0.96/(x1-x0), VH*0.94/(y1-y0));
   window.__pc=[VW/2-FOCAL*(x0+x1)/2, VH/2+FOCAL*(y0+y1)/2];}
+// Keep the lifted choosing view's players, contact and answer targets inside the frame.
+function fitChoosing(you,opp){
+  if(!showTargets||answered||window.__camOverride) return;
+  const C=camI===0&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];
+  if(!C.follow) return;
+  const points=[];
+  for(const a of [you,opp]) if(a){points.push(...a.pose,a.rq.centre,add(a.pose[I.head],[0,0,0.42]));}
+  const lands=[...LETTERS].map(X=>SC[showTargets+X].info.shot.land), dx=[0,0,0,0];
+  for(let a=0;a<4;a++) for(let b=a+1;b<4;b++) if(Math.hypot(lands[a][0]-lands[b][0],lands[a][1]-lands[b][1])<1.0){const s=lands[a][0]<=lands[b][0]?1:-1;dx[a]-=0.45*s;dx[b]+=0.45*s;}
+  lands.forEach((p,i)=>points.push([p[0],p[1],0.006],[p[0]+dx[i],p[1],0]));
+  const ball=ballAt(SC[scene],t);if(ball)points.push(ball);
+  const q=points.map(toCam);if(!q.length||q.some(p=>p.z<=ZNEAR||![p.x,p.y,p.z].every(Number.isFinite)))return;
+  const us=q.map(p=>p.x/p.z),vs=q.map(p=>p.y/p.z),u0=Math.min(...us),u1=Math.max(...us),v0=Math.min(...vs),v1=Math.max(...vs);
+  if(u1-u0<1e-6||v1-v0<1e-6)return;
+  const left=48,right=48,top=isFull()?140:48,bottom=isFull()?48:110;
+  const width=VW-left-right,height=VH-top-bottom;if(width<=0||height<=0)return;
+  FOCAL=Math.min(FOCAL,width/(u1-u0),height/(v1-v0));
+  window.__pc=[left+width/2-FOCAL*(u0+u1)/2,top+height/2+FOCAL*(v0+v1)/2];
+}
 function fullView(){ if(isFull()){const r=$("stage").getBoundingClientRect(); if(r.width>0){VH=Math.round(VW*r.height/r.width); svg2.setAttribute("viewBox",`0 0 ${VW} ${VH}`);}} else fitView();}
 function fitView(){VH=NARROW.matches?PHONE_VH:470;CYF=NARROW.matches?PHONE_CYF:0.55;
   // phone: the cue rail moves into the ink strip (they take turns), the tools float on the stage
@@ -791,7 +810,7 @@ function finishLesson(){
 /* ---------- render ---------- */
 function render(){
   const sc=SC[scene], g=t, you=actorAt(sc,"you",g), opp=actorAt(sc,"opp",g);
-  setCamera(you); buildBasis(); fitFull();
+  setCamera(you); buildBasis(); fitFull(); fitChoosing(you,opp);
   const frag=document.createDocumentFragment(); drawCourt(frag);
   // last point's reply, as evidence
   if(scene==="daily1"){const E=sc.info.evidence;for(let i=1;i<E.length;i++){if(E[i][2]<0.02&&i<E.length-1)continue;
