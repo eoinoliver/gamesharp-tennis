@@ -839,3 +839,52 @@
   Behind-you defaults, player appearance, content/scenes and4 specialized pages
   stay unchanged. Source originals untouched; separate repair patch/manifests.
   Recheck all affected decisions before promotion of a replacement stage.
+
+
+## 28 September 2026 — beta v12 published and verified
+
+- Owner: Codex. Eoin approved this v12 publication. Supplied SHA256SUMS passed
+  17/17 in the original folder and frozen evidence copy; originals unchanged.
+- Live: https://www.gamesharptennis.com/beta/ . Promoted the verified Production
+  artifact `dpl_B7MNtqnjn6E9b9yMpiD5bWSpE4wN`, from release commit
+  `05dada7872e1148db163a018122bbd7d0e065e21`, branch
+  `codex/tennis-beta-v12-release-2026-09-28`. No rebuild during promotion.
+  Live API confirms READY/PROMOTED; automatic domain assignment remains OFF.
+- All sixteen lessons use v12's new player rendering and default-camera changes.
+  Menu unchanged from v11; all lesson content and animation data unchanged.
+  Noindex retained on all seventeen pages; no homepage link. Main app unchanged.
+- Retained published absolute menu links, callback-safe run/tick/Replay handling,
+  and Predict flow cancellation. Source and release hashes remain separately
+  recorded; the release is not byte-identical to the supplied source files.
+- First candidate `dpl_ENKC61rD3RynGtcL9comeBLznyGB` was not promoted: native
+  review found choosing-view clipping of players/contact and Recovery targets.
+  A bounded projection-fit correction on twelve ordinary Daily pages resolves
+  those blockers in normal/fullscreen views. Camera defaults, player design,
+  content/data, and four specialized lesson pages remain otherwise unchanged.
+  Exact inverse-removal review proves the repair scope.
+- Verification: 96/96 staged and 96/96 public HTTP checks, including exact raw
+  response hashes, main-app baseline comparison and exclusions; 48/48 menu
+  navigation checks; fifteen Daily lessons x three decisions with controls,
+  2 x 2 options, reachable Next, Replay preservation and 45 native screenshots;
+  29 ordinary target decisions with actor/target containment; representative
+  desktop and targeted fullscreen checks; Predict 33 main plus six race checks;
+  unauthenticated public Predict flow/controls and Second Serve's 11 checks.
+  All seventeen inline-script sets parse; 116 geometry/guard cases pass.
+- The five repository CI checks, including 225 unit tests, passed at first-stage
+  c4470d5. They were not rerun for the projection-only repair: independent Git
+  comparison proves main runtime, tests, tools and configuration are unchanged.
+- Limits: phone-sized Chromium emulation and desktop, not physical phone/Safari.
+  Forehand Bill/Winner A/B labels remain close in normal phone view, judged
+  distinguishable in native screenshots; measured text-box gaps do not prove
+  stroke-inclusive spacing. High Ball and Contact Clue retain their authored
+  framing limitations. No new coaching/physics certification or generated
+  function-bundle equivalence claim. Bounded error-level scan found one known
+  DEP0169 warning on withheld /s/Q065; its 404 matches the previous live baseline.
+- Rollback: v11 `dpl_55zxSnUx6oudtfpYVcyHHforjTqx`.
+  Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v12-release-2026-09-28/FINAL-VERIFICATION.json`.
+  Source/release manifests, repair patch, reports and screenshots alongside;
+  failed first-stage evidence preserved separately under `first-stage/`.
+- Completion log branch: `codex/tennis-beta-v12-release-log-2026-09-28`, pushed
+  without another production deployment. No main push/merge; migration pending.
+  Existing motion-search.md stays untouched, untracked and excluded. Nothing
+  deleted or archived from the project.
