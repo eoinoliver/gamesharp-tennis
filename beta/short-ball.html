@@ -92,6 +92,15 @@ button{font:inherit}
 .opt.wrong{border-color:rgba(224,112,112,.74);background:rgba(224,112,112,.10)}
 .opt.wrong .l{background:var(--red);color:#170707}
 .opt.hide{display:none}
+.w{opacity:0;transition:opacity .28s ease}.w.on{opacity:1}
+.setup .w.hot{color:#f3d68a}
+.opt.picked{border-color:rgba(200,168,75,.85);background:rgba(200,168,75,.12);color:#fff}
+.opt.picked .l{background:var(--gold);color:#120e04}
+.review{margin:10px 0 0;padding:10px 0 0;border-top:1px solid rgba(255,255,255,.08)}
+.review .rq{font-size:12px;opacity:.7;margin:0 0 2px}
+.review .ra{margin:0 0 4px}
+.review .ok{color:#8fd49a}.review .no{color:#f08a8a}
+.review button{margin-top:4px}
 
 /* feedback */
 .fb{margin:10px 0 0;padding:11px 13px;border-left:2px solid var(--green);border-radius:4px 13px 13px 4px;background:rgba(89,189,112,.075);animation:rise .32s ease-out both}
@@ -250,7 +259,7 @@ function buildBasis(){
 }
 function toCam(p){const d=sub(p,basis.C);return {x:dot(d,basis.r),y:dot(d,basis.u),z:dot(d,basis.f)};}
 function proj(c){ if(c.z<ZNEAR) window.__nearViolations=(window.__nearViolations||0)+1;
-  return [VW/2+FOCAL*c.x/c.z, VH*CYF-FOCAL*c.y/c.z];}
+  return [(window.__pc?window.__pc[0]:VW/2)+FOCAL*c.x/c.z, (window.__pc?window.__pc[1]:VH*CYF)-FOCAL*c.y/c.z];}
 function P(p){const c=toCam(p);return c.z>ZNEAR?{s:proj(c),z:c.z}:null;}
 function el_(t,a){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
 function clipPoly(c){const out=[];for(let i=0;i<c.length;i++){const a=c[i],b=c[(i+1)%c.length];
@@ -377,8 +386,10 @@ function drawCourt(frag){
   quad(frag,[[-Dw,-L,0],[Dw,-L,0],[Dw,L,0],[-Dw,L,0]],"var(--court)");
   quad(frag,[[-d2,-l2,0],[d2,-l2,0],[d2,l2,0],[-d2,l2,0]],"var(--court-in)");
   const BW=4.4,BH=0.72;
-  planeText(frag,"GAMESHARP",[-BW/2,-l2-2.7,0.005],[1,0,0],[0,1,0],BW,BH,BRAND,.34);
-  planeText(frag,"GAMESHARP",[-BW/2,l2+1.6,0.005],[1,0,0],[0,1,0],BW,BH,BRAND,.42);
+  // painted to read from the camera's end of the court (seen from their end, it turns round)
+  const FL=cam&&cam.az>0, pt=(y,op)=>FL?planeText(frag,"GAMESHARP",[BW/2,y+BH,0.005],[-1,0,0],[0,-1,0],BW,BH,BRAND,op):planeText(frag,"GAMESHARP",[-BW/2,y,0.005],[1,0,0],[0,1,0],BW,BH,BRAND,op);
+  const low=cam&&cam.el<20;   // a low camera sits right over the logo at its own end: leave that one out
+  if(!(low&&!FL)) pt(-l2-2.7,.34); if(!(low&&FL)) pt(l2+1.6,.42);
   const ln=(a,b)=>seg(frag,[a[0],a[1],0],[b[0],b[1],0],"var(--court-line)",1.5);
   ln([-d2,-l2],[d2,-l2]);ln([-d2,l2],[d2,l2]);ln([-d2,-l2],[-d2,l2]);ln([d2,-l2],[d2,l2]);
   ln([-S,-l2],[-S,l2]);ln([S,-l2],[S,l2]);ln([-S,-V],[S,-V]);ln([-S,V],[S,V]);ln([0,-V],[0,V]);
@@ -404,7 +415,7 @@ function label(frag,p,txt,col,size,op,dy){const q=P(p);if(!q)return;
     stroke:"#07130a","stroke-width":3.2*LSC(),"paint-order":"stroke"});e.textContent=txt;frag.appendChild(e);}
 
 /* ---------- actors: captured clips placed on court ---------- */
-const PRE={fh:70,fhhi:70,fhret:70,lowfv:55,bh:34,serveW:0};
+const PRE={bhChest:34,bhHigh:34,bhHigher:34,fh:70,fhhi:70,fhret:70,lowfv:55,bh:34,serveW:0,serveT:0,serveB:0,bv:60,sm:90,fvhi:55};
 function prep(sc){
   if(sc._p) return sc._p; const out={};
   for(const [name,segs] of Object.entries(sc.actors)){
@@ -433,8 +444,12 @@ function clipAt(c,f){f=clamp(f,1,c.frameCount);const i=Math.floor(f),u=f-i,j=Mat
 // Holds are a neutral ready stance (the forehand's first frame), whatever clip the hold names.
 function localAt(w,g){const r=w.fixed?clipAt(CL.fh,1):clipAt(w.c,g-w.s.start+1);r.T=w.s.T;r.yaw=w.s.yaw;return r;}
 function worldOf(L){
-  const c=Math.cos(L.yaw),s=Math.sin(L.yaw),R=p=>[c*p[0]-s*p[1],s*p[0]+c*p[1],p[2]],X=p=>{const r=R(p);return [r[0]+L.T[0],r[1]+L.T[1],r[2]];};
-  return {pose:L.pose.map(X),axis:R(L.rq.axis),lateral:R(L.rq.lateral),centre:X(L.rq.centre),fwd:R([0,1,0])};
+  const dz=L.T[2]||0;
+  const c=Math.cos(L.yaw),s=Math.sin(L.yaw),R=p=>[c*p[0]-s*p[1],s*p[0]+c*p[1],p[2]],X=p=>{const r=R(p);return [r[0]+L.T[0],r[1]+L.T[1],r[2]+dz];};
+  const pose=L.pose.map(X);
+  if(dz){for(const F of ["L","R"]){const H=pose[I["hip"+F]],K=pose[I["knee"+F]],A=pose[I["ankle"+F]],A0=[A[0],A[1],A[2]-dz];
+      const l1=len(sub(K,H)),l2=len(sub(A,K)),mid=lerp3(H,A0,0.5),r=ik2(H,A0,l1,l2,sub(K,mid));pose[I["knee"+F]]=r.knee;pose[I["ankle"+F]]=r.ankle;}}
+  return {pose,axis:R(L.rq.axis),lateral:R(L.rq.lateral),centre:X(L.rq.centre),fwd:R([0,1,0])};
 }
 const facingOf=P=>{const l=P[I.shoulderL],r=P[I.shoulderR];return Math.atan2(r[0]-l[0],-(r[1]-l[1]));}
 const wrapA=a=>{a=(a+Math.PI)%(2*Math.PI);if(a<0)a+=2*Math.PI;return a-Math.PI;};
@@ -461,6 +476,11 @@ function actorAt(sc,name,g){
     const n=W[i+1]; if(n&&g>w.b&&g<n.a){const A=worldOf(localAt(w,w.b)),B=worldOf(localAt(n,n.a)),u=smooth(w.b,n.a,g);
       Wd=footwork(blendWorld(A,B,u,away),A,B,u);break;}}
   if(!Wd) Wd=worldOf(localAt(W[W.length-1],W[W.length-1].b));
+  // split step: a small two-footed hop that lands at a chosen moment, then a brief load
+  if(name==="you"&&sc.info.splits) for(const [L,air] of sc.info.splits){
+    let dz=0; if(g>L-air&&g<L) dz=0.11*(air/26)*Math.sin(Math.PI*(g-(L-air))/air);
+    else if(g>=L&&g<L+10) dz=-0.035*Math.sin(Math.PI*(g-L)/10);
+    if(dz){Wd={...Wd,pose:Wd.pose.map((p,k)=>dz<0&&(k===I.ankleL||k===I.ankleR)?p:[p[0],p[1],p[2]+dz]),centre:[Wd.centre[0],Wd.centre[1],Wd.centre[2]+dz]};}}
   const axis=norm(Wd.axis), lateral=norm(sub(Wd.lateral,mul(axis,dot(Wd.lateral,axis))));
   return {pose:Wd.pose,rq:{w:Wd.pose[I.wristR],axis,lateral,centre:Wd.centre},fwd:norm(Wd.fwd)};
 }
@@ -526,9 +546,12 @@ function ballAt(sc,g){
   const n=sc.ball.length, f0=firstBall(sc);
   if(g>=f0){const i=Math.floor(g),u=g-i,a=sc.ball[Math.min(n-1,i)],b=sc.ball[Math.min(n-1,i+1)];
     if(!a) return null; return b?lerp3(a,b,u):a;}
-  const serve=sc.actors.you&&sc.actors.you[0]; if(!serve||serve.clip!=="serveW") return null;
+  // the server's toss: whoever's first segment is a serve (you or them)
+  let who=null,serve=null;
+  for(const w of ["you","opp"]){const s0=sc.actors[w]&&sc.actors[w].find(s=>!s.hold); if(s0&&s0.clip.startsWith("serve")&&(!serve||s0.start<serve.start)){who=w;serve=s0;}}
+  if(!serve) return null;
   const rel=serve.start+tossInfo(sc).releaseLocal-1, pc=sc.ball[f0];
-  const hand=g2=>{const a=actorAt(sc,"you",g2);return add(a.pose[I.wristL],[0,0,0.07]);};
+  const hand=g2=>{const a=actorAt(sc,who,g2);return add(a.pose[I.wristL],[0,0,0.07]);};
   if(g<=rel) return hand(g);
   const p0=hand(rel), T=(f0-rel)/100, tt=(g-rel)/100, vz=(pc[2]-p0[2]+4.905*T*T)/T;
   return [lerp(p0[0],pc[0],tt/T),lerp(p0[1],pc[1],tt/T),p0[2]+vz*tt-4.905*tt*tt];
@@ -544,15 +567,34 @@ const CAMS=[
 ];
 let camI=0;
 const NARROW=matchMedia("(max-width:600px)"), PHONE_VH=540, PHONE_CYF=0.489, PHONE_FOV=0.8;
+// Full screen on a phone: the stage takes the screen's shape, and fixed cameras zoom so the court fills it
+function fitFull(){window.__pc=null; if(!isFull()) return; const C=camI===0&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];
+  if(window.__camOverride) return;
+  if(camI===0&&LESSON.closeUp){const s=Math.min(VH/PHONE_VH,1.6); FOCAL*=s; window.__pc=[VW/2, VH/2]; return;}   // a close-up keeps its framing, just bigger
+  if(C.follow){const s=Math.min(VH/PHONE_VH,1.75); FOCAL*=s; window.__pc=[VW/2, VH-(PHONE_VH*(1-PHONE_CYF))*s*0.92]; return;}   // tall screen: zoom in, keep the lower part of the picture on screen
+  let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  for(const X of [-5.5,5.5]) for(const Y of [-14.2,14.2]) for(const Z of [0,2.0]){const q=toCam([X,Y,Z]); if(q.z<=ZNEAR) return;
+    const u=q.x/q.z, v=q.y/q.z; x0=Math.min(x0,u);x1=Math.max(x1,u);y0=Math.min(y0,v);y1=Math.max(y1,v);}
+  FOCAL=Math.min(VW*0.96/(x1-x0), VH*0.94/(y1-y0));
+  window.__pc=[VW/2-FOCAL*(x0+x1)/2, VH/2+FOCAL*(y0+y1)/2];}
+function fullView(){ if(isFull()){const r=$("stage").getBoundingClientRect(); if(r.width>0){VH=Math.round(VW*r.height/r.width); svg2.setAttribute("viewBox",`0 0 ${VW} ${VH}`);}} else fitView();}
 function fitView(){VH=NARROW.matches?PHONE_VH:470;CYF=NARROW.matches?PHONE_CYF:0.55;
   // phone: the cue rail moves into the ink strip (they take turns), the tools float on the stage
   const r=$("rail"); if(NARROW.matches){if(r.parentNode.id!=="inkRow")$("inkRow").prepend(r);} else if(r.parentNode.id==="inkRow") $("tools").prepend(r);svg2.setAttribute("viewBox",`0 0 ${VW} ${VH}`);}
+function serveMix(){const sc=SC[scene]; if(!sc) return 0; const W=prep(sc)["you"]; if(!W) return 0;
+  for(const w of W){if(w.fixed||!w.s.clip.startsWith("serve")) continue; const a=w.s.start+20, b=w.cG+35;
+    if(t>a-40&&t<b+40) return smooth(a-40,a,t)*(1-smooth(b,b+40,t));}
+  return 0;}
 function setCamera(you){
-  const C=CAMS[camI];
-  if(C.follow&&you){const h=you.pose[I.hips];cam={az:-90,el:11,d:12,fov:50,tgt:[h[0]*0.7,h[1]+4.5,0.9]};}
+  if(window.__camOverride){const O=window.__camOverride, c=NARROW.matches&&O.phone?O.phone:O.c; cam={...c,tgt:[...c.tgt]}; if(NARROW.matches&&!O.phone) cam.fov*=(window.__fovScale||PHONE_FOV); return;}
+  const C=camI===0&&typeof LESSON!=="undefined"&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];   // a lesson played deep behind the baseline can widen the broadcast view
+  if(C.follow&&you){const h=you.pose[I.hips], ph=NARROW.matches;cam={az:-90,el:ph?13:11,d:ph?11:12,fov:50,tgt:[h[0]*0.7,h[1]+(ph?3.3:4.5),0.9]};   // a phone is taller: keep you higher in the frame
+    // while you serve, pull back and up so the toss and the whole body stay in view
+    if(typeof isFull==='function'&&isFull()&&VH>VW){cam.el+=12;cam.d+=3;}   // tall full screen: look down more, so the court fills the height
+    const s=serveMix(); if(s>0){cam.az+=16*s;cam.el+=13*s;cam.d+=1*s;cam.tgt=[cam.tgt[0]*(1-s)+h[0]*s,cam.tgt[1]-2.0*s,0.9+0.8*s];}}   // from behind and to the right, so the body doesn't hide the toss
   else if(NARROW.matches&&C.phone){cam={...C.phone,tgt:[...C.phone.tgt]};return;}
   else cam={...C.c,tgt:[...C.c.tgt]};
-  if(NARROW.matches) cam.fov*=(window.__fovScale||PHONE_FOV);
+  if(NARROW.matches&&!C.follow) cam.fov*=(window.__fovScale||PHONE_FOV);   // the follow camera is already tight: keep its full view on a phone
 }
 
 
@@ -750,7 +792,7 @@ function startStep(i){
   paintRail(railFor(S)); paintAsk(S);
   pick=X=>choose(i,X,false);
   const key=S.reveal?S.scene:S.scene+"A", fr=SC[key].info.freeze;
-  run(key,0,fr,()=>{ if(!S.reveal) showTargets=S.scene; enableAsk(); });
+  run(key,SC[key].info.from||0,fr,()=>{ if(!S.reveal&&!S.noTargets) showTargets=S.scene; enableAsk(); });   // a later read in one point starts near its decision
 }
 // Play one option out. demo = watching the better option after a miss (the first answer still counts).
 function choose(i,X,demo){
@@ -786,7 +828,7 @@ function verdict(i,X,demo){
     if(!ok&&!demo){choose(i,corr,true);return;}
     const key=S.reveal?S.scene:S.scene+"A", fr=SC[key].info.freeze;
     chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
-    if(!S.reveal) showTargets=S.scene;
+    if(!S.reveal&&!S.noTargets) showTargets=S.scene;
     run(key,Math.max(0,fr-60),fr,enableAsk); stageInView();};
 }
 function finishLesson(){
@@ -798,18 +840,18 @@ function finishLesson(){
   w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${LESSON.memHTML}</div>
       <div class="score3">${ans.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
     <div class="blk"><div class="k">Take it to court</div><p><b>${LESSON.tomorrow}</b></p></div>
-    <div class="blk"><div class="k">Pro Lens · ${p.player}</div><p>${p.moment}</p><p><b>${p.read}</b></p>
-      <p class="src">Source: <a href="${p.url}">${p.src}</a></p></div>
-    <button class="next" id="redo">Start the lesson again</button>
-    <p class="credit">Swings are motion-captured from real players (Tennis-MoCap, Pulgar&iacute;n-Giraldo et al., <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>), then edited and placed on court. The racquet, the running and the ball flight are modelled.</p>`;
+    ${p?`<div class="blk"><div class="k">Pro Lens · ${p.player}</div><p>${p.moment}</p><p><b>${p.read}</b></p>
+      <p class="src">Source: <a href="${p.url}">${p.src}</a></p></div>`:""}
+    <button class="next" id="redo">${LESSON.redoLabel||"Start the lesson again"}</button>
+    <p class="credit">Swings are motion-captured from real players (Tennis-MoCap, Pulgar&iacute;n-Giraldo et al., <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>), then edited (a few lifted to a higher contact) and placed on court. The racquet, the running and the ball flight are modelled.</p>`;
   w.hidden=false; $("redo").onclick=()=>{ans=[null,null,null];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
-  {const k=LESSON.finaleScene;run(k,Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);}
+  {const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);}
 }
 
 /* ---------- render ---------- */
 function render(){
   const sc=SC[scene], g=t, you=actorAt(sc,"you",g), opp=actorAt(sc,"opp",g);
-  setCamera(you); buildBasis();
+  setCamera(you); buildBasis(); fitFull();
   const frag=document.createDocumentFragment(); drawCourt(frag);
   // last point's reply, as evidence
   if(scene==="daily1"){const E=sc.info.evidence;for(let i=1;i<E.length;i++){if(E[i][2]<0.02&&i<E.length-1)continue;
@@ -820,9 +862,9 @@ function render(){
   const cueOnEarly=fz0!=null&&St0.cues&&g>=fz0-3&&g<=fz0+10;
   // bounces and landings
   for(const m of sc.marks){if(g<m.frame)continue;const age=g-m.frame, p=[m.pos[0],m.pos[1],0.006];
-    const fin=m.kind==="land"||m.kind==="reply"||m.kind==="out"||m.kind==="rally";
-    const col=m.kind==="net"||m.kind==="out"?"var(--warn)":m.kind==="reply"?"#9fb8d6":m.kind==="rally"?"#f0ece3":fin?"var(--accent)":"var(--ball)";
-    const txtCol=m.kind==="out"?"#f08a8a":m.kind==="reply"?"#c9d8ea":m.kind==="rally"?"#f0ece3":fin?"#c8a84b":"#f0ece3";
+    const fin=m.kind==="land"||m.kind==="reply"||m.kind==="out"||m.kind==="rally"||m.kind==="contact";
+    const col=m.kind==="net"||m.kind==="out"?"var(--warn)":m.kind==="reply"?"#9fb8d6":(m.kind==="rally"||m.kind==="contact")?"#f0ece3":fin?"var(--accent)":"var(--ball)";
+    const txtCol=m.kind==="out"?"#f08a8a":m.kind==="reply"?"#c9d8ea":(m.kind==="rally"||m.kind==="contact")?"#f0ece3":fin?"#c8a84b":"#f0ece3";
     if(m.kind!=="net"){ring(frag,p,0.1+0.26*smooth(0,14,age),0.08+0.2*smooth(0,14,age),col,1.6,fin?0.95:0.35+0.4*(1-smooth(60,160,age)));
       if(fin) ring(frag,p,0.1,0.075,"none",0,.9,col);}
     const show=fin||age<130||(revealPattern&&m.label==="SHORT MIDDLE");
@@ -831,8 +873,8 @@ function render(){
   // evidence from earlier points: faint landing rings, one label
   if(sc.info.ghosts){let cx=0,cy=0;const G=sc.info.ghosts;
     for(const [x,y,l] of G){cx+=x/G.length;cy+=y/G.length;ring(frag,[x,y,0.006],0.22,0.17,sc.info.ghostCol||"rgba(240,236,227,.55)",1.4,.8);
-      if(l&&g<=sc.info.freeze+20) label(frag,[x,y+(y<0?-1.0:-1.1),0],l,"rgba(240,236,227,.85)",13,.9,0);}
-    if(sc.info.ghostLabel&&g<=sc.info.freeze+20) label(frag,[cx,cy+(cy<0?-1.4:-1.4),0],sc.info.ghostLabel,"rgba(240,236,227,.85)",14,.9,0);}
+      if(l&&g<=(sc.info.ghostUntil??sc.info.freeze+20)) label(frag,[x,y+(y<0?-1.0:-1.1),0],l,"rgba(240,236,227,.85)",13,.9,0);}
+    if(sc.info.ghostLabel&&g<=(sc.info.ghostUntil??sc.info.freeze+20)) label(frag,[cx,cy+(cy<0?-1.4:-1.4),0],sc.info.ghostLabel,"rgba(240,236,227,.85)",14,.9,0);}
   // ten tries of the chosen plan: where they land
   const DT=sc.info.dots;
   if(showDots&&DT){const nx=sc.marks.find(m=>m.frame>sc.info.freeze), t0=nx?nx.frame:sc.info.freeze;
@@ -841,10 +883,22 @@ function render(){
         ring(frag,[x,y,0.008],0.2,0.16,ok?"#7fbf7a":"#e05252",1.8,.95*a,ok?"rgba(127,191,122,.55)":"rgba(224,82,82,.55)");}
       const n=DT.filter(d=>d[2]).length; label(frag,[cx,cy-(cy>0?2.8:-2.8),0],`${n} OF 10 IN`,n>=9?"#9fd89a":n>=7?"#c8a84b":"#f08a8a",19,a,0);}}
   // decision targets
-  if(showTargets){for(let k=0;k<4;k++){const X=LETTERS[k], inf=SC[showTargets+X].info.shot, p=[inf.land[0],inf.land[1],0.006], on=chosen===X;
+  if(showTargets){const L=[...LETTERS].map(X=>SC[showTargets+X].info.shot.land), dx=[0,0,0,0];
+    for(let a=0;a<4;a++)for(let c=a+1;c<4;c++)if(Math.hypot(L[a][0]-L[c][0],L[a][1]-L[c][1])<1.0){const s=L[a][0]<=L[c][0]?1:-1;dx[a]-=0.45*s;dx[c]+=0.45*s;}   // keep close letters apart
+    for(let k=0;k<4;k++){const X=LETTERS[k], p=[L[k][0],L[k][1],0.006], on=chosen===X;
       if(chosen&&!on) continue;
       ring(frag,p,0.34,0.28,on?"var(--accent)":"rgba(240,236,227,.6)",on?2:1.3,on?.95:.75);
-      label(frag,[p[0],p[1],0],X,on?"#c8a84b":"#f0ece3",19,1,6);}}
+      label(frag,[p[0]+dx[k],p[1],0],X,on?"#c8a84b":"#f0ece3",19,1,6);}}
+  // Predict the Point: the picks so far, stitched on court as shot tracers
+  if(window.__trail) for(const tr of window.__trail){const a=Math.min(1,(performance.now()-tr.t0)/1000), e=a*a*(3-2*a), n=40, pts=[];
+    const at=u=>[lerp(tr.from[0],tr.to[0],u),lerp(tr.from[1],tr.to[1],u),lerp(tr.h,0.02,u)+1.6*u*(1-u)*tr.arc];
+    for(let k=0;k<=Math.round(n*e);k++) pts.push(at(k/n));
+    // a tracer: bright near its head, fading behind it; once it lands it settles to a steady line
+    for(let k=1;k<pts.length;k++){const behind=(pts.length-1-k)/n, op=a<1?Math.max(0.18,1-behind*2.2):.85;
+      seg(frag,pts[k-1],pts[k],tr.col,a<1?2.8:2.2,op);}
+    if(a<1&&pts.length){const hd=P(pts[pts.length-1]); if(hd){frag.appendChild(el_("circle",{cx:hd.s[0].toFixed(1),cy:hd.s[1].toFixed(1),r:9,fill:tr.col,opacity:.25}));
+      frag.appendChild(el_("circle",{cx:hd.s[0].toFixed(1),cy:hd.s[1].toFixed(1),r:3.6,fill:"#fff8dc"}));}}
+    if(a>=1){ring(frag,[tr.to[0],tr.to[1],0.006],0.34,0.28,tr.col,2,.95);label(frag,[tr.to[0],tr.to[1],0],tr.X,tr.col,19,1,6);}}
   // depth-sorted: net, bodies, ball
   const parts=[];
   parts.push({n:netGroup(),z:toCam([0,0,0.5]).z});
@@ -863,9 +917,9 @@ function render(){
     const qb=P(b);
     if(qb){parts.push({n:gtrail,z:qb.z+0.05});
       if(b[2]>0.05) ring(frag,[b[0],b[1],0.004],0.05,0.04,"none",0,.55,"rgba(0,0,0,.6)");
-      const rr=Math.max(2.8,FOCAL*0.033/qb.z);
-      parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:(rr*2.6).toFixed(1),fill:"var(--ball)",opacity:.18}),z:qb.z+0.01});
-      parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:rr.toFixed(1),fill:"var(--ball)",stroke:"#6f7d10","stroke-width":.6}),z:qb.z-0.02});}}
+      const toss=g<firstBall(sc), rr=Math.max(toss?3.6:2.8,FOCAL*0.033/qb.z), zb=toss?qb.z-3:qb.z;   // the toss is drawn in front of the server so it can always be seen
+      parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:(rr*2.6).toFixed(1),fill:"var(--ball)",opacity:toss?.28:.18}),z:zb+0.01});
+      parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:rr.toFixed(1),fill:"var(--ball)",stroke:"#6f7d10","stroke-width":.6}),z:zb-0.02});}}
   parts.sort((a,b)=>b.z-a.z); for(const {n} of parts) frag.appendChild(n);
   const St=mode==="daily"&&step<3?LESSON.steps[step]:null, fz=St&&scene.startsWith(St.scene)?SC[scene].info.freeze:null;
   const cueOn=fz!=null&&St.cues&&g>=fz-3&&g<=fz+10;
@@ -875,6 +929,9 @@ function render(){
   if(cueOn||!playing||g<160){const hp=a=>a&&add(a.pose[I.head],[0,0,0.42]);
     if(you) label(frag,hp(you),cueOn?"YOU \u00b7 "+St.cues.you:"YOU","#c8a84b",15,.95,0);
     if(opp) label(frag,hp(opp),cueOn?"THEM \u00b7 "+St.cues.opp:"THEM","#9fb8d6",15,.95,0);}
+  // timing flashes: THEIR HIT / LAND / GO
+  if(sc.info.flashes) for(const [f,who,txt] of sc.info.flashes){if(g<f||g>f+45)continue;const a=who==="you"?you:opp;if(!a)continue;
+    label(frag,add(a.pose[I.head],[0,0,1.25]),txt,who==="you"?"#e8f27a":"#c9d8ea",18,1-smooth(30,45,g-f),0);}
   // net fault
   for(const m of sc.marks) if(m.kind==="net"&&g>=m.frame){const bp=sc.ball[m.frame]||b;if(bp){const q=P(bp);
     if(q)frag.appendChild(el_("circle",{cx:q.s[0].toFixed(1),cy:q.s[1].toFixed(1),r:(8+10*smooth(0,20,g-m.frame)).toFixed(1),fill:"none",stroke:"#e05252","stroke-width":2.2,opacity:1-0.5*smooth(0,30,g-m.frame)}));}}
@@ -888,12 +945,12 @@ $("camBtn").onclick=()=>{camI=(camI+1)%CAMS.length;toast(CAMS[camI].n);};
 $("stage").onclick=()=>{if(t<stopAt){setPlaying(!playing);}};
 $("playBtn").onclick=()=>{if(t<stopAt) setPlaying(!playing); else $("again").click();};
 $("again").onclick=()=>{
-  if(done){const k=LESSON.finaleScene;run(k,Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
+  if(done){const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
   const S=LESSON.steps[step];
   if(!answered){
     zone.classList.add("reading");zone.classList.remove("on");
     $("askOpts").querySelectorAll(".opt").forEach(b=>{b.disabled=true;});
-    const key=S.reveal?S.scene:S.scene+"A";run(key,0,SC[key].info.freeze,()=>{if(!S.reveal)showTargets=S.scene;enableAsk();});return;}
+    const key=S.reveal?S.scene:S.scene+"A";run(key,0,SC[key].info.freeze,()=>{if(!S.reveal&&!S.noTargets)showTargets=S.scene;enableAsk();});return;}
   if(S.reveal) return;
   // Preserve feedback when Replay interrupts a choice, including the completion delay.
   const resume=onStop||pendingStop;
@@ -903,7 +960,7 @@ const FS_IN='<path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/>',
       FS_OUT='<path d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/>';
 const viewer=$("viewer");
 function isFull(){return !!(document.fullscreenElement||document.webkitFullscreenElement||viewer.classList.contains("full"));}
-function paintFs(){$("fsIcon").innerHTML=isFull()?FS_OUT:FS_IN;document.body.classList.toggle("noscroll",isFull());}
+function paintFs(){$("fsIcon").innerHTML=isFull()?FS_OUT:FS_IN;document.body.classList.toggle("noscroll",isFull());requestAnimationFrame(fullView);}
 async function exitFull(){if(document.fullscreenElement)await document.exitFullscreen().catch(()=>{});viewer.classList.remove("full");paintFs();}
 $("fsBtn").onclick=async()=>{
   if(isFull()){exitFull();return;}
@@ -912,7 +969,71 @@ $("fsBtn").onclick=async()=>{
 document.addEventListener("fullscreenchange",paintFs);
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&viewer.classList.contains("full")){viewer.classList.remove("full");paintFs();}});
 paintFs();
-fitView();NARROW.addEventListener?.("change",fitView);
+fitView();NARROW.addEventListener?.("change",fitView);addEventListener("resize",()=>{if(isFull())fullView();});
+
+/* ---------- Predict the Point: answer every read first, then watch the whole point ---------- */
+function setupPredict(){
+  const P=LESSON.predict, K=P.scene; let savedTrail=null, typeT=[];
+  // read the sentence in, a word at a time, so the eye follows it
+  function typeIn(el,html,done,wps){typeT.forEach(clearTimeout);typeT=[];
+    const words=html.split(/\s+/).filter(Boolean); el.innerHTML=words.map(w=>`<span class="w">${w}</span>`).join(" ");
+    const spans=[...el.querySelectorAll(".w")], dt=1000/(wps||5.5);
+    spans.forEach((s,k)=>typeT.push(setTimeout(()=>{s.classList.add("on");},k*dt)));
+    if(done) typeT.push(setTimeout(done,spans.length*dt+150));}
+  const readAt=P.reads.map(r=>typeof r==="string"?SC[r].info.freeze:r);
+  // where you strike each of the three shots, on the best line
+  const hitFrom=(()=>{const sc=SC[K], segs=(sc.actors.you||[]).filter(s=>!s.hold).map(s=>s.start+CL[s.clip].contactFrame-1);
+    return segs.slice(0,3).map(f=>{const q=sc.ball[f]||sc.ball[f+1];return q?[q[0],q[1],q[2]]:[0,-11,1];});})();
+  const okAt=i=>ans[i]!=null&&(LETTERS.indexOf(ans[i])===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(ans[i])));
+  startStep=function(i){
+    step=i; chosen=null; answered=false; showTargets=null; showDots=false; done=false;
+    $("wrapup").hidden=true;
+    if(i===3){watchPoint();return;}
+    const S=LESSON.steps[i];
+    $("count").textContent=`Read ${i+1} of 3`;
+    paintRail(i===0?[P.intro||"Picture the point"]:LESSON.steps.slice(0,i).map((s,j)=>`${j+1} ${s.short}: ${ans[j]||"–"}`)); setInk(i===0?"Answer all three, then watch":"");
+    paintAsk(S); zone.hidden=false;
+    scene=K; t=readAt[0]; stopAt=t; setPlaying(false);
+    window.__camOverride=P.askCam||null; if(i===0) savedTrail=null; window.__trail=(window.__trail||[]).slice(0,i); showTargets=S.scene;
+    pick=X=>{ans[i]=X; optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
+      const land=SC[S.scene+X].info.shot.land;
+      window.__trail.push({from:hitFrom[i],to:land,h:hitFrom[i][2],arc:i===0?0.4:1,X,col:"#c8a84b",t0:performance.now()});
+      setTimeout(()=>startStep(i+1),1700);};
+    typeIn($("sitTx"),S.sit,enableAsk);   // the options open once the situation has been read in
+  };
+  function chip(k){const S=LESSON.steps[k],ok=okAt(k); typeIn($("sitTx"),(P.says&&P.says[k])||S.payoff,null,6);   // say what just happened const tr=savedTrail[k]; if(tr){window.__trail.push({...tr,col:ok?"#7fbf7a":"#e05252",t0:performance.now()});}
+    setInk(ok?`Read ${k+1} · ${S.short}: you had it`:`Read ${k+1} · ${S.short}: you said ${ans[k]}, best is ${LETTERS[S.correct]}`,!ok);}
+  function watchPoint(){
+    window.__camOverride=null; savedTrail=(savedTrail&&savedTrail.length===3?savedTrail:(window.__trail||[])).map(x=>({...x})); window.__trail=[];   // redrawn read by read as the point plays
+    zone.hidden=true; $("count").textContent="The point"; typeIn($("sitTx"),P.watch||"Now watch the point you pictured.");
+    paintRail(LESSON.steps.map((s,j)=>`${j+1} ${s.short}`)); setInk(""); stageInView();
+    let k=0;
+    const next=()=>{
+      if(k<readAt.length){const from=k?readAt[k-1]:0; run(K,from,readAt[k],()=>{chip(k);setRail(k+1);k++;setTimeout(next,1700);});}
+      else run(K,readAt[readAt.length-1],SC[K].frames-1,()=>setTimeout(review,600));};
+    next();
+  }
+  function review(){
+    done=true; const n=[0,1,2].filter(okAt).length; typeT.forEach(clearTimeout);
+    $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook; setInk(`${n} of 3 read right`,false);
+    const w=$("wrapup");
+    w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${LESSON.memHTML}</div>
+      <div class="score3">${ans.map((a,i)=>`<i class="${okAt(i)?"ok":"no"}"></i>`).join("")}</div></div>
+      ${LESSON.steps.map((S,i)=>{const X=ans[i],ok=okAt(i);return `<div class="review"><p class="rq">Read ${i+1} · ${S.q}</p>
+        <p class="ra ${ok?"ok":"no"}">${ok?"✓":"✗"} You: ${S.opts[LETTERS.indexOf(X)]}</p><p>${S.lines[X]}</p>
+        ${ok?"":`<p><b>Best: ${S.opts[S.correct]}.</b> ${S.payoff}</p><button class="alt" data-watch="${i}">Watch your choice play out</button>`}</div>`;}).join("")}
+      <div class="blk"><div class="k">Take it to court</div><p><b>${LESSON.tomorrow}</b></p></div>
+      <button class="next" id="redo">${LESSON.redoLabel||"Play again"}</button>
+      <p class="credit">Swings are motion-captured from real players (Tennis-MoCap, Pulgar&iacute;n-Giraldo et al., <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>), then edited (a few lifted to a higher contact) and placed on court. The racquet, the running and the ball flight are modelled.</p>`;
+    w.hidden=false;
+    w.querySelectorAll("[data-watch]").forEach(bt=>bt.onclick=()=>{const i=+bt.dataset.watch,key=LESSON.steps[i].scene+ans[i],fr=SC[key].info.freeze;
+      stageInView(); setInk(`Read ${i+1}: your choice`,true); run(key,Math.max(0,(SC[key].info.from||fr-60)),SC[key].frames-1,null);});
+    $("redo").onclick=()=>{ans=[null,null,null];window.__trail=[];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
+  }
+  $("again").onclick=()=>{if(done||step===3){startStep(3);} };
+}
+if(LESSON.predict) setupPredict();
+
 $("lessonName").textContent=LESSON.title;
 startStep(0);
 requestAnimationFrame(tick);

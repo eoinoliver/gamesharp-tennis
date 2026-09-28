@@ -728,3 +728,25 @@
 - Completion log goes through this follow-up branch; no new deployment for logs.
   Migration remains pending. Unrelated motion-search.md stays untracked/excluded.
   Nothing deleted or archived.
+
+
+## 28 September 2026 — approved beta v11 release claim
+
+- Owner: Codex; branch `codex/tennis-beta-v11-release-2026-09-28`, based on v9
+  completion log63968c2. Eoin explicitly approves v11; skip separate v10 publication.
+- Frozen17 supplied files; SHA256SUMS17/17 OK. V11 includes Predict the Point and
+  rebuilds all16 lesson pages on the current engine. Menu unchanged vs v10, updated
+  vs livev9. Verify content preservation of prior15 lessons independently.
+- Preserve established absolute menu links and callback-safe run/tick/Replay fixes;
+  retain v11 finaleFull and camera/fullscreen improvements. Original source untouched.
+  Predict has its own replay flow and gets fresh dedicated verification.
+- Noindex on17 pages; no homepage link. Main application unchanged. No ignore/audit
+  configuration changes. Source and release checksum manifests kept separately.
+- Fresh rollback baseline: `dpl_5EyRoeSSn34UwR9aWbH5o3kbDxtX` (v9), source
+  `997ca94f07d5ed70605d8e08c1cb295d362fb8db`; automatic domain assignment OFF.
+- Stage canonical with --prod --skip-domain; verify all16 flows and new engine
+  controls, then promote the same artifact. Phone-sized Chromium only; no physical
+  phone/Safari or independent physics/coaching assessment. Migration still pending.
+- Evidence: `/Users/eoinlynn/Downloads/tennis-beta-v11-release-2026-09-28/`.
+  Status: prepared; not staged or promoted. No main push/merge.
+  Unrelated motion-search.md preserved untracked/excluded; nothing deleted.
