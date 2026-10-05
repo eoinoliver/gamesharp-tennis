@@ -209,11 +209,14 @@ function clipAt(c,f){f=clamp(f,1,c.frameCount);const i=Math.floor(f),u=f-i,j=Mat
   return {pose:A.map((p,k)=>lerp3(p,B[k],u)),
     rq:{axis:lerp3(RA.axis,RB.axis,u),lateral:lerp3(RA.lateral,RB.lateral,u),centre:lerp3(RA.centre,RB.centre,u)}};}
 // Holds are a neutral ready stance (the ready clip, else the forehand's first frame), whatever clip the hold names.
-function localAt(w,g){const r=w.fixed?clipAt(CL.ready||CL.fh,1):clipAt(w.c,g-w.s.start+1);r.T=w.s.T;r.yaw=w.s.yaw;return r;}
+function localAt(w,g){const r=w.fixed?clipAt(CL.ready||CL.fh,1):clipAt(w.c,g-w.s.start+1);r.T=w.s.T;r.yaw=w.s.yaw;r.mirror=w.s.mirror;return r;}
 function worldOf(L){
   const dz=L.T[2]||0;
-  const c=Math.cos(L.yaw),s=Math.sin(L.yaw),R=p=>[c*p[0]-s*p[1],s*p[0]+c*p[1],p[2]],X=p=>{const r=R(p);return [r[0]+L.T[0],r[1]+L.T[1],r[2]+dz];};
+  // a left-handed player (segment marked mirror): the captured swing mirrored side to side before it is placed
+  const Mi=L.mirror?p=>[-p[0],p[1],p[2]]:p=>p;
+  const c=Math.cos(L.yaw),s=Math.sin(L.yaw),R=p=>{p=Mi(p);return [c*p[0]-s*p[1],s*p[0]+c*p[1],p[2]];},X=p=>{const r=R(p);return [r[0]+L.T[0],r[1]+L.T[1],r[2]+dz];};
   const pose=L.pose.map(X);
+  if(L.mirror) for(const n of ["shoulder","elbow","wrist","hip","knee","ankle"]){const l=I[n+"L"],r=I[n+"R"],t=pose[l];pose[l]=pose[r];pose[r]=t;}   // keep left/right anatomical
   if(dz){for(const F of ["L","R"]){const H=pose[I["hip"+F]],K=pose[I["knee"+F]],A=pose[I["ankle"+F]],A0=[A[0],A[1],A[2]-dz];
       const l1=len(sub(K,H)),l2=len(sub(A,K)),mid=lerp3(H,A0,0.5),r=ik2(H,A0,l1,l2,sub(K,mid));pose[I["knee"+F]]=r.knee;pose[I["ankle"+F]]=r.ankle;}}
   return {pose,axis:R(L.rq.axis),lateral:R(L.rq.lateral),centre:X(L.rq.centre),fwd:R([0,1,0])};
@@ -249,7 +252,7 @@ function actorAt(sc,name,g){
     else if(g>=L&&g<L+10) dz=-0.035*Math.sin(Math.PI*(g-L)/10);
     if(dz){Wd={...Wd,pose:Wd.pose.map((p,k)=>dz<0&&(k===I.ankleL||k===I.ankleR)?p:[p[0],p[1],p[2]+dz]),centre:[Wd.centre[0],Wd.centre[1],Wd.centre[2]+dz]};}}
   const axis=norm(Wd.axis), lateral=norm(sub(Wd.lateral,mul(axis,dot(Wd.lateral,axis))));
-  return {pose:Wd.pose,rq:{w:Wd.pose[I.wristR],axis,lateral,centre:Wd.centre},fwd:norm(Wd.fwd)};
+  return {pose:Wd.pose,rq:{w:Wd.pose[W.some(w=>w.s.mirror)?I.wristL:I.wristR],axis,lateral,centre:Wd.centre},fwd:norm(Wd.fwd)};   // a lefty holds it in the left hand
 }
 /* ---------- footwork: run to the next spot instead of gliding in a ready stance ----------
    Between two shots the body travels from stance A to stance B. The feet step there: each step
