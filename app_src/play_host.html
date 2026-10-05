@@ -28,8 +28,61 @@
 .gs-intro b{font-size:14px}.gs-intro span{font-size:12.5px;color:rgba(244,241,232,.7)}
 .gs-intro.out{opacity:0;transition:opacity .5s}
 @keyframes gsIntro{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+/* ---- welcome (5 Oct): the brand moment over an auto-started lesson; motion ported from the legacy Home logo intro ---- */
+#gsw{position:fixed;inset:0;z-index:60;display:grid;place-items:center;overflow:hidden;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;
+  background:radial-gradient(80% 55% at 50% 40%,rgba(255,246,214,.09),rgba(0,0,0,0) 70%),linear-gradient(180deg,#030806 0%,#071a0d 45%,#04100a 100%);color:#f4f1e8}
+#gsw[hidden]{display:none}
+.gsw-in{display:grid;justify-items:center;text-align:center;transform:translateY(-3vh)}
+.gsw-mark{position:relative;font:clamp(52px,16vw,96px)/.9 "Bebas Neue",Impact,sans-serif;letter-spacing:.06em;padding-left:.06em;white-space:nowrap}
+.gsw-mark span{color:var(--gold,#c8a84b)}
+.gsw-mark em{font-style:normal;display:inline-block}
+.gsw-glint{position:absolute;inset:0;padding-left:.06em;opacity:0;pointer-events:none;background:linear-gradient(100deg,transparent 38%,rgba(255,238,178,.95) 50%,transparent 62%) no-repeat;background-size:260% 100%;-webkit-background-clip:text;background-clip:text}
+.gsw-glint,.gsw-glint *{color:transparent!important;text-shadow:none!important}
+.gsw-sport{margin-top:.7em;font:700 clamp(11px,3.3vw,15px) "DM Sans",sans-serif;letter-spacing:.55em;padding-left:.55em;color:rgba(244,241,232,.72)}
+.gsw-promise{margin-top:26px;font:500 clamp(14px,4.2vw,18px) "DM Sans",sans-serif;color:rgba(244,241,232,.8);opacity:0;transform:translateY(6px);transition:opacity .5s ease-out,transform .5s ease-out}
+.gsw-ball{position:absolute;left:0;top:0;width:22px;height:22px;opacity:0;pointer-events:none;will-change:transform,opacity;filter:drop-shadow(0 0 6px rgba(210,240,40,.9)) drop-shadow(0 2px 4px rgba(0,0,0,.55))}
+.gsw-ball svg{display:block;width:100%;height:100%}
+#gsw.full .gsw-mark{filter:blur(1.2px);opacity:.9}
+#gsw.full .gsw-mark em{transform:rotate(-5deg) translateX(1px)}
+#gsw.hit .gsw-mark{animation:gswFocus .65s cubic-bezier(.4,0,.2,1) forwards}
+#gsw.hit .gsw-mark em{animation:gswP .9s cubic-bezier(.2,.8,.4,1) forwards}
+#gsw.glint .gsw-glint{animation:gswGlint .55s ease-out forwards}
+#gsw.say .gsw-promise,#gsw.short .gsw-promise,#gsw.still .gsw-promise{opacity:1;transform:none}
+#gsw.short .gsw-promise,#gsw.still .gsw-promise{transition:none}
+#gsw.set .gsw-mark{animation:none;filter:none;opacity:1}#gsw.set .gsw-mark em{animation:none;transform:none;color:var(--gold,#c8a84b)}#gsw.set .gsw-ball{display:none}
+#gsw.wait .gsw-in{animation:gswPulse 1.4s ease-in-out infinite}
+#gsw.out{opacity:0;transform:scale(1.04);transition:opacity .4s ease-in,transform .4s ease-in;pointer-events:none}
+#gsw.still.out{transform:none;transition:opacity .2s}
+#gsw.gone{opacity:0;transition:none}
+@keyframes gswP{
+  0%  {transform:rotate(-5deg) translateX(1px);color:#fff9e8;text-shadow:0 0 7px #fff5b0,0 0 20px rgba(200,168,75,.9),0 0 40px rgba(200,168,75,.4)}
+  8%  {transform:rotate(-11deg) translateX(-3px) scaleX(.9) scaleY(1.1);color:#ffd96e;text-shadow:0 0 12px #fff5b0,0 0 28px rgba(200,168,75,.95),0 0 50px rgba(200,168,75,.5)}
+  22% {transform:rotate(2deg) translateX(2px) scaleX(1.04);color:#e8b84b;text-shadow:0 0 5px rgba(200,168,75,.65)}
+  40% {transform:rotate(-1deg) scaleX(1.01);color:#d4a645;text-shadow:0 0 2px rgba(200,168,75,.25)}
+  65%,100%{transform:none;color:var(--gold,#c8a84b);text-shadow:none}}
+@keyframes gswFocus{
+  0%  {filter:blur(1.2px) brightness(1) contrast(1);opacity:.9}
+  18% {filter:blur(.8px) brightness(.88) contrast(.95)}
+  52% {filter:blur(0) brightness(1.16) contrast(1.08);opacity:1}
+  100%{filter:none;opacity:1}}
+@keyframes gswGlint{0%{opacity:0;background-position:110% 0}12%,80%{opacity:1}100%{opacity:0;background-position:-10% 0}}
+@keyframes gswPulse{50%{opacity:.72}}
+@media (prefers-reduced-motion:reduce){#gsw *{animation:none!important;transition:none!important}}
 </style>
 <div id="loading"><div class="ld-in"><div class="ld-logo">GAME<span>SHARP</span></div><div class="ld-ball" aria-hidden="true"></div><div class="ld-tag">See clearer. Think sharper.</div><span class="ld-sr">Loading the lesson…</span></div></div>
+<!-- Welcome: only on auto-started visits (?auto). Decided here, before the scripts load, so the plain loader never flashes first.
+     The sport line is its own element so it can later cycle sports (TENNIS · GOLF); Tennis only for now. -->
+<div id="gsw" aria-hidden="true" hidden><div class="gsw-in"><div class="gsw-mark">GAME<span>SHAR<em>P</em></span><div class="gsw-glint">GAME<span>SHAR<em>P</em></span></div></div><div class="gsw-sport">TENNIS</div><div class="gsw-promise">See clearer. Think sharper.</div></div><div class="gsw-ball"><svg viewBox="0 0 22 22"><defs><radialGradient id="gswb" cx="34%" cy="31%" r="65%"><stop offset="0%" stop-color="#f8ff68"/><stop offset="60%" stop-color="#d2e83a"/><stop offset="100%" stop-color="#8aab20"/></radialGradient></defs><circle cx="11" cy="11" r="9.5" fill="url(#gswb)"/><path d="M4.5,8 Q11,10 17.5,8" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linecap="round"/><path d="M4,13.5 Q11,11.5 18,13.5" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linecap="round"/></svg></div></div>
+<script>
+(function(){
+  /* full: first auto-start of the calendar day (gs_welcome_day); short: later the same day; still: reduced motion */
+  var w=document.getElementById("gsw"); if(!w||!new URLSearchParams(location.search).has("auto")) return;
+  var d=new Date(), p=function(n){return String(n).padStart(2,"0");}, day=d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate()), m="full";
+  try{ if(matchMedia("(prefers-reduced-motion: reduce)").matches) m="still";
+       else if(localStorage.getItem("gs_welcome_day")===day) m="short"; else localStorage.setItem("gs_welcome_day",day); }catch(e){ m="short"; }
+  w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
+})();
+</script>
 <script src="config.js?v=__VER__"></script>
 <script src="catalog.js?v=__VER__"></script>
 <script src="app.js?v=__VER__"></script>
@@ -45,6 +98,60 @@ const QS=new URLSearchParams(location.search);
 if(QS.has("auto")&&!(history.state&&history.state.gsLesson)){const here=location.href;history.replaceState({gsHome:1},"","./?home=1");history.pushState({gsLesson:1},"",here);}
 addEventListener("popstate",e=>{if(e.state&&e.state.gsHome)location.replace("./?home=1");});
 document.title=L.title+" · GameSharp";
+/* Welcome timeline (full ~2.0 s): 0.15-1.10 s the ball rolls in from the right (P is the first letter it meets, as in V5) with two small bounces and slows into the P;
+   1.10 s impact (P snaps straight, wordmark sharpens, gold glint, ball drops away); 1.10-1.60 s the promise fades up;
+   1.60-2.00 s dissolve to the lesson, which has been loading underneath since 0 s. Short: glint, dissolve at 0.2 s.
+   Not ready yet: hold the final frame with a soft pulse. A tap or key skips. */
+const W=(()=>{
+  const w=document.getElementById("gsw"); if(!w||w.hidden) return null;
+  const mode=w.className, t0=+w.dataset.t0||performance.now(), mark=w.querySelector(".gsw-mark"), P=mark.querySelector("em"), ball=w.querySelector(".gsw-ball");
+  const END={full:1600,short:200}[mode]||0, now=()=>performance.now()-t0;
+  let ready=false, skipped=false, hit=false, done=false, gone=false, after=[];
+  const add=c=>w.classList.add(c);
+  function remove(){if(gone)return;gone=true;w.remove();after.splice(0).forEach(f=>f());}
+  function finish(){
+    if(done) return; done=true; removeEventListener("pointerdown",skip,true); removeEventListener("keydown",skip,true);
+    try{A.track("welcome_seen",{full:mode==="full",skipped,ms:Math.round(now())});}catch(e){}
+    if(!hit) add("set");
+    /* a skip vanishes at once but keeps catching that tap's click for a moment, so it can't land on the lesson */
+    if(skipped){add("gone");w.addEventListener("click",remove);setTimeout(remove,350);} else {add("out");setTimeout(remove,mode==="still"?200:400);}
+  }
+  function check(){if(done)return; if(ready&&(skipped||now()>=END)) finish(); else if(now()>=END||skipped) add("wait");}
+  function skip(){if(done)return; skipped=true; if(!hit){hit=true;add("set");} add("say"); check();}
+  addEventListener("pointerdown",skip,true); addEventListener("keydown",skip,true);
+  setTimeout(check,END);
+  function strike(){hit=true; if(window.GSSfx) GSSfx.hit(0.9); add("hit"); add("glint"); add("say");}
+  if(mode==="short") add("glint");
+  if(mode==="full"){
+    const fs=parseFloat(getComputedStyle(mark).fontSize), D=Math.round(fs*.3), xs=innerWidth+8;
+    ball.style.width=ball.style.height=D+"px";
+    const lands=[.34,.58], HT=[.5,.2];   /* bounce landings (fraction of the roll) and heights (x font size) */
+    let landed=0, xe=0, fy=0;
+    const put=(x,y,deg,sx,sy,o)=>{ball.style.opacity=o;ball.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${deg.toFixed(0)}deg) scale(${sx.toFixed(3)},${sy.toFixed(3)})`;};
+    const frame=()=>{
+      if(done||skipped) return;
+      const e=now();
+      if(!hit){const pr=P.getBoundingClientRect(), mr=mark.getBoundingClientRect(); xe=pr.left+pr.width*.4; fy=mr.bottom-D-fs*.14;}   /* re-read: the web font may swap in */
+      if(e<150){put(xs,fy,0,1,1,0);}
+      else if(e<1100){
+        const u=(e-150)/950, x=xs+(xe-xs)*(1.6*u-.6*u*u);   /* still moving at the P, but slowing */
+        let y=0,sx=1,sy=1;
+        for(let i=0;i<2;i++){const a=i?lands[0]:0,b=lands[i]; if(u<b&&u>=a){const v=(u-a)/(b-a); y=HT[i]*fs*4*v*(1-v); if(v>.88){const s=(v-.88)/.12;sx=1+.3*s;sy=1-.3*s;} else if(v<.1){const s=1-v/.1;sx=1-.12*s;sy=1+.12*s;}}}
+        while(landed<2&&u>=lands[landed]){landed++; if(window.GSSfx) GSSfx.bounce(landed===1?.55:.4);}
+        put(x,fy-y,(x-xs)/(D/2)*57.3,sx,sy,1);
+      } else {
+        if(!hit) strike();
+        const k=Math.min(1,(e-1100)/400);
+        put(xe+k*D*.9,fy+k*k*fs*.55,(xe-xs)/(D/2)*57.3+k*90,1,1,1-k);
+        if(k>=1) return;
+      }
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+    setTimeout(()=>{if(!hit&&!done&&!skipped) strike();},1150);   /* rAF can stall in a background tab */
+  }
+  return {ready(){ready=true;check();}, whenGone:f=>gone?f():after.push(f), drop:remove};
+})();
 A.opened("lesson");
 let started=false;
 A.on((n,d)=>{
@@ -89,16 +196,17 @@ function afterEngine(){
   if(st&&window.GSSfx){const b=document.createElement("button");b.type="button";b.className="gs-snd";b.setAttribute("data-gs-sound","");st.appendChild(b);GSSfx.wire(st);}
   if(QS.has("auto")) A.track("auto_start",{lesson:slug,intro:QS.has("intro")});
   if(QS.has("intro")&&st){try{localStorage.setItem("gs_intro_seen","1");}catch(e){}
+    (W?W.whenGone:f=>f())(()=>{   /* the first-visit caption comes after the welcome, never under it */
     const c=document.createElement("div");c.className="gs-intro";c.innerHTML=`<b>One three-minute tennis decision a day.</b><span>Here's today's. Watch the ball.</span>`;
-    st.appendChild(c);const go=()=>{c.classList.add("out");setTimeout(()=>c.remove(),500);};setTimeout(go,4200);c.addEventListener("click",go);}
+    st.appendChild(c);const go=()=>{c.classList.add("out");setTimeout(()=>c.remove(),500);};setTimeout(go,4200);c.addEventListener("click",go);});}
 }
-function fail(){ld.className="err";ld.innerHTML=`Couldn't load this lesson. Check your connection and <a href="">try again</a>, or go <a href="./?home=1">home</a>.`;}
+function fail(){if(W)W.drop();ld.className="err";ld.innerHTML=`Couldn't load this lesson. Check your connection and <a href="">try again</a>, or go <a href="./?home=1">home</a>.`;}
 const get=u=>fetch(u).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();});
 Promise.all([get(`lessons/${slug}.json?v=${V}`)].concat(L.clips.map(c=>get(`clips/${c}.json?v=${V}`)))).then(([les,...cl])=>{
   const clips={}; L.clips.forEach((c,i)=>clips[c]=cl[i]);
   window.DATA={clips,scenes:les.scenes}; window.LESSON=les.lesson;
   const s=document.createElement("script"); s.src=`engine/engine.js?v=${V}`;
-  s.onload=()=>{ld.classList.add("out");setTimeout(()=>ld.remove(),420);afterEngine();}; s.onerror=fail; document.body.appendChild(s);
+  s.onload=()=>{if(W){ld.remove();W.ready();}else{ld.classList.add("out");setTimeout(()=>ld.remove(),420);}afterEngine();}; s.onerror=fail; document.body.appendChild(s);
 }).catch(fail);
 })();
 </script>

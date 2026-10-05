@@ -111,3 +111,11 @@ canonical local paths and “next” steps below are historical, not current rul
   and says “ship it”; then the recorded pre-merge safety check, staged Git
   production verification, promotion of that same deployment and live check.
   No Desktop archiving, deletion, Golf or PropPocket migration has occurred.
+
+## 5 Oct 2026 — Welcome brand moment (Claude)
+
+- Branch `claude/welcome-2026-10-05` from main `931308e`. Claude builds and owns this task end to end (AGENTS.md independent delivery; cross-agent review only if Eoin asks).
+- Change: `app_src/play_host.html` only (plus rebuilt `app/`). Auto-started visits get a welcome over the loading lesson: GAMESHARP / TENNIS; the ball comes in from the right (as in the V5 Home intro) with two bounces, hits the crooked P, which snaps straight; the wordmark sharpens, gold glint, "See clearer. Think sharper.", dissolve at 1.6 s. Full once per day (`gs_welcome_day`), 0.6 s short version otherwise, static under reduced motion, tap/key skips, holds the final frame if the lesson is slow. First-visit caption moved after it. Event `welcome_seen`. Home and in-app lesson opens unchanged.
+- Baseline: approved feature work, so `docs/migration/live-app-sha256.json` (app/catalog.js, index.html, play.html) and `imported-source-sha256.json` (play_host.html, gs/app_flow.mjs) updated to the new hashes. No other entries changed.
+- Checks: `npm run check:build`, `npm test` 10/10, `npm run test:browser` 27/27 (app_flow with 8 new welcome checks, layout 9/9, payoff, Pusher, 23 gates).
+- Eoin said "go ahead and ship it" (5 Oct) after seeing the frames and recording of this exact welcome.
