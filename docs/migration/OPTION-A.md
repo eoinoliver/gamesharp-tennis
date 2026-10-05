@@ -30,7 +30,9 @@ only explicit build/install/output settings. Vercel serves `app/` only. This
 closes the old root-upload exposure problem without importing legacy functions.
 The CLI is pinned in `RELEASE_PROTOCOL.md`; Node/test dependencies are reproducible.
 `AGENTS.md` defines main as canonical, removes local alignment dependencies and
-retains build → other-agent review → Eoin “ship it” → builder release ownership.
+defines build → validate → Eoin “ship it” → builder release ownership. Either
+agent delivers independently; cross-agent review is optional unless Eoin requests
+it, superseding the earlier mandatory other-agent review rule.
 
 The private lab is experimental again after cutover. Its existing AGENTS rule
 already says nothing there deploys; no new lab commit or media relocation is
@@ -47,8 +49,8 @@ Local browser suite passed: 33 app-flow assertions, 9 layout regressions,
 21 payoff checks, Pusher at 390x844 and 375x667, and all 23 scene gates. Home and
 Sharpen were visually inspected, with loaded stroke images and no page errors
 or overflow. Initial option A GitHub contracts passed in Node 24 on Ubuntu;
-Vercel Git build passed. Corrected final Preview checks and Claude's independent
-verdict belong on PR #1 with exact commit/deployment identity. No independent coaching approval is claimed.
+Vercel Git build passed. Corrected final Preview checks and any requested review verdict belong on PR #1
+with exact commit/deployment identity. No independent coaching approval is claimed.
 Production remains the baseline above; no merge, promotion or rollback performed.
 
 ### Git output correction

@@ -8,8 +8,9 @@
 - Import from private lab release branch; no lab or Desktop asset moves.
 - Runtime unchanged: exact 81-file rebuild, version `e5cb1a5c10`.
 - GitHub main remains unchanged; no merge/promotion authorized by this task.
-- Claude independently reviews the revised PR. Eoin's “ship it” remains the gate;
-  Codex owns the eventual merge, production verification and rollback.
+- Eoin's “ship it” remains the gate; Codex owns the eventual merge, production
+  verification and rollback. Cross-agent review is optional under the revised
+  operating agreement below.
 - Local release checks passed: analytics 10/10, app flow 33 assertions, layout
   9/9, payoff 21/21, Pusher 18 assertions across two phone sizes, scene gates
   23/23. Home/Sharpen visually inspected; cards load, no page errors/overflow.
@@ -17,9 +18,20 @@
   exposure; the hosted builder now publishes exactly 80 public app files.
   Preview Feedback suffix is recorded and matched exactly by deployment ID.
 - Initial option A GitHub contracts and Vercel checks passed. The corrected
-  final Git candidate is awaiting hosted verification and Claude's independent
-  review. Exact SHA/Preview/check outcomes are recorded on PR #1.
+  candidate subsequently passed all 222 hosted checks and required Git checks.
+  Exact SHA/Preview/check outcomes are recorded on PR #1.
 - Release proof and public audit scope are in `docs/migration/OPTION-A.md`.
+
+## 2026-10-05 — remove cross-agent delivery dependency
+
+- Eoin clarified that either agent must be able to deliver independently.
+- Supersedes mandatory other-agent review: cross-agent review is optional unless
+  Eoin explicitly requests it. PR comments remain the communication record.
+- Eoin's exact-version “ship it” remains mandatory. The builder owns merge,
+  production verification and rollback without a handoff to the other agent.
+- Updated AGENTS, CLAUDE entry point, alignment, product/release contracts and
+  migration notes consistently. Documentation only; runtime/build/CI unchanged.
+- No merge or production release performed.
 
 ## Historical September migration log (superseded)
 

@@ -39,30 +39,34 @@ uploads from it. The 2D app is historical at `legacy-2d-2026-09-21`.
 
 ## Shared Git and release workflow — 24 September 2026
 
-### Build → independent review → “ship it” → merge → production verification
+### Build → validate → “ship it” → merge → production verification
 
 This loop applies to every PR and must be followed in fresh Claude and Codex
 sessions. The repository and GitHub PR are the durable record; do not rely on
 chat history, agent memory, or Eoin relaying messages between agents.
 
-1. **Build:** Either Claude or Codex may build a change end-to-end, owning the
-   task branch, implementation, checks, PR and exact review preview.
-2. **Independent review:** The agent that did **not** build the change reviews
-   the PR independently: Claude reviews Codex's work; Codex reviews Claude's.
-   Check the diff, required checks, preview and release implications against
-   the project contracts. Record the reviewed commit SHA and verdict on the PR.
-3. **Resolve on GitHub:** Put review findings and comments directly on the
-   GitHub PR. The builder reads them there, fixes them and replies there; Eoin
-   does not need to relay findings between agents. Have the independent reviewer
-   recheck affected work before presenting the final version for approval.
+1. **One builder, end-to-end:** Either Claude or Codex may independently own the
+   task branch, implementation, checks, PR and exact review preview, then merge,
+   verify production and roll back after Eoin's approval. Neither agent needs
+   the other to implement, operate Git, deploy or complete the release.
+2. **Validate:** The builder checks the diff, required tests, preview and release
+   implications against the project contracts and records evidence on the PR.
+   Passing checks do not replace Eoin's exact-version release approval.
+3. **Optional cross-agent review:** Review by the agent that did not build the
+   change is available when useful; it is not a standing prerequisite for merge
+   or release. If Eoin explicitly requests that review, complete it and address
+   its findings before presenting the candidate for “ship it”. Put findings,
+   fixes and replies directly on the GitHub PR; Eoin need not relay them. Do not
+   create an additional agent handoff or approval gate by default.
 4. **Human gate:** Eoin's explicit **“ship it”** is required before merge or
-   production release and approves only the exact reviewed version. Independent
-   review, passing checks, migration approval and agent agreement do not replace
-   this gate. Record approval and its exact version on the PR.
+   production release and approves only the exact presented version. Passing
+   checks, migration approval and agent agreement do not replace this gate.
+   Record approval and its exact version on the PR.
 5. **Builder owns release:** After “ship it”, the builder owns the merge,
    production verification and rollback if required, following
-   `RELEASE_PROTOCOL.md`. Verify the staged production artifact before promotion
-   and the live domain afterward. If a verified regression requires rollback,
+   `RELEASE_PROTOCOL.md`, without needing the other agent to execute or approve
+   these operations. Verify the staged production artifact before promotion and
+   the live domain afterward. If a verified regression requires rollback,
    restore and verify the recorded last-good production deployment. Record the
    merge commit, deployment identity, verification results and any rollback on
    the PR and in the repository's release record.
@@ -73,7 +77,7 @@ chat history, agent memory, or Eoin relaying messages between agents.
   never pull/reset over another agent's uncommitted changes. Create a task branch
   before claiming it in `WORKLOG.md`.
 - Every change, including logs and documentation, goes through a branch and a
-  reviewed merge. Never push directly to `main`.
+  merge approved by Eoin. Never push directly to `main`.
 - Build/check the canonical source, push the branch, verify the remote commit,
   and present the **project, full commit SHA and exact deployment URL**.
 - “Ship it” approves that reviewed version and the agreed merge/release routine.
@@ -101,7 +105,7 @@ chat history, agent memory, or Eoin relaying messages between agents.
 - Preserve the approved 3D lesson catalogue, routing, analytics host restrictions,
   visual content and local progress semantics during this migration.
 - Run the build parity check, analytics tests and browser checks in
-  `RELEASE_PROTOCOL.md`; passing checks do not replace independent review.
+  `RELEASE_PROTOCOL.md`; passing checks do not replace Eoin's “ship it”.
 - Never refresh migration fingerprints to hide differences from live.
 - Never claim coaching validation or physical-device testing from browser checks.
 - No source, evidence, credentials or lab experiments may appear in deployment.

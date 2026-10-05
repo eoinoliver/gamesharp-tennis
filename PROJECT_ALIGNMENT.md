@@ -24,10 +24,12 @@ After cutover, GitHub main alone supplies production builds. Lab work stays in
 
 ## Durable operating agreement
 
-Either Claude or Codex builds end-to-end. The other independently reviews and
-posts findings on GitHub. Eoin says “ship it” for the exact version. The builder
-then owns merge, production verification and rollback. See `AGENTS.md` and
-`RELEASE_PROTOCOL.md` for the operative rules.
+Either Claude or Codex independently owns delivery end-to-end; neither needs
+operations or approval from the other. Cross-agent review is optional unless
+Eoin explicitly requests it; findings and replies go directly on GitHub. Eoin
+says “ship it” for the exact version. The builder then owns merge, production
+verification and rollback. This supersedes the earlier mandatory other-agent
+review rule. See `AGENTS.md` and `RELEASE_PROTOCOL.md` for the operative rules.
 
 ## Historical material and separate decisions
 

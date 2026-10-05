@@ -4,7 +4,7 @@
 
 The canonical repo is `eoinoliver/gamesharp-tennis`; production branch is `main`.
 Use a task branch and `WORKLOG.md` claim. Fetch and inspect other local work first.
-No direct main pushes. Read `AGENTS.md` for the independent-agent review loop.
+No direct main pushes. Read `AGENTS.md` for the independent-delivery and optional-review rules.
 
 Prerequisites: Node 24, Python 3.12, `npm ci`, then
 `npx playwright install chromium` (CI uses `--with-deps`). The inspection,
@@ -33,9 +33,12 @@ required dependency. Never commit auth configuration or private credentials.
    suffix for that deployment ID on Preview HTML. Inspect the Preview's routing,
    assets and complete user paths; do not describe a hash manifest as proof of
    browser or coaching correctness.
-6. The other agent independently reviews the PR and records commit/verdict and
-   findings there. The builder resolves and replies there. Present the exact
-   candidate to Eoin; **“ship it” is required before merge and production release**.
+6. Cross-agent review is optional unless Eoin explicitly requests it. If requested,
+   the other agent records the reviewed commit, verdict and findings on the PR;
+   the builder resolves and replies there before presenting the candidate.
+   Otherwise the builder presents its validation evidence directly to Eoin.
+   **“Ship it” is required before merge and production release**. Either builder
+   owns the release operations below without needing the other agent.
 
 ## Cutover after “ship it”
 

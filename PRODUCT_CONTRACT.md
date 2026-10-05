@@ -14,8 +14,9 @@ behavior; it does not revive the historical September 2D application.
   device compatibility or the tennis meaning of every frame.
 - Keep production analytics restricted to the two approved HTTPS domains;
   preview/local QA must not send production events.
-- A migration is complete only after independent review, Eoin's exact-version
-  “ship it”, approved merge, staged production verification and live verification.
+- A migration is complete only after the required validation, any review
+  explicitly requested by Eoin, his exact-version “ship it”, approved merge,
+  staged production verification and live verification.
 
 For feature work after migration, derive scope from current user decisions;
 existing content is not permission for additional diagnoses or efficacy claims.
