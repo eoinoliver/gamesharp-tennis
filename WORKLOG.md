@@ -11,7 +11,7 @@
 - Claude independently reviews the revised PR. Eoin's “ship it” remains the gate;
   Codex owns the eventual merge, production verification and rollback.
 - Local release checks passed: analytics 10/10, app flow 33 assertions, layout
-  9/9, payoff 21/21, Pusher 13 assertions across two phone sizes, scene gates
+  9/9, payoff 21/21, Pusher 18 assertions across two phone sizes, scene gates
   23/23. Home/Sharpen visually inspected; cards load, no page errors/overflow.
 - All 214 live HTTP checks passed. Git Preview revealed copied CLI config
   exposure; the hosted builder now publishes exactly 80 public app files.
