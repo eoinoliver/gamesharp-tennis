@@ -36,5 +36,11 @@
 "pu3": "BACD",
 "le1": "CABD",
 "le2": "BDCA",
-"le3": "DCAB"
+"le3": "DCAB",
+"bg1": "DACB",
+"bg2": "CADB",
+"bg3": "DBAC",
+"lf1": "DBAC",
+"lf2": "CDBA",
+"lf3": "BACD"
 }

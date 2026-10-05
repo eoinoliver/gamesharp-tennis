@@ -148,3 +148,13 @@ canonical local paths and “next” steps below are historical, not current rul
 - App: catalog PLAY group + 'play' flavour; build.py and app.js know the group; Explore features it at the top; Home's done card offers "Play the Point" in Replay's slot (replay stays in Sharpen / Explore); event `play_point_open {from:"home"}`; tools/browser-checks.mjs gates the play group too.
 - Fingerprints: new app/lessons/play-the-point.json; updated app.js, build.py, catalog.py, index.html and the rebuilt app files.
 - Checks: `npm test` 10/10; `npm run test:browser` 29/29 (25 gates incl. every branch node). Played the best path (B,B,C -> winner) and a short path (A,C -> back to even) at 390x844: no overflow, events logged, no errors.
+
+- 5 Oct (Claude, branch claude/ptp-replay-label-2026-10-05): Eoin found "Play another point" replays the same point (there is only one so far). Relabelled to "Same point, different calls" (end-of-point button and the Explore card). npm test 10/10, test:browser 29/29.
+
+## 5 Oct 2026 — Opponent lessons 23-24: The Big Hitter, The Lefty (Claude)
+
+- Branch `claude/opponents-2026-10-05`, stacked on `claude/ptp-replay-label-2026-10-05` (PR #10). Authored in gamesharp-lab `claude/opponents-2026-10-05` (8b62442: rally/bg_scenes.py, lf_scenes.py, rally_build.LEFTY).
+- The Big Hitter: step 1 physics (where you wait vs a 125 km/h ball: stepped in 0.12 s, baseline 0.33, one big step back 0.61, way back 0.40); steps 2-3 a documented strike-zone rule (big only from waist-to-chest, unstretched, or a short ball). Pro Lens: ATP Tour TopCourt with Corentin Moutet (Dec 2022), paraphrased.
+- The Lefty: left-handed opponent. Engine (rally/lesson_body.html): segments marked `mirror` are mirrored side to side, left/right joints relabelled, racquet in the left hand; no effect on any other lesson (no mirror flags). Documented wing rule (set forehand = attack). Pro Lens: Eng & Kovacs, ITF Coaching & Sport Science Review 63 (2014), paraphrased.
+- Catalog: DAILY 23-24 (opponents flavour); Sharpen Match play: "Big hitters rush me", "Lefties throw me".
+- Checks: `npm test` 10/10; gates pass for both new lessons; played both through at 390x844 and 375x667 (no overflow, no errors); lefty hand verified numerically (racquet on the left wrist). The full local browser suite stalled on this Mac this evening at the Predict replay step, and the unchanged main build stalled at the same step (environmental: idle-Mac timer throttling); GitHub `contracts` CI runs the full suite as the gate.

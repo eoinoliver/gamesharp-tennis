@@ -155,5 +155,5 @@ const LESSON={
  "steps": [],
  "finaleScene": "bp1B",
  "finaleFull": true,
- "redoLabel": "Play another point"
+ "redoLabel": "Same point, different calls"
 };

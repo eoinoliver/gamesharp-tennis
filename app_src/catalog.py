@@ -23,6 +23,8 @@ DAILY = [
     ('the-pusher', 'pu', 'They get everything back. Stop out-waiting them: change the game.'),   # opponents (legacy)
     ('pulled-wide', 'pw', 'Off the court? Buy time first, unless you got there early.'),   # legacy content (authored replies)
     ('serve-away-from-the-lean', 'le', 'The returner leans to cover one serve. Serve the side they left.'),   # legacy seq_014, re-derived by physics (5 Oct)
+    ('the-big-hitter', 'bg', 'Their ball comes fast and heavy. Win back your time; keep it out of their zone.'),   # opponents (5 Oct; documented strike-zone rule)
+    ('the-lefty', 'lf', 'Your usual patterns land on a lefty\'s forehand. Turn them round.'),   # opponents (5 Oct; mirrored player, documented wing rule)
 ]
 PREDICT = [
     ('predict-the-point', 'pt', 'Call the serve, the +1 and the finish. Then watch your point.'),
@@ -39,7 +41,7 @@ FLAVOURS = [
     ('tactics', 'Court tactics', ['serve-plus-one', 'short-ball', 'the-line', 'the-winner', 'recovery', 'open-court', 'forehand-bill',
                                   'the-lead', 'middle-return', 'high-ball', 'second-serve', 'running-around', 'pulled-wide',
                                   'serve-away-from-the-lean']),
-    ('opponents', 'Opponents', ['the-moonballer', 'the-pusher', 'net-rusher']),
+    ('opponents', 'Opponents', ['the-moonballer', 'the-pusher', 'net-rusher', 'the-big-hitter', 'the-lefty']),
     ('net', 'Net play', ['approach-volley', 'pass-where-they-arent', 'split-step']),
     ('technique', 'Technique', ['late-is-the-culprit', 'contact-clue']),
     ('predict', 'Predict the Point', ['predict-the-point', 'predict-second-serve']),

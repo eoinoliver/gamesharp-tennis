@@ -938,7 +938,7 @@ function taster(){   /* Claude 30 Sep: one lesson from each flavour, so testers 
  return `<section class="supplement gs-taster"><div class="library-head"><h2>Try each kind</h2><span>${F.length} kinds</span></div><div class="lib">${rows}</div></section>`;
 }
 /* Play the Point (5 Oct): one branching point, featured at the top of Explore */
-function playCard(){const P=A.CAT.play[0],d=S.done[P.slug];return `<a class="supplement gs-play" href="${href(P)}"><div class="k">New</div><b>${esc(P.title)}</b><span>${esc(P.line)}</span><i>${d?"Play another point →":"Play →"}</i></a>`;}
+function playCard(){const P=A.CAT.play[0],d=S.done[P.slug];return `<a class="supplement gs-play" href="${href(P)}"><div class="k">New</div><b>${esc(P.title)}</b><span>${esc(P.line)}</span><i>${d?"Same point, different calls →":"Play →"}</i></a>`;}
 function library(){
  const T=A.todays(),pool=ALL||REVIEW?[...A.CAT.daily,...A.CAT.predict]:A.CAT.daily,open=pool.filter(l=>ALL||S.done[l.slug]),items=open.filter(l=>ALL||REVIEW||l!==T).map(l=>{const d=S.done[l.slug],i=A.CAT.daily.indexOf(l)+1;return `<a class="card" href="${href(l)}"><div class="num">${i||"P"}</div><div><div class="t">${esc(l.title)}</div><div class="d">${esc(l.line)}</div></div><div class="go">${d?`✓${dots3(d)}`:"3 min →"}</div></a>`;}).join("");
  if(!items)return REVIEW?`<section class="supplement"><h1>Sharpen</h1><p>Your played lessons will appear here for another go.</p><a class="gs-lesson-picker" href="./">Play today's challenge →</a></section>`:"";

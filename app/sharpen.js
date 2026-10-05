@@ -30,7 +30,9 @@ const ZONES=[
   ["I attack every short ball",["short-ball"]],
   ["I chase the open court",["open-court"]],
   ["I play smaller when I lead",["the-lead"]],
-  ["Pushers and moonballers beat me",["the-pusher","the-moonballer"]]]}
+  ["Pushers and moonballers beat me",["the-pusher","the-moonballer"]],
+  ["Big hitters rush me",["the-big-hitter"]],
+  ["Lefties throw me",["the-lefty"]]]}
 ];
 const STROKES={
  fh:{name:"Forehand drive",cols:["Turn","Contact","Finish"],grip:"Eastern or semi-western",cues:[["Turn early.","Shoulders side-on before the bounce."],["Below, then up.","The racquet drops below the ball and brushes up: topspin buys net clearance."],["Finish across.","Over the opposite shoulder."]]},
