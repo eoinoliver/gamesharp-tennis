@@ -148,3 +148,5 @@ canonical local paths and “next” steps below are historical, not current rul
 - App: catalog PLAY group + 'play' flavour; build.py and app.js know the group; Explore features it at the top; Home's done card offers "Play the Point" in Replay's slot (replay stays in Sharpen / Explore); event `play_point_open {from:"home"}`; tools/browser-checks.mjs gates the play group too.
 - Fingerprints: new app/lessons/play-the-point.json; updated app.js, build.py, catalog.py, index.html and the rebuilt app files.
 - Checks: `npm test` 10/10; `npm run test:browser` 29/29 (25 gates incl. every branch node). Played the best path (B,B,C -> winner) and a short path (A,C -> back to even) at 390x844: no overflow, events logged, no errors.
+
+- 5 Oct (Claude, branch claude/ptp-replay-label-2026-10-05): Eoin found "Play another point" replays the same point (there is only one so far). Relabelled to "Same point, different calls" (end-of-point button and the Explore card). npm test 10/10, test:browser 29/29.
