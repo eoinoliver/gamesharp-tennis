@@ -3,21 +3,23 @@
 Read `PRODUCT_CONTRACT.md`, `CONTENT_CONTRACT.md`, and `RELEASE_PROTOCOL.md`
 before changing this project. They are release requirements, not suggestions.
 
-Also read the durable [project alignment and history](../gamesharp-tennis-alignment/PROJECT_ALIGNMENT.md)
-at the start of a new task. It records the latest user decisions, superseded
-approaches, dated implementation state and open defects. Recommendations in that
-record are not additional user-approved scope. Recheck dated state before relying
-on it; current user instructions take precedence.
+Read `PROJECT_ALIGNMENT.md` for current decisions and dated state. Current user
+instructions take precedence. Historical handovers are background, not release
+permission.
 
 ## Canonical source
 
-This directory is the only authorised source:
+GitHub `eoinoliver/gamesharp-tennis` **main** is the canonical production source
+after this migration is merged. Any local clone is only a working copy. During
+review, the named PR commit is the candidate; the recorded live deployment stays
+production until Eoin approves cutover.
 
-`/Users/eoinlynn/Downloads/gamesharp-tennis-integration`
-
-Do not deploy a Desktop copy, a legacy file, `/tmp` preview copy, or an exported
-HTML file. Do not copy older code into `index.html` without proving it meets the
-current contracts.
+The product is the 3D app. Build with `npm run build`; editable shell source is
+`app_src/`, engine and authored lesson inputs are `rally/`, generated output is
+`app/`. Git builds publish only `app/` using root `vercel.json`. No lab, Desktop,
+legacy tag, exported HTML or standalone experimental page is a deployment source.
+The private `gamesharp-lab` remains experimental after cutover; no production CLI
+uploads from it. The 2D app is historical at `legacy-2d-2026-09-21`.
 
 ## Working defaults
 
@@ -78,7 +80,7 @@ chat history, agent memory, or Eoin relaying messages between agents.
   Changed content, including conflict resolutions, needs a fresh preview and
   approval. Do not silently add edits to the approved version.
 - Vercel builds from GitHub. No laptop source uploads after cutover. Local
-  previews may run from this canonical directory; hosted review previews must
+  previews run from a fresh build of this checkout; hosted review previews must
   come from its pushed branch. CLI inspection and promotion remain supported.
 - Tennis: verify automatic production-domain assignment is disabled and record
   the last-good deployment **before merging**. Merge approved content, then verify
@@ -88,18 +90,21 @@ chat history, agent memory, or Eoin relaying messages between agents.
   preview as a substitute. Follow `RELEASE_PROTOCOL.md` and verify live.
 - Handoff only after committing, pushing and verifying the remote SHA. Record
   the branch, commit, checks, preview, remaining work and next owner in WORKLOG.
-  Claude may publish via GitHub web; Codex handles larger pushes when needed.
+  Either agent owns its assigned task end-to-end.
 - Confidential configuration belongs only in the approved encrypted backup,
   never Git. Preserve raw assets through the agreed versioned backup.
 - No deletion or Desktop-folder archiving until the separate reconciliation
   has been reviewed. A backup alone does not prove reconciliation.
 
-## Prohibited release behaviours
+## Release boundaries
 
-- No `null` continuation inside a launch-eligible Predict journey.
-- No legacy animation fallback for launch-eligible content.
-- No random question-to-animation pairing.
-- No global UI enhancer may make an unapproved visual customer-visible.
-- No silent fallback from missing content to a different tennis concept.
-- No production promotion except the exact verified staged production artifact,
+- Preserve the approved 3D lesson catalogue, routing, analytics host restrictions,
+  visual content and local progress semantics during this migration.
+- Run the build parity check, analytics tests and browser checks in
+  `RELEASE_PROTOCOL.md`; passing checks do not replace independent review.
+- Never refresh migration fingerprints to hide differences from live.
+- Never claim coaching validation or physical-device testing from browser checks.
+- No source, evidence, credentials or lab experiments may appear in deployment.
+- Do not move or retire the Desktop Blender/pose work without Eoin's separate go.
+- No production promotion except the exact verified staged production artifact
   built from the content Eoin reviewed and approved.

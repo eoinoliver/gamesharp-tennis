@@ -1,5 +1,24 @@
 # GameSharp Tennis shared worklog
 
+## 2026-10-05 — option A migration — Codex owns this task
+
+- Eoin instructed rebuild of PR #1 around Claude's option A comments.
+- The live 3D app becomes canonical here; the previous 2D candidate is preserved
+  at `legacy-2d-2026-09-21` (`72df275faec1513f59a0e23bad5599c8ac823ddd`).
+- Import from private lab release branch; no lab or Desktop asset moves.
+- Runtime unchanged: exact 81-file rebuild, version `e5cb1a5c10`.
+- GitHub main remains unchanged; no merge/promotion authorized by this task.
+- Claude independently reviews the revised PR. Eoin's “ship it” remains the gate;
+  Codex owns the eventual merge, production verification and rollback.
+- Status: rebuilding and verifying the Git candidate. Release proof and public
+  audit scope are in `docs/migration/OPTION-A.md`.
+
+## Historical September migration log (superseded)
+
+The following records describe the abandoned 2D candidate. Production claims,
+canonical local paths and “next” steps below are historical, not current rules.
+
+
 ## 2026-09-24 — Git migration — Codex owns this task
 
 - Branch: `codex/tennis-git-migration-2026-09-24`, based on GitHub `main`

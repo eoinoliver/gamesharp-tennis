@@ -1,20 +1,1165 @@
 {
-  "rewrites": [
-    { "source": "/s/:id", "destination": "/api/share?id=:id" },
-    { "source": "/play/:pid", "destination": "/api/share?play=:pid" }
-  ],
-  "headers": [
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": false,
+  "redirects": [
+    {
+      "source": "/beta",
+      "destination": "/?all=1",
+      "permanent": false
+    },
+    {
+      "source": "/beta/",
+      "destination": "/?all=1",
+      "permanent": false
+    },
+    {
+      "source": "/beta/index.html",
+      "destination": "/?all=1",
+      "permanent": false
+    },
+    {
+      "source": "/beta/serve-plus-one.html",
+      "destination": "/play.html?l=serve-plus-one",
+      "permanent": false
+    },
+    {
+      "source": "/beta/short-ball.html",
+      "destination": "/play.html?l=short-ball",
+      "permanent": false
+    },
+    {
+      "source": "/beta/the-line.html",
+      "destination": "/play.html?l=the-line",
+      "permanent": false
+    },
+    {
+      "source": "/beta/the-winner.html",
+      "destination": "/play.html?l=the-winner",
+      "permanent": false
+    },
+    {
+      "source": "/beta/recovery.html",
+      "destination": "/play.html?l=recovery",
+      "permanent": false
+    },
+    {
+      "source": "/beta/open-court.html",
+      "destination": "/play.html?l=open-court",
+      "permanent": false
+    },
+    {
+      "source": "/beta/forehand-bill.html",
+      "destination": "/play.html?l=forehand-bill",
+      "permanent": false
+    },
+    {
+      "source": "/beta/the-lead.html",
+      "destination": "/play.html?l=the-lead",
+      "permanent": false
+    },
+    {
+      "source": "/beta/split-step.html",
+      "destination": "/play.html?l=split-step",
+      "permanent": false
+    },
+    {
+      "source": "/beta/approach-volley.html",
+      "destination": "/play.html?l=approach-volley",
+      "permanent": false
+    },
+    {
+      "source": "/beta/middle-return.html",
+      "destination": "/play.html?l=middle-return",
+      "permanent": false
+    },
+    {
+      "source": "/beta/high-ball.html",
+      "destination": "/play.html?l=high-ball",
+      "permanent": false
+    },
+    {
+      "source": "/beta/second-serve.html",
+      "destination": "/play.html?l=second-serve",
+      "permanent": false
+    },
+    {
+      "source": "/beta/contact-clue.html",
+      "destination": "/play.html?l=contact-clue",
+      "permanent": false
+    },
+    {
+      "source": "/beta/running-around.html",
+      "destination": "/play.html?l=running-around",
+      "permanent": false
+    },
+    {
+      "source": "/beta/predict-the-point.html",
+      "destination": "/play.html?l=predict-the-point",
+      "permanent": false
+    },
     {
       "source": "/",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_serve_plus_one_v1|serve-plus-one)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=serve-plus-one",
+      "permanent": false
     },
     {
       "source": "/index.html",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_serve_plus_one_v1|serve-plus-one)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=serve-plus-one",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_short_ball_attack_v1|short-ball)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=short-ball",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_short_ball_attack_v1|short-ball)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=short-ball",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_direction_change_v1|line)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=the-line",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_direction_change_v1|line)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=the-line",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_winner_wrong_shot_v1|winner)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=the-winner",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_winner_wrong_shot_v1|winner)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=the-winner",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_recovery_position_v1|recovery)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=recovery",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_recovery_position_v1|recovery)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=recovery",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_future_space_v1|future-space)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=open-court",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_future_space_v1|future-space)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=open-court",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_forehand_bill_v1|forehand-bill)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=forehand-bill",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_forehand_bill_v1|forehand-bill)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=forehand-bill",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_protect_pattern_v1|protect-pattern)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=the-lead",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_protect_pattern_v1|protect-pattern)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=the-lead",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_split_step_timing_v1|split-step)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=split-step",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_split_step_timing_v1|split-step)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=split-step",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_approach_volley_v1|approach-volley)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=approach-volley",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_approach_volley_v1|approach-volley)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=approach-volley",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_middle_return_v1|middle-return)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=middle-return",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_middle_return_v1|middle-return)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=middle-return",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_high_ball_v1|high-ball)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=high-ball",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_high_ball_v1|high-ball)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=high-ball",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_serve_quality_v1|serve-quality)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=second-serve",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_serve_quality_v1|serve-quality)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=second-serve",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_contact_point_v1|contact)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=contact-clue",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_contact_point_v1|contact)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=contact-clue",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_runaround_pattern_v1|runaround)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=running-around",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "goldDaily",
+          "value": "^(gold_runaround_pattern_v1|runaround)$"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "challenge"
+        },
+        {
+          "type": "query",
+          "key": "p"
+        },
+        {
+          "type": "query",
+          "key": "play"
+        },
+        {
+          "type": "query",
+          "key": "ch"
+        }
+      ],
+      "destination": "/play.html?l=running-around",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q004",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q007",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q009",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q013",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q015",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q017",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q020",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q025",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q026",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q027",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q028",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q029",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q035",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q038",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q042",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q044",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q047",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q049",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q053",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/s/Q054",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/play/wide_serve",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/play/serve_plus_one",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/play/down_the_line",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/play/short_ball",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/play/net_approach",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/play/drop_lob",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/play/high_ball_backhand",
+      "destination": "/?legacy=1",
+      "permanent": false
+    },
+    {
+      "source": "/play/pass_or_lob",
+      "destination": "/?legacy=1",
+      "permanent": false
     },
     {
       "source": "/livepoint-prototype.html",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      "destination": "/?legacy=1",
+      "permanent": false
     }
-  ]
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ],
+  "buildCommand": "python3 app_src/build.py",
+  "outputDirectory": "app",
+  "installCommand": "npm ci",
+  "framework": null
 }

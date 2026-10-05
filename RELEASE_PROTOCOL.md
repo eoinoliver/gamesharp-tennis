@@ -1,104 +1,82 @@
-# GameSharp Tennis — Release Protocol
+# GameSharp Tennis — Git build and release protocol
 
-## Source and preview
+## Build and review
 
-- Canonical source: `/Users/eoinlynn/Downloads/gamesharp-tennis-integration`.
-- Local previews run directly from this directory. Hosted previews build from
-  its pushed GitHub task branch; identify the exact commit and deployment URL.
-- Production may receive only approved content in a verified staged production
-  artifact. The ordinary preview build and production build are distinct.
-- `Legacy Versions/`, prototype HTML files and other working copies are never
-  deployment sources.
+The canonical repo is `eoinoliver/gamesharp-tennis`; production branch is `main`.
+Use a task branch and `WORKLOG.md` claim. Fetch and inspect other local work first.
+No direct main pushes. Read `AGENTS.md` for the independent-agent review loop.
 
-## Required release evidence
+Prerequisites: Node 24, Python 3.12, `npm ci`, then
+`npx playwright install chromium` (CI uses `--with-deps`). The inspection,
+promotion and rollback CLI is pinned: `npx --yes vercel@59.16.0`. An authenticated
+installation of that exact version may also be used; the npm cache is not a
+required dependency. Never commit auth configuration or private credentials.
 
-Before presenting a candidate as ready:
+1. `npm run check:build` rebuilds from source and proves all 81 release files
+   match the recorded live-source artifact and all imported inputs remain intact.
+   Migration fingerprints are frozen; future approved feature work must replace
+   this migration baseline through an explicitly reviewed test update.
+2. `npm test` checks production/preview analytics boundaries and progress events.
+3. Serve `app/` locally: `python3 -m http.server 8765 --directory app`.
+   Run `npm run test:browser -- http://127.0.0.1:8765/` for app flow, layout,
+   payoff, Pusher and every registered lesson's scene gate. Local screenshots/logs
+   are ignored evidence, not source. Inspect Home, lesson and Sharpen on mobile
+   and desktop, including image load, sound and reduced motion.
+4. Push the branch. GitHub `contracts` and Vercel checks must pass. Git builds
+   execute `python3 app_src/build.py` and serve only `app/`; root `vercel.json`
+   copies the live redirects/headers with build-only settings added.
+5. Map the exact full Git SHA to its unique Git Preview URL. Run
+   `python3 app_src/verify-hosted.py <URL> --manifest docs/migration/live-app-sha256.json --output <local-report.json>`.
+   For protected previews append `--authenticated` and set `GS_VERCEL_CLI` to
+   the authenticated pinned CLI entry point. Inspect the Preview's routing,
+   assets and complete user paths; do not describe a hash manifest as proof of
+   browser or coaching correctness.
+6. The other agent independently reviews the PR and records commit/verdict and
+   findings there. The builder resolves and replies there. Present the exact
+   candidate to Eoin; **“ship it” is required before merge and production release**.
 
-1. Run every structural contract test and the trust audit.
-2. Validate `LAUNCH_MANIFEST.json`; every surfaced item must be approved and
-   every approved journey must have complete destinations.
-3. Personally complete every launch-eligible Predict journey through Live Point
-   and its Playbook destination on representative small and large mobile views.
-4. Inspect every eligible animation in card and Focus View.
-5. Run a desktop coherence pass for overflow, geometry, navigation and readable
-   hierarchy.
-6. Check refresh, repeat play, back navigation, reduced motion, sound off/on and
-   failed optional media.
-7. Re-test after the final correction.
+## Cutover after “ship it”
 
-## Reporting
-
-Report:
-
-- exact eligible journey count;
-- exact withheld item count and reasons;
-- viewports and complete paths tested;
-- known limitations;
-- preview path or URL;
-- accurate production status: unchanged, deployment pending, or deployed and verified.
-
-Do not use “complete,” “all good” or “production ready” without this evidence.
-
-## Deployment
-
-The settled 24 September workflow in `AGENTS.md` supersedes the earlier standing
-deployment permission. Eoin's “ship it” approves the named reviewed version and
-this release routine. Migration approval alone does not approve production.
-
-1. Fetch and inspect local changes, create a task branch, then claim WORKLOG.
-   Push the branch, verify the remote SHA, inspect its Git-triggered preview and
-   present project, full commit SHA and exact deployment URL for review.
-2. **Before merging**, confirm Vercel project `gamesharp-tennis` still builds
-   GitHub `eoinoliver/gamesharp-tennis`, production branch `main`, with
-   **Auto-assign Custom Production Domains disabled**. Record the current live
-   deployment and verify the last-good rollback target is available. Stop before
-   merging if any of these checks fail.
-3. After “ship it”, merge the approved branch through GitHub. Never push directly
-   to `main`. Confirm the merge has the reviewed content; conflict resolution or
-   any changed content requires a fresh preview and approval.
-4. Wait for the merge's Git-triggered **production** build to become Ready/Staged.
-   Verify its exact Git SHA, reviewed runtime bytes, share function, retired and
-   private-source route exclusions, and the required journeys on its unique URL.
-   Use the production environment, not a preview promoted with a rebuild.
-5. Promote that same verified staged production deployment, without rebuilding.
-   Verify the custom domain's release token, runtime hashes, route exclusions and
-   at least one complete live path. Record commit, deployment ID and checks.
-6. Add completion evidence through a follow-up log branch. Do not promote a new
-   build merely because documentation was merged; record main/live differences.
-
-After cutover, all Vercel source builds come from GitHub; no laptop source uploads.
-The existing authenticated CLI may inspect or promote deployments. Do not ask for
-a fresh login unless authentication fails. Before cutover, the existing approved
-stage–verify–promote route remains available if separately needed.
-
-Run the court-check verifiers against an explicitly confirmed Tennis deployment:
-`GS_REVIEW_ORIGIN=https://<exact-tennis-deployment-host> node tools/court-check-browser.mjs https://<exact-tennis-deployment-host>/`
-and equivalently `tools/forehand-check-browser.mjs`. This only permits the test
-target; it never releases review-only lessons on remote hosts.
-
-Keep `TRUST_REPAIR_EVIDENCE.json` fingerprints intact unless the actual changed
-dependency has received a documented scoped re-review. Never refresh hashes to
-force a pass. During this migration the runtime remains
-byte-identical. The one reviewed `.github/` exclusion addition is recorded in
-`configurationReviews`; verify it and all existing exclusions on the Git deployment.
+1. Before merge, verify PR head still equals the reviewed SHA, required checks
+   pass, Vercel project is `gamesharp-tennis` / `prj_SHIw7K0JxhCtoQQgh1zVHlR3r2Pe`,
+   Git repo is `eoinoliver/gamesharp-tennis`, branch is `main`, root directory has
+   no conflicting override, and **Auto-assign Custom Production Domains is off**.
+   Recheck live deployment identity and availability of the exact rollback target.
+   Changed live baseline, source or settings require reconciliation before merge.
+2. Merge through GitHub. Record that the merge Git tree equals the reviewed tree.
+   Content changes/conflict resolutions need a fresh preview, review and approval.
+3. Identify the Git-triggered **Production** deployment by exact merge SHA and
+   wait for Ready/Staged. Keep custom-domain assignment disabled.
+4. Verify the staged production artifact's entire public file manifest, redirects,
+   headers, exclusions and required user paths. Compare Preview and Production
+   output inventory, effective routing/runtime settings and build/runtime inputs.
+   Record explained differences and unavailable proof; current settings and
+   sampled HTTP responses are not complete deployment-inventory proof.
+   This release is static: unexpected serverless functions are a failure.
+5. Unexplained differences, incomplete inventories or unverifiable inputs stop
+   automatic promotion. Resolve them or present the exact staged Production URL
+   and limitations for Eoin's explicit approval of that artifact. Preview approval
+   alone does not waive a gap; direct artifact approval is a different release
+   basis, not proof of equivalence, and cannot excuse failed release checks.
+6. Promote that exact verified/approved staged Production deployment without
+   rebuilding. Do not use ordinary Preview promotion as a substitute. Verify
+   `www.gamesharptennis.com`, apex redirect, catalogue version, asset hashes,
+   routes and a complete live path. Intercept test analytics in live browser QA.
+7. The builder records merge SHA, deployment ID, checks and production status on
+   the PR and through a follow-up log branch. Documentation-only builds are not
+   automatically promoted. After cutover, production source uploads from the
+   private lab or any laptop are prohibited; main supplies Git builds only.
 
 ## Rollback
 
-Record the last verified production deployment before every release. Before
-promotion, a failed staged check means stop and leave the current production
-deployment serving. No rollback or domain reassignment is needed at that point.
+Before promotion, failed staged verification means stop and leave live serving.
+After promotion, a verified regression requires the builder to restore the
+recorded last-good **Production** deployment using Instant Rollback or pinned
+`vercel rollback <recorded-production-id-or-url>`, then verify the custom domain,
+asset identity and a complete path. Report reason and restored deployment on PR.
+Do not rebuild old source or rewrite Git history as a rollback.
 
-If the approved release causes a verified regression after promotion, restore
-the recorded last-good **production** deployment using Vercel Instant Rollback
-or `vercel rollback <recorded-production-url-or-id>`, then verify the custom domain
-and one complete path. Report the reason and the actual restored deployment.
-Do not rebuild the older GitHub main or push a history rewrite as a rollback.
-
-Migration baseline: `dpl_EBEYezrjLafgyLZcF2RC1JSHK2Px`,
-`https://gamesharp-tennis-rm1ho12zo-eoinlynn-5978s-projects.vercel.app`,
-release `2026-09-21-trust-repair-5`. Recheck availability/current live identity
-at cutover; this dated baseline is not permission to replace unrelated releases.
-
-Use reusable scripts for repetitive checks, compact pass/fail output and targeted
-screenshots. Human inspection of tennis meaning remains necessary. A failed
-check must be resolved or explicitly withheld before shipping the affected path.
+Baseline on 5 October: `dpl_EjCtSiEP2ufRa4npUoQBbssJ16Cj`,
+https://gamesharp-tennis-gzlepvjdl-eoinlynn-5978s-projects.vercel.app,
+version `e5cb1a5c10`. Recheck it before cutover. The earlier September 2D deployment
+is historical and must not be used as this migration's rollback target.

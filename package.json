@@ -1,0 +1,12 @@
+{
+  "name": "gamesharp-tennis",
+  "private": true,
+  "scripts": {
+    "build": "python3 app_src/build.py",
+    "check:build": "python3 tools/check-build.py",
+    "test": "node --test app_src/analytics.test.mjs",
+    "test:browser": "node tools/browser-checks.mjs"
+  },
+  "devDependencies": {"playwright": "1.63.0"},
+  "engines": {"node": "24.x"}
+}

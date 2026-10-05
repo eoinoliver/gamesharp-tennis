@@ -1,11 +1,9 @@
-.DS_Store
-.vercel
 node_modules/
+.vercel/
 .env
 .env.*
-!.env.example
-*.sparsebundle/
-*.dmg
-*.tar
-*.tar.gz
-*.zip
+.DS_Store
+__pycache__/
+*.pyc
+app_src/evidence/
+work/

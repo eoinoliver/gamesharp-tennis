@@ -1,0 +1,80 @@
+{
+ "serve": {
+  "pro": {"player": "Pete Sampras", "label": "Sampras v Agassi, Wimbledon 1999 final", "moment": "A point from the final: the serve struck out wide to Agassi's forehand, the first volley steered into the open Ad court the serve had created.", "read": "The serve wins the space before the next swing.", "src": "ATP Tour, Heritage feature", "url": "https://www.atptour.com/en/news/sampras-1999-wimbledon-atp-heritage-feature"},
+  "drill": {"name": "Serve and hit the space", "how": "Serve 10 to each side. Before each serve, say where the return will go. The point only counts if your next shot goes into the space your serve opened."},
+  "cue": "Serve the question. Hit the space.", "callbackTags": ["serve_plus_one"]},
+ "short": {
+  "pro": {"player": "Rafael Nadal", "label": "Nadal, Monte Carlo 2017 final", "moment": "Nadal aimed his heavy forehand at Ramos-Vinolas's backhand to create space, and was quick to move up the court for the short ball.", "read": "The attack begins one ball before the short ball.", "src": "ATP Tour, match report", "url": "https://www.atptour.com/en/news/nadal-ramos-vinolas-monte-carlo-2017-final"},
+  "drill": {"name": "Earned or not", "how": "Rally. Any ball that lands inside your service line, you may attack only if you're balanced and it's above net height. Otherwise go high and deep. Your partner calls \"earned\" or \"not\" after each one."},
+  "cue": "Balanced and high? Then go.", "callbackTags": ["short_ball_choice"]},
+ "line": {
+  "pro": {"player": "Roger Federer", "label": "Federer v Nadal, Australian Open 2017 final", "moment": "Second set, 30/40: Nadal went all-out on a forehand down the line, and Federer flicked a forehand back into the open court to break.", "read": "The line can open the reply behind you.", "src": "ATP Tour, match report", "url": "https://www.atptour.com/en/news/federer-nadal-australian-open-2017-final"},
+  "drill": {"name": "Crosscourt until earned", "how": "Rally crosscourt. You may change to the line only off a waist-high ball you're balanced for. A line attempt from a low or stretched ball loses the point, in or out."},
+  "cue": "Heavy crosscourt until I earn the line.", "callbackTags": ["line_choice"]},
+ "winner": {
+  "pro": {"player": "Carlos Alcaraz", "label": "Ferrero on Alcaraz, 2025", "moment": "Juan Carlos Ferrero, then his coach: \"He knows that he has to work on his consistency. I've told him so many times and that's what we're doing.\"", "read": "Applause judges the outcome. Champions judge the choice.", "src": "ATP Tour, Roland Garros 2025", "url": "https://www.atptour.com/en/news/alcaraz-ferrero-focus-roland-garros-2025"},
+  "drill": {"name": "The ten-ball test", "how": "Pick a target and hit 10 balls at it from the same feed. Fewer than 7 in? It's too ambitious for a match. Move it a metre inside the line and go again."},
+  "cue": "Would I choose it ten times?", "callbackTags": ["risk_choice"]},
+ "rc": {
+  "pro": {"player": "Novak Djokovic", "label": "Why Djokovic gets there", "moment": "Holger Rune on Djokovic: \"He's reading the game extremely well, better than anyone, I think.\" Greg Rusedski calls efficiency of movement the key.", "read": "Recovery starts with reading their reply.", "src": "ATP Tour, Nitto ATP Finals 2023", "url": "https://www.atptour.com/en/news/djokovic-nitto-atp-finals-2023-movement-feature"},
+  "drill": {"name": "Call the reply", "how": "After each of your shots, call out where their reply is most likely to go, before they hit it, and recover toward that. Your partner counts your correct calls."},
+  "cue": "Recover to their angles.", "callbackTags": ["recovery"]},
+ "fs": {
+  "pro": {"player": "Jelena Jankovic", "label": "Jankovic's coach, Indian Wells 2010", "moment": "At a changeover, Chip Brooks told Jankovic: \"You're being very successful when you're hitting behind her; when she's running to the open court, she's hitting winners.\"", "read": "Make their run part of your target.", "src": "Tennis Server, on-court coaching report", "url": "https://www.tennisserver.com/photofeed/2010/100318-bnp_paribas_open.shtml"},
+  "drill": {"name": "Behind the run", "how": "Play out points. A point you win by hitting behind a running opponent counts double."},
+  "cue": "Hit behind the run.", "callbackTags": ["open_court"]},
+ "fb": {
+  "pro": {"player": "Jim Courier", "label": "Courier's weapon and its bill", "moment": "Coach Jim McLennan: Courier built his career around the inside-out and inside-in forehand, but it sometimes left him with awkward court positioning.", "read": "Count the court your favourite shot leaves behind.", "src": "TennisOne, Jim McLennan", "url": "https://tennisone.tennisplayer.net/club/lessons/jm/positioning/court.php"},
+  "drill": {"name": "Pay the bill", "how": "After every run-around forehand, touch the centre mark before the next ball arrives. Miss it and you lose the point, whatever happens next."},
+  "cue": "Shot and recovery: one decision.", "callbackTags": ["run_around"]},
+ "pp": {
+  "pro": {"player": "Roger Federer", "label": "Federer closing out Nadal, Wimbledon 2019", "moment": "Federer needed five match points to finish the semi-final. Afterwards: \"I was able to stick to my game plan, stay aggressive, stay offensive.\"", "read": "Keep the game that built the lead.", "src": "ATP Tour, match report", "url": "https://www.atptour.com/en/news/federer-nadal-semifinal-wimbledon-2019-friday"},
+  "drill": {"name": "Start at 4-2", "how": "Play sets starting at 4-2. The leader must land every rally ball past the service line. A short ball from the leader loses the point."},
+  "cue": "Same depth, any score.", "callbackTags": ["leading"]},
+ "ss": {
+  "pro": {"player": "The research", "label": "What the split step buys", "moment": "In a lab study of a simulated tennis reaction task, participants reached the target faster when they split-stepped: 764 ms on average, against 868 ms without.", "read": "About a tenth of a second, bought with timing, not speed.", "src": "Journal of Sports Sciences, 2009", "url": "https://lida.sport-iat.de/twm/Record/4017156?lng=en"},
+  "drill": {"name": "Land on \"hit\"", "how": "Your partner feeds from both sides. Say \"hit\" out loud as they strike the ball, and land your split on the word. Twenty balls, then rally."},
+  "cue": "Land as they hit.", "callbackTags": ["split_step"]},
+ "av": {
+  "pro": {"player": "Roger Federer", "label": "Federer v Murray, Dubai 2012 final", "moment": "Coach Mike Crooks's frame-by-frame: Federer follows the line of his approach as he comes in, two running steps covering a lot of court, and plays the first volley well inside the service box.", "read": "Your first volley inherits the approach.", "src": "Mike Crooks, movement analysis (PDF)", "url": "https://tennis.is/wp-content/uploads/2014/01/Federer_Murray_footwork_movement.pdf"},
+  "drill": {"name": "Follow it in", "how": "Approach deep and follow the line of your own ball. Your first volley must be played inside the service line. Your partner passes or lobs as they like."},
+  "cue": "Deep, then follow it in.", "callbackTags": ["approach"]},
+ "mr": {
+  "pro": {"player": "Alex de Minaur", "label": "De Minaur's return, 2024", "moment": "Against first serves, de Minaur sent 55% of his returns down the middle third of the court.", "read": "An unglamorous target can take their weapon away.", "src": "ATP Tour, Beyond the Numbers", "url": "https://www.atptour.com/en/news/de-minaur-infosys-atp-beyond-the-numbers-december-2024"},
+  "drill": {"name": "Middle and deep", "how": "Returns score only if they land in the middle third of the court and past the service line. The server plays the point out."},
+  "cue": "Deep through the middle.", "callbackTags": ["return"]},
+ "hb": {
+  "pro": {"player": "Iga Swiatek", "label": "What Swiatek chose to teach", "moment": "For her TopCourt class, Swiatek chose drills for \"handling high moon balls\" and \"getting in excellent court positioning\".", "read": "Champions practise the awkward ball, not just the clean one.", "src": "WTA, TopCourt feature", "url": "https://www.wtatennis.com/news/2214387/topcourt-the-secrets-to-swiateks-explosive-game"},
+  "drill": {"name": "In or back", "how": "Your partner feeds high balls, some short, some deep. Call \"in\" or \"back\" before the bounce, then play it. A wrong call loses the point."},
+  "cue": "Find the contact, not the height.", "callbackTags": ["high_ball"]},
+ "sq": {
+  "pro": {"player": "Jannik Sinner", "label": "Sinner and Alcaraz on second serves", "moment": "On second serves Sinner aims mostly at the body: 44% on the deuce side, 63% on the ad side. Alcaraz goes to the body less (27% and 38%) and moves receivers with wide and T serves instead.", "read": "Judge your second serve by the contact it gives back.", "src": "ATP Tour, Beyond the Numbers", "url": "https://www.atptour.com/en/news/alcaraz-sinner-infosys-atp-beyond-the-numbers-july-2024"},
+  "drill": {"name": "Second serves only", "how": "Play games where every point starts on a second serve. The server wins a bonus point when the return is struck above the receiver's shoulder or off the body."},
+  "cue": "In is only the beginning.", "callbackTags": ["second_serve"]},
+ "cp": {
+  "pro": {"player": "Andre Agassi", "label": "Agassi's spacing", "moment": "Coach Andy Zodin points to Agassi's non-hitting arm, extended across the body as he lines up the forehand: it creates \"a distance between your body and the ball\" for a consistent contact point.", "read": "Notice the space before you change the swing.", "src": "Essential Tennis podcast 106", "url": "https://www.essentialtennis.com/podcast-106-should-you-really-be-copying-what-the-pros-do-on-tv/"},
+  "drill": {"name": "Space check", "how": "Rally 20 forehands. After each, call \"crowded\", \"good\" or \"reaching\". Fix it with your feet, never the swing."},
+  "cue": "Check the space first.", "callbackTags": ["spacing"]},
+ "ra": {
+  "pro": {"player": "Ashleigh Barty", "label": "Barty's slice, by her coach", "moment": "Craig Tyzzer: \"Her forehand is actually a weapon. Her slice will set her up a lot for her forehand.\"", "read": "Your other wing can build your weapon.", "src": "WTA, Coaches' Corner", "url": "https://www.wtatennis.com/news/2465400/coaches-corner-bartys-best-is-yet-to-come-tyzzer"},
+  "drill": {"name": "Slice, then earn it", "how": "Rally backhand to backhand. After one of your slices lands deep, you may run around the next ball for a forehand. Running around off a short slice loses the point."},
+  "cue": "Earn the forehand.", "callbackTags": ["run_around"]},
+ "nr": {
+  "pro": {"player": "Nuno Borges", "label": "The net player starts favourite", "moment": "Nuno Borges won 72.3% of his net points in 2025, joint best on tour: \"When a guy comes to the net, he still has more than a 50 per cent chance of winning the point.\"", "read": "You don't need a winner. Make the volley hard.", "src": "ATP Tour, 2025 scorecards", "url": "https://www.atptour.com/en/news/scorecards-borges-net-points-2025"},
+  "drill": {"name": "Feet or over", "how": "Your partner comes in and stops wherever they like. Around the service line, you must dip it at their feet. Close to the net, you must lob. The wrong choice loses the point, even if it wins."},
+  "cue": "Service line, feet. On the net, over.", "callbackTags": ["vs_net"]},
+ "pa": {
+  "pro": {"player": "Craig O'Shannessy", "label": "How the pass is coached", "moment": "Net players win about two points in three. Craig O'Shannessy teaches the pass by pausing pro footage just before it, to read which side the net player is covering first.", "read": "Read first, then pass the side they left.", "src": "Brain Game Tennis, Webinar 39", "url": "https://braingametennis.com/webinar-39-passing-shots/"},
+  "drill": {"name": "The side they left", "how": "Your partner at the net leans to one side just before you hit. Pass the other side. A pass into the side they covered doesn't count, even if it wins."},
+  "cue": "Pass the side they left.", "callbackTags": ["vs_net"]},
+ "lc": {
+  "drill": {"name": "Turn on \"bounce\"", "how": "Rally crosscourt and say \"bounce\" as the ball bounces on your side. Your shoulders must already be turned by the word. Count the forehands that leave straight, not wide."},
+  "cue": "Turn early. Meet it in front.", "callbackTags": ["late_contact"]},
+ "mb": {
+  "drill": {"name": "Two steps in", "how": "Your partner loops high balls. Start each one on the baseline and take it before it climbs above your shoulder. Backing up behind the baseline loses the point."},
+  "cue": "Step in. Take their time.", "callbackTags": ["vs_moonballer"]},
+ "pw": {
+  "pro": {"player": "The numbers", "label": "Defence isn't lost", "moment": "Once they're on defence, ATP players still win 31% of points. Alcaraz is the best at it, at 38%.", "read": "Buy the time and you're still in the point.", "src": "Brain Game Tennis, Webinar 73", "url": "https://braingametennis.com/webinar-73-winning-on-defense/"},
+  "drill": {"name": "Buy time", "how": "Your partner pulls you wide with a feed. Your reply must clear the net by a racquet's length and land past the service line. Then play the point out."},
+  "cue": "High and deep, then back.", "callbackTags": ["defence"]}
+}

@@ -1,0 +1,104 @@
+<style>
+#loading{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg,#111);color:rgba(240,236,227,.6);font:500 14px "DM Sans",sans-serif;z-index:50}
+#loading.err{color:var(--ink,#f0ece3);padding:24px;text-align:center;line-height:1.5}
+#loading a{color:var(--gold,#c8a84b)}
+.appblk{border-top:1px solid rgba(255,255,255,.09);padding-top:12px;margin-top:12px}
+.appblk .strk{font-size:14px;color:rgba(255,255,255,.72);margin:5px 0 0}
+.appblk .strk b{color:var(--gold,#c8a84b)}
+.fbq{margin-top:10px;font-size:14px;color:var(--ink,#f0ece3);font-weight:600}
+.fbrow{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.fbrow button{flex:1 1 120px;min-height:44px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--ink,#f0ece3);font:600 14px "DM Sans",sans-serif;cursor:pointer}
+.fbrow button:hover{border-color:var(--gold,#c8a84b)}
+.fbtx{width:100%;margin-top:10px;min-height:70px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:var(--ink,#f0ece3);font:14px "DM Sans",sans-serif;padding:10px 12px;resize:vertical}
+.fbthanks{margin-top:8px;font-size:14px;color:rgba(255,255,255,.72)}
+.wrapup a.home{display:flex;align-items:center;justify-content:center;text-decoration:none;margin-top:14px;color:#16130a}
+.wrapup .fbwrap{flex-wrap:wrap}
+.wrapup #redo{background:transparent;color:var(--ink,#f0ece3);border:1px solid rgba(255,255,255,.18)}
+#loading .ld-in{display:grid;justify-items:center;gap:14px}
+#loading .ld-logo{font:28px "Bebas Neue",Impact,sans-serif;letter-spacing:.14em;color:#f4f1e8}#loading .ld-logo span{color:var(--gold,#c8a84b)}
+#loading .ld-tag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,241,232,.55)}
+#loading .ld-ball{width:12px;height:12px;border-radius:50%;background:#e3f25a;box-shadow:0 0 14px rgba(227,242,90,.6);animation:ldB .62s cubic-bezier(.4,0,.6,1) infinite alternate}
+#loading .ld-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+#loading.out{opacity:0;transition:opacity .4s}
+@keyframes ldB{from{transform:translateY(-22px)}to{transform:translateY(10px) scale(1.15,.82)}}
+.gs-snd{position:absolute;right:10px;top:10px;z-index:3;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(4,17,7,.6);color:rgba(240,236,227,.8);display:grid;place-items:center;cursor:pointer;padding:0}
+.gs-snd[aria-pressed=false]{color:rgba(240,236,227,.4)}
+.visual.full .gs-snd,.visual:fullscreen .gs-snd{top:auto;bottom:max(12px,env(safe-area-inset-bottom))}
+.gs-intro{position:absolute;left:10px;top:10px;z-index:4;width:min(calc(100% - 64px),380px);text-align:left!important;padding:12px 16px;border-radius:14px;background:rgba(4,12,7,.78);border:1px solid rgba(200,168,75,.35);text-align:center;color:#f4f1e8;display:grid;gap:3px;animation:gsIntro .6s ease-out both;cursor:pointer}
+.gs-intro b{font-size:14px}.gs-intro span{font-size:12.5px;color:rgba(244,241,232,.7)}
+.gs-intro.out{opacity:0;transition:opacity .5s}
+@keyframes gsIntro{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+</style>
+<div id="loading"><div class="ld-in"><div class="ld-logo">GAME<span>SHARP</span></div><div class="ld-ball" aria-hidden="true"></div><div class="ld-tag">See clearer. Think sharper.</div><span class="ld-sr">Loading the lesson…</span></div></div>
+<script src="config.js?v=__VER__"></script>
+<script src="catalog.js?v=__VER__"></script>
+<script src="app.js?v=__VER__"></script>
+<script src="sfx.js?v=__VER__"></script>
+<script>
+(function(){
+const A=GSApp, V="__VER__", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+if(!L){location.replace("./?home=1");return;}
+window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
+const QS=new URLSearchParams(location.search);
+/* An auto-started lesson replaced the bare Home visit, so give back/close a Home entry to return to:
+   this page's entry becomes ./?home=1 and the lesson is pushed on top; going back to it loads Home. */
+if(QS.has("auto")&&!(history.state&&history.state.gsLesson)){const here=location.href;history.replaceState({gsHome:1},"","./?home=1");history.pushState({gsLesson:1},"",here);}
+addEventListener("popstate",e=>{if(e.state&&e.state.gsHome)location.replace("./?home=1");});
+document.title=L.title+" · GameSharp";
+A.opened("lesson");
+let started=false;
+A.on((n,d)=>{
+  if(n==="step"&&!started){started=true;A.track("lesson_start",{lesson:slug,replay:!!A.S.done[slug],daily:A.isDaily(slug)});}
+  if(n==="answer") A.track("read",{lesson:slug,step:d.i+1,pick:d.X,ok:!!d.ok});
+  if(n==="cue_save") A.track("cue_save",{lesson:slug,cue:d&&d.cue});   /* payoff layer (4 Oct) */
+  if(n==="payoff_open") A.track("payoff_open",{lesson:slug,part:d&&d.k});
+  if(n==="complete"){A.complete(slug,d.n);setTimeout(()=>wrap(d.n),0);}
+});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function wrap(n){
+  const w=document.getElementById("wrapup"); if(!w||w.querySelector(".appblk")) return;
+  const s=A.streakNow(), nx=A.nextDaily(), asked=A.S.fb[slug];
+  const flav=(A.CAT.flavours||[]).find(f=>f.lessons.includes(slug));
+  const b=document.createElement("div"); b.className="appblk";
+  b.innerHTML=`<div class="k">Your streak</div>
+    <p class="strk"><b>${s} day${s===1?"":"s"}</b> in a row${A.isDaily(slug)&&nx?`. Tomorrow: ${esc(nx.title)}.`:"."}</p>
+    ${asked?"":`<div class="gsfb"><p class="fbq">Was this useful for your tennis?</p>
+      <div class="fbrow"><button data-u="yes">Yes</button><button data-u="no">Not really</button></div></div>`}
+    ${flav?`<div class="gsfv"${asked?"":" hidden"}><p class="fbq">More lessons like this one?</p><div class="fbrow"><button data-fv="more">More</button><button data-fv="fewer">Fewer</button></div></div>`:""}
+    ${flav&&flav.key==="opponents"?`<div class="gsop" hidden><p class="fbq">Which opponent gives you the most trouble?</p><div class="fbrow fbwrap">${["Moonballer","Pusher","Big hitter","Net rusher","Lefty","Other"].map(o=>`<button data-op="${o}">${o}</button>`).join("")}</div></div>`:""}
+    <a class="next home" href="./?home=1">Back to home</a>`;
+  const r=w.querySelector("#redo"); r?w.insertBefore(b,r):w.append(b);
+  b.querySelectorAll("[data-fv]").forEach(bt=>bt.onclick=()=>{A.track("flavour_vote",{lesson:slug,flavour:flav.key,vote:bt.dataset.fv});
+    b.querySelector(".gsfv").innerHTML=`<p class="fbthanks">Noted: ${bt.dataset.fv==="more"?"more":"fewer"} ${esc(flav.name.toLowerCase())} lessons.</p>`; const op=b.querySelector(".gsop"); if(op) op.hidden=false;});
+  b.querySelectorAll("[data-op]").forEach(bt=>bt.onclick=()=>{A.track("opponent_trouble",{lesson:slug,pick:bt.dataset.op});
+    b.querySelector(".gsop").innerHTML=`<p class="fbthanks">Thanks. That tells us which opponent to build next.</p>`;});
+  b.querySelectorAll("[data-u]").forEach(bt=>bt.onclick=()=>{
+    const u=bt.dataset.u, f=b.querySelector(".gsfb");
+    A.feedback(slug,u,null); const fv=b.querySelector(".gsfv"); if(fv) fv.hidden=false;
+    f.innerHTML=`<p class="fbq">${u==="yes"?"Good. What made it useful?":"Thanks. What would make it better?"} <span style="font-weight:400;color:rgba(255,255,255,.5)">(optional)</span></p>
+      <textarea class="fbtx" maxlength="500" aria-label="Optional feedback" placeholder="One line is plenty; no personal details"></textarea><div class="fbrow"><button id="fbsend">Send</button></div>`;
+    f.querySelector("#fbsend").onclick=()=>{const t=f.querySelector("textarea").value.trim(); if(t) A.track("feedback_comment",{lesson:slug,useful:u,comment:t.slice(0,500)});
+      f.innerHTML=`<p class="fbthanks">Thanks, that helps.</p>`;};
+  });
+}
+function afterEngine(){
+  /* close returns to the Home you came from (so the browser's back doesn't reopen the lesson) */
+  const cl=document.getElementById("close"), fromApp=(()=>{try{return document.referrer&&new URL(document.referrer).origin===location.origin;}catch(e){return false;}})();
+  if(cl&&(fromApp||QS.has("auto"))&&history.length>1) cl.addEventListener("click",e=>{e.preventDefault();history.back();const t=setTimeout(()=>{location.href="./?home=1";},700);addEventListener("pagehide",()=>clearTimeout(t),{once:true});});
+  const st=document.getElementById("stage");
+  if(st&&window.GSSfx){const b=document.createElement("button");b.type="button";b.className="gs-snd";b.setAttribute("data-gs-sound","");st.appendChild(b);GSSfx.wire(st);}
+  if(QS.has("auto")) A.track("auto_start",{lesson:slug,intro:QS.has("intro")});
+  if(QS.has("intro")&&st){try{localStorage.setItem("gs_intro_seen","1");}catch(e){}
+    const c=document.createElement("div");c.className="gs-intro";c.innerHTML=`<b>One three-minute tennis decision a day.</b><span>Here's today's. Watch the ball.</span>`;
+    st.appendChild(c);const go=()=>{c.classList.add("out");setTimeout(()=>c.remove(),500);};setTimeout(go,4200);c.addEventListener("click",go);}
+}
+function fail(){ld.className="err";ld.innerHTML=`Couldn't load this lesson. Check your connection and <a href="">try again</a>, or go <a href="./?home=1">home</a>.`;}
+const get=u=>fetch(u).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();});
+Promise.all([get(`lessons/${slug}.json?v=${V}`)].concat(L.clips.map(c=>get(`clips/${c}.json?v=${V}`)))).then(([les,...cl])=>{
+  const clips={}; L.clips.forEach((c,i)=>clips[c]=cl[i]);
+  window.DATA={clips,scenes:les.scenes}; window.LESSON=les.lesson;
+  const s=document.createElement("script"); s.src=`engine/engine.js?v=${V}`;
+  s.onload=()=>{ld.classList.add("out");setTimeout(()=>ld.remove(),420);afterEngine();}; s.onerror=fail; document.body.appendChild(s);
+}).catch(fail);
+})();
+</script>
