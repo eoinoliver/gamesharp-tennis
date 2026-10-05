@@ -43,7 +43,12 @@ the live domain pass, including the 80 publicly served file hashes, redirects
 and exclusions. The Vercel uploaded-source inventory has exactly 81 entries; all
 SHA-1 identifiers match the imported app. This inventory is uploaded source,
 not a separate complete deployed-output inventory. Analytics tests pass 10/10.
-Further Git/Preview/browser verification is recorded below once completed. No independent coaching approval is claimed.
+Local browser suite passed: 33 app-flow assertions, 9 layout regressions,
+21 payoff checks, Pusher at 390x844 and 375x667, and all 23 scene gates. Home and
+Sharpen were visually inspected, with loaded stroke images and no page errors
+or overflow. Initial option A GitHub contracts passed in Node 24 on Ubuntu;
+Vercel Git build passed. Corrected final Preview checks and Claude's independent
+verdict belong on PR #1 with exact commit/deployment identity. No independent coaching approval is claimed.
 Production remains the baseline above; no merge, promotion or rollback performed.
 
 ### Git output correction

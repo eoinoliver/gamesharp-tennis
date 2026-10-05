@@ -10,8 +10,16 @@
 - GitHub main remains unchanged; no merge/promotion authorized by this task.
 - Claude independently reviews the revised PR. Eoin's “ship it” remains the gate;
   Codex owns the eventual merge, production verification and rollback.
-- Status: rebuilding and verifying the Git candidate. Release proof and public
-  audit scope are in `docs/migration/OPTION-A.md`.
+- Local release checks passed: analytics 10/10, app flow 33 assertions, layout
+  9/9, payoff 21/21, Pusher 13 assertions across two phone sizes, scene gates
+  23/23. Home/Sharpen visually inspected; cards load, no page errors/overflow.
+- All 214 live HTTP checks passed. Git Preview revealed copied CLI config
+  exposure; the hosted builder now publishes exactly 80 public app files.
+  Preview Feedback suffix is recorded and matched exactly by deployment ID.
+- Initial option A GitHub contracts and Vercel checks passed. The corrected
+  final Git candidate is awaiting hosted verification and Claude's independent
+  review. Exact SHA/Preview/check outcomes are recorded on PR #1.
+- Release proof and public audit scope are in `docs/migration/OPTION-A.md`.
 
 ## Historical September migration log (superseded)
 
