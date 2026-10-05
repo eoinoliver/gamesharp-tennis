@@ -13,7 +13,8 @@ const ZONES=[
   ["My backhand pulls into the middle",["late-is-the-culprit"]]]},
  {k:"serve",name:"Serve",line:"The second serve, and the shot after it.",strokes:["serve"],items:[
   ["My second serve gets attacked",["second-serve"]],
-  ["I don't know what to do after my serve",["serve-plus-one"]]]},
+  ["I don't know what to do after my serve",["serve-plus-one"]],
+  ["My first serve keeps coming back",["serve-away-from-the-lean"]]]},
  {k:"return",name:"Return",line:"Big serves, and the server's next shot.",strokes:[],items:[
   ["Big serves rush my return",["middle-return"]]]},
  {k:"net",name:"Net",line:"Approaching, volleying, and facing a net player.",strokes:["fv","bv"],items:[
