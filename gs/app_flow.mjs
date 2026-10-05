@@ -8,7 +8,12 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
 {const ctx=await b.newContext({viewport:{width:390,height:844}}); const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(String(e)));
  await p.goto(base); for(let i=0;i<50&&!p.url().includes('play.html');i++) await p.waitForTimeout(100);
  ok(/play\.html\?l=serve-plus-one&auto=1&intro=1$/.test(p.url()),'first bare visit auto-starts lesson 1 with the intro ('+p.url()+')');
- await p.waitForFunction(()=>window.__test,null,{timeout:20000}); await p.waitForSelector('.gs-intro'); ok(true,'first-visit caption shown');
+ await p.waitForFunction(()=>window.__test,null,{timeout:20000});
+ await p.waitForFunction(()=>!document.getElementById('gsw'),null,{timeout:8000}); ok(true,'welcome overlay gone after the lesson loads');
+ const w1=await p.evaluate(()=>GSApp.log().filter(e=>e[1]==='welcome_seen').map(e=>e[2]));
+ ok(w1.length===1&&w1[0].full===true&&w1[0].skipped===false&&w1[0].ms+400<=2100,'full welcome once, lesson visible by 2.1 s ('+JSON.stringify(w1)+')');
+ const cap=await p.waitForFunction(()=>document.querySelector('.gs-intro')&&{under:!!document.getElementById('gsw')}).then(h=>h.jsonValue());
+ ok(!cap.under,'first-visit caption shown after the welcome, not under it');
  await p.goto(base+'?home=1'); await p.waitForSelector('#main .today');
  ok(!(await p.textContent('#main')).includes("What's your game"),'no level picker before the first lesson');
  await p.screenshot({path:out+'app_home_first.png',fullPage:true});
@@ -30,7 +35,7 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  await p.click('[data-u=yes]'); await p.fill('.fbtx','Loved seeing the reply'); await p.click('#fbsend');
  ok((await p.textContent('.appblk')).includes('Thanks'),'feedback sent');
  const ev=await p.evaluate(()=>GSApp.log().map(e=>e[1]));
- for(const e of ['app_open','auto_start','lesson_start','read','lesson_complete','feedback','feedback_comment']) ok(ev.includes(e),'event '+e);
+ for(const e of ['app_open','auto_start','welcome_seen','lesson_start','read','lesson_complete','feedback','feedback_comment']) ok(ev.includes(e),'event '+e);
  ok(ev.filter(e=>e==='read').length===3,'three reads logged');
  ok((await p.getAttribute('a.home','href'))==='./?home=1','Back to home never auto-starts');
  await p.click('a.home'); await p.waitForSelector('#main .today');
@@ -65,10 +70,37 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
 {const ctx=await b.newContext({viewport:{width:390,height:844}}); const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(String(e)));
  for(const how of ['close','back']){
   await p.goto(base); for(let i=0;i<50&&!p.url().includes('play.html');i++) await p.waitForTimeout(100);
-  await p.waitForFunction(()=>window.__test,null,{timeout:20000});
+  await p.waitForFunction(()=>window.__test,null,{timeout:20000}); await p.waitForFunction(()=>!document.getElementById('gsw'),null,{timeout:8000});
   if(how==='close') await p.click('#close'); else await p.goBack();
   for(let i=0;i<40&&!p.url().includes('home=1');i++) await p.waitForTimeout(100); await p.waitForTimeout(900);
   ok(p.url().endsWith('?home=1')&&!!(await p.$('#main .today')),how+' from an auto-started lesson lands on Home and stays ('+p.url()+')');}
+ const w3=await p.evaluate(()=>GSApp.log().filter(e=>e[1]==='welcome_seen').map(e=>e[2]));
+ ok(w3.length===2&&w3[0].full&&!w3[1].full&&w3[1].ms+400<=700,'same-day reload shows the short welcome, lesson visible by 0.7 s ('+JSON.stringify(w3)+')');
+ await ctx.close();}
+
+// 3c. the welcome: a tap skips; reduced motion is still; a slow lesson holds the final frame (never blank)
+{const ctx=await b.newContext({viewport:{width:375,height:667}}); const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(String(e)));
+ await p.goto(base,{waitUntil:'commit'}); await p.waitForSelector('#gsw.full'); await p.waitForTimeout(300); await p.mouse.click(187,500);
+ const gone=await p.evaluate(()=>{const w=document.getElementById('gsw');return !w||getComputedStyle(w).opacity==='0';});
+ await p.waitForFunction(()=>window.__test&&!document.getElementById('gsw'),null,{timeout:20000});
+ const ws=await p.evaluate(()=>GSApp.log().filter(e=>e[1]==='welcome_seen').map(e=>e[2]));
+ ok(gone&&ws.length===1&&ws[0].skipped===true,'a tap skips the welcome at once ('+JSON.stringify(ws)+')');
+ await ctx.close();}
+{const ctx=await b.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'}); const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(String(e)));
+ await p.route(/engine\.js/,async r=>{await new Promise(f=>setTimeout(f,1200)); r.continue();});
+ await p.goto(base,{waitUntil:'commit'}); await p.waitForSelector('#gsw.still'); await p.waitForTimeout(600);
+ const st=await p.evaluate(()=>{const w=document.getElementById('gsw');return {ball:getComputedStyle(w.querySelector('.gsw-ball')).opacity,promise:getComputedStyle(w.querySelector('.gsw-promise')).opacity,anim:getComputedStyle(w.querySelector('.gsw-in')).animationName};});
+ ok(st.ball==='0'&&st.promise==='1'&&st.anim==='none','reduced motion: static wordmark and promise, no motion ('+JSON.stringify(st)+')');
+ await p.waitForFunction(()=>window.__test&&!document.getElementById('gsw'),null,{timeout:20000}); ok(true,'reduced-motion welcome leaves once the lesson is ready');
+ await ctx.close();}
+{const ctx=await b.newContext({viewport:{width:390,height:844}}); const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(String(e)));
+ await p.route(/engine\.js/,async r=>{await new Promise(f=>setTimeout(f,3500)); r.continue();});
+ await p.goto(base,{waitUntil:'commit'}); await p.waitForSelector('#gsw.full'); await p.waitForTimeout(2600);
+ const h=await p.evaluate(()=>{const w=document.getElementById('gsw');return w&&{cls:w.className,op:getComputedStyle(w).opacity};});
+ ok(!!h&&h.cls.includes('wait')&&h.cls.includes('hit')&&h.op==='1','slow lesson: the welcome holds its final frame with a pulse ('+JSON.stringify(h)+')');
+ await p.waitForFunction(()=>window.__test&&!document.getElementById('gsw'),null,{timeout:20000});
+ const wl=await p.evaluate(()=>GSApp.log().filter(e=>e[1]==='welcome_seen').map(e=>e[2]));
+ ok(wl.length===1&&wl[0].ms>=3000,'slow lesson: welcome leaves once it is ready ('+JSON.stringify(wl)+')');
  await ctx.close();}
 
 // 4. unknown lesson goes home; desktop home renders
