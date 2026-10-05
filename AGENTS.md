@@ -37,6 +37,36 @@ current contracts.
 
 ## Shared Git and release workflow — 24 September 2026
 
+### Build → independent review → “ship it” → merge → production verification
+
+This loop applies to every PR and must be followed in fresh Claude and Codex
+sessions. The repository and GitHub PR are the durable record; do not rely on
+chat history, agent memory, or Eoin relaying messages between agents.
+
+1. **Build:** Either Claude or Codex may build a change end-to-end, owning the
+   task branch, implementation, checks, PR and exact review preview.
+2. **Independent review:** The agent that did **not** build the change reviews
+   the PR independently: Claude reviews Codex's work; Codex reviews Claude's.
+   Check the diff, required checks, preview and release implications against
+   the project contracts. Record the reviewed commit SHA and verdict on the PR.
+3. **Resolve on GitHub:** Put review findings and comments directly on the
+   GitHub PR. The builder reads them there, fixes them and replies there; Eoin
+   does not need to relay findings between agents. Have the independent reviewer
+   recheck affected work before presenting the final version for approval.
+4. **Human gate:** Eoin's explicit **“ship it”** is required before merge or
+   production release and approves only the exact reviewed version. Independent
+   review, passing checks, migration approval and agent agreement do not replace
+   this gate. Record approval and its exact version on the PR.
+5. **Builder owns release:** After “ship it”, the builder owns the merge,
+   production verification and rollback if required, following
+   `RELEASE_PROTOCOL.md`. Verify the staged production artifact before promotion
+   and the live domain afterward. If a verified regression requires rollback,
+   restore and verify the recorded last-good production deployment. Record the
+   merge commit, deployment identity, verification results and any rollback on
+   the PR and in the repository's release record.
+
+### Git and deployment rules
+
 - One responsible agent per project task. Fetch first and inspect local work;
   never pull/reset over another agent's uncommitted changes. Create a task branch
   before claiming it in `WORKLOG.md`.
