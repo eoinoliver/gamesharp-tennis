@@ -47,12 +47,15 @@ runtime = runtime.replace('__LESSON__', '/* LESSON is supplied by the page */')
 engine = ('/* GameSharp engine: shared by every lesson. Built from rally/lesson_body.html, core.js, figure.js. */\n'
           + open(os.path.join(R, 'core.js')).read() + '\n' + open(os.path.join(R, 'figure.js')).read() + '\n' + runtime)
 open(os.path.join(OUT, 'engine', 'engine.js'), 'w').write(engine)
+# Sharpen athlete: the same figure + projection, wrapped in one closure with its own small runtime
+open(os.path.join(OUT, 'athlete.js'), 'w').write('/* GameSharp Sharpen athlete. Built from rally/core.js, figure.js and app_src/athlete.js. */\n(function(){\n'
+    + open(os.path.join(R, 'core.js')).read() + '\n' + open(os.path.join(R, 'figure.js')).read() + '\n' + open(os.path.join(SRC, 'athlete.js')).read() + '\n})();\n')
 
 # ---------- version (content hash) ----------
 h = hashlib.sha256()
 for dp, _, fs in sorted(os.walk(OUT)):
     for f in sorted(fs): h.update(open(os.path.join(dp, f), 'rb').read())
-for f in ('app.js', 'index.html', 'play_host.html', 'sharpen.js', 'sfx.js', 'cine.js'): h.update(open(os.path.join(SRC, f), 'rb').read())
+for f in ('app.js', 'index.html', 'play_host.html', 'sharpen.js', 'sfx.js', 'cine.js', 'athlete.js'): h.update(open(os.path.join(SRC, f), 'rb').read())
 for f in sorted(os.listdir(os.path.join(SRC, 'sharpen'))): h.update(open(os.path.join(SRC, 'sharpen', f), 'rb').read())
 VER = h.hexdigest()[:10]
 open(os.path.join(OUT, 'catalog.js'), 'w').write('window.GS_CATALOG=%s;\nwindow.GS_VERSION="%s";\n' % (dump(cat), VER))

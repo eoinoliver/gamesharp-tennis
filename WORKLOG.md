@@ -125,3 +125,10 @@ canonical local paths and “next” steps below are historical, not current rul
 - Branch `claude/home-done-compact-2026-10-05` from main `398c664`. Eoin: make the Home "Done today" banner far smaller. `app_src/index.html` only: label row now carries the countdown ("Next in 8h 10m"), title is just "Day one done." / "N-day streak.", tomorrow's lesson on one line, buttons 44 px. Dropped the filler "See you tomorrow." and "Keep the streak going." Card height 236 → 142 px at 390x844 and 375x667. Today's-challenge card unchanged.
 - Baseline hashes updated for app_src/index.html, app/catalog.js, app/index.html, app/play.html (version string only).
 - Checks: `npm test` 10/10, `npm run test:browser` 27/27.
+
+## 5 Oct 2026 — Sharpen athlete (Claude)
+
+- Branch `claude/sharpen-athlete-2026-10-05` from main `b243705`. Eoin: bring the athlete back in Sharpen with the labels of all the strokes.
+- The static hero picture on the Sharpen map becomes the lesson engine's own figure (rally/core.js + figure.js, wrapped by build.py into `app/athlete.js` with `app_src/athlete.js`, loaded only when Sharpen opens) playing each stroke's real lesson clip: forehand (fh), backhand (bh), slice (bhSlice), serve (serveT), forehand volley (lowfv), backhand volley (bv), drop shot (drop), on a court with the ball and the racquet path through contact, slowed near contact. Cycles through the strokes; a row of stroke labels highlights the one playing; tapping a label loops that stroke and opens its stroke card (freeze-frames, cues, grip) below. Clips load one ahead. Reduced motion: the contact frame, still. The hero picture shows until the figure is ready. Problem tiles unchanged. Event `sharpen_stroke {stroke}`.
+- Fingerprints: added `app/athlete.js`; updated app/catalog.js, index.html, play.html, sharpen.js and app_src/build.py, index.html, sharpen.js. Release file count is now 82 (81 public).
+- Checks: `npm run check:build` PASS (82 files), `npm test` 10/10, `npm run test:browser` 27/27. Inspected at 390x844 (cycle through all 7, label tap → serve + card), reduced motion (static), 1440x900.
