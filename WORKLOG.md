@@ -111,3 +111,10 @@ canonical local paths and “next” steps below are historical, not current rul
   and says “ship it”; then the recorded pre-merge safety check, staged Git
   production verification, promotion of that same deployment and live check.
   No Desktop archiving, deletion, Golf or PropPocket migration has occurred.
+
+## 5 October 2026 — production cutover completed (Codex)
+
+PR #1 merged and its exact Git Production deployment promoted after Eoin’s
+“ship it”. Live HTTP 222/222 and app flow 33/33 passed; rollback retained.
+See `docs/migration/CUTOVER-2026-10-05.md` for exact identities and evidence.
+This log branch is documentation only and awaits approval to merge.
