@@ -68,7 +68,7 @@ window.addEventListener("pagehide",()=>{foreground=false;});
 window.addEventListener("pageshow",e=>{if(e.persisted) resume();});
 
 /* ---------- lessons, streak ---------- */
-const all=()=>CAT.daily.concat(CAT.predict);
+const all=()=>CAT.daily.concat(CAT.predict,CAT.play||[]);
 const bySlug=s=>all().find(l=>l.slug===s);
 const isDaily=s=>CAT.daily.some(l=>l.slug===s);
 function streakNow(){ if(!S.last) return 0; const g=daysBetween(S.last,today()); return g<=1?S.streak:0; }

@@ -7,7 +7,7 @@ import json, hashlib, os, re, shutil, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 R, SRC, OUT = os.path.join(ROOT, 'rally'), os.path.join(ROOT, 'app_src'), os.path.join(ROOT, 'app')
 sys.path.insert(0, SRC)
-from catalog import DAILY, PREDICT, FLAVOURS
+from catalog import DAILY, PREDICT, PLAY, FLAVOURS
 FLAV = {slug: key for key, _, slugs in FLAVOURS for slug in slugs}
 sys.path.insert(0, R)
 from order import apply as apply_order   # displayed option order per step (content audit)
@@ -22,8 +22,8 @@ for d in ('', 'engine', 'lessons', 'clips', 'icons'): os.makedirs(os.path.join(O
 dump = lambda o: json.dumps(o, separators=(',', ':'), ensure_ascii=False)
 
 # ---------- lessons + shared clips ----------
-clips, cat = {}, {'daily': [], 'predict': []}
-for group, rows in (('daily', DAILY), ('predict', PREDICT)):
+clips, cat = {}, {'daily': [], 'predict': [], 'play': []}
+for group, rows in (('daily', DAILY), ('predict', PREDICT), ('play', PLAY)):
     for slug, p, line in rows:
         L = lesson_obj(p)
         D = apply_order(json.load(open(os.path.join(R, p + '_data.json'))))
@@ -35,7 +35,7 @@ for group, rows in (('daily', DAILY), ('predict', PREDICT)):
         cat[group].append({'slug': slug, 'title': L['title'], 'line': line, 'sit': _sit, 'clips': sorted(D['clips']), 'flavour': FLAV[slug]})
 for k, s in clips.items(): open(os.path.join(OUT, 'clips', k + '.json'), 'w').write(s)
 cat['flavours'] = [{'key': k, 'name': n, 'lessons': sl} for k, n, sl in FLAVOURS]
-assert set(FLAV) == {r[0] for r in DAILY + PREDICT}, 'every lesson needs one flavour'
+assert set(FLAV) == {r[0] for r in DAILY + PREDICT + PLAY}, 'every lesson needs one flavour'
 
 # ---------- engine (core + figure + the lesson runtime, data and lesson supplied by the page) ----------
 body = open(os.path.join(R, 'lesson_body.html')).read()
@@ -88,4 +88,4 @@ open(os.path.join(OUT, 'manifest.webmanifest'), 'w').write(dump({
 for n in (180, 192, 512): shutil.copy(os.path.join(SRC, 'icons', 'icon-%d.png' % n), os.path.join(OUT, 'icons'))
 
 tot = sum(os.path.getsize(os.path.join(dp, f)) for dp, _, fs in os.walk(OUT) for f in fs)
-print('app', VER, 'lessons', len(DAILY) + len(PREDICT), 'clips', len(clips), 'total KB', tot // 1000)
+print('app', VER, 'lessons', len(DAILY) + len(PREDICT) + len(PLAY), 'clips', len(clips), 'total KB', tot // 1000)

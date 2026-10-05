@@ -141,3 +141,10 @@ canonical local paths and “next” steps below are historical, not current rul
 - App: DAILY lesson 22 (tactics flavour); Sharpen Serve zone "My first serve keeps coming back". Pro Lens: ATP Tour / Golden Set Analytics for TDI (Dec 2022), claims limited to the article.
 - Fingerprints: new app/lessons/serve-away-from-the-lean.json; updated catalog.py, sharpen.js, order.json and the rebuilt app files.
 - Checks: `npm test` 10/10; `npm run test:browser` 28/28 (24 gates incl. the new lesson, payoff incl. the new lesson); inspected all 3 steps + wrap at 390x844 and 375x667 (no overflow, no errors).
+
+## 5 Oct 2026 — Play the Point in the app (Claude)
+
+- Branch `claude/play-the-point-2026-10-05`, stacked on the lesson-22 branch. The lab's branching prototype (rally/bp_scenes.py, make_bp.py; bp_data.json rebuilt on the Mac byte-identical with the current clips) becomes the app's first Play the Point: one point on your serve, up to three decisions, each choice played out by physics and deciding the next situation (only wide serve -> open corner -> behind them ends in a winner; other paths end back to even or still your point).
+- App: catalog PLAY group + 'play' flavour; build.py and app.js know the group; Explore features it at the top; Home's done card offers "Play the Point" in Replay's slot (replay stays in Sharpen / Explore); event `play_point_open {from:"home"}`; tools/browser-checks.mjs gates the play group too.
+- Fingerprints: new app/lessons/play-the-point.json; updated app.js, build.py, catalog.py, index.html and the rebuilt app files.
+- Checks: `npm test` 10/10; `npm run test:browser` 29/29 (25 gates incl. every branch node). Played the best path (B,B,C -> winner) and a short path (A,C -> back to even) at 390x844: no overflow, events logged, no errors.
