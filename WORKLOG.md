@@ -119,3 +119,9 @@ canonical local paths and “next” steps below are historical, not current rul
 - Baseline: approved feature work, so `docs/migration/live-app-sha256.json` (app/catalog.js, index.html, play.html) and `imported-source-sha256.json` (play_host.html, gs/app_flow.mjs) updated to the new hashes. No other entries changed.
 - Checks: `npm run check:build`, `npm test` 10/10, `npm run test:browser` 27/27 (app_flow with 8 new welcome checks, layout 9/9, payoff, Pusher, 23 gates).
 - Eoin said "go ahead and ship it" (5 Oct) after seeing the frames and recording of this exact welcome.
+
+## 5 Oct 2026 — Compact done-today card (Claude)
+
+- Branch `claude/home-done-compact-2026-10-05` from main `398c664`. Eoin: make the Home "Done today" banner far smaller. `app_src/index.html` only: label row now carries the countdown ("Next in 8h 10m"), title is just "Day one done." / "N-day streak.", tomorrow's lesson on one line, buttons 44 px. Dropped the filler "See you tomorrow." and "Keep the streak going." Card height 236 → 142 px at 390x844 and 375x667. Today's-challenge card unchanged.
+- Baseline hashes updated for app_src/index.html, app/catalog.js, app/index.html, app/play.html (version string only).
+- Checks: `npm test` 10/10, `npm run test:browser` 27/27.
