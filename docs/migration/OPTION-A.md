@@ -45,3 +45,15 @@ SHA-1 identifiers match the imported app. This inventory is uploaded source,
 not a separate complete deployed-output inventory. Analytics tests pass 10/10.
 Further Git/Preview/browser verification is recorded below once completed. No independent coaching approval is claimed.
 Production remains the baseline above; no merge, promotion or rollback performed.
+
+### Git output correction
+
+The first Git Preview exposed `app/vercel.json` as a static URL (CLI hosting
+had treated it as configuration). `tools/build-hosted.py` rebuilds unchanged
+source, then removes only that configuration file from hosted output. Root
+`vercel.json` retains identical runtime routes/headers. Hosted output is the
+80 publicly served live files. The committed 81-file artifact remains intact.
+
+Vercel adds its exact Feedback script suffix to Preview index/play HTML. The
+migration verifier records raw hashes and normalizes only that exact suffix on
+Preview hosts, never on the live custom domain; all remaining bytes must match.

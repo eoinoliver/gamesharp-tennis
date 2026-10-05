@@ -1158,7 +1158,7 @@
       ]
     }
   ],
-  "buildCommand": "python3 app_src/build.py",
+  "buildCommand": "python3 tools/build-hosted.py",
   "outputDirectory": "app",
   "installCommand": "npm ci",
   "framework": null

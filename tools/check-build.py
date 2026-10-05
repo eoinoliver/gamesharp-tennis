@@ -16,3 +16,10 @@ app_config = json.loads((ROOT/'app/vercel.json').read_text())
 assert {k:v for k,v in root_config.items() if k not in ('buildCommand','outputDirectory','installCommand','framework')} == app_config, 'Runtime routing differs'
 assert root_config['outputDirectory'] == 'app'
 print(f'PASS: {len(actual)} exact release files; {len(source)} unchanged source/test inputs; identical runtime routes and headers')
+
+subprocess.run(['python3','tools/build-hosted.py'],cwd=ROOT,check=True)
+public = {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()
+          for p in (ROOT/'app').rglob('*') if p.is_file()}
+assert public == {k:v for k,v in manifest.items() if k != 'app/vercel.json'}, 'Hosted output changed'
+subprocess.run(['python3','app_src/build.py'],cwd=ROOT,check=True)
+print('PASS: hosted build includes exactly the 80 live public files; committed artifact restored')

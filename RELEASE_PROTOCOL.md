@@ -23,12 +23,14 @@ required dependency. Never commit auth configuration or private credentials.
    are ignored evidence, not source. Inspect Home, lesson and Sharpen on mobile
    and desktop, including image load, sound and reduced motion.
 4. Push the branch. GitHub `contracts` and Vercel checks must pass. Git builds
-   execute `python3 app_src/build.py` and serve only `app/`; root `vercel.json`
+   execute `python3 tools/build-hosted.py` and serve only the 80 public files in `app/`; the hosted builder removes `app/vercel.json`
+   and root `vercel.json`
    copies the live redirects/headers with build-only settings added.
 5. Map the exact full Git SHA to its unique Git Preview URL. Run
-   `python3 app_src/verify-hosted.py <URL> --manifest docs/migration/live-app-sha256.json --output <local-report.json>`.
+   `python3 tools/verify-migration-host.py <URL> --manifest docs/migration/live-app-sha256.json --report <local-report.json> --deployment-id <exact-preview-id>`.
    For protected previews append `--authenticated` and set `GS_VERCEL_CLI` to
-   the authenticated pinned CLI entry point. Inspect the Preview's routing,
+   the authenticated pinned CLI entry point. The verifier records raw hashes and permits only the exact Vercel Feedback
+   suffix for that deployment ID on Preview HTML. Inspect the Preview's routing,
    assets and complete user paths; do not describe a hash manifest as proof of
    browser or coaching correctness.
 6. The other agent independently reviews the PR and records commit/verdict and
