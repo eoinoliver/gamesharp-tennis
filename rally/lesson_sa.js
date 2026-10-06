@@ -1,6 +1,6 @@
 const LESSON={
  "title": "Saturday Point #1",
- "hook": "One point on your serve, built from this week's lessons. Two choices each shot: the one you want to hit, and the one that wins.",
+ "hook": "One point on your serve, built from five of your lessons. Two choices each shot: the one you want to hit, and the one that wins.",
  "memHTML": "Serve to open it. <span>Earn the finish.</span>",
  "tomorrow": "In your next match, play this pattern once on purpose: serve wide, hit into the open court, then look behind them.",
  "cam0": {
@@ -24,7 +24,7 @@ const LESSON={
   },
   {
    "step": 4,
-   "lesson": "short-ball"
+   "lesson": "open-court"
   },
   {
    "step": 5,
@@ -135,33 +135,33 @@ const LESSON={
   {
    "ph": "Shot 4 · Read their reply",
    "short": "Read",
-   "name": "At full sprint",
+   "name": "They race back",
    "scene": "sa4",
-   "sit": "They reach your +1 at a full sprint.",
-   "q": "What comes back?",
+   "sit": "They reach your +1 at a full sprint, float it back, and race for the middle.",
+   "q": "Where will the space be for your finish?",
    "opts": [
-    "A high float, to buy time",
-    "A hard pass down the line"
+    "The corner they just hit from",
+    "The open side they're racing to"
    ],
    "correct": 0,
-   "payoff": "A player at full stretch buys time with height. Get ready for the float.",
-   "principle": "Height and depth buy back the time a stretch took.",
-   "why": "At a full sprint they can't hit through the ball. The only safe answer is a high float, the same one you learned in The Short Ball, from their side.",
+   "payoff": "They're running toward the open side. The corner they left stays empty.",
+   "principle": "When a player is moving, the empty space is where they're arriving.",
+   "why": "The open side looks empty, but that's where they're running, so by the time your ball gets there, so are they. The corner they just hit from stays empty while they race back.",
    "rail": [
     "1 They sprint",
     "2 They float",
-    "3 You're set"
+    "3 They race back"
    ],
    "cues": {
     "ball": "YOUR +1",
     "you": "READ IT",
-    "opp": "FULL SPRINT"
+    "opp": "RACING BACK"
    },
-   "unlock": "Read the float",
-   "take": "They're sprinting? Expect the float and get set.",
+   "unlock": "Read the run",
+   "take": "They're racing back? Hit behind them.",
    "lines": {
-    "A": "Right: a high float. You're set early with time to choose.",
-    "B": "Not at a full sprint. All they can do is float it."
+    "A": "Right: they're running away from it. That corner stays open.",
+    "B": "That's where they're running. By your next ball, they'll be there."
    }
   },
   {

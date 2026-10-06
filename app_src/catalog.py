@@ -33,7 +33,7 @@ PREDICT = [
 
 # Play the Point (5 Oct 2026): one branching point; your calls decide what happens next. Its own mode, like Predict.
 PLAY = [
-    ('saturday-point-1', 'sa', 'One point, built from lessons 1-4. Each shot: the one you want to hit, or the one that wins.'),   # weekend point (6 Oct)
+    ('saturday-point-1', 'sa', 'One point, built from five of your lessons. Each shot: the one you want to hit, or the one that wins.'),   # weekend point (6 Oct)
     ('play-the-point', 'bp', 'Three shots, your calls. Each choice decides what happens next.'),
 ]
 
