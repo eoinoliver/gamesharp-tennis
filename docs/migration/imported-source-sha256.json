@@ -1,7 +1,7 @@
 {
   "app_src/build.py": "bcd7a555b0e5194a07eee6345a8eacf7d4fe5896a4ed664f730c29151342138c",
-  "app_src/catalog.py": "14f24ec8f9862c6725d9797b577f1af008778113b74c8592dbdb47b2d33df954",
-  "app_src/index.html": "2a6546398ed77558b0f058793238af9b7f9d8a35526eb1ed39dc86b7a284a7cc",
+  "app_src/catalog.py": "5d483c4b515952d97adba87fafd2a87146b73abd92d4f45309099a8662203ab7",
+  "app_src/index.html": "7a1f5d2e4c440de414a5a045c0d3e0459e5ca28fcd791d475848d52e76d25f54",
   "app_src/app.js": "9fce3695e6cd522ca1d5e4f3b31d88552d1bed48f8b1f75c62d9cad45bca985f",
   "app_src/play_host.html": "88b0ca9b07e5c46d539682dd3c502e3d6b141c5aa7ba234077bf709830334a20",
   "app_src/sharpen.js": "a9dcc00343f9b3be699368e5ec601e216c6160a1a95d56bd453ac399c2df0124",
@@ -40,7 +40,7 @@
   "app_src/sharpen/serve_0.jpg": "c52b94c53ec198e5373eca44afa99b0beb5cab52cc39e03be8acb7c76225f399",
   "rally/core.js": "50949a1ac1e7028edbe35b3a17ca3f25f45025bf48d0ffe4037748e1a8cfde21",
   "rally/figure.js": "64ca9fd2d07bf56852e6d9c6f11068b35bd608de99b6847b3d1b36d6d1119656",
-  "rally/lesson_body.html": "9e6266909373d344dd21470732fe04a32aa552feac7f9ff336304179733b7844",
+  "rally/lesson_body.html": "28599186387c655d8581395e2f817b7398eece1112729e29a92433040df48059",
   "rally/order.py": "1dd12ce795ede1df9a63845974924e5f6b50d15be6ca6cffe17c3cee5d70b1a4",
   "rally/order.json": "99cf1cb3af1d081851b04aec67fddd042ed38150d882b64e24747eee02ac3e07",
   "rally/lesson_serve.js": "35c7b0965a206eb1f388594ab9be7930f4af2f93d0ee0510796097e4cafa1dc1",

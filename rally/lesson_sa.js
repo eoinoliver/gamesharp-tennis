@@ -196,5 +196,6 @@ const LESSON={
     "B": "Right: behind them, and they can't turn. Winner."
    }
   }
- ]
+ ],
+ "flow": true
 };
