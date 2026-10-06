@@ -48,7 +48,7 @@ const LESSON={
     "Wide, to pull them off the court"
    ],
    "correct": 1,
-   "payoff": "Wide drags them off the court. They can only block it back.",
+   "payoff": "Wide drags them off the court.",
    "principle": "The serve asks the question. Ask one that opens the court.",
    "why": "Standing in the middle, they cover the T easily. Wide makes them reach outside the sideline, so the return is a block and the court behind it is open.",
    "rail": [
@@ -65,7 +65,7 @@ const LESSON={
    "take": "Returner in the middle? Serve wide.",
    "lines": {
     "A": "Short, but they're still in the middle. Nothing is open.",
-    "B": "Right: off the court. They block it short, and the court is open."
+    "B": "Right: they have to reach outside the sideline for it."
    }
   },
   {
@@ -73,7 +73,7 @@ const LESSON={
    "short": "Read",
    "name": "Pulled wide",
    "scene": "sa2",
-   "sit": "Your wide serve has them reaching outside the sideline.",
+   "sit": "They're reaching for it outside the sideline.",
    "q": "Where does their return go?",
    "opts": [
     "Short, through the middle",
@@ -96,7 +96,7 @@ const LESSON={
    "unlock": "Read it early",
    "take": "Pulled them wide? Expect the short block and move in.",
    "lines": {
-    "A": "Right: a block, short through the middle. You're moving in early.",
+    "A": "Right: stretched that far, all they can do is block it short.",
     "B": "Not from out there. Stretched, they can only block it short."
    }
   },
@@ -105,14 +105,14 @@ const LESSON={
    "short": "+1",
    "name": "The short ball",
    "scene": "sa3",
-   "sit": "Their blocked return sits up short. They're still out wide, scrambling back.",
+   "sit": "It's short, and they're still out wide.",
    "q": "Where does your +1 go?",
    "opts": [
     "A drop shot, they're deep",
     "Into the open court"
    ],
    "correct": 1,
-   "payoff": "Their position earned the attack. The open court makes them sprint.",
+   "payoff": "Their position earned the attack.",
    "principle": "Short is an invitation. Their position decides if you accept.",
    "why": "They're stranded wide, so the open court is the attack their position gave you. The drop gives them a short run straight at the ball.",
    "rail": [
@@ -129,7 +129,7 @@ const LESSON={
    "take": "They're stranded wide? Hit the +1 into the open court.",
    "lines": {
     "A": "They run it down and punish it. You're stretched.",
-    "B": "Right: they sprint, and only just reach it. You're set early."
+    "B": "Right: the open court makes them sprint for it."
    }
   },
   {
@@ -137,7 +137,7 @@ const LESSON={
    "short": "Read",
    "name": "They race back",
    "scene": "sa4",
-   "sit": "They reach your +1 at a full sprint, float it back, and race for the middle.",
+   "sit": "They're sprinting for it.",
    "q": "Where will the space be for your finish?",
    "opts": [
     "The corner they just hit from",
@@ -169,7 +169,7 @@ const LESSON={
    "short": "Finish",
    "name": "Their float",
    "scene": "sa5",
-   "sit": "Their float sits up. You're set. They're still racing back toward the middle.",
+   "sit": "Their float sits up. You're set.",
    "q": "Where does your finish go?",
    "opts": [
     "Deep through the middle, safe",
