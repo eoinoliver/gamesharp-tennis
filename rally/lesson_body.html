@@ -599,7 +599,7 @@ function myGame(){try{return JSON.parse(localStorage.getItem(CUE_KEY)||"[]");}ca
 function cueSaved(){return myGame().some(c=>c.cue===LESSON.cue);}
 function saveCue(){try{const g=myGame(); g.push({lesson:LESSON.title,cue:LESSON.cue,saved_at:Date.now(),callback_tags:LESSON.callbackTags||[]}); localStorage.setItem(CUE_KEY,JSON.stringify(g));}catch(e){}}
 const emit=(n,d)=>{try{window.GSApp&&GSApp.emit(n,d);}catch(e){}};   // the app shell listens; standalone pages ignore it
-function startStep(i){emit('step',{i});
+function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
   step=i; chosen=null; answered=false; showTargets=null; revealPattern=false; showDots=false; done=false;
   $("wrapup").hidden=true; setInk("");
   if(i>=NS()){finishLesson();return;}
@@ -632,6 +632,12 @@ function verdict(i,X,demo){
   showOnly(ok||demo?[X]:[X,corr]);
   optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
   setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
+  /* a point (LESSON.flow): a right answer flows on, one line and straight into the next shot; a miss still stops and explains */
+  if(LESSON.flow&&ok&&!also&&!demo&&!S.reveal&&i<NS()-1){
+    const v=$("verdict"); zone.classList.add("ans");
+    v.innerHTML=`<div class="fb flow" role="status"><div class="copy">${S.lines[X]}</div></div>`; v.hidden=false; tallView();
+    clearTimeout(window.__flowT); window.__flowT=setTimeout(()=>{if(step===i&&answered)startStep(i+1);},1800);
+    return;}
   const lab=demo?`Option ${X}`:also?`Also works · best: ${corr}`:ok?"Good read":`Better: ${corr}`;
   const v=$("verdict");
   zone.classList.add("ans");
