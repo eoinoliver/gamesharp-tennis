@@ -45,5 +45,8 @@
 "lf3": "BACD",
 "rs1": "BCAD",
 "rs2": "CABD",
-"rs3": "ADCB"
+"rs3": "ADCB",
+"ab1": "CADB",
+"ab2": "BDAC",
+"ab3": "DBCA"
 }

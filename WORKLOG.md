@@ -200,3 +200,9 @@ canonical local paths and “next” steps below are historical, not current rul
 - Answer the Drop (net_lib): you reach their drop with 0.3 s to spare; they hold mid-court, deep behind them wins; they back off, deep middle keeps you in it (the corner gets passed); they follow it in, deep behind them again (the counter-drop sits up or finds the net at every speed). No Pro Lens (nothing verified).
 - App: DAILY + catalog lines; Sharpen Return zone adds the return-spot lesson, Net zone adds Answer the Drop; Sharpen worries "Big serves rush my return" and new "Drop shots catch me out".
 - Checks: gates pass; play-throughs at 390x844 and 375x667, no overflow, no errors.
+
+## 6 Oct 2026 — Lesson 27: Attack the Backhand the Long Way (Claude)
+- Branch `claude/lesson-27-2026-10-06` from main. Authored in gamesharp-lab (8103148: rally/ab_scenes.py), from legacy seq_018.
+- A right-hander with a weak backhand who has started guarding it. Wing rule documented and approved 5 Oct (as in The Lefty): set forehand attacks (115 km/h), stretched forehand plays crosscourt, backhand plays a rally ball, backhand at a stretch (need >= 3.0 m/s) only blocks short; passes off the backhand 20% slower. Step 1: wide to the forehand pulls them off it (need 3.9, backhand corner open); hard or high to the backhand comes back steady; the middle feeds the forehand (you're stretched). Step 2: now into the backhand corner: stretched, they block short; back to the forehand, they attack. Step 3: approach down the line to the backhand: slow pass, put away; crosscourt or short gets passed. No Pro Lens (nothing verified).
+- App: DAILY + Court tactics; Sharpen Match play worry "Their weak side stops working".
+- Checks: gate passes; play-throughs at 390x844 and 375x667, no overflow, no errors.
