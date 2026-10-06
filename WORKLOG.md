@@ -179,3 +179,9 @@ canonical local paths and “next” steps below are historical, not current rul
 
 ## 6 Oct 2026 — Points flow (Claude)
 - Branch `claude/points-flow-2026-10-06`. Eoin approved removing the stop-start in points: `LESSON.flow` (set on Saturday Point #1): a right answer shows its one line for 1.8 s and goes straight to the next shot (no panel, no Next tap); a miss still stops with the full panel; the last shot keeps its panel and "Take it to court". Ordinary lessons (no flag) unchanged. All-correct run: 5 shots, 1 tap, ~27 s to the last question. Gates (saturday-point-1, serve-plus-one, play-the-point) and app_flow pass.
+
+## 6 Oct 2026 — Saturday Point #2 (Claude)
+- Branch `claude/saturday-point-2-2026-10-06`, stacked on `claude/points-flow-2026-10-06`. Authored in gamesharp-lab (36ffe6c, rally/sb_scenes.py).
+- A return game at 5-2 from the five lessons no point had used: Middle Return (deep middle vs the far sideline: wide), The Lead (keep the depth vs shorter and safer: they step in), Recovery (shade to their crosscourt vs the centre mark: computed reach, in time vs stretched), Approach Volley (deep vs short: passed), Split Step (a read: land as they hit; text gives the computed times 0.21 s vs 0.09 s, since an early or late split can't be drawn cleanly here). Finish: volley into the open court, put away. Continuous-point rules; flow on.
+- App: catalog play group adds saturday-point-2; Explore and Home feature "this week's point" = the first weekend point you haven't played (else the newest); the others stay in the Explore list.
+- Checks: gate passes; flow run 5 shots, 1 tap, no errors; featuring verified (#1 for a new player, #2 once #1 is played); `npm test` 10/10.
