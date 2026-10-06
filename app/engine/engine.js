@@ -403,7 +403,7 @@ function setCamera(you){
 /* ---------- lesson content ---------- */
 /* LESSON is supplied by the page */
 const LETTERS="ABCD", mode="daily";
-const NS=()=>LESSON.branch?LESSON.steps.length:3;   // a branching point has as many reads as the path you play
+const NS=()=>LESSON.steps.length;   // 3 for a lesson; a branching point has as many reads as the path you play; a weekend point has 5
 const nT=k=>[...LETTERS].filter(X=>SC[k+X]).length;   // options with a scene (a branch node can have 2 or 3)
 if(LESSON.branch) LESSON.steps=[LESSON.nodes[LESSON.branch]];
 function dotsOf(key){return SC[key]&&SC[key].info.dots||null;}
@@ -489,7 +489,7 @@ function startStep(i){emit('step',{i});
   $("wrapup").hidden=true; setInk("");
   if(i>=NS()){finishLesson();return;}
   const S=LESSON.steps[i];
-  $("count").textContent=LESSON.branch?`Shot ${i+1}`:`${i+1} of 3`;
+  $("count").textContent=LESSON.branch?`Shot ${i+1}`:`${i+1} of ${NS()}`;
   let ready=0; const go=()=>{if(step===i&&!answered&&++ready===2) enableAsk();};   // both: the situation read in, and the play at the decision
   typeSit(S.sit,go);
   paintRail(railFor(S)); paintAsk(S); tallView();
@@ -554,7 +554,7 @@ function finishLesson(){
   done=true; const okA=(a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)));
   const A=ans.slice(0,NS()), n=A.filter(okA).length; emit('complete',{n});
   sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook;
-  zone.hidden=true; paintRail([]); setInk(LESSON.branch?(SC[LESSON.finaleScene].info.outcome==="won"?"You built the winner":`${n} of ${A.length} read right`):`${n} of 3 read right`,false);
+  zone.hidden=true; paintRail([]); setInk(LESSON.branch?(SC[LESSON.finaleScene].info.outcome==="won"?"You built the winner":`${n} of ${A.length} read right`):`${n} of ${NS()} read right`,false);
   const w=$("wrapup"), p=LESSON.pro;
   w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${LESSON.memHTML}</div>
       <div class="score3">${A.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
@@ -579,7 +579,7 @@ function render(){
       seg(frag,E[i-1],E[i],"rgba(240,236,227,.5)",1.4,.55);}
     const e=E[E.length-1];ring(frag,[e[0],e[1],0.006],0.16,0.12,"rgba(240,236,227,.7)",1.4,.8);
     label(frag,[e[0],e[1],0],"LAST POINT","rgba(240,236,227,.8)",14,.9,-18);}
-  const St0=mode==="daily"&&step<3?LESSON.steps[step]:null, fz0=St0&&scene.startsWith(St0.scene)?SC[scene].info.freeze:null;
+  const St0=mode==="daily"&&step<NS()?LESSON.steps[step]:null, fz0=St0&&scene.startsWith(St0.scene)?SC[scene].info.freeze:null;
   const cueOnEarly=fz0!=null&&St0.cues&&g>=fz0-3&&g<=fz0+10;
   // bounces and landings
   for(const m of sc.marks){if(g<m.frame)continue;const age=g-m.frame, p=[m.pos[0],m.pos[1],0.006];
@@ -642,7 +642,7 @@ function render(){
       parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:(rr*2.6).toFixed(1),fill:"var(--ball)",opacity:toss?.28:.18}),z:zb+0.01});
       parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:rr.toFixed(1),fill:"var(--ball)",stroke:"#6f7d10","stroke-width":.6}),z:zb-0.02});}}
   parts.sort((a,b)=>b.z-a.z); for(const {n} of parts) frag.appendChild(n);
-  const St=mode==="daily"&&step<3?LESSON.steps[step]:null, fz=St&&scene.startsWith(St.scene)?SC[scene].info.freeze:null;
+  const St=mode==="daily"&&step<NS()?LESSON.steps[step]:null, fz=St&&scene.startsWith(St.scene)?SC[scene].info.freeze:null;
   const cueOn=fz!=null&&St.cues&&g>=fz-3&&g<=fz+10;
   if(cueOn){const bb=ballAt(sc,g);
     if(bb){seg(frag,[bb[0],bb[1],0.01],bb,"var(--ball)",2,.9);seg(frag,[bb[0]-0.12,bb[1],0.01],[bb[0]+0.12,bb[1],0.01],"var(--ball)",2,.9);
@@ -673,7 +673,7 @@ $("again").onclick=()=>{
   // Preserve feedback when Replay interrupts a choice, including the completion delay.
   const resume=onStop||pendingStop;
   const key=S.scene+chosen, fr=SC[key].info.freeze; run(key,Math.max(0,fr-60),SC[key].frames-1,resume);};
-$("back").onclick=()=>{if(step>0&&!done){startStep(step-1);} else if(done){startStep(2);} else location.href=window.GS_HOME_URL||"./";};
+$("back").onclick=()=>{if(step>0&&!done){startStep(step-1);} else if(done){startStep(NS()-1);} else location.href=window.GS_HOME_URL||"./";};
 if(window.GS_HOME_URL){const c=$("close");if(c)c.href=window.GS_HOME_URL;}
 const FS_IN='<path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/>',
       FS_OUT='<path d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/>';

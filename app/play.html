@@ -278,6 +278,7 @@ details.note a{color:var(--gold)}
 .gs-snd[aria-pressed=false]{color:rgba(240,236,227,.4)}
 .visual.full .gs-snd,.visual:fullscreen .gs-snd{top:auto;bottom:max(12px,env(safe-area-inset-bottom))}
 .gs-intro{position:absolute;left:10px;top:10px;z-index:4;width:min(calc(100% - 64px),380px);text-align:left!important;padding:12px 16px;border-radius:14px;background:rgba(4,12,7,.78);border:1px solid rgba(200,168,75,.35);text-align:center;color:#f4f1e8;display:grid;gap:3px;animation:gsIntro .6s ease-out both;cursor:pointer}
+.gs-uses{display:grid;gap:6px;margin:6px 0 14px}.gs-uses a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--ink,#f0ece3);font-size:14px;line-height:1.35}.gs-uses a span{color:var(--gold,#c8a84b);font-weight:700;width:14px}.gs-uses a.todo{color:rgba(240,236,227,.7)}.gs-uses a i{font-style:normal;font-size:12px;color:var(--gold,#c8a84b)}.gs-feeds a{color:var(--gold,#c8a84b)}
 .gs-intro b{font-size:14px}.gs-intro span{font-size:12.5px;color:rgba(244,241,232,.7)}
 .gs-intro.out{opacity:0;transition:opacity .5s}
 @keyframes gsIntro{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
@@ -336,13 +337,13 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=b58edc8d7d"></script>
-<script src="catalog.js?v=b58edc8d7d"></script>
-<script src="app.js?v=b58edc8d7d"></script>
-<script src="sfx.js?v=b58edc8d7d"></script>
+<script src="config.js?v=a34ce604fb"></script>
+<script src="catalog.js?v=a34ce604fb"></script>
+<script src="app.js?v=a34ce604fb"></script>
+<script src="sfx.js?v=a34ce604fb"></script>
 <script>
 (function(){
-const A=GSApp, V="b58edc8d7d", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="a34ce604fb", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
 const QS=new URLSearchParams(location.search);
@@ -418,9 +419,14 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 function wrap(n){
   const w=document.getElementById("wrapup"); if(!w||w.querySelector(".appblk")) return;
   const s=A.streakNow(), nx=A.nextDaily(), asked=A.S.fb[slug];
+  /* Saturday Point (6 Oct): lessons and the weekend point point at each other */
+  const feeds=(A.CAT.play||[]).filter(p=>p.uses&&p.uses.includes(slug));
+  const used=(L.uses||[]).map(u=>A.bySlug(u)).filter(Boolean);
+  const weekBlk=used.length?`<div class="k">Built from your lessons</div><div class="gs-uses">${used.map(u=>{const d=A.S.done[u.slug];return `<a href="play.html?l=${u.slug}" class="${d?"done":"todo"}"><span>${d?"✓":"○"}</span>${esc(u.title)}${d?"":` <i>Not played yet</i>`}</a>`;}).join("")}</div>`
+    :feeds.length?`<p class="strk gs-feeds">This lesson shows up in <a href="play.html?l=${feeds[0].slug}">${esc(feeds[0].title)}</a>.</p>`:"";
   const flav=(A.CAT.flavours||[]).find(f=>f.lessons.includes(slug));
   const b=document.createElement("div"); b.className="appblk";
-  b.innerHTML=`<div class="k">Your streak</div>
+  b.innerHTML=`${weekBlk}<div class="k">Your streak</div>
     <p class="strk"><b>${s} day${s===1?"":"s"}</b> in a row${A.isDaily(slug)&&nx?`. Tomorrow: ${esc(nx.title)}.`:"."}</p>
     ${asked?"":`<div class="gsfb"><p class="fbq">Was this useful for your tennis?</p>
       <div class="fbrow"><button data-u="yes">Yes</button><button data-u="no">Not really</button></div></div>`}
