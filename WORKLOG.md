@@ -193,3 +193,10 @@ canonical local paths and “next” steps below are historical, not current rul
 ## 6 Oct 2026 — Saturday Point #4: The Pusher (Claude)
 - Branch `claude/saturday-point-4-2026-10-06` from main `dd2e024`. Authored in gamesharp-lab (sd_scenes.py): one point against a pusher from lessons 7, 17, 20, 21, 22. Serve the T away from their lean (blocked); wide block to your backhand: backhand, not the run-around (0.23 s vs stretched on their angled ball); pulled wide: high and deep (0.65 s) not the flat line (0.22 s, 63 cm margin); they wait 2 m deep: the drop (they reach it at full stretch and pop it up) not harder to the corner; pass the side they left. Continuous-point rules, flow on.
 - Checks: gate passes; flow runs (all right: 1 tap; a miss on shot 2: panel, continues); no errors; `npm test` 10/10.
+
+## 6 Oct 2026 — Lessons batch 1: Find Your Return Spot, Answer the Drop (Claude)
+- Branch `claude/lessons-batch1-2026-10-06` from main `12fa462`. Authored in gamesharp-lab (d0e6acf: rally/rs_scenes.py, ad_scenes.py). Daily lessons 25-26.
+- Find Your Return Spot (return_lib timing): big first serve, about 2 m back gives the most time (0.34 s, deep, they're pushed back); kick second serve, step inside and take it chest high (from 2 m back you're late, shoulder high, looped); their best serve is wide, shade two steps (0.22 s; from the middle it's past you). Authored rule as in Serve Away From the Lean: the time you have decides the return. Pro Lens: Medvedev's deep return position (ATP Tour, Aug 2023).
+- Answer the Drop (net_lib): you reach their drop with 0.3 s to spare; they hold mid-court, deep behind them wins; they back off, deep middle keeps you in it (the corner gets passed); they follow it in, deep behind them again (the counter-drop sits up or finds the net at every speed). No Pro Lens (nothing verified).
+- App: DAILY + catalog lines; Sharpen Return zone adds the return-spot lesson, Net zone adds Answer the Drop; Sharpen worries "Big serves rush my return" and new "Drop shots catch me out".
+- Checks: gates pass; play-throughs at 390x844 and 375x667, no overflow, no errors.

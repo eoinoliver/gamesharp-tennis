@@ -16,11 +16,12 @@ const ZONES=[
   ["I don't know what to do after my serve",["serve-plus-one"]],
   ["My first serve keeps coming back",["serve-away-from-the-lean"]]]},
  {k:"return",name:"Return",line:"Big serves, and the server's next shot.",strokes:[],items:[
-  ["Big serves rush my return",["middle-return"]]]},
+  ["Big serves rush my return",["middle-return","find-your-return-spot"]]]},
  {k:"net",name:"Net",line:"Approaching, volleying, and facing a net player.",strokes:["fv","bv"],items:[
   ["My first volley is always hard",["approach-volley"]],
   ["They come in and I don't know where to hit",["net-rusher"]],
-  ["I pass straight at the net player",["pass-where-they-arent"]]]},
+  ["I pass straight at the net player",["pass-where-they-arent"]],
+  ["Drop shots catch me out",["answer-the-drop"]]]},
  {k:"movement",name:"Movement",line:"Late off the mark, recovery, defending wide.",strokes:[],items:[
   ["I'm late off the mark",["split-step"]],
   ["I recover to the middle automatically",["recovery"]],

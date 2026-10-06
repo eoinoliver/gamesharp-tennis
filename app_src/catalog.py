@@ -25,6 +25,8 @@ DAILY = [
     ('serve-away-from-the-lean', 'le', 'The returner leans to cover one serve. Serve the side they left.'),   # legacy seq_014, re-derived by physics (5 Oct)
     ('the-big-hitter', 'bg', 'Their ball comes fast and heavy. Win back your time; keep it out of their zone.'),   # opponents (5 Oct; documented strike-zone rule)
     ('the-lefty', 'lf', 'Your usual patterns land on a lefty\'s forehand. Turn them round.'),   # opponents (5 Oct; mirrored player, documented wing rule)
+    ('find-your-return-spot', 'rs', 'Back for the big first serve. In for the kick second serve.'),   # batch 1 (6 Oct)
+    ('answer-the-drop', 'ad', 'You got to their drop. Where they go decides your answer.'),   # batch 1 (6 Oct)
 ]
 PREDICT = [
     ('predict-the-point', 'pt', 'Call the serve, the +1 and the finish. Then watch your point.'),
@@ -44,9 +46,9 @@ PLAY = [
 FLAVOURS = [
     ('tactics', 'Court tactics', ['serve-plus-one', 'short-ball', 'the-line', 'the-winner', 'recovery', 'open-court', 'forehand-bill',
                                   'the-lead', 'middle-return', 'high-ball', 'second-serve', 'running-around', 'pulled-wide',
-                                  'serve-away-from-the-lean']),
+                                  'serve-away-from-the-lean', 'find-your-return-spot']),
     ('opponents', 'Opponents', ['the-moonballer', 'the-pusher', 'net-rusher', 'the-big-hitter', 'the-lefty']),
-    ('net', 'Net play', ['approach-volley', 'pass-where-they-arent', 'split-step']),
+    ('net', 'Net play', ['approach-volley', 'pass-where-they-arent', 'split-step', 'answer-the-drop']),
     ('technique', 'Technique', ['late-is-the-culprit', 'contact-clue']),
     ('predict', 'Predict the Point', ['predict-the-point', 'predict-second-serve']),
     ('play', 'Play the Point', ['saturday-point-1', 'saturday-point-2', 'saturday-point-3', 'saturday-point-4', 'play-the-point']),   # has its own card on Home: not in the taster row

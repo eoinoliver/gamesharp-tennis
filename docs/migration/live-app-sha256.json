@@ -1,7 +1,7 @@
 {
   "app/app.js": "9fce3695e6cd522ca1d5e4f3b31d88552d1bed48f8b1f75c62d9cad45bca985f",
   "app/athlete.js": "55d032ac8343eca634e9750eb18569080fb8093973d85c25ebacd550192053da",
-  "app/catalog.js": "ef993010bed9ad406d4b38cb4a281272eb6fd894e4774e0bbbb66bdb4cdfb89f",
+  "app/catalog.js": "454429b3e5560f8721cd208fcbb0ff6227722a251f6281328ef1ad6024963cee",
   "app/cine.js": "c84d7952f01c424423cb5b0e6d687445830fb5bb02d7c00af96b7c24d4fa9279",
   "app/clips/bh.json": "33de82c422ba3afd7fc2f6bbc47b81358000db850ebea68183fb481b00b3450d",
   "app/clips/bhChest.json": "6fabbdb51eab5b789ac795905ba52df027560875fb5bfc6eb0390fa02ba78146",
@@ -30,7 +30,7 @@
   "app/icons/icon-180.png": "65b542f16eca4def75503bf1983583858dbb71f2dd368495ee943b36b37564a1",
   "app/icons/icon-192.png": "5fbf882d0db0fd62e9aff0bbc050b33dab87dc8a2ae530e973d1824e08ffc8ae",
   "app/icons/icon-512.png": "dfaad361e7fa6a88db5e79847809aee505666a171ae4713415bf755962150c16",
-  "app/index.html": "45f95732ed0de76955e2e9e2a21b5898c55fc12f9b930fb5bc25f813b19c0ac5",
+  "app/index.html": "f60cd0de45468275a73b90437221cfd6e54240889bc65bd8c2c6d2f38bd22662",
   "app/lessons/approach-volley.json": "73b2ccecbbac9cd69cd700dd91779c273e4e59fbcb321126c2af785215240890",
   "app/lessons/contact-clue.json": "322f6612938a3c61fd4e8e5cfc87ffd9f91f8f8179643b029e6d1d45f40fc278",
   "app/lessons/forehand-bill.json": "8045af5b56cf00c7842c459e4e3d445b47eb7745470199c6398b3ca1c91404ed",
@@ -63,9 +63,9 @@
   "app/lessons/the-pusher.json": "ead576a6f4867e3c2ef938845ce3d1f3be076f658f6119619fbadb4d4104b099",
   "app/lessons/the-winner.json": "c0fd2af2ffeb74940ac46d100346454ae760ddd32b26dbeaaaa841195fc13012",
   "app/manifest.webmanifest": "e064b907f8076a663bab4c317e838d8782fc386c4f3bc8e5416432554355f052",
-  "app/play.html": "7c983eb9f5358107733f00cdfb1815c7d9aaf63ebcfed37f4743c94c77b359de",
+  "app/play.html": "de78701125a6be0b9bc1d3eac643ec1658635e70e41189de09b61e3500f85e93",
   "app/sfx.js": "1ff6acfbcb8632c8db54fd79a3250aa94e44aa84c48fb7851a73a1d39431745f",
-  "app/sharpen.js": "a9dcc00343f9b3be699368e5ec601e216c6160a1a95d56bd453ac399c2df0124",
+  "app/sharpen.js": "49ee158078e756b97853e6b01d86b6e57814094e4560e08dd78e515e448ec98e",
   "app/sharpen/bh_0.jpg": "7e060052258bbc90109a1cab011884f67c5296400adb9ff2cb426ceb7bfb926d",
   "app/sharpen/bh_1.jpg": "378b357889e69c170f4df71ea9cf574aaf96ad05950dd6b1e1510f6d40a3f82d",
   "app/sharpen/bh_2.jpg": "5d738e73db2ef691e1cbddc8f033aa4caa19da47ff49e594935f1931cf418de7",
@@ -88,5 +88,7 @@
   "app/sharpen/slice_0.jpg": "4282b5deba3754d74261e933f18841de77300502750abb81244c2d7066479a70",
   "app/sharpen/slice_1.jpg": "7fc3f4c5fe62c2163c5c3204ceb2cddbf4f5aca4825fc06aa8a2ae8e6be7c2dc",
   "app/sharpen/slice_2.jpg": "e4e5265f700203a929ec3c5fa91be83a916599f02512892b5629bf16a51c510d",
-  "app/vercel.json": "0f7f3bc5bb87eb7176e63c707014019432b68b112e53411cced14db5a94cbcc8"
+  "app/vercel.json": "0f7f3bc5bb87eb7176e63c707014019432b68b112e53411cced14db5a94cbcc8",
+  "app/lessons/find-your-return-spot.json": "4c6be78f487a5e79aee0e9480d4624c0124317ceca69192503ebbdac90bc1e0d",
+  "app/lessons/answer-the-drop.json": "28abec05947e6103411f7dcd6710debe5028b4046b42aea0e214fdd94b945d82"
 }
