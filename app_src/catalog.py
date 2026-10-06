@@ -33,6 +33,7 @@ PREDICT = [
 
 # Play the Point (5 Oct 2026): one branching point; your calls decide what happens next. Its own mode, like Predict.
 PLAY = [
+    ('saturday-point-1', 'sa', 'One point, built from five of your lessons. Each shot: the one you want to hit, or the one that wins.'),   # weekend point (6 Oct)
     ('play-the-point', 'bp', 'Three shots, your calls. Each choice decides what happens next.'),
 ]
 
@@ -45,5 +46,5 @@ FLAVOURS = [
     ('net', 'Net play', ['approach-volley', 'pass-where-they-arent', 'split-step']),
     ('technique', 'Technique', ['late-is-the-culprit', 'contact-clue']),
     ('predict', 'Predict the Point', ['predict-the-point', 'predict-second-serve']),
-    ('play', 'Play the Point', ['play-the-point']),   # has its own card on Home: not in the taster row
+    ('play', 'Play the Point', ['saturday-point-1', 'play-the-point']),   # has its own card on Home: not in the taster row
 ]
