@@ -166,3 +166,11 @@ canonical local paths and “next” steps below are historical, not current rul
 - Engine: the step count is the lesson's own (`NS()` = steps.length; every existing lesson has 3). Gate: counts each step's real options.
 - App: catalog `play` group leads with the weekend point (catalog entries carry `uses`); lesson wrap-ups name the point they feed ("This lesson shows up in Saturday Point #1"); the point's wrap-up lists the lessons behind it with ✓ / "Not played yet" links; Home's done card offers "Saturday Point"; Explore features "This week's point" with lessons-played progress; older points (Play the Point) stay in the Explore list.
 - Checks: `npm test` 10/10; gates pass on saturday-point-1, play-the-point, predict-the-point, the-lefty, short-ball; played the point through (wrong pick on shot 3) at 390x844: 5 shots, 2 options each, no overflow, no errors; lesson 1 wrap shows the point link. Full browser suite via GitHub `contracts` CI.
+
+## 5-6 Oct 2026 — Release record (Claude)
+- Welcome (PR #3): merge `398c664`, staged `dpl_5N7BsweVFo4AbbFDt5HRqx5wqdTh` 222/222, promoted without rebuild, version `e21b32b33f`.
+- Compact Done today card (PR #5): merge `b243705`, staged `dpl_FvAtR7PcH2bcErYAxzWAjbbc6rn6` 222/222, promoted, version `8dd8f75d1f`.
+- Sharpen athlete + decluttered Home (PR #6): merge `74348a8`, staged `dpl_D7bZXHVNK7Mbs7bZaQ2VrRk72GuJ` 223/223, promoted, version `741c471d73`.
+- Lesson 22 + Play the Point (PR #9): merge `a4802e3`, staged `dpl_3crDVdwJfFGK9su1QL1CzQFXJtkC` 225/225, promoted, version `43ef05ec2d`.
+- The Big Hitter + The Lefty + Play the Point label (PR #11): CI green; merge `d696c0b`, staged `dpl_7QGYatwH5FNUBDKbG1r4xRgW2PtZ` 227/227, promoted, version `b58edc8d7d`.
+- Saturday Point #1 (PR #12): CI green; merge `88e1f21` (Eoin "ship it"). Vercel created no production deployment for that merge (no Vercel status on the commit after 12 min; Vercel status page operational). On Eoin's choice, this log PR's merge carries the release: its main build is the Saturday Point release.
