@@ -3,6 +3,14 @@ const LESSON={
  "hook": "Pulled off the court and rushed, the big crosscourt and the angle feel like the way out. Only 6 in 10 of them land.",
  "memHTML": "Rushed? Deep and safe. <span>In time? Make them run.</span>",
  "tomorrow": "Next time you're pulled wide and late, hit deep and safe, through the middle or down the line. Save the angle for when you're there in time.",
+ "pro": {
+  "player": "Craig O'Shannessy",
+  "label": "The ATP's strategy coach on the middle",
+  "moment": "Studying Hawk-Eye heat maps of the pros, O'Shannessy finds the middle of the court is for building points and defending, not avoiding: balls through the middle tend to come back through the middle, which cuts the errors from chasing angles that aren't really there.",
+  "read": "When you're in trouble, the middle is a place to rebuild from, not a wasted ball.",
+  "src": "Brain Game Tennis, Craig O'Shannessy, Webinar 83: Playing the Middle of the Court",
+  "url": "https://braingametennis.com/webinar-83-playing-the-middle-of-the-court/"
+ },
  "drill": {
   "name": "Wide and late",
   "how": "Your partner feeds wide to your forehand, then your backhand, some easy, some hard. Late: high and deep through the middle. In time: down the line."
@@ -33,7 +41,7 @@ const LESSON={
    ],
    "payoff": "Deep and safe lands every time, and all they can do is rally it back.",
    "principle": "Rushed out wide, go deep and safe.",
-   "why": "Rushed, you can't swing fully, so the flat crosscourt and the angle land only 6 in 10, and the angle gives them your open court. High and deep through the middle lands every time and they can only rally it. Down the line works too (8 in 10).",
+   "why": "Rushed, you can't swing fully, so the flat crosscourt and the angle land only 6 in 10, and the angle gives them your open court. High and deep through the middle lands every time and they can only rally it. Down the line works too (8 in 10), and so would a high, heavy crosscourt.",
    "rail": [
     "1 Their angle",
     "2 You're late",
