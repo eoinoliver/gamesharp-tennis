@@ -96,12 +96,9 @@ const LESSON={
     "Deep and heavy, crosscourt"
    ],
    "correct": 0,
-   "alsoOk": [
-    2
-   ],
    "payoff": "Below their waist, they can't swing big.",
    "principle": "Pace needs the right height. Don't give it to them.",
-   "why": "Deep through the middle and the heavy crosscourt both reach them waist high, their favourite height, and the big ball comes back. The low slice stays below their waist and takes long enough to get there that you're ready again.",
+   "why": "Deep through the middle and the heavy crosscourt both reach them waist high, their favourite height, and the big ball comes back. The low slice stays below their waist and takes long enough to get there that you're ready again. Flat and hard lands 9 in 10, the slice every time.",
    "rail": [
     "1 You're set",
     "2 Their zone",
@@ -117,7 +114,7 @@ const LESSON={
    "lines": {
     "A": "Right: the slice stays below their waist. Rally pace back; you're in time.",
     "B": "Deep middle sits at their waist: their big ball, and you're stretched.",
-    "C": "Flat and low works too, but it clears the net by 62 cm, the slice by 95.",
+    "C": "Flat lands 9 in 10, 62 cm over the net. The slice lands every time.",
     "D": "The heavy ball reaches them waist high: big ball back, just in time."
    }
   },
