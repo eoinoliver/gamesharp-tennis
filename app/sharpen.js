@@ -25,11 +25,12 @@ const ZONES=[
  {k:"movement",name:"Movement",line:"Late off the mark, recovery, defending wide.",strokes:[],items:[
   ["I'm late off the mark",["split-step"]],
   ["I recover to the middle automatically",["recovery"]],
-  ["Pulled wide, I go for too much",["pulled-wide"]],
+  ["Pulled wide, I go for too much",["pulled-wide","rushed-out-wide"]],
   ["High balls push me back",["high-ball"]]]},
  {k:"match",name:"Match play",line:"Short balls, open courts, leads and awkward opponents.",strokes:[],items:[
   ["I attack every short ball",["short-ball"]],
   ["I chase the open court",["open-court"]],
+  ["I never know when to go down the line",["down-the-line"]],
   ["I play smaller when I lead",["the-lead"]],
   ["Pushers and moonballers beat me",["the-pusher","the-moonballer"]],
   ["Big hitters rush me",["the-big-hitter"]],
