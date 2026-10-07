@@ -29,7 +29,7 @@ DAILY = [
     ('answer-the-drop', 'ad', 'You got to their drop. Where they go decides your answer.'),   # batch 1 (6 Oct)
     ('attack-the-backhand', 'ab', 'Their backhand is weak and they know it. Move them off it first.'),   # batch 1 (6 Oct; documented wing rule)
     ('down-the-line', 'dl', 'The line is about where they are, not how brave you are.'),   # batch 2 (7 Oct; opponent_model, ten tries)
-    ('rushed-out-wide', 'dm', 'Pulled wide and late? The big shot lands 6 in 10. Go deep and safe.'),   # batch 2 (7 Oct; opponent_model, ten tries)
+    ('rushed-out-wide', 'dm', 'Pulled wide? The big shot lands 6 in 10. Deep through the middle lands every time.'),   # batch 2 (7 Oct; opponent_model, ten tries)
 ]
 PREDICT = [
     ('predict-the-point', 'pt', 'Call the serve, the +1 and the finish. Then watch your point.'),

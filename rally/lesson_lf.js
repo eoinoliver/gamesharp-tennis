@@ -70,10 +70,10 @@ const LESSON={
     "Down the line",
     "Crosscourt, as usual"
    ],
-   "correct": 2,
-   "payoff": "Crosscourt from your backhand corner feeds a lefty's forehand. Down the line finds their backhand.",
-   "principle": "Break the forehand-to-backhand rally by changing direction.",
-   "why": "From your backhand corner, crosscourt goes straight back to a lefty's forehand, and they keep the pressure on. Down the line reaches their backhand and takes the forehand out of the rally. Through the middle also reaches their backhand: it lands every time and leaves you in time, so it's fine too.",
+   "correct": 1,
+   "payoff": "Crosscourt from your backhand corner feeds a lefty's forehand. Through the middle reaches their backhand, every time.",
+   "principle": "Break the forehand-to-backhand rally: get the ball off their forehand.",
+   "why": "From your backhand corner, crosscourt goes straight back to a lefty's forehand, and they attack. Through the middle reaches their backhand: it lands every time, and they can only rally it. Down the line reaches the backhand too and gives you a touch more time, but it lands 9 in 10.",
    "rail": [
     "1 Their forehand",
     "2 Your backhand",
@@ -85,16 +85,13 @@ const LESSON={
     "opp": "LEFT-HANDED"
    },
    "unlock": "Change the rally",
-   "take": "Lefty pinning your backhand? Go down the line.",
+   "take": "Lefty pinning your backhand? Through the middle, to their backhand.",
    "lines": {
     "A": "Crosscourt slice lands on their forehand: they attack; you're in time.",
-    "B": "Also fine: the middle reaches their backhand, lands every time, in time.",
-    "C": "Right: down the line to their backhand. A rally ball back; you're set early.",
+    "B": "Right: the middle reaches their backhand and lands every time.",
+    "C": "Their backhand too, but the line lands 9 in 10. The middle is safer.",
     "D": "Crosscourt feeds their forehand again: they attack; you're just in time."
-   },
-   "alsoOk": [
-    1
-   ]
+   }
   },
   {
    "ph": "Transfer · Second serve",
