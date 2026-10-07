@@ -3,6 +3,14 @@ const LESSON={
  "hook": "The line isn't much riskier than crosscourt. What makes it right or wrong is where they are.",
  "memHTML": "Line when they're off it. <span>Crosscourt when they're on it.</span>",
  "tomorrow": "Before you change direction, check where they are: still recovering, go line; already covering it, go crosscourt.",
+ "pro": {
+  "player": "Novak Djokovic",
+  "label": "Djokovic picks his moment for the line",
+  "moment": "Late in the 2022 Nitto ATP Finals final against Casper Ruud, Djokovic's backhand opened up, changing direction down the line, and he made just one error in his last 25 backhands.",
+  "read": "The line is a weapon when you pick the moment for it.",
+  "src": "ATP Tour, Craig O'Shannessy, Brain Game (Nov 2022)",
+  "url": "https://www.atptour.com/en/news/djokovic-ruud-turin-2022-final-brain-game"
+ },
  "drill": {
   "name": "Line or cross",
   "how": "Rally crosscourt. On any short ball, glance at your partner: if they're still getting back to the middle, go down the line; if they've moved across early, go crosscourt behind them."
