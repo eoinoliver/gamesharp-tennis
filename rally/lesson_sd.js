@@ -79,7 +79,7 @@ const LESSON={
    "correct": 0,
    "payoff": "From this far over, running around leaves a bill you can't pay.",
    "principle": "Running around costs a recovery. This ball doesn't pay it back.",
-   "why": "The ball is already wide. Running around puts you even further over, and a pusher always gets it back into the corner you left.",
+   "why": "The ball is already wide. Running around puts you further over, and a pusher gets it back into the corner you left, so you only just reach it. The backhand keeps you closer for their next ball. It's close: the forehand lands more often, so both are fine here.",
    "rail": [
     "1 Wide block",
     "2 Your choice",
@@ -94,9 +94,12 @@ const LESSON={
    "take": "Wide to your backhand? Hit the backhand.",
    "lines": {
     "A": "Right: it keeps you close enough to cover their next ball.",
-    "B": "Your forehand corner is wide open. Their angle leaves you stretched."
+    "B": "Also fine: you only just reach their angle, but the forehand lands every time."
    },
-   "noTargets": true
+   "noTargets": true,
+   "alsoOk": [
+    1
+   ]
   },
   {
    "ph": "Shot 3 · Pulled wide",

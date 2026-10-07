@@ -1,7 +1,7 @@
 {
   "app/app.js": "9fce3695e6cd522ca1d5e4f3b31d88552d1bed48f8b1f75c62d9cad45bca985f",
   "app/athlete.js": "55d032ac8343eca634e9750eb18569080fb8093973d85c25ebacd550192053da",
-  "app/catalog.js": "378b69f0ba38c01c8c935ed05d3b9b1e6f7e29f9632d1f59e041dd78d5fa3843",
+  "app/catalog.js": "409af82ef7ea2fea4be7e040d3c4413ac4918d799f1319819d99b85d6c387cd4",
   "app/cine.js": "c84d7952f01c424423cb5b0e6d687445830fb5bb02d7c00af96b7c24d4fa9279",
   "app/clips/bh.json": "33de82c422ba3afd7fc2f6bbc47b81358000db850ebea68183fb481b00b3450d",
   "app/clips/bhChest.json": "6fabbdb51eab5b789ac795905ba52df027560875fb5bfc6eb0390fa02ba78146",
@@ -30,7 +30,7 @@
   "app/icons/icon-180.png": "65b542f16eca4def75503bf1983583858dbb71f2dd368495ee943b36b37564a1",
   "app/icons/icon-192.png": "5fbf882d0db0fd62e9aff0bbc050b33dab87dc8a2ae530e973d1824e08ffc8ae",
   "app/icons/icon-512.png": "dfaad361e7fa6a88db5e79847809aee505666a171ae4713415bf755962150c16",
-  "app/index.html": "199ecc84811d8eb3271426e913a8aa7569fca3aa32dd3dc16f9c88717ed7a793",
+  "app/index.html": "a86014eca338f701e0f5c8fef8ce978b8308c494968fc381eb140147bcdf3dd5",
   "app/lessons/approach-volley.json": "737d2f55a9f42dbd59a8d30e8f1bf7c0dc968e38b813357aeaac1da4470a30b0",
   "app/lessons/contact-clue.json": "322f6612938a3c61fd4e8e5cfc87ffd9f91f8f8179643b029e6d1d45f40fc278",
   "app/lessons/forehand-bill.json": "009f4aa9e6fadc300ca62ad3e1b2192e74ef3da5ce5587ed12d0357264927d5d",
@@ -49,7 +49,7 @@
   "app/lessons/saturday-point-1.json": "240f27c53998583a3e6a7632708d7b55ec692d1ce1620928b1c205f492045a07",
   "app/lessons/saturday-point-2.json": "d2ee208f574cd3c7c7634efebaaeb83f5066a64078a37e4dee7d9c75a6689078",
   "app/lessons/saturday-point-3.json": "63720b1395e381446e438914009e9e27f0326d1fd3aa3ab57ccc12cf0f9390fc",
-  "app/lessons/saturday-point-4.json": "11f959cac7dadad25718cfb8ae0963799f66a2a8e4513347a1264feafa37e018",
+  "app/lessons/saturday-point-4.json": "303bdac3cf5476349fb99fcd90a0ec60b4c5db6859e12e461000adc6084e06cc",
   "app/lessons/second-serve.json": "1b354b31a91307c513619e06546a8c06e0844aecaf174ba4ca49110d452c75d1",
   "app/lessons/serve-away-from-the-lean.json": "485fcfd0e2394d80e276caf11221f439f77785b44ce74a2974d426e414b8038c",
   "app/lessons/serve-plus-one.json": "0c3267bd4b2747592b87fa2ee606fee046a596b3efeadafc2d32aed55d067cad",
@@ -63,7 +63,7 @@
   "app/lessons/the-pusher.json": "0e6da2e4e46d3af6590beabcafa20bd32945c7665977b476390161add6205e5b",
   "app/lessons/the-winner.json": "a2e9958e0410bd044c5c5eacd57e9edcc55ad8415da885ba24ec61521b412cff",
   "app/manifest.webmanifest": "e064b907f8076a663bab4c317e838d8782fc386c4f3bc8e5416432554355f052",
-  "app/play.html": "7a6d088462a46104261fd4559046b0b5b24e41514a1ff10976d1fb3db6c5d09a",
+  "app/play.html": "f581031b6328f4e790ad9e47d309d422d7746c530f4698f7fc748fed0dd15845",
   "app/sfx.js": "1ff6acfbcb8632c8db54fd79a3250aa94e44aa84c48fb7851a73a1d39431745f",
   "app/sharpen.js": "42b8222f1a3e56f08a03c5870efd092000595e8d40cc33c2de15f9fc51622953",
   "app/sharpen/bh_0.jpg": "7e060052258bbc90109a1cab011884f67c5296400adb9ff2cb426ceb7bfb926d",
@@ -94,5 +94,5 @@
   "app/lessons/attack-the-backhand.json": "54712fba490b4e8ac0ad041e18fe1ec37c03a524276364aa51704a4c3d687d64",
   "app/lessons/saturday-point-5.json": "d4d1384db6e4d977a7947b99c442202853411f2a5c73de5e2f035fbb78afad78",
   "app/lessons/down-the-line.json": "9fe3dbeb4ea9e7cffeed33e1a145803887d31cc624452be48137b25d777bf713",
-  "app/lessons/rushed-out-wide.json": "091ce6e771e0f5bdb7f7ddee9fe2fb7434307e1405c29b2ac233057b65219976"
+  "app/lessons/rushed-out-wide.json": "e340cec821054a88c3d694ff6c306aac6289bb438e2ace715f666a0f7a741c96"
 }

@@ -36,12 +36,9 @@ const LESSON={
     "Flat crosscourt"
    ],
    "correct": 2,
-   "alsoOk": [
-    1
-   ],
    "payoff": "Deep and safe lands every time, and all they can do is rally it back.",
    "principle": "Rushed out wide, go deep and safe.",
-   "why": "Rushed, you can't swing fully, so the flat crosscourt and the angle land only 6 in 10, and the angle gives them your open court. High and deep through the middle lands every time and they can only rally it. Down the line works too (8 in 10), and so would a high, heavy crosscourt.",
+   "why": "Rushed, you can't swing fully, so the flat crosscourt and the angle land only 6 in 10, and the angle gives them your open court. High and deep through the middle lands every time and they can only rally it. Down the line lands 8 in 10 and leaves you less time for their next ball.",
    "rail": [
     "1 Their angle",
     "2 You're late",
@@ -56,7 +53,7 @@ const LESSON={
    "take": "Rushed out wide? Deep and safe.",
    "lines": {
     "A": "Only 6 in 10 land, and it opens your court. Passed.",
-    "B": "Also fine: 8 in 10, and they can only rally it.",
+    "B": "8 in 10 land, and you have less time for their next ball.",
     "C": "Right: lands every time. They can only rally it.",
     "D": "Only 6 in 10 land when you're late."
    }
@@ -77,7 +74,7 @@ const LESSON={
    "correct": 3,
    "payoff": "In time, down the line stretches them, and you're set early for the next ball.",
    "principle": "In time? Now make them run.",
-   "why": "Down the line goes away from them: they're stretched and you have 0.77 s on their next ball, with 8 in 10 landing. The middle is safe, but it's right to them. The angle and the flat crosscourt still land only 6 in 10.",
+   "why": "Down the line goes away from them: they're stretched and you have 0.77 s on their next ball, with 8 in 10 landing. The deep middle is fine too: it lands every time. The angle and the flat crosscourt still land only 6 in 10.",
    "rail": [
     "1 Their angle",
     "2 You're in time",
@@ -91,11 +88,14 @@ const LESSON={
    "unlock": "In time? Make them run",
    "take": "Wide but in time? Down the line.",
    "lines": {
-    "A": "Safe, but right to them.",
+    "A": "Also fine: lands every time, and they can only rally it.",
     "B": "Only 6 in 10, and it opens your court.",
     "C": "Only 6 in 10 land.",
     "D": "Right: they're stretched. You're set early."
-   }
+   },
+   "alsoOk": [
+    0
+   ]
   },
   {
    "ph": "Transfer · Backhand side",
@@ -113,7 +113,7 @@ const LESSON={
    "correct": 3,
    "payoff": "The deep slice through the middle gives you the most time to get back.",
    "principle": "Late on the backhand: a deep slice through the middle.",
-   "why": "Late, the slice through the middle lands 8 in 10 and stays low and deep, so they can only rally it, and you have the most time to recover. The line leaves you only just in time. The angle lands 7 in 10 and opens your court.",
+   "why": "Late, the slice through the middle lands 8 in 10 and stays low and deep, so they can only rally it, and you have the most time to recover. The crosscourt is fine too (9 in 10). The line leaves you only just in time; the angle lands 7 in 10 and opens your court.",
    "rail": [
     "1 Their angle",
     "2 You're late",
@@ -128,10 +128,13 @@ const LESSON={
    "take": "Late on the backhand? Deep slice, middle.",
    "lines": {
     "A": "Lands, but you're only just in time for the next.",
-    "B": "Lands 9 in 10, but less time to get back.",
+    "B": "Also fine: 9 in 10 land, and they can only rally it.",
     "C": "Opens your court. Passed.",
     "D": "Right: deep and low. The most time to recover."
-   }
+   },
+   "alsoOk": [
+    1
+   ]
   }
  ]
 };
