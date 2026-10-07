@@ -28,6 +28,8 @@ DAILY = [
     ('find-your-return-spot', 'rs', 'Back for the big first serve. In for the kick second serve.'),   # batch 1 (6 Oct)
     ('answer-the-drop', 'ad', 'You got to their drop. Where they go decides your answer.'),   # batch 1 (6 Oct)
     ('attack-the-backhand', 'ab', 'Their backhand is weak and they know it. Move them off it first.'),   # batch 1 (6 Oct; documented wing rule)
+    ('down-the-line', 'dl', 'The line is about where they are, not how brave you are.'),   # batch 2 (7 Oct; opponent_model, ten tries)
+    ('rushed-out-wide', 'dm', 'Pulled wide and late? The big shot lands 6 in 10. Go deep and safe.'),   # batch 2 (7 Oct; opponent_model, ten tries)
 ]
 PREDICT = [
     ('predict-the-point', 'pt', 'Call the serve, the +1 and the finish. Then watch your point.'),
@@ -48,7 +50,7 @@ PLAY = [
 FLAVOURS = [
     ('tactics', 'Court tactics', ['serve-plus-one', 'short-ball', 'the-line', 'the-winner', 'recovery', 'open-court', 'forehand-bill',
                                   'the-lead', 'middle-return', 'high-ball', 'second-serve', 'running-around', 'pulled-wide',
-                                  'serve-away-from-the-lean', 'find-your-return-spot', 'attack-the-backhand']),
+                                  'serve-away-from-the-lean', 'find-your-return-spot', 'attack-the-backhand', 'down-the-line', 'rushed-out-wide']),
     ('opponents', 'Opponents', ['the-moonballer', 'the-pusher', 'net-rusher', 'the-big-hitter', 'the-lefty']),
     ('net', 'Net play', ['approach-volley', 'pass-where-they-arent', 'split-step', 'answer-the-drop']),
     ('technique', 'Technique', ['late-is-the-culprit', 'contact-clue']),
