@@ -73,7 +73,7 @@ const LESSON={
    "correct": 0,
    "payoff": "No time to get around it: the backhand is the shot.",
    "principle": "Your favourite shot doesn't create the time to reach it.",
-   "why": "Moving the other way costs the time running around needs, so you can't get outside the ball. The backhand is already there.",
+   "why": "Moving the other way costs the time running around needs, so you can't get outside the ball. The backhand is already there. Down the near line gives you time too, but only 6 in 10 of them land.",
    "rail": [
     "1 Deep, faster",
     "2 Feet travelling",
@@ -90,11 +90,8 @@ const LESSON={
     "A": "The backhand is right there — deep across, you're in time.",
     "B": "Short through the middle — they step in; you're stretched.",
     "C": "No time to get outside it — a cramped forehand lands short; you're stretched.",
-    "D": "In time too, but a riskier target on the move — and it runs toward them."
-   },
-   "alsoOk": [
-    3
-   ]
+    "D": "The near line lands only 6 in 10 from here."
+   }
   },
   {
    "ph": "Transfer · Pay the recovery bill",

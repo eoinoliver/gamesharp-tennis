@@ -74,7 +74,7 @@ const LESSON={
    "correct": 0,
    "payoff": "Early and balanced, with them stuck in the corner: now the open court is yours.",
    "principle": "Buy time when you're late. Attack when you're early.",
-   "why": "The high ball was the answer when you were late. Here you have time, and they haven't moved from the corner, so the open court is too far for them.",
+   "why": "The high ball was the answer when you were late. Here you have time, and they haven't moved from the corner, so the open court is too far for them. The line is a winner 7 times in 10; the high crosscourt lands every time and leaves you set early, so both are good choices.",
    "rail": [
     "1 Less wide",
     "2 You're early",
@@ -90,9 +90,12 @@ const LESSON={
    "lines": {
     "A": "They're stuck in the corner — too far to get across. Winner.",
     "B": "Back to where they're standing — you're only just in time.",
-    "C": "Safe — you're in time, but the chance is gone.",
+    "C": "Also fine: it lands every time and you're set early. The line wins, 7 in 10.",
     "D": "Through the middle — they get it back; you're only just in time."
-   }
+   },
+   "alsoOk": [
+    2
+   ]
   },
   {
    "ph": "Transfer · Other wing",

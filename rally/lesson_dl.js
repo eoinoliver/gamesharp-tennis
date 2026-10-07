@@ -38,7 +38,7 @@ const LESSON={
    "correct": 2,
    "payoff": "Down the line, they're stretched and you're set early for the next ball.",
    "principle": "Change direction when they're still on their way back.",
-   "why": "Down the line stretches them (2.7 m/s to get there), so all they have is a safe ball, and you're set early. It lands 8 in 10. Crosscourt and the middle are safer, but go straight to them. The flat crosscourt stretches them most, but only 5 in 10 land.",
+   "why": "Down the line stretches them (2.7 m/s to get there), so all they have is a safe ball, and you're set early. It lands 8 in 10. Deep through the middle is about as good: it lands every time and they can only rally it. The flat crosscourt stretches them most, but only 5 in 10 land.",
    "rail": [
     "1 Their short ball",
     "2 Your shot",
@@ -53,10 +53,13 @@ const LESSON={
    "take": "Short, and they're recovering? Down the line.",
    "lines": {
     "A": "Safe, but they're set. Back in the rally.",
-    "B": "Lands every time, but it's right to them.",
+    "B": "Also fine: lands every time, and they can only rally it.",
     "C": "Right: they're stretched, and you're set early.",
     "D": "Stretches them most, but only 5 in 10 land."
-   }
+   },
+   "alsoOk": [
+    1
+   ]
   },
   {
    "ph": "Contrast · They cheat",

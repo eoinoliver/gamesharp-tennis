@@ -6,7 +6,7 @@ const LESSON={
  "cam0": {
   "follow": true
  },
- "finaleScene": "sd5B",
+ "finaleScene": "sd5A",
  "finaleFull": true,
  "flow": true,
  "redoLabel": "Play the point again",
@@ -25,11 +25,11 @@ const LESSON={
   },
   {
    "step": 4,
-   "lesson": "the-pusher"
+   "lesson": "down-the-line"
   },
   {
    "step": 5,
-   "lesson": "pass-where-they-arent"
+   "lesson": "the-pusher"
   }
  ],
  "steps": [
@@ -134,11 +134,43 @@ const LESSON={
    }
   },
   {
-   "ph": "Shot 4 · Bring them in",
+   "ph": "Shot 4 · Down the line",
+   "short": "Line",
+   "name": "They're still getting back",
+   "scene": "sd4",
+   "sit": "Their loop lands short. You step in, and they're still getting back from the corner.",
+   "q": "Where does it go?",
+   "opts": [
+    "Crosscourt, back to them",
+    "Down the line"
+   ],
+   "correct": 1,
+   "payoff": "Down the line goes away from them. At full stretch, all they can do is float it back deep.",
+   "principle": "Change direction when they're still on their way back.",
+   "why": "They're still recovering from the corner, so crosscourt goes straight back to them and they rally. Down the line is 4.1 m/s away for them: they can only float it back, and you're set early. It lands 9 in 10 either way.",
+   "rail": [
+    "1 Their loop",
+    "2 Your ball",
+    "3 Their reply"
+   ],
+   "cues": {
+    "ball": "SHORT LOOP",
+    "you": "STEP IN",
+    "opp": "RECOVERING"
+   },
+   "unlock": "Line when they're off it",
+   "take": "They're still getting back? Down the line.",
+   "lines": {
+    "A": "Straight back to them. Back in the rally.",
+    "B": "Right: away from them. They can only float it back."
+   }
+  },
+  {
+   "ph": "Shot 5 · The drop",
    "short": "Drop",
    "name": "They wait deep",
-   "scene": "sd4",
-   "sit": "They loop it back and wait two metres behind their baseline.",
+   "scene": "sd5",
+   "sit": "They float it back and wait two metres behind their baseline.",
    "q": "How do you change the game?",
    "opts": [
     "A drop shot",
@@ -147,11 +179,11 @@ const LESSON={
    "correct": 0,
    "payoff": "From that deep, the drop makes them sprint, and all they can do is pop it up.",
    "principle": "Pushers are comfortable at the back. Bring them forward.",
-   "why": "Harder to the corner is exactly what a pusher wants to run down. From two metres behind the baseline the drop is a full sprint, and they can only pop it up.",
+   "why": "A pusher waits deep for the next ball. Harder to the corner just comes back. The drop, as slow as it can be (40 km/h), makes them run 5.1 m/s: they reach it at full stretch and can only pop it up, and you pass the side they left.",
    "rail": [
-    "1 Their loop",
+    "1 Their float",
     "2 They wait deep",
-    "3 Your drop"
+    "3 Your answer"
    ],
    "cues": {
     "ball": "THEIR LOOP",
@@ -161,40 +193,8 @@ const LESSON={
    "unlock": "Bring them forward",
    "take": "Pusher camped deep? Drop shot.",
    "lines": {
-    "A": "Right: they reach it at full stretch and pop it up.",
-    "B": "That's what they like. They get it back, and you're back in the rally."
-   }
-  },
-  {
-   "ph": "Shot 5 · Your pass",
-   "short": "Pass",
-   "name": "Stuck at the net",
-   "scene": "sd5",
-   "sit": "They're stuck at the net, still over on the side of your drop.",
-   "q": "Where does your pass go?",
-   "opts": [
-    "The side they're covering",
-    "The side they've left"
-   ],
-   "correct": 1,
-   "payoff": "The pass goes to the side they've left.",
-   "principle": "Check which side they're covering before you pick the pass.",
-   "why": "They're still on the side they ran to for the drop, so that side is covered. The other side is empty.",
-   "rail": [
-    "1 Pop-up",
-    "2 They're at the net",
-    "3 Your pass"
-   ],
-   "cues": {
-    "ball": "THEIR POP-UP",
-    "you": "PASSER",
-    "opp": "STUCK AT THE NET"
-   },
-   "unlock": "Pass where they aren't",
-   "take": "They're at the net? Pass the side they left.",
-   "lines": {
-    "A": "Straight to where they're standing. Volleyed away.",
-    "B": "Right: the side they left. Passed."
+    "A": "Right: they reach it at full stretch and pop it up. You pass the side they left.",
+    "B": "Harder to the corner: they get it back."
    }
   }
  ]

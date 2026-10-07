@@ -1,8 +1,8 @@
 const LESSON={
  "title": "Rushed Out Wide",
- "hook": "Pulled off the court and rushed, the big crosscourt and the angle feel like the way out. Only 6 in 10 of them land.",
- "memHTML": "Rushed? Deep and safe. <span>In time? Make them run.</span>",
- "tomorrow": "Next time you're pulled wide and late, hit deep and safe, through the middle or down the line. Save the angle for when you're there in time.",
+ "hook": "Pulled off the court, the big crosscourt and the angle feel like the way out. Only 6 in 10 of them land. The deep middle lands every time.",
+ "memHTML": "Out wide? <span>Deep through the middle.</span>",
+ "tomorrow": "Next time you're pulled wide, late or not, go deep through the middle. Save the angle and the line for balls you're set for in the middle of the court.",
  "pro": {
   "player": "Craig O'Shannessy",
   "label": "The ATP's strategy coach on the middle",
@@ -12,10 +12,10 @@ const LESSON={
   "url": "https://braingametennis.com/webinar-83-playing-the-middle-of-the-court/"
  },
  "drill": {
-  "name": "Wide and late",
-  "how": "Your partner feeds wide to your forehand, then your backhand, some easy, some hard. Late: high and deep through the middle. In time: down the line."
+  "name": "Wide and deep",
+  "how": "Your partner feeds wide to your forehand, then your backhand, some easy, some hard. Every one goes deep through the middle; count how many land past the service line."
  },
- "cue": "Late? Deep and safe.",
+ "cue": "Out wide? Deep middle.",
  "callbackTags": [
   "rushed_wide"
  ],
@@ -71,10 +71,10 @@ const LESSON={
     "Flat crosscourt",
     "Down the line"
    ],
-   "correct": 3,
-   "payoff": "In time, down the line stretches them, and you're set early for the next ball.",
-   "principle": "In time? Now make them run.",
-   "why": "Down the line goes away from them: they're stretched and you have 0.77 s on their next ball, with 8 in 10 landing. The deep middle is fine too: it lands every time. The angle and the flat crosscourt still land only 6 in 10.",
+   "correct": 0,
+   "payoff": "Even in time, the deep middle lands every time, and they can only rally it.",
+   "principle": "Out wide, the deep middle is the percentage ball, late or not.",
+   "why": "In time, down the line stretches them and leaves you set early, but it lands 8 in 10. The deep middle lands every time and they can only rally it, which is worth a little more. The angle and the flat crosscourt still land only 6 in 10.",
    "rail": [
     "1 Their angle",
     "2 You're in time",
@@ -85,17 +85,14 @@ const LESSON={
     "you": "IN TIME",
     "opp": "MIDDLE"
    },
-   "unlock": "In time? Make them run",
-   "take": "Wide but in time? Down the line.",
+   "unlock": "Still the middle",
+   "take": "Wide but in time? The middle is still the percentage ball.",
    "lines": {
-    "A": "Also fine: lands every time, and they can only rally it.",
+    "A": "Right: lands every time, and they can only rally it.",
     "B": "Only 6 in 10, and it opens your court.",
     "C": "Only 6 in 10 land.",
-    "D": "Right: they're stretched. You're set early."
-   },
-   "alsoOk": [
-    0
-   ]
+    "D": "Close: it stretches them, but 2 in 10 miss."
+   }
   },
   {
    "ph": "Transfer · Backhand side",
@@ -113,7 +110,7 @@ const LESSON={
    "correct": 3,
    "payoff": "The deep slice through the middle gives you the most time to get back.",
    "principle": "Late on the backhand: a deep slice through the middle.",
-   "why": "Late, the slice through the middle lands 8 in 10 and stays low and deep, so they can only rally it, and you have the most time to recover. The crosscourt is fine too (9 in 10). The line leaves you only just in time; the angle lands 7 in 10 and opens your court.",
+   "why": "Late, the slice through the middle lands 8 in 10 and stays low and deep, so they can only rally it, and you have the most time to recover. The crosscourt lands 9 in 10 but leaves you less time. The line leaves you only just in time; the angle lands 7 in 10 and opens your court.",
    "rail": [
     "1 Their angle",
     "2 You're late",
@@ -128,13 +125,10 @@ const LESSON={
    "take": "Late on the backhand? Deep slice, middle.",
    "lines": {
     "A": "Lands, but you're only just in time for the next.",
-    "B": "Also fine: 9 in 10 land, and they can only rally it.",
+    "B": "Lands 9 in 10, but you have less time to get back.",
     "C": "Opens your court. Passed.",
     "D": "Right: deep and low. The most time to recover."
-   },
-   "alsoOk": [
-    1
-   ]
+   }
   }
  ]
 };
