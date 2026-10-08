@@ -1,9 +1,9 @@
 const LESSON={
  "title": "The Short Ball Is Not Permission",
- "hook": "You attack because the ball landed short, then arrive stretched or get passed.",
+ "hook": "A short ball pulls you forward. Its height decides what it earns: the open court, or an approach.",
  "finaleScene": "sb1B",
  "memHTML": "The attack begins <span>one ball earlier.</span>",
- "tomorrow": "Next time a ball lands short, check your balance and the opponent’s position before deciding to attack.",
+ "tomorrow": "Next time a ball lands short, check its height first: high, take the open court; low, lift an approach and come in.",
  "pro": {
   "player": "Rafael Nadal",
   "label": "Nadal, Monte Carlo 2017 final",
@@ -14,52 +14,52 @@ const LESSON={
  },
  "drill": {
   "name": "Earned or not",
-  "how": "Rally. Any ball that lands inside your service line, you may attack only if you're balanced and it's above net height. Otherwise go high and deep. Your partner calls \"earned\" or \"not\" after each one."
+  "how": "Rally. Any ball that lands inside your service line: above net height and balanced, attack the open court; below it, lift a deep approach and come in. Never flat from below the net. Your partner calls \"earned\" or \"approach\" after each one."
  },
- "cue": "Balanced and high? Then go.",
+ "cue": "High: go. Low: lift and come in.",
  "callbackTags": [
   "short_ball_choice"
  ],
  "steps": [
   {
-   "ph": "See · Resist the trap",
-   "short": "Contrast",
-   "name": "The low, stretched ball",
-   "scene": "sb2",
-   "sit": "The ball stays below your knee, and you reach it stretched and late.",
-   "q": "What's the smart reply?",
+   "ph": "See · Read the height",
+   "short": "See",
+   "name": "The short slice",
+   "scene": "sb3",
+   "sit": "Their slice lands short and stays low. You come forward to it; they're still deep.",
+   "q": "How hard do you go at this one?",
    "opts": [
-    "Flat and deep down the line",
-    "A short, sharp angle",
-    "Lift it softly over the middle",
-    "High and deep crosscourt"
+    "Flat into the open corner",
+    "High through the middle, stay back",
+    "Lift an approach and come in",
+    "Low crosscourt, stay back"
    ],
-   "correct": 3,
-   "payoff": "Low and late: this ball can't be attacked. Buy time first.",
-   "principle": "Height and depth buy back the time the stretch took.",
-   "why": "From below the knee and off-balance, pace and angle both go wrong too often. A high, deep crosscourt gives you net, court and time to recover.",
+   "correct": 2,
+   "payoff": "Balanced but low: approach and come in, rather than go for the winner.",
+   "principle": "Low contact means lift and margin. Their deep position still invites you forward.",
+   "why": "The slice stays below the net, so a flat drive has no room. You've already come forward: lift a deep approach and keep coming, rather than stopping mid-court.",
    "cues": {
-    "ball": "BELOW THE KNEE",
-    "you": "STRETCHED",
-    "opp": "SET"
+    "ball": "LOW",
+    "you": "BALANCED",
+    "opp": "DEEP"
    },
    "lines": {
-    "A": "Flat from below the knee — into the net.",
-    "B": "It lands short — they step in and punish it.",
-    "C": "Soft and short — they step in and attack.",
-    "D": "High and deep buys time — you're back in the rally."
+    "A": "Flat from below the net — into the tape.",
+    "B": "Too safe — you're caught mid-court, and their deep ball rushes you.",
+    "C": "Lift it, come in — their pass is yours to volley.",
+    "D": "Low and flat from below the net — it finds the tape."
    },
-   "unlock": "Rebuild first",
-   "take": "Low and stretched? Go high and deep, then recover.",
+   "unlock": "Attack, not finish",
+   "take": "Balanced but low: approach with lift — don't go for the winner.",
    "rail": [
-    "1 Below knee",
-    "2 You stretched",
-    "3 Opponent set"
+    "1 Low contact",
+    "2 You stable",
+    "3 Opponent deep"
    ]
   },
   {
    "ph": "Contrast · Earn the attack",
-   "short": "Decide",
+   "short": "Contrast",
    "name": "The waist-high ball",
    "scene": "sb1",
    "sit": "Now the ball sits waist-high. You're set, and they're stranded out wide.",
@@ -81,8 +81,8 @@ const LESSON={
    },
    "lines": {
     "A": "They scramble; you come in and put it away.",
-    "B": "Straight to them — they pass you as you come in.",
-    "C": "Too fine — a fraction off, and it's wide.",
+    "B": "Straight to them — they're set, and the rally goes on.",
+    "C": "It lands this time, but only 5 in 10 do.",
     "D": "Too safe — they recover and the point starts again."
    },
    "unlock": "Attack earned",
@@ -94,35 +94,35 @@ const LESSON={
    ]
   },
   {
-   "ph": "Transfer",
+   "ph": "Transfer · Change wings",
    "short": "Transfer",
-   "name": "The short slice",
-   "scene": "sb3",
-   "sit": "Your heavy ball draws a short, low slice. You're balanced; they're still deep.",
-   "q": "How hard do you go at this one?",
+   "name": "The short slice, backhand",
+   "scene": "sb2",
+   "sit": "Another short, low slice, this time to your backhand. They're deep again.",
+   "q": "What does this one earn?",
    "opts": [
     "Flat into the open corner",
-    "High through the middle, stay back",
     "Lift an approach and come in",
+    "High through the middle, stay back",
     "Low crosscourt, stay back"
    ],
-   "correct": 2,
-   "payoff": "Balanced but low: approach and come in, rather than go for the winner.",
-   "principle": "Low contact means lift and margin. Their deep position still invites you forward.",
-   "why": "The slice stays low, so a flat drive has little room. Lifting a solid approach and closing in uses your time without asking the low ball to do too much.",
+   "correct": 1,
+   "payoff": "Other wing, same ball: lift it and come in.",
+   "principle": "The height decides, not the wing.",
+   "why": "The slice stays below the net, so a flat drive has no room. You've already come forward: lift a deep approach and keep coming, rather than stopping mid-court.",
    "cues": {
     "ball": "LOW",
     "you": "BALANCED",
     "opp": "DEEP"
    },
    "lines": {
-    "A": "Flat from a low ball — a fraction off, and it's long.",
-    "B": "Too safe — they recover and the chance is gone.",
-    "C": "Lift it, come in — their floater is yours.",
-    "D": "It skims the net and lands short — they push you back."
+    "A": "Flat from below the net — into the tape.",
+    "B": "Lift it, come in — their pass is yours to volley.",
+    "C": "Too safe — you're caught mid-court, and their deep ball rushes you.",
+    "D": "Low and flat from below the net — it finds the tape."
    },
-   "unlock": "Attack, not finish",
-   "take": "Balanced but low: approach with lift — don't go for the winner.",
+   "unlock": "Either wing",
+   "take": "Short and low, either wing: lift a deep approach and come in.",
    "rail": [
     "1 Low contact",
     "2 You stable",

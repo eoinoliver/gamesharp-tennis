@@ -86,9 +86,9 @@ const LESSON={
    "take": "Same ball: pick the target that lands ten times out of ten.",
    "lines": {
     "A": "The big crosscourt window lands every time — rally on.",
-    "B": "Flat from a low ball — into the net too often.",
-    "C": "The line again — it misses almost as often as it wins.",
-    "D": "It lands, but short and slow — they get there and punish it."
+    "B": "Flat from a low ball — half of them miss.",
+    "C": "The line again — 4 in 10 land. It misses more often than it wins.",
+    "D": "It lands, but short and slow — they run it down."
    }
   },
   {
@@ -122,7 +122,7 @@ const LESSON={
    "take": "High, set, open court: attack — with margin.",
    "lines": {
     "A": "Safe, but you'd earned more — chance missed.",
-    "B": "Hard at them — they're on it and pass you.",
+    "B": "Hard at them — they're on it, and the ball comes straight back.",
     "C": "Open court, well inside the lines — they can't get there.",
     "D": "Right on the line — too many land wide."
    }
