@@ -30,12 +30,76 @@
     o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.02);
   }
   const vol = v => Math.max(0.05, Math.min(1, v == null ? 1 : v));
+  /* ---- premium voices (8 Oct, Eoin: "premium"): used when a lesson sets LESSON.premium (GSSfx.premium = true).
+     Still synthesised (no audio files): a strike with a string ping and body, a soft grass bounce, a stadium
+     echo, a quiet crowd bed and applause. Sounds sit left/right with the ball and drop away at the far end. */
+  let verb = null, bed = null;
+  function room() {   // a short stadium echo: decaying noise as an impulse response
+    if (verb) return verb;
+    const n = Math.floor(ctx.sampleRate * 1.4), ir = ctx.createBuffer(2, n, ctx.sampleRate);
+    for (let c = 0; c < 2; c++) { const d = ir.getChannelData(c); for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 3.2); }
+    verb = ctx.createConvolver(); verb.buffer = ir; const wet = ctx.createGain(); wet.gain.value = 0.22;
+    verb.connect(wet); wet.connect(master); return verb;
+  }
+  function out(pan, depth) {   // a voice's path: pan, distance (quieter, duller far away), dry + echo
+    const pn = ctx.createStereoPanner ? ctx.createStereoPanner() : ctx.createGain();
+    if (pn.pan) pn.pan.value = Math.max(-1, Math.min(1, pan || 0)) * 0.75;
+    const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 9000 - 5500 * (depth || 0);
+    const g = ctx.createGain(); g.gain.value = 1 - 0.45 * (depth || 0);
+    pn.connect(lp); lp.connect(g); g.connect(master); g.connect(room()); return pn;
+  }
+  function nz(dst, t, dur, type, freq, q, gain, attack) {
+    const s = ctx.createBufferSource(); s.buffer = noiseBuf;
+    const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(gain, t + (attack || 0.002));
+    g.gain.exponentialRampToValueAtTime(0.0006, t + dur);
+    s.connect(f); f.connect(g); g.connect(dst); s.start(t); s.stop(t + dur + 0.03);
+  }
+  function osc(dst, t, f0, f1, dur, gain, type) {
+    const o = ctx.createOscillator(); o.type = type || "sine";
+    o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+    const g = ctx.createGain(); g.gain.setValueAtTime(gain, t); g.gain.exponentialRampToValueAtTime(0.0006, t + dur);
+    o.connect(g); g.connect(dst); o.start(t); o.stop(t + dur + 0.03);
+  }
+  const PREM = {
+    hit(v, pan, depth) { const t = ctx.currentTime, k = vol(v), o = out(pan, depth);
+      nz(o, t, 0.012, "highpass", 3800, 0.7, 0.55 * k, 0.0008);          // the crack of the strings
+      osc(o, t, 610, 520, 0.07, 0.30 * k, "triangle");                    // the string bed's ping
+      osc(o, t, 190, 110, 0.06, 0.45 * k);                                // the body of the ball
+      nz(o, t, 0.05, "bandpass", 1300, 1.6, 0.35 * k); },
+    bounce(v, pan, depth) { const t = ctx.currentTime, k = vol(v) * 0.8, o = out(pan, depth);
+      osc(o, t, 150, 85, 0.07, 0.42 * k);                                 // grass: a soft, low "thup"
+      nz(o, t, 0.045, "lowpass", 700, 0.9, 0.38 * k); },
+    net(v, pan, depth) { const t = ctx.currentTime, k = vol(v), o = out(pan, depth);
+      osc(o, t, 120, 60, 0.2, 0.5 * k, "triangle"); nz(o, t, 0.16, "lowpass", 380, 0.8, 0.4 * k); }
+  };
+  function ambience(onOff) {   // a quiet crowd: soft, slow-moving noise, far below the play
+    if (!ctx) return;
+    if (!onOff) { if (bed) { bed.g.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.4); bed = null; } return; }
+    if (bed) return;
+    const s = ctx.createBufferSource(); s.buffer = noiseBuf; s.loop = true;
+    const f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 520; f.Q.value = 0.55;
+    const g = ctx.createGain(); g.gain.value = 0.0001; g.gain.setTargetAtTime(0.045, ctx.currentTime, 1.2);
+    const lfo = ctx.createOscillator(), lg = ctx.createGain(); lfo.frequency.value = 0.13; lg.gain.value = 0.015;
+    lfo.connect(lg); lg.connect(g.gain); s.connect(f); f.connect(g); g.connect(master); s.start(); lfo.start(); bed = { s, g };
+  }
+  function applause(k) {   // many single claps, swelling and dying away
+    if (!k) return; const t0 = ctx.currentTime, n = Math.round(90 + 140 * k), dur = 1.6 + 1.4 * k;
+    const g = ctx.createGain(); g.gain.value = 0.55 * k; g.connect(master); g.connect(room());
+    for (let i = 0; i < n; i++) { const u = Math.random(), t = t0 + 0.08 + u * dur;
+      const env = Math.min(1, u / 0.18) * Math.pow(1 - u, 1.6);
+      const p = ctx.createStereoPanner ? ctx.createStereoPanner() : ctx.createGain(); if (p.pan) p.pan.value = Math.random() * 1.6 - 0.8; p.connect(g);
+      nz(p, t, 0.03 + Math.random() * 0.02, "bandpass", 1100 + Math.random() * 1700, 1.1, 0.05 + 0.1 * env * Math.random(), 0.001); }
+  }
   window.GSSfx = {
-    hit(v) { if (!ready()) return; const t = ctx.currentTime, k = vol(v);
+    premium: false,
+    ambience(onOff) { if (!ready()) return; ambience(onOff); },
+    applause(k) { if (!ready()) return; applause(k); },
+    hit(v, pan, depth) { if (!ready()) return; if (this.premium) return PREM.hit(v, pan, depth); const t = ctx.currentTime, k = vol(v);
       noise(t, 0.07, 1500, 1.4, 0.9 * k); tone(t, 260, 120, 0.09, 0.55 * k); noise(t, 0.025, 4200, 0.8, 0.35 * k); },
-    bounce(v) { if (!ready()) return; const t = ctx.currentTime, k = vol(v);
+    bounce(v, pan, depth) { if (!ready()) return; if (this.premium) return PREM.bounce(v, pan, depth); const t = ctx.currentTime, k = vol(v);
       tone(t, 520, 150, 0.06, 0.7 * k); noise(t, 0.04, 900, 1.1, 0.5 * k); },
-    net(v) { if (!ready()) return; const t = ctx.currentTime, k = vol(v);
+    net(v, pan, depth) { if (!ready()) return; if (this.premium) return PREM.net(v, pan, depth); const t = ctx.currentTime, k = vol(v);
       tone(t, 140, 70, 0.16, 0.6 * k, "triangle"); noise(t, 0.12, 300, 0.7, 0.4 * k); },
     enabled: on,
     ready,

@@ -63,6 +63,12 @@ function ring(frag,c,rx,ry,stroke,w,op,fill){const q=[];for(let i=0;i<=28;i++){c
 const KIT={skin:"#e9e3d7", skinDk:"#b9b1a2", shirt:"#c8a84b", shirtDk:"#8f7632", shorts:"#1e1e1e",
   shortsDk:"#000", shoe:"#f4f1ea", frame:"#1b1b1b", frameHi:"#c8a84b", strings:"rgba(240,236,227,.38)"};
 const RSCALE=1.28;
+/* premium look (8 Oct, Eoin: "premium"): a real kit, warm skin, hair under the headband; lessons opt in with LESSON.premium */
+const KIT_PREM={skin:"#d9a67c", skinDk:"#8f6243", shirt:"#f4efe3", shirtDk:"#c8a84b", shorts:"#1b2740", shortsDk:"#0b1222",
+  shoe:"#ffffff", frame:"#151515", frameHi:"#c8a84b", strings:"rgba(250,246,236,.45)", hair:"#2a1b11"};
+const OPP_PREM={skin:"#e9c8a3", skinDk:"#a7805f", shirt:"#3b4757", shirtDk:"#1c2430", shorts:"#ebe6db", shortsDk:"#a8a397",
+  shoe:"#f4f1ea", frame:"#1b1b1b", frameHi:"#9fb8d6", strings:"rgba(240,236,227,.4)", hair:"#6a4a2c"};
+const PREM=()=>typeof LESSON!=="undefined"&&!!LESSON.premium;
 function drawFigure(parts,pose,rq,opts){
   const o=opts||{}, op=o.op==null?1:o.op, ghost=!!o.ghost;
   const push=(n,z)=>parts.push({n,z});
@@ -76,10 +82,15 @@ function drawFigure(parts,pose,rq,opts){
       q.push([pa.s[0]+ra*(nx*Math.cos(th)-ux*Math.sin(th)), pa.s[1]+ra*(ny*Math.cos(th)-uy*Math.sin(th))]);}
     for(let k=0;k<=N;k++){const th=Math.PI*k/N;            // from -n round the front to +n
       q.push([pb.s[0]+rb*(-nx*Math.cos(th)+ux*Math.sin(th)), pb.s[1]+rb*(-ny*Math.cos(th)+uy*Math.sin(th))]);}
-    push(el_("polygon",{points:q.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" "),fill:col,
-      stroke:ghost?"none":dk,"stroke-width":1.3,"stroke-linejoin":"round",opacity:op}),(pa.z+pb.z)/2);
+    const pts_=q.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" "), zz=(pa.z+pb.z)/2;
+    if(seamless){   // premium: no seam at each joint; one dark outline round the whole figure, drawn behind it
+      push(el_("polygon",{points:pts_,fill:"none",stroke:"#0d1a12","stroke-width":2.6,"stroke-linejoin":"round",opacity:op*.85}),zz+0.03);
+      push(el_("polygon",{points:pts_,fill:col,stroke:col,"stroke-width":0.6,"stroke-linejoin":"round",opacity:op}),zz);}
+    else push(el_("polygon",{points:pts_,fill:col,
+      stroke:ghost?"none":dk,"stroke-width":1.3,"stroke-linejoin":"round",opacity:op}),zz);
   }
   const J=k=>pose[I[k]];
+  const seamless=!ghost&&!!(o.kit&&o.kit.hair);
   const S=ghost?{skin:o.col,skinDk:o.col,shirt:o.col,shirtDk:o.col,shorts:o.col,shortsDk:o.col,shoe:o.col}:(o.kit||KIT);
   // torso: a slight V (shoulders a touch wider, a narrower waist), in a fitted shirt
   const sL=J("shoulderL"),sR=J("shoulderR"),hL=J("hipL"),hR=J("hipR");
@@ -95,7 +106,8 @@ function drawFigure(parts,pose,rq,opts){
   limb(J("hips"),J("chest"),.078,.118,S.shirt,S.shirtDk);
   limb(sL,sR,.08,.08,S.shirt,S.shirtDk);
   limb(hL,hR,.078,.078,S.shorts,S.shortsDk);
-  limb(J("chest"),J("neck"),.05,.043,S.skin,S.skinDk);
+  if(seamless) limb(lerp3(J("chest"),J("neck"),.6),J("neck"),.05,.043,S.skin,S.skinDk);   // just the neck, not a strip down the back
+  else limb(J("chest"),J("neck"),.05,.043,S.skin,S.skinDk);
   // arms and legs taper like an athlete's: fuller at the top, slim at the wrist and ankle, a calf
   for(const s of ["L","R"]){
     const sh=J("shoulder"+s),e=J("elbow"+s),w=J("wrist"+s),m=lerp3(sh,e,.34),fa=lerp3(e,w,.3);
@@ -110,6 +122,11 @@ function drawFigure(parts,pose,rq,opts){
   const hq=P(J("head")); if(hq){const r=Math.max(3,FOCAL*.115/hq.z);
     push(el_("circle",{cx:hq.s[0].toFixed(1),cy:hq.s[1].toFixed(1),r:(r+(ghost?0:1.1)).toFixed(1),fill:ghost?S.skin:S.skinDk,opacity:op}),hq.z+0.001);
     push(el_("circle",{cx:hq.s[0].toFixed(1),cy:hq.s[1].toFixed(1),r:r.toFixed(1),fill:S.skin,opacity:op}),hq.z);
+    if(S.hair&&!ghost){   // hair: seen from behind, the head is hair; from the front, a face under a hairline
+      const fw=o.fwd||[0,1,0], away=(fw[0]*basis.f[0]+fw[1]*basis.f[1])>0.15;
+      if(away) push(el_("circle",{cx:hq.s[0].toFixed(1),cy:(hq.s[1]-r*.04).toFixed(1),r:(r*.98).toFixed(1),fill:S.hair,opacity:op}),hq.z-0.0002);
+      else {push(el_("circle",{cx:hq.s[0].toFixed(1),cy:(hq.s[1]-r*.22).toFixed(1),r:(r*.93).toFixed(1),fill:S.hair,opacity:op}),hq.z+0.0006);
+        push(el_("circle",{cx:hq.s[0].toFixed(1),cy:(hq.s[1]+r*.16).toFixed(1),r:(r*.8).toFixed(1),fill:S.skin,opacity:op}),hq.z-0.0002);}}
     if(o.band&&!ghost){const y=hq.s[1]-r*.34, half=Math.sqrt(Math.max(0,r*r-(r*.34)**2))+0.6;
       push(el_("line",{x1:(hq.s[0]-half).toFixed(1),y1:y.toFixed(1),x2:(hq.s[0]+half).toFixed(1),y2:y.toFixed(1),stroke:o.band,"stroke-width":Math.max(1.6,r*.34).toFixed(1),"stroke-linecap":"round",opacity:op}),hq.z-0.001);}}
   // shoes
@@ -139,6 +156,11 @@ function drawFigure(parts,pose,rq,opts){
 }
 
 
+/* the body's shadow cast across the court (premium): every joint dropped to the ground along the light,
+   drawn as one flat dark figure under the players */
+const SUN=[0.42,0.30];
+function shadowPose(pose){return pose.map(p=>[p[0]+p[2]*SUN[0],p[1]+p[2]*SUN[1],0.003]);}
+
 const CL=DATA.clips, SC=DATA.scenes;
 let I={}; CL.fh.joints.forEach((n,i)=>I[n]=i);
 const OPPKIT={skin:"#e3d9c8",skinDk:"#b0a58f",shirt:"#6c8db3",shirtDk:"#3e5878",shorts:"#e6e1d6",shortsDk:"#9f9b90",
@@ -150,17 +172,43 @@ const angMix=(a,b,w)=>{let d=((b-a+Math.PI*3)%(Math.PI*2))-Math.PI;return a+d*w;
 const CRT={L:23.77,dw:10.97,sw:8.23,sv:6.40};
 function drawCourt(frag){
   const l2=CRT.L/2,d2=CRT.dw/2,S=CRT.sw/2,V=CRT.sv,L=l2+6.4,Dw=d2+3.66;
+  if(PREM()) drawLawn(frag,l2,d2,L,Dw); else {
   quad(frag,[[-Dw,-L,0],[Dw,-L,0],[Dw,L,0],[-Dw,L,0]],"var(--court)");
-  quad(frag,[[-d2,-l2,0],[d2,-l2,0],[d2,l2,0],[-d2,l2,0]],"var(--court-in)");
+  quad(frag,[[-d2,-l2,0],[d2,-l2,0],[d2,l2,0],[-d2,l2,0]],"var(--court-in)");}
   const BW=4.4,BH=0.72;
   // painted to read from the camera's end of the court (seen from their end, it turns round)
   const FL=cam&&cam.az>0, pt=(y,op)=>FL?planeText(frag,"GAMESHARP",[BW/2,y+BH,0.005],[-1,0,0],[0,-1,0],BW,BH,BRAND,op):planeText(frag,"GAMESHARP",[-BW/2,y,0.005],[1,0,0],[0,1,0],BW,BH,BRAND,op);
   const low=cam&&cam.el<20;   // a low camera sits right over the logo at its own end: leave that one out
   if(!(low&&!FL)) pt(-l2-2.7,.34); if(!(low&&FL)) pt(l2+1.6,.42);
-  const ln=(a,b)=>seg(frag,[a[0],a[1],0],[b[0],b[1],0],"var(--court-line)",1.5);
+  const ln=(a,b)=>seg(frag,[a[0],a[1],0],[b[0],b[1],0],PREM()?"rgba(250,248,240,.92)":"var(--court-line)",PREM()?1.8:1.5);
   ln([-d2,-l2],[d2,-l2]);ln([-d2,l2],[d2,l2]);ln([-d2,-l2],[-d2,l2]);ln([d2,-l2],[d2,l2]);
   ln([-S,-l2],[-S,l2]);ln([S,-l2],[S,l2]);ln([-S,-V],[S,-V]);ln([-S,V],[S,V]);ln([0,-V],[0,V]);
   ln([0,-l2],[0,-l2+0.15]);ln([0,l2],[0,l2-0.15]);
+}
+/* premium lawn (8 Oct): mown stripes end to end, worn patches behind the baselines and down the middle where the
+   serves and rallies are played, and a dark stadium round it with a gold rail */
+function drawLawn(frag,l2,d2,L,Dw){
+  const W2=Dw+2.4, L2=L+1.2, H=2.2;
+  for(const sy of [-1,1]){quad(frag,[[-W2,sy*L2,0],[W2,sy*L2,0],[W2,sy*L2,H],[-W2,sy*L2,H]],"#0c1f13");
+    seg(frag,[-W2,sy*L2,H],[W2,sy*L2,H],"#c8a84b",1.6,.75); seg(frag,[-W2,sy*L2,0.9],[W2,sy*L2,0.9],"rgba(200,168,75,.25)",1,.6);}
+  for(const sx of [-1,1]){quad(frag,[[sx*W2,-L2,0],[sx*W2,L2,0],[sx*W2,L2,1.0],[sx*W2,-L2,1.0]],"#0a1a10");
+    seg(frag,[sx*W2,-L2,1.0],[sx*W2,L2,1.0],"#c8a84b",1.2,.5);}
+  quad(frag,[[-W2,-L2,0],[W2,-L2,0],[W2,L2,0],[-W2,L2,0]],"#265a2c");
+  const band=1.55; let k=0;
+  for(let y=-L2;y<L2;y+=band,k++){const y1=Math.min(L2,y+band);
+    quad(frag,[[-W2,y,0.0005],[W2,y,0.0005],[W2,y1,0.0005],[-W2,y1,0.0005]],k%2?"#2f6a34":"#296030");}
+  for(const sy of [-1,1]){   // worn grass: the server's spot and the baseline rally zone
+    for(const [rx,ry,dy,op] of [[2.4,0.8,0.9,.08],[1.4,0.5,0.7,.11],[0.7,0.3,0.55,.14]])   // soft, layered: worn, not painted
+      ring(frag,[0,sy*(l2+dy),0.001],rx,ry,"none",0,op,"#8a8c4f");
+    ring(frag,[0,sy*(l2-2.6),0.001],0.7,1.8,"none",0,.07,"#8a8c4f");}
+}
+/* warm late-afternoon light over the whole stage, falling off into a soft vignette */
+function lightOverlay(frag){
+  const d=el_("defs",{}), g=el_("radialGradient",{id:"gsLight",cx:"38%",cy:"30%",r:"85%"});
+  for(const [o,c,a] of [["0%","#fff1c9",.13],["45%","#fff1c9",.03],["80%","#000",.18],["100%","#000",.42]])
+    g.appendChild(el_("stop",{offset:o,"stop-color":c,"stop-opacity":a}));
+  d.appendChild(g); frag.appendChild(d);
+  frag.appendChild(el_("rect",{x:-2000,y:-2000,width:6000,height:6000,fill:"url(#gsLight)","pointer-events":"none"}));
 }
 function netGroup(){
   const g=el_("g",{}), W=CRT.dw/2+0.914, hC=0.914, hP=1.07, N=24;
@@ -434,9 +482,21 @@ function sfxEvents(sc){if(sc._sfx)return sc._sfx;const ev=[];
   const B=sc.ball;for(let i=1;i+1<B.length;i++){const a=B[i-1],b=B[i],c=B[i+1];if(a&&b&&c&&b[2]<0.08&&b[2]<=a[2]&&b[2]<c[2])ev.push([i,"bounce",b[1]<0?0.9:0.45]);}
   for(const m of sc.marks||[])if(m.kind==="net")ev.push([m.frame,"net",0.8]);
   return sc._sfx=ev;}
-function sfxCross(a,b){if(!window.GSSfx||b<=a||b-a>40)return;const sc=SC[scene];if(!sc)return;for(const [f,k,v] of sfxEvents(sc))if(f>a&&f<=b)GSSfx[k](v);}
+function sfxCross(a,b){if(!window.GSSfx||b<=a||b-a>40)return;const sc=SC[scene];if(!sc)return;
+  for(const [f,k,v] of sfxEvents(sc))if(f>a&&f<=b){const q=sc.ball[f]||sc.ball[f-1];
+    GSSfx[k](v,q?clamp(q[0]/7,-1,1)*(cam&&cam.az>0?-1:1):0,q?clamp((q[1]+12)/24,0,1):0.5);}}
+/* premium payoff (8 Oct): after a right answer, the moment it's decided plays in slow motion: the last 0.5 s
+   before the ending lands, at a third of the speed */
+function slowMo(g){
+  if(!PREM()||!answered||!chosen||mode!=="daily"||step>=NS()) return 1;
+  const S=LESSON.steps[step]; if(!S||!scene.startsWith(S.scene)) return 1;
+  const ok=LETTERS.indexOf(chosen)===S.correct||(S.alsoOk||[]).includes(LETTERS.indexOf(chosen)); if(!ok) return 1;
+  const ms=SC[scene].marks, end=ms.length?ms[ms.length-1].frame:null; if(end==null) return 1;
+  return g>end-50&&g<end+8?0.34:1;
+}
 function tick(ts){
-  if(playing){if(lastTs!=null){const t0=t;t+=Math.min(50,ts-lastTs)*0.1*rate()*(window.__speed||1);
+  if(window.GSSfx){const pr=PREM(); if(GSSfx.premium!==pr) GSSfx.premium=pr; if(pr&&GSSfx.ready&&GSSfx.ready()&&!window.__gsBed){window.__gsBed=1;GSSfx.ambience(true);}}
+  if(playing){if(lastTs!=null){const t0=t;t+=Math.min(50,ts-lastTs)*0.1*rate()*(window.__speed||1)*slowMo(t);
       if(t>=stopAt)t=stopAt; sfxCross(t0,t);
       if(t>=stopAt){t=stopAt;setPlaying(false);const cb=onStop;onStop=null;
         if(cb){pendingStop=cb;const generation=stopGeneration;
@@ -514,6 +574,7 @@ function choose(i,X,demo){
 function verdict(i,X,demo){
   const S=LESSON.steps[i], also=(S.alsoOk||[]).includes(LETTERS.indexOf(X)), ok=LETTERS.indexOf(X)===S.correct||also, corr=LETTERS[S.correct];
   const d=dotsOf(S.reveal?S.scene:S.scene+X), n=d?d.filter(x=>x[2]).length:0;
+  if(PREM()&&!demo&&window.GSSfx&&GSSfx.applause) GSSfx.applause(ok?(SC[S.scene+X].info.outcome==="won"?1:0.6):0);
   showOnly(ok||demo?[X]:[X,corr]);
   optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
   setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
@@ -631,9 +692,12 @@ function render(){
   parts.push({n:netGroup(),z:toCam([0,0,0.5]).z});
   const shadow=(a,op)=>{if(!a)return;const x=(a.pose[I.ankleL][0]+a.pose[I.ankleR][0])/2,y=(a.pose[I.ankleL][1]+a.pose[I.ankleR][1])/2;
     ring(frag,[x,y,0.004],0.38,0.3,"none",0,op,"rgba(0,0,0,.35)");};
-  shadow(you,1);shadow(opp,.8);
-  if(opp) drawFigure(parts,opp.pose,opp.rq,{kit:OPPKIT,op:.95,fwd:opp.fwd});
-  if(you){drawFigure(parts,you.pose,you.rq,{fwd:you.fwd,band:"#e2bd4f",bandDk:"#8f7632"});
+  if(PREM()){   // the whole body's shadow on the grass, along the light
+    for(const a of [opp,you]) if(a){const sh=[], g=el_("g",{opacity:a===you?.3:.24});
+      drawFigure(sh,shadowPose(a.pose),null,{ghost:true,col:"#04100a",op:1,fwd:a.fwd}); for(const {n} of sh) g.appendChild(n); frag.appendChild(g);}}
+  else {shadow(you,1);shadow(opp,.8);}
+  if(opp) drawFigure(parts,opp.pose,opp.rq,{kit:PREM()?OPP_PREM:OPPKIT,op:.95,fwd:opp.fwd});
+  if(you){drawFigure(parts,you.pose,you.rq,PREM()?{kit:KIT_PREM,fwd:you.fwd,band:"#d9b24a",bandDk:"#8f7632"}:{fwd:you.fwd,band:"#e2bd4f",bandDk:"#8f7632"});
     for(const c of contactsOf(sc,"you")) if(Math.abs(g-c)<16){const W=prep(sc).you.find(w=>w.cG===c);
       for(let f=Math.max(c-14,Math.floor(g)-12);f<=Math.floor(g);f++){const a=actorAt(sc,"you",f-1),b=actorAt(sc,"you",f);
         seg(frag,a.pose[I.racquetTip],b.pose[I.racquetTip],"var(--accent)",2,0.12+0.5*(1-(g-f)/12));}}}
@@ -662,6 +726,7 @@ function render(){
   // net fault
   for(const m of sc.marks) if(m.kind==="net"&&g>=m.frame){const bp=sc.ball[m.frame]||b;if(bp){const q=P(bp);
     if(q)frag.appendChild(el_("circle",{cx:q.s[0].toFixed(1),cy:q.s[1].toFixed(1),r:(8+10*smooth(0,20,g-m.frame)).toFixed(1),fill:"none",stroke:"#e05252","stroke-width":2.2,opacity:1-0.5*smooth(0,30,g-m.frame)}));}}
+  if(PREM()) lightOverlay(frag);
   svg2.replaceChildren(frag);
   {const sc2=$("scorechip"), v=sc.info.score||""; if(sc2.dataset.v!==v){sc2.dataset.v=v;sc2.hidden=!v;sc2.innerHTML=v?"YOU <b>"+v+"</b>":"";}}
   if(St&&fz!=null){const n=answered?3:[0,1,2].filter(k=>g>=fz-80+30*k).length;setRail(n);}

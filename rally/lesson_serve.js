@@ -117,5 +117,6 @@ const LESSON={
  "title": "The Serve Writes the Next Question",
  "hook": "Your serve decides what comes back. Read the reply, then use the space.",
  "memHTML": "The serve asks. <span>The return answers.</span>",
- "finaleScene": "daily2B"
+ "finaleScene": "daily2B",
+ "premium": true
 };

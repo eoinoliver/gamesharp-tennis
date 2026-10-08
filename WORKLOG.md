@@ -245,3 +245,11 @@ canonical local paths and “next” steps below are historical, not current rul
 - Saturday Point #4 rebuilt: the drop at shot 4 had become an outright winner, so shot 4 is now When to Go Down the Line (their loop lands short, they're still getting back: the line, need 4.1, they float it back), shot 5 the drop (slowest that reaches, 40 km/h; they pop it up) and the pass is played out as the finish. Five lessons still; Pass Where They Aren't leaves the point.
 - Also: a 'stand here' hold that started after your volley's swing pulled the body back mid-swing (Saturday Point #2 shot 5 glided); the swing now wins (net_lib.drop_holds_inside_swing). No outcome or ball change.
 - Checks: all 37 gates pass; the model agrees with every rewritten step; Saturday Points 1-5 flow runs (5 shots, 1 tap); #4 with a miss continues. The Line, Short Ball and The Winner are on the original engine and can't be judged until rebuilt.
+
+## 8 Oct 2026 — Premium look, prototype on lesson one (Claude)
+- Eoin: the app is impressive functionally but doesn't sustainably delight (1980s sound, a forgettable stickman); tennis sells on charisma and beauty. Agreed direction: stylised premium. Prototype only on The Serve Writes the Next Question (LESSON.premium); every other lesson unchanged until Eoin approves.
+- Court and light: mown stripes end to end, soft wear behind the baselines, a dark stadium wall with a gold rail, warm late-afternoon light with a vignette (rally/lesson_body.html drawLawn, lightOverlay).
+- Player: ivory shirt with gold trim, navy shorts, warm skin, hair (all hair from behind, a hairline from the front), one outline round the whole body instead of a seam at every joint, the whole body's shadow cast on the grass along the light (rally/figure.js). Opponent in a slate kit.
+- Sound (still synthesised, app_src/sfx.js): a strike with a string ping and body, a soft grass bounce, a stadium echo, sounds panned with the ball and duller at the far end, a quiet crowd bed, applause on a right answer. Real recordings to follow once Eoin supplies licensed files (he declined nothing; YouTube rips were ruled out on copyright).
+- Payoff: a right answer's deciding moment plays at a third of the speed.
+- Checks: gates pass (serve-plus-one and others unchanged); no errors.

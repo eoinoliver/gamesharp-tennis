@@ -64,6 +64,12 @@ function ring(frag,c,rx,ry,stroke,w,op,fill){const q=[];for(let i=0;i<=28;i++){c
 const KIT={skin:"#e9e3d7", skinDk:"#b9b1a2", shirt:"#c8a84b", shirtDk:"#8f7632", shorts:"#1e1e1e",
   shortsDk:"#000", shoe:"#f4f1ea", frame:"#1b1b1b", frameHi:"#c8a84b", strings:"rgba(240,236,227,.38)"};
 const RSCALE=1.28;
+/* premium look (8 Oct, Eoin: "premium"): a real kit, warm skin, hair under the headband; lessons opt in with LESSON.premium */
+const KIT_PREM={skin:"#d9a67c", skinDk:"#8f6243", shirt:"#f4efe3", shirtDk:"#c8a84b", shorts:"#1b2740", shortsDk:"#0b1222",
+  shoe:"#ffffff", frame:"#151515", frameHi:"#c8a84b", strings:"rgba(250,246,236,.45)", hair:"#2a1b11"};
+const OPP_PREM={skin:"#e9c8a3", skinDk:"#a7805f", shirt:"#3b4757", shirtDk:"#1c2430", shorts:"#ebe6db", shortsDk:"#a8a397",
+  shoe:"#f4f1ea", frame:"#1b1b1b", frameHi:"#9fb8d6", strings:"rgba(240,236,227,.4)", hair:"#6a4a2c"};
+const PREM=()=>typeof LESSON!=="undefined"&&!!LESSON.premium;
 function drawFigure(parts,pose,rq,opts){
   const o=opts||{}, op=o.op==null?1:o.op, ghost=!!o.ghost;
   const push=(n,z)=>parts.push({n,z});
@@ -77,10 +83,15 @@ function drawFigure(parts,pose,rq,opts){
       q.push([pa.s[0]+ra*(nx*Math.cos(th)-ux*Math.sin(th)), pa.s[1]+ra*(ny*Math.cos(th)-uy*Math.sin(th))]);}
     for(let k=0;k<=N;k++){const th=Math.PI*k/N;            // from -n round the front to +n
       q.push([pb.s[0]+rb*(-nx*Math.cos(th)+ux*Math.sin(th)), pb.s[1]+rb*(-ny*Math.cos(th)+uy*Math.sin(th))]);}
-    push(el_("polygon",{points:q.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" "),fill:col,
-      stroke:ghost?"none":dk,"stroke-width":1.3,"stroke-linejoin":"round",opacity:op}),(pa.z+pb.z)/2);
+    const pts_=q.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" "), zz=(pa.z+pb.z)/2;
+    if(seamless){   // premium: no seam at each joint; one dark outline round the whole figure, drawn behind it
+      push(el_("polygon",{points:pts_,fill:"none",stroke:"#0d1a12","stroke-width":2.6,"stroke-linejoin":"round",opacity:op*.85}),zz+0.03);
+      push(el_("polygon",{points:pts_,fill:col,stroke:col,"stroke-width":0.6,"stroke-linejoin":"round",opacity:op}),zz);}
+    else push(el_("polygon",{points:pts_,fill:col,
+      stroke:ghost?"none":dk,"stroke-width":1.3,"stroke-linejoin":"round",opacity:op}),zz);
   }
   const J=k=>pose[I[k]];
+  const seamless=!ghost&&!!(o.kit&&o.kit.hair);
   const S=ghost?{skin:o.col,skinDk:o.col,shirt:o.col,shirtDk:o.col,shorts:o.col,shortsDk:o.col,shoe:o.col}:(o.kit||KIT);
   // torso: a slight V (shoulders a touch wider, a narrower waist), in a fitted shirt
   const sL=J("shoulderL"),sR=J("shoulderR"),hL=J("hipL"),hR=J("hipR");
@@ -96,7 +107,8 @@ function drawFigure(parts,pose,rq,opts){
   limb(J("hips"),J("chest"),.078,.118,S.shirt,S.shirtDk);
   limb(sL,sR,.08,.08,S.shirt,S.shirtDk);
   limb(hL,hR,.078,.078,S.shorts,S.shortsDk);
-  limb(J("chest"),J("neck"),.05,.043,S.skin,S.skinDk);
+  if(seamless) limb(lerp3(J("chest"),J("neck"),.6),J("neck"),.05,.043,S.skin,S.skinDk);   // just the neck, not a strip down the back
+  else limb(J("chest"),J("neck"),.05,.043,S.skin,S.skinDk);
   // arms and legs taper like an athlete's: fuller at the top, slim at the wrist and ankle, a calf
   for(const s of ["L","R"]){
     const sh=J("shoulder"+s),e=J("elbow"+s),w=J("wrist"+s),m=lerp3(sh,e,.34),fa=lerp3(e,w,.3);
@@ -111,6 +123,11 @@ function drawFigure(parts,pose,rq,opts){
   const hq=P(J("head")); if(hq){const r=Math.max(3,FOCAL*.115/hq.z);
     push(el_("circle",{cx:hq.s[0].toFixed(1),cy:hq.s[1].toFixed(1),r:(r+(ghost?0:1.1)).toFixed(1),fill:ghost?S.skin:S.skinDk,opacity:op}),hq.z+0.001);
     push(el_("circle",{cx:hq.s[0].toFixed(1),cy:hq.s[1].toFixed(1),r:r.toFixed(1),fill:S.skin,opacity:op}),hq.z);
+    if(S.hair&&!ghost){   // hair: seen from behind, the head is hair; from the front, a face under a hairline
+      const fw=o.fwd||[0,1,0], away=(fw[0]*basis.f[0]+fw[1]*basis.f[1])>0.15;
+      if(away) push(el_("circle",{cx:hq.s[0].toFixed(1),cy:(hq.s[1]-r*.04).toFixed(1),r:(r*.98).toFixed(1),fill:S.hair,opacity:op}),hq.z-0.0002);
+      else {push(el_("circle",{cx:hq.s[0].toFixed(1),cy:(hq.s[1]-r*.22).toFixed(1),r:(r*.93).toFixed(1),fill:S.hair,opacity:op}),hq.z+0.0006);
+        push(el_("circle",{cx:hq.s[0].toFixed(1),cy:(hq.s[1]+r*.16).toFixed(1),r:(r*.8).toFixed(1),fill:S.skin,opacity:op}),hq.z-0.0002);}}
     if(o.band&&!ghost){const y=hq.s[1]-r*.34, half=Math.sqrt(Math.max(0,r*r-(r*.34)**2))+0.6;
       push(el_("line",{x1:(hq.s[0]-half).toFixed(1),y1:y.toFixed(1),x2:(hq.s[0]+half).toFixed(1),y2:y.toFixed(1),stroke:o.band,"stroke-width":Math.max(1.6,r*.34).toFixed(1),"stroke-linecap":"round",opacity:op}),hq.z-0.001);}}
   // shoes
@@ -139,6 +156,11 @@ function drawFigure(parts,pose,rq,opts){
   }
 }
 
+
+/* the body's shadow cast across the court (premium): every joint dropped to the ground along the light,
+   drawn as one flat dark figure under the players */
+const SUN=[0.42,0.30];
+function shadowPose(pose){return pose.map(p=>[p[0]+p[2]*SUN[0],p[1]+p[2]*SUN[1],0.003]);}
 
 /* Sharpen athlete: the lesson engine's own figure playing each stroke's real lesson swing (mocap clips).
    build.py wraps this file with rally/core.js + rally/figure.js into app/athlete.js (one closure, no globals but GSAthlete).
