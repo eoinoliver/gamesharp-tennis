@@ -201,10 +201,10 @@ function drawLawn(frag,l2,d2,L,Dw){
     seg(frag,[-W2,sy*L2,H],[W2,sy*L2,H],"#c8a84b",1.6,.75); seg(frag,[-W2,sy*L2,0.9],[W2,sy*L2,0.9],"rgba(200,168,75,.25)",1,.6);}
   for(const sx of [-1,1]){quad(frag,[[sx*W2,-L2,0],[sx*W2,L2,0],[sx*W2,L2,1.0],[sx*W2,-L2,1.0]],"#0a1a10");
     seg(frag,[sx*W2,-L2,1.0],[sx*W2,L2,1.0],"#c8a84b",1.2,.5);}
-  quad(frag,[[-W2,-L2,0],[W2,-L2,0],[W2,L2,0],[-W2,L2,0]],"#265a2c");
+  quad(frag,[[-W2,-L2,0],[W2,-L2,0],[W2,L2,0],[-W2,L2,0]],"#1f5a26");
   const band=1.55; let k=0;
   for(let y=-L2;y<L2;y+=band,k++){const y1=Math.min(L2,y+band);
-    quad(frag,[[-W2,y,0.0005],[W2,y,0.0005],[W2,y1,0.0005],[-W2,y1,0.0005]],k%2?"#2f6a34":"#296030");}
+    quad(frag,[[-W2,y,0.0005],[W2,y,0.0005],[W2,y1,0.0005],[-W2,y1,0.0005]],k%2?"#2c7232":"#215d27");}
   for(const sy of [-1,1]){   // worn grass: the server's spot and the baseline rally zone
     for(const [rx,ry,dy,op] of [[2.4,0.8,0.9,.08],[1.4,0.5,0.7,.11],[0.7,0.3,0.55,.14]])   // soft, layered: worn, not painted
       ring(frag,[0,sy*(l2+dy),0.001],rx,ry,"none",0,op,"#8a8c4f");
@@ -268,13 +268,12 @@ function drawCourtside(parts){   // umpire's chair at the net, ball kids crouche
 /* warm late-afternoon light over the whole stage, falling off into a soft vignette */
 function lightOverlay(frag){
   const d=el_("defs",{}), g=el_("radialGradient",{id:"gsLight",cx:"38%",cy:"30%",r:"85%"});
-  for(const [o,c,a] of [["0%","#fff1c9",.13],["45%","#fff1c9",.03],["80%","#000",.18],["100%","#000",.42]])
+  for(const [o,c,a] of [["0%","#fff1c9",.05],["55%","#fff1c9",0],["88%","#000",.08],["100%","#000",.3]])
     g.appendChild(el_("stop",{offset:o,"stop-color":c,"stop-opacity":a}));
   // haze: the far end of the stadium softens into warm afternoon air
   const hz=el_("linearGradient",{id:"gsHaze",x1:"0",y1:"0",x2:"0",y2:"1"});
   for(const [o,a] of [["0%",.22],["30%",.08],["55%",0]]) hz.appendChild(el_("stop",{offset:o,"stop-color":"#f4e7c4","stop-opacity":a}));
   d.appendChild(g); d.appendChild(hz); frag.appendChild(d);
-  frag.appendChild(el_("rect",{x:0,y:0,width:VW,height:VH,fill:"url(#gsHaze)","pointer-events":"none"}));
   frag.appendChild(el_("rect",{x:-2000,y:-2000,width:6000,height:6000,fill:"url(#gsLight)","pointer-events":"none"}));
 }
 function netGroup(){
