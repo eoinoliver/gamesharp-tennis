@@ -323,16 +323,18 @@ function drawStadium(frag){
     seg(frag,[-sx_-3,yf,z1],[sx_+3,yf,z1],"#d9c27a",1.4,.55);
     for(let x=-sx_;x<=sx_;x+=4.2) seg(frag,[x,yf,z1],[x,yb,z0],"#123020",1,.6);}
   // spectators: a body and a head each, grouped into one path per colour; off-screen and behind-camera people skipped
-  const now=performance.now()/1000, cheer=window.__cheerT?Math.max(0,1-(now-window.__cheerT)/2.6):0;
-  const paths={}, heads=[];
-  for(const q of CROWD){const lift=cheer*0.18*Math.max(0,Math.sin(now*9+q.ph)), p=[q.p[0],q.p[1],q.p[2]+lift];
+  const now=performance.now()/1000, cheer=CALM_MOTION||!window.__cheerT?0:Math.max(0,1-(now-window.__cheerT)/2.6);
+  // calm while a question is up: the stands sink back and nothing moves, so the court is all you read
+  const asking=zone.classList.contains("on")&&!answered, dim=asking?0.45:1;
+  const paths={}, heads=[]; let ci=0;
+  for(const q of CROWD){ if(LITE&&(ci++)%2) continue;const lift=cheer*0.18*Math.max(0,Math.sin(now*9+q.ph)), p=[q.p[0],q.p[1],q.p[2]+lift];
     const b=P(p), h=P([p[0],p[1],p[2]+0.42]); if(!b||!h) continue;
     if(b.s[0]<-40||b.s[0]>VW+40||b.s[1]<-40||b.s[1]>VH+40) continue;
     const rb=Math.max(0.7,FOCAL*0.24/b.z), rh=Math.max(0.5,FOCAL*0.12/h.z);
     const band=q.row>=3?1:0; (paths[q.c+"|"+band]=paths[q.c+"|"+band]||[]).push(`M${(b.s[0]-rb).toFixed(1)} ${b.s[1].toFixed(1)}a${rb.toFixed(1)} ${rb.toFixed(1)} 0 1 0 ${(2*rb).toFixed(1)} 0a${rb.toFixed(1)} ${rb.toFixed(1)} 0 1 0 ${(-2*rb).toFixed(1)} 0`);
     heads.push(`M${(h.s[0]-rh).toFixed(1)} ${h.s[1].toFixed(1)}a${rh.toFixed(1)} ${rh.toFixed(1)} 0 1 0 ${(2*rh).toFixed(1)} 0a${rh.toFixed(1)} ${rh.toFixed(1)} 0 1 0 ${(-2*rh).toFixed(1)} 0`);}
-  for(const [k,d] of Object.entries(paths)){const [c,band]=k.split("|"); frag.appendChild(el_("path",{d:d.join(""),fill:c,opacity:band==="1"?.5:.72}));}
-  if(heads.length) frag.appendChild(el_("path",{d:heads.join(""),fill:"#c99a74",opacity:.7}));
+  for(const [k,d] of Object.entries(paths)){const [c,band]=k.split("|"); frag.appendChild(el_("path",{d:d.join(""),fill:c,opacity:(band==="1"?.5:.72)*dim}));}
+  if(heads.length) frag.appendChild(el_("path",{d:heads.join(""),fill:"#c99a74",opacity:.7*dim}));
 }
 function drawCourtside(parts){   // umpire's chair at the net, ball kids crouched at the posts (drawn depth-sorted with the players)
   const W=CRT.dw/2+0.914, ux=-(W+1.1), push=(n,p)=>{const q=P(p);if(q)parts.push({n,z:q.z});};
@@ -640,7 +642,7 @@ function sfxCross(a,b){if(!window.GSSfx||b<=a||b-a>40)return;const sc=SC[scene];
 /* premium payoff (8 Oct): after a right answer, the moment it's decided plays in slow motion: the last 0.5 s
    before the ending lands, at a third of the speed */
 function slowMo(g){
-  if(!PREM()||!answered||!chosen||mode!=="daily"||step>=NS()) return 1;
+  if(!PREM()||CALM_MOTION||!answered||!chosen||mode!=="daily"||step>=NS()) return 1;
   const S=LESSON.steps[step]; if(!S||!scene.startsWith(S.scene)) return 1;
   const ok=LETTERS.indexOf(chosen)===S.correct||(S.alsoOk||[]).includes(LETTERS.indexOf(chosen)); if(!ok) return 1;
   const ms=SC[scene].marks, end=ms.length?ms[ms.length-1].frame:null; if(end==null) return 1;

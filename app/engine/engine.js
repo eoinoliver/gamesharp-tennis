@@ -68,7 +68,9 @@ const KIT_PREM={skin:"#d9a67c", skinDk:"#8f6243", shirt:"#f4efe3", shirtDk:"#c8a
   shoe:"#ffffff", frame:"#151515", frameHi:"#c8a84b", strings:"rgba(250,246,236,.45)", hair:"#2a1b11"};
 const OPP_PREM={skin:"#e9c8a3", skinDk:"#a7805f", shirt:"#3b4757", shirtDk:"#1c2430", shorts:"#ebe6db", shortsDk:"#a8a397",
   shoe:"#f4f1ea", frame:"#1b1b1b", frameHi:"#9fb8d6", strings:"rgba(240,236,227,.4)", hair:"#6a4a2c"};
-const PREM=()=>typeof LESSON!=="undefined"&&!!LESSON.premium;
+const PREM=()=>typeof LESSON==="undefined"||LESSON.premium!==false;   // the premium look everywhere (8 Oct, Eoin: "proceed in full")
+const CALM_MOTION=typeof matchMedia!=="undefined"&&matchMedia("(prefers-reduced-motion: reduce)").matches;   // phone set to reduce motion
+const LITE=typeof navigator!=="undefined"&&((navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=3);   // a slower phone
 function drawFigure(parts,pose,rq,opts){
   const o=opts||{}, op=o.op==null?1:o.op, ghost=!!o.ghost;
   const push=(n,z)=>parts.push({n,z});
@@ -132,7 +134,7 @@ function drawFigure(parts,pose,rq,opts){
     if(o.band&&!ghost){const y=hq.s[1]-r*.34, half=Math.sqrt(Math.max(0,r*r-(r*.34)**2))+0.6;
       push(el_("line",{x1:(hq.s[0]-half).toFixed(1),y1:y.toFixed(1),x2:(hq.s[0]+half).toFixed(1),y2:y.toFixed(1),stroke:o.band,"stroke-width":Math.max(1.6,r*.34).toFixed(1),"stroke-linecap":"round",opacity:op}),hq.z-0.001);
       if(seamless){   // headband tails: two ribbons at the back of the head, swinging with the body
-        const sw=Math.sin(performance.now()/180)*0.35, fw=o.fwd||[0,1,0], back=[-fw[0],-fw[1],0];
+        const sw=CALM_MOTION?0:Math.sin(performance.now()/180)*0.35, fw=o.fwd||[0,1,0], back=[-fw[0],-fw[1],0];
         for(const k of [0,1]){const a0=add(J("head"),[back[0]*0.11,back[1]*0.11,0.03]), a1=add(a0,[back[0]*(0.2+0.04*k)+sw*0.06,back[1]*(0.2+0.04*k),-0.05-0.05*k]);
           const pa=P(a0),pb=P(a1); if(pa&&pb) push(el_("line",{x1:pa.s[0].toFixed(1),y1:pa.s[1].toFixed(1),x2:pb.s[0].toFixed(1),y2:pb.s[1].toFixed(1),stroke:o.band,"stroke-width":Math.max(1,r*.2).toFixed(1),"stroke-linecap":"round",opacity:op}),hq.z+0.002);}}}}
   // shoes
@@ -237,16 +239,18 @@ function drawStadium(frag){
     seg(frag,[-sx_-3,yf,z1],[sx_+3,yf,z1],"#d9c27a",1.4,.55);
     for(let x=-sx_;x<=sx_;x+=4.2) seg(frag,[x,yf,z1],[x,yb,z0],"#123020",1,.6);}
   // spectators: a body and a head each, grouped into one path per colour; off-screen and behind-camera people skipped
-  const now=performance.now()/1000, cheer=window.__cheerT?Math.max(0,1-(now-window.__cheerT)/2.6):0;
-  const paths={}, heads=[];
-  for(const q of CROWD){const lift=cheer*0.18*Math.max(0,Math.sin(now*9+q.ph)), p=[q.p[0],q.p[1],q.p[2]+lift];
+  const now=performance.now()/1000, cheer=CALM_MOTION||!window.__cheerT?0:Math.max(0,1-(now-window.__cheerT)/2.6);
+  // calm while a question is up: the stands sink back and nothing moves, so the court is all you read
+  const asking=zone.classList.contains("on")&&!answered, dim=asking?0.45:1;
+  const paths={}, heads=[]; let ci=0;
+  for(const q of CROWD){ if(LITE&&(ci++)%2) continue;const lift=cheer*0.18*Math.max(0,Math.sin(now*9+q.ph)), p=[q.p[0],q.p[1],q.p[2]+lift];
     const b=P(p), h=P([p[0],p[1],p[2]+0.42]); if(!b||!h) continue;
     if(b.s[0]<-40||b.s[0]>VW+40||b.s[1]<-40||b.s[1]>VH+40) continue;
     const rb=Math.max(0.7,FOCAL*0.24/b.z), rh=Math.max(0.5,FOCAL*0.12/h.z);
     const band=q.row>=3?1:0; (paths[q.c+"|"+band]=paths[q.c+"|"+band]||[]).push(`M${(b.s[0]-rb).toFixed(1)} ${b.s[1].toFixed(1)}a${rb.toFixed(1)} ${rb.toFixed(1)} 0 1 0 ${(2*rb).toFixed(1)} 0a${rb.toFixed(1)} ${rb.toFixed(1)} 0 1 0 ${(-2*rb).toFixed(1)} 0`);
     heads.push(`M${(h.s[0]-rh).toFixed(1)} ${h.s[1].toFixed(1)}a${rh.toFixed(1)} ${rh.toFixed(1)} 0 1 0 ${(2*rh).toFixed(1)} 0a${rh.toFixed(1)} ${rh.toFixed(1)} 0 1 0 ${(-2*rh).toFixed(1)} 0`);}
-  for(const [k,d] of Object.entries(paths)){const [c,band]=k.split("|"); frag.appendChild(el_("path",{d:d.join(""),fill:c,opacity:band==="1"?.5:.72}));}
-  if(heads.length) frag.appendChild(el_("path",{d:heads.join(""),fill:"#c99a74",opacity:.7}));
+  for(const [k,d] of Object.entries(paths)){const [c,band]=k.split("|"); frag.appendChild(el_("path",{d:d.join(""),fill:c,opacity:(band==="1"?.5:.72)*dim}));}
+  if(heads.length) frag.appendChild(el_("path",{d:heads.join(""),fill:"#c99a74",opacity:.7*dim}));
 }
 function drawCourtside(parts){   // umpire's chair at the net, ball kids crouched at the posts (drawn depth-sorted with the players)
   const W=CRT.dw/2+0.914, ux=-(W+1.1), push=(n,p)=>{const q=P(p);if(q)parts.push({n,z:q.z});};
@@ -554,7 +558,7 @@ function sfxCross(a,b){if(!window.GSSfx||b<=a||b-a>40)return;const sc=SC[scene];
 /* premium payoff (8 Oct): after a right answer, the moment it's decided plays in slow motion: the last 0.5 s
    before the ending lands, at a third of the speed */
 function slowMo(g){
-  if(!PREM()||!answered||!chosen||mode!=="daily"||step>=NS()) return 1;
+  if(!PREM()||CALM_MOTION||!answered||!chosen||mode!=="daily"||step>=NS()) return 1;
   const S=LESSON.steps[step]; if(!S||!scene.startsWith(S.scene)) return 1;
   const ok=LETTERS.indexOf(chosen)===S.correct||(S.alsoOk||[]).includes(LETTERS.indexOf(chosen)); if(!ok) return 1;
   const ms=SC[scene].marks, end=ms.length?ms[ms.length-1].frame:null; if(end==null) return 1;

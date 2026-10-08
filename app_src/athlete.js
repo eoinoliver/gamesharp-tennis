@@ -42,7 +42,7 @@ function draw(svg,k,c,f){
   const g=document.createDocumentFragment(); court(g);
   const s=at(c,f), A=s.pose[I.ankleL], B=s.pose[I.ankleR];
   ring(g,[(A[0]+B[0])/2,(A[1]+B[1])/2,.004],.42,.32,"none",0,1,"rgba(0,0,0,.35)");
-  const parts=[]; drawFigure(parts,s.pose,s.rq,{fwd:[0,1,0],band:"#e2bd4f",bandDk:"#8f7632"});
+  const parts=[]; drawFigure(parts,s.pose,s.rq,{kit:KIT_PREM,fwd:[0,1,0],band:"#d9b24a",bandDk:"#8f7632"});   // the premium kit, as in the lessons
   const b=ballAt(k,c,f), bq=b&&P(b);
   if(bq){const sh=P([b[0],b[1],.003]); if(sh) g.appendChild(el_("ellipse",{cx:sh.s[0].toFixed(1),cy:sh.s[1].toFixed(1),rx:(FOCAL*.05/sh.z).toFixed(1),ry:(FOCAL*.02/sh.z).toFixed(1),fill:"rgba(0,0,0,.3)"}));
     const r=Math.max(2.2,FOCAL*.034/bq.z);
