@@ -246,6 +246,10 @@ canonical local paths and “next” steps below are historical, not current rul
 - Also: a 'stand here' hold that started after your volley's swing pulled the body back mid-swing (Saturday Point #2 shot 5 glided); the swing now wins (net_lib.drop_holds_inside_swing). No outcome or ball change.
 - Checks: all 37 gates pass; the model agrees with every rewritten step; Saturday Points 1-5 flow runs (5 shots, 1 tap); #4 with a miss continues. The Line, Short Ball and The Winner are on the original engine and can't be judged until rebuilt.
 
+## 8 Oct 2026 — The Moonballer stopped at step 3 (Claude)
+- Found by the full walkthrough video of the live app (Eoin asked for one to inspect): The Moonballer froze on step 3's question for everyone. The "leave it" option (mb3C) had no target for its choice marker, so the viewer errored drawing the choices ("Cannot read properties of undefined (reading 'land')"). It had been missing since the lesson first shipped; the gate never checked it.
+- Fixed in gamesharp-lab (95ef67c): the marker sits where you stand. Only mb3C changes. The gate now fails any option without a target (gs/gate.mjs).
+- Checks: all 37 gates pass with the new check; The Moonballer plays through to the wrap-up at 390x844 and 375x667, no errors.
 ## 8 Oct 2026 — Premium look, prototype on lesson one (Claude)
 - Eoin: the app is impressive functionally but doesn't sustainably delight (1980s sound, a forgettable stickman); tennis sells on charisma and beauty. Agreed direction: stylised premium. Prototype only on The Serve Writes the Next Question (LESSON.premium); every other lesson unchanged until Eoin approves.
 - Court and light: mown stripes end to end, soft wear behind the baselines, a dark stadium wall with a gold rail, warm late-afternoon light with a vignette (rally/lesson_body.html drawLawn, lightOverlay).
