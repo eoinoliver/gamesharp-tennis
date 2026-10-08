@@ -1,7 +1,7 @@
 {
   "app_src/build.py": "bcd7a555b0e5194a07eee6345a8eacf7d4fe5896a4ed664f730c29151342138c",
-  "app_src/catalog.py": "c29cb9ce89b07f82b817ccbc9f10f06f6c5ae722079811e961c8cd0c6ea6e6d1",
-  "app_src/index.html": "7a1f5d2e4c440de414a5a045c0d3e0459e5ca28fcd791d475848d52e76d25f54",
+  "app_src/catalog.py": "340e07e6cdb16c847fd52693e971d22b4bf65f5bcafe5bbd9e826fbd4a9306da",
+  "app_src/index.html": "43b10a915931579a603d5564c96ec1273e19e11651acec16e5beb84431154d41",
   "app_src/app.js": "9fce3695e6cd522ca1d5e4f3b31d88552d1bed48f8b1f75c62d9cad45bca985f",
   "app_src/play_host.html": "88b0ca9b07e5c46d539682dd3c502e3d6b141c5aa7ba234077bf709830334a20",
   "app_src/sharpen.js": "42b8222f1a3e56f08a03c5870efd092000595e8d40cc33c2de15f9fc51622953",
