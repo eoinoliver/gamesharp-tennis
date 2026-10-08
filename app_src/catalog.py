@@ -43,6 +43,7 @@ PLAY = [
     ('saturday-point-3', 'sc', 'Your serve at 30-40, built from five more of your lessons. Each shot: the tempting one, or the one that wins.'),
     ('saturday-point-4', 'sd', 'One point against a pusher, built from five more of your lessons. Each shot: the tempting one, or the one that wins.'),
     ('saturday-point-5', 'se', 'Break point against a big hitter, built from five more of your lessons. Each shot: the tempting one, or the one that wins.'),
+    ('midweek-point-1', 'ma', 'Three shots from three of your lessons. A quick top-up between Saturdays.'),   # 8 Oct: little and often
     ('play-the-point', 'bp', 'Three shots, your calls. Each choice decides what happens next.'),
 ]
 
@@ -55,5 +56,5 @@ FLAVOURS = [
     ('net', 'Net play', ['approach-volley', 'pass-where-they-arent', 'split-step', 'answer-the-drop']),
     ('technique', 'Technique', ['late-is-the-culprit', 'contact-clue']),
     ('predict', 'Predict the Point', ['predict-the-point', 'predict-second-serve']),
-    ('play', 'Play the Point', ['saturday-point-1', 'saturday-point-2', 'saturday-point-3', 'saturday-point-4', 'saturday-point-5', 'play-the-point']),   # has its own card on Home: not in the taster row
+    ('play', 'Play the Point', ['saturday-point-1', 'saturday-point-2', 'saturday-point-3', 'saturday-point-4', 'saturday-point-5', 'midweek-point-1', 'play-the-point']),   # has its own card on Home: not in the taster row
 ]
