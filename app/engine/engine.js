@@ -310,6 +310,8 @@ function prep(sc){
       return {s,c,cG,a:Math.max(s.start,cG-(PRE[s.clip]??70)),b:Math.min(s.start+c.frameCount-1,cG+50)};});
     W.sort((x,y)=>x.a-y.a);
     if(!W[0].fixed) W[0].a=W[0].s.start;
+    // A rally that stops on your shot (batch_lib.stop_at_your_contact): freeze at contact, not a swing after the ball has gone
+    if(name==="you"){const e=endsOnYou(sc),L=W[W.length-1]; if(e!=null&&L.cG===e.cG) L.b=Math.max(L.a,e.cG);}
     for(let i=0;i+1<W.length;i++) if(W[i+1].a<W[i].b) W[i].b=Math.max(W[i].a,W[i+1].a);
     // No teleporting: give every glide enough time to be covered at a sprint (about 5.5 m/s),
     // first by starting the next swing's preparation later, then by trimming the previous follow-through.
@@ -430,8 +432,18 @@ function tossInfo(clip){   // toss release frame of this serve clip (was fixed t
   for(let f=1;f<c.contactFrame-25;f++){const z=c.frames[f-1][I.wristL][2];if(z>bz){bz=z;best=f;}}
   return TOSS[clip]={releaseLocal:best};
 }
+// The scene ends on your contact: the ball's last frame is your contact and only empty frames follow. (8 Oct)
+function endsOnYou(sc){
+  if(sc._eoy!==undefined) return sc._eoy; sc._eoy=null;
+  let L=sc.ball.length-1; while(L>=0&&!sc.ball[L]) L--;
+  const segs=(sc.actors.you||[]).filter(s=>!s.hold); if(L<0||L===sc.ball.length-1||!segs.length) return null;
+  const last=segs.reduce((a,b)=>b.start>a.start?b:a), cG=last.start+CL[last.clip].contactFrame-1;
+  if(Math.abs(L-cG)<=2) sc._eoy={L,cG};
+  return sc._eoy;
+}
 function ballAt(sc,g){
-  const n=sc.ball.length, f0=firstBall(sc);
+  const n=sc.ball.length, f0=firstBall(sc), e=endsOnYou(sc);
+  if(e&&g>e.L) return sc.ball[e.L];   // the ball stays on the strings with the frozen swing
   if(g>=f0){const i=Math.floor(g),u=g-i,a=sc.ball[Math.min(n-1,i)],b=sc.ball[Math.min(n-1,i+1)];
     if(!a) return null; return b?lerp3(a,b,u):a;}
   // the server's toss: whoever's first segment is a serve (you or them)
