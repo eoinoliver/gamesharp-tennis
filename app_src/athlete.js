@@ -17,15 +17,40 @@ function at(c,f){
   const pose=A.map((p,k)=>lerp3(p,B[k],u)), axis=norm(lerp3(RA.axis,RB.axis,u)), lat=lerp3(RA.lateral,RB.lateral,u);
   return {pose,rq:{w:pose[I.wristR],axis,lateral:norm(sub(lat,mul(axis,dot(lat,axis)))),centre:lerp3(RA.centre,RB.centre,u)}};
 }
-/* the ball: in from the far side (a toss on the serve), met at the clip's own contact point, then away toward the net */
+/* the ball (8 Oct, Eoin: "the serve omits the visible ball in the toss"): simple flights under gravity, metres and
+   seconds, 100 frames a second.
+   Serve: in the tossing hand from the first frame, released at the hand's highest point, up and down onto the contact.
+   Groundstrokes: their ball crosses the net, bounces 4.5 m in front of you and rises to the contact.
+   Volleys: met in the air. After contact the ball flies on over the net (and the serve lands in the box) until the
+   swing ends, so it never vanishes while the racquet is still moving. */
+const G=9.81, GROUND=new Set(["fh","bh","slice","drop"]), REL={};
+function fall(p,v,t){return [p[0]+v[0]*t,p[1]+v[1]*t,p[2]+v[2]*t-G/2*t*t];}
+function bounced(p,v,t){   /* one bounce if it reaches the ground (70% of the vertical speed back) */
+  const tg=(v[2]+Math.sqrt(v[2]*v[2]+2*G*p[2]))/G; if(t<=tg) return fall(p,v,t);
+  const q=fall(p,v,tg); return fall([q[0],q[1],0],[v[0],v[1],0.7*(G*tg-v[2])],t-tg);}
+function release(c){   /* the tossing hand's highest point before contact */
+  if(REL[c.contactFrame+"/"+c.frameCount]) return REL[c.contactFrame+"/"+c.frameCount];
+  let best=1,bz=-1; for(let f=1;f<c.contactFrame-25;f++){const z=c.frames[f-1][I.wristL][2]; if(z>bz){bz=z;best=f;}}
+  return REL[c.contactFrame+"/"+c.frameCount]=best;}
+const OUT={fh:[0,25,1.55],bh:[0,25,1.45],slice:[0,22,1.15],drop:[0,14,1.1],fv:[0,18,1.2],bv:[0,18,1.2]};   /* forward speed m/s, height crossing the net */
 function ballAt(k,c,f){
-  const C=c.contactBall, cf=c.contactFrame, serve=k==="serve";
-  if(f<cf){const n=serve?55:26,u=(f-(cf-n))/n; if(u<0)return null;
-    if(serve){const e=1-(1-u)*(1-u);return [C[0],C[1],lerp(1.25,C[2]+.22,e)-(u>.8?(u-.8)/.2*.22:0)];}
-    return [lerp(C[0]-.6,C[0],u),lerp(C[1]+8,C[1],u),C[2]+.35*Math.sin(Math.PI*u)*(1-u)];}
-  const u=(f-cf)/24; if(u>1)return null;
-  const up=k==="drop"?.5:k==="slice"?.1:serve?-.6:.3;
-  return [C[0]+(serve?.4:-.4)*u,C[1]+(k==="drop"?4:8)*u,Math.max(.05,C[2]+up*Math.sin(Math.PI*u*.8)+(serve?up*u:0))];
+  const C=c.contactBall, cf=c.contactFrame, t=(f-cf)/100;
+  if(k==="serve"){
+    if(f>=cf){const T=0.4, v=[0.3,16.5/T,(-C[2]+G/2*T*T)/T]; return bounced(C,v,t);}   /* lands about 16.5 m on, inside the service line */
+    const r=release(c), hand=g=>{const w=at(c,g).pose[I.wristL];return [w[0],w[1],w[2]+0.07];};
+    if(f<=r) return hand(f);
+    const p0=hand(r), T=(cf-r)/100, tt=(f-r)/100;
+    return [lerp(p0[0],C[0],tt/T),lerp(p0[1],C[1],tt/T),p0[2]+((C[2]-p0[2]+G/2*T*T)/T)*tt-G/2*tt*tt];}
+  if(f<cf){
+    if(GROUND.has(k)){const tb=0.18, B=[C[0]-0.25,C[1]+4.5,0];
+      if(-t<=tb){const vz=(C[2]+G/2*tb*tb)/tb, s=(t+tb)/tb; return [lerp(B[0],C[0],s),lerp(B[1],C[1],s),vz*(t+tb)-G/2*(t+tb)*(t+tb)];}
+      const ta=0.4, u=(-t-tb); if(u>ta) return null;          /* before the bounce: down from 1.6 m over the net */
+      const z0=1.6, vz0=(-z0+G/2*ta*ta)/ta, s=1-u/ta;
+      return [B[0]-0.4*(u/ta),B[1]+25*u,z0+vz0*(ta-u)-G/2*(ta-u)*(ta-u)].map((x,i)=>i<2?x:Math.max(0,x));}
+    const ta=0.45; if(-t>ta) return null;                    /* a volley: straight in, still in the air */
+    return fall([C[0]-0.3,C[1]+18*ta,1.4],[0.3/ta,-18,(C[2]-1.4+G/2*ta*ta)/ta],t+ta);}
+  const [vx,vy,hn]=OUT[k], T=Math.max(0.2,(11.5-C[1])/vy);    /* over the net at height hn */
+  return bounced(C,[vx+(k==="bh"||k==="slice"||k==="bv"?-0.6:0.6),vy,(hn-C[2]+G/2*T*T)/T],t);
 }
 const BL=-0.35, SL=4.115, DL=5.485, NET=BL+11.885;   /* court around the player: baseline just behind them */
 function court(g){
