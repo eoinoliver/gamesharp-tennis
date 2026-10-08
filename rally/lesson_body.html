@@ -667,7 +667,7 @@ function choose(i,X,demo){
 function verdict(i,X,demo){
   const S=LESSON.steps[i], also=(S.alsoOk||[]).includes(LETTERS.indexOf(X)), ok=LETTERS.indexOf(X)===S.correct||also, corr=LETTERS[S.correct];
   const d=dotsOf(S.reveal?S.scene:S.scene+X), n=d?d.filter(x=>x[2]).length:0;
-  if(PREM()&&!demo&&window.GSSfx&&GSSfx.applause) GSSfx.applause(ok?(SC[S.scene+X].info.outcome==="won"?1:0.6):0);
+  if(PREM()&&!demo&&window.GSSfx&&GSSfx.applause){const sk=SC[S.reveal?S.scene:S.scene+X]; GSSfx.applause(ok?(sk&&sk.info.outcome==="won"?1:0.6):0);}
   showOnly(ok||demo?[X]:[X,corr]);
   optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
   setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
