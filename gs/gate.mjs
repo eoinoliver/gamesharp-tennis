@@ -13,6 +13,7 @@ const r=await p.evaluate(()=>{
     L(S.unlock,28,`step ${i+1} unlock`); L(S.take,75,`step ${i+1} take`);
     for(const X of 'ABCD'){L(S.lines[X],80,`step ${i+1} ${X} line`);
       if(S.reveal||'ABCD'.indexOf(X)>=S.opts.length) continue; /* two-option steps: branch nodes, weekend points */ const k=S.scene+X; if(!SC[k]){fails.push('missing scene '+k);continue;}
+      if(!S.noTargets&&!(SC[k].info.shot&&SC[k].info.shot.land)) fails.push(`${k}: no target for the choice marker (the lesson stops at this question)`);   // 7 Oct: The Moonballer step 3
       const c=cls(k); notes.push(`${k}: ${c}${'ABCD'.indexOf(X)===S.correct?' (correct)':''}`);
       const good='ABCD'.indexOf(X)===S.correct||(S.alsoOk||[]).includes('ABCD'.indexOf(X));
       if(good&&(c==='lost'||c==='out')) fails.push(`correct answer ${k} ends as a LOST point`);
