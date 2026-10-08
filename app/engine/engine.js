@@ -112,11 +112,13 @@ function drawFigure(parts,pose,rq,opts){
   for(const s of ["L","R"]){
     const sh=J("shoulder"+s),e=J("elbow"+s),w=J("wrist"+s),m=lerp3(sh,e,.34),fa=lerp3(e,w,.3);
     limb(sh,m,.068,.056,S.shirt,S.shirtDk); limb(m,e,.053,.038,S.skin,S.skinDk);
+    if(seamless) limb(lerp3(sh,m,.86),m,.06,.057,S.shirtDk,S.shirtDk);   // gold trim at the sleeve's end
     limb(e,fa,.04,.044,S.skin,S.skinDk); limb(fa,w,.044,.027,S.skin,S.skinDk);
     if(o.band&&s==="R") limb(lerp3(e,w,.8),lerp3(e,w,.97),.036,.034,o.band,o.bandDk||o.band);   // wristband
     const h=J("hip"+s),k=J("knee"+s),a=J("ankle"+s),mt=lerp3(h,k,.42),cf=lerp3(k,a,.3);
     limb(h,mt,.086,.074,S.shorts,S.shortsDk); limb(mt,k,.07,.044,S.skin,S.skinDk);
     limb(k,cf,.044,.058,S.skin,S.skinDk); limb(cf,a,.058,.027,S.skin,S.skinDk);
+    if(seamless) limb(lerp3(cf,a,.55),a,.04,.034,"#fbfaf6","#fbfaf6");   // white socks
   }
   // head (and, for you, a headband)
   const hq=P(J("head")); if(hq){const r=Math.max(3,FOCAL*.115/hq.z);
@@ -128,7 +130,11 @@ function drawFigure(parts,pose,rq,opts){
       else {push(el_("circle",{cx:hq.s[0].toFixed(1),cy:(hq.s[1]-r*.22).toFixed(1),r:(r*.93).toFixed(1),fill:S.hair,opacity:op}),hq.z+0.0006);
         push(el_("circle",{cx:hq.s[0].toFixed(1),cy:(hq.s[1]+r*.16).toFixed(1),r:(r*.8).toFixed(1),fill:S.skin,opacity:op}),hq.z-0.0002);}}
     if(o.band&&!ghost){const y=hq.s[1]-r*.34, half=Math.sqrt(Math.max(0,r*r-(r*.34)**2))+0.6;
-      push(el_("line",{x1:(hq.s[0]-half).toFixed(1),y1:y.toFixed(1),x2:(hq.s[0]+half).toFixed(1),y2:y.toFixed(1),stroke:o.band,"stroke-width":Math.max(1.6,r*.34).toFixed(1),"stroke-linecap":"round",opacity:op}),hq.z-0.001);}}
+      push(el_("line",{x1:(hq.s[0]-half).toFixed(1),y1:y.toFixed(1),x2:(hq.s[0]+half).toFixed(1),y2:y.toFixed(1),stroke:o.band,"stroke-width":Math.max(1.6,r*.34).toFixed(1),"stroke-linecap":"round",opacity:op}),hq.z-0.001);
+      if(seamless){   // headband tails: two ribbons at the back of the head, swinging with the body
+        const sw=Math.sin(performance.now()/180)*0.35, fw=o.fwd||[0,1,0], back=[-fw[0],-fw[1],0];
+        for(const k of [0,1]){const a0=add(J("head"),[back[0]*0.11,back[1]*0.11,0.03]), a1=add(a0,[back[0]*(0.2+0.04*k)+sw*0.06,back[1]*(0.2+0.04*k),-0.05-0.05*k]);
+          const pa=P(a0),pb=P(a1); if(pa&&pb) push(el_("line",{x1:pa.s[0].toFixed(1),y1:pa.s[1].toFixed(1),x2:pb.s[0].toFixed(1),y2:pb.s[1].toFixed(1),stroke:o.band,"stroke-width":Math.max(1,r*.2).toFixed(1),"stroke-linecap":"round",opacity:op}),hq.z+0.002);}}}}
   // shoes
   for(const s of ["L","R"]){const a=J("ankle"+s),k=J("knee"+s);
     const fw=o.fwd||[0,1,0]; const toe=add(a,[fw[0]*0.14,fw[1]*0.14,-0.05]);
@@ -137,6 +143,7 @@ function drawFigure(parts,pose,rq,opts){
   if(rq){
     const neck=add(rq.w,mul(rq.axis,.20)), fr=ghost?o.col:(o.kit||KIT).frame, hi=ghost?o.col:(o.kit||KIT).frameHi;
     limb(rq.grip||rq.w,neck,.016,.014,fr,fr);
+    if(seamless) limb(lerp3(rq.grip||rq.w,neck,.78),neck,.017,.016,hi,hi);   // a gold throat on the racquet
     for(const s of [-1,1]) limb(neck,add(add(rq.w,mul(rq.axis,.29)),mul(rq.lateral,s*.10)),.008,.008,fr,fr);
     const rim=[];for(let i=0;i<=32;i++){const a=i/32*Math.PI*2;
       rim.push(add(rq.centre,add(mul(rq.axis,.175*Math.cos(a)),mul(rq.lateral,.13*Math.sin(a)))));}
@@ -189,6 +196,7 @@ function drawCourt(frag){
    serves and rallies are played, and a dark stadium round it with a gold rail */
 function drawLawn(frag,l2,d2,L,Dw){
   const W2=Dw+2.4, L2=L+1.2, H=2.2;
+  drawStadium(frag);
   for(const sy of [-1,1]){quad(frag,[[-W2,sy*L2,0],[W2,sy*L2,0],[W2,sy*L2,H],[-W2,sy*L2,H]],"#0c1f13");
     seg(frag,[-W2,sy*L2,H],[W2,sy*L2,H],"#c8a84b",1.6,.75); seg(frag,[-W2,sy*L2,0.9],[W2,sy*L2,0.9],"rgba(200,168,75,.25)",1,.6);}
   for(const sx of [-1,1]){quad(frag,[[sx*W2,-L2,0],[sx*W2,L2,0],[sx*W2,L2,1.0],[sx*W2,-L2,1.0]],"#0a1a10");
@@ -202,12 +210,71 @@ function drawLawn(frag,l2,d2,L,Dw){
       ring(frag,[0,sy*(l2+dy),0.001],rx,ry,"none",0,op,"#8a8c4f");
     ring(frag,[0,sy*(l2-2.6),0.001],0.7,1.8,"none",0,.07,"#8a8c4f");}
 }
+/* the stadium (8 Oct, second pass): tiered stands behind the walls and along the sides, full of spectators in
+   varied colours (drawn as a few paths, one per colour, so hundreds of people cost a handful of elements); they
+   ripple when the crowd applauds. An umpire's chair at the net and ball kids at the posts. */
+const CROWD=(()=>{let r=7;const rnd=()=>(r=(r*16807)%2147483647)/2147483647, out=[];
+  const COLS=["#e9e4d6","#24324a","#7a2e2e","#3d5a40","#c8a84b","#5b6f8c","#d9d2c2","#2b2b2b","#8a6a4a","#a7b8c9"];
+  const W2=CRT.dw/2+3.66+2.4, L2=CRT.L/2+6.4+1.2;
+  const aisle=v=>((v%6)+6)%6<0.9;   // aisles every 6 m: blocks of seats, not a carpet of dots
+  for(const sy of [-1,1]) for(let row=0;row<6;row++) for(let x=-W2-1;x<=W2+1;x+=0.78){
+    const j=(rnd()-.5)*0.3; if(rnd()<0.08||aisle(x+3)) continue;
+    out.push({p:[x+j,sy*(L2+0.9+row*0.95),2.5+row*0.62],c:COLS[Math.floor(rnd()*COLS.length)],ph:rnd()*6.28,row});}
+  for(const sx of [-1,1]) for(let row=0;row<4;row++) for(let y=-L2;y<=L2;y+=0.8){
+    if(rnd()<0.1||aisle(y+3)) continue;
+    out.push({p:[sx*(W2+0.9+row*0.95),y+(rnd()-.5)*0.3,1.3+row*0.62],c:COLS[Math.floor(rnd()*COLS.length)],ph:rnd()*6.28,row});}
+  return out;})();
+function drawStadium(frag){
+  const W2=CRT.dw/2+3.66+2.4, L2=CRT.L/2+6.4+1.2, sx_=W2+1.6;
+  for(const sy of [-1,1]) for(let row=0;row<6;row++){const y0=sy*(L2+0.45+row*0.95), y1=sy*(L2+1.4+row*0.95), z=2.2+row*0.62;
+    quad(frag,[[-sx_-3,y0,z],[sx_+3,y0,z],[sx_+3,y1,z],[-sx_-3,y1,z]],row%2?"#0e2416":"#10281a");
+    quad(frag,[[-sx_-3,y1,z],[sx_+3,y1,z],[sx_+3,y1,z+0.62],[-sx_-3,y1,z+0.62]],"#0a1c11");}
+  for(const sx of [-1,1]) for(let row=0;row<4;row++){const x0=sx*(W2+0.45+row*0.95), x1=sx*(W2+1.4+row*0.95), z=1.0+row*0.62;
+    quad(frag,[[x0,-L2,z],[x0,L2,z],[x1,L2,z],[x1,-L2,z]],row%2?"#0e2416":"#10281a");}
+  // the roof: a canopy over each end stand, its leading edge catching the light (a show court, enclosed)
+  for(const sy of [-1,1]){const yb=sy*(L2+6.6), yf=sy*(L2+2.2), z0=7.4, z1=6.6;
+    quad(frag,[[-sx_-3,yb,z0],[sx_+3,yb,z0],[sx_+3,yf,z1],[-sx_-3,yf,z1]],"#081509");
+    seg(frag,[-sx_-3,yf,z1],[sx_+3,yf,z1],"#d9c27a",1.4,.55);
+    for(let x=-sx_;x<=sx_;x+=4.2) seg(frag,[x,yf,z1],[x,yb,z0],"#123020",1,.6);}
+  // spectators: a body and a head each, grouped into one path per colour; off-screen and behind-camera people skipped
+  const now=performance.now()/1000, cheer=window.__cheerT?Math.max(0,1-(now-window.__cheerT)/2.6):0;
+  const paths={}, heads=[];
+  for(const q of CROWD){const lift=cheer*0.18*Math.max(0,Math.sin(now*9+q.ph)), p=[q.p[0],q.p[1],q.p[2]+lift];
+    const b=P(p), h=P([p[0],p[1],p[2]+0.42]); if(!b||!h) continue;
+    if(b.s[0]<-40||b.s[0]>VW+40||b.s[1]<-40||b.s[1]>VH+40) continue;
+    const rb=Math.max(0.7,FOCAL*0.24/b.z), rh=Math.max(0.5,FOCAL*0.12/h.z);
+    const band=q.row>=3?1:0; (paths[q.c+"|"+band]=paths[q.c+"|"+band]||[]).push(`M${(b.s[0]-rb).toFixed(1)} ${b.s[1].toFixed(1)}a${rb.toFixed(1)} ${rb.toFixed(1)} 0 1 0 ${(2*rb).toFixed(1)} 0a${rb.toFixed(1)} ${rb.toFixed(1)} 0 1 0 ${(-2*rb).toFixed(1)} 0`);
+    heads.push(`M${(h.s[0]-rh).toFixed(1)} ${h.s[1].toFixed(1)}a${rh.toFixed(1)} ${rh.toFixed(1)} 0 1 0 ${(2*rh).toFixed(1)} 0a${rh.toFixed(1)} ${rh.toFixed(1)} 0 1 0 ${(-2*rh).toFixed(1)} 0`);}
+  for(const [k,d] of Object.entries(paths)){const [c,band]=k.split("|"); frag.appendChild(el_("path",{d:d.join(""),fill:c,opacity:band==="1"?.5:.72}));}
+  if(heads.length) frag.appendChild(el_("path",{d:heads.join(""),fill:"#c99a74",opacity:.7}));
+}
+function drawCourtside(parts){   // umpire's chair at the net, ball kids crouched at the posts (drawn depth-sorted with the players)
+  const W=CRT.dw/2+0.914, ux=-(W+1.1), push=(n,p)=>{const q=P(p);if(q)parts.push({n,z:q.z});};
+  const g=el_("g",{}), leg=(a,b)=>seg(g,a,b,"#1a2a20",2.2);
+  leg([ux-0.35,-0.35,0],[ux-0.3,-0.3,1.9]);leg([ux+0.35,-0.35,0],[ux+0.3,-0.3,1.9]);leg([ux-0.35,0.35,0],[ux-0.3,0.3,1.9]);leg([ux+0.35,0.35,0],[ux+0.3,0.3,1.9]);
+  quad(g,[[ux-0.4,-0.4,1.9],[ux+0.4,-0.4,1.9],[ux+0.4,0.4,1.9],[ux-0.4,0.4,1.9]],"#173323");
+  const bod=P([ux,0,2.3]), hd=P([ux,0,2.75]);
+  if(bod&&hd){const rb=FOCAL*0.24/bod.z, rh=FOCAL*0.12/hd.z;
+    g.appendChild(el_("ellipse",{cx:bod.s[0].toFixed(1),cy:bod.s[1].toFixed(1),rx:(rb*0.85).toFixed(1),ry:(rb*1.25).toFixed(1),fill:"#1f2c46"}));
+    g.appendChild(el_("circle",{cx:hd.s[0].toFixed(1),cy:hd.s[1].toFixed(1),r:rh.toFixed(1),fill:"#d6a982"}));
+    g.appendChild(el_("circle",{cx:hd.s[0].toFixed(1),cy:(hd.s[1]-rh*.3).toFixed(1),r:(rh*.9).toFixed(1),fill:"#e9e4d6"}));}   // a pale cap
+  push(g,[ux,0,1.2]);
+  for(const sx of [-1,1]){const k=el_("g",{}), x=sx*(W+0.55), b=P([x,0.35,0.42]), h=P([x,0.35,0.78]);
+    if(b&&h){const rb=FOCAL*0.2/b.z, rh=FOCAL*0.1/h.z;
+      k.appendChild(el_("ellipse",{cx:b.s[0].toFixed(1),cy:b.s[1].toFixed(1),rx:(rb*1.1).toFixed(1),ry:(rb*0.9).toFixed(1),fill:"#24324a"}));
+      k.appendChild(el_("circle",{cx:h.s[0].toFixed(1),cy:h.s[1].toFixed(1),r:rh.toFixed(1),fill:"#c99a74"}));}
+    push(k,[x,0.35,0.5]);}
+}
 /* warm late-afternoon light over the whole stage, falling off into a soft vignette */
 function lightOverlay(frag){
   const d=el_("defs",{}), g=el_("radialGradient",{id:"gsLight",cx:"38%",cy:"30%",r:"85%"});
   for(const [o,c,a] of [["0%","#fff1c9",.13],["45%","#fff1c9",.03],["80%","#000",.18],["100%","#000",.42]])
     g.appendChild(el_("stop",{offset:o,"stop-color":c,"stop-opacity":a}));
-  d.appendChild(g); frag.appendChild(d);
+  // haze: the far end of the stadium softens into warm afternoon air
+  const hz=el_("linearGradient",{id:"gsHaze",x1:"0",y1:"0",x2:"0",y2:"1"});
+  for(const [o,a] of [["0%",.22],["30%",.08],["55%",0]]) hz.appendChild(el_("stop",{offset:o,"stop-color":"#f4e7c4","stop-opacity":a}));
+  d.appendChild(g); d.appendChild(hz); frag.appendChild(d);
+  frag.appendChild(el_("rect",{x:0,y:0,width:VW,height:VH,fill:"url(#gsHaze)","pointer-events":"none"}));
   frag.appendChild(el_("rect",{x:-2000,y:-2000,width:6000,height:6000,fill:"url(#gsLight)","pointer-events":"none"}));
 }
 function netGroup(){
@@ -574,7 +641,8 @@ function choose(i,X,demo){
 function verdict(i,X,demo){
   const S=LESSON.steps[i], also=(S.alsoOk||[]).includes(LETTERS.indexOf(X)), ok=LETTERS.indexOf(X)===S.correct||also, corr=LETTERS[S.correct];
   const d=dotsOf(S.reveal?S.scene:S.scene+X), n=d?d.filter(x=>x[2]).length:0;
-  if(PREM()&&!demo&&window.GSSfx&&GSSfx.applause){const sk=SC[S.reveal?S.scene:S.scene+X]; GSSfx.applause(ok?(sk&&sk.info.outcome==="won"?1:0.6):0);}
+  if(PREM()&&!demo){if(ok) window.__cheerT=performance.now()/1000;
+    if(window.GSSfx&&GSSfx.applause){const sk=SC[S.reveal?S.scene:S.scene+X]; GSSfx.applause(ok?(sk&&sk.info.outcome==="won"?1:0.6):0);}}
   showOnly(ok||demo?[X]:[X,corr]);
   optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
   setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
@@ -648,6 +716,11 @@ function render(){
     label(frag,[e[0],e[1],0],"LAST POINT","rgba(240,236,227,.8)",14,.9,-18);}
   const St0=mode==="daily"&&step<NS()?LESSON.steps[step]:null, fz0=St0&&scene.startsWith(St0.scene)?SC[scene].info.freeze:null;
   const cueOnEarly=fz0!=null&&St0.cues&&g>=fz0-3&&g<=fz0+10;
+  // a puff of grass and chalk where the ball lands (premium)
+  if(PREM()) for(const [f,k] of sfxEvents(sc)) if(k==="bounce"&&g>=f&&g<f+28){const q=sc.ball[f]; if(!q) continue; const a=(g-f)/28;
+    for(let i=0;i<7;i++){const an=i/7*6.283+f, rr=0.06+0.32*a, pz=0.02+0.22*a*(1-a)*(1+(i%3)*0.4);
+      const pp=P([q[0]+Math.cos(an)*rr,q[1]+Math.sin(an)*rr*0.6,pz]); if(!pp) continue;
+      frag.appendChild(el_("circle",{cx:pp.s[0].toFixed(1),cy:pp.s[1].toFixed(1),r:Math.max(0.6,FOCAL*0.018/pp.z).toFixed(1),fill:i%2?"#f3f0e2":"#b9c98a",opacity:(0.7*(1-a)).toFixed(2)}));}}
   // bounces and landings
   for(const m of sc.marks){if(g<m.frame)continue;const age=g-m.frame, p=[m.pos[0],m.pos[1],0.006];
     const fin=m.kind==="land"||m.kind==="reply"||m.kind==="out"||m.kind==="rally"||m.kind==="contact";
@@ -690,6 +763,7 @@ function render(){
   // depth-sorted: net, bodies, ball
   const parts=[];
   parts.push({n:netGroup(),z:toCam([0,0,0.5]).z});
+  if(PREM()) drawCourtside(parts);
   const shadow=(a,op)=>{if(!a)return;const x=(a.pose[I.ankleL][0]+a.pose[I.ankleR][0])/2,y=(a.pose[I.ankleL][1]+a.pose[I.ankleR][1])/2;
     ring(frag,[x,y,0.004],0.38,0.3,"none",0,op,"rgba(0,0,0,.35)");};
   if(PREM()){   // the whole body's shadow on the grass, along the light
