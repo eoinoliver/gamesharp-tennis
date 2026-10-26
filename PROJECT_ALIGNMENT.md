@@ -43,3 +43,17 @@ Desktop `Blender Tennis/` and `pose-trial-2026-09-21/` remain untouched. Their
 proposed private lab home needs Eoin's separate go. Do not import source video,
 raw motion-capture datasets, Blender binaries or experimental media into this
 public repository. Golf, PropPocket and Desktop retirement are outside this PR.
+
+## 26 October 2026 — movement decisions in beta (Codex)
+
+Three paired lessons are live: earned-attack, earned-defence and earned-net.
+Each uses two matched pre-shot scenes and an unlabelled transfer decision. Users
+choose the tennis plan; route/foot evidence appears after commitment. No avatar
+controls or invented point result. Sensible safer options remain acceptable.
+
+PR #37, main 9d2dd6b06e7a30cac7456052dfbd4afe2be30ae7, app 84d191a175,
+Production dpl_7vts2VCT5XRUiXjCkmSVsDVQdJJR. Full local/CI and all hosted checks
+passed. All nine new scenes inspected; three lessons added after the existing
+daily order (41 total lessons). See docs/features/readiness-release-2026-10-26.md.
+Learning/retention and real on-court transfer remain open questions. This release
+record branch is documentation only and must not be promoted.
