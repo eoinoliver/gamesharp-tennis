@@ -383,3 +383,19 @@ canonical local paths and “next” steps below are historical, not current rul
   and clarified the replay control as “Your result”. Reviewed the repaired
   430px backhand screenshot; the ball and strings are now visible. Final checks
   run again on this visual correction before release.
+
+## 26 October 2026 — contact inspection deployed live (Codex)
+
+- PR #31 merged at af4658d274876033d4e377807554ec21ce3d9458. Merge tree exactly
+  equals checked head c779a342b0a7cd1368bc8465a1a8cd6e3276c6af.
+- GitHub contracts passed; final focused suite 325/325. Preview, staged production
+  and live HTTP checks each 238/238. Identical 96 public asset hashes.
+- Promoted verified Git production dpl_9GR4jXBMpN8CNGRDKGYoeuCCnGsY, app 7e1177842f.
+  Live www alias and apex redirect verified. All three live lessons completed,
+  comparison/replay exercised and cues saved; no browser errors; analytics blocked.
+- Immediate deployment error-log scan returned zero entries. Last-good rollback
+  is dpl_2RGbuRfaujjuwdyq1yrJ1YCndi2n. No rollback needed.
+- Three existing lessons upgraded, 38 catalogue entries total. Detailed release
+  evidence: docs/releases/2026-10-26-contact-inspection.md. Coaching/learning and
+  retention validation remain unproven; independent coaching review and a small
+  48-hour recognition pilot are the next product checks.
