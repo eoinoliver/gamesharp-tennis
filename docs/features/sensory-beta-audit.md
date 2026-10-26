@@ -67,6 +67,8 @@ No notification schedule or autonomous monitoring was created.
 - Offline rendering of the actual synth: all four effects produce nonzero
   unclipped signal and are silent after one second. This verifies generated
   samples, not perceived quality or hardware output.
-- WebKit also passed the initial 64 assertions. A final expanded pass adds both
-  Predict journeys and distinguishes automatic finale from deliberate replay.
-  Full regression and expanded results are recorded with the PR once complete. Physical iPhone/Android listening is explicitly unverified.
+- Final Chromium and WebKit passes each covered 76 assertions, including both
+  Predict journeys and automatic finale versus deliberate replay. The complete
+  regression suite and Preview, staged Production and live checks passed. See
+  [the release record](sensory-beta-release-2026-10-26.md). Physical iPhone/Android
+  listening is explicitly unverified.
