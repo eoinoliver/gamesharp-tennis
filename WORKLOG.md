@@ -405,3 +405,18 @@ canonical local paths and “next” steps below are historical, not current rul
 - WebKit first pass exposed a navigation-wait race in the test harness (it read
   the previous document's test hook); corrected to await the target URL before
   asserting the next lesson. Full regression and WebKit rerun in progress.
+
+## 26 October 2026 — sensory/beta release verified (Codex)
+
+- PR #33 merged as d06c1ddd4991e9d40ac16579ca595dd894b7479c, identical
+  reviewed tree. GitHub contracts 40264698948 and complete local suite passed.
+- Chromium/WebKit each passed 76 sensory assertions; all 38 scene gates and
+  325 contact-inspection checks passed. Both Predict flows preserve delayed
+  feedback. Deliberate replay retains contact sound; automatic finale is silent.
+- Promoted verified staged Git Production dpl_6VqPxzYRBU1Ajnzsb6m1vzHTfNks,
+  version ff689b8dae. Preview/staged/live each passed 238 hosted checks.
+- Live mobile-browser smoke passed sound activation, 3/3 completion, cue save,
+  next lesson and mute persistence; zero page errors, 12 analytics requests
+  intercepted. Actual phone listening and retention effects remain unverified.
+- Full release and rollback evidence: docs/features/sensory-beta-release-2026-10-26.md.
+  This follow-up branch records the release only; do not promote its docs build.
