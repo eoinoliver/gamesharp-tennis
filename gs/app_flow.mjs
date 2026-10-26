@@ -39,7 +39,7 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  ok(ev.filter(e=>e==='read').length===3,'three reads logged');
  ok((await p.getAttribute('a.home','href'))==='./?home=1','Back to home never auto-starts');
  await p.click('a.home'); await p.waitForSelector('#main .today');
- const home=await p.textContent('#main'); ok(home.includes('Done today'),'home shows done today'); ok(home.includes('Tomorrow'),'home names tomorrow');
+ const home=await p.textContent('#main'); ok(home.includes('Done today'),'home shows done today'); ok(home.includes('Next:')&&home.includes('New day in'),'home names the available next challenge separately from the daily reset');
  ok(home.includes("What's your game"),'level picker appears after the first lesson'); await p.click('[data-level=club]'); ok(!(await p.textContent('#main')).includes("What's your game"),'level saved');
  await p.goto(base); await p.waitForTimeout(800); ok(!p.url().includes('play.html'),'done today: a bare visit stays on Home'); await p.waitForSelector('#main .today');
  ok((await p.textContent('#streak')).includes('1'),'streak chip 1');
