@@ -405,3 +405,16 @@ canonical local paths and “next” steps below are historical, not current rul
 - WebKit first pass exposed a navigation-wait race in the test harness (it read
   the previous document's test hook); corrected to await the target URL before
   asserting the next lesson. Full regression and WebKit rerun in progress.
+
+## 26 October 2026 — physical iOS sound report (Codex)
+
+- Owner: Codex, branch `codex/ios-audio-session` from main d06c1dd.
+- User reports silence on both iPhone and iPad in Chrome after PR #33. Prior
+  browser checks established graph execution, not audible device output.
+- Scope: explicit sound opt-in, iOS playback audio-session routing, teardown on
+  mute/background, and regression checks. Existing sparse cue policy stays.
+- WebKit issue 237322 documents ambient Web Audio being silenced by iOS silent
+  mode and playback session selection since iOS 17. This is a concrete missing
+  code path and likely cause, not a confirmed diagnosis of the user's devices.
+- Current user autonomy and live-deployment instructions authorize this scoped
+  beta repair; preserve Git preview, staged-production and rollback safeguards.

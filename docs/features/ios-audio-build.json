@@ -1,0 +1,26 @@
+{
+  "source": {
+    "app_src/sfx.js": {
+      "baseline": "75668707c1d661d6cd44063f6729f28625416b7acc576516b39613d0b2de6e05",
+      "candidate": "a0be46c617a336b6d43a04a4a87a98095930d05ea7dc09d362874ccff947570a"
+    }
+  },
+  "release": {
+    "app/sfx.js": {
+      "baseline": "75668707c1d661d6cd44063f6729f28625416b7acc576516b39613d0b2de6e05",
+      "candidate": "a0be46c617a336b6d43a04a4a87a98095930d05ea7dc09d362874ccff947570a"
+    },
+    "app/index.html": {
+      "baseline": "f7af103d17a1a96f6bc0b4b2a2236ac528da84aff7757d9107f17bf8d1025231",
+      "candidate": "80b7971aa092842bb4147e16187bc1ad0222350a5a64e031514c3b23eddf654f"
+    },
+    "app/play.html": {
+      "baseline": "54ab42a4218e53368f71acdc24990e66632bd03304ce2c006f109c4e90120ee9",
+      "candidate": "c3e2b092ca1f579a0ee458d6182c25dafa20e704e3750fe6da9669d4104b149c"
+    },
+    "app/catalog.js": {
+      "baseline": "b74e23b1a97e462865e41fe0c18058d93c987615ca68da638e7d81c041a17eba",
+      "candidate": "9c8e6c2555fb80719677c3009ee7c83f18a216aa5ca7361356b14dc66804d6ea"
+    }
+  }
+}
