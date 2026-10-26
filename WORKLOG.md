@@ -439,3 +439,15 @@ canonical local paths and “next” steps below are historical, not current rul
   checked inputs. Full final Chromium and WebKit checks running.
 - Current autonomy and live-deployment instructions permit the scoped beta
   addition; keep preview, staged-production, inventory and rollback safeguards.
+
+## 26 October 2026 — professional payoff repair (Codex)
+
+- Owner: Codex; branch `codex/readiness-pro-payoff` from main 9d2dd6b.
+- User identified the missing professional insight in the three movement lessons.
+  Add sourced Pro Lens endings, open by default, each with a next-point decision
+  cue. Preserve all scenes, choices, scores, audio and existing lesson order.
+- Sources read: Mike Crooks, Tactical Movement Part 2 (Dubai 2012 point 1);
+  Craig O’Shannessy, Winning on Defense public overview. No claim to have watched
+  the paid webinar or to reconstruct professional movement in our scenes.
+- Current autonomy/deploy-live instructions cover this scoped repair. Preview,
+  staged-production, full verification and rollback safeguards still apply.

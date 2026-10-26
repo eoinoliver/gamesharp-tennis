@@ -5,6 +5,14 @@ const LESSON={
   "memHTML": "See the space. <span>Check your arrival.</span>",
   "tomorrow": "Before attacking an opening, check whether you have arrived with room to swing. If you are still chasing the ball, favour margin and recovery.",
   "cue": "See the space. Check your arrival.",
+  "pro": {
+    "player": "Roger Federer",
+    "label": "Federer · Make room to attack",
+    "moment": "Dubai final, 2012. In Mike Crooks’s analysis of Federer against Murray, Federer stays inside the baseline after a forcing serve, then uses three shuffle steps to get around the reply. The attack starts with the space he makes before the swing.",
+    "read": "Your next point: an empty corner is only half the picture. Ask “Have I made room to use it?” If you are still chasing, buy time; if you have room, controlled pressure becomes an option.",
+    "src": "Mike Crooks · Tactical Movement, Part 2 · point 1",
+    "url": "https://tennis.is/wp-content/uploads/2014/01/Federer_Murray_footwork_movement.pdf"
+  },
   "callbackTags": [
     "movement_read",
     "time_space_balance"

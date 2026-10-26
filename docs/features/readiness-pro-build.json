@@ -1,0 +1,46 @@
+{
+  "source": {
+    "rally/build_readiness.py": {
+      "baseline": "4032559abdf0ccaa12455f98fb1c10996b55168cffce6324096642dbb976acee",
+      "candidate": "25995a33a5f8aea743faf5890d34e86322c5550aa26f7ae2a09861d6e9023e0b"
+    },
+    "rally/lesson_ea.js": {
+      "baseline": "d0ee887b75ceb5c23d34664fda5ae099ff8a0e4c24195e96c2889552f073d002",
+      "candidate": "34e45d51961be25776e65262bbc5d261dd2d93e5c2596a545a960f8407f5d648"
+    },
+    "rally/lesson_ed.js": {
+      "baseline": "0a48c6a5377f604f882872261ad555f7ed4cc3c62f24ffb2cffd79871f27f94d",
+      "candidate": "4c38552df272e333f2919d7fb533c9429449b7179fb3e2e5a180a2eb74af0506"
+    },
+    "rally/lesson_en.js": {
+      "baseline": "4491ae08f82b8cdb5c85dc1e1389bf1a23d76819de7b4c97e9fa902f7dec2835",
+      "candidate": "9be7cddf22ef6ec88fea632a1218982809efea119f83cf4b50f1cba1b3f1bc4e"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "54e8fd57cfa61753e3be5aaa7666cee1c8d31bbfed2dd6eeb483dbefb17d49d1",
+      "candidate": "964fa4477e5765ee09b57f49a64dd536101556a2c817fde8fed9242ee843a1d2"
+    },
+    "app/index.html": {
+      "baseline": "14e78637d2948dc180d4e44e74361d4f86a81a9777009655949af72ecb95f5d1",
+      "candidate": "72162a4ad34886d04335182e012b72ee3c64438c6969421bbb526fe3dee79287"
+    },
+    "app/play.html": {
+      "baseline": "eb43313aec2ec2c6d4b3d094204b2a2837f8a93e3c9dd88c9a135692eeacc5f3",
+      "candidate": "fc5deddeeafa7bef973ff6547b9c6b14eed213dbb9a9b3d113b2f25745db7105"
+    },
+    "app/lessons/earned-attack.json": {
+      "baseline": "ffd8359144730247dfe5e04c2a1985c3cb52bb3d021646bf4be232c435ab4c3f",
+      "candidate": "4b8d4b7c3cbd3658d1074c4a752d6f6dd4009dbe0ce9fdd28c4e2c4fbeea1840"
+    },
+    "app/lessons/earned-defence.json": {
+      "baseline": "422671a2a2e186cd7585c1a8946dfb14271beabfca27b3ebab35c1ecfe49b53f",
+      "candidate": "0303823a7bbcfcdb649f03c86bf8e0057ad7098ec7b61b561ea019b1766272b1"
+    },
+    "app/lessons/earned-net.json": {
+      "baseline": "c3962e810b24ee7c3a51618adbbd647c1646614b8b4eb222e250d03ed14913ac",
+      "candidate": "9f34e8d6dda3e4c87e624ddb6248afe92e937178455b5876a58c9cffb828f950"
+    }
+  }
+}

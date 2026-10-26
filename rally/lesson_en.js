@@ -5,6 +5,14 @@ const LESSON={
   "memHTML": "Arrive first. <span>Then decide whether to follow.</span>",
   "tomorrow": "On a short ball, read your arrival and their position together. From a controlled position, an approach may fit. If you are still chasing, prioritise a manageable reply before committing forward.",
   "cue": "Arrive first. Then decide whether to follow.",
+  "pro": {
+    "player": "Roger Federer",
+    "label": "Federer · Earn the first volley",
+    "moment": "Dubai final, 2012. Crooks shows Federer approaching without pulling Murray wide: the shot keeps Murray behind the baseline. Federer follows its line with two running steps and reaches his first volley inside the service box. The approach earns him a better place to play the next ball.",
+    "read": "Your next point: do not ask only “Can I reach the net?” Ask “What first volley am I setting up?” Arrive with control, play an approach with purpose, then judge how far to follow from the reply you have earned.",
+    "src": "Mike Crooks · Tactical Movement, Part 2 · point 1",
+    "url": "https://tennis.is/wp-content/uploads/2014/01/Federer_Murray_footwork_movement.pdf"
+  },
   "callbackTags": [
     "movement_read",
     "time_space_balance"
