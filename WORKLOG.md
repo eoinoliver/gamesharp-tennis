@@ -12,6 +12,38 @@
 - Build, targeted mobile/desktop/browser verification and Git review preview
   follow. No production merge or promotion is authorised by this task.
 
+### Review candidate verified
+
+- Runtime commit `cb3a935ae13e93c6352a51a2c33c0b1adda64199`; app version
+  `b968ba3131`; PR #31. Exact initial Git Preview is
+  https://gamesharp-tennis-5g68eqh1t-eoinlynn-5978s-projects.vercel.app,
+  deployment `dpl_AGQcBiUhYgbSPJQi1PSRSGHxQvSY` (Ready, Preview).
+- `npm run check:build` passes: 97 exact release files, 96 checked imported
+  inputs, 96 hosted public files, unchanged routing. The historical manifests
+  remain unchanged; one source/four outputs have the explicit reviewed overlay.
+- Analytics 10/10; frozen full browser suite passes app flow (no FAIL markers),
+  layout 9/9, 29 Daily payoffs, Pusher, all 38 scene gates and 114 targeted
+  Contact Clue checks. Three complete targeted journeys cover 375x667, 430x932
+  with reduced motion, 1280x900, plus all 12 authored choices and opt-in isolation.
+- Main agent inspected small-phone unlabelled contact, first/next comparison and
+  navigation; independent source review found focus/reduced-motion issues which
+  were corrected before the candidate commit. No new coaching approval.
+- Hosted authenticated HTTP 238/238; all three hosted decisions, comparisons,
+  completion and cue save pass with no page errors. Preview authentication used
+  existing short-lived credentials; no protection settings changed. The first
+  unauthenticated run reached SSO and is not application verification.
+- Initial local runs exposed a missing evidence directory and a rebuild-time
+  loading timeout; frozen candidate rerun passed. Initial evidence retained.
+- CI `contracts` passed on cb3a935. This follow-up changes only this record;
+  all runtime files and the entire generated app remain byte-identical.
+- Review route appends `/play.html?l=contact-clue&contactFocus=1`; baseline omits
+  `contactFocus`. Hosted Preview may require Eoin's Vercel sign-in. Local review
+  server remains on http://127.0.0.1:8771/ with identical candidate bytes.
+- Current scope completed: one optional presentation experiment. Production
+  unchanged. Remaining: user design review, independent coaching challenge,
+  physical-phone/Safari testing and the small comprehension/delayed-transfer
+  pilot in docs/features/contact-focus.md; no learning/retention result claimed.
+
 ## 2026-10-05 — option A migration — Codex owns this task
 
 - Eoin instructed rebuild of PR #1 around Claude's option A comments.
