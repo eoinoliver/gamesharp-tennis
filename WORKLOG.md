@@ -418,3 +418,24 @@ canonical local paths and “next” steps below are historical, not current rul
   code path and likely cause, not a confirmed diagnosis of the user's devices.
 - Current user autonomy and live-deployment instructions authorize this scoped
   beta repair; preserve Git preview, staged-production and rollback safeguards.
+
+## 26 October 2026 — movement as a decision (Codex)
+
+- Owner: Codex, branch `codex/readiness-decisions` from main 5e5c6ae.
+- User asks to proceed with movement as decision-making, preserving the app's
+  purpose. Prototype three paired decisions (attack, defence, approach), reveal
+  readiness evidence after commitment, and test an unfamiliar situation.
+- First gate is content truth: visible time, space and balance must justify the
+  choice. No avatar controls or claims that a simulated result proves a tactic.
+- Existing 38 lessons stay in their established order. Scope and beta eligibility
+  depend on inspection of every new scene and branch.
+
+- Candidate: three daily lessons appended after the existing 38-lesson catalogue;
+  nine pre-shot decision freezes with paired incoming ball/opponent equality.
+  No new outgoing stroke, scripted miss or guaranteed outcome is authored.
+- First focused Chromium pass: 397 assertions. Mobile review led to a fixed,
+  closer camera within each pair. Final camera passes all three scene gates.
+- 22 unit tests and exact parity passed: 100 release / 99 public files, 103
+  checked inputs. Full final Chromium and WebKit checks running.
+- Current autonomy and live-deployment instructions permit the scoped beta
+  addition; keep preview, staged-production, inventory and rollback safeguards.

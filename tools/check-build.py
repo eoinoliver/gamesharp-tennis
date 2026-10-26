@@ -32,6 +32,14 @@ for records, expected in [(ios['source'], source), (ios['release'], manifest)]:
     for name, hashes in records.items():
         assert expected[name] == hashes['baseline'], f'iOS audio baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Three paired readiness lessons; new files have explicit null baselines.
+readiness = json.loads((ROOT/'docs/features/readiness-build.json').read_text())
+assert set(readiness['source']) == {'app_src/catalog.py','rally/lesson_body.html','rally/build_readiness.py'} | {f'rally/{n}' for p in ('ea','ed','en') for n in (f'lesson_{p}.js',f'{p}_data.json')}
+assert set(readiness['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'} | {f'app/lessons/{s}.json' for s in ('earned-attack','earned-defence','earned-net')}
+for records, expected in [(readiness['source'], source), (readiness['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Readiness baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)
