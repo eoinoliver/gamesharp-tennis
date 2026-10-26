@@ -9,6 +9,32 @@ import copy, json
 from pathlib import Path
 R = Path(__file__).parent
 
+# Sourced examples; the next-point application is our coaching interpretation,
+# not a quotation or a reconstruction of the player's motion.
+PRO = {
+    'ea': {
+        'player': 'Roger Federer', 'label': 'Federer · Make room to attack',
+        'moment': 'Dubai final, 2012. In Mike Crooks’s analysis of Federer against Murray, Federer stays inside the baseline after a forcing serve, then uses three shuffle steps to get around the reply. The attack starts with the space he makes before the swing.',
+        'read': 'Your next point: an empty corner is only half the picture. Ask “Have I made room to use it?” If you are still chasing, buy time; if you have room, controlled pressure becomes an option.',
+        'src': 'Mike Crooks · Tactical Movement, Part 2 · point 1',
+        'url': 'https://tennis.is/wp-content/uploads/2014/01/Federer_Murray_footwork_movement.pdf'
+    },
+    'ed': {
+        'player': 'Carlos Alcaraz', 'label': 'Alcaraz · Buy time to change the point',
+        'moment': 'The spectacular counterattack is the part we remember. In his Winning on Defense overview, strategist Craig O’Shannessy includes Alcaraz among the players he analyses and highlights changes of speed, spin and height as ways to escape defence. There is more than one reply to being pushed wide.',
+        'read': 'Your next point: choose the time you need. Still stretched? Height and depth can give you time to recover. Arrived with control and a real opening? Reassess the pressure shot. Defend the situation you are in, not the one you were in a moment ago.',
+        'src': 'Craig O’Shannessy · Winning on Defense · public overview',
+        'url': 'https://braingametennis.com/webinar-73-winning-on-defense/'
+    },
+    'en': {
+        'player': 'Roger Federer', 'label': 'Federer · Earn the first volley',
+        'moment': 'Dubai final, 2012. Crooks shows Federer approaching without pulling Murray wide: the shot keeps Murray behind the baseline. Federer follows its line with two running steps and reaches his first volley inside the service box. The approach earns him a better place to play the next ball.',
+        'read': 'Your next point: do not ask only “Can I reach the net?” Ask “What first volley am I setting up?” Arrive with control, play an approach with purpose, then judge how far to follow from the reply you have earned.',
+        'src': 'Mike Crooks · Tactical Movement, Part 2 · point 1',
+        'url': 'https://tennis.is/wp-content/uploads/2014/01/Federer_Murray_footwork_movement.pdf'
+    }
+}
+
 def scene(prefix, key, ready, start, evidence, opponent=None):
     d = json.loads((R/f'{prefix}_data.json').read_text())
     s = copy.deepcopy(d['scenes'][key]); freeze = s['info']['freeze']
@@ -53,7 +79,7 @@ def write(p, title, hook, cue, tomorrow, specs, steps):
     data={'clips':{k:v for k,v in clips.items() if k in used},'scenes':scenes}
     lesson={'title':title,'hook':hook,'readinessLesson':True,
         'memHTML':cue.replace('. ','. <span>',1)+'</span>' if '. ' in cue else '<span>'+cue+'</span>',
-        'tomorrow':tomorrow,'cue':cue,'callbackTags':['movement_read','time_space_balance'],
+        'tomorrow':tomorrow,'cue':cue,'pro':PRO[p],'callbackTags':['movement_read','time_space_balance'],
         'finaleScene':steps[-1]['scene'],'finaleFull':True,'steps':steps,
         'drill':{'name':'Call the plan','how':'With a partner, vary the feed and your starting position. Before contact, call “pressure” or “buy time”. Afterwards, compare the call with your arrival, the ball and their position. Keep a useful cue; a won or lost point alone does not settle the decision.'}}
     (R/f'{p}_data.json').write_text(json.dumps(data,separators=(',',':'))+'\n')

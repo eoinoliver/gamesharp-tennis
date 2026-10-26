@@ -51,7 +51,15 @@ for(const size of [{width:375,height:812},{width:430,height:932},{width:820,heig
    await p.screenshot({path:`${out}/${slug}-${size.width}-${i}-answer.png`,fullPage:true});
    await p.locator('#next').click();
   }
-  await p.waitForSelector('#saveCue');await p.locator('#saveCue').click();
+  await p.waitForSelector('#saveCue');
+  const pro=p.locator('#wrapup details[data-k="pro"]');
+  check(await pro.count()===1&&await pro.getAttribute('open')!==null,`${slug}: professional insight starts open`);
+  check(await pro.locator('.pbody').innerText().then(t=>t.includes('Your next point:')),`${slug}: insight bridges to the player's next point`);
+  check(await pro.locator('.src a').getAttribute('href').then(u=>u?.startsWith('https://')),`${slug}: professional source is linked`);
+  await pro.scrollIntoViewIfNeeded();
+  check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${slug}: payoff fits ${size.width}`);
+  await p.screenshot({path:`${out}/${slug}-${size.width}-payoff.png`,fullPage:true});
+  await p.locator('#saveCue').click();
   check(await p.evaluate(slug=>GSApp.S.done[slug].n===3,slug),`${slug}: completion 3/3 recorded`);
   check(await p.evaluate(()=>JSON.parse(localStorage.getItem('gs_my_game')).some(c=>c.cue===LESSON.cue)),`${slug}: cue saved`);
   check(await p.locator('#nextDaily').isVisible(),`${slug}: next challenge offered`);

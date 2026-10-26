@@ -5,6 +5,14 @@ const LESSON={
   "memHTML": "<span>Need time? Buy it with height and depth.</span>",
   "tomorrow": "When pulled wide, check how much time you need to recover. If you arrive early and see a real opening, a controlled change of direction may be available.",
   "cue": "Need time? Buy it with height and depth.",
+  "pro": {
+    "player": "Carlos Alcaraz",
+    "label": "Alcaraz · Buy time to change the point",
+    "moment": "The spectacular counterattack is the part we remember. In his Winning on Defense overview, strategist Craig O’Shannessy includes Alcaraz among the players he analyses and highlights changes of speed, spin and height as ways to escape defence. There is more than one reply to being pushed wide.",
+    "read": "Your next point: choose the time you need. Still stretched? Height and depth can give you time to recover. Arrived with control and a real opening? Reassess the pressure shot. Defend the situation you are in, not the one you were in a moment ago.",
+    "src": "Craig O’Shannessy · Winning on Defense · public overview",
+    "url": "https://braingametennis.com/webinar-73-winning-on-defense/"
+  },
   "callbackTags": [
     "movement_read",
     "time_space_balance"
