@@ -465,3 +465,16 @@ canonical local paths and “next” steps below are historical, not current rul
 - Candidate app 2dd4194def: 25 unit tests, 85 sensory checks in each of Chromium
   and WebKit, 104 release / 103 public files, 109 checked inputs. Physical-device
   listening unverified. Full release checks and hosted verification follow.
+
+## 26 October 2026 — recorded audio live release record (Codex)
+
+- PR #41 merged as 6f8b3e3cb5010708e84e163c16ad7f925534a316, exact reviewed
+  tree b44ecc2a7b1fbf6050bafafbf815fb0580bcc428; app 2dd4194def.
+- Production dpl_6JGuduEib2zQqWyXwpcz1C7fmXrQ verified staged then promoted.
+  Preview/stage/live each passed 245 HTTP checks; 103 public assets; all local
+  and GitHub checks green. Live Chromium and WebKit complete journeys pass with
+  actual recorded audio, saved cues, next lessons and persistent mute. QA blocked
+  test analytics. One WebKit QA navigation-wait race corrected in the ignored
+  smoke script; no application change. Physical-device listening unverified.
+- Release/rollback/source evidence: docs/features/recorded-audio-release.md.
+  This branch only records the completed release; do not promote its docs build.
