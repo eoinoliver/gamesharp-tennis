@@ -732,8 +732,9 @@ if(CONTACT_FOCUS){
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&contactInspection){clearContactInspection();const key=LESSON.steps[step].scene+chosen;run(key,SC[key].frames-1,SC[key].frames-1,null);setPlaying(false);$('inspectContact')?.focus({preventScroll:true});}});
 }
 
-let stopTimer=null, stopGeneration=0, pendingStop=null;
-function run(key,from,stop,cb){
+let stopTimer=null, stopGeneration=0, pendingStop=null, silentPlayback=false;
+function run(key,from,stop,cb,silent=false){
+  silentPlayback=silent;
   clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;
   if(window.GSSfx)GSSfx.stop();scene=key;t=from;stopAt=Math.min(stop,SC[key].frames-1);onStop=cb;setPlaying(true);
 }
@@ -758,7 +759,7 @@ function audibleEvents(sc){if(sc._audible)return sc._audible;
   return sc._audible=all.filter(([f,k])=>k==="net"||(k==="hit"&&(f===decision||f===you.at(-1)||f===feed))||(k==="bounce"&&f===bounce))
     .map(([f,k])=>[f,k,k==="hit"?(f===feed?.32:.72):k==="net"?.45:.25]);
 }
-function sfxCross(a,b){if(!window.GSSfx||document.hidden||done||contactInspection||b<=a||b-a>40)return;const sc=SC[scene];if(!sc)return;
+function sfxCross(a,b){if(!window.GSSfx||document.hidden||silentPlayback||contactInspection||b<=a||b-a>40)return;const sc=SC[scene];if(!sc)return;
   for(const [f,k,v] of audibleEvents(sc))if(f>a&&f<=b){const q=sc.ball[f]||sc.ball[f-1];
     GSSfx[k](v,q?clamp(q[0]/7,-1,1)*(cam&&cam.az>0?-1:1):0,q?clamp((q[1]+12)/24,0,1):0.5);}}
 /* premium payoff (8 Oct): after a right answer, the moment it's decided plays in slow motion: the last 0.5 s
@@ -816,6 +817,11 @@ function showOnly(list){$("askOpts").querySelectorAll(".opt").forEach((b,i)=>{b.
 
 /* ---------- lesson flow ---------- */
 const celebrated=new Set();
+function celebrate(key){
+  if(celebrated.has(key))return;celebrated.add(key);
+  if(PREM())window.__cheerT=performance.now()/1000;
+  if(window.GSSfx)GSSfx.applause(.6);
+}
 const CUE_KEY="gs_my_game";   // saved cues: [{lesson, cue, saved_at, callback_tags}] for a later callback
 function myGame(){try{return JSON.parse(localStorage.getItem(CUE_KEY)||"[]");}catch(e){return [];}}
 function cueSaved(){return myGame().some(c=>c.cue===LESSON.cue);}
@@ -854,10 +860,7 @@ function verdict(i,X,demo){
   const S=LESSON.steps[i], also=(S.alsoOk||[]).includes(LETTERS.indexOf(X)), ok=LETTERS.indexOf(X)===S.correct||also, corr=LETTERS[S.correct];
   const d=dotsOf(S.reveal?S.scene:S.scene+X), n=d?d.filter(x=>x[2]).length:0;
   // Praise the committed decision once. Replays and better-option demos cannot earn it.
-  if(ok&&!demo&&!celebrated.has(i)){celebrated.add(i);
-    if(PREM())window.__cheerT=performance.now()/1000;
-    if(window.GSSfx)GSSfx.applause(.6);
-  }
+  if(ok&&!demo)celebrate(i);
   showOnly(ok||demo?[X]:[X,corr]);
   optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
   setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
@@ -918,7 +921,7 @@ function finishLesson(){
   const sc=$("saveCue"); if(sc){if(cueSaved())sc.classList.add("on");
     sc.onclick=()=>{if(cueSaved())return; saveCue(); sc.textContent="Saved to My Game ✓"; sc.classList.add("on"); emit('cue_save',{lesson:LESSON.title,cue:LESSON.cue});};}
   $("redo").onclick=()=>{ans=[null,null,null];if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
-  {const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);}
+  {const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null,true);}
 }
 
 /* ---------- render ---------- */
@@ -1079,7 +1082,7 @@ function setupPredict(){
     return segs.slice(0,3).map(f=>{const q=sc.ball[f]||sc.ball[f+1];return q?[q[0],q[1],q[2]]:[0,-11,1];});})();
   const okAt=i=>ans[i]!=null&&(LETTERS.indexOf(ans[i])===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(ans[i])));
   startStep=function(i){
-    cancelFlow();
+    cancelFlow();if(window.GSSfx)GSSfx.stop();
     step=i; chosen=null; answered=false; showTargets=null; showDots=false; done=false;
     $("wrapup").hidden=true;
     if(i===3){watchPoint();return;}
@@ -1109,6 +1112,8 @@ function setupPredict(){
   }
   function review(){
     done=true; const n=[0,1,2].filter(okAt).length; typeT.forEach(clearTimeout); emit('complete',{n});
+    // Predict withholds feedback until all reads have played; one accent for a perfect point.
+    if(n===3)celebrate('predict');
     sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook; setInk(`${n} of 3 read right`,false);
     const w=$("wrapup");
     w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${LESSON.memHTML}</div>

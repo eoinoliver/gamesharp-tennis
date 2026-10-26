@@ -272,7 +272,7 @@ details.note a{color:var(--gold)}
 .fbrow button:hover{border-color:var(--gold,#c8a84b)}
 .fbtx{width:100%;margin-top:10px;min-height:70px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:var(--ink,#f0ece3);font:14px "DM Sans",sans-serif;padding:10px 12px;resize:vertical}
 .fbthanks{margin-top:8px;font-size:14px;color:rgba(255,255,255,.72)}
-.wrapup a.home{display:flex;align-items:center;justify-content:center;text-decoration:none;margin-top:14px;color:#16130a}
+.wrapup a.next{display:flex;align-items:center;justify-content:center;text-decoration:none;margin-top:14px;color:#16130a}
 .gs-continue{margin:16px 0;padding:14px;border:1px solid rgba(200,168,75,.4);border-radius:14px}
 .wrapup .fbwrap{flex-wrap:wrap}
 .wrapup #redo{background:transparent;color:var(--ink,#f0ece3);border:1px solid rgba(255,255,255,.18)}
@@ -284,6 +284,7 @@ details.note a{color:var(--gold)}
 #loading.out{opacity:0;transition:opacity .4s}
 @keyframes ldB{from{transform:translateY(-22px)}to{transform:translateY(10px) scale(1.15,.82)}}
 .gs-snd{position:absolute;right:10px;top:10px;z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(4,17,7,.6);color:rgba(240,236,227,.8);display:grid;place-items:center;cursor:pointer;padding:0}
+.gs-snd svg{width:20px;height:20px}
 .gs-snd[aria-pressed=false]{color:rgba(240,236,227,.4)}
 .visual.full .gs-snd,.visual:fullscreen .gs-snd{top:auto;bottom:max(12px,env(safe-area-inset-bottom))}
 .gs-intro{position:absolute;left:10px;top:10px;z-index:4;width:min(calc(100% - 74px),380px);text-align:left!important;padding:12px 16px;border-radius:14px;background:rgba(4,12,7,.78);border:1px solid rgba(200,168,75,.35);text-align:center;color:#f4f1e8;display:grid;gap:3px;animation:gsIntro .6s ease-out both;cursor:pointer}
@@ -346,13 +347,13 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=e5fd9d00f9"></script>
-<script src="catalog.js?v=e5fd9d00f9"></script>
-<script src="app.js?v=e5fd9d00f9"></script>
-<script src="sfx.js?v=e5fd9d00f9"></script>
+<script src="config.js?v=ff689b8dae"></script>
+<script src="catalog.js?v=ff689b8dae"></script>
+<script src="app.js?v=ff689b8dae"></script>
+<script src="sfx.js?v=ff689b8dae"></script>
 <script>
 (function(){
-const A=GSApp, V="e5fd9d00f9", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="ff689b8dae", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
 const QS=new URLSearchParams(location.search);
@@ -437,7 +438,7 @@ function wrap(n){
   const b=document.createElement("div"); b.className="appblk";
   b.innerHTML=`${weekBlk}<div class="k">Your streak</div>
     <p class="strk"><b>${s} day${s===1?"":"s"}</b> in a row. Come back tomorrow for another read.</p>
-    ${nx?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nx.title)}. You can play it now.</p><a class="next home" id="nextDaily" href="play.html?l=${nx.slug}">Play next challenge →</a></div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next home" href="./?all=1">Explore challenges →</a>`}
+    ${nx?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nx.title)}. You can play it now.</p><a class="next" id="nextDaily" href="play.html?l=${nx.slug}">Play next challenge →</a></div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
     ${asked?"":`<div class="gsfb"><p class="fbq">Was this useful for your tennis?</p>
       <div class="fbrow"><button data-u="yes">Yes</button><button data-u="no">Not really</button></div></div>`}
     ${flav?`<div class="gsfv"${asked?"":" hidden"}><p class="fbq">More lessons like this one?</p><div class="fbrow"><button data-fv="more">More</button><button data-fv="fewer">Fewer</button></div></div>`:""}

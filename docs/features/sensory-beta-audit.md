@@ -16,8 +16,9 @@ membership, answer ordering or progress storage format changes.
 | Mute | Preference blocked new calls but did not silence scheduled audio or looping crowd | Zero master and stop/disconnect all voices, including scheduled claps; in-memory preference still works if storage is denied |
 | Lesson audio | Every contact/bounce; premium crowd continuously running; up to 230 claps over three seconds | One shared restrained mix: decision contact, final player contact, incoming opponent contact, at most one lead-in bounce and authored net outcomes; 36 quiet claps over less than one second |
 | Praise | Premium-only; no explicit deduplication | Short accent on a correct committed decision, once per step per page; no negative buzzer, no praise on better-option demos or replay |
+| Predict | Separate answer-first, reveal-later flow | No audio hint while choosing; one accent for three correct reads after the whole point; replay cannot repeat it |
 | Pause / inspection / navigation | Active voices and crowd could outlive the moment | Stop existing audio on manual pause, scene change and contact inspection; no catch-up bursts after tab hiding; held frames stay silent |
-| Wrap-up / saved cue | Automatic finale replay could keep producing sound while reading | Automatic wrap-up animation is silent; cue save retains clear visual confirmation |
+| Wrap-up / saved cue | Automatic finale replay could keep producing sound while reading | Automatic wrap-up animation is silent; deliberate replay retains contact cues; cue save retains clear visual confirmation |
 | Home / welcome | Automatic cinematic shot/bounce effects | Silent presentation; Home retains an explicit sound control and its brief enable confirmation |
 | Explore / Sharpen / My Game | No audio producers in these reading/reference surfaces | Keep silent; no extra click sounds or celebrations |
 | Touch control | 34px lesson sound target | 44px target with truthful accessible action label |
@@ -66,5 +67,6 @@ No notification schedule or autonomous monitoring was created.
 - Offline rendering of the actual synth: all four effects produce nonzero
   unclipped signal and are silent after one second. This verifies generated
   samples, not perceived quality or hardware output.
-- Full app regression suite and WebKit results are recorded with the PR once
-  complete. Physical iPhone/Android listening is explicitly unverified.
+- WebKit also passed the initial 64 assertions. A final expanded pass adds both
+  Predict journeys and distinguishes automatic finale from deliberate replay.
+  Full regression and expanded results are recorded with the PR once complete. Physical iPhone/Android listening is explicitly unverified.

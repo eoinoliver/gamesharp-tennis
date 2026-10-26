@@ -2,7 +2,7 @@
   "source": {
     "rally/lesson_body.html": {
       "baseline": "deddbe4ec72811992ef0e5bcd2a112fbc7f225685f94f7d80095a67211f134ab",
-      "candidate": "2829d427783b84b971d191115da8c32547194bfc0711b71726028deec2ff68dc"
+      "candidate": "f096b4c52c80909d83215a364749d0465d5966d3c6adad6045bbba9982131c49"
     },
     "app_src/sfx.js": {
       "baseline": "ecd80018923ad34728bc5cd8ff2a4ae5c8654e5c95cae2049abfed5ddbb18426",
@@ -14,29 +14,33 @@
     },
     "app_src/play_host.html": {
       "baseline": "88b0ca9b07e5c46d539682dd3c502e3d6b141c5aa7ba234077bf709830334a20",
-      "candidate": "8ce46759d4a876c33c3d56f58612ee8c212af690d8625a43d8342669bd171e82"
+      "candidate": "c3a7625bfd90466d82583deff424316456a180c3d58965d6cf27d76afb570f5c"
     },
     "app_src/index.html": {
       "baseline": "43b10a915931579a603d5564c96ec1273e19e11651acec16e5beb84431154d41",
       "candidate": "b1c02ac351ff37b67cb0945327c572e7f33992c40cd8ac20f005a49a37818149"
+    },
+    "gs/app_flow.mjs": {
+      "baseline": "dd819e84e8413cab0ca51f721e998084d7b83f4f62009fb3aefb5b3169b26162",
+      "candidate": "0fd8ba3f3a9476ff0d212054764a208d403084d241f4c75ed76d5b3bce90dc79"
     }
   },
   "release": {
     "app/engine/engine.js": {
       "baseline": "cbdf6efc7f6fb33e1d1e4678b04dfe7fb1b63c9ac087f3b05a6a17f4396ac372",
-      "candidate": "6963eaf9e6ff4295fcc02e59d88f48347cb13fc7479f16741f693570ba0b03ff"
+      "candidate": "b2e70e2e96a3238418f24690d1e9effcf0a6ff1170636744e24c4316bd090912"
     },
     "app/play.html": {
       "baseline": "6478e43c8a54f4d26b1e25b8f2bb77423b331a8e436e5eb99b5bf73430e4e315",
-      "candidate": "6ccd5ca32504f0fe3aad64cbc96110ad14459c63c92e469550ada7eb021ca402"
+      "candidate": "54ab42a4218e53368f71acdc24990e66632bd03304ce2c006f109c4e90120ee9"
     },
     "app/catalog.js": {
       "baseline": "865478182308d30d4d0df6082fb94c240d3deb7efd2cf0ddb56121acb295cfe3",
-      "candidate": "51388fcf33b65f590097a2fd3b760bdc8ba4879427cad47709347a23325e41c2"
+      "candidate": "b74e23b1a97e462865e41fe0c18058d93c987615ca68da638e7d81c041a17eba"
     },
     "app/index.html": {
       "baseline": "b7994149c0b7e21bfc9411575b3573c1081fd56ad1520e7441a97a33db8a6058",
-      "candidate": "233d0116355c307bfded521e3d2fa944fca85d28607b596587c4d356ba6f6eef"
+      "candidate": "f7af103d17a1a96f6bc0b4b2a2236ac528da84aff7757d9107f17bf8d1025231"
     },
     "app/sfx.js": {
       "baseline": "ecd80018923ad34728bc5cd8ff2a4ae5c8654e5c95cae2049abfed5ddbb18426",

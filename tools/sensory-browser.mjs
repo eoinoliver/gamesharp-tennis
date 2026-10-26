@@ -1,7 +1,7 @@
 // Shared sound + beta continuation contract. Real browser audio graph; no production analytics.
 import {chromium,webkit,devices} from 'playwright';
 import assert from 'node:assert/strict';
-import {readFileSync,mkdirSync,writeFileSync,existsSync} from 'node:fs';
+import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
 const base=process.argv[2]||'http://127.0.0.1:8772/';
 const engine=process.env.GS_SOUND_BROWSER==='webkit'?webkit:chromium;
 const browser=await engine.launch({headless:true});
@@ -39,6 +39,8 @@ try{
  }
  await p.waitForSelector('#nextDaily');
  const next=await p.evaluate(()=>GSApp.nextDaily().slug);check(await p.locator('#nextDaily').getAttribute('href')===`play.html?l=${next}`,'completion points to real next unplayed lesson');
+ check(await p.evaluate(()=>silentPlayback),'automatic wrap-up stays silent');
+ await p.locator('#again').tap();check(await p.evaluate(()=>!silentPlayback),'intentional replay can have contact cues');
  await p.locator('#saveCue').tap();check(await p.evaluate(()=>JSON.parse(localStorage.gs_my_game).length>0),'cue still saves');
  await p.screenshot({path:`${out}/${engine.name()}-completion.png`,fullPage:true});
  await Promise.all([p.waitForURL(u=>u.searchParams.get('l')===next),p.locator('#nextDaily').tap()]);await p.waitForFunction(()=>window.__test);
@@ -55,6 +57,21 @@ try{
   await p.goto(base+path);await p.waitForTimeout(2200);
   check(await p.evaluate(()=>!window.__audio),'shell/welcome has no autonomous audio context: '+path);
   await p.screenshot({path:`${out}/${engine.name()}-${path.includes('all')?'explore':path.includes('review')?'sharpen':path.includes('auto')?'welcome':'home'}.png`,fullPage:true});
+ }
+ // Predict must not reveal correct choices through sound before all three reads.
+ for(const slug of ['predict-the-point','predict-second-serve']){
+  await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);
+  await p.locator('[data-gs-sound]').tap();
+  await p.evaluate(()=>{window.__speed=20;window.__praise=0;const a=GSSfx.applause;GSSfx.applause=(...args)=>{__praise++;return a(...args);};});
+  for(let i=0;i<3;i++){
+   await ready();check(await p.evaluate(()=>__praise===0),'Predict choices stay acoustically neutral');
+   await p.locator('#askOpts button').nth(await p.evaluate(()=>LESSON.steps[step].correct)).tap();
+   if(i<2)await p.waitForFunction(n=>step===n,i+1);
+  }
+  await p.waitForSelector('#wrapup:not([hidden]) .appblk',{timeout:45000});
+  check(await p.evaluate(()=>__praise===1),slug+': one accent after the whole perfect point');
+  await p.locator('#again').tap();await p.waitForSelector('#wrapup:not([hidden]) .appblk',{timeout:45000});
+  check(await p.evaluate(()=>__praise===1),'Predict replay does not re-celebrate');
  }
  // Catalogue-wide schedule audit: events stay tied to authored contacts; no per-loop soundtrack.
  const cat=JSON.parse(readFileSync('app/catalog.js','utf8').match(/GS_CATALOG=(.*);\n/)[1]);const report=[];

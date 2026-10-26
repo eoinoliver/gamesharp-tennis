@@ -18,7 +18,7 @@ if overlay_path.exists():
             expected[name] = hashes['candidate']
 # Sensory/beta feature: a second explicit overlay preserves both older baselines.
 sensory = json.loads((ROOT/'docs/features/sensory-beta-build.json').read_text())
-assert set(sensory['source']) == {'rally/lesson_body.html','app_src/sfx.js','app_src/cine.js','app_src/play_host.html','app_src/index.html'}
+assert set(sensory['source']) == {'rally/lesson_body.html','app_src/sfx.js','app_src/cine.js','app_src/play_host.html','app_src/index.html','gs/app_flow.mjs'}
 assert set(sensory['release']) == {'app/engine/engine.js','app/play.html','app/catalog.js','app/index.html','app/sfx.js','app/cine.js'}
 for records, expected in [(sensory['source'], source), (sensory['release'], manifest)]:
     for name, hashes in records.items():
