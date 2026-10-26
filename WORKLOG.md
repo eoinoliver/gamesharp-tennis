@@ -451,3 +451,15 @@ canonical local paths and “next” steps below are historical, not current rul
   the paid webinar or to reconstruct professional movement in our scenes.
 - Current autonomy/deploy-live instructions cover this scoped repair. Preview,
   staged-production, full verification and rollback safeguards still apply.
+
+## 26 October 2026 — professional payoff released (Codex)
+
+- PR #39 merged as 0d456f91a289c13a57f0b75a2d6b50a1d27d659b; app b245169ce4.
+- Live Production dpl_HjYv1V6KiX36tBKRWgzYCrPCyXzX. Three movement lessons now
+  end with sourced, open Pro Lens insights and a next-point application.
+- Local/CI full suite passed, including 41 scene gates and 325 contact checks;
+  445 focused checks each Chromium/WebKit. Preview/stage/live 241/241 each.
+  Both live browsers completed all three journeys, saved cues and moved to the
+  next challenge with zero page errors.
+- See docs/features/pro-payoff-release-2026-10-26.md. No remaining release work.
+  Follow-up record is documentation only; do not promote its build.
