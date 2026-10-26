@@ -43,18 +43,17 @@ function GSCine(canvas) {
     return [x, y, z];
   }
   let shot = nextShot(null), u = 0, count = 0, trail = [], rings = [], flashes = [];
-  let heard = 0;   // Home is a moment, not a soundtrack: the first few shots after the player taps, then silence
-  const sfx = (k, v) => { try { if (!window.GSSfx || heard >= 6) return; const before = window.GSSfx.ready() ? 1 : 0; window.GSSfx[k](v * (1 - heard / 8)); if (before) heard++; } catch (e) {} };
+
   function step(dt) {
     // slow motion window around the bounce on every third shot
     const nearBounce = shot.slow && Math.abs(u - shot.T) < 0.22;
     const speed = nearBounce ? 0.22 : 1;
     const prevU = u; u += dt * speed;
     if (prevU < shot.T && u >= shot.T) {   // bounce
-      rings.push({ x: shot.land[0], y: shot.land[1], t: 0 }); sfx("bounce", shot.land[1] < 0 ? 0.95 : 0.45);
+      rings.push({ x: shot.land[0], y: shot.land[1], t: 0 });
     }
     if (u >= shot.T + shot.T2) {   // the reply is struck
-      flashes.push({ p: shot.end.slice(), t: 0 }); sfx("hit", shot.end[1] < 0 ? 0.9 : 0.4);
+      flashes.push({ p: shot.end.slice(), t: 0 });
       count++; shot = nextShot(shot); shot.slow = count % 3 === 2 && shot.land[1] < 0; u = 0;
     }
     const p = shotPos(shot, u); trail.push(p); if (trail.length > 16) trail.shift();

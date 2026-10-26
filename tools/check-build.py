@@ -16,6 +16,14 @@ if overlay_path.exists():
         for name, hashes in records.items():
             assert expected[name] == hashes['baseline'], f'Feature baseline drift: {name}'
             expected[name] = hashes['candidate']
+# Sensory/beta feature: a second explicit overlay preserves both older baselines.
+sensory = json.loads((ROOT/'docs/features/sensory-beta-build.json').read_text())
+assert set(sensory['source']) == {'rally/lesson_body.html','app_src/sfx.js','app_src/cine.js','app_src/play_host.html','app_src/index.html'}
+assert set(sensory['release']) == {'app/engine/engine.js','app/play.html','app/catalog.js','app/index.html','app/sfx.js','app/cine.js'}
+for records, expected in [(sensory['source'], source), (sensory['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected[name] == hashes['baseline'], f'Sensory baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

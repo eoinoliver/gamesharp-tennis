@@ -383,3 +383,25 @@ canonical local paths and “next” steps below are historical, not current rul
   and clarified the replay control as “Your result”. Reviewed the repaired
   430px backhand screenshot; the ball and strings are now visible. Final checks
   run again on this visual correction before release.
+
+## 26 October 2026 — sensory reliability and beta continuation (Codex)
+
+- Owner: Codex, branch `codex/sensory-beta-audit` from main af4658d.
+- Scope: audit shared sound across all 38 lessons and shell surfaces; fix gesture
+  activation, interruption recovery, mute/lifecycle teardown and restrained
+  feedback. Expose the existing next-unplayed daily path at lesson completion.
+- Initial evidence: only suspended contexts resumed; no touchend/click fallback;
+  mute left existing voices and looping crowd running; every shot/bounce sounded;
+  welcome/Home added incidental noise. Lesson completion only linked Home.
+- Physical iOS/Android speaker behaviour and retention effects remain unverified;
+  browser emulation is not a physical-device or learning claim.
+- Implemented the next-unplayed CTA and exhaustion route without changing daily
+  scoring/streak logic. Unified short sound cues across the shared engine,
+  removed background/Home/welcome effects, added real mute/voice cleanup,
+  interruption recovery, honest activation controls and 44px touch targets.
+- Initial validation: 18 unit tests, exact build parity, 64 Chromium assertions
+  and nonzero/unclipped offline synth waveforms. All 38 lessons / 433 scenes
+  audited: 3,207 event candidates reduced to 1,447 selected sound moments.
+- WebKit first pass exposed a navigation-wait race in the test harness (it read
+  the previous document's test hook); corrected to await the target URL before
+  asserting the next lesson. Full regression and WebKit rerun in progress.

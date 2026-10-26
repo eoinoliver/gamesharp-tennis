@@ -643,7 +643,7 @@ if(CONTACT_FOCUS){
 let stopTimer=null, stopGeneration=0, pendingStop=null;
 function run(key,from,stop,cb){
   clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;
-  scene=key;t=from;stopAt=Math.min(stop,SC[key].frames-1);onStop=cb;setPlaying(true);
+  if(window.GSSfx)GSSfx.stop();scene=key;t=from;stopAt=Math.min(stop,SC[key].frames-1);onStop=cb;setPlaying(true);
 }
 function setPlaying(p){playing=p;lastTs=null;$("paused").hidden=p||t>=stopAt;
   const i=$("playIcon"); if(i){const pl=p&&t<stopAt; i.innerHTML=pl?PAUSE_I:PLAY_I; $("playBtn").setAttribute("aria-label",pl?"Pause":"Play");}}
@@ -652,15 +652,22 @@ function rate(){const sc=SC[scene];let r=1;
   for(const c of contactsOf(sc,"you")) r=Math.min(r,0.3+0.7*smooth(6,28,Math.abs(t-c)));
   if(onStop) r*=0.45+0.55*smooth(0,45,stopAt-t);
   return r;}
-/* sound (5 Oct): the app shell loads GSSfx; standalone pages have none and stay silent.
-   Your hits are loud, theirs softer; every bounce pops; a ball into the net thuds. */
+/* All events still drive visual bounce marks. Audio selects only decision context. */
 function sfxEvents(sc){if(sc._sfx)return sc._sfx;const ev=[];
   for(const f of contactsOf(sc,"you"))ev.push([f,"hit",1]); for(const f of contactsOf(sc,"opp"))ev.push([f,"hit",0.5]);
   const B=sc.ball;for(let i=1;i+1<B.length;i++){const a=B[i-1],b=B[i],c=B[i+1];if(a&&b&&c&&b[2]<0.08&&b[2]<=a[2]&&b[2]<c[2])ev.push([i,"bounce",b[1]<0?0.9:0.45]);}
   for(const m of sc.marks||[])if(m.kind==="net")ev.push([m.frame,"net",0.8]);
   return sc._sfx=ev;}
-function sfxCross(a,b){if(!window.GSSfx||b<=a||b-a>40)return;const sc=SC[scene];if(!sc)return;
-  for(const [f,k,v] of sfxEvents(sc))if(f>a&&f<=b){const q=sc.ball[f]||sc.ball[f-1];
+function audibleEvents(sc){if(sc._audible)return sc._audible;
+  const all=sfxEvents(sc).slice().sort((a,b)=>a[0]-b[0]),you=contactsOf(sc,"you"),freeze=sc.info.freeze||0;
+  const decision=you.reduce((best,f)=>Math.abs(f-freeze)<Math.abs(best-freeze)?f:best,you[0]??freeze);
+  const feed=contactsOf(sc,"opp").filter(f=>f<decision).at(-1);
+  const bounce=all.filter(([f,k])=>k==="bounce"&&f<decision).at(-1)?.[0];
+  return sc._audible=all.filter(([f,k])=>k==="net"||(k==="hit"&&(f===decision||f===you.at(-1)||f===feed))||(k==="bounce"&&f===bounce))
+    .map(([f,k])=>[f,k,k==="hit"?(f===feed?.32:.72):k==="net"?.45:.25]);
+}
+function sfxCross(a,b){if(!window.GSSfx||document.hidden||done||contactInspection||b<=a||b-a>40)return;const sc=SC[scene];if(!sc)return;
+  for(const [f,k,v] of audibleEvents(sc))if(f>a&&f<=b){const q=sc.ball[f]||sc.ball[f-1];
     GSSfx[k](v,q?clamp(q[0]/7,-1,1)*(cam&&cam.az>0?-1:1):0,q?clamp((q[1]+12)/24,0,1):0.5);}}
 /* premium payoff (8 Oct): after a right answer, the moment it's decided plays in slow motion: the last 0.5 s
    before the ending lands, at a third of the speed */
@@ -672,7 +679,7 @@ function slowMo(g){
   return g>end-50&&g<end+8?0.34:1;
 }
 function tick(ts){
-  if(window.GSSfx){const pr=PREM(); if(GSSfx.premium!==pr) GSSfx.premium=pr; if(pr&&GSSfx.ready&&GSSfx.ready()&&!window.__gsBed){window.__gsBed=1;GSSfx.ambience(true);}}
+  if(document.hidden){lastTs=null;requestAnimationFrame(tick);return;}
   if(playing){if(lastTs!=null){const t0=t;t+=Math.min(50,ts-lastTs)*0.1*rate()*(window.__speed||1)*slowMo(t);
       if(t>=stopAt)t=stopAt; sfxCross(t0,t);
       if(t>=stopAt){t=stopAt;setPlaying(false);const cb=onStop;onStop=null;
@@ -716,6 +723,7 @@ function optEl(X){return $("askOpts").children[LETTERS.indexOf(X)];}
 function showOnly(list){$("askOpts").querySelectorAll(".opt").forEach((b,i)=>{b.disabled=true;b.classList.toggle("hide",!list.includes(LETTERS[i]));});}
 
 /* ---------- lesson flow ---------- */
+const celebrated=new Set();
 const CUE_KEY="gs_my_game";   // saved cues: [{lesson, cue, saved_at, callback_tags}] for a later callback
 function myGame(){try{return JSON.parse(localStorage.getItem(CUE_KEY)||"[]");}catch(e){return [];}}
 function cueSaved(){return myGame().some(c=>c.cue===LESSON.cue);}
@@ -753,8 +761,11 @@ function choose(i,X,demo){
 function verdict(i,X,demo){
   const S=LESSON.steps[i], also=(S.alsoOk||[]).includes(LETTERS.indexOf(X)), ok=LETTERS.indexOf(X)===S.correct||also, corr=LETTERS[S.correct];
   const d=dotsOf(S.reveal?S.scene:S.scene+X), n=d?d.filter(x=>x[2]).length:0;
-  if(PREM()&&!demo){if(ok) window.__cheerT=performance.now()/1000;
-    if(window.GSSfx&&GSSfx.applause){const sk=SC[S.reveal?S.scene:S.scene+X]; GSSfx.applause(ok?(sk&&sk.info.outcome==="won"?1:0.6):0);}}
+  // Praise the committed decision once. Replays and better-option demos cannot earn it.
+  if(ok&&!demo&&!celebrated.has(i)){celebrated.add(i);
+    if(PREM())window.__cheerT=performance.now()/1000;
+    if(window.GSSfx)GSSfx.applause(.6);
+  }
   showOnly(ok||demo?[X]:[X,corr]);
   optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
   setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
@@ -926,8 +937,8 @@ function render(){
 
 /* ---------- controls ---------- */
 $("camBtn").onclick=()=>{clearContactInspection();camI=(camI+1)%CAMS.length;toast(CAMS[camI].n);};
-$("stage").onclick=()=>{if(t<stopAt){setPlaying(!playing);}};
-$("playBtn").onclick=()=>{if(t<stopAt) setPlaying(!playing); else $("again").click();};
+$("stage").onclick=()=>{if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);}};
+$("playBtn").onclick=()=>{if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);} else $("again").click();};
 $("again").onclick=()=>{
   clearContactInspection();
   if(done){const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
