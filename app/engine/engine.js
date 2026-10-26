@@ -366,6 +366,15 @@ function actorAt(sc,name,g){
     const n=W[i+1]; if(n&&g>w.b&&g<n.a){const A=worldOf(localAt(w,w.b)),B=worldOf(localAt(n,n.a)),u=smooth(w.b,n.a,g);
       Wd=footwork(blendWorld(A,B,u,away),A,B,u);break;}}
   if(!Wd) Wd=worldOf(localAt(W[W.length-1],W[W.length-1].b));
+  // Authored decision freezes only: approach the same preparation pose from
+  // different starting positions. These scenes end before the outgoing stroke.
+  if(name==='you'&&sc.info.readiness){
+    const r=sc.info.readiness, hit=W.find(w=>!w.fixed);
+    const L=clipAt(CL.ready,1);L.T=r.from;L.yaw=0;
+    const A=worldOf(L),B=worldOf(localAt(hit,r.setupFrame));
+    const u=smooth(r.start,r.arrive,g);
+    Wd=footwork(blendWorld(A,B,u,away),A,B,u);
+  }
   // split step: a small two-footed hop that lands at a chosen moment, then a brief load
   if(name==="you"&&sc.info.splits) for(const [L,air] of sc.info.splits){
     let dz=0; if(g>L-air&&g<L) dz=0.11*(air/26)*Math.sin(Math.PI*(g-(L-air))/air);
@@ -521,6 +530,13 @@ function serveMix(){const sc=SC[scene]; if(!sc) return 0; const W=prep(sc)["you"
   return 0;}
 function setCamera(you){
   if(contactCameraOn()){setContactCamera(you);return;}
+  if(LESSON.readinessLesson&&camI===1){
+    const sc=SC[scene],r=sc.info.readiness,w=prep(sc).you.find(w=>!w.fixed);
+    const h=worldOf(localAt(w,r.setupFrame)).pose[I.hips];
+    // Anchor both members of a pair to the same setup location. Following the
+    // moving player would hide travel and shift the apparent ball/opponent.
+    cam={az:-90,el:16,d:10.5,fov:50,tgt:[h[0]*.7,h[1]+2.6,.9]};return;
+  }
   if(window.__camOverride){const O=window.__camOverride, c=NARROW.matches&&O.phone?O.phone:O.c; cam={...c,tgt:[...c.tgt]}; if(NARROW.matches&&!O.phone) cam.fov*=(window.__fovScale||PHONE_FOV); return;}
   const C=camI===0&&typeof LESSON!=="undefined"&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];   // a lesson played deep behind the baseline can widen the broadcast view
   if(C.follow&&showTargets&&!answered&&!window.__camOverride){const V=NARROW.matches?{az:-90,el:44,d:40,fov:24,tgt:[0,0.2,0]}:{az:-90,el:40,d:30,fov:36,tgt:[0,0.8,0]}; cam={...V,tgt:[...V.tgt]}; return;}   // choosing: lift up so the targets can be told apart
@@ -692,6 +708,23 @@ function tick(ts){
 
 /* ---------- the visual card ---------- */
 function railFor(S){return S.rail||(S.cues?["1 "+S.cues.ball,"2 You "+S.cues.you,"3 Them "+S.cues.opp]:[S.name]);}
+// Post-answer evidence is drawn from the actual rendered route, never from a
+// prescriptive foot position or an inferred diagnosis. Comparison cannot score.
+function drawArrivalEvidence(frag,sc,g){
+  if(!LESSON.readinessLesson||!answered||done)return;
+  const r=sc.info.readiness;if(!r)return;
+  const trace=el_('g',{'data-arrival-evidence':'route','aria-hidden':'true'});
+  let prev=null;
+  for(let f=r.start;f<=g;f+=4){const h=actorAt(sc,'you',f).pose[I.hips],pt=[h[0],h[1],.02];if(prev)seg(trace,prev,pt,'#e9da91',3,.85);prev=pt;}
+  for(const k of ['ankleL','ankleR']){const a=actorAt(sc,'you',g).pose[I[k]],q=P(a);if(q)trace.appendChild(el_('circle',{cx:q.s[0],cy:q.s[1],r:11,fill:'none',stroke:'#e9da91','stroke-width':2}));}
+  frag.appendChild(trace);
+}
+function replayArrival(key){
+  if(!answered||!LESSON.readinessLesson||!SC[key]?.info.readiness)return;
+  const sc=SC[key];run(key,0,sc.info.freeze,null,true);
+  const note=$('arrivalNote');if(note)note.textContent=sc.info.readiness.evidence;
+  document.querySelectorAll('[data-arrival]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.arrival===key)));
+}
 function paintRail(list){$("rail").innerHTML=list.map(c=>`<span>${c}</span>`).join("");railOn=-1;setRail(0);}
 function setRail(n){if(n===railOn)return;railOn=n;[...$("rail").children].forEach((s,i)=>s.classList.toggle("on",i<n));}
 function setInk(txt,miss){const s=$("ink");s.className="";s.textContent=txt||"";s.parentNode.classList.toggle("has",!!txt);if(!txt)return;void s.offsetWidth;s.className="on"+(miss?" miss":"");}
@@ -788,6 +821,12 @@ function verdict(i,X,demo){
     <div class="acts">${S.reveal?"":`<button class="alt" id="tryOther">${ok||demo?"Try another":`Watch ${corr} play out`}</button>`}
     <button class="next" id="next">${i<NS()-1?"Next decision →":LESSON.branch?"Watch your point →":"Take it to court →"}</button></div>`;
   if(CONTACT_FOCUS){const bt=document.createElement('button');bt.id='inspectContact';bt.className='contact-inspect';bt.textContent='Inspect contact';bt.setAttribute('aria-expanded','false');bt.onclick=()=>inspectContact('first');v.querySelector('.fbh').insertBefore(bt,$('why'));}
+  if(LESSON.readinessLesson){
+    const evidence=document.createElement('div');evidence.className='arrival-review';
+    evidence.innerHTML=`<p id="arrivalNote" role="status">${SC[S.scene].info.readiness.evidence}</p><div class="arrival-buttons" role="group" aria-label="Inspect arrivals">${S.compareArrival?`<button class="alt" data-arrival="${S.compareArrival}" aria-pressed="false">Previous arrival</button>`:''}<button class="alt" data-arrival="${S.scene}" aria-pressed="true">${S.compareArrival?'This arrival':'Replay the arrival'}</button></div>`;
+    v.querySelector('.fb').appendChild(evidence);
+    evidence.querySelectorAll('button').forEach(b=>b.onclick=()=>replayArrival(b.dataset.arrival));
+  }
   v.hidden=false; tallView();
   $("why").onclick=()=>{const p=$("whyp"),o=p.hidden;p.hidden=!o;$("why").setAttribute("aria-expanded",o);$("why").innerHTML=`Why? <span aria-hidden="true">${o?"–":"+"}</span>`;};
   $("next").onclick=()=>{startStep(i+1);window.scrollTo({top:0,behavior:"smooth"});};
@@ -932,6 +971,7 @@ function render(){
   for(const m of sc.marks) if(m.kind==="net"&&g>=m.frame){const bp=sc.ball[m.frame]||b;if(bp){const q=P(bp);
     if(q)frag.appendChild(el_("circle",{cx:q.s[0].toFixed(1),cy:q.s[1].toFixed(1),r:(8+10*smooth(0,20,g-m.frame)).toFixed(1),fill:"none",stroke:"#e05252","stroke-width":2.2,opacity:1-0.5*smooth(0,30,g-m.frame)}));}}
   if(PREM()) lightOverlay(frag);
+  drawArrivalEvidence(frag,sc,g);
   if(CONTACT_FOCUS){drawContactEvidence(frag,you,b);const m=$('contactMode');const txt=done?'':contactInspection?(CONTACT_KIND==='space'?(contactInspection.sample==='first'?'First contact · held':'Your next ball · held'):(contactInspection.missing?'No contact · ball bounces twice':'Option '+contactInspection.option+' · '+LESSON.steps[step].opts[LETTERS.indexOf(contactInspection.option)])):contactCameraOn()&&contactMix()>.95?'Contact view · look closely':'Court view · watch the result';if(m.textContent!==txt)m.textContent=txt;m.hidden=!txt;}
   svg2.replaceChildren(frag);
   {const sc2=$("scorechip"), v=sc.info.score||""; if(sc2.dataset.v!==v){sc2.dataset.v=v;sc2.hidden=!v;sc2.innerHTML=v?"YOU <b>"+v+"</b>":"";}}
@@ -947,7 +987,7 @@ $("again").onclick=()=>{
   if(done){const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
   const S=LESSON.steps[step];
   if(!answered){startStep(step);return;}   // restart both reading and playback gates together
-  if(S.reveal) return;
+  if(S.reveal){if(LESSON.readinessLesson)replayArrival(S.scene);return;}
   // Preserve feedback when Replay interrupts a choice, including the completion delay.
   const resume=onStop||pendingStop;
   const key=S.scene+chosen, fr=SC[key].info.freeze; run(key,Math.max(0,fr-60),SC[key].frames-1,resume);};

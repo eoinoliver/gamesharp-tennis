@@ -1,0 +1,70 @@
+{
+  "source": {
+    "app_src/catalog.py": {
+      "baseline": "340e07e6cdb16c847fd52693e971d22b4bf65f5bcafe5bbd9e826fbd4a9306da",
+      "candidate": "65fc88552d961e8a55801c7aa8fc2d9c81a6e1feff671e79886d4b6a2022e405"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "f096b4c52c80909d83215a364749d0465d5966d3c6adad6045bbba9982131c49",
+      "candidate": "6dd7bdc43a828957803b34b10375a37a9029fd1dd56e66e390a52e005c3484dc"
+    },
+    "rally/build_readiness.py": {
+      "baseline": null,
+      "candidate": "4032559abdf0ccaa12455f98fb1c10996b55168cffce6324096642dbb976acee"
+    },
+    "rally/lesson_ea.js": {
+      "baseline": null,
+      "candidate": "d0ee887b75ceb5c23d34664fda5ae099ff8a0e4c24195e96c2889552f073d002"
+    },
+    "rally/ea_data.json": {
+      "baseline": null,
+      "candidate": "00d3a720b3977cf438fa3a04dfb75356cc61230b0fe6d20e9d1f86a882cd354e"
+    },
+    "rally/lesson_ed.js": {
+      "baseline": null,
+      "candidate": "0a48c6a5377f604f882872261ad555f7ed4cc3c62f24ffb2cffd79871f27f94d"
+    },
+    "rally/ed_data.json": {
+      "baseline": null,
+      "candidate": "84c686f6847ebc08e5c10dca9362e6877e493ec09319b643623d1cf62cccec70"
+    },
+    "rally/lesson_en.js": {
+      "baseline": null,
+      "candidate": "4491ae08f82b8cdb5c85dc1e1389bf1a23d76819de7b4c97e9fa902f7dec2835"
+    },
+    "rally/en_data.json": {
+      "baseline": null,
+      "candidate": "e15f42935acc3e73c87c5d1dbf01cf14f7045f25e00a3c6ace9eea3a0082f5f9"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "9c8e6c2555fb80719677c3009ee7c83f18a216aa5ca7361356b14dc66804d6ea",
+      "candidate": "54e8fd57cfa61753e3be5aaa7666cee1c8d31bbfed2dd6eeb483dbefb17d49d1"
+    },
+    "app/index.html": {
+      "baseline": "80b7971aa092842bb4147e16187bc1ad0222350a5a64e031514c3b23eddf654f",
+      "candidate": "14e78637d2948dc180d4e44e74361d4f86a81a9777009655949af72ecb95f5d1"
+    },
+    "app/play.html": {
+      "baseline": "c3e2b092ca1f579a0ee458d6182c25dafa20e704e3750fe6da9669d4104b149c",
+      "candidate": "eb43313aec2ec2c6d4b3d094204b2a2837f8a93e3c9dd88c9a135692eeacc5f3"
+    },
+    "app/engine/engine.js": {
+      "baseline": "b2e70e2e96a3238418f24690d1e9effcf0a6ff1170636744e24c4316bd090912",
+      "candidate": "7a3758c5a33f48c69a767a5bdb52fe31bebc9c4faa5ef2cc5863c87d6a986405"
+    },
+    "app/lessons/earned-attack.json": {
+      "baseline": null,
+      "candidate": "ffd8359144730247dfe5e04c2a1985c3cb52bb3d021646bf4be232c435ab4c3f"
+    },
+    "app/lessons/earned-defence.json": {
+      "baseline": null,
+      "candidate": "422671a2a2e186cd7585c1a8946dfb14271beabfca27b3ebab35c1ecfe49b53f"
+    },
+    "app/lessons/earned-net.json": {
+      "baseline": null,
+      "candidate": "c3962e810b24ee7c3a51618adbbd647c1646614b8b4eb222e250d03ed14913ac"
+    }
+  }
+}
