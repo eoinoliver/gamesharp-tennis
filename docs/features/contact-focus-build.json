@@ -10,7 +10,7 @@
     },
     "rally/fb_data.json": {
       "baseline": "e7f57b92d059ccf57350ce4dd07f8eeaec296d70fedaca0416cdbaaa2983d1d8",
-      "candidate": "c39b3b40686595a5773b00b91e351f4140078e0006bca781df7820a8798168e7"
+      "candidate": "a00b96ad6de5c3ba073601ab6d82fa63981dd230284f9639f7331a5ad912a8e8"
     }
   },
   "release": {
@@ -20,15 +20,15 @@
     },
     "app/play.html": {
       "baseline": "7321e525c0d4a34623c86cc3e51024a4db4c6d85f98fabff67849a027ae9ae54",
-      "candidate": "44f091bf0abf2b251aa8f99e08f61a1fee8c0e3cf3de7069332076273c1fe82a"
+      "candidate": "0e96ced05e42528f49133fa745f134ba03e990a28de55dbeecaa291d6248932a"
     },
     "app/catalog.js": {
       "baseline": "3dcaa3532e45d91eb2996a4803e9115cbf3b53d92e3f647057b9a01dc793b8df",
-      "candidate": "6e3f76bfa4940f99e72b7aba4e369bf835747b23ce16f760eaef767d57c609db"
+      "candidate": "70ccca87cf0508ae7e0ce439318d78f44b0b4611d4ba8fb4d9a32610b81692fe"
     },
     "app/index.html": {
       "baseline": "ec569b3e7202451b15811767e871d1f2c7ba970ede377d05c902d3c610a1e9bd",
-      "candidate": "afd10b54fe90cdd439dcd462d187a3e5bdf56e4ac95b06af008c09c657eab639"
+      "candidate": "41b7fd8e794b54b71fc0873127b24ef68f294f8a1ac2055fbc5aeec04bed7c26"
     },
     "app/lessons/contact-clue.json": {
       "baseline": "322f6612938a3c61fd4e8e5cfc87ffd9f91f8f8179643b029e6d1d45f40fc278",
@@ -36,7 +36,7 @@
     },
     "app/lessons/forehand-bill.json": {
       "baseline": "45cbc9a0e9fc4e8d238348f39fddd171dd3d88ac2742a828af89236dea412516",
-      "candidate": "31e84835e10767a1c57cf18522d30b6244a6eb630a2a11c442fddc4c099375b4"
+      "candidate": "fbf92cec07572ef903951b14f6ea4e173a399081d89256d9889b81f4032f504f"
     }
   }
 }

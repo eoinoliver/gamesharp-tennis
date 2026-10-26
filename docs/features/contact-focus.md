@@ -19,8 +19,10 @@ corrected below.
   scene frame after the ball. The standard *Your Forehand Leaves a Bill* scenes
   have the same 10 ms offset: in `fb1A`, the ball reaches the authored contact
   at frame 208 and the pose reached its contact sample at frame 209. The
-  candidate shifts the 18 forehand swings in that lesson and the Contact Clue
-  swings one frame earlier. Other motion clips and scenes keep their timing.
+  candidate shifts only the opening selected forehand one frame earlier in the
+  nine Forehand Bill branches where forehand is the shot. Contact Clue's initial
+  and selected-next forehand swings are aligned the same way. Later reply
+  animations and other motion clips keep their timing.
 - In the source `fh` clip at its contact sample, the racquet grip equals the
   hitting wrist and its centre is 3.3 cm from the ball centre. The static
   Sharpen contact card comes from this generic Tennis-MoCap motion. It does not

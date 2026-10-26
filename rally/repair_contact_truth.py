@@ -67,17 +67,18 @@ for key,scene in data['scenes'].items():
 
 path.write_text(json.dumps(data,separators=(',',':'))+'\n')
 
-# In the standard forehand lesson, the ball reaches the authored contact point
-# one scene frame before the pose reaches its contactFrame. Shift only the
-# forehand strokes in this lesson one frame earlier; other strokes and lessons
-# retain their authored timing.
+# In the standard forehand lesson, the selected opening forehand reaches the
+# authored contact point one scene frame before its pose reaches contactFrame.
+# Shift only that opening forehand in branches where it is the selected shot;
+# later reply animations and other strokes retain their authored timing.
 path=Path(__file__).with_name('fb_data.json')
 data=json.loads(path.read_text())
 aligned=0
 for scene in data['scenes'].values():
-    for actor in scene['actors']['you']:
-        if not actor.get('hold') and actor.get('clip') in ('fh','fhlo','fhhi','fhCramped'):
-            actor['poseFrameOffset']=1
-            aligned+=1
+    active=sorted((a for a in scene['actors']['you'] if not a.get('hold')),key=lambda a:a['start'])
+    for actor in active: actor.pop('poseFrameOffset',None)
+    if active and active[0]['clip'] in ('fh','fhhi','fhCramped'):
+        active[0]['poseFrameOffset']=1
+        aligned+=1
 path.write_text(json.dumps(data,separators=(',',':'))+'\n')
-print(f'Contact truth repaired: 24 Contact Clue pose offsets; four initial net collisions; one selected net consequence; {aligned} normal forehand pose offsets')
+print(f'Contact truth repaired: 24 Contact Clue pose offsets; four initial net collisions; one selected net consequence; {aligned} normal forehand contact offsets')

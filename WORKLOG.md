@@ -340,9 +340,10 @@ canonical local paths and “next” steps below are historical, not current rul
 - Confirmed timing defect in both Contact Clue and normal *Your Forehand Leaves
   a Bill*: the ball reaches its authored contact one scene frame before the
   swing pose. In `fb1A`, ball contact is frame 208 and the clip pose contact was
-  frame 209. Shifted only the relevant forehand swings one 100 Hz sample earlier
-  (24 Contact Clue pose offsets; 18 Forehand Bill swings); racket/ball source
-  coordinates and clip rotations are unchanged.
+  frame 209. Shifted the relevant Contact Clue swings and only the opening
+  selected forehand in the nine Forehand Bill branches where forehand is chosen
+  one 100 Hz sample earlier; racket/ball source coordinates and clip rotations
+  are unchanged.
 - Inspected Sharpen's generic `fh` contact pose and the supplied ACE and
   SweetSpot Alcaraz videos. The source clip's grip matches the hitting wrist;
   racket centre is 3.3 cm from its ball centre at the captured contact sample.
@@ -355,3 +356,6 @@ canonical local paths and “next” steps below are historical, not current rul
   overlay now records three source files and six release files against the
   frozen baselines. Production is unchanged. No automated test suite was run
   during this visual/data investigation.
+- The first broad Forehand Bill timing pass also shifted a later continuation in
+  `fb3C` and CI found a 209 m/s glide at frame 358. Narrowed the offset to the
+  opening selected forehand only; CI is rerunning on the corrected scope.
