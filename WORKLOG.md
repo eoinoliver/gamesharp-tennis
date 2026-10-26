@@ -418,3 +418,22 @@ canonical local paths and “next” steps below are historical, not current rul
   code path and likely cause, not a confirmed diagnosis of the user's devices.
 - Current user autonomy and live-deployment instructions authorize this scoped
   beta repair; preserve Git preview, staged-production and rollback safeguards.
+
+## 26 October 2026 — iOS audio routing repair released (Codex)
+
+- PR #35 merged as 5e5c6aef3213233bcfa91aa1c75b03ac614258d4; reviewed
+  head e84c4ff1ae0e6e79357b1257808819b133b1da4b has the same tree.
+- Explicit sound opt-in selects playback before starting/resuming Web Audio and
+  restores the prior session on mute/background. First visits default silent.
+- 22 unit tests, full local suite, GitHub contracts 40293440859, 77 Chromium and
+  77 WebKit sensory assertions, 38 scene gates and 325 contact checks passed.
+- Preview/staged/live each passed all 238 hosted checks. Eight staged auth
+  transport failures passed on targeted retry; report retains this distinction.
+- Promoted exact Git Production dpl_4AKS7YatmaePvodgydUJVxRuTAbx, app
+  a6403a2a21. Both live Chromium and WebKit completed 3/3, cue save, next lesson
+  and mute persistence; WebKit also asserted playback session selection/release.
+  Each intercepted 12 analytics requests and recorded zero page errors.
+- Physical iPhone/iPad Chrome audibility remains unverified: user feedback must
+  confirm that this repair resolves their report. No hardware-success claim.
+- Release evidence: docs/features/ios-audio-release-2026-10-26.md. This branch
+  records release evidence only; do not promote its documentation build.
