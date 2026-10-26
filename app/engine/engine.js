@@ -566,7 +566,9 @@ function contactMix(){
 function setContactCamera(you){
   const ph=NARROW.matches,m=contactMix(),W=ph?CAMS[0].phone:CAMS[0].c;
   const h=you?you.pose[I.hips]:[0.4,-10.6,0.9];
-  const C={az:-40,el:15,d:ph?5.2:4.7,fov:38,tgt:[h[0]+.3,h[1]+.1,1.02]};
+  const hit=contactInspection&&(prep(SC[scene]).you||[]).find(w=>!w.fixed&&Math.abs(w.cG-t)<2);
+  const backhand=CONTACT_KIND==='height'&&hit&&/^(bh|bv)/.test(hit.s.clip);
+  const C={az:backhand?40:-40,el:15,d:ph?5.2:4.7,fov:38,tgt:[h[0]+.3,h[1]+.1,1.02]};
   cam={az:lerp(W.az,C.az,m),el:lerp(W.el,C.el,m),d:lerp(W.d,C.d,m),fov:lerp(W.fov,C.fov,m),tgt:lerp3(W.tgt,C.tgt,m)};
   if(ph)cam.fov*=PHONE_FOV;
 }
@@ -608,7 +610,7 @@ function inspectContact(sample){
   const controls=document.createElement('div');controls.id='contactControls';controls.className='contact-controls';
   controls.setAttribute('role','group');controls.setAttribute('aria-label','Compare contact positions');
   const labels=CONTACT_KIND==='space'?['First contact','Your next ball']:['Your choice '+chosen,'Compare '+compare];
-  controls.innerHTML=`<button type="button" data-contact="first" aria-pressed="${sample==='first'}">${labels[0]}</button><button type="button" data-contact="next" aria-pressed="${sample==='next'}">${labels[1]}</button><button type="button" data-contact="outcome">Watch result →</button>`;
+  controls.innerHTML=`<button type="button" data-contact="first" aria-pressed="${sample==='first'}">${labels[0]}</button><button type="button" data-contact="next" aria-pressed="${sample==='next'}">${labels[1]}</button><button type="button" data-contact="outcome">Your result →</button>`;
   if(CONTACT_KIND!=='space'){
     controls.querySelector('[data-contact=first]').setAttribute('aria-label','Your choice '+chosen+': '+S.opts[LETTERS.indexOf(chosen)]);
     controls.querySelector('[data-contact=next]').setAttribute('aria-label','Compare '+compare+': '+S.opts[LETTERS.indexOf(compare)]);

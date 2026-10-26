@@ -2,7 +2,7 @@
   "source": {
     "rally/lesson_body.html": {
       "baseline": "9a62f892ab41fb5fbd8cb4bf7feb38b62934801edfa0af32c1c30b0285078a10",
-      "candidate": "c60de7a83241413e210d9468418357d50b689a8b9b07e972018457641c822ce5"
+      "candidate": "deddbe4ec72811992ef0e5bcd2a112fbc7f225685f94f7d80095a67211f134ab"
     },
     "rally/cp_data.json": {
       "baseline": "018da06ff7c05f0cebceaa18efbe6955c8b079522a5fe90794c2a5c2ce5cd78d",
@@ -24,19 +24,19 @@
   "release": {
     "app/engine/engine.js": {
       "baseline": "670ed7706bb39629e4d82d7acbb5fe1fa8f7197cce6b56b13e0282d98706223e",
-      "candidate": "019a8f584fa0e635d61b6e1c055e62d869a94fd0be0f0da31592614e0e8e25ea"
+      "candidate": "cbdf6efc7f6fb33e1d1e4678b04dfe7fb1b63c9ac087f3b05a6a17f4396ac372"
     },
     "app/play.html": {
       "baseline": "7321e525c0d4a34623c86cc3e51024a4db4c6d85f98fabff67849a027ae9ae54",
-      "candidate": "30e85a0e1a1d0de425567c21a2dcf09bf186d03579e74485145ed216bf665b90"
+      "candidate": "6478e43c8a54f4d26b1e25b8f2bb77423b331a8e436e5eb99b5bf73430e4e315"
     },
     "app/catalog.js": {
       "baseline": "3dcaa3532e45d91eb2996a4803e9115cbf3b53d92e3f647057b9a01dc793b8df",
-      "candidate": "636c5dcfb7f1e446f646ea8b59e7bf0d6c125b54b1a2dde9cc0c35c1e8a3e808"
+      "candidate": "865478182308d30d4d0df6082fb94c240d3deb7efd2cf0ddb56121acb295cfe3"
     },
     "app/index.html": {
       "baseline": "ec569b3e7202451b15811767e871d1f2c7ba970ede377d05c902d3c610a1e9bd",
-      "candidate": "dc6464bc81fc684aaea971c9608e116b7a8968580acbfe46f8fae945c7a59e18"
+      "candidate": "b7994149c0b7e21bfc9411575b3573c1081fd56ad1520e7441a97a33db8a6058"
     },
     "app/lessons/contact-clue.json": {
       "baseline": "322f6612938a3c61fd4e8e5cfc87ffd9f91f8f8179643b029e6d1d45f40fc278",

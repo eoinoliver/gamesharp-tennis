@@ -377,3 +377,9 @@ canonical local paths and “next” steps below are historical, not current rul
   later replies/volleys and the double-bounce branch remain untouched. The held
   racket/ball centre distance is checked under 5 cm; this is timing consistency,
   not biomechanical certification.
+- First expanded candidate passed all 38 local scene gates and 325 focused
+  journey assertions. Visual review found that the forehand camera hid the low
+  backhand racket. Added the opposite viewing angle for held backhand contacts
+  and clarified the replay control as “Your result”. Reviewed the repaired
+  430px backhand screenshot; the ball and strings are now visible. Final checks
+  run again on this visual correction before release.

@@ -6,7 +6,8 @@ Comparison: append `&contactFocus=0` to the same lesson URL.
 Three existing lessons, no new catalogue entries. Contact Clue uses its close
 contact view and original/next-ball comparison. High Ball and Short Ball keep
 their court decision view and add post-answer contact-height inspection with
-an explicitly labelled alternative option. The selected shot is the first
+an explicitly labelled alternative option. Backhand inspection uses the
+opposite camera side so the body does not hide the strings. The selected shot is the first
 contact at/after the decision, never a later reply or volley. High Ball's double
 bounce has no contact; it is shown without a fabricated contact marker.
 
