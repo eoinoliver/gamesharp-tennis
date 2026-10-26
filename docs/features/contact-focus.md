@@ -1,23 +1,48 @@
-# Contact Clue visual-focus review — 26 October 2026
+# Contact Clue truth and visual-focus review — 26 October 2026
 
 Review treatment: `play.html?l=contact-clue&contactFocus=1`.
 Comparison: `play.html?l=contact-clue` on the same deployment.
 
-One existing lesson, not a new lesson or diagnostic product. Catalogue, source
-lesson, clips, scene coordinates, timings, questions, choices, explanations,
-outcomes, cue, scoring and persistence are unchanged. The treatment is restricted
-to the exact Contact Clue slug and requires the explicit query parameter.
+One existing lesson, not a new lesson or diagnostic product. The treatment is
+restricted to the exact Contact Clue slug and requires the explicit query
+parameter. The lesson's questions, choices, explanations, outcomes, cue, scoring
+and persistence are unchanged; its broken first-miss path and contact timing are
+corrected below.
+
+## Findings and corrections
+
+- Contact Clue says the first forehand goes into the net, but its original ball
+  path crossed the net and ended long. The candidate now stops at the near net
+  face and drops on the hitter's side. The selected crowded/faster consequence
+  uses the same net result. The second, separate example remains the long miss.
+- Contact Clue's moving forehand pose reached the authored contact sample one
+  scene frame after the ball. The standard *Your Forehand Leaves a Bill* scenes
+  have the same 10 ms offset: in `fb1A`, the ball reaches the authored contact
+  at frame 208 and the pose reached its contact sample at frame 209. The
+  candidate shifts the 18 forehand swings in that lesson and the Contact Clue
+  swings one frame earlier. Other motion clips and scenes keep their timing.
+- In the source `fh` clip at its contact sample, the racquet grip equals the
+  hitting wrist and its centre is 3.3 cm from the ball centre. The static
+  Sharpen contact card comes from this generic Tennis-MoCap motion. It does not
+  establish that the stroke is an ideal or Alcaraz-like model. The sampled ACE
+  and SweetSpot shorts use stylised 3D reconstructions; the Alcaraz 9-second
+  short carries YouTube's AI label. Their useful presentation cue is to show
+  the turn, space, racket drop, contact and finish in sequence. Neither channel
+  independently validates this dataset. Keep the existing clip illustrative
+  and withhold any “perfect form” claim pending coach review of that motion.
 
 ## What changes
 
 - Court context for the miss and chosen consequence; close framing and a quiet
   background around the repeated contact. Reduced motion uses context cuts.
+- The first miss now visibly ends at the net, consistent with its lesson text.
 - After the answer's consequence, Inspect contact holds the original pose and
   offers the selected next-ball contact. One highlight joins the authored hip and
   ball positions. These are relative observations, not measured player thresholds.
 - Comparisons are optional, keyboard operable, and reset on navigation/replay.
   No highlight or comparison appears before any answer, including the transfer.
-- Normal Contact Clue and the other 37 experiences do not enable the treatment.
+- The opt-in camera treatment remains limited to Contact Clue. Only Contact Clue
+  and the existing Forehand Bill lesson receive authored frame-alignment edits.
 
 The existing lesson includes causal/target assertions; keeping it stable does not
 constitute renewed coaching approval. This review evaluates visual understanding,
@@ -26,13 +51,20 @@ not whether a simulated result establishes a real player's diagnosis.
 ## Build evidence
 
 `contact-focus-build.json` is an explicit feature overlay on the historical
-migration manifests. Only one runtime source and four generated files differ.
-The old fingerprints are preserved, with their original hashes checked before
-applying the candidate hashes. All other 95 imported inputs and all 93 other
-release files remain protected by the original manifests. Routing is unchanged.
-New test/documentation files are outside that historical inventory and reviewed
-directly in this PR. This is a proposed test-baseline update for this exact
-feature, not a claim that the modified engine is unchanged.
+migration manifests. Three runtime/data sources and six generated files are
+listed against the frozen baseline hashes. The old fingerprints remain intact;
+all other 93 imported inputs and 91 release files stay protected by the original
+manifests. Routing is unchanged. The repair helper and documentation sit outside
+that historical inventory and are reviewed directly in this PR. This is a
+proposed test-baseline update for this exact correction, not a claim that the
+modified engine is unchanged.
+
+## Review before a player pilot
+
+Have a tennis coach review the generic contact motion from the turn through the
+finish, especially racket-face orientation and how much space the positive
+example visibly shows. Then test whether recreational players distinguish the
+crowded/net and spaced/long examples without being told the answer.
 
 ## Small pilot after review
 

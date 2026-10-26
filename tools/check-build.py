@@ -4,14 +4,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 manifest = json.loads((ROOT/'docs/migration/live-app-sha256.json').read_text())
 source = json.loads((ROOT/'docs/migration/imported-source-sha256.json').read_text())
-# Feature overlay: historical migration fingerprints stay intact. This review-only
-# treatment changes one source and its four generated outputs, explicitly listed
-# against the original hashes; every other input/output retains the baseline gate.
+# Feature overlay: historical migration fingerprints stay intact. This review
+# candidate changes the shared renderer plus the Contact Clue and Forehand Bill
+# scene inputs and generated lessons, explicitly listed against original hashes.
 overlay_path = ROOT/'docs/features/contact-focus-build.json'
 if overlay_path.exists():
     overlay = json.loads(overlay_path.read_text())
-    assert set(overlay['source']) == {'rally/lesson_body.html'}
-    assert set(overlay['release']) == {'app/engine/engine.js','app/play.html','app/catalog.js','app/index.html'}
+    assert set(overlay['source']) == {'rally/lesson_body.html','rally/cp_data.json','rally/fb_data.json'}
+    assert set(overlay['release']) == {'app/engine/engine.js','app/play.html','app/catalog.js','app/index.html','app/lessons/contact-clue.json','app/lessons/forehand-bill.json'}
     for records, expected in [(overlay['source'], source), (overlay['release'], manifest)]:
         for name, hashes in records.items():
             assert expected[name] == hashes['baseline'], f'Feature baseline drift: {name}'

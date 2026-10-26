@@ -321,3 +321,37 @@ canonical local paths and “next” steps below are historical, not current rul
 - Builders: make_lesson.py / make_short.py pack the clips the scenes use (the low backhand was missing).
 - Checks: gate passes for all three (the "wrong answer ends as a won point" notes are the line/sideline shots that land 4-5 in 10, which is the lesson); payoff passes; one-screen at 375x667 looked at. app_flow fails at "play next opens lesson 2" for every lesson, including untouched ones: a stale check after the Home changes, not this change.
 - Same PR, Eoin: "the fix to stop watching the player hitting the ball after the teachable moment has failed: the ball disappears and the stroke continues." Cause: stop_at_your_contact ends the ball at your contact, but the viewer still played the swing's last 0.5 s (window end = contact + 50 frames). Fix in the viewer (rally/lesson_body.html, endsOnYou): when the ball's last frame is your last contact and only empty frames follow, your pose freezes at contact and the ball stays on the strings. Applies to 202 endings in 38 pieces (counted over app/lessons); no other ending has a swing after the ball has gone. Checked: wrist and ball identical at contact and 40 frames later (The Line 2B); gates pass (the-line, down-the-line, saturday-point-4, midweek-point-1).
+
+## 26 October 2026 — forehand and Contact Clue truth correction (Codex)
+
+- Branch `codex/contact-focus-2026-10-26`, extending the Contact Clue review candidate.
+- Eoin reports that even the reference forehand has suspect elbow/racket rotation,
+  including in the normal app, and the first Contact Clue miss contradicts its
+  net description. Cross-reference supplied ACE/SweetSpot Alcaraz material,
+  inspect the shared motion/renderer, and trace the entire authored miss.
+- Presentation approval is not assumed. Fix demonstrable source/data/rendering
+  errors; do not manufacture a universal Alcaraz technique or call a stroke
+  perfect. Preserve the original evidence and report uncertainty honestly.
+- One writer here. No production change is implied by the investigation.
+- Confirmed source defect: `cp1` was authored as a net miss, but the original
+  scene ball continued across the net and carried a long outcome. The bounded
+  repair collides at the near net face, drops on the hitter's side, and keeps
+  the distinct `cp2` long example intact.
+- Confirmed timing defect in both Contact Clue and normal *Your Forehand Leaves
+  a Bill*: the ball reaches its authored contact one scene frame before the
+  swing pose. In `fb1A`, ball contact is frame 208 and the clip pose contact was
+  frame 209. Shifted only the relevant forehand swings one 100 Hz sample earlier
+  (24 Contact Clue pose offsets; 18 Forehand Bill swings); racket/ball source
+  coordinates and clip rotations are unchanged.
+- Inspected Sharpen's generic `fh` contact pose and the supplied ACE and
+  SweetSpot Alcaraz videos. The source clip's grip matches the hitting wrist;
+  racket centre is 3.3 cm from its ball centre at the captured contact sample.
+  The sampled shorts use stylised 3D reconstructions; the 9-second Alcaraz
+  short carries YouTube's AI label. They support a visual sequence (turn, space,
+  racket drop, contact, finish), not validation of this generic motion or a
+  claim that it models Alcaraz. The contact motion remains illustrative pending
+  tennis-coach review; no synthetic replacement pose was made.
+- Review page: the explicit Contact Focus treatment remains opt-in. The build
+  overlay now records three source files and six release files against the
+  frozen baselines. Production is unchanged. No automated test suite was run
+  during this visual/data investigation.
