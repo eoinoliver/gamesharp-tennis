@@ -439,3 +439,17 @@ canonical local paths and “next” steps below are historical, not current rul
   checked inputs. Full final Chromium and WebKit checks running.
 - Current autonomy and live-deployment instructions permit the scoped beta
   addition; keep preview, staged-production, inventory and rollback safeguards.
+
+## 26 October 2026 — readiness decisions released (Codex)
+
+- PR #37 merged as 9d2dd6b06e7a30cac7456052dfbd4afe2be30ae7; identical tree
+  to reviewed 9a9212ba0c310f8401ed776557dd61fb8fceb67c.
+- Live app 84d191a175, Git Production dpl_7vts2VCT5XRUiXjCkmSVsDVQdJJR.
+  Three new beta lessons / nine inspected decisions; zero withheld in this batch.
+- Full local + GitHub checks passed, 397 readiness assertions in each of Chromium
+  and WebKit, 41 scene gates, 325 contact checks. Preview/staged/live 241/241 each.
+- Both live browsers completed all three lessons, saved cues and continued.
+  Each intercepted 24 analytics calls; zero page errors. No rollback needed.
+- Release record: docs/features/readiness-release-2026-10-26.md. This branch is
+  documentation only; do not promote its build. Learning impact and physical
+  device audio are unverified; beta observation should decide further expansion.
