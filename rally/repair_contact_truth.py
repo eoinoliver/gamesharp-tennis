@@ -82,3 +82,19 @@ for scene in data['scenes'].values():
         aligned+=1
 path.write_text(json.dumps(data,separators=(',',':'))+'\n')
 print(f'Contact truth repaired: 24 Contact Clue pose offsets; four initial net collisions; one selected net consequence; {aligned} normal forehand contact offsets')
+
+# The two new inspectors exposed the same source-ball/sample convention. Limit
+# each adjustment to the selected shot near the decision, not later continuations.
+for filename in ('hb_data.json','short_data.json'):
+    path=Path(__file__).with_name(filename)
+    data=json.loads(path.read_text());aligned=0
+    for scene in data['scenes'].values():
+        freeze=scene['info']['freeze']
+        selected=sorted((a for a in scene['actors']['you'] if not a.get('hold')
+                         and a['start']+data['clips'][a['clip']]['contactFrame']-2>=freeze-2),
+                        key=lambda a:a['start'])
+        if selected:
+            selected[0]['poseFrameOffset']=1
+            aligned+=1
+    path.write_text(json.dumps(data,separators=(',',':'))+'\n')
+    print(f'{filename}: aligned {aligned} selected contacts')

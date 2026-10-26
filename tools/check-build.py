@@ -10,8 +10,8 @@ source = json.loads((ROOT/'docs/migration/imported-source-sha256.json').read_tex
 overlay_path = ROOT/'docs/features/contact-focus-build.json'
 if overlay_path.exists():
     overlay = json.loads(overlay_path.read_text())
-    assert set(overlay['source']) == {'rally/lesson_body.html','rally/cp_data.json','rally/fb_data.json'}
-    assert set(overlay['release']) == {'app/engine/engine.js','app/play.html','app/catalog.js','app/index.html','app/lessons/contact-clue.json','app/lessons/forehand-bill.json'}
+    assert set(overlay['source']) == {'rally/lesson_body.html','rally/cp_data.json','rally/fb_data.json','rally/hb_data.json','rally/short_data.json'}
+    assert set(overlay['release']) == {'app/engine/engine.js','app/play.html','app/catalog.js','app/index.html','app/lessons/contact-clue.json','app/lessons/forehand-bill.json','app/lessons/high-ball.json','app/lessons/short-ball.json'}
     for records, expected in [(overlay['source'], source), (overlay['release'], manifest)]:
         for name, hashes in records.items():
             assert expected[name] == hashes['baseline'], f'Feature baseline drift: {name}'

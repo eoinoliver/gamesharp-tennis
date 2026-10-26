@@ -536,8 +536,9 @@ function setCamera(you){
 
 /* ---------- lesson content ---------- */
 /* LESSON is supplied by the page */
-// Review treatment only. Normal Contact Clue and all other lessons retain their existing behavior.
-const CONTACT_FOCUS=new URLSearchParams(location.search).get('contactFocus')==='1'&&new URLSearchParams(location.search).get('l')==='contact-clue';
+// Authored inspection is enabled only for these reviewed lessons. Zero preserves a comparison view.
+const CONTACT_KIND=({'contact-clue':'space','high-ball':'height','short-ball':'height'})[new URLSearchParams(location.search).get('l')];
+const CONTACT_FOCUS=!!CONTACT_KIND&&new URLSearchParams(location.search).get('contactFocus')!=='0';
 const LETTERS="ABCD", mode="daily";
 const NS=()=>LESSON.steps.length;   // 3 for a lesson; a branching point has as many reads as the path you play; a weekend point has 5
 const nT=k=>[...LETTERS].filter(X=>SC[k+X]).length;   // options with a scene (a branch node can have 2 or 3)
@@ -553,7 +554,7 @@ const svg2=$("svg"), zone=$("ask");
 
 /* ---------- Contact Clue: inspect the authored evidence, not a new diagnosis ---------- */
 let contactInspection=null;
-function contactCameraOn(){return CONTACT_FOCUS&&camI===0&&!done&&step<NS();}
+function contactCameraOn(){return CONTACT_FOCUS&&camI===0&&!done&&step<NS()&&(CONTACT_KIND==='space'||!!contactInspection)&&!contactInspection?.missing;}
 function contactMix(){
   if(contactInspection)return 1;
   const sc=SC[scene],fr=sc.info.freeze;
@@ -574,6 +575,7 @@ function fitContactDetail(){
   // The evidence is the hitting-side relationship. Keep upper body, hip, arm,
   // racket and ball large; fitting the feet would shrink that evidence on a small phone.
   const points=['hips','chest','neck','head','shoulderL','shoulderR','elbowL','elbowR','wristL','wristR','hipL','hipR'].map(k=>you.pose[I[k]]);
+  if(CONTACT_KIND==='height'&&b)points.push([b[0],b[1],0]);
   points.push(add(you.pose[I.head],[0,0,.28]),you.rq.centre,add(you.rq.centre,[.22,0,.22]),add(you.rq.centre,[-.22,0,-.22]));if(b)points.push(b);
   const q=points.map(toCam);if(q.some(p=>p.z<=ZNEAR))return;
   const us=q.map(p=>p.x/p.z),vs=q.map(p=>p.y/p.z),u0=Math.min(...us),u1=Math.max(...us),v0=Math.min(...vs),v1=Math.max(...vs);
@@ -587,33 +589,47 @@ function clearContactInspection(){
   $('viewer').classList.remove('inspecting');
   const bt=$('inspectContact');if(bt)bt.setAttribute('aria-expanded','false');
 }
+function contactSample(key,sample){
+  const sc=SC[key],hits=contactsOf(sc,'you');
+  if(CONTACT_KIND==='space')return sample==='next'?hits[hits.length-1]:sc.info.freeze;
+  // The selected shot, not a later volley or the decision freeze before the ball arrives.
+  return hits.find(f=>f>=sc.info.freeze-2)??null;
+}
 function inspectContact(sample){
   if(!CONTACT_FOCUS||!answered||done)return;
-  const S=LESSON.steps[step],key=S.scene+chosen,sc=SC[key],hits=contactsOf(sc,'you');
-  const frame=sample==='next'?hits[hits.length-1]:sc.info.freeze;
+  const S=LESSON.steps[step],compare=chosen===LETTERS[S.correct]?LETTERS[(S.correct+1)%S.opts.length]:LETTERS[S.correct];
+  const option=CONTACT_KIND==='space'||sample==='first'?chosen:compare;
+  const key=S.scene+option,sc=SC[key],frame=contactSample(key,sample),missing=frame==null;
   clearContactInspection();
-  contactInspection={sample,key,frame};camI=0;run(key,frame,frame,null);setPlaying(false);
+  contactInspection={sample,key,frame:missing?sc.frames-1:frame,missing,option};camI=0;
+  run(key,contactInspection.frame,contactInspection.frame,null);setPlaying(false);
   $('viewer').classList.add('inspecting');
   $('inspectContact').setAttribute('aria-expanded','true');
   const controls=document.createElement('div');controls.id='contactControls';controls.className='contact-controls';
   controls.setAttribute('role','group');controls.setAttribute('aria-label','Compare contact positions');
-  controls.innerHTML=`<button type="button" data-contact="first" aria-pressed="${sample==='first'}">First contact</button><button type="button" data-contact="next" aria-pressed="${sample==='next'}">Your next ball</button><button type="button" data-contact="outcome">Watch result →</button>`;
+  const labels=CONTACT_KIND==='space'?['First contact','Your next ball']:['Your choice '+chosen,'Compare '+compare];
+  controls.innerHTML=`<button type="button" data-contact="first" aria-pressed="${sample==='first'}">${labels[0]}</button><button type="button" data-contact="next" aria-pressed="${sample==='next'}">${labels[1]}</button><button type="button" data-contact="outcome">Watch result →</button>`;
+  if(CONTACT_KIND!=='space'){
+    controls.querySelector('[data-contact=first]').setAttribute('aria-label','Your choice '+chosen+': '+S.opts[LETTERS.indexOf(chosen)]);
+    controls.querySelector('[data-contact=next]').setAttribute('aria-label','Compare '+compare+': '+S.opts[LETTERS.indexOf(compare)]);
+  }
   controls.querySelectorAll('button').forEach(b=>b.onclick=e=>{e.stopPropagation();if(b.dataset.contact==='outcome'){
-    clearContactInspection();const fr=sc.info.freeze;run(key,fr,sc.frames-1,null);$('inspectContact').focus({preventScroll:true});
+    clearContactInspection();const original=S.scene+chosen;
+    run(original,SC[original].info.freeze,SC[original].frames-1,null);$('inspectContact').focus({preventScroll:true});
   }else inspectContact(b.dataset.contact);});
   $('stage').appendChild(controls);
   controls.querySelector(`[data-contact="${sample}"]`).focus({preventScroll:true});
 }
 function drawContactEvidence(frag,you,b){
-  if(!contactInspection||!you||!b)return;
+  if(!contactInspection||contactInspection.missing||!you||!b)return;
   // Project actual authored points. No inferred fault classification or real-player distance threshold.
-  const hip=you.pose[I.hipR],a=P(hip),z=P(b);if(!a||!z)return;
+  const hip=CONTACT_KIND==='space'?you.pose[I.hipR]:[b[0],b[1],0],a=P(hip),z=P(b);if(!a||!z)return;
   const g=el_('g',{'data-contact-evidence':'space','aria-hidden':'true'}),col='#e9da91';
   for(const q of [a,z])g.appendChild(el_('circle',{cx:q.s[0],cy:q.s[1],r:12,fill:'none',stroke:col,'stroke-width':2.5}));
   const line=el_('line',{x1:a.s[0],y1:a.s[1],x2:z.s[0],y2:z.s[1],stroke:col,'stroke-width':2.5,'stroke-dasharray':'5 5'});g.appendChild(line);
   const x=clamp((a.s[0]+z.s[0])/2,130,VW-130),y=clamp(Math.min(a.s[1],z.s[1])-42,90,VH-140);
   g.appendChild(el_('rect',{x:x-128,y:y-24,width:256,height:38,rx:12,fill:'#08160e',stroke:col,'stroke-opacity':.5}));
-  const tx=el_('text',{x,y,'text-anchor':'middle',fill:col,'font-family':'DM Sans, sans-serif','font-size':22,'font-weight':700});tx.textContent='Body-to-ball space';g.appendChild(tx);
+  const tx=el_('text',{x,y,'text-anchor':'middle',fill:col,'font-family':'DM Sans, sans-serif','font-size':22,'font-weight':700});tx.textContent=CONTACT_KIND==='space'?'Body-to-ball space':'Contact height';g.appendChild(tx);
   frag.appendChild(g);
 }
 if(CONTACT_FOCUS){
@@ -900,7 +916,7 @@ function render(){
   for(const m of sc.marks) if(m.kind==="net"&&g>=m.frame){const bp=sc.ball[m.frame]||b;if(bp){const q=P(bp);
     if(q)frag.appendChild(el_("circle",{cx:q.s[0].toFixed(1),cy:q.s[1].toFixed(1),r:(8+10*smooth(0,20,g-m.frame)).toFixed(1),fill:"none",stroke:"#e05252","stroke-width":2.2,opacity:1-0.5*smooth(0,30,g-m.frame)}));}}
   if(PREM()) lightOverlay(frag);
-  if(CONTACT_FOCUS){drawContactEvidence(frag,you,b);const m=$('contactMode');const txt=done?'':contactInspection?(contactInspection.sample==='first'?'First contact · held':'Your next ball · held'):contactCameraOn()&&contactMix()>.95?'Contact view · look closely':'Court view · watch the result';if(m.textContent!==txt)m.textContent=txt;m.hidden=!txt;}
+  if(CONTACT_FOCUS){drawContactEvidence(frag,you,b);const m=$('contactMode');const txt=done?'':contactInspection?(CONTACT_KIND==='space'?(contactInspection.sample==='first'?'First contact · held':'Your next ball · held'):(contactInspection.missing?'No contact · ball bounces twice':'Option '+contactInspection.option+' · '+LESSON.steps[step].opts[LETTERS.indexOf(contactInspection.option)])):contactCameraOn()&&contactMix()>.95?'Contact view · look closely':'Court view · watch the result';if(m.textContent!==txt)m.textContent=txt;m.hidden=!txt;}
   svg2.replaceChildren(frag);
   {const sc2=$("scorechip"), v=sc.info.score||""; if(sc2.dataset.v!==v){sc2.dataset.v=v;sc2.hidden=!v;sc2.innerHTML=v?"YOU <b>"+v+"</b>":"";}}
   if(St&&fz!=null){const n=answered?3:[0,1,2].filter(k=>g>=fz-80+30*k).length;setRail(n);}

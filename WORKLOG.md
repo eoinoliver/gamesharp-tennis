@@ -354,8 +354,26 @@ canonical local paths and “next” steps below are historical, not current rul
   tennis-coach review; no synthetic replacement pose was made.
 - Review page: the explicit Contact Focus treatment remains opt-in. The build
   overlay now records three source files and six release files against the
-  frozen baselines. Production is unchanged. No automated test suite was run
-  during this visual/data investigation.
+  frozen baselines. Production was unchanged during that investigation. Subsequent GitHub build,
+  analytics and browser checks all passed on 954bc50.
 - The first broad Forehand Bill timing pass also shifted a later continuation in
   `fb3C` and CI found a 209 m/s glide at frame 358. Narrowed the offset to the
-  opening selected forehand only; CI is rerunning on the corrected scope.
+  opening selected forehand only; CI passed on the corrected scope (954bc50).
+
+## 26 October 2026 — expand and release contact inspection (Codex)
+
+- Eoin explicitly requests “lets build more of these and deploy all live”. This
+  authorizes this scoped batch and production release after verification,
+  superseding the older exact-preview approval procedure for this request.
+- One builder on the existing PR #31 branch. Ship Contact Clue in normal play,
+  add post-answer contact-height inspection to High Ball and Short Ball. Keep
+  their full-court decision view and authored choices, scores and motion.
+- Prior candidate 954bc50 passed all GitHub contracts, including browser checks.
+- Last-good live deployment confirmed from www alias: dpl_2RGbuRfaujjuwdyq1yrJ1YCndi2n
+  (gamesharp-tennis-r6x28sb1n-eoinlynn-5978s-projects.vercel.app), main e215a4c.
+  Auto-assignment is off; Git source and team/project match the release protocol.
+- Close inspection of the two additions confirmed the same one-sample lag.
+  Applied poseFrameOffset only to 11 High Ball and 12 Short Ball selected shots;
+  later replies/volleys and the double-bounce branch remain untouched. The held
+  racket/ball centre distance is checked under 5 cm; this is timing consistency,
+  not biomechanical certification.

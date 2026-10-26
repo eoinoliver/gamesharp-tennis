@@ -1,13 +1,23 @@
 # Contact Clue truth and visual-focus review — 26 October 2026
 
-Review treatment: `play.html?l=contact-clue&contactFocus=1`.
-Comparison: `play.html?l=contact-clue` on the same deployment.
+Release batch: Contact Clue, High Ball and Short Ball, enabled in normal play.
+Comparison: append `&contactFocus=0` to the same lesson URL.
 
-One existing lesson, not a new lesson or diagnostic product. The treatment is
-restricted to the exact Contact Clue slug and requires the explicit query
-parameter. The lesson's questions, choices, explanations, outcomes, cue, scoring
-and persistence are unchanged; its broken first-miss path and contact timing are
-corrected below.
+Three existing lessons, no new catalogue entries. Contact Clue uses its close
+contact view and original/next-ball comparison. High Ball and Short Ball keep
+their court decision view and add post-answer contact-height inspection with
+an explicitly labelled alternative option. The selected shot is the first
+contact at/after the decision, never a later reply or volley. High Ball's double
+bounce has no contact; it is shown without a fabricated contact marker.
+
+Questions, choices, explanations, outcomes, cues, scoring and persistence are
+unchanged except the Contact Clue data correction described below. All three
+inspectors preserve the first answer and return to the selected result.
+
+Eoin authorized building more and deploying the batch live on 26 October 2026.
+This supersedes the earlier opt-in-only scope and exact-preview approval rule
+for this batch; required technical release checks still apply. Coaching review
+and learning measurements remain recommendations and are not claimed complete.
 
 ## Findings and corrections
 
@@ -43,8 +53,11 @@ corrected below.
   ball positions. These are relative observations, not measured player thresholds.
 - Comparisons are optional, keyboard operable, and reset on navigation/replay.
   No highlight or comparison appears before any answer, including the transfer.
-- The opt-in camera treatment remains limited to Contact Clue. Only Contact Clue
-  and the existing Forehand Bill lesson receive authored frame-alignment edits.
+- The automatic close camera remains limited to Contact Clue. High Ball and
+  Short Ball zoom only during post-answer inspection. Contact Clue, Forehand Bill, and the selected contact in High Ball and
+  Short Ball receive authored frame-alignment edits. The latter two align 23
+  shots; the double-bounce branch has no swing to shift. Their racket centres
+  are within 5 cm of the ball centre at held contact, checked in the renderer.
 
 The existing lesson includes causal/target assertions; keeping it stable does not
 constitute renewed coaching approval. This review evaluates visual understanding,
@@ -53,9 +66,9 @@ not whether a simulated result establishes a real player's diagnosis.
 ## Build evidence
 
 `contact-focus-build.json` is an explicit feature overlay on the historical
-migration manifests. Three runtime/data sources and six generated files are
+migration manifests. Five runtime/data sources and eight generated files are
 listed against the frozen baseline hashes. The old fingerprints remain intact;
-all other 93 imported inputs and 91 release files stay protected by the original
+all other 91 imported inputs and 89 release files stay protected by the original
 manifests. Routing is unchanged. The repair helper and documentation sit outside
 that historical inventory and are reviewed directly in this PR. This is a
 proposed test-baseline update for this exact correction, not a claim that the
@@ -78,15 +91,15 @@ inspect. Record comprehension, unaided recognition and voluntary continuation;
 record prompted returns separately from unprompted returns. Results are
 directional at this sample size, not proof of efficacy.
 
-Do not add a recall system or expand this presentation across lessons before
-the review/pilot establishes that the distinction became clearer.
+This release does not add a recall system. Use the review/pilot to decide whether
+the presentation actually improves comprehension before further expansion.
 
 ## Verification
 
 Run `npm run check:build`, `npm test`, the existing browser release suite, and
 `node --import ./app_src/verify-runtime.mjs tools/contact-focus-browser.mjs <origin>/`.
-The targeted check exercises three complete journeys at 375×667, 430×932
-(reduced motion) and 1280×900, all 12 choices, first-answer integrity, comparison,
-replay, cue saving, on-screen Next and opt-in boundaries. Screenshots and raw
+The targeted check exercises all three lessons at 375×667, 430×932
+(reduced motion) and 1280×900, all 36 choices, first-answer integrity, comparison,
+replay, cue saving, on-screen Next and explicit disable/unrelated-lesson boundaries. Screenshots and raw
 reports remain ignored local evidence. No physical iPhone/Safari, independent
 coach approval, real-player learning or retention result is implied.
