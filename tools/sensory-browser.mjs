@@ -18,6 +18,8 @@ try{
  await p.goto(base+'play.html?l=contact-clue');await p.waitForFunction(()=>window.__test);
  const sound=p.locator('[data-gs-sound]');
  check(await sound.getAttribute('aria-label')==='Enable sound','first sound control is honest about activation');
+ await p.locator('#again').tap();
+ check(await p.evaluate(()=>!GSSfx.enabled()&&!window.__audio),'ordinary first-visit replay does not take device audio');
  await sound.tap();await p.waitForFunction(()=>GSSfx.ready());
  check(await sound.getAttribute('aria-label')==='Mute sound','first touch enables, does not mute');
  await sound.tap();check(await p.evaluate(()=>!GSSfx.enabled()),'second touch mutes');
@@ -83,7 +85,7 @@ try{
  }
  writeFileSync(`${out}/${engine.name()}-catalogue.json`,JSON.stringify(report,null,2));
  // Render the actual synth offline: prove nonzero, bounded signal and finite tails.
- const code=readFileSync('app_src/sfx.js','utf8');const mix=await browser.newPage();await mix.goto(base+'?all=1');
+ const code=readFileSync('app_src/sfx.js','utf8');const mix=await c.newPage();await mix.goto(base+'?all=1');
  const levels=[];
  for(const effect of ['hit','bounce','net','applause']){
   const level=await mix.evaluate(async({code,effect})=>{

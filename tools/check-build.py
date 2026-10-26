@@ -24,6 +24,14 @@ for records, expected in [(sensory['source'], source), (sensory['release'], mani
     for name, hashes in records.items():
         assert expected[name] == hashes['baseline'], f'Sensory baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Explicit iOS playback routing repair; previous release fingerprints stay frozen.
+ios = json.loads((ROOT/'docs/features/ios-audio-build.json').read_text())
+assert set(ios['source']) == {'app_src/sfx.js'}
+assert set(ios['release']) == {'app/sfx.js','app/play.html','app/catalog.js','app/index.html'}
+for records, expected in [(ios['source'], source), (ios['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected[name] == hashes['baseline'], f'iOS audio baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

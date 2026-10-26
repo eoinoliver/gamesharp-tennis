@@ -2,9 +2,9 @@
    A saved preference is not proof that the browser has allowed playback. */
 (function(){
   const KEY="gs_sound", AC=window.AudioContext||window.webkitAudioContext;
-  let ctx=null, master=null, noiseBuf=null, enabled=true, last={}, epoch=0;
+  let ctx=null, master=null, noiseBuf=null, enabled=false, last={}, epoch=0, session=null, previousSession=null;
   const voices=new Set();
-  try { enabled=localStorage.getItem(KEY)!=="0"; } catch(e) {}
+  try { enabled=localStorage.getItem(KEY)==="1"; } catch(e) {}
   const ready=()=>!!(enabled&&!document.hidden&&ctx&&ctx.state==="running");
   function paint(){
     document.querySelectorAll('[data-gs-sound]').forEach(b=>{
@@ -19,6 +19,21 @@
     if(master){master.gain.cancelScheduledValues(ctx.currentTime);master.gain.setValueAtTime(0,ctx.currentTime);}
     for(const v of [...voices])v.cancel();
   }
+  // Web Audio's default ambient session can be silent on iPhone/iPad even
+  // while AudioContext is running. Playback is requested only after sound opt-in;
+  // it can pause other media, so ordinary first-visit taps must not acquire it.
+  function acquireSession(){
+    try{
+      const s=window.navigator?.audioSession;
+      if(s&&!session){const previous=s.type;s.type='playback';session=s;previousSession=previous;}
+    }catch(e){} // Older browsers still use their normal Web Audio route.
+  }
+  function releaseSession(){
+    if(!session)return;
+    try{if(session.type==='playback')session.type=previousSession;}catch(e){}
+    session=null;previousSession=null;
+  }
+  function deactivate(){stop();releaseSession();}
   function boot(){
     if(ctx&&ctx.state!=="closed")return ctx;
     if(!AC)return null;
@@ -32,13 +47,14 @@
   }
   function unlock(){
     if(!enabled||document.hidden)return Promise.resolve(false);
-    const c=boot();if(!c)return Promise.resolve(false);
+    acquireSession();
+    const c=boot();if(!c){releaseSession();return Promise.resolve(false);}
     // Safari can be interrupted (screen lock, another app), not just suspended.
-    let result;try{result=c.state!=="running"?c.resume():undefined;}catch(e){paint();return Promise.resolve(false);}
+    let result;try{result=c.state!=="running"?c.resume():undefined;}catch(e){releaseSession();paint();return Promise.resolve(false);}
     return Promise.resolve(result).then(()=>{
       if(ready()){master.gain.setValueAtTime(.45,c.currentTime);paint();return true;}
-      paint();return false;
-    },()=>{paint();return false;});
+      releaseSession();paint();return false;
+    },()=>{releaseSession();paint();return false;});
   }
   // End-of-touch and click are needed by browsers that do not unlock on touchstart.
   // Capture runs before app handlers; a sound button owns its own activation.
@@ -46,10 +62,10 @@
     if(e.target.closest?.('[data-gs-sound]'))return;
     unlock();
   },{capture:true,passive:true});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else if(ctx)unlock();paint();});
-  window.addEventListener('pagehide',()=>{stop();paint();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)deactivate();else if(ctx)unlock();paint();});
+  window.addEventListener('pagehide',()=>{deactivate();paint();});
   window.addEventListener('pageshow',()=>{if(ctx)unlock();});
-  window.addEventListener('storage',e=>{if(e.key===KEY){enabled=e.newValue!=='0';if(!enabled)stop();paint();}});
+  window.addEventListener('storage',e=>{if(e.key===KEY){enabled=e.newValue==='1';if(!enabled)deactivate();paint();}});
   const vol=v=>Math.max(0,Math.min(1,v==null?1:v));
   // Every voice owns its nodes. Muting/navigation cancels even future claps.
   function voice(pan=0,depth=0){
@@ -78,7 +94,7 @@
   }
   const api=window.GSSfx={
     enabled:()=>enabled,ready,unlock,stop,
-    set(value){enabled=!!value;try{localStorage.setItem(KEY,enabled?'1':'0');}catch(e){}if(!enabled)stop();paint();return enabled?unlock():Promise.resolve(false);},
+    set(value){enabled=!!value;try{localStorage.setItem(KEY,enabled?'1':'0');}catch(e){}if(!enabled)deactivate();paint();return enabled?unlock():Promise.resolve(false);},
     hit(v,pan,depth){if(!vol(v)||!allow('hit',.12))return;const t=ctx.currentTime,k=vol(v),o=voice(pan,depth);
       o.noise(t,.025,2200,.48*k);o.tone(t,560,420,.045,.17*k);o.tone(t,210,110,.065,.48*k);},
     bounce(v,pan,depth){if(!vol(v)||!allow('bounce',.22))return;const t=ctx.currentTime,k=vol(v),o=voice(pan,depth);
@@ -91,9 +107,9 @@
     },
     wire(root){
       (root||document).querySelectorAll('[data-gs-sound]').forEach(b=>{b.onclick=e=>{
-        e.stopPropagation();const enable=!ready(),started=performance.now();
+        e.stopPropagation();const enable=!ready();
         const result=api.set(enable),version=epoch;
-        if(enable)result.then(ok=>{if(ok&&version===epoch&&performance.now()-started<500)api.hit(.45);});
+        if(enable)result.then(ok=>{if(ok&&version===epoch)api.hit(.45);});
       };});paint();
     }
   };
