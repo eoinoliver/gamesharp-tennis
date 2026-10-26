@@ -153,6 +153,14 @@ details.pay .pbody p:first-child{margin-top:0}
 .cuebox .cue{font-family:"Bebas Neue",Impact,sans-serif;font-size:26px;letter-spacing:.03em;line-height:1.05;margin:6px 0 12px}
 .savecue{width:100%;min-height:44px;border:1px solid var(--gold);border-radius:12px;background:transparent;color:var(--gold);font-weight:800;font-size:14px;cursor:pointer}
 .savecue.on{background:rgba(89,189,112,.12);border-color:rgba(89,189,112,.7);color:#8fd49c;cursor:default}
+.contact-inspect{min-height:36px;padding:5px 8px;border:1px solid rgba(200,168,75,.45);border-radius:8px;background:transparent;color:var(--gold);font-size:12px;font-weight:700;cursor:pointer}
+.contact-controls{position:absolute;inset:auto 8px 8px;display:flex;gap:5px;padding:5px;border:1px solid rgba(200,168,75,.35);border-radius:12px;background:rgba(5,14,9,.94);z-index:4}
+.contact-controls button{flex:1;min-height:40px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--ink);font-size:11px;font-weight:700;cursor:pointer}
+.contact-controls button[aria-pressed=true]{border-color:var(--gold);color:var(--gold);background:rgba(200,168,75,.12)}
+.contact-mode{position:absolute;left:10px;top:10px;border-radius:7px;padding:5px 8px;background:rgba(5,14,9,.88);color:#f0ece3;font-size:10px;font-weight:700;letter-spacing:.04em;pointer-events:none;z-index:1}
+.contact-focus .tools{z-index:5}
+.contact-focus.inspecting .tools,.contact-focus.inspecting .paused{visibility:hidden}
+.contact-focus.inspecting .contact-mode{max-width:calc(100% - 20px)}
 .wrapup .credit{margin-top:22px;font-size:11px;line-height:1.5;color:rgba(255,255,255,.38)}
 .wrapup .credit a{color:inherit}
 .score3{display:flex;gap:6px;margin:2px 0 0}
@@ -337,13 +345,13 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=a41c35bd76"></script>
-<script src="catalog.js?v=a41c35bd76"></script>
-<script src="app.js?v=a41c35bd76"></script>
-<script src="sfx.js?v=a41c35bd76"></script>
+<script src="config.js?v=b968ba3131"></script>
+<script src="catalog.js?v=b968ba3131"></script>
+<script src="app.js?v=b968ba3131"></script>
+<script src="sfx.js?v=b968ba3131"></script>
 <script>
 (function(){
-const A=GSApp, V="a41c35bd76", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="b968ba3131", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
 const QS=new URLSearchParams(location.search);

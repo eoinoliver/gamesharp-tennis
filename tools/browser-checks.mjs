@@ -12,3 +12,7 @@ for(const args of tasks){
  });
  if(code!==0)process.exit(code||1);
 }
+// The opt-in comparison must preserve the first score and withhold all annotation before commitment.
+const focus=spawn(process.execPath,['--import','./app_src/verify-runtime.mjs','tools/contact-focus-browser.mjs',base],{stdio:'inherit'});
+const focusCode=await new Promise((resolve,reject)=>{focus.on('error',reject);focus.on('exit',resolve);});
+if(focusCode!==0)process.exit(focusCode||1);

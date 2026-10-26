@@ -1,5 +1,17 @@
 # GameSharp Tennis shared worklog
 
+## 26 October 2026 — Contact Clue visual-focus review (Codex)
+
+- Branch `codex/contact-focus-2026-10-26`, based on main `e215a4c`.
+- Eoin authorised the recommended single-lesson review prototype after examining
+  ACE Tennis Lab and SweetSpot. Scope: frame the existing Contact Clue evidence
+  clearly, reveal a body/ball-space annotation after commitment, then retain the
+  unlabelled transfer. No new stroke advice, scene data, answer or lesson rewrite.
+- Candidate uses `play.html?l=contact-clue&contactFocus=1` for comparison with the
+  unchanged default experience. No other lesson enables this treatment.
+- Build, targeted mobile/desktop/browser verification and Git review preview
+  follow. No production merge or promotion is authorised by this task.
+
 ## 2026-10-05 — option A migration — Codex owns this task
 
 - Eoin instructed rebuild of PR #1 around Claude's option A comments.
