@@ -306,10 +306,10 @@ function prep(sc){
   for(const [name,segs] of Object.entries(sc.actors)){
     const W=segs.map(s=>{const c=CL[s.clip];
       if(s.hold) return {s,c,a:s.start,b:s.start,fixed:s.hold};
-      const cG=s.start+c.contactFrame-1;
-      return {s,c,cG,a:Math.max(s.start,cG-(PRE[s.clip]??70)),b:Math.min(s.start+c.frameCount-1,cG+50)};});
+      const start=s.start-(s.poseFrameOffset||0),cG=start+c.contactFrame-1;
+      return {s,c,cG,a:Math.max(start,cG-(PRE[s.clip]??70)),b:Math.min(start+c.frameCount-1,cG+50)};});
     W.sort((x,y)=>x.a-y.a);
-    if(!W[0].fixed) W[0].a=W[0].s.start;
+    if(!W[0].fixed) W[0].a=W[0].s.start-(W[0].s.poseFrameOffset||0);
     // A rally that stops on your shot (batch_lib.stop_at_your_contact): freeze at contact, not a swing after the ball has gone
     if(name==="you"){const e=endsOnYou(sc),L=W[W.length-1]; if(e!=null&&L.cG===e.cG) L.b=Math.max(L.a,e.cG);}
     for(let i=0;i+1<W.length;i++) if(W[i+1].a<W[i].b) W[i].b=Math.max(W[i].a,W[i+1].a);
@@ -329,7 +329,7 @@ function clipAt(c,f){f=clamp(f,1,c.frameCount);const i=Math.floor(f),u=f-i,j=Mat
   return {pose:A.map((p,k)=>lerp3(p,B[k],u)),
     rq:{axis:lerp3(RA.axis,RB.axis,u),lateral:lerp3(RA.lateral,RB.lateral,u),centre:lerp3(RA.centre,RB.centre,u)}};}
 // Holds are a neutral ready stance (the ready clip, else the forehand's first frame), whatever clip the hold names.
-function localAt(w,g){const r=w.fixed?clipAt(CL.ready||CL.fh,1):clipAt(w.c,g-w.s.start+1);r.T=w.s.T;r.yaw=w.s.yaw;r.mirror=w.s.mirror;return r;}
+function localAt(w,g){const r=w.fixed?clipAt(CL.ready||CL.fh,1):clipAt(w.c,g-w.s.start+1+(w.s.poseFrameOffset||0));r.T=w.s.T;r.yaw=w.s.yaw;r.mirror=w.s.mirror;return r;}
 function worldOf(L){
   const dz=L.T[2]||0;
   // a left-handed player (segment marked mirror): the captured swing mirrored side to side before it is placed
@@ -437,7 +437,7 @@ function endsOnYou(sc){
   if(sc._eoy!==undefined) return sc._eoy; sc._eoy=null;
   let L=sc.ball.length-1; while(L>=0&&!sc.ball[L]) L--;
   const segs=(sc.actors.you||[]).filter(s=>!s.hold); if(L<0||L===sc.ball.length-1||!segs.length) return null;
-  const last=segs.reduce((a,b)=>b.start>a.start?b:a), cG=last.start+CL[last.clip].contactFrame-1;
+  const last=segs.reduce((a,b)=>b.start>a.start?b:a), cG=last.start+CL[last.clip].contactFrame-1-(last.poseFrameOffset||0);
   if(Math.abs(L-cG)<=2) sc._eoy={L,cG};
   return sc._eoy;
 }
@@ -468,7 +468,10 @@ const CAMS=[
 let camI=0;
 const NARROW=matchMedia("(max-width:600px)"), PHONE_VH=540, PHONE_CYF=0.489, PHONE_FOV=0.8;
 // Full screen on a phone: the stage takes the screen's shape, and fixed cameras zoom so the court fills it
-function fitFull(){window.__pc=null; const tall=!isFull()&&TALL; if(!isFull()&&!tall) return; const C=camI===0&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];
+function fitFull(){window.__pc=null; const tall=!isFull()&&TALL;
+  if(contactCameraOn()&&contactMix()>.98){fitContactDetail();return;}
+  if(!isFull()&&!tall) return; const C=camI===0&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];
+  if(contactCameraOn()){FOCAL*=Math.min(VH/PHONE_VH,1.6);window.__pc=[VW/2,VH/2];return;}
   if(window.__camOverride&&!tall) return;
   const choosing=C.follow&&showTargets&&!answered;   // the lifted choosing view (and a lesson's own ask camera) fit the whole court instead
   if(tall&&(window.__camOverride||choosing)){/* court fit, below */}
@@ -517,6 +520,7 @@ function serveMix(){const sc=SC[scene]; if(!sc) return 0; const W=prep(sc)["you"
     if(t>a-40&&t<b+40) return smooth(a-40,a,t)*(1-smooth(b,b+40,t));}
   return 0;}
 function setCamera(you){
+  if(contactCameraOn()){setContactCamera(you);return;}
   if(window.__camOverride){const O=window.__camOverride, c=NARROW.matches&&O.phone?O.phone:O.c; cam={...c,tgt:[...c.tgt]}; if(NARROW.matches&&!O.phone) cam.fov*=(window.__fovScale||PHONE_FOV); return;}
   const C=camI===0&&typeof LESSON!=="undefined"&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];   // a lesson played deep behind the baseline can widen the broadcast view
   if(C.follow&&showTargets&&!answered&&!window.__camOverride){const V=NARROW.matches?{az:-90,el:44,d:40,fov:24,tgt:[0,0.2,0]}:{az:-90,el:40,d:30,fov:36,tgt:[0,0.8,0]}; cam={...V,tgt:[...V.tgt]}; return;}   // choosing: lift up so the targets can be told apart
@@ -532,6 +536,9 @@ function setCamera(you){
 
 /* ---------- lesson content ---------- */
 /* LESSON is supplied by the page */
+// Authored inspection is enabled only for these reviewed lessons. Zero preserves a comparison view.
+const CONTACT_KIND=({'contact-clue':'space','high-ball':'height','short-ball':'height'})[new URLSearchParams(location.search).get('l')];
+const CONTACT_FOCUS=!!CONTACT_KIND&&new URLSearchParams(location.search).get('contactFocus')!=='0';
 const LETTERS="ABCD", mode="daily";
 const NS=()=>LESSON.steps.length;   // 3 for a lesson; a branching point has as many reads as the path you play; a weekend point has 5
 const nT=k=>[...LETTERS].filter(X=>SC[k+X]).length;   // options with a scene (a branch node can have 2 or 3)
@@ -544,6 +551,94 @@ function endLabel(key){const ms=SC[key].marks, m=ms[ms.length-1]; if(!m)return "
 let showDots=false, step=0, scene=null, t=0, stopAt=0, onStop=null, playing=false, lastTs=null;
 let ans=[null,null,null], chosen=null, answered=false, showTargets=null, revealPattern=false, railOn=-1, done=false;
 const svg2=$("svg"), zone=$("ask");
+
+/* ---------- Contact Clue: inspect the authored evidence, not a new diagnosis ---------- */
+let contactInspection=null;
+function contactCameraOn(){return CONTACT_FOCUS&&camI===0&&!done&&step<NS()&&(CONTACT_KIND==='space'||!!contactInspection)&&!contactInspection?.missing;}
+function contactMix(){
+  if(contactInspection)return 1;
+  const sc=SC[scene],fr=sc.info.freeze;
+  if(!answered)return CALM_MOTION?(t>=fr-110?1:0):smooth(fr-145,fr-75,t);
+  // Let the selected next contact be visible, then open the court for its consequence.
+  const hits=contactsOf(sc,'you'),last=hits[hits.length-1];
+  return CALM_MOTION?(t>=last-45&&t<=last+30?1:0):smooth(last-65,last-20,t)*(1-smooth(last+12,last+55,t));
+}
+function setContactCamera(you){
+  const ph=NARROW.matches,m=contactMix(),W=ph?CAMS[0].phone:CAMS[0].c;
+  const h=you?you.pose[I.hips]:[0.4,-10.6,0.9];
+  const hit=contactInspection&&(prep(SC[scene]).you||[]).find(w=>!w.fixed&&Math.abs(w.cG-t)<2);
+  const backhand=CONTACT_KIND==='height'&&hit&&/^(bh|bv)/.test(hit.s.clip);
+  const C={az:backhand?40:-40,el:15,d:ph?5.2:4.7,fov:38,tgt:[h[0]+.3,h[1]+.1,1.02]};
+  cam={az:lerp(W.az,C.az,m),el:lerp(W.el,C.el,m),d:lerp(W.d,C.d,m),fov:lerp(W.fov,C.fov,m),tgt:lerp3(W.tgt,C.tgt,m)};
+  if(ph)cam.fov*=PHONE_FOV;
+}
+function fitContactDetail(){
+  const sc=SC[scene],you=actorAt(sc,'you',t),b=ballAt(sc,t);if(!you)return;
+  // The evidence is the hitting-side relationship. Keep upper body, hip, arm,
+  // racket and ball large; fitting the feet would shrink that evidence on a small phone.
+  const points=['hips','chest','neck','head','shoulderL','shoulderR','elbowL','elbowR','wristL','wristR','hipL','hipR'].map(k=>you.pose[I[k]]);
+  if(CONTACT_KIND==='height'&&b)points.push([b[0],b[1],0]);
+  points.push(add(you.pose[I.head],[0,0,.28]),you.rq.centre,add(you.rq.centre,[.22,0,.22]),add(you.rq.centre,[-.22,0,-.22]));if(b)points.push(b);
+  const q=points.map(toCam);if(q.some(p=>p.z<=ZNEAR))return;
+  const us=q.map(p=>p.x/p.z),vs=q.map(p=>p.y/p.z),u0=Math.min(...us),u1=Math.max(...us),v0=Math.min(...vs),v1=Math.max(...vs);
+  const top=isFull()?120:68,bottom=contactInspection?145:40,height=VH-top-bottom;
+  FOCAL=Math.min((VW-160)/(u1-u0),height/(v1-v0));
+  window.__pc=[VW/2-FOCAL*(u0+u1)/2,top+height/2+FOCAL*(v0+v1)/2];
+}
+function clearContactInspection(){
+  contactInspection=null;
+  const c=$('contactControls');if(c)c.remove();
+  $('viewer').classList.remove('inspecting');
+  const bt=$('inspectContact');if(bt)bt.setAttribute('aria-expanded','false');
+}
+function contactSample(key,sample){
+  const sc=SC[key],hits=contactsOf(sc,'you');
+  if(CONTACT_KIND==='space')return sample==='next'?hits[hits.length-1]:sc.info.freeze;
+  // The selected shot, not a later volley or the decision freeze before the ball arrives.
+  return hits.find(f=>f>=sc.info.freeze-2)??null;
+}
+function inspectContact(sample){
+  if(!CONTACT_FOCUS||!answered||done)return;
+  const S=LESSON.steps[step],compare=chosen===LETTERS[S.correct]?LETTERS[(S.correct+1)%S.opts.length]:LETTERS[S.correct];
+  const option=CONTACT_KIND==='space'||sample==='first'?chosen:compare;
+  const key=S.scene+option,sc=SC[key],frame=contactSample(key,sample),missing=frame==null;
+  clearContactInspection();
+  contactInspection={sample,key,frame:missing?sc.frames-1:frame,missing,option};camI=0;
+  run(key,contactInspection.frame,contactInspection.frame,null);setPlaying(false);
+  $('viewer').classList.add('inspecting');
+  $('inspectContact').setAttribute('aria-expanded','true');
+  const controls=document.createElement('div');controls.id='contactControls';controls.className='contact-controls';
+  controls.setAttribute('role','group');controls.setAttribute('aria-label','Compare contact positions');
+  const labels=CONTACT_KIND==='space'?['First contact','Your next ball']:['Your choice '+chosen,'Compare '+compare];
+  controls.innerHTML=`<button type="button" data-contact="first" aria-pressed="${sample==='first'}">${labels[0]}</button><button type="button" data-contact="next" aria-pressed="${sample==='next'}">${labels[1]}</button><button type="button" data-contact="outcome">Your result →</button>`;
+  if(CONTACT_KIND!=='space'){
+    controls.querySelector('[data-contact=first]').setAttribute('aria-label','Your choice '+chosen+': '+S.opts[LETTERS.indexOf(chosen)]);
+    controls.querySelector('[data-contact=next]').setAttribute('aria-label','Compare '+compare+': '+S.opts[LETTERS.indexOf(compare)]);
+  }
+  controls.querySelectorAll('button').forEach(b=>b.onclick=e=>{e.stopPropagation();if(b.dataset.contact==='outcome'){
+    clearContactInspection();const original=S.scene+chosen;
+    run(original,SC[original].info.freeze,SC[original].frames-1,null);$('inspectContact').focus({preventScroll:true});
+  }else inspectContact(b.dataset.contact);});
+  $('stage').appendChild(controls);
+  controls.querySelector(`[data-contact="${sample}"]`).focus({preventScroll:true});
+}
+function drawContactEvidence(frag,you,b){
+  if(!contactInspection||contactInspection.missing||!you||!b)return;
+  // Project actual authored points. No inferred fault classification or real-player distance threshold.
+  const hip=CONTACT_KIND==='space'?you.pose[I.hipR]:[b[0],b[1],0],a=P(hip),z=P(b);if(!a||!z)return;
+  const g=el_('g',{'data-contact-evidence':'space','aria-hidden':'true'}),col='#e9da91';
+  for(const q of [a,z])g.appendChild(el_('circle',{cx:q.s[0],cy:q.s[1],r:12,fill:'none',stroke:col,'stroke-width':2.5}));
+  const line=el_('line',{x1:a.s[0],y1:a.s[1],x2:z.s[0],y2:z.s[1],stroke:col,'stroke-width':2.5,'stroke-dasharray':'5 5'});g.appendChild(line);
+  const x=clamp((a.s[0]+z.s[0])/2,130,VW-130),y=clamp(Math.min(a.s[1],z.s[1])-42,90,VH-140);
+  g.appendChild(el_('rect',{x:x-128,y:y-24,width:256,height:38,rx:12,fill:'#08160e',stroke:col,'stroke-opacity':.5}));
+  const tx=el_('text',{x,y,'text-anchor':'middle',fill:col,'font-family':'DM Sans, sans-serif','font-size':22,'font-weight':700});tx.textContent=CONTACT_KIND==='space'?'Body-to-ball space':'Contact height';g.appendChild(tx);
+  frag.appendChild(g);
+}
+if(CONTACT_FOCUS){
+  $('viewer').classList.add('contact-focus');
+  const tag=document.createElement('div');tag.id='contactMode';tag.className='contact-mode';tag.setAttribute('role','status');$('stage').appendChild(tag);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&contactInspection){clearContactInspection();const key=LESSON.steps[step].scene+chosen;run(key,SC[key].frames-1,SC[key].frames-1,null);setPlaying(false);$('inspectContact')?.focus({preventScroll:true});}});
+}
 
 let stopTimer=null, stopGeneration=0, pendingStop=null;
 function run(key,from,stop,cb){
@@ -627,6 +722,7 @@ function cueSaved(){return myGame().some(c=>c.cue===LESSON.cue);}
 function saveCue(){try{const g=myGame(); g.push({lesson:LESSON.title,cue:LESSON.cue,saved_at:Date.now(),callback_tags:LESSON.callbackTags||[]}); localStorage.setItem(CUE_KEY,JSON.stringify(g));}catch(e){}}
 const emit=(n,d)=>{try{window.GSApp&&GSApp.emit(n,d);}catch(e){}};   // the app shell listens; standalone pages ignore it
 function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
+  clearContactInspection();
   step=i; chosen=null; answered=false; showTargets=null; revealPattern=false; showDots=false; done=false;
   $("wrapup").hidden=true; setInk("");
   if(i>=NS()){finishLesson();return;}
@@ -642,6 +738,7 @@ function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
 }
 // Play one option out. demo = watching the better option after a miss (the first answer still counts).
 function choose(i,X,demo){
+  clearContactInspection();
   const S=LESSON.steps[i];
   if(!demo&&ans[i]==null){ans[i]=X;emit('answer',{i,X,ok:LETTERS.indexOf(X)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(X))});
     if(LESSON.branch){const k=S.scene+X, nx=LESSON.nodes[k];   /* nodes are keyed by the pick that leads to them */ LESSON.steps.length=i+1; if(nx) LESSON.steps.push(nx); LESSON.finaleScene=k;}}   // your real pick decides where the point goes
@@ -676,13 +773,14 @@ function verdict(i,X,demo){
       <div class="whyp" id="whyp" hidden><p>${S.payoff}</p><p>${S.principle}</p><p>${S.why}</p></div></div>
     <div class="acts">${S.reveal?"":`<button class="alt" id="tryOther">${ok||demo?"Try another":`Watch ${corr} play out`}</button>`}
     <button class="next" id="next">${i<NS()-1?"Next decision →":LESSON.branch?"Watch your point →":"Take it to court →"}</button></div>`;
+  if(CONTACT_FOCUS){const bt=document.createElement('button');bt.id='inspectContact';bt.className='contact-inspect';bt.textContent='Inspect contact';bt.setAttribute('aria-expanded','false');bt.onclick=()=>inspectContact('first');v.querySelector('.fbh').insertBefore(bt,$('why'));}
   v.hidden=false; tallView();
   $("why").onclick=()=>{const p=$("whyp"),o=p.hidden;p.hidden=!o;$("why").setAttribute("aria-expanded",o);$("why").innerHTML=`Why? <span aria-hidden="true">${o?"–":"+"}</span>`;};
   $("next").onclick=()=>{startStep(i+1);window.scrollTo({top:0,behavior:"smooth"});};
   if(!S.reveal) $("tryOther").onclick=()=>{
     if(!ok&&!demo){choose(i,corr,true);return;}
     const key=S.reveal?S.scene:S.scene+"A", fr=SC[key].info.freeze;
-    chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
+    clearContactInspection();chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
     if(!S.reveal&&!S.noTargets) showTargets=S.scene;
     run(key,Math.max(0,fr-60),fr,enableAsk); stageInView();};
 }
@@ -701,6 +799,7 @@ function payoffHTML(p){   // Pro Lens shows open; the stroke and the drill sit i
   return `<div class="pays">${h}</div>`;
 }
 function finishLesson(){
+  clearContactInspection();
   done=true; const okA=(a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)));
   const A=ans.slice(0,NS()), n=A.filter(okA).length; emit('complete',{n});
   sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook;
@@ -723,7 +822,10 @@ function finishLesson(){
 function render(){
   const sc=SC[scene], g=t, you=actorAt(sc,"you",g), opp=actorAt(sc,"opp",g);
   setCamera(you); buildBasis(); fitFull(); fitChoosing(you,opp);
-  const frag=document.createDocumentFragment(); drawCourt(frag);
+  const detail=contactCameraOn()&&contactMix()>.98;
+  const frag=document.createDocumentFragment();
+  if(detail){frag.appendChild(el_('rect',{width:VW,height:VH,fill:'#10231e'}));}
+  else drawCourt(frag);
   // last point's reply, as evidence
   if(scene==="daily1"){const E=sc.info.evidence;for(let i=1;i<E.length;i++){if(E[i][2]<0.02&&i<E.length-1)continue;
       seg(frag,E[i-1],E[i],"rgba(240,236,227,.5)",1.4,.55);}
@@ -737,7 +839,7 @@ function render(){
       const pp=P([q[0]+Math.cos(an)*rr,q[1]+Math.sin(an)*rr*0.6,pz]); if(!pp) continue;
       frag.appendChild(el_("circle",{cx:pp.s[0].toFixed(1),cy:pp.s[1].toFixed(1),r:Math.max(0.6,FOCAL*0.018/pp.z).toFixed(1),fill:i%2?"#f3f0e2":"#b9c98a",opacity:(0.7*(1-a)).toFixed(2)}));}}
   // bounces and landings
-  for(const m of sc.marks){if(g<m.frame)continue;const age=g-m.frame, p=[m.pos[0],m.pos[1],0.006];
+  for(const m of sc.marks){if(detail||g<m.frame)continue;const age=g-m.frame, p=[m.pos[0],m.pos[1],0.006];
     const fin=m.kind==="land"||m.kind==="reply"||m.kind==="out"||m.kind==="rally"||m.kind==="contact";
     const col=m.kind==="net"||m.kind==="out"?"var(--warn)":m.kind==="reply"?"#9fb8d6":(m.kind==="rally"||m.kind==="contact")?"#f0ece3":fin?"var(--accent)":"var(--ball)";
     const txtCol=m.kind==="out"?"#f08a8a":m.kind==="reply"?"#c9d8ea":(m.kind==="rally"||m.kind==="contact")?"#f0ece3":fin?"#c8a84b":"#f0ece3";
@@ -747,7 +849,7 @@ function render(){
     const txt=revealPattern&&m.label==="SHORT MIDDLE"?"SHORT MIDDLE \u00d7"+"2":m.kind==="out"?"OUT \u00b7 "+m.label:m.label;
     if(show&&m.label&&m.kind!=="net"&&!(cueOnEarly&&!fin)) label(frag,[m.pos[0],m.pos[1],0],txt,txtCol,fin?18:15,fin?1:1-smooth(90,130,age)*(revealPattern?0:1));}
   // evidence from earlier points: faint landing rings, one label
-  if(sc.info.ghosts){let cx=0,cy=0;const G=sc.info.ghosts;
+  if(!detail&&sc.info.ghosts){let cx=0,cy=0;const G=sc.info.ghosts;
     for(const [x,y,l] of G){cx+=x/G.length;cy+=y/G.length;ring(frag,[x,y,0.006],0.22,0.17,sc.info.ghostCol||"rgba(240,236,227,.55)",1.4,.8);
       if(l&&g<=(sc.info.ghostUntil??sc.info.freeze+20)) label(frag,[x,y+(y<0?-1.0:-1.1),0],l,"rgba(240,236,227,.85)",13,.9,0);}
     if(sc.info.ghostLabel&&g<=(sc.info.ghostUntil??sc.info.freeze+20)) label(frag,[cx,cy+(cy<0?-1.4:-1.4),0],sc.info.ghostLabel,"rgba(240,236,227,.85)",14,.9,0);}
@@ -777,15 +879,15 @@ function render(){
     if(a>=1){ring(frag,[tr.to[0],tr.to[1],0.006],0.34,0.28,tr.col,2,.95);label(frag,[tr.to[0],tr.to[1],0],tr.X,tr.col,19,1,6);}}
   // depth-sorted: net, bodies, ball
   const parts=[];
-  parts.push({n:netGroup(),z:toCam([0,0,0.5]).z});
-  if(PREM()) drawCourtside(parts);
+  if(!detail)parts.push({n:netGroup(),z:toCam([0,0,0.5]).z});
+  if(PREM()&&!detail) drawCourtside(parts);
   const shadow=(a,op)=>{if(!a)return;const x=(a.pose[I.ankleL][0]+a.pose[I.ankleR][0])/2,y=(a.pose[I.ankleL][1]+a.pose[I.ankleR][1])/2;
     ring(frag,[x,y,0.004],0.38,0.3,"none",0,op,"rgba(0,0,0,.35)");};
   if(PREM()){   // the whole body's shadow on the grass, along the light
-    for(const a of [opp,you]) if(a){const sh=[], g=el_("g",{opacity:a===you?.3:.24});
+    for(const a of (detail?[you]:[opp,you])) if(a){const sh=[], g=el_("g",{opacity:a===you?.3:.24});
       drawFigure(sh,shadowPose(a.pose),null,{ghost:true,col:"#04100a",op:1,fwd:a.fwd}); for(const {n} of sh) g.appendChild(n); frag.appendChild(g);}}
   else {shadow(you,1);shadow(opp,.8);}
-  if(opp) drawFigure(parts,opp.pose,opp.rq,{kit:PREM()?OPP_PREM:OPPKIT,op:.95,fwd:opp.fwd});
+  if(opp&&!detail) drawFigure(parts,opp.pose,opp.rq,{kit:PREM()?OPP_PREM:OPPKIT,op:.95,fwd:opp.fwd});
   if(you){drawFigure(parts,you.pose,you.rq,PREM()?{kit:KIT_PREM,fwd:you.fwd,band:"#d9b24a",bandDk:"#8f7632"}:{fwd:you.fwd,band:"#e2bd4f",bandDk:"#8f7632"});
     for(const c of contactsOf(sc,"you")) if(Math.abs(g-c)<16){const W=prep(sc).you.find(w=>w.cG===c);
       for(let f=Math.max(c-14,Math.floor(g)-12);f<=Math.floor(g);f++){const a=actorAt(sc,"you",f-1),b=actorAt(sc,"you",f);
@@ -806,7 +908,7 @@ function render(){
   if(cueOn){const bb=ballAt(sc,g);
     if(bb){seg(frag,[bb[0],bb[1],0.01],bb,"var(--ball)",2,.9);seg(frag,[bb[0]-0.12,bb[1],0.01],[bb[0]+0.12,bb[1],0.01],"var(--ball)",2,.9);
       label(frag,[bb[0]+1.0,bb[1]-0.3,0],St.cues.ball,"#e8f27a",15,1,0);}}
-  if(cueOn||!playing||g<160){const hp=a=>a&&add(a.pose[I.head],[0,0,0.42]);
+  if(!detail&&(cueOn||!playing||g<160)){const hp=a=>a&&add(a.pose[I.head],[0,0,0.42]);
     if(you) label(frag,hp(you),cueOn?"YOU \u00b7 "+St.cues.you:"YOU","#c8a84b",15,.95,0);
     if(opp) label(frag,hp(opp),cueOn?"THEM \u00b7 "+St.cues.opp:"THEM","#9fb8d6",15,.95,0);}
   // timing flashes: THEIR HIT / LAND / GO
@@ -816,16 +918,18 @@ function render(){
   for(const m of sc.marks) if(m.kind==="net"&&g>=m.frame){const bp=sc.ball[m.frame]||b;if(bp){const q=P(bp);
     if(q)frag.appendChild(el_("circle",{cx:q.s[0].toFixed(1),cy:q.s[1].toFixed(1),r:(8+10*smooth(0,20,g-m.frame)).toFixed(1),fill:"none",stroke:"#e05252","stroke-width":2.2,opacity:1-0.5*smooth(0,30,g-m.frame)}));}}
   if(PREM()) lightOverlay(frag);
+  if(CONTACT_FOCUS){drawContactEvidence(frag,you,b);const m=$('contactMode');const txt=done?'':contactInspection?(CONTACT_KIND==='space'?(contactInspection.sample==='first'?'First contact · held':'Your next ball · held'):(contactInspection.missing?'No contact · ball bounces twice':'Option '+contactInspection.option+' · '+LESSON.steps[step].opts[LETTERS.indexOf(contactInspection.option)])):contactCameraOn()&&contactMix()>.95?'Contact view · look closely':'Court view · watch the result';if(m.textContent!==txt)m.textContent=txt;m.hidden=!txt;}
   svg2.replaceChildren(frag);
   {const sc2=$("scorechip"), v=sc.info.score||""; if(sc2.dataset.v!==v){sc2.dataset.v=v;sc2.hidden=!v;sc2.innerHTML=v?"YOU <b>"+v+"</b>":"";}}
   if(St&&fz!=null){const n=answered?3:[0,1,2].filter(k=>g>=fz-80+30*k).length;setRail(n);}
 }
 
 /* ---------- controls ---------- */
-$("camBtn").onclick=()=>{camI=(camI+1)%CAMS.length;toast(CAMS[camI].n);};
+$("camBtn").onclick=()=>{clearContactInspection();camI=(camI+1)%CAMS.length;toast(CAMS[camI].n);};
 $("stage").onclick=()=>{if(t<stopAt){setPlaying(!playing);}};
 $("playBtn").onclick=()=>{if(t<stopAt) setPlaying(!playing); else $("again").click();};
 $("again").onclick=()=>{
+  clearContactInspection();
   if(done){const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
   const S=LESSON.steps[step];
   if(!answered){startStep(step);return;}   // restart both reading and playback gates together

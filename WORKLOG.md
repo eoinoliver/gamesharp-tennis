@@ -1,5 +1,49 @@
 # GameSharp Tennis shared worklog
 
+## 26 October 2026 — Contact Clue visual-focus review (Codex)
+
+- Branch `codex/contact-focus-2026-10-26`, based on main `e215a4c`.
+- Eoin authorised the recommended single-lesson review prototype after examining
+  ACE Tennis Lab and SweetSpot. Scope: frame the existing Contact Clue evidence
+  clearly, reveal a body/ball-space annotation after commitment, then retain the
+  unlabelled transfer. No new stroke advice, scene data, answer or lesson rewrite.
+- Candidate uses `play.html?l=contact-clue&contactFocus=1` for comparison with the
+  unchanged default experience. No other lesson enables this treatment.
+- Build, targeted mobile/desktop/browser verification and Git review preview
+  follow. No production merge or promotion is authorised by this task.
+
+### Review candidate verified
+
+- Runtime commit `cb3a935ae13e93c6352a51a2c33c0b1adda64199`; app version
+  `b968ba3131`; PR #31. Exact initial Git Preview is
+  https://gamesharp-tennis-5g68eqh1t-eoinlynn-5978s-projects.vercel.app,
+  deployment `dpl_AGQcBiUhYgbSPJQi1PSRSGHxQvSY` (Ready, Preview).
+- `npm run check:build` passes: 97 exact release files, 96 checked imported
+  inputs, 96 hosted public files, unchanged routing. The historical manifests
+  remain unchanged; one source/four outputs have the explicit reviewed overlay.
+- Analytics 10/10; frozen full browser suite passes app flow (no FAIL markers),
+  layout 9/9, 29 Daily payoffs, Pusher, all 38 scene gates and 114 targeted
+  Contact Clue checks. Three complete targeted journeys cover 375x667, 430x932
+  with reduced motion, 1280x900, plus all 12 authored choices and opt-in isolation.
+- Main agent inspected small-phone unlabelled contact, first/next comparison and
+  navigation; independent source review found focus/reduced-motion issues which
+  were corrected before the candidate commit. No new coaching approval.
+- Hosted authenticated HTTP 238/238; all three hosted decisions, comparisons,
+  completion and cue save pass with no page errors. Preview authentication used
+  existing short-lived credentials; no protection settings changed. The first
+  unauthenticated run reached SSO and is not application verification.
+- Initial local runs exposed a missing evidence directory and a rebuild-time
+  loading timeout; frozen candidate rerun passed. Initial evidence retained.
+- CI `contracts` passed on cb3a935. This follow-up changes only this record;
+  all runtime files and the entire generated app remain byte-identical.
+- Review route appends `/play.html?l=contact-clue&contactFocus=1`; baseline omits
+  `contactFocus`. Hosted Preview may require Eoin's Vercel sign-in. Local review
+  server remains on http://127.0.0.1:8771/ with identical candidate bytes.
+- Current scope completed: one optional presentation experiment. Production
+  unchanged. Remaining: user design review, independent coaching challenge,
+  physical-phone/Safari testing and the small comprehension/delayed-transfer
+  pilot in docs/features/contact-focus.md; no learning/retention result claimed.
+
 ## 2026-10-05 — option A migration — Codex owns this task
 
 - Eoin instructed rebuild of PR #1 around Claude's option A comments.
@@ -277,3 +321,65 @@ canonical local paths and “next” steps below are historical, not current rul
 - Builders: make_lesson.py / make_short.py pack the clips the scenes use (the low backhand was missing).
 - Checks: gate passes for all three (the "wrong answer ends as a won point" notes are the line/sideline shots that land 4-5 in 10, which is the lesson); payoff passes; one-screen at 375x667 looked at. app_flow fails at "play next opens lesson 2" for every lesson, including untouched ones: a stale check after the Home changes, not this change.
 - Same PR, Eoin: "the fix to stop watching the player hitting the ball after the teachable moment has failed: the ball disappears and the stroke continues." Cause: stop_at_your_contact ends the ball at your contact, but the viewer still played the swing's last 0.5 s (window end = contact + 50 frames). Fix in the viewer (rally/lesson_body.html, endsOnYou): when the ball's last frame is your last contact and only empty frames follow, your pose freezes at contact and the ball stays on the strings. Applies to 202 endings in 38 pieces (counted over app/lessons); no other ending has a swing after the ball has gone. Checked: wrist and ball identical at contact and 40 frames later (The Line 2B); gates pass (the-line, down-the-line, saturday-point-4, midweek-point-1).
+
+## 26 October 2026 — forehand and Contact Clue truth correction (Codex)
+
+- Branch `codex/contact-focus-2026-10-26`, extending the Contact Clue review candidate.
+- Eoin reports that even the reference forehand has suspect elbow/racket rotation,
+  including in the normal app, and the first Contact Clue miss contradicts its
+  net description. Cross-reference supplied ACE/SweetSpot Alcaraz material,
+  inspect the shared motion/renderer, and trace the entire authored miss.
+- Presentation approval is not assumed. Fix demonstrable source/data/rendering
+  errors; do not manufacture a universal Alcaraz technique or call a stroke
+  perfect. Preserve the original evidence and report uncertainty honestly.
+- One writer here. No production change is implied by the investigation.
+- Confirmed source defect: `cp1` was authored as a net miss, but the original
+  scene ball continued across the net and carried a long outcome. The bounded
+  repair collides at the near net face, drops on the hitter's side, and keeps
+  the distinct `cp2` long example intact.
+- Confirmed timing defect in both Contact Clue and normal *Your Forehand Leaves
+  a Bill*: the ball reaches its authored contact one scene frame before the
+  swing pose. In `fb1A`, ball contact is frame 208 and the clip pose contact was
+  frame 209. Shifted the relevant Contact Clue swings and only the opening
+  selected forehand in the nine Forehand Bill branches where forehand is chosen
+  one 100 Hz sample earlier; racket/ball source coordinates and clip rotations
+  are unchanged.
+- Inspected Sharpen's generic `fh` contact pose and the supplied ACE and
+  SweetSpot Alcaraz videos. The source clip's grip matches the hitting wrist;
+  racket centre is 3.3 cm from its ball centre at the captured contact sample.
+  The sampled shorts use stylised 3D reconstructions; the 9-second Alcaraz
+  short carries YouTube's AI label. They support a visual sequence (turn, space,
+  racket drop, contact, finish), not validation of this generic motion or a
+  claim that it models Alcaraz. The contact motion remains illustrative pending
+  tennis-coach review; no synthetic replacement pose was made.
+- Review page: the explicit Contact Focus treatment remains opt-in. The build
+  overlay now records three source files and six release files against the
+  frozen baselines. Production was unchanged during that investigation. Subsequent GitHub build,
+  analytics and browser checks all passed on 954bc50.
+- The first broad Forehand Bill timing pass also shifted a later continuation in
+  `fb3C` and CI found a 209 m/s glide at frame 358. Narrowed the offset to the
+  opening selected forehand only; CI passed on the corrected scope (954bc50).
+
+## 26 October 2026 — expand and release contact inspection (Codex)
+
+- Eoin explicitly requests “lets build more of these and deploy all live”. This
+  authorizes this scoped batch and production release after verification,
+  superseding the older exact-preview approval procedure for this request.
+- One builder on the existing PR #31 branch. Ship Contact Clue in normal play,
+  add post-answer contact-height inspection to High Ball and Short Ball. Keep
+  their full-court decision view and authored choices, scores and motion.
+- Prior candidate 954bc50 passed all GitHub contracts, including browser checks.
+- Last-good live deployment confirmed from www alias: dpl_2RGbuRfaujjuwdyq1yrJ1YCndi2n
+  (gamesharp-tennis-r6x28sb1n-eoinlynn-5978s-projects.vercel.app), main e215a4c.
+  Auto-assignment is off; Git source and team/project match the release protocol.
+- Close inspection of the two additions confirmed the same one-sample lag.
+  Applied poseFrameOffset only to 11 High Ball and 12 Short Ball selected shots;
+  later replies/volleys and the double-bounce branch remain untouched. The held
+  racket/ball centre distance is checked under 5 cm; this is timing consistency,
+  not biomechanical certification.
+- First expanded candidate passed all 38 local scene gates and 325 focused
+  journey assertions. Visual review found that the forehand camera hid the low
+  backhand racket. Added the opposite viewing angle for held backhand contacts
+  and clarified the replay control as “Your result”. Reviewed the repaired
+  430px backhand screenshot; the ball and strings are now visible. Final checks
+  run again on this visual correction before release.
