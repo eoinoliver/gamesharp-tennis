@@ -12,7 +12,12 @@ try{
  await c.route(/https:\/\/[^/]*posthog\.com\//,r=>r.fulfill({status:200,body:'{}'}));
  await c.addInitScript(()=>{
   const AC=window.AudioContext||window.webkitAudioContext;
-  window.AudioContext=class extends AC{constructor(o){super(o);window.__audio=this;}};
+  window.__recorded=[];window.__oscillators=0;
+  window.AudioContext=class extends AC{
+   constructor(o){super(o);window.__audio=this;}
+   createOscillator(){window.__oscillators++;return super.createOscillator();}
+   createBufferSource(){const s=super.createBufferSource(),start=s.start.bind(s);s.start=(...a)=>{window.__recorded.push({duration:s.buffer?.duration,length:s.buffer?.length});return start(...a);};return s;}
+  };
  });
  const p=await c.newPage();p.on('pageerror',e=>errors.push(String(e)));
  await p.goto(base+'play.html?l=contact-clue');await p.waitForFunction(()=>window.__test);
@@ -25,10 +30,11 @@ try{
  await sound.tap();check(await p.evaluate(()=>!GSSfx.enabled()),'second touch mutes');
  await p.reload();await p.waitForFunction(()=>window.__test);check(await p.evaluate(()=>!GSSfx.enabled()),'mute persists across navigation');
  await sound.tap();await p.waitForFunction(()=>GSSfx.ready());
- await p.evaluate(()=>{window.__calls=[];for(const k of ['hit','bounce','net','applause']){const fn=GSSfx[k].bind(GSSfx);GSSfx[k]=(...a)=>{__calls.push(k);return fn(...a);};}});
+ await p.evaluate(()=>{window.__calls=[];for(const k of ['hit','bounce','applause']){const fn=GSSfx[k].bind(GSSfx);GSSfx[k]=(...a)=>{__calls.push(k);return fn(...a);};}});
  // Natural speed: do not let accelerated test playback mask the contact boundary.
  await p.locator('#again').tap();await p.waitForFunction(()=>!playing&&t===stopAt);
- check(await p.evaluate(()=>__calls.includes('hit')),'contact audible on real-time opening');
+ check(await p.evaluate(()=>__calls.includes('hit')),'contact event occurs on real-time opening');
+ check(await p.evaluate(()=>__recorded.some(s=>s.length>0&&s.duration<.2)&&__oscillators===0),'real-time contact uses decoded recordings, no oscillators');
  await p.evaluate(()=>window.__speed=12);
  const ready=()=>p.waitForFunction(()=>{const q=document.querySelector('#ask');return q&&!q.hidden&&q.classList.contains('on')&&[...document.querySelectorAll('#askOpts button')].every(b=>!b.disabled);});
  for(let i=0;i<3;i++){
@@ -84,10 +90,10 @@ try{
   report.push({lesson:l.slug,scenes:rows.length,original:rows.reduce((n,x)=>n+x.original,0),selected:rows.reduce((n,x)=>n+x.audible,0)});
  }
  writeFileSync(`${out}/${engine.name()}-catalogue.json`,JSON.stringify(report,null,2));
- // Render the actual synth offline: prove nonzero, bounded signal and finite tails.
+ // Render the actual recordings offline: prove nonzero, bounded signal and finite tails.
  const code=readFileSync('app_src/sfx.js','utf8');const mix=await c.newPage();await mix.goto(base+'?all=1');
  const levels=[];
- for(const effect of ['hit','bounce','net','applause']){
+ for(const effect of ['hit','bounce','applause']){
   const level=await mix.evaluate(async({code,effect})=>{
    const offline=new OfflineAudioContext(2,48000*2,48000);
    window.AudioContext=function(){return new Proxy(offline,{get(t,k){if(k==='state')return 'running';if(k==='resume')return ()=>Promise.resolve();const v=Reflect.get(t,k,t);return typeof v==='function'?v.bind(t):v;},set(t,k,v){t[k]=v;return true;}});};
@@ -98,6 +104,23 @@ try{
   },{code,effect});
   check(level.peak>.001&&level.peak<.9&&level.rms>0&&level.tail<.00001,effect+': nonzero audio, no clipping, silent after one second');levels.push({effect,...level});
  }
+ // A missing/cold asset must not turn into a late shot or falsely ready control.
+ const cold=await c.newPage();let release;const held=new Promise(r=>release=r);
+ await cold.route('**/audio/**',async r=>{await held;await r.continue();});
+ await cold.goto(base+'play.html?l=contact-clue');await cold.waitForFunction(()=>window.__test);
+ await cold.locator('[data-gs-sound]').tap();await cold.waitForFunction(()=>document.querySelector('[data-gs-sound]').dataset.soundState==='loading');
+ check(await cold.evaluate(()=>!GSSfx.ready()&&__recorded.length===0),'cold assets do not claim readiness or play');
+ await cold.evaluate(()=>GSSfx.hit());await cold.locator('[data-gs-sound]').tap();release();
+ await cold.waitForFunction(()=>document.querySelector('[data-gs-sound]').dataset.soundState==='off');await cold.waitForTimeout(400);
+ check(await cold.evaluate(()=>!GSSfx.enabled()&&__recorded.length===0),'cancel during download prevents delayed confirmation and contact');
+ await cold.locator('[data-gs-sound]').tap();await cold.waitForFunction(()=>GSSfx.ready());
+ check(await cold.evaluate(()=>__recorded.length===1),'re-enable plays one real confirmation');await cold.close();
+ const failed=await c.newPage();await failed.route('**/audio/**',r=>r.fulfill({status:404,body:''}));
+ await failed.goto(base+'play.html?l=contact-clue');await failed.waitForFunction(()=>window.__test);await failed.locator('[data-gs-sound]').tap();
+ await failed.waitForFunction(()=>document.querySelector('[data-gs-sound]').dataset.soundState==='error');
+ check(await failed.evaluate(()=>!GSSfx.ready()&&__recorded.length===0),'missing audio stays silent and offers retry');
+ await failed.unroute('**/audio/**');await failed.locator('[data-gs-sound]').tap();await failed.waitForFunction(()=>GSSfx.ready());
+ check(await failed.evaluate(()=>__recorded.length===1),'failed download recovers on retry');await failed.close();
  writeFileSync(`${out}/${engine.name()}-levels.json`,JSON.stringify(levels,null,2));
  check(errors.length===0,errors.join('\n'));console.log(`PASS ${engine.name()}: ${checks} sensory/navigation assertions, ${report.length} lessons, real offline audio waveforms.`);
 }finally{await browser.close();}

@@ -1,0 +1,70 @@
+{
+  "source": {
+    "app_src/sfx.js": {
+      "baseline": "a0be46c617a336b6d43a04a4a87a98095930d05ea7dc09d362874ccff947570a",
+      "candidate": "c1f1c5d18e847cc349839687a3cdf4c03a93debdd1045318b682b63606cf71b5"
+    },
+    "app_src/build.py": {
+      "baseline": "bcd7a555b0e5194a07eee6345a8eacf7d4fe5896a4ed664f730c29151342138c",
+      "candidate": "1bfbb68683296b85f6a3acd11e1b97b5593fa443585a68851d01ecfc86cdc96c"
+    },
+    "app_src/sfx.test.mjs": {
+      "baseline": null,
+      "candidate": "396da4ebe28bf1419e78002119fe11bd804f1a4448fe1475bf02a722d3047ee9"
+    },
+    "tools/sensory-browser.mjs": {
+      "baseline": null,
+      "candidate": "21631f60b43afa0fd7f3c6c8669c3cabdc9ea7910244a42efc305f9512fc25b2"
+    },
+    "app_src/audio/applause.wav": {
+      "baseline": null,
+      "candidate": "c630136761603e744ecf0e1c7708128734599e56ebed1392a12b3325ea19dd50"
+    },
+    "app_src/audio/bounce.wav": {
+      "baseline": null,
+      "candidate": "e014d94cec283daaf606aebc0a8b807df5a3da9de450e8b2af7e3cc7326d6d93"
+    },
+    "app_src/audio/contact-1.wav": {
+      "baseline": null,
+      "candidate": "a069682105cb6a9dfc193961a0b6a7fcb07fa6d180f5a80c6cd59b4daf73d7cf"
+    },
+    "app_src/audio/contact-2.wav": {
+      "baseline": null,
+      "candidate": "bc47c63bad93cb52b165f76839493b26727900a9ba8fba62a0489ad5694ce8d9"
+    }
+  },
+  "release": {
+    "app/sfx.js": {
+      "baseline": "a0be46c617a336b6d43a04a4a87a98095930d05ea7dc09d362874ccff947570a",
+      "candidate": "c1f1c5d18e847cc349839687a3cdf4c03a93debdd1045318b682b63606cf71b5"
+    },
+    "app/catalog.js": {
+      "baseline": "964fa4477e5765ee09b57f49a64dd536101556a2c817fde8fed9242ee843a1d2",
+      "candidate": "167876451662505eee9872d5155160abe970a44a770b84fc1895ea1ca359b5fa"
+    },
+    "app/index.html": {
+      "baseline": "72162a4ad34886d04335182e012b72ee3c64438c6969421bbb526fe3dee79287",
+      "candidate": "3608e4d2399d81033f61c43912821837cd4d37fd93687e59373e4a67010b44d8"
+    },
+    "app/play.html": {
+      "baseline": "fc5deddeeafa7bef973ff6547b9c6b14eed213dbb9a9b3d113b2f25745db7105",
+      "candidate": "b99fcba316322552070ce5d1b834f72fc6352e50a2694c78463f6598e795abee"
+    },
+    "app/audio/applause.wav": {
+      "baseline": null,
+      "candidate": "c630136761603e744ecf0e1c7708128734599e56ebed1392a12b3325ea19dd50"
+    },
+    "app/audio/bounce.wav": {
+      "baseline": null,
+      "candidate": "e014d94cec283daaf606aebc0a8b807df5a3da9de450e8b2af7e3cc7326d6d93"
+    },
+    "app/audio/contact-1.wav": {
+      "baseline": null,
+      "candidate": "a069682105cb6a9dfc193961a0b6a7fcb07fa6d180f5a80c6cd59b4daf73d7cf"
+    },
+    "app/audio/contact-2.wav": {
+      "baseline": null,
+      "candidate": "bc47c63bad93cb52b165f76839493b26727900a9ba8fba62a0489ad5694ce8d9"
+    }
+  }
+}

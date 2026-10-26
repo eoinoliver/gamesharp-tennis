@@ -48,6 +48,15 @@ for records, expected in [(pro['source'], source), (pro['release'], manifest)]:
     for name, hashes in records.items():
         assert expected[name] == hashes['baseline'], f'Professional payoff baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Real CC0 recordings replace synthesis; all historical fingerprints stay frozen.
+audio = json.loads((ROOT/'docs/features/recorded-audio-build.json').read_text())
+assets = {'contact-1.wav','contact-2.wav','bounce.wav','applause.wav'}
+assert set(audio['source']) == {'app_src/sfx.js','app_src/build.py','app_src/sfx.test.mjs','tools/sensory-browser.mjs'} | {f'app_src/audio/{n}' for n in assets}
+assert set(audio['release']) == {'app/sfx.js','app/catalog.js','app/index.html','app/play.html'} | {f'app/audio/{n}' for n in assets}
+for records, expected in [(audio['source'], source), (audio['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Recorded audio baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

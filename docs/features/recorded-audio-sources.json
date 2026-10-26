@@ -1,0 +1,70 @@
+{
+  "sources": {
+    "forehand": {
+      "title": "Tennis Forehand 2",
+      "creator": "jamesdrake89",
+      "page": "https://freesound.org/people/jamesdrake89/sounds/662263/",
+      "download": "https://cdn.freesound.org/previews/662/662263_4980667-hq.mp3",
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseVerified": "2026-10-26",
+      "downloadSha256": "d154e00fee6b2fa7c49c9e4a0b8625b0571f9710072cafbf4eeb5ea1fdf56d9b"
+    },
+    "grass": {
+      "title": "Tennis Bounce Ball on Grass",
+      "creator": "jamesdrake89",
+      "page": "https://freesound.org/people/jamesdrake89/sounds/662258/",
+      "download": "https://cdn.freesound.org/previews/662/662258_4980667-hq.mp3",
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseVerified": "2026-10-26",
+      "downloadSha256": "35f849793e55d4ce400373f855c72e3a214ec6c1fef30e82a4fa6eb2e2028717"
+    },
+    "claps": {
+      "title": "Voice_Crowd_Small_Expression_Applause_Stereo",
+      "creator": "Nox_Sound",
+      "page": "https://freesound.org/people/Nox_Sound/sounds/752710/",
+      "download": "https://cdn.freesound.org/previews/752/752710_9250976-hq.mp3",
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseVerified": "2026-10-26",
+      "downloadSha256": "13a196a1d1a35ba196585fc9c20575876c5048c86d57b5c6e4d7ec0292aaa3a9"
+    }
+  },
+  "adaptation": "Public HQ MP3 previews, cut then 100 Hz high-pass, 1 ms fade-in, 25 ms fade-out (180 ms applause), peak normalised, mono 44.1 kHz PCM16 WAV. No pitch shifting or synthesized layers.",
+  "cuts": [
+    {
+      "file": "app_src/audio/contact-1.wav",
+      "source": "forehand",
+      "startSeconds": 0.125,
+      "durationSeconds": 0.17,
+      "processing": "atrim=start=0.125:duration=0.17,asetpts=PTS-STARTPTS,highpass=f=100,afade=t=in:d=0.001,afade=t=out:st=0.14500000000000002:d=0.025",
+      "peak": 0.85,
+      "sha256": "a069682105cb6a9dfc193961a0b6a7fcb07fa6d180f5a80c6cd59b4daf73d7cf"
+    },
+    {
+      "file": "app_src/audio/contact-2.wav",
+      "source": "forehand",
+      "startSeconds": 0.675,
+      "durationSeconds": 0.17,
+      "processing": "atrim=start=0.675:duration=0.17,asetpts=PTS-STARTPTS,highpass=f=100,afade=t=in:d=0.001,afade=t=out:st=0.14500000000000002:d=0.025",
+      "peak": 0.85,
+      "sha256": "bc47c63bad93cb52b165f76839493b26727900a9ba8fba62a0489ad5694ce8d9"
+    },
+    {
+      "file": "app_src/audio/bounce.wav",
+      "source": "grass",
+      "startSeconds": 7.34,
+      "durationSeconds": 0.1,
+      "processing": "atrim=start=7.34:duration=0.1,asetpts=PTS-STARTPTS,highpass=f=100,afade=t=in:d=0.001,afade=t=out:st=0.07500000000000001:d=0.025",
+      "peak": 0.65,
+      "sha256": "e014d94cec283daaf606aebc0a8b807df5a3da9de450e8b2af7e3cc7326d6d93"
+    },
+    {
+      "file": "app_src/audio/applause.wav",
+      "source": "claps",
+      "startSeconds": 0.1,
+      "durationSeconds": 0.9,
+      "processing": "atrim=start=0.1:duration=0.9,asetpts=PTS-STARTPTS,highpass=f=100,afade=t=in:d=0.001,afade=t=out:st=0.72:d=0.18",
+      "peak": 0.6,
+      "sha256": "c630136761603e744ecf0e1c7708128734599e56ebed1392a12b3325ea19dd50"
+    }
+  ]
+}

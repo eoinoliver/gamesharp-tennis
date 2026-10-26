@@ -52,6 +52,9 @@ open(os.path.join(OUT, 'engine', 'engine.js'), 'w').write(engine)
 open(os.path.join(OUT, 'athlete.js'), 'w').write('/* GameSharp Sharpen athlete. Built from rally/core.js, figure.js and app_src/athlete.js. */\n(function(){\n'
     + open(os.path.join(R, 'core.js')).read() + '\n' + open(os.path.join(R, 'figure.js')).read() + '\n' + open(os.path.join(SRC, 'athlete.js')).read() + '\n})();\n')
 
+# Small self-hosted recordings participate in the version hash.
+shutil.copytree(os.path.join(SRC, 'audio'), os.path.join(OUT, 'audio'))
+
 # ---------- version (content hash) ----------
 h = hashlib.sha256()
 for dp, _, fs in sorted(os.walk(OUT)):

@@ -451,3 +451,17 @@ canonical local paths and “next” steps below are historical, not current rul
   the paid webinar or to reconstruct professional movement in our scenes.
 - Current autonomy/deploy-live instructions cover this scoped repair. Preview,
   staged-production, full verification and rollback safeguards still apply.
+
+## 26 October 2026 — recorded tennis sound (Codex)
+
+- Owner: Codex; branch `codex/recorded-tennis-audio` from main 0d456f9.
+- User rejects the synthetic sound and requests free real recordings. Source
+  original creator recordings with explicit commercial-use permission, retain
+  provenance, trim and balance them, preserve opt-in/mute/iOS routing, and verify
+  the actual audio asset path and timing before release under standing autonomy.
+- Implementation: four CC0 recordings (118 KB), bounded loading/retry, no late
+  playback, optional real contact and applause. Old net buzz removed. Existing
+  iOS route, mute, gestures and selected-event schedule preserved.
+- Candidate app 2dd4194def: 25 unit tests, 85 sensory checks in each of Chromium
+  and WebKit, 104 release / 103 public files, 109 checked inputs. Physical-device
+  listening unverified. Full release checks and hosted verification follow.

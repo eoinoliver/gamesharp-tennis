@@ -13,7 +13,9 @@ It grants no new coaching or physical-technique certification.
   Keep observed learning, saved cues and actual on-court practice distinct.
 - The existing motion data is adapted from Tennis-MoCap. Retain attribution,
   license and adaptation notices; see `THIRD_PARTY_NOTICES.md`.
-- Sound is synthesized by `app_src/sfx.js`; no legacy licensed-audio directory
-  is imported. Keep reduced-motion and sound controls coherent.
+- Sound uses the new, individually sourced CC0 recordings in `app_src/audio/`
+  (26 October 2026). See `docs/features/recorded-audio-sources.json` for provenance.
+  No legacy audio directory is imported. Keep opt-in, mute, reduced-motion and
+  sound controls coherent; never delay a contact cue until a file finishes loading.
 - New eligibility, technical advice or claims need scoped content and visual
   review; structural passing checks alone cannot approve them.
