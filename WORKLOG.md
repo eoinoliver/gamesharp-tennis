@@ -507,3 +507,13 @@ canonical local paths and “next” steps below are historical, not current rul
 - Verify real playback and reading boundaries, cancellation on replay/back,
   mobile layout and the complete catalogue. Standing autonomy/deploy-live
   authorization applies with existing Git/staged/live/rollback safeguards.
+
+## 27 October 2026 — completion voice pilot (Codex)
+
+- Owner: Codex; branch `codex/completion-voice-pilot` from current main.
+- User requests work on voice-over for completed lessons. Prepare concise,
+  lesson-specific takeaways and a small voice audition before catalog-wide audio.
+- Runway speech generation returned UNAUTHORIZED / reauthentication required;
+  browser fallback also shows a signed-out guest workspace. No audio generated.
+- Complete independent editorial and playback design work. Keep the live app
+  unchanged while recordings are unavailable; no device TTS or empty controls.

@@ -1,0 +1,143 @@
+{
+  "status": "editorial_pilot_recording_blocked",
+  "voiceDirection": "Calm, conversational courtside coach; warm, clear, unhurried; no announcer delivery or imitation of a professional player.",
+  "recommendedAuditionVoice": {
+    "provider": "Runway",
+    "preset": "James",
+    "description": "Casual Australian conversational voice; proposed, not auditioned or approved.",
+    "speed": 0.95
+  },
+  "comparisonVoice": {
+    "provider": "Runway",
+    "preset": "Paula",
+    "description": "Calm British conversational voice; use the same Short Ball line for a fair comparison."
+  },
+  "lessons": [
+    {
+      "lesson": "short-ball",
+      "title": "The Short Ball Is Not Permission",
+      "text": "The short ball isn't always the easy ball. High: go. Low: lift and come in.",
+      "courtCue": "High: go. Low: lift and come in.",
+      "sourceFields": [
+        "cue",
+        "hook"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        6,
+        10
+      ]
+    },
+    {
+      "lesson": "serve-plus-one",
+      "title": "The Serve Writes the Next Question",
+      "text": "Your serve decides what comes back. Read the reply, then use the space.",
+      "courtCue": "Serve the question. Hit the space.",
+      "sourceFields": [
+        "hook",
+        "cue"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        6,
+        10
+      ]
+    },
+    {
+      "lesson": "contact-clue",
+      "title": "Two Misses. One Clue.",
+      "text": "Different misses can share one cause. Before changing your swing, check the space first.",
+      "courtCue": "Check the space first.",
+      "sourceFields": [
+        "steps[2].principle",
+        "cue"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        6,
+        10
+      ]
+    },
+    {
+      "lesson": "earned-attack",
+      "title": "Have You Earned the Attack?",
+      "text": "See the space. Check your arrival. An open corner doesn't mean you're ready to attack.",
+      "courtCue": "See the space. Check your arrival.",
+      "sourceFields": [
+        "pro.read",
+        "cue"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        6,
+        10
+      ]
+    },
+    {
+      "lesson": "earned-defence",
+      "title": "Defence Can Change Before You Hit",
+      "text": "Need time? Buy it with height and depth. Use that time to recover.",
+      "courtCue": "Need time? Buy it with height and depth.",
+      "sourceFields": [
+        "pro.read",
+        "cue"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        6,
+        10
+      ]
+    },
+    {
+      "lesson": "earned-net",
+      "title": "Have You Earned the Net?",
+      "text": "Arrive first. Then decide whether to follow. What first volley are you setting up?",
+      "courtCue": "Arrive first. Then decide whether to follow.",
+      "sourceFields": [
+        "cue",
+        "pro.read"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        6,
+        10
+      ]
+    }
+  ],
+  "playbackPlan": {
+    "scope": "First audition six existing lessons; expand only after listening to an actual recording.",
+    "firstUse": "Offer Hear the court cue at completion only when a real recording exists. Speech requires its own explicit opt-in; current sound permission does not silently enable narration.",
+    "presentation": "Show the exact spoken words as readable text beside the existing takeaway. Keep the sourced Pro Lens available; this short line is not a substitute for it.",
+    "repetition": "One completion line, no voice on each right answer, no random praise, and no automatic repeat from replaying a point.",
+    "rewardMixRecommendation": "When spoken coaching is enabled, use the voice as the completion payoff instead of stacking it with applause. Retain the existing applause behavior when speech is off. This is a proposed listening choice, not a shipped change.",
+    "control": "A visible replay/stop action, persistent separate speech preference, and immediate stop on global mute, background or navigation. Never block Save cue or Next challenge.",
+    "loading": "Serve mastered audio from the app origin, load only after opt-in, and never play a missed completion late when a download finishes.",
+    "scoreTruth": "All six scripts are score-neutral. Any future Three good decisions line must require three accepted first answers. No claim of measured on-court improvement.",
+    "mastering": "Dry close voice, no room echo, no music or added outdoor ambience beneath speech. Preserve a natural finish, balance by perceived loudness, and check intelligibility on phone speakers before rollout."
+  },
+  "recordingQueue": [
+    {
+      "lesson": "short-ball",
+      "voice": "James",
+      "purpose": "Recommended voice audition"
+    },
+    {
+      "lesson": "short-ball",
+      "voice": "Paula",
+      "purpose": "Same-script conversational comparison"
+    }
+  ],
+  "recordingBlocker": {
+    "provider": "Runway",
+    "toolResult": "UNAUTHORIZED: reauthentication required",
+    "browserFallback": "Signed-out guest workspace",
+    "generatedAssets": 0,
+    "requiredNextAction": "Reconnect the existing Runway app; no new plugin installation required."
+  }
+}
