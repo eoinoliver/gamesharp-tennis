@@ -1,5 +1,5 @@
 {
-  "status": "three_lesson_integration_candidate",
+  "status": "three_lesson_live_beta_pilot",
   "voiceDirection": "Natural resonance, warmth and quiet confidence, without dramatic announcer delivery. Two very short, sharp sentences. Accent open. No celebrity imitation.",
   "lessons": [
     {
@@ -94,11 +94,11 @@
     }
   ],
   "playbackPlan": {
-    "scope": "First audition six existing lessons; expand only after listening to an actual recording.",
+    "scope": "Three live pilot lessons: Short Ball, Earned Defence and Recovery. Seven further scripts remain drafts.",
     "firstUse": "Offer Hear the court cue at completion only when a real recording exists. Speech requires its own explicit opt-in; current sound permission does not silently enable narration.",
-    "presentation": "Use the existing court cue as the exact spoken transcript. Add no extra recap paragraph. Keep the sourced Pro Lens available separately.",
+    "presentation": "The Remember line exactly matches the recording. The original authored saved court cue and sourced Pro Lens remain available.",
     "repetition": "One court cue at completion; no voice on each right answer or automatic repeat from replaying a point. Occasionally include one eligible short sign-off; most endings use the cue alone, and no sign-off repeats on consecutive completions.",
-    "rewardMixRecommendation": "When spoken coaching is enabled, use the voice as the completion payoff instead of stacking it with applause. Retain the existing applause behavior when speech is off. This is a proposed listening choice, not a shipped change.",
+    "rewardMixRecommendation": "Voice replaces applause on opted-in pilot completions; existing applause behavior remains when speech is off.",
     "control": "A visible replay/stop action, persistent separate speech preference, and immediate stop on global mute, background or navigation. Never block Save cue or Next challenge.",
     "loading": "Serve mastered audio from the app origin, load only after opt-in, and never play a missed completion late when a download finishes.",
     "scoreTruth": "All six scripts are score-neutral. Any future Three good decisions line must require three accepted first answers. No claim of measured on-court improvement.",
@@ -131,7 +131,7 @@
       }
     ],
     "delivery": "Same consistent conversational voice as the court cue. At most one phrase, no hype or imitation of a player. Audition natural delivery before choosing frequency or placement.",
-    "duration": "The cue alone retains its 2–4 second target; any occasional sign-off adds time and must be judged in the full ending."
+    "duration": "The cue alone retains its 2\u20134 second target; any occasional sign-off adds time and must be judged in the full ending."
   },
   "accessStatus": {
     "verifiedAt": "2026-10-27",
@@ -228,9 +228,11 @@
     ],
     "voice": "Frank",
     "speed": 0.95,
-    "status": "candidate_not_live",
+    "status": "live_beta_pilot",
     "behavior": "Hear court cue plays once without opting into future narration. A separate Auto voice control persists opt-in. Automatic cue starts only after the silent finale settles; manual replay/stop; global mute, background and navigation cancel; no late auto-play after download; voice suppresses applause only for opted-in pilot completions.",
     "transcript": "Pilot Remember text matches the recording. Original authored saved court cue and sourced Pro Lens remain available.",
-    "scope": "3 integrated pilot lessons; 7 additional editorial drafts; 38 other catalogue lessons unchanged."
-  }
+    "scope": "3 integrated pilot lessons; 7 additional editorial drafts; 38 other catalogue lessons unchanged.",
+    "releaseRecord": "docs/features/completion-voice-release.json"
+  },
+  "historicalPlanningNote": "The six-lesson list and earlier auditions below record prior drafts. Current shipped wording and scope are in integration and completion-voice-batch-ten.json."
 }

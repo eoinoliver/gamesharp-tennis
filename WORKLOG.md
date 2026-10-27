@@ -578,3 +578,15 @@ canonical local paths and “next” steps below are historical, not current rul
 - Replay review found that contact sounds could interrupt manually requested
   speech during final-point replay. Voice now holds audio priority until it
   finishes; a dedicated test verifies contacts resume afterward (38 unit tests).
+
+- Released the three optional Frank completion cues: PR 49, reviewed
+  90c72060c591dec999b226b8562716fd983e82bf, merge 7823a9bf4ac9d8b4fb92aa753d2d3783ab8abe25,
+  Production dpl_D1NJJGGWgV69RSGAsFoCE8sPnQMr, app 690b4e190e. Git preview and staged
+  Production each passed 251 hosted checks, all three journeys and 109-file
+  Resources inventory with no functions. Exact staged build promoted, then
+  live 251 checks and three journeys in both Chromium and WebKit passed.
+  Full CI passed; 38 unit tests. Auto domain assignment remains off.
+  Rollback: dpl_6cmgiFL3bhovR3QdTyd6vxfVAWoa / adaf396f61.
+  Three live pilot recordings, seven additional drafts, 38 other lessons
+  unchanged. Physical-phone listening remains unverified. Release identities
+  and evidence are in docs/features/completion-voice-release.json.

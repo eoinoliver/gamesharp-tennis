@@ -23,7 +23,11 @@ feedback on individual answers.
 - Outdoor alternatives were researched. Do not label the selected indoor club
   and hall recordings as outdoor tennis sound. Honor the actual selected clips.
 
-## Voice pilot — blocked, not shipped
+## Voice pilot — historical initial status
+
+Current status: three optional Frank endings are live in the beta. See
+[the release record](completion-voice-release.json). The following records the
+initial blocked attempt and earlier script ideas, not the current deployment.
 
 The connected voice provider returned reauthentication required on the first
 request. No audio was generated and no voice control or device TTS fallback is
