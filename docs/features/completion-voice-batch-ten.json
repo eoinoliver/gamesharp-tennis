@@ -1,0 +1,158 @@
+{
+  "status": "ten_editorial_drafts_three_audio_prototypes",
+  "voice": {
+    "preset": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "status": "Front runner; slower audition remains a listening candidate."
+  },
+  "scope": "One brief payoff at lesson completion, never after each question. These ten drafts do not replace authored teaching, existing court cues or Pro Lens.",
+  "principles": [
+    "Two short sentences; one concrete decision reminder.",
+    "Aim for roughly 2–3 seconds, allowing natural pacing; measure recordings rather than promise duration.",
+    "No praise tied to scores, applause overlap, or appended slogan on every ending.",
+    "See it. Own it. remains an occasional brand-line proposal, not the repeated learning payoff.",
+    "First listen to three contrasting sentence shapes; refine wording and delivery before recording all ten.",
+    "Then test three full completion journeys with readable matching transcript, mute, replay, background and navigation behavior before expanding.",
+    "Judge useful recall and desire to hear it again; replay counts alone do not establish learning or retention."
+  ],
+  "lessons": [
+    {
+      "lesson": "short-ball",
+      "title": "The Short Ball Is Not Permission",
+      "source": "rally/lesson_short.js",
+      "existingCourtCue": "High: go. Low: lift and come in.",
+      "text": "Check the height. Choose the shot.",
+      "basis": "Height changes whether the short ball supports a controlled drive or a lifted approach; the full lesson also checks balance and opponent position.",
+      "wordCount": 6,
+      "status": "editorial_draft",
+      "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
+    },
+    {
+      "lesson": "serve-plus-one",
+      "title": "The Serve Writes the Next Question",
+      "source": "rally/lesson_serve.js",
+      "existingCourtCue": "Serve the question. Hit the space.",
+      "text": "Plan the next ball. Read the return.",
+      "basis": "The third question explicitly overrides the planned attack when the return takes time and balance away.",
+      "wordCount": 7,
+      "status": "editorial_draft",
+      "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
+    },
+    {
+      "lesson": "contact-clue",
+      "title": "Two Misses. One Clue.",
+      "source": "rally/lesson_cp.js",
+      "existingCourtCue": "Check the space first.",
+      "text": "Check your spacing. Then choose the fix.",
+      "basis": "One miss has good spacing and needs a bigger target, so the voice must not prescribe more footwork after every miss.",
+      "wordCount": 7,
+      "status": "editorial_draft",
+      "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
+    },
+    {
+      "lesson": "earned-attack",
+      "title": "Have You Earned the Attack?",
+      "source": "rally/lesson_ea.js",
+      "existingCourtCue": "See the space. Check your arrival.",
+      "text": "See the opening. Check your arrival.",
+      "basis": "An open corner does not warrant an attack while still chasing.",
+      "wordCount": 6,
+      "status": "editorial_draft",
+      "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
+    },
+    {
+      "lesson": "earned-defence",
+      "title": "Defence Can Change Before You Hit",
+      "source": "rally/lesson_ed.js",
+      "existingCourtCue": "Need time? Buy it with height and depth.",
+      "text": "Need time? Add height and depth.",
+      "basis": "Conditional recovery cue; early arrival can also make controlled pressure available.",
+      "wordCount": 6,
+      "status": "editorial_draft",
+      "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
+    },
+    {
+      "lesson": "earned-net",
+      "title": "Have You Earned the Net?",
+      "source": "rally/lesson_en.js",
+      "existingCourtCue": "Arrive first. Then decide whether to follow.",
+      "text": "Arrive first. Then decide whether to follow.",
+      "basis": "Arrival, ball height, opponent position and approach quality inform commitment to the net.",
+      "wordCount": 7,
+      "status": "editorial_draft",
+      "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
+    },
+    {
+      "lesson": "recovery",
+      "title": "The Centre Is Not the Plan",
+      "source": "rally/lesson_rc.js",
+      "existingCourtCue": "Recover to their angles.",
+      "text": "Read their options. Recover to cover them.",
+      "basis": "Recovery depends on opponent angles and available time; patterns warrant a small adjustment, not a blind guess.",
+      "wordCount": 7,
+      "status": "editorial_draft",
+      "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
+    },
+    {
+      "lesson": "second-serve",
+      "title": "The Safe Second Serve Trap",
+      "source": "rally/lesson_sq.js",
+      "existingCourtCue": "In is only the beginning.",
+      "text": "Read the receiver. Make contact awkward.",
+      "basis": "Height works for one receiver, width for another. Avoid prescribing kick on every second serve.",
+      "wordCount": 6,
+      "status": "editorial_draft",
+      "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
+    },
+    {
+      "lesson": "middle-return",
+      "title": "The Return That Shrinks Serve +1",
+      "source": "rally/lesson_mr.js",
+      "existingCourtCue": "Deep through the middle.",
+      "text": "Under pressure? Return deep through the middle.",
+      "basis": "A stretched return benefits from depth and central margin; a soft serve with time can instead be attacked.",
+      "wordCount": 7,
+      "status": "editorial_draft",
+      "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
+    },
+    {
+      "lesson": "the-lead",
+      "title": "The Lead That Makes You Smaller",
+      "source": "rally/lesson_pp.js",
+      "existingCourtCue": "Same depth, any score.",
+      "text": "Keep your depth. Read the opponent.",
+      "basis": "Keep depth under scoreboard pressure while adapting to the opponent and the ball.",
+      "wordCount": 6,
+      "status": "editorial_draft",
+      "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
+    }
+  ],
+  "audioPrototypes": [
+    {
+      "lesson": "short-ball",
+      "taskId": "5ee9798e-a3ea-4dc2-805c-e01777f764a9",
+      "durationSeconds": 2.693515,
+      "sha256": "426913197aaea06e14d634fa04a2a4ea4cccb7c5cf026bb4122f74f287e4ecc5",
+      "status": "generated_unselected",
+      "verification": "Direct unauthenticated audio fetch and full MP3 decode passed; perceptual listening pending."
+    },
+    {
+      "lesson": "earned-defence",
+      "taskId": "64ddabc7-971d-4d89-8521-4418de1382bd",
+      "durationSeconds": 2.739955,
+      "sha256": "7412c1635d631b8f0f97b885a72ed165302df9a10c46a241e2461052e91b66e2",
+      "status": "generated_unselected",
+      "verification": "Direct unauthenticated audio fetch and full MP3 decode passed; perceptual listening pending."
+    },
+    {
+      "lesson": "recovery",
+      "taskId": "677489b8-5c5b-40fa-a532-fa3bc4e1f24c",
+      "durationSeconds": 3.018594,
+      "sha256": "67206d83d8e5a5caebb68ff12111b86bbbc24b38dbbd72c3b63035d397f3fa49",
+      "status": "generated_unselected",
+      "verification": "Direct unauthenticated audio fetch and full MP3 decode passed; perceptual listening pending."
+    }
+  ],
+  "creditsConsumed": 3
+}

@@ -94,6 +94,7 @@
 (function(){
 const A=GSApp, V="__VER__", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
+GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
 const QS=new URLSearchParams(location.search);
 /* An auto-started lesson replaced the bare Home visit, so give back/close a Home entry to return to:

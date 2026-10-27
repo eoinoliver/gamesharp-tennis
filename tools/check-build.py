@@ -81,6 +81,15 @@ for records, expected in [(sequence['source'], source), (sequence['release'], ma
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Question sequence baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Three explicit recorded completion cues; previous release hashes stay frozen.
+voice = json.loads((ROOT/'docs/features/completion-voice-build.json').read_text())
+voice_assets = {f'voice-{s}.mp3' for s in ('short-ball','earned-defence','recovery')}
+assert set(voice['source']) == {'rally/lesson_body.html','app_src/sfx.js','app_src/play_host.html','app_src/sfx.test.mjs','tools/voice-browser.mjs','tools/browser-checks.mjs'} | {f'app_src/audio/{n}' for n in voice_assets}
+assert set(voice['release']) == {'app/engine/engine.js','app/sfx.js','app/catalog.js','app/index.html','app/play.html'} | {f'app/audio/{n}' for n in voice_assets}
+for records, expected in [(voice['source'], source), (voice['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Completion voice baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

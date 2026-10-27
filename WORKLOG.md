@@ -507,3 +507,74 @@ canonical local paths and “next” steps below are historical, not current rul
 - Verify real playback and reading boundaries, cancellation on replay/back,
   mobile layout and the complete catalogue. Standing autonomy/deploy-live
   authorization applies with existing Git/staged/live/rollback safeguards.
+
+## 27 October 2026 — completion voice pilot (Codex)
+
+- Owner: Codex; branch `codex/completion-voice-pilot` from current main.
+- User requests work on voice-over for completed lessons. Prepare concise,
+  lesson-specific takeaways and a small voice audition before catalog-wide audio.
+- Runway speech generation returned UNAUTHORIZED / reauthentication required;
+  browser fallback also shows a signed-out guest workspace. No audio generated.
+- Complete independent editorial and playback design work. Keep the live app
+  unchanged while recordings are unavailable; no device TTS or empty controls.
+
+- Follow-up: user requests less text and cannot currently access Runway. Shorten
+  all six recordings to the existing court cue alone (roughly 2–4 seconds),
+  reuse that text on screen, and defer recording without further login attempts.
+
+- Follow-up: user approves occasional sign-offs and reports Runway sign-in.
+  Authentication now succeeds, but generation returns paid_plan_required;
+  workspace inspection reports Free with no available speech models and no
+  alternate workspaces. Zero recordings generated. Saved the restrained phrase
+  bank and score/context eligibility; no subscription purchase or app changes.
+
+- Voice direction updated: user wants a rich, resonant, warm voice with energy
+  and charisma; accent open, character references treated as tone not imitation.
+  Runway speech access now works. Generated Benjamin, Tom and Bernard reading
+  the same Serve Plus One cue plus occasional sign-off (6 credits total).
+  Preserved originals and gain-matched copies outside deployment; local audition
+  at http://127.0.0.1:8784/voice.html. Verified decoding, browser playback and
+  mobile layout. Listening verdict and physical-device listening remain pending.
+  No live application changes; six lesson-specific final recordings still pending.
+
+- User wants two very short sentences and further voices with resonance, less
+  drama. Generated Frank, Vincent and James saying “See it. Own it.” using steady
+  delivery, no tags/effects (3 credits). This is audition copy, not a selected
+  slogan. Preserved originals and task/hash provenance; verified unauthenticated
+  audio URLs and file decoding. Provide direct links for phone access. No live
+  app change; voice choice and perceptual listening verdict remain pending.
+
+- User selects Frank and requests a very slight slowdown. Generated identical
+  short text at 0.95 speech speed; preserved original, task ID and hash. Verified
+  direct phone-accessible MP3 response and decoding. Revised audition only; no
+  live app changes. Synthesis speed does not guarantee an exact runtime delta.
+
+- User asks for exact wording across a batch of ten and a recommendation on
+  progression. Drafted ten lesson-completion lines from actual authored steps,
+  two sentences and at most nine words each. Distinguish completion coaching
+  from per-question praise and generic branding. Generated three contrasting
+  Frank 0.95 prototypes (short-ball, defence, recovery; 3 credits); preserved
+  originals, task/hash provenance, direct mobile URLs and decode verification.
+  All ten are editorial drafts, three are audio prototypes, none deployed.
+
+## 27 October 2026 — three-lesson voice integration (Codex)
+
+- User says proceed with the recommended three complete lesson pilots. Owner:
+  Codex, existing branch codex/completion-voice-pilot / PR 49. Implement Short
+  Ball, Earned Defence and Recovery with Frank 0.95 and matching Remember text.
+- Separate persistent voice opt-in; explicit hear/replay/stop and auto preference;
+  global mute/background/navigation cancellation; no download-delayed automatic
+  speech, no per-answer voice, no applause overlap. Preserve saved authored cues.
+- Standing full-autonomy and deploy-live instructions apply. Keep Git build,
+  full CI, exact preview/staged/live verification and rollback safeguards.
+- Current live rollback baseline dpl_6cmgiFL3bhovR3QdTyd6vxfVAWoa / adaf396f61;
+  main 7fec4ae8d982ca33168b1381bb3ed2ed291c8ba1. Auto domain assignment off.
+- 37 unit tests pass; all three Chromium journeys pass, including 2/3 completion,
+  transcript, opt-in, silence during questions, replay, mute, save and next.
+  Physical-device listening remains unverified; further release evidence follows.
+- Interaction refinement: one-off Hear court cue does not silently opt into
+  future narration. Auto voice is an explicit separate choice. Existing sensory
+  audit passed; final candidate reruns both browser engines with that distinction.
+- Replay review found that contact sounds could interrupt manually requested
+  speech during final-point replay. Voice now holds audio priority until it
+  finishes; a dedicated test verifies contacts resume afterward (38 unit tests).

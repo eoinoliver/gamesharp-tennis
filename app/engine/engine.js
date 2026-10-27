@@ -883,8 +883,9 @@ function finishLesson(){
   const A=ans.slice(0,NS()), n=A.filter(okA).length; emit('complete',{n});
   sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook;
   zone.hidden=true; paintRail([]); setInk(LESSON.branch?(SC[LESSON.finaleScene].info.outcome==="won"?"You built the winner":`${n} of ${A.length} read right`):`${n} of ${NS()} read right`,false);
-  const w=$("wrapup"), p=LESSON.pro;
-  w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${LESSON.memHTML}</div>
+  const w=$("wrapup"), p=LESSON.pro, voice=window.GSSfx?.voiceInfo();
+  w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${voice?voice.text:LESSON.memHTML}</div>
+      ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
       <div class="score3">${A.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
     ${payoffHTML(p)}
     ${LESSON.cue?`<div class="cuebox"><div class="k">Your cue</div><div class="cue">${LESSON.cue}</div>
@@ -894,8 +895,20 @@ function finishLesson(){
   const sc=$("saveCue"); if(sc){if(cueSaved())sc.classList.add("on");
     sc.onclick=()=>{if(cueSaved())return; saveCue(); sc.textContent="Saved to My Game ✓"; sc.classList.add("on"); emit('cue_save',{lesson:LESSON.title,cue:LESSON.cue});};}
   $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
-  {const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null,true);}
-  if(n===NS()&&n>0)celebrate('complete',true);
+  if(voice){
+    const hear=$('hearVoice'),pref=$('voicePreference');
+    GSSfx.onVoiceChange(()=>{const s=GSSfx.voiceState();hear.disabled=!s.available;
+      hear.textContent=!s.available?'Voice unavailable':s.pending?'Loading voice — tap to cancel':s.playing?'Stop voice':s.error?'Retry court cue':'Hear court cue';
+      pref.disabled=!s.available;pref.textContent='Auto voice: '+(s.enabled?'on':'off');pref.setAttribute('aria-pressed',String(s.enabled));});
+    hear.onclick=()=>GSSfx.hearVoice();
+    pref.onclick=()=>{GSSfx.setVoice(!GSSfx.voiceState().enabled);if(GSSfx.voiceState().enabled)GSSfx.set(true);};
+  }
+  // Let the final point settle before the spoken payoff; replays never repeat it.
+  const speak=!!(voice&&GSSfx.voiceState().enabled);
+  let voiceGeneration;
+  {const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,speak?()=>{if(done&&!document.hidden&&GSSfx.voiceState().generation===voiceGeneration)GSSfx.completeVoice();}:null,true);}
+  if(voice)voiceGeneration=GSSfx.voiceState().generation;
+  if(n===NS()&&n>0)celebrate('complete',!speak);
 }
 
 /* ---------- render ---------- */

@@ -1,0 +1,236 @@
+{
+  "status": "three_lesson_integration_candidate",
+  "voiceDirection": "Natural resonance, warmth and quiet confidence, without dramatic announcer delivery. Two very short, sharp sentences. Accent open. No celebrity imitation.",
+  "lessons": [
+    {
+      "lesson": "short-ball",
+      "title": "The Short Ball Is Not Permission",
+      "text": "High: go. Low: lift and come in.",
+      "courtCue": "High: go. Low: lift and come in.",
+      "sourceFields": [
+        "cue"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        2,
+        4
+      ]
+    },
+    {
+      "lesson": "serve-plus-one",
+      "title": "The Serve Writes the Next Question",
+      "text": "Serve the question. Hit the space.",
+      "courtCue": "Serve the question. Hit the space.",
+      "sourceFields": [
+        "cue"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        2,
+        4
+      ]
+    },
+    {
+      "lesson": "contact-clue",
+      "title": "Two Misses. One Clue.",
+      "text": "Check the space first.",
+      "courtCue": "Check the space first.",
+      "sourceFields": [
+        "cue"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        2,
+        4
+      ]
+    },
+    {
+      "lesson": "earned-attack",
+      "title": "Have You Earned the Attack?",
+      "text": "See the space. Check your arrival.",
+      "courtCue": "See the space. Check your arrival.",
+      "sourceFields": [
+        "cue"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        2,
+        4
+      ]
+    },
+    {
+      "lesson": "earned-defence",
+      "title": "Defence Can Change Before You Hit",
+      "text": "Need time? Buy it with height and depth.",
+      "courtCue": "Need time? Buy it with height and depth.",
+      "sourceFields": [
+        "cue"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        2,
+        4
+      ]
+    },
+    {
+      "lesson": "earned-net",
+      "title": "Have You Earned the Net?",
+      "text": "Arrive first. Then decide whether to follow.",
+      "courtCue": "Arrive first. Then decide whether to follow.",
+      "sourceFields": [
+        "cue"
+      ],
+      "scoreEligibility": "any completed score; never on individual answers",
+      "recordingStatus": "not_generated",
+      "targetSeconds": [
+        2,
+        4
+      ]
+    }
+  ],
+  "playbackPlan": {
+    "scope": "First audition six existing lessons; expand only after listening to an actual recording.",
+    "firstUse": "Offer Hear the court cue at completion only when a real recording exists. Speech requires its own explicit opt-in; current sound permission does not silently enable narration.",
+    "presentation": "Use the existing court cue as the exact spoken transcript. Add no extra recap paragraph. Keep the sourced Pro Lens available separately.",
+    "repetition": "One court cue at completion; no voice on each right answer or automatic repeat from replaying a point. Occasionally include one eligible short sign-off; most endings use the cue alone, and no sign-off repeats on consecutive completions.",
+    "rewardMixRecommendation": "When spoken coaching is enabled, use the voice as the completion payoff instead of stacking it with applause. Retain the existing applause behavior when speech is off. This is a proposed listening choice, not a shipped change.",
+    "control": "A visible replay/stop action, persistent separate speech preference, and immediate stop on global mute, background or navigation. Never block Save cue or Next challenge.",
+    "loading": "Serve mastered audio from the app origin, load only after opt-in, and never play a missed completion late when a download finishes.",
+    "scoreTruth": "All six scripts are score-neutral. Any future Three good decisions line must require three accepted first answers. No claim of measured on-court improvement.",
+    "mastering": "Dry close voice, no room echo, no music or added outdoor ambience beneath speech. Preserve a natural finish, balance by perceived loudness, and check intelligibility on phone speakers before rollout."
+  },
+  "recordingQueue": [],
+  "occasionalSignOffs": {
+    "status": "editorial direction approved; unrecorded and not implemented",
+    "priority": "The lesson cue remains central. Sign-offs are optional, never a second recap.",
+    "phrases": [
+      {
+        "text": "Vamos!",
+        "eligibility": "Occasional perfect challenge: all three accepted first answers correct."
+      },
+      {
+        "text": "Come on!",
+        "eligibility": "Occasional perfect challenge: all three accepted first answers correct."
+      },
+      {
+        "text": "Take it to court.",
+        "eligibility": "Any completed score; preferred transfer-to-practice sign-off."
+      },
+      {
+        "text": "See you tomorrow.",
+        "eligibility": "End of session only; avoid when continuing to another beta challenge."
+      },
+      {
+        "text": "Stay GameSharp.",
+        "eligibility": "Any completed score; occasional brand sign-off."
+      }
+    ],
+    "delivery": "Same consistent conversational voice as the court cue. At most one phrase, no hype or imitation of a player. Audition natural delivery before choosing frequency or placement.",
+    "duration": "The cue alone retains its 2–4 second target; any occasional sign-off adds time and must be judged in the full ending."
+  },
+  "accessStatus": {
+    "verifiedAt": "2026-10-27",
+    "authenticated": true,
+    "speechGeneration": "confirmed by three successful recordings",
+    "creditsConsumed": 13
+  },
+  "audition": {
+    "spokenText": "Serve the question. Hit the space. Take it to court.",
+    "generationText": "[warmly] Serve the question. Hit the space. [confident] Take it to court.",
+    "model": "eleven_v3",
+    "speed": 1,
+    "listeningPage": "http://127.0.0.1:8784/voice.html",
+    "selectionStatus": "User heard the first three auditions; none was the right fit. Requested two shorter sentences and resonance with less drama.",
+    "mastering": "Audition copies gain-adjusted toward -20 LUFS; no pitch change, compression, trim, ambience or time stretch. Originals preserved locally.",
+    "verification": "All files decode; Chromium playback advances and only one clip plays at a time; WebKit playback advances after native play-button gesture. Mobile page inspected. Physical phone listening and perceptual voice/transcript review remain pending.",
+    "voices": [
+      {
+        "preset": "Benjamin",
+        "taskId": "92fd32ac-9d3d-48b3-a08e-e51b424ffe09",
+        "status": "SUCCEEDED",
+        "durationSeconds": 4.56,
+        "originalSha256": "6cc04ba19251518a088a2a3f6e25a1b77e3e53fc0b26e396d2e7a6ba16357895",
+        "auditionSha256": "fc7742c5a475ffb0520253e2b27b0167f8741bafed8721e6187d7cd9ab5a7948"
+      },
+      {
+        "preset": "Tom",
+        "taskId": "7ecece94-f78c-4ddd-b5e3-fbe9a4bd4c6e",
+        "status": "SUCCEEDED",
+        "durationSeconds": 3.68,
+        "originalSha256": "f584a81f9d345891d1c30b667ef22631396083bb59651140e808205773cc11f5",
+        "auditionSha256": "519332e8f68ee8b2ff0a2a34b88f1d47205ef331fb4067c79f25301ea8b60e89"
+      },
+      {
+        "preset": "Bernard",
+        "taskId": "c19e4c4e-ad8d-4014-b82f-d47bec9b6397",
+        "status": "SUCCEEDED",
+        "durationSeconds": 4.88,
+        "originalSha256": "73bf842d3d2c2c5e4583345283639019a5d1a0d91aa8104b47ca069b457fa292",
+        "auditionSha256": "fe0bee85923c43611940e31b420d97568cc4e5352ca9b53ffa90d84355b7c8d2"
+      }
+    ]
+  },
+  "shortAudition": {
+    "spokenText": "See it. Own it.",
+    "copyStatus": "Audition line proposed by Codex; not approved as final slogan or replacement for lesson cues.",
+    "model": "eleven_multilingual_v2",
+    "speed": 1,
+    "deliveryTags": [],
+    "voices": [
+      {
+        "preset": "Frank",
+        "taskId": "48b5ba1a-f0de-4102-87f4-0db92d8f6757",
+        "status": "SUCCEEDED",
+        "durationSeconds": 1.439637,
+        "originalSha256": "f53db1ed5bdf6cc082ee162c31512160a4c7593638a2d7dbc7503bfc4030265d"
+      },
+      {
+        "preset": "Vincent",
+        "taskId": "d0146400-84c8-482a-aafc-06a0d79f5874",
+        "status": "SUCCEEDED",
+        "durationSeconds": 1.346757,
+        "originalSha256": "ca11e5712618885c01007b17405c01ef9e4343b2d331307d8cfe3b18e43d8507"
+      },
+      {
+        "preset": "James",
+        "taskId": "6431779e-254b-4fb8-a2d8-5a9c332af705",
+        "status": "SUCCEEDED",
+        "durationSeconds": 1.253878,
+        "originalSha256": "8cd5029c6f5e4471021301a07773f0ce8517f9448e186cb98327ede9e768b341"
+      }
+    ],
+    "selectionStatus": "User selected Frank, requesting slightly slower delivery; revision uses speed 0.95.",
+    "delivery": "Direct Runway MP3 links verified without sign-in for phone access. Originals preserved locally; no effects or pitch/time changes.",
+    "creditsConsumed": 3
+  },
+  "selectedVoice": {
+    "preset": "Frank",
+    "basis": "User likes Frank and requests a very slight slowdown.",
+    "speed": 0.95,
+    "model": "eleven_multilingual_v2",
+    "spokenText": "See it. Own it.",
+    "taskId": "17d82185-97fa-4064-94bd-8a7bc38ec176",
+    "durationSeconds": 1.393197,
+    "sha256": "23df80c15877fccff80a10e29dcb86797cdc2de65e6a272defa39faa88ae9d49",
+    "status": "Revised audition generated; not yet deployed. Speed is a synthesis setting, not a guarantee of exact runtime reduction between generated takes."
+  },
+  "currentEditorialBatch": "docs/features/completion-voice-batch-ten.json",
+  "integration": {
+    "lessons": [
+      "short-ball",
+      "earned-defence",
+      "recovery"
+    ],
+    "voice": "Frank",
+    "speed": 0.95,
+    "status": "candidate_not_live",
+    "behavior": "Hear court cue plays once without opting into future narration. A separate Auto voice control persists opt-in. Automatic cue starts only after the silent finale settles; manual replay/stop; global mute, background and navigation cancel; no late auto-play after download; voice suppresses applause only for opted-in pilot completions.",
+    "transcript": "Pilot Remember text matches the recording. Original authored saved court cue and sourced Pro Lens remain available.",
+    "scope": "3 integrated pilot lessons; 7 additional editorial drafts; 38 other catalogue lessons unchanged."
+  }
+}
