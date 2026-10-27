@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-27",
+  "status": "live_fresh_challenges_default_voice",
+  "appVersion": "136cdb5034",
+  "pullRequest": "https://github.com/eoinoliver/gamesharp-tennis/pull/51",
+  "reviewedHead": "9d0afd4102e9d87758321c79956c8be67d796bf7",
+  "mergeSha": "548be10172a8032214bdc17246959a363f4d25f2",
+  "productionDeploymentId": "dpl_93kG8TFM9Mmgezrzvzv2zZ9nCjUm",
+  "productionUniqueUrl": "https://gamesharp-tennis-rmwdiw1i5-eoinlynn-5978s-projects.vercel.app",
+  "publicUrl": "https://www.gamesharptennis.com",
+  "previewDeploymentId": "dpl_3bbmbyeSxY3FGtd9jiMMRf1YZXww",
+  "rollbackDeploymentId": "dpl_D1NJJGGWgV69RSGAsFoCE8sPnQMr",
+  "rollbackAppVersion": "690b4e190e",
+  "authorization": "User requests default-on voice and fresh challenges under standing full autonomy and live deployment instructions. Git release safeguards retained.",
+  "verification": {
+    "unitTests": 43,
+    "ciRun": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/40479196113",
+    "hostedChecksPerEnvironment": 251,
+    "publicFiles": 109,
+    "functions": 0,
+    "previewAndStageJourneys": "Three complete Chromium journeys each",
+    "liveJourneys": "Three complete journeys each in Chromium and WebKit",
+    "mergeTreeMatchesReviewedTree": true,
+    "previewStageConfigEquivalent": true,
+    "projectEnvironmentVariableCount": 0,
+    "autoAssignCustomDomains": false,
+    "physicalDeviceListening": "not verified",
+    "liveFreshEntries": [
+      "serve-plus-one",
+      "short-ball",
+      "the-line"
+    ],
+    "liveAnalyticsInterceptedPerBrowser": 83,
+    "sensoryAssertions": 91,
+    "actionAssertions": 1389,
+    "readinessAssertions": 445,
+    "contactComparisonAssertions": 325,
+    "dailyLessons": 32,
+    "totalLessons": 41
+  },
+  "scope": {
+    "integratedLessons": [
+      "short-ball",
+      "earned-defence",
+      "recovery"
+    ],
+    "remainingEditorialDrafts": 7,
+    "otherCatalogueLessons": 38
+  },
+  "resources": {
+    "preview": {
+      "deploymentId": "dpl_3bbmbyeSxY3FGtd9jiMMRf1YZXww",
+      "staticAssets": 109,
+      "functions": 0,
+      "proof": "Signed-in Vercel Resources UI through Chrome extension: Static Assets 109, only static category. Exact public file manifest verified separately."
+    },
+    "stage": {
+      "deploymentId": "dpl_93kG8TFM9Mmgezrzvzv2zZ9nCjUm",
+      "staticAssets": 109,
+      "functions": 0,
+      "proof": "Signed-in Vercel Resources UI through Chrome extension after Ready: Static Assets 109, no Functions category. Exact hosted manifest verified separately."
+    }
+  },
+  "nextStep": "Expand the approved short lesson-specific completion style through the remaining seven drafted lessons, then the wider catalogue; no new recordings generated in this release.",
+  "behavior": {
+    "voiceDefault": "on unless explicitly off",
+    "masterSoundDefault": "on unless explicitly muted, with gesture gating",
+    "automaticQueue": "unseen unfinished daily lessons first; explicit revisit on exhaustion",
+    "directLinks": "exact lesson preserved",
+    "history": "browser-local; no cross-device sync; old abandoned visits not retrospectively known"
+  }
+}

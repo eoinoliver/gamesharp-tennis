@@ -592,3 +592,5 @@ canonical local paths and “next” steps below are historical, not current rul
   Git preview / staged Production / live checks. Rollback 690b4e190e,
   dpl_D1NJJGGWgV69RSGAsFoCE8sPnQMr. App-wide narration recommendation is separate
   from these two fixes; three existing recordings remain the shipped scope.
+
+- Released PR 51: head 9d0afd4102e9d87758321c79956c8be67d796bf7, merge 548be10172a8032214bdc17246959a363f4d25f2, app 136cdb5034, Production dpl_93kG8TFM9Mmgezrzvzv2zZ9nCjUm. All 43 unit tests, full catalogue CI, 251 hosted checks in each environment, resource inventories and three complete voice/freshness journeys passed. Chromium and WebKit live checks passed. Saved opt-outs preserved. Three recordings shipped, seven further drafts; browser-local history only. Rollback 690b4e190e / dpl_D1NJJGGWgV69RSGAsFoCE8sPnQMr. Exact release evidence: docs/features/fresh-challenges-release.json.

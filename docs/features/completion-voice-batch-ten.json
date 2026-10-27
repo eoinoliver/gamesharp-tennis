@@ -1,15 +1,15 @@
 {
-  "status": "ten_editorial_drafts_three_audio_prototypes",
+  "status": "three_live_beta_recordings_seven_editorial_drafts",
   "voice": {
     "preset": "Frank",
     "model": "eleven_multilingual_v2",
     "speed": 0.95,
-    "status": "Front runner; slower audition remains a listening candidate."
+    "status": "Frank at 0.95 approved for the three-lesson beta. Voice now defaults on, with saved opt-outs respected."
   },
   "scope": "One brief payoff at lesson completion, never after each question. These ten drafts do not replace authored teaching, existing court cues or Pro Lens.",
   "principles": [
     "Two short sentences; one concrete decision reminder.",
-    "Aim for roughly 2–3 seconds, allowing natural pacing; measure recordings rather than promise duration.",
+    "Aim for roughly 2\u20133 seconds, allowing natural pacing; measure recordings rather than promise duration.",
     "No praise tied to scores, applause overlap, or appended slogan on every ending.",
     "See it. Own it. remains an occasional brand-line proposal, not the repeated learning payoff.",
     "First listen to three contrasting sentence shapes; refine wording and delivery before recording all ten.",
@@ -25,7 +25,7 @@
       "text": "Check the height. Choose the shot.",
       "basis": "Height changes whether the short ball supports a controlled drive or a lifted approach; the full lesson also checks balance and opponent position.",
       "wordCount": 6,
-      "status": "editorial_draft",
+      "status": "live_beta",
       "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
     },
     {
@@ -69,7 +69,7 @@
       "text": "Need time? Add height and depth.",
       "basis": "Conditional recovery cue; early arrival can also make controlled pressure available.",
       "wordCount": 6,
-      "status": "editorial_draft",
+      "status": "live_beta",
       "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
     },
     {
@@ -91,7 +91,7 @@
       "text": "Read their options. Recover to cover them.",
       "basis": "Recovery depends on opponent angles and available time; patterns warrant a small adjustment, not a blind guess.",
       "wordCount": 7,
-      "status": "editorial_draft",
+      "status": "live_beta",
       "scoreEligibility": "Any completed score; no claim that the user answered correctly or improved on court."
     },
     {
@@ -134,7 +134,7 @@
       "taskId": "5ee9798e-a3ea-4dc2-805c-e01777f764a9",
       "durationSeconds": 2.693515,
       "sha256": "426913197aaea06e14d634fa04a2a4ea4cccb7c5cf026bb4122f74f287e4ecc5",
-      "status": "generated_unselected",
+      "status": "integrated_live_beta",
       "verification": "Direct unauthenticated audio fetch and full MP3 decode passed; perceptual listening pending."
     },
     {
@@ -142,7 +142,7 @@
       "taskId": "64ddabc7-971d-4d89-8521-4418de1382bd",
       "durationSeconds": 2.739955,
       "sha256": "7412c1635d631b8f0f97b885a72ed165302df9a10c46a241e2461052e91b66e2",
-      "status": "generated_unselected",
+      "status": "integrated_live_beta",
       "verification": "Direct unauthenticated audio fetch and full MP3 decode passed; perceptual listening pending."
     },
     {
@@ -150,7 +150,7 @@
       "taskId": "677489b8-5c5b-40fa-a532-fa3bc4e1f24c",
       "durationSeconds": 3.018594,
       "sha256": "67206d83d8e5a5caebb68ff12111b86bbbc24b38dbbd72c3b63035d397f3fa49",
-      "status": "generated_unselected",
+      "status": "integrated_live_beta",
       "verification": "Direct unauthenticated audio fetch and full MP3 decode passed; perceptual listening pending."
     }
   ],

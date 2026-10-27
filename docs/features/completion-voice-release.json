@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-27",
+  "status": "live_beta_pilot",
+  "appVersion": "690b4e190e",
+  "pullRequest": "https://github.com/eoinoliver/gamesharp-tennis/pull/49",
+  "reviewedHead": "90c72060c591dec999b226b8562716fd983e82bf",
+  "mergeSha": "7823a9bf4ac9d8b4fb92aa753d2d3783ab8abe25",
+  "productionDeploymentId": "dpl_D1NJJGGWgV69RSGAsFoCE8sPnQMr",
+  "productionUniqueUrl": "https://gamesharp-tennis-qnkiid2wk-eoinlynn-5978s-projects.vercel.app",
+  "publicUrl": "https://www.gamesharptennis.com",
+  "previewDeploymentId": "dpl_3eBu1kKhTQaUD7tycD8PxDaC5vNW",
+  "rollbackDeploymentId": "dpl_6cmgiFL3bhovR3QdTyd6vxfVAWoa",
+  "rollbackAppVersion": "adaf396f61",
+  "authorization": "Standing user instructions grant full autonomy and live deployment; latest proceed authorizes the proposed three-lesson integration. Preserve Git release safeguards.",
+  "verification": {
+    "unitTests": 38,
+    "ciRun": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/40469275479",
+    "hostedChecksPerEnvironment": 251,
+    "publicFiles": 109,
+    "functions": 0,
+    "previewAndStageJourneys": "Three complete Chromium journeys each",
+    "liveJourneys": "Three complete journeys each in Chromium and WebKit",
+    "mergeTreeMatchesReviewedTree": true,
+    "previewStageConfigEquivalent": true,
+    "projectEnvironmentVariableCount": 0,
+    "autoAssignCustomDomains": false,
+    "physicalDeviceListening": "not verified"
+  },
+  "scope": {
+    "integratedLessons": [
+      "short-ball",
+      "earned-defence",
+      "recovery"
+    ],
+    "remainingEditorialDrafts": 7,
+    "otherCatalogueLessons": 38
+  },
+  "resources": {
+    "preview": {
+      "deploymentId": "dpl_3eBu1kKhTQaUD7tycD8PxDaC5vNW",
+      "staticAssets": 109,
+      "functions": 0,
+      "proof": "Signed-in Vercel Resources UI, inspected through native Chrome; only Static Assets category present. Exact manifest verifier checks every public file."
+    },
+    "stage": {
+      "deploymentId": "dpl_D1NJJGGWgV69RSGAsFoCE8sPnQMr",
+      "staticAssets": 109,
+      "functions": 0,
+      "proof": "Signed-in Vercel Resources UI through Chrome extension: Static Assets 109 and no Functions category. Exact hosted manifest checks every public file."
+    }
+  },
+  "nextStep": "Listen to the three short endings in actual lesson context on phone speakers before recording the other seven. Judge clarity, warmth and useful cue recall; no retention or on-court improvement claim."
+}

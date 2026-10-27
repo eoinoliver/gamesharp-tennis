@@ -43,3 +43,7 @@ Desktop `Blender Tennis/` and `pose-trial-2026-09-21/` remain untouched. Their
 proposed private lab home needs Eoin's separate go. Do not import source video,
 raw motion-capture datasets, Blender binaries or experimental media into this
 public repository. Golf, PropPocket and Desktop retirement are outside this PR.
+
+## Current beta — 27 October 2026
+
+PR 51 is live: app 136cdb5034, Production dpl_93kG8TFM9Mmgezrzvzv2zZ9nCjUm, merge 548be10172a8032214bdc17246959a363f4d25f2. Voice defaults on for the three approved completion recordings, saved opt-outs remain respected. Automatic return visits advance to unseen unfinished daily lessons; explicit links retain replay access. History remains browser-local. Current user full-autonomy and deploy-live directions supersede the earlier per-version permission wording while retaining Git and verification safeguards. See docs/features/fresh-challenges-release.json.
