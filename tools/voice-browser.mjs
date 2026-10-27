@@ -30,7 +30,7 @@ try{
  for(const [index,slug] of ['short-ball','earned-defence','recovery'].entries()){
   await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);await p.waitForSelector('#loading',{state:'hidden'});
   assert.equal(await p.evaluate(()=>GS_VERSION),version);await p.evaluate(()=>window.__speed=4);
-  if(index===0)await p.locator('[data-gs-sound]').tap();
+
   for(let i=0;i<3;i++){
    await p.waitForFunction(()=>document.querySelector('#askOpts button:not(:disabled)'));
    assert.equal(await voiceCount(),0,'no voice during a question');
@@ -39,16 +39,11 @@ try{
   }
   await p.waitForSelector('#hearVoice');await p.waitForSelector('#nextDaily');
   assert.equal(await p.locator('#wrapup .mem').innerText(),await p.evaluate(()=>GSSfx.voiceInfo().text));
-  if(index===0){
-   assert.equal(await voiceCount(),0);assert.equal(await p.locator('#voicePreference').getAttribute('aria-pressed'),'false');
-   await p.locator('#hearVoice').tap();await p.waitForFunction(()=>GSSfx.voiceState().playing);
-   assert.ok(await p.evaluate(()=>__audio.filter(s=>s.duration>3.5).every(s=>s.stopped)),'manual voice stops applause');
-  }else{
-   await p.waitForFunction(()=>GSSfx.voiceState().playing);
-   assert.equal(await p.evaluate(()=>__audio.filter(s=>s.duration>3.5).length),0,'voice replaces applause');
-  }
+  await p.waitForFunction(()=>GSSfx.voiceState().playing);
+  assert.equal(await p.locator('#voicePreference').getAttribute('aria-pressed'),'true','voice defaults on');
+  assert.equal(await p.evaluate(()=>__audio.filter(s=>s.duration>3.5).length),0,'voice replaces applause');
   assert.equal(await voiceCount(),1);await p.locator('#hearVoice').tap();assert.equal(await p.evaluate(()=>GSSfx.voiceState().playing),false);
-  if(index===0){await p.locator('#voicePreference').tap();assert.equal(await p.locator('#voicePreference').getAttribute('aria-pressed'),'true');assert.equal(await voiceCount(),1,'auto opt-in itself is silent');}
+  if(index===0){await p.locator('#voicePreference').tap();assert.equal(await p.locator('#voicePreference').getAttribute('aria-pressed'),'false');await p.locator('#voicePreference').tap();assert.equal(await p.locator('#voicePreference').getAttribute('aria-pressed'),'true');assert.equal(await voiceCount(),1,'preference changes themselves are silent');}
   await p.locator('#again').tap();await p.waitForFunction(()=>!playing&&t===stopAt);assert.equal(await voiceCount(),1,'point replay does not replay speech');
   await p.locator('#hearVoice').tap();await p.waitForFunction(()=>GSSfx.voiceState().playing);
   await p.locator('[data-gs-sound]').tap();assert.equal(await p.evaluate(()=>GSSfx.voiceState().playing),false);
@@ -61,8 +56,32 @@ try{
   results.push({slug,score:n,voicePlays:await voiceCount(),matchingTranscript:true,replayAndMute:true,cueSaved:true});
   const next=await p.locator('#nextDaily').getAttribute('href');await Promise.all([p.waitForURL(u=>u.href.endsWith(next)),p.locator('#nextDaily').tap()]);
  }
+ // Preferences persist independently across navigation.
+ await p.goto(base+'play.html?l=short-ball');await p.waitForFunction(()=>window.__test);
+ await p.evaluate(()=>GSSfx.setVoice(false));await p.reload();await p.waitForFunction(()=>window.__test);
+ assert.equal(await p.evaluate(()=>GSSfx.voiceState().enabled),false,'saved voice off survives navigation');
+ await p.evaluate(()=>GSSfx.set(false));await p.reload();await p.waitForFunction(()=>window.__test);
+ await p.locator('#again').tap();assert.equal(await p.evaluate(()=>GSSfx.enabled()),false,'saved master mute survives gestures');
  await p.goto(base+'play.html?l=serve-plus-one');await p.waitForFunction(()=>window.__test);
  assert.equal(await p.evaluate(()=>GSSfx.voiceInfo()),null,'nonpilot gets no substitute');
  await p.goto(base+'?review=1');await p.waitForSelector('#main');assert.equal(errors.length,0,errors.join('\n'));
- writeFileSync(out+'/report.json',JSON.stringify({base,version,engine,results,errors,intercepted},null,2));console.log(JSON.stringify({version,engine,results,errors,intercepted}));
+ // Use only this isolated QA browser's state, never the user's browser profile.
+ await p.evaluate(()=>localStorage.removeItem('gs6'));
+ const fresh=[];
+ for(let i=0;i<3;i++){
+  if(i===2)await p.reload();else await p.goto(base);
+  await p.waitForFunction(()=>window.__test&&GSApp.S.seen?.[new URL(location.href).searchParams.get('l')]);
+  fresh.push(new URL(p.url()).searchParams.get('l'));
+ }
+ assert.equal(new Set(fresh).size,3,'return visits and bookmarked automatic entries choose unseen lessons');
+ await p.goto(base+'play.html?l='+fresh[0]);await p.waitForFunction(()=>window.__test);
+ assert.equal(new URL(p.url()).searchParams.get('l'),fresh[0],'explicit lesson links retain replay access');
+ await p.evaluate(()=>GSApp.CAT.daily.forEach(l=>GSApp.startLesson(l.slug)));
+ await p.goto(base);await p.waitForSelector('#main .today');
+ assert.ok((await p.locator('#main').textContent()).includes('Unfinished challenge'),'no unseen lessons means an explicit revisit, not automatic repetition');
+ await p.evaluate(()=>GSApp.CAT.daily.forEach(l=>GSApp.complete(l.slug,2)));
+ await p.goto(base);await p.waitForSelector('#main .today');
+ assert.ok((await p.locator('#main').textContent()).includes("You've played every lesson"),'completed catalogue never silently resets');
+ assert.equal(errors.length,0,errors.join('\n'));
+ writeFileSync(out+'/report.json',JSON.stringify({base,version,engine,results,errors,intercepted,freshEntries:fresh},null,2));console.log(JSON.stringify({version,engine,results,errors,intercepted,freshEntries:fresh}));
 }catch(e){await p.screenshot({path:out+'/failure.png',fullPage:true}).catch(()=>{});throw e;}finally{await b.close();}

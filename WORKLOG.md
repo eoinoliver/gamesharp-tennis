@@ -578,3 +578,17 @@ canonical local paths and “next” steps below are historical, not current rul
 - Replay review found that contact sounds could interrupt manually requested
   speech during final-point replay. Voice now holds audio priority until it
   finishes; a dedicated test verifies contacts resume afterward (38 unit tests).
+
+## 27 October 2026 — fresh challenges and default voice (Codex)
+
+- User likes Frank, requests voice on by default and no repeated automatic
+  questions. Own codex/fresh-challenges-voice-default. Preserve explicit voice
+  opt-out and master mute; require a browser gesture before audio playback.
+- Track encountered daily lessons separately from completion. Prefer unseen
+  uncompleted lessons on return and Next; only revisit unfinished lessons after
+  unseen lessons run out. Explicit lesson links remain available for revisiting.
+  Keep browser/device-local history honest; no account sync is claimed.
+- Standing user full-autonomy/deploy-live authorization applies. Preserve exact
+  Git preview / staged Production / live checks. Rollback 690b4e190e,
+  dpl_D1NJJGGWgV69RSGAsFoCE8sPnQMr. App-wide narration recommendation is separate
+  from these two fixes; three existing recordings remain the shipped scope.

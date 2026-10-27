@@ -90,6 +90,14 @@ for records, expected in [(voice['source'], source), (voice['release'], manifest
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Completion voice baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Fresh-entry queue and default voice; preserve all prior feature fingerprints.
+fresh = json.loads((ROOT/'docs/features/fresh-challenges-build.json').read_text())
+assert set(fresh['source']) == {'app_src/app.js','app_src/index.html','app_src/play_host.html','app_src/sfx.js','app_src/analytics.test.mjs','app_src/sfx.test.mjs','tools/sensory-browser.mjs','tools/voice-browser.mjs','gs/app_flow.mjs'}
+assert set(fresh['release']) == {'app/app.js','app/sfx.js','app/catalog.js','app/index.html','app/play.html'}
+for records, expected in [(fresh['source'], source), (fresh['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Fresh challenge baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

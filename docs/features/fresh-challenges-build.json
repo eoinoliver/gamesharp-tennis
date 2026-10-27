@@ -1,0 +1,62 @@
+{
+  "source": {
+    "app_src/app.js": {
+      "baseline": "9fce3695e6cd522ca1d5e4f3b31d88552d1bed48f8b1f75c62d9cad45bca985f",
+      "candidate": "7b10d2820bf5ac96d417d6dff067f2df538318f0b9973ce69a5521bf2b89183a"
+    },
+    "app_src/index.html": {
+      "baseline": "b1c02ac351ff37b67cb0945327c572e7f33992c40cd8ac20f005a49a37818149",
+      "candidate": "ce7cccb37f58e1117df9794309b3b0bddb61726de5d0e2684f4ab7443b69226b"
+    },
+    "app_src/play_host.html": {
+      "baseline": "3450c5838d482229c1bb32faaac5979d11dc4c7b053ef1f20ea84656314dd464",
+      "candidate": "d92fe97d711ab5644089aee5a84645a83090123904a7fdff802f8140d444e820"
+    },
+    "app_src/sfx.js": {
+      "baseline": "837672f90d713e805228b91b9b76ac6a84ef4d90560e1dc3612ded7bda1e9058",
+      "candidate": "51825e51cdf6417ee54eb6f786cc5702ff15df57b98aee3ad6b06c5eaa9d79fe"
+    },
+    "app_src/analytics.test.mjs": {
+      "baseline": "f2bf7914f7e1310ba570a70b7c636d9c001d156c0b8bcaf04c2d6b06297ea557",
+      "candidate": "1d446dca143162f23df13c6ae6a297f352192da718d774477ba755ac3fdbf314"
+    },
+    "app_src/sfx.test.mjs": {
+      "baseline": "464fa8b0717126309af4ab600e63d0feca2b3e7c95a0f70a0f3acedf9764f742",
+      "candidate": "fe87e66b64bec8b523d9cd1a5482e6c179b0090b6481a51637b761b172eb1a58"
+    },
+    "tools/sensory-browser.mjs": {
+      "baseline": "e2852ffd3bf943952f62a3a7cffff955cc3f7c6bf4f0bb12fbae58035544b03a",
+      "candidate": "5d7d381424ec8acb97966d0265fcaf6124e2d97ef60ca7dafd7f8c1f75ae26bf"
+    },
+    "tools/voice-browser.mjs": {
+      "baseline": "ba76be4da0dc877bd982b1bcc9f6124fccebe6d54a68c4b1f4755cca89c326b8",
+      "candidate": "06d91523f53c902bedd76f63e801a3a67d48958b089dd8ec0fbb333e2b656592"
+    },
+    "gs/app_flow.mjs": {
+      "baseline": "0fd8ba3f3a9476ff0d212054764a208d403084d241f4c75ed76d5b3bce90dc79",
+      "candidate": "52be15fed384e75c794bce7e3de2d360af712d307d73af50fcaec97493c2d34d"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "9fce3695e6cd522ca1d5e4f3b31d88552d1bed48f8b1f75c62d9cad45bca985f",
+      "candidate": "7b10d2820bf5ac96d417d6dff067f2df538318f0b9973ce69a5521bf2b89183a"
+    },
+    "app/sfx.js": {
+      "baseline": "837672f90d713e805228b91b9b76ac6a84ef4d90560e1dc3612ded7bda1e9058",
+      "candidate": "51825e51cdf6417ee54eb6f786cc5702ff15df57b98aee3ad6b06c5eaa9d79fe"
+    },
+    "app/catalog.js": {
+      "baseline": "6e7a0a29d602f4e24092eb835bfce1addf12d0f81c286c9da553d46bd68cdaf8",
+      "candidate": "60639d87403b3d143ffe000b950f4b8f052edbd3a40a7b5c866228c6c29407c1"
+    },
+    "app/index.html": {
+      "baseline": "79d4ad85c92a1ad33ed9f5cbb929d4d122cbebd51aaab2fd31146befc89fc977",
+      "candidate": "4b8cafdcde93e4876cb85a90dc6331648a5f70589bd208855a877c8beeb299ae"
+    },
+    "app/play.html": {
+      "baseline": "692f2a1e119e6547ec1d9d4ca5d393599e8858f4b4dcb8a4fef1eff84591079e",
+      "candidate": "4df9d8fc153d4e03aa08b2ab5e7079ef2eeb9202ba398d3218db19f319beb3c1"
+    }
+  }
+}

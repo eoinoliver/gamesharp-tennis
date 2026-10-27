@@ -17,7 +17,7 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  await p.goto(base+'?home=1'); await p.waitForSelector('#main .today');
  ok(!(await p.textContent('#main')).includes("What's your game"),'no level picker before the first lesson');
  await p.screenshot({path:out+'app_home_first.png',fullPage:true});
- const start=await p.getAttribute('.today a.btn','href'); ok(start==='play.html?l=serve-plus-one','today = lesson 1 ('+start+')');
+ const start=await p.getAttribute('.today a.btn','href'); ok(start==='play.html?l=short-ball','unseen lesson 2 replaces the abandoned lesson 1 ('+start+')');
  await p.goto(base+'play.html?l='+slug); await p.waitForFunction(()=>window.__test,null,{timeout:20000}); await p.evaluate(()=>window.__speed=8);
  await p.waitForFunction(()=>!document.getElementById('loading'),null,{timeout:2000}).catch(()=>{}); ok(!(await p.$('#loading')),'loading overlay removed (it fades out over 0.4 s)');
  const t0=Date.now();
@@ -41,12 +41,14 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  await p.click('a.home'); await p.waitForSelector('#main .today');
  const home=await p.textContent('#main'); ok(home.includes('Done today'),'home shows done today'); ok(home.includes('Next:')&&home.includes('New day in'),'home names the available next challenge separately from the daily reset');
  ok(home.includes("What's your game"),'level picker appears after the first lesson'); await p.click('[data-level=club]'); ok(!(await p.textContent('#main')).includes("What's your game"),'level saved');
- await p.goto(base); await p.waitForTimeout(800); ok(!p.url().includes('play.html'),'done today: a bare visit stays on Home'); await p.waitForSelector('#main .today');
+ await p.goto(base+'?home=1'); await p.waitForSelector('#main .today');
  ok((await p.textContent('#streak')).includes('1'),'streak chip 1');
  await p.screenshot({path:out+'app_home_done.png',fullPage:true});
  await p.click('#more'); await p.waitForURL(/short-ball/); ok(true,'play next now opens lesson 2');
+ await p.waitForFunction(()=>window.__test);
  const ev2=await p.evaluate(()=>GSApp.log().map(e=>e[1])); ok(ev2.includes('asked_more'),'asked_more logged');
  ok(ev2.filter(e=>e==='app_open').length===1,'one app_open per day');
+ await p.goto(base);await p.waitForFunction(()=>window.__test);ok(!p.url().includes('l=serve-plus-one')&&!p.url().includes('l=short-ball'),'returning to the bare site advances beyond completed and encountered lessons');
  await ctx.close();}
 
 // 2. an old-app streak from yesterday carries over
@@ -108,4 +110,4 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  await p.goto(base+'play.html?l=nope'); await p.waitForSelector('#main .today'); ok(true,'unknown lesson redirects home');
  await p.screenshot({path:out+'app_home_desk.png'}); await ctx.close();}
 
-console.log(log.join('\n')); console.log('errors',JSON.stringify(errs)); console.log(fails.length?'APP FLOW FAILED':'APP FLOW PASSED'); await b.close();
+console.log(log.join('\n')); console.log('errors',JSON.stringify(errs)); console.log(fails.length?'APP FLOW FAILED':'APP FLOW PASSED'); await b.close();if(fails.length||errs.length)process.exit(1);

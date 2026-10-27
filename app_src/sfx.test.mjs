@@ -66,13 +66,16 @@ test('muted preference survives navigation and cross-tab mute stops active voice
  assert.equal(f.api.enabled(),false);assert.ok(f.sources.every(s=>s.stopped));
 });
 
-test('first visit stays silent on ordinary interactions until explicit enable',async()=>{
+test('first visit defaults sound and voice on but creates no context before a gesture',async()=>{
  const audioSession={type:'auto'},f=fixture({stored:null,audioSession});
- for(const event of ['pointerdown','touchend','click','keydown'])f.events[event]({target:{}});
- await Promise.resolve();assert.equal(f.contexts.length,0);assert.equal(audioSession.type,'auto');
- assert.equal(f.api.enabled(),false);await f.api.set(true);
- assert.equal(f.contexts[0].sessionAtBoot,'playback','route selected before context creation');
- assert.equal(f.stored(),'1');assert.equal(f.api.ready(),true);
+ assert.equal(f.contexts.length,0);assert.equal(audioSession.type,'auto');
+ assert.equal(f.api.enabled(),true);assert.equal(f.api.voiceState().enabled,true);
+ f.events.touchend({target:{}});await f.api.unlock();
+ assert.equal(f.api.ready(),true);assert.equal(f.contexts[0].sessionAtBoot,'playback');
+ assert.equal(f.sources.length,0,'unlock itself is silent');
+});
+test('explicit voice opt-out remains off after the default changes',()=>{
+ const f=fixture({stored:null,storage:{gs_voice:'0'}});assert.equal(f.api.voiceState().enabled,false);
 });
 test('explicit sound owns playback only while enabled and visible',async()=>{
  const audioSession={type:'ambient'},f=fixture({audioSession});
@@ -157,8 +160,8 @@ test('blocked storage and malformed stored selection retain a valid rotation',as
  }
 });
 
-test('court voice requires separate opt-in; only the configured lesson is loaded',async()=>{
- const f=fixture();f.api.configureVoice('short-ball');await f.api.unlock();
+test('saved voice opt-out permits a one-off listen without enabling automatic voice',async()=>{
+ const f=fixture({storage:{gs_voice:'0'}});f.api.configureVoice('short-ball');await f.api.unlock();
  assert.equal(f.requests.length,6);assert.equal(f.api.completeVoice(),false);
  assert.equal(f.api.voiceInfo().text,'Check the height. Choose the shot.');
  assert.equal(await f.api.hearVoice(),true);assert.equal(f.requests.length,7);
@@ -173,7 +176,7 @@ test('manual court cue replaces applause and a second tap stops speech',async()=
 });
 test('pending court cue cannot play after mute, navigation, or background',async()=>{
  for(const cancel of [f=>f.api.set(false),f=>f.api.stop(),f=>{f.document.hidden=true;f.events.visibilitychange();}]){
-  const f=fixture();f.api.configureVoice('earned-defence');await f.api.unlock();let release;
+  const f=fixture({storage:{gs_voice:'0'}});f.api.configureVoice('earned-defence');await f.api.unlock();let release;
   f.holdFetch(new Promise(r=>release=r));const pending=f.api.hearVoice();await Promise.resolve();cancel(f);release();
   assert.equal(await pending,false);assert.equal(f.sources.length,0);
  }
@@ -187,7 +190,7 @@ test('automatic voice drops cold completions; cached next completion works only 
  assert.equal(f.api.completeVoice(),false);assert.equal(f.api.enabled(),true,'voice off retains court sound');
 });
 test('failed voice remains retryable without breaking contact recordings',async()=>{
- const f=fixture();f.api.configureVoice('recovery');await f.api.unlock();f.failFetch();
+ const f=fixture({storage:{gs_voice:'0'}});f.api.configureVoice('recovery');await f.api.unlock();f.failFetch();
  assert.equal(await f.api.hearVoice(),false);assert.equal(f.api.voiceState().error,true);
  assert.equal(f.api.ready(),true);f.api.hit();assert.equal(f.sources.length,1);
  f.recoverFetch();assert.equal(await f.api.hearVoice(),true);

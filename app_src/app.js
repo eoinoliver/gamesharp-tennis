@@ -53,7 +53,7 @@ let openWhere=null, foreground=!document.hidden;
 function opened(where){
   openWhere=where||openWhere;
   if(!openWhere||document.hidden) return;
-  foreground=true;
+  foreground=true;syncProgress();
   const t=today(), newDay=!S.opens.includes(t);
   if(newDay){S.opens.push(t);S.opens=S.opens.slice(-60);save(S);}
   const props={where:openWhere,returning:t!==S.first,days_away:S.opens.length>1?daysBetween(S.opens[S.opens.length-2],t):0,migrated:S.migrated||0};
@@ -73,13 +73,27 @@ const bySlug=s=>all().find(l=>l.slug===s);
 const isDaily=s=>CAT.daily.some(l=>l.slug===s);
 function streakNow(){ if(!S.last) return 0; const g=daysBetween(S.last,today()); return g<=1?S.streak:0; }
 function doneToday(){ return S.days.includes(today()); }
-function nextDaily(){ return CAT.daily.find(l=>!S.done[l.slug])||null; }
-/* today's lesson: the one finished today, else the next unplayed one */
+// Reload before choosing or saving so another tab's progress is not overwritten.
+function syncProgress(){
+  try{const latest=JSON.parse(ls.get(KEY));if(latest&&latest.v===1&&latest.id===S.id)Object.assign(S,latest);}catch(e){}
+}
+function nextDaily(){
+  syncProgress();const pending=CAT.daily.filter(l=>!S.done[l.slug]),seen=S.seen||{};
+  return pending.find(l=>!seen[l.slug])||pending.sort((a,b)=>(seen[a.slug]||0)-(seen[b.slug]||0))[0]||null;
+}
+function startLesson(slug){
+  if(!isDaily(slug))return;
+  syncProgress();S.seen||={};S.seen[slug]=Math.max(Date.now(),...Object.values(S.seen).map(Number).filter(Number.isFinite),0)+1;save(S);
+}
+/* Show exhaustion or an explicit unfinished revisit before today's completion. */
 function todays(){
+  syncProgress();
   const t=today(), f=CAT.daily.find(l=>S.done[l.slug]&&S.done[l.slug].first===t);
-  return f||nextDaily();
+  const next=nextDaily();
+  return !next||S.seen?.[next.slug]?next:f||next;
 }
 function complete(slug,n){
+  syncProgress();
   const t=today(), d=S.done[slug], firstTime=!d;
   S.done[slug]=d?Object.assign(d,{last:t,times:d.times+1,best:Math.max(d.best,n)}):{first:t,last:t,times:1,best:n,n};
   if(!S.days.includes(t)){
@@ -90,9 +104,9 @@ function complete(slug,n){
   track("lesson_complete",{lesson:slug,daily:isDaily(slug),first_time:firstTime,score:n,times:S.done[slug].times});
   if(isDaily(slug)&&firstTime&&!nextDaily()) track("content_exhausted",{});
 }
-function setLevel(v){S.level=v;save(S);track("level_set",{level:v});}
+function setLevel(v){syncProgress();S.level=v;save(S);track("level_set",{level:v});}
 function feedback(slug,useful,comment){
-  S.fb[slug]={useful,day:today()};save(S);
+  syncProgress();S.fb[slug]={useful,day:today()};save(S);
   track("feedback",Object.assign({lesson:slug,useful},comment?{comment:String(comment).slice(0,500)}:{}));
 }
 
@@ -110,6 +124,6 @@ const listeners=[];
 function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
-window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,todays,complete,setLevel,feedback,emit,on,
+window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,todays,startLesson,complete,setLevel,feedback,emit,on,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();

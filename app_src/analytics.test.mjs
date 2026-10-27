@@ -8,14 +8,14 @@ process.env.TZ="Australia/Sydney";
 const source=readFileSync(new URL("./app.js",import.meta.url),"utf8");
 const configSource=readFileSync(new URL("./config.js",import.meta.url),"utf8");
 
-function boot({origin="https://gamesharptennis.com",now="2026-09-28T00:00:00Z",storage=new Map(),hidden=false,config={},fetchError=false}={}){
+function boot({origin="https://gamesharptennis.com",now="2026-09-28T00:00:00Z",storage=new Map(),hidden=false,config={},fetchError=false,catalog={daily:[],predict:[]}}={}){
   let time=Date.parse(now);
   const requests=[],beacons=[],handlers={window:new Map(),document:new Map()};
   const on=surface=>(name,fn)=>{
     const list=handlers[surface].get(name)||[];
     list.push(fn);handlers[surface].set(name,list);
   };
-  const window={addEventListener:on("window"),GS_CATALOG:{daily:[],predict:[]},GS_VERSION:"test-build"};
+  const window={addEventListener:on("window"),GS_CATALOG:catalog,GS_VERSION:"test-build"};
   const document={hidden,addEventListener:on("document")};
   class Clock extends Date{
     constructor(...args){super(...(args.length?args:[time]));}
@@ -156,4 +156,29 @@ test("a failed capture cannot suppress the next genuine same-day foreground entr
   await new Promise(resolve=>setImmediate(resolve));
   assert.equal(b.requests.length,2);assert.equal(b.opens().length,1);
   assert.equal(b.requests[0].payload.distinct_id,b.requests[1].payload.distinct_id);
+});
+
+const queueCatalog={daily:['one','two','three'].map(slug=>({slug})),predict:[]};
+test('automatic queue favours unseen lessons without falsely completing abandoned lessons',()=>{
+ const b=boot({catalog:queueCatalog});assert.equal(b.app.nextDaily().slug,'one');
+ b.app.startLesson('one');assert.equal(b.app.nextDaily().slug,'two');assert.equal(b.app.S.done.one,undefined);
+ b.app.startLesson('two');assert.equal(b.app.nextDaily().slug,'three');
+ b.app.startLesson('three');assert.equal(b.app.nextDaily().slug,'one','oldest unfinished becomes an explicit revisit');
+ b.app.startLesson('one');assert.equal(b.app.nextDaily().slug,'two');
+});
+test('completed lessons stay out of the queue across reloads and days',()=>{
+ const b=boot({catalog:queueCatalog});b.app.startLesson('one');b.app.complete('one',2);
+ const next=boot({catalog:queueCatalog,storage:b.storage,now:'2026-09-29T00:00:00Z'});
+ assert.equal(next.app.nextDaily().slug,'two');assert.equal(next.app.S.done.one.n,2);
+ next.app.complete('two',3);next.app.complete('three',1);assert.equal(next.app.nextDaily(),null);
+});
+test('two tabs retain each others encounters, completions and preferences',()=>{
+ const storage=new Map(),a=boot({catalog:queueCatalog,storage}),b=boot({catalog:queueCatalog,storage});
+ a.app.startLesson('one');assert.equal(b.app.nextDaily().slug,'two');b.app.startLesson('two');
+ a.app.complete('one',3);b.app.setLevel('club');b.app.opened('home');
+ assert.equal(a.app.nextDaily().slug,'three');assert.equal(a.app.S.done.one.n,3);assert.ok(a.app.S.seen.two);assert.equal(a.app.S.level,'club');
+});
+test('old progress without encounter history keeps completed lessons excluded',()=>{
+ const b=boot({catalog:queueCatalog});b.app.complete('one',2);assert.equal(b.app.S.seen,undefined);
+ const next=boot({catalog:queueCatalog,storage:b.storage});assert.equal(next.app.nextDaily().slug,'two');
 });
