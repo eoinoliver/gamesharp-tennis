@@ -517,3 +517,7 @@ canonical local paths and “next” steps below are historical, not current rul
   browser fallback also shows a signed-out guest workspace. No audio generated.
 - Complete independent editorial and playback design work. Keep the live app
   unchanged while recordings are unavailable; no device TTS or empty controls.
+
+- Follow-up: user requests less text and cannot currently access Runway. Shorten
+  all six recordings to the existing court cue alone (roughly 2–4 seconds),
+  reuse that text on screen, and defer recording without further login attempts.
