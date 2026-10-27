@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 const code=readFileSync(new URL('./sfx.js',import.meta.url),'utf8');
 function fixture({stored="1",blocked=false,unsupported=false,audioSession,storage={},durations={}}={}){
@@ -195,8 +196,8 @@ test('failed voice remains retryable without breaking contact recordings',async(
  assert.equal(f.api.ready(),true);f.api.hit();assert.equal(f.sources.length,1);
  f.recoverFetch();assert.equal(await f.api.hearVoice(),true);
 });
-test('non-pilot lessons never load or offer a generic substitute',async()=>{
- const f=fixture({storage:{gs_voice:'1'}});f.api.configureVoice('serve-plus-one');await f.api.unlock();
+test('unknown lessons never load or offer a generic substitute',async()=>{
+ const f=fixture({storage:{gs_voice:'1'}});f.api.configureVoice('not-a-lesson');await f.api.unlock();
  assert.equal(f.api.voiceInfo(),null);assert.equal(await f.api.hearVoice(),false);assert.equal(f.requests.length,6);
 });
 test('cross-tab voice opt-out stops speech but retains sound preference',async()=>{
@@ -208,4 +209,20 @@ test('court contacts cannot cut across a manually replayed voice cue',async()=>{
  const f=fixture();f.api.configureVoice('short-ball');await f.api.hearVoice();
  f.api.hit();f.api.bounce();assert.equal(f.sources.length,1);
  f.sources[0].onended();f.api.hit();assert.equal(f.sources.length,2,'court sound returns after speech');
+});
+
+test('every catalogue ending has its exact reviewed recording and transcript',async()=>{
+ const rows=JSON.parse(readFileSync(new URL('../docs/features/completion-voice-catalogue.json',import.meta.url))).lessons;
+ const sources=JSON.parse(readFileSync(new URL('../docs/features/completion-voice-sources.json',import.meta.url)));
+ assert.equal(rows.length,41);assert.equal(new Set(rows.map(r=>r.lesson)).size,41);
+ for(const row of rows){
+  const f=fixture();f.api.configureVoice(row.lesson);await f.api.unlock();
+  assert.equal(f.api.voiceInfo().text,row.text,row.lesson);
+  assert.ok(f.requests.some(url=>url.startsWith('audio/voice-'+row.lesson+'.mp3?')),row.lesson);
+  const source=sources.find(s=>s.lesson===row.lesson);assert.ok(source,row.lesson);
+  assert.ok(source.durationSeconds<=5&&source.durationSeconds>1.5,row.lesson);
+  const bytes=readFileSync(new URL('../'+source.path,import.meta.url));
+  assert.equal(createHash('sha256').update(bytes).digest('hex'),source.releaseSha256,row.lesson);
+  assert.ok(bytes.length>10000,row.lesson);
+ }
 });

@@ -973,6 +973,16 @@ function payoffHTML(p){   // Pro Lens shows open; the stroke and the drill sit i
 
   return `<div class="pays">${h}</div>`;
 }
+function wireCompletionVoice(){
+  if(window.GSSfx?.voiceInfo()){
+    const hear=$('hearVoice'),pref=$('voicePreference');
+    GSSfx.onVoiceChange(()=>{const s=GSSfx.voiceState();hear.disabled=!s.available;
+      hear.textContent=!s.available?'Voice unavailable':s.pending?'Loading voice — tap to cancel':s.playing?'Stop voice':s.error?'Retry court cue':'Hear court cue';
+      pref.disabled=!s.available;pref.textContent='Auto voice: '+(s.enabled?'on':'off');pref.setAttribute('aria-pressed',String(s.enabled));});
+    hear.onclick=()=>GSSfx.hearVoice();
+    pref.onclick=()=>{GSSfx.setVoice(!GSSfx.voiceState().enabled);if(GSSfx.voiceState().enabled)GSSfx.set(true);};
+  }
+}
 function finishLesson(){
   clearContactInspection();questionCaption();
   done=true; const okA=(a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)));
@@ -991,14 +1001,7 @@ function finishLesson(){
   const sc=$("saveCue"); if(sc){if(cueSaved())sc.classList.add("on");
     sc.onclick=()=>{if(cueSaved())return; saveCue(); sc.textContent="Saved to My Game ✓"; sc.classList.add("on"); emit('cue_save',{lesson:LESSON.title,cue:LESSON.cue});};}
   $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
-  if(voice){
-    const hear=$('hearVoice'),pref=$('voicePreference');
-    GSSfx.onVoiceChange(()=>{const s=GSSfx.voiceState();hear.disabled=!s.available;
-      hear.textContent=!s.available?'Voice unavailable':s.pending?'Loading voice — tap to cancel':s.playing?'Stop voice':s.error?'Retry court cue':'Hear court cue';
-      pref.disabled=!s.available;pref.textContent='Auto voice: '+(s.enabled?'on':'off');pref.setAttribute('aria-pressed',String(s.enabled));});
-    hear.onclick=()=>GSSfx.hearVoice();
-    pref.onclick=()=>{GSSfx.setVoice(!GSSfx.voiceState().enabled);if(GSSfx.voiceState().enabled)GSSfx.set(true);};
-  }
+  wireCompletionVoice();
   // Let the final point settle before the spoken payoff; replays never repeat it.
   const speak=!!(voice&&GSSfx.voiceState().enabled);
   let voiceGeneration;
@@ -1146,7 +1149,7 @@ fitView();tallView();NARROW.addEventListener?.("change",()=>{fitView();tallView(
 
 /* ---------- Predict the Point: answer every read first, then watch the whole point ---------- */
 function setupPredict(){
-  const P=LESSON.predict, K=P.scene; let savedTrail=null, typeT=[];
+  const P=LESSON.predict, K=P.scene; let savedTrail=null, typeT=[], reviewed=false;
   let flowGeneration=0; const flowTimers=new Set();
   function later(fn,delay){const generation=flowGeneration;
     const timer=setTimeout(()=>{flowTimers.delete(timer);if(generation===flowGeneration)fn();},delay);
@@ -1169,6 +1172,7 @@ function setupPredict(){
     cancelFlow();if(window.GSSfx)GSSfx.stop();
     step=i; chosen=null; answered=false; showTargets=null; showDots=false; done=false;
     $("wrapup").hidden=true;
+    if(i===0)reviewed=false;
     if(i===3){watchPoint();return;}
     const S=LESSON.steps[i];
     $("count").textContent=`Read ${i+1} of 3`;
@@ -1193,23 +1197,34 @@ function setupPredict(){
     let k=0;
     const next=()=>{
       if(k<readAt.length){const from=k?readAt[k-1]:0; run(K,from,readAt[k],()=>{chip(k);setRail(k+1);k++;later(next,1700);});}
-      else run(K,readAt[readAt.length-1],SC[K].frames-1,()=>later(review,600));};
+      else {
+        let voiceGeneration;
+        run(K,readAt[readAt.length-1],SC[K].frames-1,()=>later(()=>review(voiceGeneration),600));
+        voiceGeneration=window.GSSfx?.voiceState().generation;
+      }};
     next();
   }
-  function review(){
-    done=true; const n=[0,1,2].filter(okAt).length; typeT.forEach(clearTimeout); emit('complete',{n});
-    // Predict withholds feedback until all reads have played; one accent for a perfect point.
-    if(n===3)celebrate('predict',true);
+  function review(voiceGeneration){
+    done=true; const n=[0,1,2].filter(okAt).length; typeT.forEach(clearTimeout);
+    const voice=window.GSSfx?.voiceInfo(), speak=!!(voice&&GSSfx.voiceState().enabled);
+    const firstReview=!reviewed;reviewed=true;
+    if(firstReview)emit('complete',{n});
+    // Narrate only the first completion, after the whole point. Respect interruptions.
+    if(firstReview&&speak&&!document.hidden&&GSSfx.voiceState().generation===voiceGeneration)GSSfx.completeVoice();
+    if(n===3)celebrate('predict',!speak);
     sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook; setInk(`${n} of 3 read right`,false);
+    // The shell adds next-challenge navigation to this ending. Preserve it on replay.
+    if(!firstReview){$("wrapup").hidden=false;return;}
     const w=$("wrapup");
-    w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${LESSON.memHTML}</div>
+    w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${voice?voice.text:LESSON.memHTML}</div>
+      ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
       <div class="score3">${ans.map((a,i)=>`<i class="${okAt(i)?"ok":"no"}"></i>`).join("")}</div></div>
       ${LESSON.steps.map((S,i)=>{const X=ans[i],ok=okAt(i);return `<div class="review"><p class="rq">Read ${i+1} · ${S.q}</p>
         <p class="ra ${ok?"ok":"no"}">${ok?"✓":"✗"} You: ${S.opts[LETTERS.indexOf(X)]}</p><p>${S.lines[X]}</p>
         ${ok?"":`<p><b>Best: ${S.opts[S.correct]}.</b> ${S.payoff}</p><button class="alt" data-watch="${i}">Watch your choice play out</button>`}</div>`;}).join("")}
       <div class="blk"><div class="k">Take it to court</div><p><b>${LESSON.tomorrow}</b></p></div>
       <button class="next" id="redo">${LESSON.redoLabel||"Play again"}</button>`;
-    w.hidden=false;
+    w.hidden=false;wireCompletionVoice();
     w.querySelectorAll("[data-watch]").forEach(bt=>bt.onclick=()=>{const i=+bt.dataset.watch,key=LESSON.steps[i].scene+ans[i],fr=SC[key].info.freeze;
       stageInView(); setInk(`Read ${i+1}: your choice`,true); run(key,Math.max(0,(SC[key].info.from||fr-60)),SC[key].frames-1,null);});
     $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();window.__trail=[];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};

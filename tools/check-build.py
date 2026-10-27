@@ -98,6 +98,17 @@ for records, expected in [(fresh['source'], source), (fresh['release'], manifest
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Fresh challenge baseline drift: {name}'
         expected[name] = hashes['candidate']
+# All 41 authored completion endings; historical overlays remain immutable.
+catalogue_voice = json.loads((ROOT/'docs/features/completion-voice-catalogue-build.json').read_text())
+voice_rows = json.loads((ROOT/'docs/features/completion-voice-catalogue.json').read_text())['lessons']
+new_voice_assets = {f"voice-{r['lesson']}.mp3" for r in voice_rows if r['status'] != 'existing_approved'}
+assert len(voice_rows) == 41 and len(new_voice_assets) == 38
+assert set(catalogue_voice['source']) == {'rally/lesson_body.html','app_src/sfx.js','app_src/sfx.test.mjs','tools/voice-browser.mjs','tools/sensory-browser.mjs','tools/browser-checks.mjs','tools/voice-catalogue-browser.mjs','docs/features/completion-voice-catalogue.json','docs/features/completion-voice-sources.json'} | {f'app_src/audio/{n}' for n in new_voice_assets}
+assert set(catalogue_voice['release']) == {'app/engine/engine.js','app/sfx.js','app/catalog.js','app/index.html','app/play.html'} | {f'app/audio/{n}' for n in new_voice_assets}
+for records, expected in [(catalogue_voice['source'], source), (catalogue_voice['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Catalogue voice baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

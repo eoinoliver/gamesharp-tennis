@@ -63,7 +63,7 @@ try{
  await p.evaluate(()=>GSSfx.set(false));await p.reload();await p.waitForFunction(()=>window.__test);
  await p.locator('#again').tap();assert.equal(await p.evaluate(()=>GSSfx.enabled()),false,'saved master mute survives gestures');
  await p.goto(base+'play.html?l=serve-plus-one');await p.waitForFunction(()=>window.__test);
- assert.equal(await p.evaluate(()=>GSSfx.voiceInfo()),null,'nonpilot gets no substitute');
+ assert.equal(await p.evaluate(()=>GSSfx.voiceInfo().text),'Plan the next ball. Read the return.','next lesson has its own recording');
  await p.goto(base+'?review=1');await p.waitForSelector('#main');assert.equal(errors.length,0,errors.join('\n'));
  // Use only this isolated QA browser's state, never the user's browser profile.
  await p.evaluate(()=>localStorage.removeItem('gs6'));

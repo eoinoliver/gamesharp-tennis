@@ -592,3 +592,17 @@ canonical local paths and “next” steps below are historical, not current rul
   Git preview / staged Production / live checks. Rollback 690b4e190e,
   dpl_D1NJJGGWgV69RSGAsFoCE8sPnQMr. App-wide narration recommendation is separate
   from these two fixes; three existing recordings remain the shipped scope.
+
+## 27 October 2026 — catalogue completion voice (Codex)
+
+- User: Proceed ambitiously after approving Frank and default-on voice. Own
+  codex/completion-voice-catalogue; expand the short completion cue to all 41
+  existing journeys, retaining the three approved recordings. New scripts are
+  grounded in authored decisions and neutral about score. Preserve mute and
+  saved opt-outs, sequencing, professional payoff and original saved cues.
+- Generate the 38 missing recordings through the authenticated Runway workspace
+  using the approved Frank/0.95 direction. Preserve source audio and provenance;
+  inspect duration, waveform, loudness and full playback journeys.
+- Standing full-autonomy/deploy-live instructions apply. Full Git preview,
+  staged Production and live safeguards remain. Rollback app 136cdb5034,
+  dpl_93kG8TFM9Mmgezrzvzv2zZ9nCjUm, main 548be10172a8032214bdc17246959a363f4d25f2.
