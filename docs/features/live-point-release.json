@@ -1,0 +1,123 @@
+{
+  "feature": "Movement-led Live Point beta",
+  "app_version": "bcaab23b1a",
+  "candidate_commit": "6c1c1d1a9715eeb588a936ea2526915af1a534be",
+  "pull_request": 55,
+  "project": "gamesharp-tennis",
+  "preview": {
+    "id": "dpl_HD2uUmA3MveTNWFxKVgsN47YsJp3",
+    "url": "https://gamesharp-tennis-q759tnge0-eoinlynn-5978s-projects.vercel.app",
+    "static_assets": 151,
+    "functions": 0
+  },
+  "rollback": {
+    "app_version": "61678680f2",
+    "id": "dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX",
+    "url": "https://gamesharp-tennis-92l59dzaw-eoinlynn-5978s-projects.vercel.app",
+    "merge": "72018a03b2fc42526e5bab74d5d0a8f8ec855ea3"
+  },
+  "scope": {
+    "new_journeys": 2,
+    "total_journeys": 43,
+    "authored_routes": 8,
+    "withheld_new_journeys": 0,
+    "new_voice_recordings": 1
+  },
+  "verification": {
+    "unit_tests": 47,
+    "live_point_checks_per_engine": 447,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "widths": [
+      375,
+      820,
+      1280
+    ],
+    "build_release_files": 152,
+    "public_files": 151,
+    "source_test_inputs": 173,
+    "home_calendar_day_eligibility": "passed",
+    "local_regression_note": "Earlier full local run encountered a timeout at app_flow during parallel verification. Isolated final app_flow and WebKit reruns passed. Final full CI passed all release checks.",
+    "github_ci": {
+      "run": 40497899141,
+      "status": "success",
+      "complete_catalogue_journeys": 43,
+      "question_action_assertions": 1449,
+      "questions": 141,
+      "readiness_checks": 445,
+      "sensory_checks": 93,
+      "contact_review_checks": 325
+    },
+    "preview_http": {
+      "passed": 293,
+      "total": 293,
+      "transport_timeout_retries": 42
+    },
+    "staged_http": {
+      "passed": 293,
+      "total": 293
+    },
+    "preview_complete_journeys": 5,
+    "staged_complete_journeys": 5,
+    "configuration_equivalence": {
+      "preview": "dpl_HD2uUmA3MveTNWFxKVgsN47YsJp3",
+      "production": "dpl_9rfGigZibdqHUfpTW24UMLgsHUCt",
+      "matches": {
+        "installCommand": true,
+        "buildCommand": true,
+        "outputDirectory": true,
+        "nodeVersion": true,
+        "vercelConfig": true
+      },
+      "env_count": 0,
+      "rootDirectory": null,
+      "framework": null,
+      "resources": {
+        "preview_static_assets": 151,
+        "production_static_assets": 151,
+        "functions": 0,
+        "basis": "Authenticated Vercel Resources UI inspected for both exact deployments; full public-manifest requests verify paths and content."
+      },
+      "explained_differences": [
+        "Git ref: task branch versus main merge with identical Git tree",
+        "Environment: preview versus staged production",
+        "Deployment identity and platform Preview feedback suffix"
+      ]
+    },
+    "live_http": {
+      "passed": 293,
+      "total": 293
+    },
+    "live_complete_journeys": {
+      "chromium": 5,
+      "webkit": 2
+    },
+    "production_target_verified": true,
+    "automatic_domain_assignment": false,
+    "apex_redirect": "307 to https://www.gamesharptennis.com/"
+  },
+  "limitations": [
+    "No physical iPhone/iPad listening verification",
+    "No independent coach certification",
+    "Browser-local history only",
+    "Changed wing is a narrow recognition probe, not proof of on-court transfer"
+  ],
+  "next_evidence": [
+    "Observe whether beta players can explain the recovery choice in their own words",
+    "Review later-day first responses separately from same-day variation practice and retries",
+    "Compare completion, voluntary cue saves, next-day return and qualitative usefulness before adding scenarios",
+    "Next contrasting scenario should permit pressure from a balanced early arrival, avoiding a learned always-high rule"
+  ],
+  "released_at_utc": "2026-10-27T12:07:44.306703+00:00",
+  "merge_commit": "e80d1adc9b44ea41a63d8356fec3e578d099d4cb",
+  "git_tree": "d935df1bd8238107830657ce78977134e104913b",
+  "production": {
+    "id": "dpl_9rfGigZibdqHUfpTW24UMLgsHUCt",
+    "url": "https://gamesharp-tennis-m5c5ph29t-eoinlynn-5978s-projects.vercel.app",
+    "domain": "https://www.gamesharptennis.com",
+    "promoted_without_rebuild": true
+  },
+  "authorization": "Standing user full-autonomy and deploy-live directions, reaffirmed by proceed ambitiously and judiciously; per PROJECT_ALIGNMENT.md"
+}
