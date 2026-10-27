@@ -74,6 +74,7 @@ async function journey(row,index){
   await p.locator('#again').tap();
   if(evidence.predict)await p.waitForSelector('#wrapup:not([hidden]) #hearVoice');else await p.waitForFunction(()=>!playing&&t===stopAt);
   assert.equal(await voiceCount(),1,'point replay never repeats cue');
+  await p.waitForSelector('#wrapup:not([hidden]) #nextDaily');
   assert.equal(await p.evaluate(()=>GSApp.S.done[new URL(location).searchParams.get('l')].n),evidence.score,'replay preserves score');
   await p.locator('#hearVoice').tap();await p.waitForFunction(()=>GSSfx.voiceState().playing);
   assert.equal(await voiceCount(),2,'manual replay available');

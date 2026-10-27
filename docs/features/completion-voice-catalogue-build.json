@@ -2,7 +2,7 @@
   "source": {
     "rally/lesson_body.html": {
       "baseline": "5d38921d6aeeeb388c670c4d885ee3382115a0d2ca87a6cb2201fbe8a4b8248e",
-      "candidate": "9069fd55570311d9f76f393aceca4ad66605fcc44cea53711e883ecd14ad5d72"
+      "candidate": "8c0f0df035cff4e07c84c03ad1dfa76234e956db3132dd627afbac03d0abb56c"
     },
     "app_src/sfx.js": {
       "baseline": "51825e51cdf6417ee54eb6f786cc5702ff15df57b98aee3ad6b06c5eaa9d79fe",
@@ -26,7 +26,7 @@
     },
     "tools/voice-catalogue-browser.mjs": {
       "baseline": null,
-      "candidate": "a2bb24f7c7822cb6dc99a699732a63e7d7f724238e99cd02b2bb4019c9e0d935"
+      "candidate": "7c9608253565e786aa0fcef54fc8adc96ec878db0037f204f873e053f93c9b53"
     },
     "docs/features/completion-voice-catalogue.json": {
       "baseline": null,
@@ -192,7 +192,7 @@
   "release": {
     "app/engine/engine.js": {
       "baseline": "686762ac8c66dea58083285bf851711f2d419d8e277273ad86615d8190f7f325",
-      "candidate": "97df97ebb0e05cdf9addc96b412c0dbb7664dbcff0853d574b1fdd698617cbd7"
+      "candidate": "28b3fdbde0bd3ebd207d2d93fe3ab9d460f7a200a634f602e29e2723cfb27a89"
     },
     "app/sfx.js": {
       "baseline": "51825e51cdf6417ee54eb6f786cc5702ff15df57b98aee3ad6b06c5eaa9d79fe",
@@ -200,15 +200,15 @@
     },
     "app/catalog.js": {
       "baseline": "60639d87403b3d143ffe000b950f4b8f052edbd3a40a7b5c866228c6c29407c1",
-      "candidate": "a86e3f693761fc3238dea49a8b3be8fc6a853e751c3f09ac615f9c210b0cb3ba"
+      "candidate": "fc897f07e4fbc3574aa47f676bfd020c8c82bfa9eeb2325b106a81408d42a77e"
     },
     "app/index.html": {
       "baseline": "4b8cafdcde93e4876cb85a90dc6331648a5f70589bd208855a877c8beeb299ae",
-      "candidate": "d257d1f6283f571569b6efad1ee28b5665c5dd3bc5a25f505927e2abadad6f63"
+      "candidate": "fa6ebb4f64f69774f4d89ee63bd6931b2875d8c8687a87230532a009dd5363ec"
     },
     "app/play.html": {
       "baseline": "4df9d8fc153d4e03aa08b2ab5e7079ef2eeb9202ba398d3218db19f319beb3c1",
-      "candidate": "3503a78eb697d017c4c7adaa639d3d7397211f26dbfcd63815edbbea165dd398"
+      "candidate": "3b221602cdde1fd7683f8b442e57637d94eeefd77b4c3b96709edc94efdab72f"
     },
     "app/audio/voice-serve-plus-one.mp3": {
       "baseline": null,

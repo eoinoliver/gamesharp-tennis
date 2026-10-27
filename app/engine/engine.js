@@ -1117,6 +1117,8 @@ function setupPredict(){
     if(firstReview&&speak&&!document.hidden&&GSSfx.voiceState().generation===voiceGeneration)GSSfx.completeVoice();
     if(n===3)celebrate('predict',!speak);
     sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook; setInk(`${n} of 3 read right`,false);
+    // The shell adds next-challenge navigation to this ending. Preserve it on replay.
+    if(!firstReview){$("wrapup").hidden=false;return;}
     const w=$("wrapup");
     w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${voice?voice.text:LESSON.memHTML}</div>
       ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
