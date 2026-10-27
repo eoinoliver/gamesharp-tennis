@@ -84,7 +84,7 @@ const LESSON={
    "name": "Four second serves",
    "scene": "sq2",
    "sit": "Your safe second serve lets this receiver step in and attack.",
-   "q": "Which change stops them stepping in?",
+   "q": "On the next serve, which change stops them stepping in?",
    "opts": [
     "Shorter, same shape",
     "Deeper, with more kick",
@@ -112,6 +112,13 @@ const LESSON={
     "B": "Deep with kick, it climbs above their shoulder — you're set early.",
     "C": "More pace pushes them back, but it's still chest high — you're stretched.",
     "D": "Slower, it sits up even more — they step in; you're stretched."
+   },
+   "opening": {
+    "scene": "sq2A",
+    "from": 0,
+    "to": 420,
+    "label": "Watch the return",
+    "after": "Choose your next serve"
    }
   },
   {
@@ -119,7 +126,7 @@ const LESSON={
    "short": "Transfer",
    "name": "A receiver who likes height",
    "scene": "sq3",
-   "sit": "A different receiver handles high balls well. Watch how they deal with each serve.",
+   "sit": "This receiver handles your high kick comfortably. Watch their return.",
    "q": "Which serve gives this receiver the most trouble?",
    "opts": [
     "High kick to their backhand",
@@ -151,7 +158,14 @@ const LESSON={
    },
    "alsoOk": [
     2
-   ]
+   ],
+   "opening": {
+    "scene": "sq3A",
+    "from": 0,
+    "to": 380,
+    "label": "Watch this receiver",
+    "after": "Choose your next serve"
+   }
   }
  ]
 };

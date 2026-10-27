@@ -63,6 +63,13 @@ const LESSON={
    "lines": {
     "A": "Only just in time: it lands short, and they step in.",
     "B": "Right: set early. Deep, and they're pushed back."
+   },
+   "opening": {
+    "scene": "se1A",
+    "from": 0,
+    "to": 252,
+    "label": "Watch their first serve",
+    "after": "Choose your starting position"
    }
   },
   {

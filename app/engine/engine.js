@@ -662,7 +662,7 @@ function run(key,from,stop,cb,silent=false){
   clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;
   if(window.GSSfx)GSSfx.stop();scene=key;t=from;stopAt=Math.min(stop,SC[key].frames-1);onStop=cb;setPlaying(true);
 }
-function setPlaying(p){playing=p;lastTs=null;$("paused").hidden=p||t>=stopAt;
+function setPlaying(p){if(!p&&window.GSSfx)GSSfx.stopContacts();playing=p;lastTs=null;$("paused").hidden=p||t>=stopAt;
   const i=$("playIcon"); if(i){const pl=p&&t<stopAt; i.innerHTML=pl?PAUSE_I:PLAY_I; $("playBtn").setAttribute("aria-label",pl?"Pause":"Play");}}
 const PAUSE_I='<path d="M9 5.5v13M15 5.5v13"/>', PLAY_I='<path d="M8 5.5l11 6.5-11 6.5z"/>';
 function rate(){const sc=SC[scene];let r=1;
@@ -675,16 +675,21 @@ function sfxEvents(sc){if(sc._sfx)return sc._sfx;const ev=[];
   const B=sc.ball;for(let i=1;i+1<B.length;i++){const a=B[i-1],b=B[i],c=B[i+1];if(a&&b&&c&&b[2]<0.08&&b[2]<=a[2]&&b[2]<c[2])ev.push([i,"bounce",b[1]<0?0.9:0.45]);}
   for(const m of sc.marks||[])if(m.kind==="net")ev.push([m.frame,"net",0.8]);
   return sc._sfx=ev;}
+// A held endpoint is an incoming ball, not another struck shot.
+function hasOutgoingBall(sc,f){
+  const e=endsOnYou(sc);if(e&&f>=e.L-2)return false;
+  const a=sc.ball[f],b=sc.ball[f+2];return !!(a&&b&&Math.hypot(...b.map((v,i)=>v-a[i]))>.02);
+}
 function audibleEvents(sc){if(sc._audible)return sc._audible;
   const all=sfxEvents(sc).slice().sort((a,b)=>a[0]-b[0]),you=contactsOf(sc,"you"),freeze=sc.info.freeze||0;
   const decision=you.reduce((best,f)=>Math.abs(f-freeze)<Math.abs(best-freeze)?f:best,you[0]??freeze);
   const feed=contactsOf(sc,"opp").filter(f=>f<decision).at(-1);
   const bounce=all.filter(([f,k])=>k==="bounce"&&f<decision).at(-1)?.[0];
-  return sc._audible=all.filter(([f,k])=>k==="net"||(k==="hit"&&(f===decision||f===you.at(-1)||f===feed))||(k==="bounce"&&f===bounce))
+  return sc._audible=all.filter(([f,k])=>(k!=="hit"||hasOutgoingBall(sc,f))&&(k==="net"||(k==="hit"&&(f===decision||f===you.at(-1)||f===feed))||(k==="bounce"&&f===bounce)))
     .map(([f,k])=>[f,k,k==="hit"?(f===feed?.32:.72):k==="net"?.45:.25]);
 }
 function sfxCross(a,b){if(!window.GSSfx||document.hidden||silentPlayback||contactInspection||b<=a||b-a>40)return;const sc=SC[scene];if(!sc)return;
-  for(const [f,k,v] of audibleEvents(sc))if(f>a&&f<=b){const q=sc.ball[f]||sc.ball[f-1];
+  for(const [f,k,v] of audibleEvents(sc))if(f>a&&f<=b&&(k!=="hit"||f+2<=stopAt)){const q=sc.ball[f]||sc.ball[f-1];
     GSSfx[k](v,q?clamp(q[0]/7,-1,1)*(cam&&cam.az>0?-1:1):0,q?clamp((q[1]+12)/24,0,1):0.5);}}
 /* premium payoff (8 Oct): after a right answer, the moment it's decided plays in slow motion: the last 0.5 s
    before the ending lands, at a third of the speed */
@@ -758,16 +763,38 @@ function showOnly(list){$("askOpts").querySelectorAll(".opt").forEach((b,i)=>{b.
 
 /* ---------- lesson flow ---------- */
 const celebrated=new Set();
-function celebrate(key){
+function celebrate(key,audible=false){
   if(celebrated.has(key))return;celebrated.add(key);
   if(PREM())window.__cheerT=performance.now()/1000;
-  if(window.GSSfx)GSSfx.applause(.6);
+  if(audible&&window.GSSfx)GSSfx.applause(.6);
 }
 const CUE_KEY="gs_my_game";   // saved cues: [{lesson, cue, saved_at, callback_tags}] for a later callback
 function myGame(){try{return JSON.parse(localStorage.getItem(CUE_KEY)||"[]");}catch(e){return [];}}
 function cueSaved(){return myGame().some(c=>c.cue===LESSON.cue);}
 function saveCue(){try{const g=myGame(); g.push({lesson:LESSON.title,cue:LESSON.cue,saved_at:Date.now(),callback_tags:LESSON.callbackTags||[]}); localStorage.setItem(CUE_KEY,JSON.stringify(g));}catch(e){}}
 const emit=(n,d)=>{try{window.GSApp&&GSApp.emit(n,d);}catch(e){}};   // the app shell listens; standalone pages ignore it
+// Question openings must contain observable setup, never a tiny static interval.
+// Examples replay an authored situation; choosing then starts a new attempt.
+function questionRange(S){
+  const key=S.reveal?S.scene:S.scene+'A',sc=SC[key],to=sc.info.freeze;
+  const from=(LESSON.branch?SC[S.scene]?.info.from:undefined)??sc.info.from??0;
+  if(S.opening)return {...S.opening,type:'example',silent:false};
+  if(to-from<30&&from>0)return {scene:key,from:Math.max(0,to-160),to,type:'lead-in',silent:true,label:'Replay the incoming ball',after:'Your next decision'};
+  if(to-from<30&&from===0){
+    const serve=(sc.actors.you||[]).find(s=>!s.hold&&s.clip.startsWith('serve'));
+    if(serve){const hit=serve.start+CL[serve.clip].contactFrame-1;
+      return {scene:key,from:0,to:hit-35,type:'pre-serve',silent:false,label:'Read the receiver before the serve',after:'Choose before contact'};}
+  }
+  return {scene:key,from,to,type:'decision',silent:false};
+}
+function questionCaption(text){
+  let el=$('questionContext');if(!el){el=document.createElement('div');el.id='questionContext';el.className='question-context';el.setAttribute('role','status');$('stage').appendChild(el);}
+  el.textContent=text||'';el.hidden=!text;
+}
+function playQuestion(S,cb){
+  const q=questionRange(S);questionCaption(q.label);
+  run(q.scene,q.from,q.to,()=>{questionCaption(q.after);cb();},q.silent);
+}
 function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
   clearContactInspection();
   step=i; chosen=null; answered=false; showTargets=null; revealPattern=false; showDots=false; done=false;
@@ -779,13 +806,11 @@ function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
   typeSit(S.sit,go);
   paintRail(railFor(S)); paintAsk(S); tallView();
   pick=X=>choose(i,X,false);
-  const key=S.reveal?S.scene:S.scene+"A", fr=SC[key].info.freeze;
-  const fr0=LESSON.branch&&SC[S.scene]&&SC[S.scene].info.from!=null?SC[S.scene].info.from:SC[key].info.from||0;
-  run(key,fr0,fr,()=>{ if(!S.reveal&&!S.noTargets) showTargets=S.scene; go(); });   // a later read in one point starts near its decision
+  playQuestion(S,()=>{ if(!S.reveal&&!S.noTargets) showTargets=S.scene; go(); });   // a later read in one point starts near its decision
 }
 // Play one option out. demo = watching the better option after a miss (the first answer still counts).
 function choose(i,X,demo){
-  clearContactInspection();
+  clearContactInspection();questionCaption();
   const S=LESSON.steps[i];
   if(!demo&&ans[i]==null){ans[i]=X;emit('answer',{i,X,ok:LETTERS.indexOf(X)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(X))});
     if(LESSON.branch){const k=S.scene+X, nx=LESSON.nodes[k];   /* nodes are keyed by the pick that leads to them */ LESSON.steps.length=i+1; if(nx) LESSON.steps.push(nx); LESSON.finaleScene=k;}}   // your real pick decides where the point goes
@@ -794,7 +819,7 @@ function choose(i,X,demo){
   if(S.reveal){showDots=true;if(S.pattern)revealPattern=true;verdict(i,X,demo);return;}
   showDots=!!LESSON.tenTries;
   const key=S.scene+X, fr=SC[key].info.freeze;
-  run(key,demo?Math.max(0,fr-45):t,SC[key].frames-1,()=>verdict(i,X,demo));
+  run(key,demo?Math.max(0,fr-45):S.opening?fr:t,SC[key].frames-1,()=>verdict(i,X,demo));
   stageInView();
 }
 function verdict(i,X,demo){
@@ -832,10 +857,8 @@ function verdict(i,X,demo){
   $("next").onclick=()=>{startStep(i+1);window.scrollTo({top:0,behavior:"smooth"});};
   if(!S.reveal) $("tryOther").onclick=()=>{
     if(!ok&&!demo){choose(i,corr,true);return;}
-    const key=S.reveal?S.scene:S.scene+"A", fr=SC[key].info.freeze;
-    clearContactInspection();chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
-    if(!S.reveal&&!S.noTargets) showTargets=S.scene;
-    run(key,Math.max(0,fr-60),fr,enableAsk); stageInView();};
+    clearContactInspection();showTargets=null;chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
+    playQuestion(S,()=>{if(!S.noTargets)showTargets=S.scene;enableAsk();}); stageInView();};
 }
 function payoffHTML(p){   // Pro Lens shows open; the stroke and the drill sit in toggles so the lesson ends light; with none to offer, the take-home stays readable
   const T=(k,label,body)=>`<details class="pay" data-k="${k}"${k==="pro"?" open":""}><summary><span class="k">${label}</span><span class="pl">+</span></summary><div class="pbody">${body}</div></details>`;
@@ -852,7 +875,7 @@ function payoffHTML(p){   // Pro Lens shows open; the stroke and the drill sit i
   return `<div class="pays">${h}</div>`;
 }
 function finishLesson(){
-  clearContactInspection();
+  clearContactInspection();questionCaption();
   done=true; const okA=(a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)));
   const A=ans.slice(0,NS()), n=A.filter(okA).length; emit('complete',{n});
   sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook;
@@ -867,8 +890,9 @@ function finishLesson(){
   w.hidden=false; w.querySelectorAll("details.pay").forEach(d=>{let first=d.open; d.addEventListener("toggle",()=>{if(first){first=false;return;} if(d.open)emit('payoff_open',{k:d.dataset.k});});});   // only opens the player makes: Pro Lens starts open
   const sc=$("saveCue"); if(sc){if(cueSaved())sc.classList.add("on");
     sc.onclick=()=>{if(cueSaved())return; saveCue(); sc.textContent="Saved to My Game ✓"; sc.classList.add("on"); emit('cue_save',{lesson:LESSON.title,cue:LESSON.cue});};}
-  $("redo").onclick=()=>{ans=[null,null,null];if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
+  $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
   {const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null,true);}
+  if(n===NS()&&n>0)celebrate('complete',true);
 }
 
 /* ---------- render ---------- */
@@ -1039,17 +1063,19 @@ function setupPredict(){
     paintRail(i===0?[P.intro||"Picture the point"]:LESSON.steps.slice(0,i).map((s,j)=>`${j+1} ${s.short}: ${ans[j]||"–"}`)); setInk(i===0?"Answer all three, then watch":"");
     paintAsk(S); zone.hidden=false; tallView();
     scene=K; t=readAt[0]; stopAt=t; setPlaying(false);
-    window.__camOverride=P.askCam||null; if(i===0) savedTrail=null; window.__trail=(window.__trail||[]).slice(0,i); showTargets=S.scene;
-    pick=X=>{ans[i]=X;emit('answer',{i,X,ok:okAt(i)}); optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
+    window.__camOverride=P.askCam||null; if(i===0) savedTrail=null; window.__trail=(window.__trail||[]).slice(0,i); showTargets=null;
+    pick=X=>{questionCaption();ans[i]=X;emit('answer',{i,X,ok:okAt(i)}); optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
       const land=SC[S.scene+X].info.shot.land;
       window.__trail.push({from:hitFrom[i],to:land,h:hitFrom[i][2],arc:i===0?0.4:1,X,col:"#c8a84b",t0:performance.now()});
       later(()=>startStep(i+1),1700);};
-    typeIn($("sitTx"),S.sit,enableAsk);   // the options open once the situation has been read in
+    let ready=0;const go=()=>{if(step===i&&++ready===2){showTargets=S.scene;enableAsk();}};
+    typeIn($("sitTx"),S.sit,go);
+    playQuestion(S,go); // Show this read's premise; no verdict or chosen outcome yet.
   };
   function chip(k){const S=LESSON.steps[k],ok=okAt(k); typeIn($("sitTx"),(P.says&&P.says[k])||S.payoff,null,6);   // say what just happened const tr=savedTrail[k]; if(tr){window.__trail.push({...tr,col:ok?"#7fbf7a":"#e05252",t0:performance.now()});}
     setInk(ok?`Read ${k+1} · ${S.short}: you had it`:`Read ${k+1} · ${S.short}: you said ${ans[k]}, best is ${LETTERS[S.correct]}`,!ok);}
   function watchPoint(){
-    window.__camOverride=null; savedTrail=(savedTrail&&savedTrail.length===3?savedTrail:(window.__trail||[])).map(x=>({...x})); window.__trail=[];   // redrawn read by read as the point plays
+    questionCaption();window.__camOverride=null; savedTrail=(savedTrail&&savedTrail.length===3?savedTrail:(window.__trail||[])).map(x=>({...x})); window.__trail=[];   // redrawn read by read as the point plays
     zone.hidden=true; $("count").textContent="The point"; typeIn($("sitTx"),P.watch||"Now watch the point you pictured.");
     paintRail(LESSON.steps.map((s,j)=>`${j+1} ${s.short}`)); setInk(""); stageInView();
     let k=0;
@@ -1061,7 +1087,7 @@ function setupPredict(){
   function review(){
     done=true; const n=[0,1,2].filter(okAt).length; typeT.forEach(clearTimeout); emit('complete',{n});
     // Predict withholds feedback until all reads have played; one accent for a perfect point.
-    if(n===3)celebrate('predict');
+    if(n===3)celebrate('predict',true);
     sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook; setInk(`${n} of 3 read right`,false);
     const w=$("wrapup");
     w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${LESSON.memHTML}</div>
@@ -1074,9 +1100,9 @@ function setupPredict(){
     w.hidden=false;
     w.querySelectorAll("[data-watch]").forEach(bt=>bt.onclick=()=>{const i=+bt.dataset.watch,key=LESSON.steps[i].scene+ans[i],fr=SC[key].info.freeze;
       stageInView(); setInk(`Read ${i+1}: your choice`,true); run(key,Math.max(0,(SC[key].info.from||fr-60)),SC[key].frames-1,null);});
-    $("redo").onclick=()=>{ans=[null,null,null];window.__trail=[];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
+    $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();window.__trail=[];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
   }
-  $("again").onclick=()=>{if(done||step===3){startStep(3);} };
+  $("again").onclick=()=>{if(done||step===3){startStep(3);}else startStep(step);};
 }
 if(LESSON.predict) setupPredict();
 
