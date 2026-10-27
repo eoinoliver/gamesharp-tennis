@@ -37,19 +37,45 @@ try{
    check(r.phantoms===0,id+': no racket sound for a held incoming ball');
    // Exercise the real RAF/run/stop path, not just the opening metadata.
    const live=await p.evaluate(async i=>{
-    sitT.forEach(clearTimeout);clearTimeout(window.__flowT);window.__trail=[];
-    const S=__questions[i];step=0;answered=false;chosen=null;showTargets=null;done=false;LESSON.steps=[S];
-    paintAsk(S);$('sitTx').textContent=S.sit.replace(/<[^>]*>/g,'');
-    let samples=0,lastFrame=null,changes=0,doneRun=false;
-    const sample=()=>{if(doneRun)return;samples++;const f=$('stage').innerHTML;if(lastFrame&&f!==lastFrame)changes++;lastFrame=f;requestAnimationFrame(sample);};
+    const S=__questions[i];window.__trail=[];LESSON.steps=[S];
+    // Accelerate waits, but exercise the actual Daily/Predict startStep and RAF.
+    const nativeTimeout=window.setTimeout;
+    window.setTimeout=(fn,delay,...args)=>nativeTimeout(fn,delay/12,...args);
+    let samples=0,lastFrame=null,changes=0,earlyWords=false,earlyAsk=false,firstWord=null;
     const start=__sounds.length;
-    await new Promise(resolve=>{playQuestion(S,()=>{doneRun=true;enableAsk();resolve();});requestAnimationFrame(sample);});
-    const freeze=t,sounds=__sounds.length;await new Promise(r=>setTimeout(r,100));
-    return{samples,changes,freeze,stopAt,playing,stable:t===freeze,quiet:__sounds.length===sounds,sounds:__sounds.slice(start),enabled:[...$('askOpts').children].every(b=>!b.disabled),caption:$('questionContext').textContent};
+    try{
+     startStep(0);
+     const reserved=$('sitTx').getBoundingClientRect().height;
+     const during={words:document.querySelectorAll('#sitTx .w.on').length,inert:zone.inert,
+       hidden:getComputedStyle($('askQ')).visibility==='hidden',silentText:$('sitTx').getAttribute('aria-hidden')==='true'};
+     await new Promise((resolve,reject)=>{
+      const deadline=performance.now()+15000;
+      function sample(){
+       samples++;const f=$('stage').innerHTML;if(lastFrame&&f!==lastFrame)changes++;lastFrame=f;
+       const words=document.querySelectorAll('#sitTx .w.on').length;
+       if(words&&!firstWord)firstWord={frame:t,playing};
+       if(words&&playing)earlyWords=true;
+       const enabled=[...$('askOpts').children].some(b=>!b.disabled);
+       if(enabled&&(playing||words!==document.querySelectorAll('#sitTx .w').length))earlyAsk=true;
+       if(enabled){resolve();return;}
+       if(performance.now()>deadline){reject(Error('Question never ready'));return;}
+       requestAnimationFrame(sample);
+      }requestAnimationFrame(sample);
+     });
+     const freeze=t,sounds=__sounds.length;await new Promise(r=>nativeTimeout(r,100));
+     return{samples,changes,freeze,stopAt,playing,stable:t===freeze,quiet:__sounds.length===sounds,
+       sounds:__sounds.slice(start),enabled:[...$('askOpts').children].every(b=>!b.disabled),
+       caption:$('questionContext').textContent,during,earlyWords,earlyAsk,firstWord,
+       stableTextHeight:Math.abs(reserved-$('sitTx').getBoundingClientRect().height)<1};
+    }finally{window.setTimeout=nativeTimeout;}
    },i);
    check(live.changes>1&&live.samples>2,id+': rendered motion actually advances');
    check(!live.playing&&live.freeze===r.to&&live.stable&&live.quiet,id+': freeze is stable and silent');
-   check(live.enabled,id+': choices available after playback');
+   check(live.enabled,id+': choices available after playback and reading');
+   check(live.during.words===0&&live.during.inert&&live.during.hidden&&live.during.silentText,id+': action begins without competing setup or choices');
+   check(!live.earlyWords&&live.firstWord?.frame===r.to&&!live.firstWord.playing,id+': first word follows completed animation');
+   check(!live.earlyAsk,id+': choices follow the complete sentence');
+   check(live.stableTextHeight,id+': reserved text space prevents layout shift');
    if(r.type==='lead-in')check(live.sounds.length===0,id+': repeated lead-in has no duplicated contacts');
    if(r.type!=='decision')await p.screenshot({path:`${out}/${l.slug}-${r.question}.png`,fullPage:true});
    report.push({lesson:l.slug,...r,live});
@@ -69,6 +95,25 @@ try{
   }return min;
  });
  check(margin>=20,'deep return Broadcast keeps both full bodies and rackets inside the frame');await desktop.close();
+ // At normal reading speed, pause and replay must not leak a stale sentence.
+ for(const slug of ['serve-plus-one','predict-the-point']){
+  await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);
+  await p.evaluate(()=>{window.__speed=4;startStep(0);setPlaying(false);});
+  await p.waitForTimeout(500);
+  check(await p.locator('#sitTx .w.on').count()===0,slug+': pausing the action does not start reading');
+  await p.locator('#playBtn').click();
+  await p.waitForFunction(()=>document.querySelectorAll('#sitTx .w.on').length>=2);
+  check(await p.evaluate(()=>!playing&&zone.inert),slug+': reading follows action, before choices');
+  await p.locator('#again').click();await p.evaluate(()=>setPlaying(false));
+  await p.waitForTimeout(700);
+  check(await p.locator('#sitTx .w.on').count()===0,slug+': replay cancels old typing');
+  check(await p.evaluate(()=>zone.inert&&[...$('askOpts').children].every(b=>b.disabled)),slug+': replay cannot enable old choices');
+  await p.evaluate(()=>{window.__speed=8;startStep(1);});
+  await p.waitForFunction(()=>document.querySelectorAll('#sitTx .w.on').length>=2);
+  await p.locator('#back').click();await p.evaluate(()=>setPlaying(false));
+  await p.waitForTimeout(700);
+  check(await p.evaluate(()=>step===0&&!document.querySelector('#sitTx .w.on')&&zone.inert),slug+': back cancels the next question reading');
+ }
  // Normal UI gates: ball return example must finish before a choice can be made.
  await p.goto(base+'play.html?l=second-serve');await p.waitForFunction(()=>window.__test);
  await p.evaluate(()=>startStep(1));

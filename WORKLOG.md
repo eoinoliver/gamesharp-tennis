@@ -497,3 +497,13 @@ canonical local paths and “next” steps below are historical, not current rul
   an empty voice control. Record exact lesson-specific scripts for later work.
 - Standing full-autonomy/deploy-live authorization applies; retain Git preview,
   staged production, complete required tests, inventories and rollback checks.
+
+## 27 October 2026 — animation before reading (Codex)
+
+- Owner: Codex; branch `codex/animation-before-reading` from main 90e3680.
+- User identifies competing text and animation at each question. Sequence Daily,
+  branching and Predict openings as play, then situation text, then question and
+  choices. Reserve layout space; preserve replay, pause, scoring and sound.
+- Verify real playback and reading boundaries, cancellation on replay/back,
+  mobile layout and the complete catalogue. Standing autonomy/deploy-live
+  authorization applies with existing Git/staged/live/rollback safeguards.

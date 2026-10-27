@@ -84,8 +84,7 @@ button{font:inherit}
 .opt:not(:disabled):active{transform:scale(.992);border-color:rgba(211,226,103,.42)}
 .opt:not(:disabled):hover{border-color:rgba(211,226,103,.42)}
 .opt:disabled{cursor:default}
-.zone.reading .q{opacity:.62}
-.zone.reading .opt{opacity:.30;filter:saturate(.62);transform:translateY(4px)}
+.zone.reading .q,.zone.reading .opts{visibility:hidden}
 .opt.right{border-color:rgba(89,189,112,.82);background:rgba(89,189,112,.12);color:#fff}
 .opt.right .l{background:var(--green);color:#071109}
 .opt.wrong{border-color:rgba(224,112,112,.74);background:rgba(224,112,112,.10)}
@@ -351,13 +350,13 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=953ecc8011"></script>
-<script src="catalog.js?v=953ecc8011"></script>
-<script src="app.js?v=953ecc8011"></script>
-<script src="sfx.js?v=953ecc8011"></script>
+<script src="config.js?v=adaf396f61"></script>
+<script src="catalog.js?v=adaf396f61"></script>
+<script src="app.js?v=adaf396f61"></script>
+<script src="sfx.js?v=adaf396f61"></script>
 <script>
 (function(){
-const A=GSApp, V="953ecc8011", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="adaf396f61", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
 const QS=new URLSearchParams(location.search);

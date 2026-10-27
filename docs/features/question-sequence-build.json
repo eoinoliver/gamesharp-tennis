@@ -1,0 +1,30 @@
+{
+  "source": {
+    "rally/lesson_body.html": {
+      "baseline": "73a1d91b6a88c974605657aaaf69ce44e3cbb595122e4f41d7dc97f245ab3e49",
+      "candidate": "86108bfa4985ae4a09666fee47eaccef4a1d21c5eb77372f9984b617819e0b9f"
+    },
+    "tools/question-action-browser.mjs": {
+      "baseline": "378aa80d0dd7cf338f1ded361a7d08969e8f69124d5b73dbe0fc58ad69daf642",
+      "candidate": "508cdecf5455a9e1c0804e1c8fa48a71fd7bba8aedee0fcc2d10916f39a2f89e"
+    }
+  },
+  "release": {
+    "app/engine/engine.js": {
+      "baseline": "8f49588a4f1ddec3ac16268cfa3675a49e77198953130f4fbc5caa15af565e4f",
+      "candidate": "1637594cd2aee3e6062189cb703eef4757a19e68e52a6fe34ebdabbf2331d0c1"
+    },
+    "app/catalog.js": {
+      "baseline": "816126e2e391dcf9a09bddc85b1c7519c50d4487131ece325c47798d8c24d73f",
+      "candidate": "024c45e6d7bc71de879c91aaba77d5a4318b78f717c21bb06916be6dbb321d01"
+    },
+    "app/index.html": {
+      "baseline": "5ca5d72081dbdb7357e28f5f3cbc4116711fc5025f99219b47549936ec0db751",
+      "candidate": "4e9176715f902598a73c997b82a2377d1b531b1e7bc2da23c8cde8bfb8a451af"
+    },
+    "app/play.html": {
+      "baseline": "5675c15e8aa7d6c9b48d65dad1fe0feff7baec287feb61ee3eab453b79ec99d5",
+      "candidate": "32df4b0a2d2ef0ac02147fe268fd772ceb03d3bec7d8cad1d5c5dd7b77d17365"
+    }
+  }
+}
