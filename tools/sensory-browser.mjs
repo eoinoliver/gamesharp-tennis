@@ -30,7 +30,7 @@ try{
  await sound.tap();check(await p.evaluate(()=>!GSSfx.enabled()),'second touch mutes');
  await p.reload();await p.waitForFunction(()=>window.__test);check(await p.evaluate(()=>!GSSfx.enabled()),'mute persists across navigation');
  await sound.tap();await p.waitForFunction(()=>GSSfx.ready());
- await p.evaluate(()=>{window.__calls=[];for(const k of ['hit','bounce','applause','applause-2','applause-3']){const fn=GSSfx[k].bind(GSSfx);GSSfx[k]=(...a)=>{__calls.push(k);return fn(...a);};}});
+ await p.evaluate(()=>{window.__calls=[];for(const k of ['hit','bounce','applause']){const fn=GSSfx[k].bind(GSSfx);GSSfx[k]=(...a)=>{__calls.push(k);return fn(...a);};}});
  // Natural speed: do not let accelerated test playback mask the contact boundary.
  await p.locator('#again').tap();await p.waitForFunction(()=>!playing&&t===stopAt);
  check(await p.evaluate(()=>__calls.includes('hit')),'contact event occurs on real-time opening');

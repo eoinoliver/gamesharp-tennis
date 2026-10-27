@@ -10,7 +10,7 @@
     },
     "tools/sensory-browser.mjs": {
       "baseline": "bb2cbe0887f0ced19be6ff084ac566a269683caaceb7df7143c59a9e69cbf90d",
-      "candidate": "6500f89d7eda25c29efcf47ec973523a873a158e92d8e49962ba9d83fcc756c8"
+      "candidate": "e2852ffd3bf943952f62a3a7cffff955cc3f7c6bf4f0bb12fbae58035544b03a"
     },
     "app_src/audio/applause-1.mp3": {
       "baseline": null,
