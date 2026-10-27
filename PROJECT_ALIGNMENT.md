@@ -43,3 +43,7 @@ Desktop `Blender Tennis/` and `pose-trial-2026-09-21/` remain untouched. Their
 proposed private lab home needs Eoin's separate go. Do not import source video,
 raw motion-capture datasets, Blender binaries or experimental media into this
 public repository. Golf, PropPocket and Desktop retirement are outside this PR.
+
+## Current beta — 27 October 2026
+
+PR 53 is live: app 61678680f2, Production dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX, merge 72018a03b2fc42526e5bab74d5d0a8f8ec855ea3. All 41 existing journeys have a short lesson-specific Frank completion ending. Voice defaults on, with saved voice opt-outs and master mute respected. Narration follows final motion; point replay retains navigation and does not repeat narration. Deeper coaching and saved cues remain. PR 51's fresh-lesson queue remains browser-local. Current user full-autonomy/deploy-live directions supersede older per-version permission wording while retaining all Git and verification safeguards. See docs/features/completion-voice-catalogue-release.json; the prior release is preserved in docs/features/fresh-challenges-release.json.
