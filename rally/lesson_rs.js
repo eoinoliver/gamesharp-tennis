@@ -20,6 +20,7 @@ const LESSON={
   "return_position"
  ],
  "finaleScene": "rs1B",
+ "cam0": {"c":{"az":-90,"el":24,"d":40,"fov":31,"tgt":[0,-1.7,0]}},
  "startBehind": true,
  "steps": [
   {
@@ -28,7 +29,7 @@ const LESSON={
    "name": "Their first serve",
    "scene": "rs1",
    "sit": "They hit a big first serve, around 185 km/h, down the T.",
-   "q": "Where do you stand to return it?",
+   "q": "Same serve again. Where do you start?",
    "opts": [
     "On the baseline",
     "Two steps behind it",
@@ -56,6 +57,13 @@ const LESSON={
     "B": "Right: set early. A deep return, and they're pushed back.",
     "C": "Inside the baseline you're rushed. Back in play; they step in.",
     "D": "Too far back: it drops, you come forward, and they step in."
+   },
+   "opening": {
+    "scene": "rs1A",
+    "from": 0,
+    "to": 252,
+    "label": "Watch their first serve",
+    "after": "Choose your starting position"
    }
   },
   {
@@ -92,6 +100,13 @@ const LESSON={
     "B": "From back there the kick is past you. Too late.",
     "C": "Shoulder high on the baseline: you loop it, and they step in.",
     "D": "Way back, it's gone before you get there."
+   },
+   "opening": {
+    "scene": "rs2C",
+    "from": 0,
+    "to": 272,
+    "label": "Watch the kick rise",
+    "after": "Choose your starting position"
    }
   },
   {
@@ -128,6 +143,13 @@ const LESSON={
     "B": "One step isn't enough: rushed, a short block, and they step in.",
     "C": "Right: two steps over gets it back in play.",
     "D": "Shading the wrong way: it's past you."
+   },
+   "opening": {
+    "scene": "rs3A",
+    "from": 0,
+    "to": 275,
+    "label": "Watch their wide serve",
+    "after": "Choose your starting position"
    }
   }
  ]

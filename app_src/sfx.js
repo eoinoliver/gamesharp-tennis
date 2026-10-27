@@ -2,7 +2,7 @@
    A saved preference is not proof that the browser has allowed playback. */
 (function(){
   const KEY="gs_sound", AC=window.AudioContext||window.webkitAudioContext;
-  let ctx=null, master=null, enabled=false, last={}, epoch=0, session=null, previousSession=null;
+  let ctx=null, master=null, enabled=false, last={}, session=null, previousSession=null;
   const voices=new Set(), buffers={}, files=['contact-1','contact-2','bounce','applause'];
   let loading=null, loadError=false, contact=0;
   const version=encodeURIComponent(window.GS_VERSION||'local');
@@ -35,7 +35,7 @@
     });
   }
   function stop(){
-    epoch++;last={};
+    last={};
     if(master){master.gain.cancelScheduledValues(ctx.currentTime);master.gain.setValueAtTime(0,ctx.currentTime);}
     for(const v of [...voices])v.cancel();
   }
@@ -95,7 +95,7 @@
     source.connect(gain);gain.connect(p);p.connect(master);
     let ended=false;
     const cleanup=()=>{if(ended)return;ended=true;source.disconnect();gain.disconnect();p.disconnect();voices.delete(v);};
-    const v={cancel(){try{source.stop();}catch(e){}cleanup();}};
+    const v={kind:key==='applause'?'reward':'contact',cancel(){try{source.stop();}catch(e){}cleanup();}};
     voices.add(v);source.onended=cleanup;source.start(ctx.currentTime);
   }
   function allow(kind,gap){
@@ -105,6 +105,7 @@
   }
   const api=window.GSSfx={
     enabled:()=>enabled,ready,unlock,stop,
+    stopContacts(){for(const v of [...voices])if(v.kind==='contact')v.cancel();},
     set(value){enabled=!!value;try{localStorage.setItem(KEY,enabled?'1':'0');}catch(e){}if(!enabled)deactivate();paint();return enabled?unlock():Promise.resolve(false);},
     hit(v,pan,depth){if(!vol(v)||!allow('hit',.12))return;play(`contact-${1+(contact++%2)}`,vol(v),pan,depth);},
     bounce(v,pan,depth){if(!vol(v)||!allow('bounce',.22))return;play('bounce',vol(v)*.65,pan,depth);},
@@ -114,8 +115,7 @@
     wire(root){
       (root||document).querySelectorAll('[data-gs-sound]').forEach(b=>{b.onclick=e=>{
         e.stopPropagation();const enable=!(ready()||(enabled&&loading));
-        const result=api.set(enable),version=epoch;
-        if(enable)result.then(ok=>{if(ok&&version===epoch)api.hit(.45);});
+        api.set(enable); // Only visible court events make ball sounds; toggling is silent.
       };});paint();
     }
   };

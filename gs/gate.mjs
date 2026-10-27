@@ -20,14 +20,15 @@ const r=await p.evaluate(()=>{
       if('ABCD'.indexOf(X)!==S.correct&&c==='won') notes.push(`  note: wrong answer ${k} ends as a won point`);
       if(c==='neutral'){const segs=SC[k].actors, last=a=>Math.max(...(segs[a]||[]).filter(s=>!s.hold).map(s=>s.start+CL[s.clip].contactFrame));
         if(last('you')<last('opp')) fails.push(`${k}: neutral ending but the last shot is theirs`);}}});
-  // motion + visibility
+  // Motion and actual desktop Broadcast playback, with no stale choosing projection.
+  camI=0;answered=true;showTargets=null;window.__pc=null;
   cam=(typeof LESSON!=='undefined'&&LESSON.cam0&&LESSON.cam0.c)?{...LESSON.cam0.c}:{az:-90,el:24,d:31,fov:31,tgt:[0,-1.7,0]}; buildBasis();
   for(const k of Object.keys(SC)){const sc=SC[k];
     for(const who of ['you','opp']){let prev=null,mx=0,mxg=0,away=999,awg=0,off=0;
       for(let g=0;g<sc.frames;g++){const a=actorAt(sc,who,g); if(!a) continue; const h=a.pose[I.hips];
         if(prev){const v=Math.hypot(h[0]-prev[0],h[1]-prev[1])*100; if(v>mx){mx=v;mxg=g;}} prev=h;
         const f=facingOf(a.pose)*180/Math.PI, aw=who==='you'?-90:90, o=Math.abs(((f-aw+540)%360)-180); if(g>90&&o<away){away=o;awg=g;}
-        if(who==='you'){const q=P(a.pose[I.hips]); if(!q||q.s[0]<0||q.s[0]>VW||q.s[1]<0||q.s[1]>VH) off++;}}
+        if(who==='you'){scene=k;t=g;setCamera(a);buildBasis();fitFull();const q=P(a.pose[I.hips]); if(!q||q.s[0]<0||q.s[0]>VW||q.s[1]<0||q.s[1]>VH) off++;}}
       if(mx>12.5) fails.push(`${k} ${who}: glides at ${mx.toFixed(1)} m/s (frame ${mxg})`);
       if(away<15) fails.push(`${k} ${who}: faces away from the court (${away.toFixed(0)}° at frame ${awg})`);
       if(off>0) fails.push(`${k}: you are off-screen in Broadcast for ${off} frames`);}}

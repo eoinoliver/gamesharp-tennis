@@ -56,6 +56,13 @@ const LESSON={
    "lines": {
     "A": "Right: taken early. Deep, and they're pushed back.",
     "B": "It climbs above your shoulder. Too late."
+   },
+   "opening": {
+    "scene": "ma1B",
+    "from": 0,
+    "to": 275,
+    "label": "Watch the kick rise",
+    "after": "Choose your starting position"
    }
   },
   {

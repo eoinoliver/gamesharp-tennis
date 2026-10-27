@@ -57,6 +57,14 @@ for records, expected in [(audio['source'], source), (audio['release'], manifest
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Recorded audio baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Action before every question and restrained sound; historical releases stay frozen.
+action = json.loads((ROOT/'docs/features/question-action-build.json').read_text())
+assert set(action['source']) == {'rally/lesson_body.html','app_src/sfx.js','app_src/sfx.test.mjs','tools/sensory-browser.mjs','tools/question-action-browser.mjs','tools/browser-checks.mjs','gs/gate.mjs'} | {f'rally/lesson_{p}.js' for p in ('sq','rs','bg','ma','se')}
+assert set(action['release']) == {'app/engine/engine.js','app/sfx.js','app/catalog.js','app/index.html','app/play.html'} | {f'app/lessons/{s}.json' for s in ('second-serve','find-your-return-spot','the-big-hitter','midweek-point-1','saturday-point-5')}
+for records, expected in [(action['source'], source), (action['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Question action baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

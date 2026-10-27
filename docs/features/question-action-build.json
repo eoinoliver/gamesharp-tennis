@@ -1,0 +1,94 @@
+{
+  "source": {
+    "rally/lesson_body.html": {
+      "baseline": "6dd7bdc43a828957803b34b10375a37a9029fd1dd56e66e390a52e005c3484dc",
+      "candidate": "73a1d91b6a88c974605657aaaf69ce44e3cbb595122e4f41d7dc97f245ab3e49"
+    },
+    "app_src/sfx.js": {
+      "baseline": "c1f1c5d18e847cc349839687a3cdf4c03a93debdd1045318b682b63606cf71b5",
+      "candidate": "3edd0633be0623bbd6a1cec1436e7bbf2835e9013d8315262220f077039a92cd"
+    },
+    "app_src/sfx.test.mjs": {
+      "baseline": "396da4ebe28bf1419e78002119fe11bd804f1a4448fe1475bf02a722d3047ee9",
+      "candidate": "8e57cc6bfcc6b686ec69c659457e40234d32d8813eb13485a61164b5efeac09f"
+    },
+    "tools/sensory-browser.mjs": {
+      "baseline": "21631f60b43afa0fd7f3c6c8669c3cabdc9ea7910244a42efc305f9512fc25b2",
+      "candidate": "bb2cbe0887f0ced19be6ff084ac566a269683caaceb7df7143c59a9e69cbf90d"
+    },
+    "tools/question-action-browser.mjs": {
+      "baseline": null,
+      "candidate": "378aa80d0dd7cf338f1ded361a7d08969e8f69124d5b73dbe0fc58ad69daf642"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": null,
+      "candidate": "d0b24820b90e6803ab31243074b83f7b3ac0381d08df6f164ab133ba862fcac5"
+    },
+    "gs/gate.mjs": {
+      "baseline": "14444f1de01c8f20e3387724a31bbcef16b78e1a4744aa455b72c8e55a62db9b",
+      "candidate": "a99920e09f9c6c1b484a0883fe690fa6f19811a27181dd68e7640c4f47301318"
+    },
+    "rally/lesson_sq.js": {
+      "baseline": "6f719287267dc5412d996dd5f646c84dd168e80b5f6d48cf6ed1e65166369234",
+      "candidate": "9051ac5b6d9ea4f917f2645cd5eefee493c3b1a559092b9cfe657ffa8bddba80"
+    },
+    "rally/lesson_rs.js": {
+      "baseline": null,
+      "candidate": "30904e21ce16a0530acf5f9b85b4df72356e4ba71ecea1f1a7d6ae1728f8947a"
+    },
+    "rally/lesson_bg.js": {
+      "baseline": null,
+      "candidate": "98b806842a84a7f2e7f20eb79e19ba0f49650a3104770e96f5129e172f705dc4"
+    },
+    "rally/lesson_ma.js": {
+      "baseline": null,
+      "candidate": "61ede3897fa9cfff660b5b8b46e9428b09501c92cdba2394a36a1be45963386d"
+    },
+    "rally/lesson_se.js": {
+      "baseline": null,
+      "candidate": "d4d2bcbc7be3aa6561cc7ef12b7aa29b1a5903a1ff518999f2d32a8a59fd5fe1"
+    }
+  },
+  "release": {
+    "app/engine/engine.js": {
+      "baseline": "7a3758c5a33f48c69a767a5bdb52fe31bebc9c4faa5ef2cc5863c87d6a986405",
+      "candidate": "8f49588a4f1ddec3ac16268cfa3675a49e77198953130f4fbc5caa15af565e4f"
+    },
+    "app/sfx.js": {
+      "baseline": "c1f1c5d18e847cc349839687a3cdf4c03a93debdd1045318b682b63606cf71b5",
+      "candidate": "3edd0633be0623bbd6a1cec1436e7bbf2835e9013d8315262220f077039a92cd"
+    },
+    "app/catalog.js": {
+      "baseline": "167876451662505eee9872d5155160abe970a44a770b84fc1895ea1ca359b5fa",
+      "candidate": "893c7ae0a729b657f37258b2382062cbd12a621ffbd837e686a5497c3d81e6f2"
+    },
+    "app/index.html": {
+      "baseline": "3608e4d2399d81033f61c43912821837cd4d37fd93687e59373e4a67010b44d8",
+      "candidate": "8d05eec6ec81760747c7beb08c9aa362962be782f911ddd453fbd26b471b484a"
+    },
+    "app/play.html": {
+      "baseline": "b99fcba316322552070ce5d1b834f72fc6352e50a2694c78463f6598e795abee",
+      "candidate": "b641b52fe3a6a69f99662ec7d8cf7913c8a919b6dc12e661fbb1bc6c0499da36"
+    },
+    "app/lessons/second-serve.json": {
+      "baseline": "48eecb4490f0e0ce7a79c55dd75e27e0a12c1bd55ded32dd725c2ffb8aee1a83",
+      "candidate": "0284d4c06a56ba3f5ead4e9b61b36f0d741ed53a67c9bb9f6afc5956cc6aaa28"
+    },
+    "app/lessons/find-your-return-spot.json": {
+      "baseline": "c98ca620f5c8276dec09deb4a7e18256fe3a4468b72c3302406aba6007ef557e",
+      "candidate": "b3825b608918cdfde72a6c79f2c50b976db67bb00f3370894b6de02bce88958b"
+    },
+    "app/lessons/the-big-hitter.json": {
+      "baseline": "17129df3d2cfb33a18955a30f6ad6f1b182ea64c7030b994523bc7135937dc76",
+      "candidate": "a976964439dd77c1309b393b5c58f1e5c50140ff5ddac51b8e335d26b04e4060"
+    },
+    "app/lessons/midweek-point-1.json": {
+      "baseline": "9f4336a30da39400f675c26ab781434e73b9b73632f373763a4931e3a2499b6b",
+      "candidate": "f8ecea1e15ad6fcede25ef728b69dac5561b1752c064872187cb300ece5e43b3"
+    },
+    "app/lessons/saturday-point-5.json": {
+      "baseline": "a3342421c31f6ceffa4b0b33cdeccd5147c726fee9be37120a432212dab8b7bf",
+      "candidate": "e9f5910d2656ad20434815fb6ab9312ed8d8e9967f5eab6330bbf8d094bed4a6"
+    }
+  }
+}

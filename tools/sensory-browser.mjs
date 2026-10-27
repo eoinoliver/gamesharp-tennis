@@ -40,12 +40,13 @@ try{
  for(let i=0;i<3;i++){
   await ready();await p.locator('#askOpts button').nth(await p.evaluate(()=>LESSON.steps[step].correct)).tap();
   await p.waitForSelector('#verdict:not([hidden]) #next',{timeout:30000});
-  check(await p.evaluate(()=>__calls.filter(k=>k==='applause').length)===i+1,`step ${i+1}: one success accent`);
+  check(await p.evaluate(()=>__calls.filter(k=>k==='applause').length)===0,`step ${i+1}: no applause before completion`);
   await p.locator('#again').tap();await p.waitForFunction(()=>!playing&&t===stopAt);
-  check(await p.evaluate(()=>__calls.filter(k=>k==='applause').length)===i+1,'replay cannot add applause');
+  check(await p.evaluate(()=>__calls.filter(k=>k==='applause').length)===0,'replay cannot add applause');
   await p.locator('#next').tap();
  }
  await p.waitForSelector('#nextDaily');
+ check(await p.evaluate(()=>__calls.filter(k=>k==='applause').length)===1,'one applause for the completed perfect challenge');
  const next=await p.evaluate(()=>GSApp.nextDaily().slug);check(await p.locator('#nextDaily').getAttribute('href')===`play.html?l=${next}`,'completion points to real next unplayed lesson');
  check(await p.evaluate(()=>silentPlayback),'automatic wrap-up stays silent');
  await p.locator('#again').tap();check(await p.evaluate(()=>!silentPlayback),'intentional replay can have contact cues');
@@ -114,13 +115,13 @@ try{
  await cold.waitForFunction(()=>document.querySelector('[data-gs-sound]').dataset.soundState==='off');await cold.waitForTimeout(400);
  check(await cold.evaluate(()=>!GSSfx.enabled()&&__recorded.length===0),'cancel during download prevents delayed confirmation and contact');
  await cold.locator('[data-gs-sound]').tap();await cold.waitForFunction(()=>GSSfx.ready());
- check(await cold.evaluate(()=>__recorded.length===1),'re-enable plays one real confirmation');await cold.close();
+ check(await cold.evaluate(()=>__recorded.length===0),'re-enable never invents a ball contact');await cold.close();
  const failed=await c.newPage();await failed.route('**/audio/**',r=>r.fulfill({status:404,body:''}));
  await failed.goto(base+'play.html?l=contact-clue');await failed.waitForFunction(()=>window.__test);await failed.locator('[data-gs-sound]').tap();
  await failed.waitForFunction(()=>document.querySelector('[data-gs-sound]').dataset.soundState==='error');
  check(await failed.evaluate(()=>!GSSfx.ready()&&__recorded.length===0),'missing audio stays silent and offers retry');
  await failed.unroute('**/audio/**');await failed.locator('[data-gs-sound]').tap();await failed.waitForFunction(()=>GSSfx.ready());
- check(await failed.evaluate(()=>__recorded.length===1),'failed download recovers on retry');await failed.close();
+ check(await failed.evaluate(()=>__recorded.length===0),'failed download recovers silently on retry');await failed.close();
  writeFileSync(`${out}/${engine.name()}-levels.json`,JSON.stringify(levels,null,2));
  check(errors.length===0,errors.join('\n'));console.log(`PASS ${engine.name()}: ${checks} sensory/navigation assertions, ${report.length} lessons, real offline audio waveforms.`);
 }finally{await browser.close();}

@@ -465,3 +465,20 @@ canonical local paths and “next” steps below are historical, not current rul
 - Candidate app 2dd4194def: 25 unit tests, 85 sensory checks in each of Chromium
   and WebKit, 104 release / 103 public files, 109 checked inputs. Physical-device
   listening unverified. Full release checks and hosted verification follow.
+
+## 27 October 2026 — visible question action and restrained sound (Codex)
+
+- Owner: Codex; branch codex/question-action-sound from main 6f8b3e3.
+- User likes the recordings but requests less repetitive applause, no contact
+  sound disconnected from frozen action, and a whole-app audit for missing
+  question playback, specifically The Safe Second Serve Trap.
+- Trace every opening/decision/result, fix confirmed causes, retain first-answer
+  scoring and Predict neutrality. Standing autonomy and deploy-live authorization
+  apply with existing Git/staged/live verification safeguards.
+- First candidate e35493670b passed 135-question playback and sound audits, but
+  the full gate exposed deep return positions clipped in the optional desktop
+  Broadcast view. Final camera repair pulls back that view; the gate now uses
+  actual renderer cameras with no stale choosing projection. Final candidate
+  39c56de12c retains the same question/sound code and adds a full-body/racket
+  framing assertion for deep returns. Final CI covers the complete suite; local
+  contact inspection was interrupted to avoid rebuilding under a running test.

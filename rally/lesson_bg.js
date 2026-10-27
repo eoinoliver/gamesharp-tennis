@@ -52,7 +52,7 @@ const LESSON={
    "name": "Their big ball",
    "scene": "bg1",
    "sit": "They hit big. Their crosscourt forehand is coming into your backhand corner at 125 km/h.",
-   "q": "Where do you wait for it?",
+   "q": "Next ball like this: where do you wait?",
    "opts": [
     "Well behind the baseline",
     "On the baseline, as usual",
@@ -80,6 +80,13 @@ const LESSON={
     "B": "Your usual spot: only a third of a second to spare.",
     "C": "Right: one big step back gives you 0.6 s, about twice as long.",
     "D": "Inside the baseline, their pace rushes you: 0.1 s to spare."
+   },
+   "opening": {
+    "scene": "bg1B",
+    "from": 0,
+    "to": 145,
+    "label": "Watch their pace",
+    "after": "Choose for the next ball"
    }
   },
   {
@@ -124,7 +131,7 @@ const LESSON={
    "name": "Now to your forehand",
    "scene": "bg3",
    "sit": "Their big inside-out forehand is coming to your forehand. Choose where you wait and what you hit.",
-   "q": "What's your plan?",
+   "q": "Next ball like this: what's your plan?",
    "opts": [
     "Baseline, deep and heavy",
     "Step back, high over their shoulder",
@@ -152,6 +159,13 @@ const LESSON={
     "B": "Right: time first, then over their shoulder. Rally pace back; you're in time.",
     "C": "Inside the baseline you're rushed; it lands short and their big ball wins.",
     "D": "Deep middle sits at their waist: their big ball, and you're stretched."
+   },
+   "opening": {
+    "scene": "bg3A",
+    "from": 0,
+    "to": 144,
+    "label": "Watch their pace",
+    "after": "Choose for the next ball"
    }
   }
  ]

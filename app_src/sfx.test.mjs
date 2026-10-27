@@ -118,3 +118,17 @@ test('failed download stays silent, exposes retry and can recover',async()=>{
  assert.equal(attrs['aria-label'],'Retry sound');f.api.hit();assert.equal(f.sources.length,0);
  f.recoverFetch();assert.equal(await f.api.unlock(),true);f.api.hit();assert.equal(f.sources.length,1);
 });
+
+test('freezing court action cancels contact tails but preserves completion applause',async()=>{
+ const f=fixture();await f.api.unlock();f.api.hit();f.api.bounce();f.api.applause();
+ assert.equal(f.sources.length,3);f.api.stopContacts();
+ assert.ok(f.sources[0].stopped&&f.sources[1].stopped);
+ assert.ok(!f.sources[2].stopped,'the end reward is independent of ball movement');
+ f.api.stop();assert.ok(f.sources[2].stopped,'mute/navigation still stops everything');
+});
+test('sound activation and reactivation never invent a ball contact',async()=>{
+ const f=fixture({stored:null}),b={setAttribute(){},dataset:{}};f.buttons.push(b);f.api.wire();
+ b.onclick({stopPropagation(){}});await f.api.unlock();assert.equal(f.sources.length,0);
+ await f.api.set(false);b.onclick({stopPropagation(){}});await f.api.unlock();
+ assert.equal(f.sources.length,0);f.api.hit();assert.equal(f.sources.length,1);
+});
