@@ -24,8 +24,8 @@ try{
  const sound=p.locator('[data-gs-sound]');
  check(await sound.getAttribute('aria-label')==='Enable sound','first sound control is honest about activation');
  await p.locator('#again').tap();
- check(await p.evaluate(()=>!GSSfx.enabled()&&!window.__audio),'ordinary first-visit replay does not take device audio');
- await sound.tap();await p.waitForFunction(()=>GSSfx.ready());
+ await p.waitForFunction(()=>GSSfx.ready());
+ check(await p.evaluate(()=>GSSfx.enabled()&&!!window.__audio),'first gesture unlocks default-on audio');
  check(await sound.getAttribute('aria-label')==='Mute sound','first touch enables, does not mute');
  await sound.tap();check(await p.evaluate(()=>!GSSfx.enabled()),'second touch mutes');
  await p.reload();await p.waitForFunction(()=>window.__test);check(await p.evaluate(()=>!GSSfx.enabled()),'mute persists across navigation');

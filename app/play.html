@@ -351,17 +351,22 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=690b4e190e"></script>
-<script src="catalog.js?v=690b4e190e"></script>
-<script src="app.js?v=690b4e190e"></script>
-<script src="sfx.js?v=690b4e190e"></script>
+<script src="config.js?v=136cdb5034"></script>
+<script src="catalog.js?v=136cdb5034"></script>
+<script src="app.js?v=136cdb5034"></script>
+<script src="sfx.js?v=136cdb5034"></script>
 <script>
 (function(){
-const A=GSApp, V="690b4e190e", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="136cdb5034", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
 const QS=new URLSearchParams(location.search);
+// Bookmarked automatic entries advance too; explicit lesson/replay links stay exact.
+if(QS.has('auto')&&(A.S.seen?.[slug]||A.S.done[slug])){
+  const fresh=A.nextDaily();
+  location.replace(fresh&&!A.S.seen?.[fresh.slug]?`play.html?l=${fresh.slug}&auto=1`:'./?home=1');return;
+}
 /* An auto-started lesson replaced the bare Home visit, so give back/close a Home entry to return to:
    this page's entry becomes ./?home=1 and the lesson is pushed on top; going back to it loads Home. */
 if(QS.has("auto")&&!(history.state&&history.state.gsLesson)){const here=location.href;history.replaceState({gsHome:1},"","./?home=1");history.pushState({gsLesson:1},"",here);}
@@ -424,7 +429,7 @@ const W=(()=>{
 A.opened("lesson");
 let started=false;
 A.on((n,d)=>{
-  if(n==="step"&&!started){started=true;A.track("lesson_start",{lesson:slug,replay:!!A.S.done[slug],daily:A.isDaily(slug)});}
+  if(n==="step"&&!started){started=true;A.startLesson(slug);A.track("lesson_start",{lesson:slug,replay:!!A.S.done[slug],daily:A.isDaily(slug)});}
   if(n==="answer") A.track("read",{lesson:slug,step:d.i+1,pick:d.X,ok:!!d.ok});
   if(n==="cue_save") A.track("cue_save",{lesson:slug,cue:d&&d.cue});   /* payoff layer (4 Oct) */
   if(n==="payoff_open") A.track("payoff_open",{lesson:slug,part:d&&d.k});

@@ -2,7 +2,7 @@
    A saved preference is not proof that the browser has allowed playback. */
 (function(){
   const KEY="gs_sound", AC=window.AudioContext||window.webkitAudioContext;
-  let ctx=null, master=null, enabled=false, last={}, session=null, previousSession=null;
+  let ctx=null, master=null, enabled=true, last={}, session=null, previousSession=null;
   const rewards=['applause-1','applause-2','applause-3'];
   const voices=new Set(), buffers={}, files=['contact-1','contact-2','bounce',...rewards];
   const REWARD_KEY='gs_reward_last';
@@ -11,9 +11,9 @@
     'earned-defence':'Need time? Add height and depth.',
     'recovery':'Read their options. Recover to cover them.'
   };
-  let voiceSlug=null, voiceEnabled=false, voiceLoading=null, voiceError=false,
+  let voiceSlug=null, voiceEnabled=true, voiceLoading=null, voiceError=false,
       voicePending=false, voiceGeneration=0, voiceListener=null;
-  try{voiceEnabled=localStorage.getItem(VOICE_KEY)==='1';}catch(e){}
+  try{voiceEnabled=localStorage.getItem(VOICE_KEY)!=='0';}catch(e){}
   const speaking=()=>[...voices].some(v=>v.kind==='voice');
   const paintVoice=()=>voiceListener?.();
   function stopVoice(){
@@ -44,9 +44,9 @@
   try{previousReward=localStorage.getItem(REWARD_KEY);}catch(e){}
   let loading=null, loadError=false, contact=0;
   const version=encodeURIComponent(window.GS_VERSION||'local');
-  try { enabled=localStorage.getItem(KEY)==="1"; } catch(e) {}
+  try { enabled=localStorage.getItem(KEY)!=="0"; } catch(e) {}
   const ready=()=>!!(enabled&&!document.hidden&&ctx&&ctx.state==="running"&&files.every(k=>buffers[k]));
-  // Fetch only after opt-in. Decode once; never queue a missed contact for later.
+  // Load after a permitted gesture; respect saved mute. Never queue missed contacts.
   function load(c){
     if(files.every(k=>buffers[k]))return Promise.resolve();
     if(loading)return loading;
@@ -80,8 +80,8 @@
     for(const v of [...voices])v.cancel();
   }
   // Web Audio's default ambient session can be silent on iPhone/iPad even
-  // while AudioContext is running. Playback is requested only after sound opt-in;
-  // it can pause other media, so ordinary first-visit taps must not acquire it.
+  // while AudioContext is running. Playback is requested only when sound is enabled and a gesture unlocks it;
+  // it can pause other media; saved mute always prevents acquiring it.
   function acquireSession(){
     try{
       const s=window.navigator?.audioSession;
