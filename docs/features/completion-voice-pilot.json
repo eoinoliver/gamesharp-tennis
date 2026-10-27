@@ -137,7 +137,7 @@
     "verifiedAt": "2026-10-27",
     "authenticated": true,
     "speechGeneration": "confirmed by three successful recordings",
-    "creditsConsumed": 9
+    "creditsConsumed": 10
   },
   "audition": {
     "spokenText": "Serve the question. Hit the space. Take it to court.",
@@ -204,8 +204,19 @@
         "originalSha256": "8cd5029c6f5e4471021301a07773f0ce8517f9448e186cb98327ede9e768b341"
       }
     ],
-    "selectionStatus": "Awaiting listening comparison; descriptions are preset labels, not a perceptual verdict.",
+    "selectionStatus": "User selected Frank, requesting slightly slower delivery; revision uses speed 0.95.",
     "delivery": "Direct Runway MP3 links verified without sign-in for phone access. Originals preserved locally; no effects or pitch/time changes.",
     "creditsConsumed": 3
+  },
+  "selectedVoice": {
+    "preset": "Frank",
+    "basis": "User likes Frank and requests a very slight slowdown.",
+    "speed": 0.95,
+    "model": "eleven_multilingual_v2",
+    "spokenText": "See it. Own it.",
+    "taskId": "17d82185-97fa-4064-94bd-8a7bc38ec176",
+    "durationSeconds": 1.393197,
+    "sha256": "23df80c15877fccff80a10e29dcb86797cdc2de65e6a272defa39faa88ae9d49",
+    "status": "Revised audition generated; not yet deployed. Speed is a synthesis setting, not a guarantee of exact runtime reduction between generated takes."
   }
 }

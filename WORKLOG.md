@@ -543,3 +543,8 @@ canonical local paths and “next” steps below are historical, not current rul
   slogan. Preserved originals and task/hash provenance; verified unauthenticated
   audio URLs and file decoding. Provide direct links for phone access. No live
   app change; voice choice and perceptual listening verdict remain pending.
+
+- User selects Frank and requests a very slight slowdown. Generated identical
+  short text at 0.95 speech speed; preserved original, task ID and hash. Verified
+  direct phone-accessible MP3 response and decoding. Revised audition only; no
+  live app changes. Synthesis speed does not guarantee an exact runtime delta.
