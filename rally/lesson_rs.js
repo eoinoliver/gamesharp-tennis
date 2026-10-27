@@ -20,7 +20,7 @@ const LESSON={
   "return_position"
  ],
  "finaleScene": "rs1B",
- "cam0": {"c":{"az":-90,"el":24,"d":36,"fov":31,"tgt":[0,-1.7,0]}},
+ "cam0": {"c":{"az":-90,"el":24,"d":40,"fov":31,"tgt":[0,-1.7,0]}},
  "startBehind": true,
  "steps": [
   {

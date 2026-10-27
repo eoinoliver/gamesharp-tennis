@@ -56,6 +56,19 @@ try{
   }
  }
  if(report.length)writeFileSync(`${out}/catalogue.json`,JSON.stringify(report,null,2));
+ // Deep return options must keep feet and racket inside the actual desktop view.
+ const desktop=await c.newPage();await desktop.setViewportSize({width:1100,height:900});
+ await desktop.goto(base+'play.html?l=find-your-return-spot');await desktop.waitForFunction(()=>window.__test);
+ const margin=await desktop.evaluate(()=>{
+  answered=true;showTargets=null;camI=0;window.__camOverride=null;let min=Infinity;
+  for(const [key,sc]of Object.entries(SC))for(let f=0;f<sc.frames;f+=3){
+   scene=key;t=f;const you=actorAt(sc,'you',f);setCamera(you);buildBasis();fitFull();
+   for(const a of [you,actorAt(sc,'opp',f)])for(const pt of [...a.pose,a.rq.centre,add(a.pose[I.head],[0,0,.42])]){
+    const q=P(pt);min=Math.min(min,q?Math.min(...q.s,VW-q.s[0],VH-q.s[1]):-Infinity);
+   }
+  }return min;
+ });
+ check(margin>=20,'deep return Broadcast keeps both full bodies and rackets inside the frame');await desktop.close();
  // Normal UI gates: ball return example must finish before a choice can be made.
  await p.goto(base+'play.html?l=second-serve');await p.waitForFunction(()=>window.__test);
  await p.evaluate(()=>startStep(1));

@@ -110,7 +110,7 @@ Candidate version is recorded on the PR. Hosted/live evidence follows on the PR 
 
 The full gate exposed a real optional desktop Broadcast crop in Find Your Return
 Spot: deep return positions could leave the frame. Its camera now pulls back to
-include both players with at least 27 projection pixels of head/hip margin. The
+include both players with at least 27 projection pixels of full-body/racket margin. The
 desktop gate now uses the renderer's actual camera and resets the question-view
 projection; previously a stale projection could hide the crop, and lessons whose
 Broadcast is a follow camera were incorrectly checked with a fixed camera.

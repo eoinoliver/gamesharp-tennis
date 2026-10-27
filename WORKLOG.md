@@ -479,4 +479,6 @@ canonical local paths and “next” steps below are historical, not current rul
   the full gate exposed deep return positions clipped in the optional desktop
   Broadcast view. Final camera repair pulls back that view; the gate now uses
   actual renderer cameras with no stale choosing projection. Final candidate
-  0ce1048bde retains the same question/sound code. Full final checks follow.
+  39c56de12c retains the same question/sound code and adds a full-body/racket
+  framing assertion for deep returns. Final CI covers the complete suite; local
+  contact inspection was interrupted to avoid rebuilding under a running test.

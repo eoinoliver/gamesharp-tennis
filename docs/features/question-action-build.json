@@ -18,7 +18,7 @@
     },
     "tools/question-action-browser.mjs": {
       "baseline": null,
-      "candidate": "c8f783919732e42d0c85235a20eaba822290dbb8ef9ee757df14ebe10da08f8c"
+      "candidate": "378aa80d0dd7cf338f1ded361a7d08969e8f69124d5b73dbe0fc58ad69daf642"
     },
     "tools/browser-checks.mjs": {
       "baseline": null,
@@ -34,7 +34,7 @@
     },
     "rally/lesson_rs.js": {
       "baseline": null,
-      "candidate": "625d95b1b43316c0743bc0c2b821535d2059092f479fcc13e47a5bfb02064ec8"
+      "candidate": "30904e21ce16a0530acf5f9b85b4df72356e4ba71ecea1f1a7d6ae1728f8947a"
     },
     "rally/lesson_bg.js": {
       "baseline": null,
@@ -60,15 +60,15 @@
     },
     "app/catalog.js": {
       "baseline": "167876451662505eee9872d5155160abe970a44a770b84fc1895ea1ca359b5fa",
-      "candidate": "936f15ad175d3e23a8eddd6fb2c15336aa6b320466e8a6d7f31c1a565bf24876"
+      "candidate": "893c7ae0a729b657f37258b2382062cbd12a621ffbd837e686a5497c3d81e6f2"
     },
     "app/index.html": {
       "baseline": "3608e4d2399d81033f61c43912821837cd4d37fd93687e59373e4a67010b44d8",
-      "candidate": "f471adb429cdab96e3cb5c0c6b6af4fb31d932db40e5773034605d3725570a01"
+      "candidate": "8d05eec6ec81760747c7beb08c9aa362962be782f911ddd453fbd26b471b484a"
     },
     "app/play.html": {
       "baseline": "b99fcba316322552070ce5d1b834f72fc6352e50a2694c78463f6598e795abee",
-      "candidate": "dc46e351e7d1f7e7b3f90c14bba077a3459813e476e0deaa52c4f47ddd34c87e"
+      "candidate": "b641b52fe3a6a69f99662ec7d8cf7913c8a919b6dc12e661fbb1bc6c0499da36"
     },
     "app/lessons/second-serve.json": {
       "baseline": "48eecb4490f0e0ce7a79c55dd75e27e0a12c1bd55ded32dd725c2ffb8aee1a83",
@@ -76,7 +76,7 @@
     },
     "app/lessons/find-your-return-spot.json": {
       "baseline": "c98ca620f5c8276dec09deb4a7e18256fe3a4468b72c3302406aba6007ef557e",
-      "candidate": "efe4c9228e1fd55931469e4cabf137363b9f75b3493f6cf059c0484e8948a7b2"
+      "candidate": "b3825b608918cdfde72a6c79f2c50b976db67bb00f3370894b6de02bce88958b"
     },
     "app/lessons/the-big-hitter.json": {
       "baseline": "17129df3d2cfb33a18955a30f6ad6f1b182ea64c7030b994523bc7135937dc76",
