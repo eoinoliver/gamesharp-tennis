@@ -24,13 +24,17 @@
       "baseline": null,
       "candidate": "d0b24820b90e6803ab31243074b83f7b3ac0381d08df6f164ab133ba862fcac5"
     },
+    "gs/gate.mjs": {
+      "baseline": "14444f1de01c8f20e3387724a31bbcef16b78e1a4744aa455b72c8e55a62db9b",
+      "candidate": "a99920e09f9c6c1b484a0883fe690fa6f19811a27181dd68e7640c4f47301318"
+    },
     "rally/lesson_sq.js": {
       "baseline": "6f719287267dc5412d996dd5f646c84dd168e80b5f6d48cf6ed1e65166369234",
       "candidate": "9051ac5b6d9ea4f917f2645cd5eefee493c3b1a559092b9cfe657ffa8bddba80"
     },
     "rally/lesson_rs.js": {
       "baseline": null,
-      "candidate": "5c7e57fb07410300c1106b24f8e6143d9be06565873ebaecb06601c2e9450dc2"
+      "candidate": "625d95b1b43316c0743bc0c2b821535d2059092f479fcc13e47a5bfb02064ec8"
     },
     "rally/lesson_bg.js": {
       "baseline": null,
@@ -56,15 +60,15 @@
     },
     "app/catalog.js": {
       "baseline": "167876451662505eee9872d5155160abe970a44a770b84fc1895ea1ca359b5fa",
-      "candidate": "a2a0cd790befe07ea990b86e00456ac034aa6337ccdcfcab6ff09eb5ea8c6883"
+      "candidate": "936f15ad175d3e23a8eddd6fb2c15336aa6b320466e8a6d7f31c1a565bf24876"
     },
     "app/index.html": {
       "baseline": "3608e4d2399d81033f61c43912821837cd4d37fd93687e59373e4a67010b44d8",
-      "candidate": "f19d3421ad0087b6f01db3eb3f312ad4631298ae071d1c2f98a8f85463675d66"
+      "candidate": "f471adb429cdab96e3cb5c0c6b6af4fb31d932db40e5773034605d3725570a01"
     },
     "app/play.html": {
       "baseline": "b99fcba316322552070ce5d1b834f72fc6352e50a2694c78463f6598e795abee",
-      "candidate": "d95668ea152bdc90f3e844a26d6d3400690137f08b2f557cccbed2fb0823ffa5"
+      "candidate": "dc46e351e7d1f7e7b3f90c14bba077a3459813e476e0deaa52c4f47ddd34c87e"
     },
     "app/lessons/second-serve.json": {
       "baseline": "48eecb4490f0e0ce7a79c55dd75e27e0a12c1bd55ded32dd725c2ffb8aee1a83",
@@ -72,7 +76,7 @@
     },
     "app/lessons/find-your-return-spot.json": {
       "baseline": "c98ca620f5c8276dec09deb4a7e18256fe3a4468b72c3302406aba6007ef557e",
-      "candidate": "3ee694e337feae7568e8201cb5de4a35e74973fff15f265f29755234b7aed7bf"
+      "candidate": "efe4c9228e1fd55931469e4cabf137363b9f75b3493f6cf059c0484e8948a7b2"
     },
     "app/lessons/the-big-hitter.json": {
       "baseline": "17129df3d2cfb33a18955a30f6ad6f1b182ea64c7030b994523bc7135937dc76",

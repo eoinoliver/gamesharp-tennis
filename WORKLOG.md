@@ -475,3 +475,8 @@ canonical local paths and “next” steps below are historical, not current rul
 - Trace every opening/decision/result, fix confirmed causes, retain first-answer
   scoring and Predict neutrality. Standing autonomy and deploy-live authorization
   apply with existing Git/staged/live verification safeguards.
+- First candidate e35493670b passed 135-question playback and sound audits, but
+  the full gate exposed deep return positions clipped in the optional desktop
+  Broadcast view. Final camera repair pulls back that view; the gate now uses
+  actual renderer cameras with no stale choosing projection. Final candidate
+  0ce1048bde retains the same question/sound code. Full final checks follow.

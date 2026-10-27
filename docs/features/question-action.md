@@ -106,4 +106,11 @@ this change and release. They supersede the older local exact-version approval
 gate; Git PR, required checks, exact staged Production verification and promotion
 remain required. Baseline: main 6f8b3e3cb5010708e84e163c16ad7f925534a316,
 app 2dd4194def, rollback dpl_6JGuduEib2zQqWyXwpcz1C7fmXrQ.
-Candidate app e35493670b. Hosted/live evidence follows on the PR and release record.
+Candidate version is recorded on the PR. Hosted/live evidence follows on the PR and release record.
+
+The full gate exposed a real optional desktop Broadcast crop in Find Your Return
+Spot: deep return positions could leave the frame. Its camera now pulls back to
+include both players with at least 27 projection pixels of head/hip margin. The
+desktop gate now uses the renderer's actual camera and resets the question-view
+projection; previously a stale projection could hide the crop, and lessons whose
+Broadcast is a follow camera were incorrectly checked with a fixed camera.
