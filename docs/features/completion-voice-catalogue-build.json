@@ -1,0 +1,366 @@
+{
+  "source": {
+    "rally/lesson_body.html": {
+      "baseline": "5d38921d6aeeeb388c670c4d885ee3382115a0d2ca87a6cb2201fbe8a4b8248e",
+      "candidate": "9069fd55570311d9f76f393aceca4ad66605fcc44cea53711e883ecd14ad5d72"
+    },
+    "app_src/sfx.js": {
+      "baseline": "51825e51cdf6417ee54eb6f786cc5702ff15df57b98aee3ad6b06c5eaa9d79fe",
+      "candidate": "97e830d8b668b80b65e62fbe14cd9e27a7ac2755f91e2b6eb75cc424e1787a70"
+    },
+    "app_src/sfx.test.mjs": {
+      "baseline": "fe87e66b64bec8b523d9cd1a5482e6c179b0090b6481a51637b761b172eb1a58",
+      "candidate": "fd3be66a217da39338e27cd22e6c2d87dba0df26a55374537e9c03679db147cc"
+    },
+    "tools/voice-browser.mjs": {
+      "baseline": "06d91523f53c902bedd76f63e801a3a67d48958b089dd8ec0fbb333e2b656592",
+      "candidate": "45cdf74a73d3b066759b4074a0d934198cd708fe3fb2ed4d4a603a9080448119"
+    },
+    "tools/sensory-browser.mjs": {
+      "baseline": "5d7d381424ec8acb97966d0265fcaf6124e2d97ef60ca7dafd7f8c1f75ae26bf",
+      "candidate": "c3d6003dddd4c317c52f9c920889977f502fc5ff91dd875f341700518bbfc76f"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "3c155f75f660ccc03e7ba90ea78d7ca368f3eb6ef69cf7f6889231b253909952",
+      "candidate": "d3b92bda880011bf2366756b0869742522b10ec401e14468de866f6cd3512bb9"
+    },
+    "tools/voice-catalogue-browser.mjs": {
+      "baseline": null,
+      "candidate": "a2bb24f7c7822cb6dc99a699732a63e7d7f724238e99cd02b2bb4019c9e0d935"
+    },
+    "docs/features/completion-voice-catalogue.json": {
+      "baseline": null,
+      "candidate": "beffe70a1fe7c9f56d7dadff11cdec639482ca8275843268e2fa082858f20aa0"
+    },
+    "docs/features/completion-voice-sources.json": {
+      "baseline": null,
+      "candidate": "2e13f0bb89bd9c6455ca23b7a4b7854fc6e9d68eff51b8e6895886e20d294af3"
+    },
+    "app_src/audio/voice-serve-plus-one.mp3": {
+      "baseline": null,
+      "candidate": "4dbdb80693903d6409613e2d7a1b247ab51e048a1b9dc7ec55eb4c947d804407"
+    },
+    "app_src/audio/voice-the-line.mp3": {
+      "baseline": null,
+      "candidate": "97b69f0265b0864dcfb8efe15a359bd3559ef779da520e9659fe067fe2e10382"
+    },
+    "app_src/audio/voice-the-winner.mp3": {
+      "baseline": null,
+      "candidate": "c7572ab2e2c7b750b28d4dea490237f38eb1d991055a89c739ed4a3604f407be"
+    },
+    "app_src/audio/voice-open-court.mp3": {
+      "baseline": null,
+      "candidate": "6b47b4c124589df4f3f5047b79bbef40345497a52cac61036270bbf2b6c17781"
+    },
+    "app_src/audio/voice-forehand-bill.mp3": {
+      "baseline": null,
+      "candidate": "a36bbf6015b1ea0ab0ff6762fcc9e9db69af45d74dc67e7e625745e4809e3f33"
+    },
+    "app_src/audio/voice-the-lead.mp3": {
+      "baseline": null,
+      "candidate": "6a651b060e9db32a37242728f4ca61e2374024aeab779a220f8d8d46a8748e55"
+    },
+    "app_src/audio/voice-split-step.mp3": {
+      "baseline": null,
+      "candidate": "8d7b84aa6c2208d7a3b823db97f8c2af8bd16828d7d36ec5b8abe3c4f7bfaf99"
+    },
+    "app_src/audio/voice-approach-volley.mp3": {
+      "baseline": null,
+      "candidate": "165769c5946e4b5141beaf1e94340c00a646f3a6f59c6ac58e125280eba4916a"
+    },
+    "app_src/audio/voice-middle-return.mp3": {
+      "baseline": null,
+      "candidate": "bd8bca920b4d6aef7b9e3236158d434dc354319827caa35951ecf8c759ce0968"
+    },
+    "app_src/audio/voice-high-ball.mp3": {
+      "baseline": null,
+      "candidate": "d579fe621f029c4ce305166852443197d13e46e5f8fafb3e2879334cf0997766"
+    },
+    "app_src/audio/voice-second-serve.mp3": {
+      "baseline": null,
+      "candidate": "83f1edfc589a53a38a800b21921d9f92da74ccbf681f48aedc69043882e2b6a2"
+    },
+    "app_src/audio/voice-contact-clue.mp3": {
+      "baseline": null,
+      "candidate": "ddf7e7d5471a56387ceac79c85769a03bee09a98329d1cf8f5ec3c3fe2a99954"
+    },
+    "app_src/audio/voice-running-around.mp3": {
+      "baseline": null,
+      "candidate": "8cc5b5559ff0281260f9dbbd8985a43091cd8ea20d6ce50384d63e4a3e308f5b"
+    },
+    "app_src/audio/voice-net-rusher.mp3": {
+      "baseline": null,
+      "candidate": "193de626400502f728bdcccb64d2e69e027c708d73abd826025b3b3b458ecc6f"
+    },
+    "app_src/audio/voice-pass-where-they-arent.mp3": {
+      "baseline": null,
+      "candidate": "d94e1759e3e3c79b1e5c45d03f900f6b7212b635fe13b2a01affa006d3a66c7d"
+    },
+    "app_src/audio/voice-late-is-the-culprit.mp3": {
+      "baseline": null,
+      "candidate": "44ce758b5974c28c81b1f09ae2353183c795d1fbb9e4f634aa42657bd82175b5"
+    },
+    "app_src/audio/voice-the-moonballer.mp3": {
+      "baseline": null,
+      "candidate": "cc3362e58cb4090418a3b9d319b820032271ee2da008be27f450b933fd12076b"
+    },
+    "app_src/audio/voice-the-pusher.mp3": {
+      "baseline": null,
+      "candidate": "9ce0585459c6ff6838b9b75a2284bb209fcc7a317c079ec15545a1e2be3fa82e"
+    },
+    "app_src/audio/voice-pulled-wide.mp3": {
+      "baseline": null,
+      "candidate": "342203774b6ef25975735b18b1824f35b746a8a700b033c50df7fa01b380dca6"
+    },
+    "app_src/audio/voice-serve-away-from-the-lean.mp3": {
+      "baseline": null,
+      "candidate": "ecef32085477469039c7562626e3d8f620bcbce3ffe443c509b84d8597135408"
+    },
+    "app_src/audio/voice-the-big-hitter.mp3": {
+      "baseline": null,
+      "candidate": "9aa68179d18acddfe7f06f669d4bfc32e951aeef7d075d623d9c9d6c22dffc35"
+    },
+    "app_src/audio/voice-the-lefty.mp3": {
+      "baseline": null,
+      "candidate": "65217033e1cb4832a71bdc25075a7ec305ccd927dfc733b9979163cbea2315b0"
+    },
+    "app_src/audio/voice-find-your-return-spot.mp3": {
+      "baseline": null,
+      "candidate": "05f2d516fdbcc0a8fababd0b5c27ca7ae5bf90012bada19df79004826508f1f1"
+    },
+    "app_src/audio/voice-answer-the-drop.mp3": {
+      "baseline": null,
+      "candidate": "c6f102cce5df7bf75c3f68a93cf67ae820e1497f865f30751d5215c276bb7e22"
+    },
+    "app_src/audio/voice-attack-the-backhand.mp3": {
+      "baseline": null,
+      "candidate": "600387a054a2768994f330361b239c4238dbdf2b9a0a19c1b2ab36462748bf14"
+    },
+    "app_src/audio/voice-down-the-line.mp3": {
+      "baseline": null,
+      "candidate": "4d0c988b38ae786a7a9c0c690d237e49fdd9f4e7eafafd4771a6c027ac1d552e"
+    },
+    "app_src/audio/voice-rushed-out-wide.mp3": {
+      "baseline": null,
+      "candidate": "76ca85de1315dafd1decbc064c4deb5697fd4f00746f2ff747fac5c2e9e7daa1"
+    },
+    "app_src/audio/voice-earned-attack.mp3": {
+      "baseline": null,
+      "candidate": "613dcf26d9edffda6835eea6bdd9a4cb5fd0c145a0699d4a25cf537f9b53d453"
+    },
+    "app_src/audio/voice-earned-net.mp3": {
+      "baseline": null,
+      "candidate": "d04e12e7d4e66ac5b77b2551087e5af2c90718e02f45fb81818213bfc16d5076"
+    },
+    "app_src/audio/voice-predict-the-point.mp3": {
+      "baseline": null,
+      "candidate": "2485b6476d706c1ab129793407956772613f185b44f6170ecc638e61f6cd650e"
+    },
+    "app_src/audio/voice-predict-second-serve.mp3": {
+      "baseline": null,
+      "candidate": "87b3d17e985dc9607d0dc5c574c9f4efa801360afbddfa1f8ea3333e40e80db9"
+    },
+    "app_src/audio/voice-saturday-point-1.mp3": {
+      "baseline": null,
+      "candidate": "e15a16c3ec327cda72fc0c806969320ad93f35465a2f55f1371b53d54c9f51fe"
+    },
+    "app_src/audio/voice-saturday-point-2.mp3": {
+      "baseline": null,
+      "candidate": "90a00f1b45defd2d19bd9fd7b586424995ae5ee342514608a139b4fc10b5ad6f"
+    },
+    "app_src/audio/voice-saturday-point-3.mp3": {
+      "baseline": null,
+      "candidate": "9d6f569319b7b86906f6fec27ee8b575ec4660cdbff46a08cc6fda9361015306"
+    },
+    "app_src/audio/voice-saturday-point-4.mp3": {
+      "baseline": null,
+      "candidate": "11b21a5140d01f052b14a0b86cb123bcc48639f33450f8b9426a9dace46581f1"
+    },
+    "app_src/audio/voice-saturday-point-5.mp3": {
+      "baseline": null,
+      "candidate": "b0011efac916e182d830b1182676d17e994e9d529e30aaddc3a0660e9cd0beee"
+    },
+    "app_src/audio/voice-midweek-point-1.mp3": {
+      "baseline": null,
+      "candidate": "17c3e2cda2792de9f166f11c5494f7d080e52ad4e951be839d3c2e4ce14fd8f2"
+    },
+    "app_src/audio/voice-play-the-point.mp3": {
+      "baseline": null,
+      "candidate": "4649406b01cbe2eab9e304862f25bc1027a91372584ab7c01e29bfa732b06702"
+    }
+  },
+  "release": {
+    "app/engine/engine.js": {
+      "baseline": "686762ac8c66dea58083285bf851711f2d419d8e277273ad86615d8190f7f325",
+      "candidate": "97df97ebb0e05cdf9addc96b412c0dbb7664dbcff0853d574b1fdd698617cbd7"
+    },
+    "app/sfx.js": {
+      "baseline": "51825e51cdf6417ee54eb6f786cc5702ff15df57b98aee3ad6b06c5eaa9d79fe",
+      "candidate": "97e830d8b668b80b65e62fbe14cd9e27a7ac2755f91e2b6eb75cc424e1787a70"
+    },
+    "app/catalog.js": {
+      "baseline": "60639d87403b3d143ffe000b950f4b8f052edbd3a40a7b5c866228c6c29407c1",
+      "candidate": "a86e3f693761fc3238dea49a8b3be8fc6a853e751c3f09ac615f9c210b0cb3ba"
+    },
+    "app/index.html": {
+      "baseline": "4b8cafdcde93e4876cb85a90dc6331648a5f70589bd208855a877c8beeb299ae",
+      "candidate": "d257d1f6283f571569b6efad1ee28b5665c5dd3bc5a25f505927e2abadad6f63"
+    },
+    "app/play.html": {
+      "baseline": "4df9d8fc153d4e03aa08b2ab5e7079ef2eeb9202ba398d3218db19f319beb3c1",
+      "candidate": "3503a78eb697d017c4c7adaa639d3d7397211f26dbfcd63815edbbea165dd398"
+    },
+    "app/audio/voice-serve-plus-one.mp3": {
+      "baseline": null,
+      "candidate": "4dbdb80693903d6409613e2d7a1b247ab51e048a1b9dc7ec55eb4c947d804407"
+    },
+    "app/audio/voice-the-line.mp3": {
+      "baseline": null,
+      "candidate": "97b69f0265b0864dcfb8efe15a359bd3559ef779da520e9659fe067fe2e10382"
+    },
+    "app/audio/voice-the-winner.mp3": {
+      "baseline": null,
+      "candidate": "c7572ab2e2c7b750b28d4dea490237f38eb1d991055a89c739ed4a3604f407be"
+    },
+    "app/audio/voice-open-court.mp3": {
+      "baseline": null,
+      "candidate": "6b47b4c124589df4f3f5047b79bbef40345497a52cac61036270bbf2b6c17781"
+    },
+    "app/audio/voice-forehand-bill.mp3": {
+      "baseline": null,
+      "candidate": "a36bbf6015b1ea0ab0ff6762fcc9e9db69af45d74dc67e7e625745e4809e3f33"
+    },
+    "app/audio/voice-the-lead.mp3": {
+      "baseline": null,
+      "candidate": "6a651b060e9db32a37242728f4ca61e2374024aeab779a220f8d8d46a8748e55"
+    },
+    "app/audio/voice-split-step.mp3": {
+      "baseline": null,
+      "candidate": "8d7b84aa6c2208d7a3b823db97f8c2af8bd16828d7d36ec5b8abe3c4f7bfaf99"
+    },
+    "app/audio/voice-approach-volley.mp3": {
+      "baseline": null,
+      "candidate": "165769c5946e4b5141beaf1e94340c00a646f3a6f59c6ac58e125280eba4916a"
+    },
+    "app/audio/voice-middle-return.mp3": {
+      "baseline": null,
+      "candidate": "bd8bca920b4d6aef7b9e3236158d434dc354319827caa35951ecf8c759ce0968"
+    },
+    "app/audio/voice-high-ball.mp3": {
+      "baseline": null,
+      "candidate": "d579fe621f029c4ce305166852443197d13e46e5f8fafb3e2879334cf0997766"
+    },
+    "app/audio/voice-second-serve.mp3": {
+      "baseline": null,
+      "candidate": "83f1edfc589a53a38a800b21921d9f92da74ccbf681f48aedc69043882e2b6a2"
+    },
+    "app/audio/voice-contact-clue.mp3": {
+      "baseline": null,
+      "candidate": "ddf7e7d5471a56387ceac79c85769a03bee09a98329d1cf8f5ec3c3fe2a99954"
+    },
+    "app/audio/voice-running-around.mp3": {
+      "baseline": null,
+      "candidate": "8cc5b5559ff0281260f9dbbd8985a43091cd8ea20d6ce50384d63e4a3e308f5b"
+    },
+    "app/audio/voice-net-rusher.mp3": {
+      "baseline": null,
+      "candidate": "193de626400502f728bdcccb64d2e69e027c708d73abd826025b3b3b458ecc6f"
+    },
+    "app/audio/voice-pass-where-they-arent.mp3": {
+      "baseline": null,
+      "candidate": "d94e1759e3e3c79b1e5c45d03f900f6b7212b635fe13b2a01affa006d3a66c7d"
+    },
+    "app/audio/voice-late-is-the-culprit.mp3": {
+      "baseline": null,
+      "candidate": "44ce758b5974c28c81b1f09ae2353183c795d1fbb9e4f634aa42657bd82175b5"
+    },
+    "app/audio/voice-the-moonballer.mp3": {
+      "baseline": null,
+      "candidate": "cc3362e58cb4090418a3b9d319b820032271ee2da008be27f450b933fd12076b"
+    },
+    "app/audio/voice-the-pusher.mp3": {
+      "baseline": null,
+      "candidate": "9ce0585459c6ff6838b9b75a2284bb209fcc7a317c079ec15545a1e2be3fa82e"
+    },
+    "app/audio/voice-pulled-wide.mp3": {
+      "baseline": null,
+      "candidate": "342203774b6ef25975735b18b1824f35b746a8a700b033c50df7fa01b380dca6"
+    },
+    "app/audio/voice-serve-away-from-the-lean.mp3": {
+      "baseline": null,
+      "candidate": "ecef32085477469039c7562626e3d8f620bcbce3ffe443c509b84d8597135408"
+    },
+    "app/audio/voice-the-big-hitter.mp3": {
+      "baseline": null,
+      "candidate": "9aa68179d18acddfe7f06f669d4bfc32e951aeef7d075d623d9c9d6c22dffc35"
+    },
+    "app/audio/voice-the-lefty.mp3": {
+      "baseline": null,
+      "candidate": "65217033e1cb4832a71bdc25075a7ec305ccd927dfc733b9979163cbea2315b0"
+    },
+    "app/audio/voice-find-your-return-spot.mp3": {
+      "baseline": null,
+      "candidate": "05f2d516fdbcc0a8fababd0b5c27ca7ae5bf90012bada19df79004826508f1f1"
+    },
+    "app/audio/voice-answer-the-drop.mp3": {
+      "baseline": null,
+      "candidate": "c6f102cce5df7bf75c3f68a93cf67ae820e1497f865f30751d5215c276bb7e22"
+    },
+    "app/audio/voice-attack-the-backhand.mp3": {
+      "baseline": null,
+      "candidate": "600387a054a2768994f330361b239c4238dbdf2b9a0a19c1b2ab36462748bf14"
+    },
+    "app/audio/voice-down-the-line.mp3": {
+      "baseline": null,
+      "candidate": "4d0c988b38ae786a7a9c0c690d237e49fdd9f4e7eafafd4771a6c027ac1d552e"
+    },
+    "app/audio/voice-rushed-out-wide.mp3": {
+      "baseline": null,
+      "candidate": "76ca85de1315dafd1decbc064c4deb5697fd4f00746f2ff747fac5c2e9e7daa1"
+    },
+    "app/audio/voice-earned-attack.mp3": {
+      "baseline": null,
+      "candidate": "613dcf26d9edffda6835eea6bdd9a4cb5fd0c145a0699d4a25cf537f9b53d453"
+    },
+    "app/audio/voice-earned-net.mp3": {
+      "baseline": null,
+      "candidate": "d04e12e7d4e66ac5b77b2551087e5af2c90718e02f45fb81818213bfc16d5076"
+    },
+    "app/audio/voice-predict-the-point.mp3": {
+      "baseline": null,
+      "candidate": "2485b6476d706c1ab129793407956772613f185b44f6170ecc638e61f6cd650e"
+    },
+    "app/audio/voice-predict-second-serve.mp3": {
+      "baseline": null,
+      "candidate": "87b3d17e985dc9607d0dc5c574c9f4efa801360afbddfa1f8ea3333e40e80db9"
+    },
+    "app/audio/voice-saturday-point-1.mp3": {
+      "baseline": null,
+      "candidate": "e15a16c3ec327cda72fc0c806969320ad93f35465a2f55f1371b53d54c9f51fe"
+    },
+    "app/audio/voice-saturday-point-2.mp3": {
+      "baseline": null,
+      "candidate": "90a00f1b45defd2d19bd9fd7b586424995ae5ee342514608a139b4fc10b5ad6f"
+    },
+    "app/audio/voice-saturday-point-3.mp3": {
+      "baseline": null,
+      "candidate": "9d6f569319b7b86906f6fec27ee8b575ec4660cdbff46a08cc6fda9361015306"
+    },
+    "app/audio/voice-saturday-point-4.mp3": {
+      "baseline": null,
+      "candidate": "11b21a5140d01f052b14a0b86cb123bcc48639f33450f8b9426a9dace46581f1"
+    },
+    "app/audio/voice-saturday-point-5.mp3": {
+      "baseline": null,
+      "candidate": "b0011efac916e182d830b1182676d17e994e9d529e30aaddc3a0660e9cd0beee"
+    },
+    "app/audio/voice-midweek-point-1.mp3": {
+      "baseline": null,
+      "candidate": "17c3e2cda2792de9f166f11c5494f7d080e52ad4e951be839d3c2e4ce14fd8f2"
+    },
+    "app/audio/voice-play-the-point.mp3": {
+      "baseline": null,
+      "candidate": "4649406b01cbe2eab9e304862f25bc1027a91372584ab7c01e29bfa732b06702"
+    }
+  }
+}

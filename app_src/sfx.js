@@ -7,10 +7,48 @@
   const voices=new Set(), buffers={}, files=['contact-1','contact-2','bounce',...rewards];
   const REWARD_KEY='gs_reward_last';
   const VOICE_KEY='gs_voice', courtVoices={
-    'short-ball':'Check the height. Choose the shot.',
-    'earned-defence':'Need time? Add height and depth.',
-    'recovery':'Read their options. Recover to cover them.'
-  };
+  "serve-plus-one": "Plan the next ball. Read the return.",
+  "short-ball": "Check the height. Choose the shot.",
+  "the-line": "Get balanced. Then earn the line.",
+  "the-winner": "Judge the choice. Not just the winner.",
+  "recovery": "Read their options. Recover to cover them.",
+  "open-court": "Watch their movement. Choose the space.",
+  "forehand-bill": "Choose the shot. Cover the recovery.",
+  "the-lead": "Keep your depth. Read the opponent.",
+  "split-step": "Watch their hit. Time your landing.",
+  "approach-volley": "Approach with depth. Follow your shot.",
+  "middle-return": "Under pressure? Return deep through the middle.",
+  "high-ball": "Read the depth. Find your contact.",
+  "second-serve": "Read the receiver. Make contact awkward.",
+  "contact-clue": "Check your spacing. Then choose the fix.",
+  "running-around": "Earn the forehand. Cover its cost.",
+  "net-rusher": "Read their position. Feet or over.",
+  "pass-where-they-arent": "See what they cover. Pass the gap.",
+  "late-is-the-culprit": "Turn early. Meet it in front.",
+  "the-moonballer": "When you can, step in. Take their time.",
+  "the-pusher": "Read their depth. Change the pattern.",
+  "pulled-wide": "Late and wide? Buy time first.",
+  "serve-away-from-the-lean": "Read the lean. Serve away from it.",
+  "the-big-hitter": "Buy yourself time. Change their contact height.",
+  "the-lefty": "Find their backhand. Adjust your patterns.",
+  "find-your-return-spot": "Read the serve. Choose your starting spot.",
+  "answer-the-drop": "Get there. Look up before choosing.",
+  "attack-the-backhand": "Move them first. Then find the backhand.",
+  "down-the-line": "Check their position. Choose the open side.",
+  "rushed-out-wide": "Stretched out wide? Go deep through the middle.",
+  "earned-attack": "See the opening. Check your arrival.",
+  "earned-defence": "Need time? Add height and depth.",
+  "earned-net": "Arrive first. Then decide whether to follow.",
+  "predict-the-point": "Open the court. Read the next reply.",
+  "predict-second-serve": "Find their backhand. Watch their recovery.",
+  "saturday-point-1": "Serve to open it. Earn the finish.",
+  "saturday-point-2": "Keep your depth. Build the next ball.",
+  "saturday-point-3": "Step in when ready. Leave contact space.",
+  "saturday-point-4": "Buy time when stretched. Bring them forward.",
+  "saturday-point-5": "Change their contact height. Take their time.",
+  "midweek-point-1": "Buy time when wide. Attack the opening.",
+  "play-the-point": "Your shot shapes their reply. Read it."
+};
   let voiceSlug=null, voiceEnabled=true, voiceLoading=null, voiceError=false,
       voicePending=false, voiceGeneration=0, voiceListener=null;
   try{voiceEnabled=localStorage.getItem(VOICE_KEY)!=='0';}catch(e){}
