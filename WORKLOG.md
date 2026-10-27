@@ -527,3 +527,12 @@ canonical local paths and “next” steps below are historical, not current rul
   workspace inspection reports Free with no available speech models and no
   alternate workspaces. Zero recordings generated. Saved the restrained phrase
   bank and score/context eligibility; no subscription purchase or app changes.
+
+- Voice direction updated: user wants a rich, resonant, warm voice with energy
+  and charisma; accent open, character references treated as tone not imitation.
+  Runway speech access now works. Generated Benjamin, Tom and Bernard reading
+  the same Serve Plus One cue plus occasional sign-off (6 credits total).
+  Preserved originals and gain-matched copies outside deployment; local audition
+  at http://127.0.0.1:8784/voice.html. Verified decoding, browser playback and
+  mobile layout. Listening verdict and physical-device listening remain pending.
+  No live application changes; six lesson-specific final recordings still pending.

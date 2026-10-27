@@ -1,17 +1,6 @@
 {
-  "status": "editorial_pilot_recording_blocked",
-  "voiceDirection": "Calm, conversational courtside coach; warm, clear, unhurried; no announcer delivery or imitation of a professional player.",
-  "recommendedAuditionVoice": {
-    "provider": "Runway",
-    "preset": "James",
-    "description": "Casual Australian conversational voice; proposed, not auditioned or approved.",
-    "speed": 0.95
-  },
-  "comparisonVoice": {
-    "provider": "Runway",
-    "preset": "Paula",
-    "description": "Calm British conversational voice; use the same Short Ball line for a fair comparison."
-  },
+  "status": "auditions_generated_listening_pending",
+  "voiceDirection": "Warm, rich and resonant lower register with energy, charisma and conversational wit. Accent is open. Thor and Frasier Crane are tonal references only, not voice imitations. Avoid synthetic cadence, flat narration and theatrical announcer delivery.",
   "lessons": [
     {
       "lesson": "short-ball",
@@ -115,28 +104,7 @@
     "scoreTruth": "All six scripts are score-neutral. Any future Three good decisions line must require three accepted first answers. No claim of measured on-court improvement.",
     "mastering": "Dry close voice, no room echo, no music or added outdoor ambience beneath speech. Preserve a natural finish, balance by perceived loudness, and check intelligibility on phone speakers before rollout."
   },
-  "recordingQueue": [
-    {
-      "lesson": "short-ball",
-      "voice": "James",
-      "purpose": "Recommended voice audition"
-    },
-    {
-      "lesson": "short-ball",
-      "voice": "Paula",
-      "purpose": "Same-script conversational comparison"
-    }
-  ],
-  "recordingBlocker": {
-    "provider": "Runway",
-    "toolResult": "Authenticated; generation blocked by paid_plan_required.",
-    "verifiedAt": "2026-10-27",
-    "workspacePlanReported": "Free",
-    "availableSpeechModels": [],
-    "multipleWorkspacesAvailable": false,
-    "generatedAssets": 0,
-    "requiredNextAction": "Speech access must become available in the connected Runway workspace before the James/Paula audition can run. No subscription purchase or live-app change made."
-  },
+  "recordingQueue": [],
   "occasionalSignOffs": {
     "status": "editorial direction approved; unrecorded and not implemented",
     "priority": "The lesson cue remains central. Sign-offs are optional, never a second recap.",
@@ -164,5 +132,47 @@
     ],
     "delivery": "Same consistent conversational voice as the court cue. At most one phrase, no hype or imitation of a player. Audition natural delivery before choosing frequency or placement.",
     "duration": "The cue alone retains its 2–4 second target; any occasional sign-off adds time and must be judged in the full ending."
+  },
+  "accessStatus": {
+    "verifiedAt": "2026-10-27",
+    "authenticated": true,
+    "speechGeneration": "confirmed by three successful recordings",
+    "creditsConsumed": 6
+  },
+  "audition": {
+    "spokenText": "Serve the question. Hit the space. Take it to court.",
+    "generationText": "[warmly] Serve the question. Hit the space. [confident] Take it to court.",
+    "model": "eleven_v3",
+    "speed": 1,
+    "listeningPage": "http://127.0.0.1:8784/voice.html",
+    "selectionStatus": "No voice selected; descriptive labels reflect preset characteristics, not a listening verdict.",
+    "mastering": "Audition copies gain-adjusted toward -20 LUFS; no pitch change, compression, trim, ambience or time stretch. Originals preserved locally.",
+    "verification": "All files decode; Chromium playback advances and only one clip plays at a time; WebKit playback advances after native play-button gesture. Mobile page inspected. Physical phone listening and perceptual voice/transcript review remain pending.",
+    "voices": [
+      {
+        "preset": "Benjamin",
+        "taskId": "92fd32ac-9d3d-48b3-a08e-e51b424ffe09",
+        "status": "SUCCEEDED",
+        "durationSeconds": 4.56,
+        "originalSha256": "6cc04ba19251518a088a2a3f6e25a1b77e3e53fc0b26e396d2e7a6ba16357895",
+        "auditionSha256": "fc7742c5a475ffb0520253e2b27b0167f8741bafed8721e6187d7cd9ab5a7948"
+      },
+      {
+        "preset": "Tom",
+        "taskId": "7ecece94-f78c-4ddd-b5e3-fbe9a4bd4c6e",
+        "status": "SUCCEEDED",
+        "durationSeconds": 3.68,
+        "originalSha256": "f584a81f9d345891d1c30b667ef22631396083bb59651140e808205773cc11f5",
+        "auditionSha256": "519332e8f68ee8b2ff0a2a34b88f1d47205ef331fb4067c79f25301ea8b60e89"
+      },
+      {
+        "preset": "Bernard",
+        "taskId": "c19e4c4e-ad8d-4014-b82f-d47bec9b6397",
+        "status": "SUCCEEDED",
+        "durationSeconds": 4.88,
+        "originalSha256": "73bf842d3d2c2c5e4583345283639019a5d1a0d91aa8104b47ca069b457fa292",
+        "auditionSha256": "fe0bee85923c43611940e31b420d97568cc4e5352ca9b53ffa90d84355b7c8d2"
+      }
+    ]
   }
 }
