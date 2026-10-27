@@ -1,0 +1,70 @@
+{
+  "sources": [
+    {
+      "key": "misjoc",
+      "creator": "misjoc",
+      "id": "400590",
+      "page": "https://freesound.org/people/misjoc/sounds/400590/",
+      "preview": [
+        "https://cdn.freesound.org/previews/400/400590_3372256-hq.mp3"
+      ],
+      "cc0": true,
+      "sha256": "8f702343651525abc1814211b1b122c697019e0070572cabe4e8a4ca0bed4753",
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "verified": "2026-10-27",
+      "duration": 5.663729,
+      "title": "Applause with cheering",
+      "note": "A larger group; the recording naturally settles after the initial reaction.",
+      "audition": "misjoc-audition.mp3",
+      "processing": "atrim=start=0:duration=4.5,asetpts=PTS-STARTPTS,afade=t=in:d=0.025,afade=t=out:st=3.9:d=0.6,volume=0.10999999999999943dB",
+      "durationSeconds": 4.5,
+      "file": "app_src/audio/applause-1.mp3",
+      "assetSha256": "c44369a213fccd0edb1d545952c840a62be78dadbad97b631b301eafff1259a3"
+    },
+    {
+      "key": "kent",
+      "creator": "KentVideoProduction",
+      "id": "199277",
+      "page": "https://freesound.org/people/KentVideoProduction/sounds/199277/",
+      "preview": [
+        "https://cdn.freesound.org/previews/199/199277_2590049-hq.mp3"
+      ],
+      "cc0": true,
+      "sha256": "0bb9aab9cd5dd87e3f9d1691316fe691b097d6d401f22b0e52e5b1ebe9656545",
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "verified": "2026-10-27",
+      "duration": 12.75,
+      "title": "Jazz-club applause",
+      "note": "About 50 people. A shorter audition excerpt with a gradual fade.",
+      "audition": "kent-audition.mp3",
+      "processing": "atrim=start=0:duration=4.5,asetpts=PTS-STARTPTS,afade=t=in:d=0.025,afade=t=out:st=3.2:d=1.3,volume=-8.99dB",
+      "durationSeconds": 4.5,
+      "file": "app_src/audio/applause-2.mp3",
+      "assetSha256": "646f57412428a7e0f484409c9ace47a9dad669fdace10278fb447bdfd590cbc8"
+    },
+    {
+      "key": "howard",
+      "creator": "HowardV",
+      "id": "264377",
+      "page": "https://freesound.org/people/HowardV/sounds/264377/",
+      "preview": [
+        "https://cdn.freesound.org/previews/264/264377_1654262-hq.mp3"
+      ],
+      "cc0": true,
+      "sha256": "b966896486d71242e6b4115947776b487c7b8436f0ceefaa1419b9ec83a1d36b",
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "verified": "2026-10-27",
+      "duration": 24.583417,
+      "title": "Enthusiastic group cheer",
+      "note": "The high-energy comparison. Likely too much for routine completion; audition as a boundary.",
+      "audition": "howard-audition.mp3",
+      "processing": "atrim=start=0:duration=3.8,asetpts=PTS-STARTPTS,afade=t=in:d=0.025,afade=t=out:st=2.5:d=1.3,volume=-15.56dB",
+      "durationSeconds": 3.8,
+      "file": "app_src/audio/applause-3.mp3",
+      "assetSha256": "430e85a9318ee2f50198a831c835c8b3c33cdfe765bd2ff7952b932b573f701e"
+    }
+  ],
+  "selection": "User selected audition 3, 5 and 6 on 2026-10-27. Retain these exact mastered excerpts. Kent and Howard are indoor recordings; misjoc location indoors/outdoors is unspecified. No outdoor-tennis provenance claim.",
+  "legacy": "applause.wav stays deployed for cached earlier sfx.js versions, but is not loaded or played by the new engine.",
+  "processing": "Static level matching toward -24 LUFS with -3 dB true-peak headroom, stereo, original speed/pitch, gentle fade. MP3 128 kbps. No synthetic layers, compression, reverb or time stretching."
+}

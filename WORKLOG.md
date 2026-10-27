@@ -482,3 +482,18 @@ canonical local paths and “next” steps below are historical, not current rul
   39c56de12c retains the same question/sound code and adds a full-body/racket
   framing assertion for deep returns. Final CI covers the complete suite; local
   contact inspection was interrupted to avoid rebuilding under a running test.
+
+## 27 October 2026 — natural completion sound (Codex)
+
+- Owner: Codex; branch `codex/natural-completion-audio` from main 8523581.
+- User chose audition 3, 5 and 6, prefers outdoor character, and approved the
+  restrained completion and contextual-voice direction. Keep natural tails,
+  matched levels, no consecutive reward repeats and no per-answer applause.
+- Respect the selected recordings; 5 and 6 are documented indoor recordings,
+  not outdoor tennis ambience. Outdoor alternatives are research, not silent
+  replacements for the chosen samples.
+- Voice pilot generation was attempted with the connected provider, which
+  returned reauthentication required. Do not substitute device TTS or introduce
+  an empty voice control. Record exact lesson-specific scripts for later work.
+- Standing full-autonomy/deploy-live authorization applies; retain Git preview,
+  staged production, complete required tests, inventories and rollback checks.

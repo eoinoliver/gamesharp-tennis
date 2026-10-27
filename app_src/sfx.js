@@ -3,7 +3,11 @@
 (function(){
   const KEY="gs_sound", AC=window.AudioContext||window.webkitAudioContext;
   let ctx=null, master=null, enabled=false, last={}, session=null, previousSession=null;
-  const voices=new Set(), buffers={}, files=['contact-1','contact-2','bounce','applause'];
+  const rewards=['applause-1','applause-2','applause-3'];
+  const voices=new Set(), buffers={}, files=['contact-1','contact-2','bounce',...rewards];
+  const REWARD_KEY='gs_reward_last';
+  let previousReward=null;
+  try{previousReward=localStorage.getItem(REWARD_KEY);}catch(e){}
   let loading=null, loadError=false, contact=0;
   const version=encodeURIComponent(window.GS_VERSION||'local');
   try { enabled=localStorage.getItem(KEY)==="1"; } catch(e) {}
@@ -17,10 +21,11 @@
       if(buffers[k])return;
       const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
       try{
-        const r=await fetch(`audio/${k}.wav?v=${version}`,{signal:controller.signal});
+        const reward=rewards.includes(k);
+        const r=await fetch(`audio/${k}.${reward?'mp3':'wav'}?v=${version}`,{signal:controller.signal});
         if(!r.ok)throw Error('Audio unavailable');
         const b=await c.decodeAudioData(await r.arrayBuffer());
-        if(!b.length||!Number.isFinite(b.duration)||b.duration>1)throw Error('Invalid audio');
+        if(!b.length||!Number.isFinite(b.duration)||b.duration>(reward?6:1))throw Error('Invalid audio');
         buffers[k]=b;
       }finally{clearTimeout(timer);}
     })).then(results=>{loadError=results.some(r=>r.status==='rejected');}).finally(()=>{loading=null;paint();});
@@ -95,7 +100,7 @@
     source.connect(gain);gain.connect(p);p.connect(master);
     let ended=false;
     const cleanup=()=>{if(ended)return;ended=true;source.disconnect();gain.disconnect();p.disconnect();voices.delete(v);};
-    const v={kind:key==='applause'?'reward':'contact',cancel(){try{source.stop();}catch(e){}cleanup();}};
+    const v={kind:rewards.includes(key)?'reward':'contact',cancel(){try{source.stop();}catch(e){}cleanup();}};
     voices.add(v);source.onended=cleanup;source.start(ctx.currentTime);
   }
   function allow(kind,gap){
@@ -111,7 +116,16 @@
     bounce(v,pan,depth){if(!vol(v)||!allow('bounce',.22))return;play('bounce',vol(v)*.65,pan,depth);},
     // No authentic net sample yet. Silence is preferable to the old electronic buzz.
     net(){},
-    applause(k=.6){if(!vol(k)||!allow('applause',4))return;play('applause',vol(k)*.45);},
+    applause(k=.6){
+      // One completed-challenge reward, never overlapping or queued for later.
+      if(!vol(k)||[...voices].some(v=>v.kind==='reward')||!allow('applause',6))return;
+      // Read again so another tab's last reward is respected. Storage failure
+      // still rotates within this page; muted/missed rewards never advance it.
+      try{previousReward=localStorage.getItem(REWARD_KEY)||previousReward;}catch(e){}
+      const key=rewards[(rewards.indexOf(previousReward)+1)%rewards.length];
+      play(key,vol(k)*.9);previousReward=key;
+      try{localStorage.setItem(REWARD_KEY,key);}catch(e){}
+    },
     wire(root){
       (root||document).querySelectorAll('[data-gs-sound]').forEach(b=>{b.onclick=e=>{
         e.stopPropagation();const enable=!(ready()||(enabled&&loading));

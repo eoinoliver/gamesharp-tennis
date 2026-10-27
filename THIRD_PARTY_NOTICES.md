@@ -45,3 +45,16 @@ The underlying previews are lossy; these are not copies of the original WAV
 masters. Source URLs, source hashes, exact cuts and shipped hashes are in
 `docs/features/recorded-audio-sources.json`. No player broadcast audio, music,
 synthetic pitch layers or legacy audio files were imported.
+
+## Completion reactions — 27 October 2026
+
+Three additional CC0 recordings, selected by the user: Small crowd cheering by
+misjoc (https://freesound.org/people/misjoc/sounds/400590/), Applause by
+KentVideoProduction (https://freesound.org/people/KentVideoProduction/sounds/199277/),
+and small crowd cheering by HowardV
+(https://freesound.org/people/HowardV/sounds/264377/).
+License: https://creativecommons.org/publicdomain/zero/1.0/.
+Trimmed, faded and level matched; original pitch preserved. Source and output
+hashes, exact processing and reuse verification are recorded in
+`docs/features/natural-completion-sources.json`. These are general audience
+recordings, not recordings of the on-screen tennis point.
