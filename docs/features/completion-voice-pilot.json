@@ -1,6 +1,6 @@
 {
   "status": "auditions_generated_listening_pending",
-  "voiceDirection": "Warm, rich and resonant lower register with energy, charisma and conversational wit. Accent is open. Thor and Frasier Crane are tonal references only, not voice imitations. Avoid synthetic cadence, flat narration and theatrical announcer delivery.",
+  "voiceDirection": "Natural resonance, warmth and quiet confidence, without dramatic announcer delivery. Two very short, sharp sentences. Accent open. No celebrity imitation.",
   "lessons": [
     {
       "lesson": "short-ball",
@@ -137,7 +137,7 @@
     "verifiedAt": "2026-10-27",
     "authenticated": true,
     "speechGeneration": "confirmed by three successful recordings",
-    "creditsConsumed": 6
+    "creditsConsumed": 9
   },
   "audition": {
     "spokenText": "Serve the question. Hit the space. Take it to court.",
@@ -145,7 +145,7 @@
     "model": "eleven_v3",
     "speed": 1,
     "listeningPage": "http://127.0.0.1:8784/voice.html",
-    "selectionStatus": "No voice selected; descriptive labels reflect preset characteristics, not a listening verdict.",
+    "selectionStatus": "User heard the first three auditions; none was the right fit. Requested two shorter sentences and resonance with less drama.",
     "mastering": "Audition copies gain-adjusted toward -20 LUFS; no pitch change, compression, trim, ambience or time stretch. Originals preserved locally.",
     "verification": "All files decode; Chromium playback advances and only one clip plays at a time; WebKit playback advances after native play-button gesture. Mobile page inspected. Physical phone listening and perceptual voice/transcript review remain pending.",
     "voices": [
@@ -174,5 +174,38 @@
         "auditionSha256": "fe0bee85923c43611940e31b420d97568cc4e5352ca9b53ffa90d84355b7c8d2"
       }
     ]
+  },
+  "shortAudition": {
+    "spokenText": "See it. Own it.",
+    "copyStatus": "Audition line proposed by Codex; not approved as final slogan or replacement for lesson cues.",
+    "model": "eleven_multilingual_v2",
+    "speed": 1,
+    "deliveryTags": [],
+    "voices": [
+      {
+        "preset": "Frank",
+        "taskId": "48b5ba1a-f0de-4102-87f4-0db92d8f6757",
+        "status": "SUCCEEDED",
+        "durationSeconds": 1.439637,
+        "originalSha256": "f53db1ed5bdf6cc082ee162c31512160a4c7593638a2d7dbc7503bfc4030265d"
+      },
+      {
+        "preset": "Vincent",
+        "taskId": "d0146400-84c8-482a-aafc-06a0d79f5874",
+        "status": "SUCCEEDED",
+        "durationSeconds": 1.346757,
+        "originalSha256": "ca11e5712618885c01007b17405c01ef9e4343b2d331307d8cfe3b18e43d8507"
+      },
+      {
+        "preset": "James",
+        "taskId": "6431779e-254b-4fb8-a2d8-5a9c332af705",
+        "status": "SUCCEEDED",
+        "durationSeconds": 1.253878,
+        "originalSha256": "8cd5029c6f5e4471021301a07773f0ce8517f9448e186cb98327ede9e768b341"
+      }
+    ],
+    "selectionStatus": "Awaiting listening comparison; descriptions are preset labels, not a perceptual verdict.",
+    "delivery": "Direct Runway MP3 links verified without sign-in for phone access. Originals preserved locally; no effects or pitch/time changes.",
+    "creditsConsumed": 3
   }
 }

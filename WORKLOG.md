@@ -536,3 +536,10 @@ canonical local paths and “next” steps below are historical, not current rul
   at http://127.0.0.1:8784/voice.html. Verified decoding, browser playback and
   mobile layout. Listening verdict and physical-device listening remain pending.
   No live application changes; six lesson-specific final recordings still pending.
+
+- User wants two very short sentences and further voices with resonance, less
+  drama. Generated Frank, Vincent and James saying “See it. Own it.” using steady
+  delivery, no tags/effects (3 credits). This is audition copy, not a selected
+  slogan. Preserved originals and task/hash provenance; verified unauthenticated
+  audio URLs and file decoding. Provide direct links for phone access. No live
+  app change; voice choice and perceptual listening verdict remain pending.
