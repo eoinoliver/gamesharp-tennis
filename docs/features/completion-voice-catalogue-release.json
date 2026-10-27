@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-27",
+  "status": "live_catalogue_completion_voice",
+  "appVersion": "61678680f2",
+  "pullRequest": "https://github.com/eoinoliver/gamesharp-tennis/pull/53",
+  "reviewedHead": "5ef0cc1ab47b334a2fdba30dea60d3abee5b15e3",
+  "mergeSha": "72018a03b2fc42526e5bab74d5d0a8f8ec855ea3",
+  "productionDeploymentId": "dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX",
+  "productionUniqueUrl": "https://gamesharp-tennis-92l59dzaw-eoinlynn-5978s-projects.vercel.app",
+  "publicUrl": "https://www.gamesharptennis.com",
+  "previewDeploymentId": "dpl_HzRXERZA8T84RG2YEScyPSyQqAhU",
+  "previewUniqueUrl": "https://gamesharp-tennis-pmhfz2ag6-eoinlynn-5978s-projects.vercel.app",
+  "rollbackDeploymentId": "dpl_93kG8TFM9Mmgezrzvzv2zZ9nCjUm",
+  "rollbackAppVersion": "136cdb5034",
+  "authorization": "Proceed ambitiously after approving Frank, under explicit standing full autonomy and deploy-live instructions. Git release safeguards retained.",
+  "verification": {
+    "unitTests": 44,
+    "ciRun": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/40488802035",
+    "hostedChecksPerEnvironment": 289,
+    "publicFiles": 147,
+    "functions": 0,
+    "chromiumCatalogueJourneys": 41,
+    "webkitCatalogueJourneys": 41,
+    "webkitFinalPredictRetest": 2,
+    "hostedPreviewAndStageJourneys": 7,
+    "liveJourneysPerBrowser": 7,
+    "additionalLiveVoicePreferenceAndFreshnessJourneys": 3,
+    "mobileEndingsVisuallyReviewed": 41,
+    "mergeTreeMatchesReviewedTree": true,
+    "previewStageConfigEquivalent": true,
+    "projectEnvironmentVariableCount": 0,
+    "autoAssignCustomDomains": false,
+    "physicalDeviceListening": "not verified",
+    "newRecordingsPerceptualListening": "38 unverified; technical decode, duration and loudness checks passed"
+  },
+  "scope": {
+    "integratedJourneys": 41,
+    "daily": 32,
+    "predict": 2,
+    "play": 7,
+    "newRecordings": 38,
+    "retainedRecordings": 3,
+    "withheldJourneys": 0,
+    "newLessons": 0
+  },
+  "recordings": {
+    "voice": "Frank",
+    "speed": 0.95,
+    "model": "eleven_multilingual_v2",
+    "newAssetsBytes": 1760009,
+    "newDurationSeconds": [
+      1.904036,
+      3.343673
+    ],
+    "processing": "Gain adjustment only; final MP3 true peak below -2 dBTP; timing and pitch preserved.",
+    "scripts": "completion-voice-catalogue.json",
+    "provenance": "completion-voice-sources.json"
+  },
+  "resources": {
+    "preview": {
+      "deploymentId": "dpl_HzRXERZA8T84RG2YEScyPSyQqAhU",
+      "staticAssets": 147,
+      "functions": 0,
+      "evidence": "Authenticated Vercel Resources view: Static Assets 147 and no Functions section; all manifest paths checked separately."
+    },
+    "stage": {
+      "deploymentId": "dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX",
+      "staticAssets": 147,
+      "functions": 0,
+      "evidence": "Authenticated Vercel Resources view: Static Assets 147 and no Functions section; all manifest paths checked separately."
+    }
+  },
+  "behavior": {
+    "voiceDefault": "on unless explicitly off; master mute respected",
+    "autoplay": "once after final motion, never late after a download",
+    "replay": "point replay does not repeat narration; explicit Hear court cue can replay",
+    "predict": "retains ending navigation and does not re-emit completion on point replay",
+    "payoff": "existing professional insight, drills and original saved cues preserved",
+    "applause": "perfect completion when automatic voice is off",
+    "history": "unseen daily queue remains browser-local; no cross-device sync"
+  },
+  "nextJudgment": "Gather human listening feedback on the new endings and actual next-day return behavior; browser tests do not establish coaching efficacy or retention uplift."
+}

@@ -375,6 +375,14 @@ function actorAt(sc,name,g){
     const u=smooth(r.start,r.arrive,g);
     Wd=footwork(blendWorld(A,B,u,away),A,B,u);
   }
+  // Authored recovery comparison: same stroke/ball/opponent, different time
+  // to begin moving. End just after their hit; never imply an unplayed result.
+  if(name==='you'&&sc.info.liveRecovery&&g>=sc.info.liveRecovery.start){
+    const r=sc.info.liveRecovery,hit=W.find(w=>!w.fixed);
+    const A=worldOf(localAt(hit,r.start)),L=clipAt(CL.ready,1);L.T=r.target;L.yaw=0;
+    const B=worldOf(L),u=smooth(r.move,r.move+r.duration,g);
+    Wd=footwork(blendWorld(A,B,u,away),A,B,u);
+  }
   // split step: a small two-footed hop that lands at a chosen moment, then a brief load
   if(name==="you"&&sc.info.splits) for(const [L,air] of sc.info.splits){
     let dz=0; if(g>L-air&&g<L) dz=0.11*(air/26)*Math.sin(Math.PI*(g-(L-air))/air);
@@ -560,7 +568,7 @@ const NS=()=>LESSON.steps.length;   // 3 for a lesson; a branching point has as 
 const nT=k=>[...LETTERS].filter(X=>SC[k+X]).length;   // options with a scene (a branch node can have 2 or 3)
 if(LESSON.branch) LESSON.steps=[LESSON.nodes[LESSON.branch]];
 function dotsOf(key){return SC[key]&&SC[key].info.dots||null;}
-function endLabel(key){const ms=SC[key].marks, m=ms[ms.length-1]; if(!m)return "";
+function endLabel(key){if(SC[key].info.livePoint)return 'Point in play';const ms=SC[key].marks, m=ms[ms.length-1]; if(!m)return "";
   const t=m.kind==="net"?"INTO THE NET":m.kind==="out"?"OUT · "+m.label:m.label; return t.charAt(0)+t.slice(1).toLowerCase();}
 
 /* ---------- state ---------- */
@@ -716,6 +724,10 @@ function railFor(S){return S.rail||(S.cues?["1 "+S.cues.ball,"2 You "+S.cues.you
 // Post-answer evidence is drawn from the actual rendered route, never from a
 // prescriptive foot position or an inferred diagnosis. Comparison cannot score.
 function drawArrivalEvidence(frag,sc,g){
+  if(LESSON.livePoint&&(answered||done)&&sc.info.liveRecovery&&g>=sc.info.liveRecovery.theirHit){
+    const r=sc.info.liveRecovery,h=actorAt(sc,'you',r.theirHit).pose[I.hips];
+    label(frag,[h[0],h[1],.04],'AT THEIR HIT','#e9da91',11,1,0);
+  }
   if(!LESSON.readinessLesson||!answered||done)return;
   const r=sc.info.readiness;if(!r)return;
   const trace=el_('g',{'data-arrival-evidence':'route','aria-hidden':'true'});
@@ -779,6 +791,7 @@ const emit=(n,d)=>{try{window.GSApp&&GSApp.emit(n,d);}catch(e){}};   // the app 
 // Examples replay an authored situation; choosing then starts a new attempt.
 function questionRange(S){
   const key=S.reveal?S.scene:S.scene+'A',sc=SC[key],to=sc.info.freeze;
+  if(LESSON.livePoint&&S.continuation)return {scene:key,from:164,to,type:'continuation',silent:true,label:'Your reply · replay',after:'Decide your recovery'};
   const from=(LESSON.branch?SC[S.scene]?.info.from:undefined)??sc.info.from??0;
   if(S.opening)return {...S.opening,type:'example',silent:false};
   if(to-from<30&&from>0)return {scene:key,from:Math.max(0,to-160),to,type:'lead-in',silent:true,label:'Replay the incoming ball',after:'Your next decision'};
@@ -803,7 +816,7 @@ function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
   $("wrapup").hidden=true; setInk("");
   if(i>=NS()){finishLesson();return;}
   const S=LESSON.steps[i];
-  $("count").textContent=LESSON.branch?`Shot ${i+1}`:`${i+1} of ${NS()}`;
+  $("count").textContent=LESSON.livePoint?`Decision ${i+1} of 2`:LESSON.branch?`Shot ${i+1}`:`${i+1} of ${NS()}`;
   stageSit(S.sit);
   paintRail(railFor(S)); paintAsk(S); tallView();
   pick=X=>choose(i,X,false);
@@ -813,9 +826,10 @@ function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
 }
 // Play one option out. demo = watching the better option after a miss (the first answer still counts).
 function choose(i,X,demo){
+  if(LESSON.livePoint&&ans[i]!=null)demo=true;
   clearContactInspection();questionCaption();
   const S=LESSON.steps[i];
-  if(!demo&&ans[i]==null){ans[i]=X;emit('answer',{i,X,ok:LETTERS.indexOf(X)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(X))});
+  if(!demo&&ans[i]==null){ans[i]=X;emit('answer',{i,X,node:S.scene,ok:LETTERS.indexOf(X)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(X))});
     if(LESSON.branch){const k=S.scene+X, nx=LESSON.nodes[k];   /* nodes are keyed by the pick that leads to them */ LESSON.steps.length=i+1; if(nx) LESSON.steps.push(nx); LESSON.finaleScene=k;}}   // your real pick decides where the point goes
   chosen=X; answered=true; zone.classList.remove("on"); showOnly([X]); setRail(3); setInk("");
   $("verdict").hidden=true;
@@ -839,7 +853,7 @@ function verdict(i,X,demo){
     v.innerHTML=`<div class="fb flow" role="status"><div class="copy">${S.lines[X]}</div></div>`; v.hidden=false; tallView();
     clearTimeout(window.__flowT); window.__flowT=setTimeout(()=>{if(step===i&&answered)startStep(i+1);},1800);
     return;}
-  const lab=demo?`Option ${X}`:also?`Also works · best: ${corr}`:ok?"Good read":`Better: ${corr}`;
+  const lab=demo?`Option ${X}`:LESSON.livePoint&&i===0?(ok?'More recovery time':'Less recovery time'):also?`Also works · best: ${corr}`:ok?"Good read":`Better: ${corr}`;
   const v=$("verdict");
   zone.classList.add("ans");
   v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div>${d?`<div class="tries ${n>=9?"good":n>=7?"mid":"bad"}">In ${n} of 10 tries</div>`:""}<button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
@@ -847,7 +861,7 @@ function verdict(i,X,demo){
       <div class="prin">${S.take}</div>
       <div class="whyp" id="whyp" hidden><p>${S.payoff}</p><p>${S.principle}</p><p>${S.why}</p></div></div>
     <div class="acts">${S.reveal?"":`<button class="alt" id="tryOther">${ok||demo?"Try another":`Watch ${corr} play out`}</button>`}
-    <button class="next" id="next">${i<NS()-1?"Next decision →":LESSON.branch?"Watch your point →":"Take it to court →"}</button></div>`;
+    <button class="next" id="next">${demo&&LESSON.livePoint?'Continue your chosen route →':i<NS()-1?"Next decision →":LESSON.livePoint?"See what you created →":LESSON.branch?"Watch your point →":"Take it to court →"}</button></div>`;
   if(CONTACT_FOCUS){const bt=document.createElement('button');bt.id='inspectContact';bt.className='contact-inspect';bt.textContent='Inspect contact';bt.setAttribute('aria-expanded','false');bt.onclick=()=>inspectContact('first');v.querySelector('.fbh').insertBefore(bt,$('why'));}
   if(LESSON.readinessLesson){
     const evidence=document.createElement('div');evidence.className='arrival-review';
@@ -890,13 +904,15 @@ function wireCompletionVoice(){
 function finishLesson(){
   clearContactInspection();questionCaption();
   done=true; const okA=(a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)));
-  const A=ans.slice(0,NS()), n=A.filter(okA).length; emit('complete',{n});
+  const A=ans.slice(0,NS()), n=A.filter(okA).length; emit('complete',{n,total:NS()});
   sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook;
   zone.hidden=true; paintRail([]); setInk(LESSON.branch?(SC[LESSON.finaleScene].info.outcome==="won"?"You built the winner":`${n} of ${A.length} read right`):`${n} of ${NS()} read right`,false);
   const w=$("wrapup"), p=LESSON.pro, voice=window.GSSfx?.voiceInfo();
+  const liveTake=LESSON.livePoint?(okA(A[0],0)?(okA(A[1],1)?'You bought time—and used it to recover.':'You bought time, then stayed wide watching your shot.'):(okA(A[1],1)?'Your recovery helped. A higher reply could have bought more time.':'The quicker reply and delayed recovery left you less prepared.')):'';
   w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${voice?voice.text:LESSON.memHTML}</div>
       ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
       <div class="score3">${A.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
+    ${LESSON.livePoint?`<div class="blk"><div class="k">What your choices created</div><p><b>${liveTake}</b></p><p>The point is still in play. Watch your position as they hit.</p><button class="alt" id="replayTurningPoint">Replay your recovery</button><button class="alt" id="compareRecovery">Compare the other recovery</button><p id="recoveryComparison" role="status"></p></div>`:''}
     ${payoffHTML(p)}
     ${LESSON.cue?`<div class="cuebox"><div class="k">Your cue</div><div class="cue">${LESSON.cue}</div>
       <button class="savecue" id="saveCue">${cueSaved()?"Saved to My Game ✓":"Save to My Game"}</button></div>`:""}
@@ -906,6 +922,13 @@ function finishLesson(){
     sc.onclick=()=>{if(cueSaved())return; saveCue(); sc.textContent="Saved to My Game ✓"; sc.classList.add("on"); emit('cue_save',{lesson:LESSON.title,cue:LESSON.cue});};}
   $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
   wireCompletionVoice();
+  const turning=$('replayTurningPoint');if(turning){
+    const inspect=other=>{GSSfx?.stopVoice();let k=LESSON.finaleScene;if(other)k=k.slice(0,-1)+(k.endsWith('A')?'B':'A');
+      $('recoveryComparison').textContent=(other?'Alternative: ':'Your choice: ')+(SC[k].info.liveRecovery.recover?'recover during your shot.':'wait for their direction.');
+      questionCaption((other?'Alternative · ':'Your choice · ')+(SC[k].info.liveRecovery.recover?'recover during your shot':'wait for their direction'));
+      run(k,SC[k].info.freeze,SC[k].frames-1,null,true);stageInView();emit('payoff_open',{k:other?'recovery_comparison':'turning_point'});};
+    turning.onclick=()=>inspect(false);$('compareRecovery').onclick=()=>inspect(true);
+  }
   // Let the final point settle before the spoken payoff; replays never repeat it.
   const speak=!!(voice&&GSSfx.voiceState().enabled);
   let voiceGeneration;
@@ -1027,7 +1050,7 @@ $("stage").onclick=()=>{if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPl
 $("playBtn").onclick=()=>{if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);} else $("again").click();};
 $("again").onclick=()=>{
   clearContactInspection();
-  if(done){const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
+  if(done){if(LESSON.livePoint){questionCaption('Your chosen route');const note=$('recoveryComparison');if(note)note.textContent='Your original choices.';}const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
   const S=LESSON.steps[step];
   if(!answered){startStep(step);return;}   // restart both reading and playback gates together
   if(S.reveal){if(LESSON.readinessLesson)replayArrival(S.scene);return;}
@@ -1084,7 +1107,7 @@ function setupPredict(){
     paintAsk(S); zone.hidden=false; tallView();
     scene=K; t=readAt[0]; stopAt=t; setPlaying(false);
     window.__camOverride=P.askCam||null; if(i===0) savedTrail=null; window.__trail=(window.__trail||[]).slice(0,i); showTargets=null;
-    pick=X=>{questionCaption();ans[i]=X;emit('answer',{i,X,ok:okAt(i)}); optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
+    pick=X=>{questionCaption();ans[i]=X;emit('answer',{i,X,node:S.scene,ok:okAt(i)}); optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
       const land=SC[S.scene+X].info.shot.land;
       window.__trail.push({from:hitFrom[i],to:land,h:hitFrom[i][2],arc:i===0?0.4:1,X,col:"#c8a84b",t0:performance.now()});
       later(()=>startStep(i+1),1700);};
@@ -1112,7 +1135,7 @@ function setupPredict(){
     done=true; const n=[0,1,2].filter(okAt).length; typeT.forEach(clearTimeout);
     const voice=window.GSSfx?.voiceInfo(), speak=!!(voice&&GSSfx.voiceState().enabled);
     const firstReview=!reviewed;reviewed=true;
-    if(firstReview)emit('complete',{n});
+    if(firstReview)emit('complete',{n,total:NS()});
     // Narrate only the first completion, after the whole point. Respect interruptions.
     if(firstReview&&speak&&!document.hidden&&GSSfx.voiceState().generation===voiceGeneration)GSSfx.completeVoice();
     if(n===3)celebrate('predict',!speak);

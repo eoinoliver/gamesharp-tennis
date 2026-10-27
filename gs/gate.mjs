@@ -6,7 +6,7 @@ const p=await b.newPage({viewport:{width:1100,height:900}}); const errs=[]; p.on
 await p.goto(/^https?:/.test(page)?page:'file://'+page); await p.waitForFunction(()=>window.__test,null,{timeout:20000}); await p.waitForTimeout(600);
 const r=await p.evaluate(()=>{
   const fails=[], notes=[]; window.__camOverride=null;
-  const cls=k=>{const ms=SC[k].marks, m=ms[ms.length-1]; if(!m) return 'none';
+  const cls=k=>{if(SC[k].info.livePoint)return 'in_play';const ms=SC[k].marks, m=ms[ms.length-1]; if(!m) return 'none';
     return m.kind==='land'?'won':m.kind==='rally'?'neutral':m.kind==='contact'?'observed':(m.kind==='reply'||m.kind==='out'||m.kind==='net')?'lost':'?';};
   const L=(s,n,what)=>{if(s&&s.length>n) fails.push(`text too long (${s.length}>${n}): ${what}: "${s}"`);};
   (LESSON.branch?Object.values(LESSON.nodes):LESSON.steps).forEach((S,i)=>{   // a branching point: check every node
@@ -20,6 +20,10 @@ const r=await p.evaluate(()=>{
       if('ABCD'.indexOf(X)!==S.correct&&c==='won') notes.push(`  note: wrong answer ${k} ends as a won point`);
       if(c==='neutral'){const segs=SC[k].actors, last=a=>Math.max(...(segs[a]||[]).filter(s=>!s.hold).map(s=>s.start+CL[s.clip].contactFrame));
         if(last('you')<last('opp')) fails.push(`${k}: neutral ending but the last shot is theirs`);}}});
+  for(const [k,s] of Object.entries(SC).filter(([k,s])=>s.info.liveRecovery)){
+    const h=s.info.liveRecovery.theirHit;
+    if(s.info.outcome!=='in_play'||s.frames!==h+19||!ballAt(s,h+18))fails.push(k+': Live Point must stop with the reply in flight');
+  }
   // Motion and actual desktop Broadcast playback, with no stale choosing projection.
   camI=0;answered=true;showTargets=null;window.__pc=null;
   cam=(typeof LESSON!=='undefined'&&LESSON.cam0&&LESSON.cam0.c)?{...LESSON.cam0.c}:{az:-90,el:24,d:31,fov:31,tgt:[0,-1.7,0]}; buildBasis();

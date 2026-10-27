@@ -606,3 +606,10 @@ canonical local paths and “next” steps below are historical, not current rul
 - Standing full-autonomy/deploy-live instructions apply. Full Git preview,
   staged Production and live safeguards remain. Rollback app 136cdb5034,
   dpl_93kG8TFM9Mmgezrzvzv2zZ9nCjUm, main 548be10172a8032214bdc17246959a363f4d25f2.
+
+- Released PR 53: head 5ef0cc1ab47b334a2fdba30dea60d3abee5b15e3, merge 72018a03b2fc42526e5bab74d5d0a8f8ec855ea3, app 61678680f2, Production dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX. 41 voiced endings (38 new, three retained), no withheld journeys. 44 unit tests, full CI, 289 checks per hosted environment, 147-file/no-function inventory, configuration comparison and seven complete paths in preview/stage/live passed. Live Chromium and WebKit plus fresh-queue regression passed. Physical iPhone/iPad and perceptual listening of the new 38 recordings remain unverified. Prior PR 51 release evidence is consolidated here; PR 52 is superseded. Rollback 136cdb5034 / dpl_93kG8TFM9Mmgezrzvzv2zZ9nCjUm. See docs/features/completion-voice-catalogue-release.json.
+
+## 27 October 2026 — movement-led Live Point pilot (Codex)
+
+- User approves the strategic direction and asks to proceed ambitiously and judiciously. Own codex/live-point-movement. Build one coherent branching movement point and a changed-context follow-up; preserve existing journeys and keep outcome claims conditional.
+- Verify every authored path, mobile rendering, sound sequencing, saved cues and browser-local follow-up eligibility. Standing autonomy/deploy-live authorization applies with Git, preview, staged and live verification safeguards. No claim of coaching certification or physical-device validation.

@@ -81,6 +81,9 @@ try{
  assert.ok((await p.locator('#main').textContent()).includes('Unfinished challenge'),'no unseen lessons means an explicit revisit, not automatic repetition');
  await p.evaluate(()=>GSApp.CAT.daily.forEach(l=>GSApp.complete(l.slug,2)));
  await p.goto(base);await p.waitForSelector('#main .today');
+ assert.ok((await p.locator('#main').textContent()).includes('Live Point'),'daily exhaustion offers the unplayed Live Point');
+ await p.evaluate(()=>GSApp.CAT.play.filter(l=>l.livePoint).forEach(l=>GSApp.complete(l.slug,2,2)));
+ await p.goto(base);await p.waitForSelector('#main .today');
  assert.ok((await p.locator('#main').textContent()).includes("You've played every lesson"),'completed catalogue never silently resets');
  assert.equal(errors.length,0,errors.join('\n'));
  writeFileSync(out+'/report.json',JSON.stringify({base,version,engine,results,errors,intercepted,freshEntries:fresh},null,2));console.log(JSON.stringify({version,engine,results,errors,intercepted,freshEntries:fresh}));

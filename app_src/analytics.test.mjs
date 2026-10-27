@@ -159,6 +159,28 @@ test("a failed capture cannot suppress the next genuine same-day foreground entr
 });
 
 const queueCatalog={daily:['one','two','three'].map(slug=>({slug})),predict:[]};
+const liveCatalog={...queueCatalog,play:[{slug:'point',livePoint:true,followup:'return'},{slug:'return',livePoint:true,transferOf:'point'}]};
+test('Live Point returns a new context on a later day, never an automatic repeat',()=>{
+ const b=boot({catalog:liveCatalog});assert.equal(b.app.nextLivePoint().slug,'point');
+ b.app.startLesson('point');b.app.complete('point',2,2);
+ assert.equal(b.app.nextLivePoint(),null);
+ const c=boot({catalog:liveCatalog,storage:b.storage,now:'2026-10-30T00:00:00Z'});
+ assert.equal(c.app.nextLivePoint().slug,'return');c.app.startLesson('return');
+ assert.equal(c.app.nextLivePoint(),null);assert.equal(c.app.S.done.point.total,2);
+});
+test('first Live Point decisions survive retries and distinguish same-day practice',()=>{
+ const b=boot({catalog:liveCatalog});b.app.complete('point',1,2);
+ b.app.recordLiveRead('return',{i:0,X:'B',ok:false,node:'r1'});
+ b.app.recordLiveRead('return',{i:0,X:'A',ok:true,node:'r1'});
+ assert.equal(b.app.S.liveReads.return[0].ok,false);
+ assert.equal(b.app.S.liveReads.return[0].delayed,false);
+ assert.equal(b.app.log().filter(x=>x[1]==='live_point_read').length,1);
+ const c=boot({catalog:liveCatalog,now:'2026-10-30T00:00:00Z'});
+ c.app.S.done.point={first:'2026-10-28'};
+ c.storage.set('gs6',JSON.stringify(c.app.S));
+ c.app.recordLiveRead('return',{i:0,X:'A',ok:true,node:'r1'});
+ assert.equal(c.app.S.liveReads.return[0].delayed,true);
+});
 test('automatic queue favours unseen lessons without falsely completing abandoned lessons',()=>{
  const b=boot({catalog:queueCatalog});assert.equal(b.app.nextDaily().slug,'one');
  b.app.startLesson('one');assert.equal(b.app.nextDaily().slug,'two');assert.equal(b.app.S.done.one,undefined);

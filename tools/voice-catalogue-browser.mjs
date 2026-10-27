@@ -5,7 +5,7 @@ import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';import {join} from 'node:path';
 import {execFile} from 'node:child_process';import {promisify} from 'node:util';
 const base=process.argv[2],engine=process.env.GS_READINESS_BROWSER||'chromium';assert(base?.endsWith('/'));
-const catalogue=JSON.parse(readFileSync('docs/features/completion-voice-catalogue.json')).lessons;
+const catalogue=JSON.parse(readFileSync('docs/features/completion-voice-catalogue.json')).lessons.concat(JSON.parse(readFileSync('docs/features/live-point-voice.json')));
 const cat=JSON.parse(readFileSync('app/catalog.js','utf8').match(/GS_CATALOG=(.*);\n/)[1]);
 assert.deepEqual(catalogue.map(r=>r.lesson).sort(),[...cat.daily,...cat.predict,...cat.play].map(r=>r.slug).sort());
 const selected=process.env.GS_VOICE_SLUGS?.split(',');const rows=catalogue.filter(r=>!selected||selected.includes(r.lesson));

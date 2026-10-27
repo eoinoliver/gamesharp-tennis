@@ -7,6 +7,8 @@
   const voices=new Set(), buffers={}, files=['contact-1','contact-2','bounce',...rewards];
   const REWARD_KEY='gs_reward_last';
   const VOICE_KEY='gs_voice', courtVoices={
+  "live-point-buy-time": "Buy yourself time. Use it to recover.",
+  "live-point-other-wing": "Buy yourself time. Use it to recover.",
   "serve-plus-one": "Plan the next ball. Read the return.",
   "short-ball": "Check the height. Choose the shot.",
   "the-line": "Get balanced. Then earn the line.",

@@ -1,5 +1,7 @@
 # Completion voice across the catalogue
 
+Live release: [exact deployment and verification record](completion-voice-catalogue-release.json).
+
 This release expands the approved Frank / 0.95 completion direction from three
 lessons to all 41 existing journeys: 32 Daily, two Predict and seven Play.
 It adds 38 recordings and retains the three live recordings byte for byte.

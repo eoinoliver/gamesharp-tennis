@@ -81,9 +81,26 @@ function nextDaily(){
   syncProgress();const pending=CAT.daily.filter(l=>!S.done[l.slug]),seen=S.seen||{};
   return pending.find(l=>!seen[l.slug])||pending.sort((a,b)=>(seen[a.slug]||0)-(seen[b.slug]||0))[0]||null;
 }
+function nextLivePoint(){
+  syncProgress();
+  const points=(CAT.play||[]).filter(l=>l.livePoint),seen=S.seen||{};
+  const due=points.find(l=>l.transferOf&&S.done[l.transferOf]?.first<today()&&!S.done[l.slug]&&!seen[l.slug]);
+  return due||points.find(l=>!l.transferOf&&!S.done[l.slug]&&!seen[l.slug])||null;
+}
 function startLesson(slug){
-  if(!isDaily(slug))return;
+  if(!isDaily(slug)&&!bySlug(slug)?.livePoint)return;
   syncProgress();S.seen||={};S.seen[slug]=Math.max(Date.now(),...Object.values(S.seen).map(Number).filter(Number.isFinite),0)+1;save(S);
+}
+function recordLiveRead(slug,d){
+  const lesson=bySlug(slug);if(!lesson?.livePoint)return;
+  syncProgress();S.liveReads||={};S.liveReads[slug]||=[];
+  if(S.liveReads[slug][d.i])return;
+  const prior=lesson.transferOf&&S.done[lesson.transferOf];
+  const delayed=!!(prior&&prior.first<today());
+  const read={day:today(),pick:d.X,ok:!!d.ok,node:d.node,delayed};
+  S.liveReads[slug][d.i]=read;save(S);
+  track('live_point_read',{lesson:slug,step:d.i+1,...read,transfer_of:lesson.transferOf||null,
+    gap_days:prior?daysBetween(prior.first,today()):null});
 }
 /* Show exhaustion or an explicit unfinished revisit before today's completion. */
 function todays(){
@@ -92,10 +109,10 @@ function todays(){
   const next=nextDaily();
   return !next||S.seen?.[next.slug]?next:f||next;
 }
-function complete(slug,n){
+function complete(slug,n,total=3){
   syncProgress();
   const t=today(), d=S.done[slug], firstTime=!d;
-  S.done[slug]=d?Object.assign(d,{last:t,times:d.times+1,best:Math.max(d.best,n)}):{first:t,last:t,times:1,best:n,n};
+  S.done[slug]=d?Object.assign(d,{last:t,times:d.times+1,best:Math.max(d.best,n),total}):{first:t,last:t,times:1,best:n,n,total};
   if(!S.days.includes(t)){
     S.streak=(S.last&&daysBetween(S.last,t)===1)?S.streak+1:(S.last===t?S.streak:1);
     S.last=t; S.days.push(t); S.days=S.days.slice(-120);
@@ -124,6 +141,6 @@ const listeners=[];
 function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
-window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,todays,startLesson,complete,setLevel,feedback,emit,on,
+window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,recordLiveRead,todays,startLesson,complete,setLevel,feedback,emit,on,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();

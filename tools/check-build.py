@@ -109,6 +109,14 @@ for records, expected in [(catalogue_voice['source'], source), (catalogue_voice[
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Catalogue voice baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Explicit movement-led point pilot: historical release fingerprints stay frozen.
+live = json.loads((ROOT/'docs/features/live-point-build.json').read_text())
+assert set(live['source']) == set(['app_src/app.js', 'app_src/build.py', 'app_src/catalog.py', 'app_src/index.html', 'app_src/play_host.html', 'app_src/sfx.js', 'app_src/analytics.test.mjs', 'app_src/sfx.test.mjs', 'rally/lesson_body.html', 'rally/build_live_point.py', 'rally/lesson_lp.js', 'rally/lesson_lt.js', 'rally/lp_data.json', 'rally/lt_data.json', 'tools/live-point-browser.mjs', 'tools/browser-checks.mjs', 'tools/voice-catalogue-browser.mjs', 'tools/voice-browser.mjs', 'gs/app_flow.mjs', 'gs/gate.mjs', 'docs/features/live-point-voice.json', 'docs/features/live-point.md', 'app_src/audio/voice-live-point-buy-time.mp3', 'app_src/audio/voice-live-point-other-wing.mp3'])
+assert set(live['release']) == set(['app/play.html', 'app/sfx.js', 'app/index.html', 'app/catalog.js', 'app/app.js', 'app/audio/voice-live-point-other-wing.mp3', 'app/audio/voice-live-point-buy-time.mp3', 'app/lessons/live-point-other-wing.json', 'app/lessons/live-point-buy-time.json', 'app/engine/engine.js'])
+for records, expected in [(live['source'], source), (live['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Live Point baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)
