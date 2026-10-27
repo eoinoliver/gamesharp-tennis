@@ -482,3 +482,14 @@ canonical local paths and “next” steps below are historical, not current rul
   39c56de12c retains the same question/sound code and adds a full-body/racket
   framing assertion for deep returns. Final CI covers the complete suite; local
   contact inspection was interrupted to avoid rebuilding under a running test.
+
+## 27 October 2026 — question-action live release record (Codex)
+
+- Owner: Codex; branch `codex/question-action-release-record` from main 8523581.
+- PR #43 merged the exact verified tree; app 39c56de12c is live on Production
+  dpl_H21kYcCmruKt9HjmvdLzPiJjrrX8. Preview, staged and live checks pass 245/245;
+  three direct live journeys pass in each of Chromium and WebKit with no errors.
+- Final CI 40446792839 passes the entire suite, including all 41 scene gates
+  and 325 contact-inspection checks. Physical-device listening is unverified.
+- Full identities, inventories, checks and rollback reference are recorded in
+  docs/features/question-action-release.md. Documentation only; do not promote.
