@@ -94,16 +94,21 @@ try{
  // Render the actual recordings offline: prove nonzero, bounded signal and finite tails.
  const code=readFileSync('app_src/sfx.js','utf8');const mix=await c.newPage();await mix.goto(base+'?all=1');
  const levels=[];
- for(const effect of ['hit','bounce','applause']){
+ for(const effect of ['hit','bounce','applause','applause-2','applause-3']){
   const level=await mix.evaluate(async({code,effect})=>{
-   const offline=new OfflineAudioContext(2,48000*2,48000);
+   const reward=effect.startsWith('applause');
+   const offline=new OfflineAudioContext(2,48000*(reward?7:2),48000);
+   localStorage.removeItem('gs_reward_last');
+   if(effect==='applause-2')localStorage.setItem('gs_reward_last','applause-1');
+   if(effect==='applause-3')localStorage.setItem('gs_reward_last','applause-2');
    window.AudioContext=function(){return new Proxy(offline,{get(t,k){if(k==='state')return 'running';if(k==='resume')return ()=>Promise.resolve();const v=Reflect.get(t,k,t);return typeof v==='function'?v.bind(t):v;},set(t,k,v){t[k]=v;return true;}});};
-   localStorage.setItem('gs_sound','1');(0,eval)(code);await GSSfx.unlock();GSSfx[effect](.7);
-   const b=await offline.startRendering(),d=b.getChannelData(0);let peak=0,sum=0,tail=0;
-   for(let i=0;i<d.length;i++){peak=Math.max(peak,Math.abs(d[i]));sum+=d[i]*d[i];if(i>48000)tail=Math.max(tail,Math.abs(d[i]));}
-   return{peak,rms:Math.sqrt(sum/d.length),tail};
+   localStorage.setItem('gs_sound','1');(0,eval)(code);await GSSfx.unlock();GSSfx[reward?'applause':effect](.7);
+   const b=await offline.startRendering(),d=b.getChannelData(0);let peak=0,sum=0,tail=0,body=0;
+   for(let i=0;i<d.length;i++){peak=Math.max(peak,Math.abs(d[i]));sum+=d[i]*d[i];if(i>48000*(reward?6:1))tail=Math.max(tail,Math.abs(d[i]));if(i>48000&&i<48000*2)body=Math.max(body,Math.abs(d[i]));}
+   return{peak,rms:Math.sqrt(sum/d.length),tail,body};
   },{code,effect});
-  check(level.peak>.001&&level.peak<.9&&level.rms>0&&level.tail<.00001,effect+': nonzero audio, no clipping, silent after one second');levels.push({effect,...level});
+  check(level.peak>.001&&level.peak<.9&&level.rms>0&&level.tail<.00001,effect+': nonzero audio, no clipping, finite tail');levels.push({effect,...level});
+  if(effect.startsWith('applause'))check(level.body>.001,effect+': natural reaction continues beyond one second');
  }
  // A missing/cold asset must not turn into a late shot or falsely ready control.
  const cold=await c.newPage();let release;const held=new Promise(r=>release=r);

@@ -65,6 +65,14 @@ for records, expected in [(action['source'], source), (action['release'], manife
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Question action baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Natural completion reward variants; preserve all earlier source fingerprints.
+natural = json.loads((ROOT/'docs/features/natural-completion-build.json').read_text())
+assert set(natural['source']) == {'app_src/sfx.js','app_src/sfx.test.mjs','tools/sensory-browser.mjs'} | {f'app_src/audio/applause-{n}.mp3' for n in range(1,4)}
+assert set(natural['release']) == {'app/sfx.js','app/catalog.js','app/index.html','app/play.html'} | {f'app/audio/applause-{n}.mp3' for n in range(1,4)}
+for records, expected in [(natural['source'], source), (natural['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Natural completion baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

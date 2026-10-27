@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 const code=readFileSync(new URL('./sfx.js',import.meta.url),'utf8');
-function fixture({stored="1",blocked=false,unsupported=false,audioSession}={}){
+function fixture({stored="1",blocked=false,unsupported=false,audioSession,storage={},durations={}}={}){
  const events={},sources=[],contexts=[],buttons=[];let reject=false,failFetch=false,hold=null;const requests=[];
  const param=()=>({value:0,setValueAtTime(v){this.value=v;},exponentialRampToValueAtTime(v){this.value=v;},cancelScheduledValues(){}});
  const node=()=>({gain:param(),frequency:param(),Q:param(),pan:param(),connect(){},disconnect(){this.disconnected=true;},start(){this.started=true;},stop(){this.stopped=true;},onended:null});
@@ -11,7 +11,7 @@ function fixture({stored="1",blocked=false,unsupported=false,audioSession}={}){
   constructor(){this.sessionAtBoot=audioSession?.type;this.state='suspended';this.sampleRate=48000;this.currentTime=0;this.destination={};contexts.push(this);}
   resume(){if(reject)return Promise.reject(Error('blocked'));this.state='running';this.onstatechange?.();return Promise.resolve();}
   createGain(){const n=node();this.master??=n;return n;}
-  decodeAudioData(){return Promise.resolve({length:4410,duration:.1});}
+  decodeAudioData(url){return Promise.resolve({length:4410,duration:durations[url.split("?")[0]]??.1,url});}
   createBuffer(c,n){return{getChannelData:()=>new Float32Array(n)};}
   createBufferSource(){const n=node();sources.push(n);return n;}
   createOscillator(){const n=node();sources.push(n);return n;}
@@ -19,7 +19,7 @@ function fixture({stored="1",blocked=false,unsupported=false,audioSession}={}){
  }
  const document={hidden:false,querySelectorAll:()=>buttons,addEventListener:(n,f)=>events[n]=f};
  const window={navigator:{audioSession},AudioContext:unsupported?undefined:AC,addEventListener:(n,f)=>events[n]=f};
- vm.runInNewContext(code,{window,document,localStorage:{getItem(){if(blocked)throw Error();return stored;},setItem(k,v){if(blocked)throw Error();stored=v;}},fetch:async url=>{requests.push(url);if(hold)await hold;if(failFetch)throw Error('network');return{ok:true,arrayBuffer:async()=>new ArrayBuffer(8)};},AbortController,setTimeout,clearTimeout,performance:{now:()=>0},Math,Promise});
+ vm.runInNewContext(code,{window,document,localStorage:{getItem(k){if(blocked)throw Error();return k==="gs_sound"?stored:storage[k]??null;},setItem(k,v){if(blocked)throw Error();if(k==="gs_sound")stored=v;else storage[k]=v;}},fetch:async url=>{requests.push(url);if(hold)await hold;if(failFetch)throw Error('network');return{ok:true,arrayBuffer:async()=>url};},AbortController,setTimeout,clearTimeout,performance:{now:()=>0},Math,Promise});
  return{api:window.GSSfx,requests,failFetch:()=>failFetch=true,recoverFetch:()=>failFetch=false,holdFetch:p=>hold=p,events,contexts,sources,document,buttons,reject:()=>reject=true,stored:()=>stored};
 }
 test('no autoplay/context at load; end of touch unlocks; one contact has sources',async()=>{
@@ -99,10 +99,10 @@ test('mute does not overwrite a session changed by another owner',async()=>{
 
 test('recordings load once only after opt-in, alternate contacts, and never synthesize',async()=>{
  const f=fixture({stored:null});assert.equal(f.requests.length,0);await f.api.set(true);
- assert.equal(f.requests.length,4);assert.ok(f.requests.every(u=>/^audio\/.+\.wav\?v=/.test(u)));
+ assert.equal(f.requests.length,6);assert.ok(f.requests.every(u=>/^audio\/.+\.(wav|mp3)\?v=/.test(u)));
  f.api.hit();const first=f.sources[0].buffer;f.contexts[0].currentTime=1;f.api.hit();
  assert.notEqual(f.sources[1].buffer,first);assert.ok(f.sources.every(s=>s.buffer));
- await f.api.unlock();assert.equal(f.requests.length,4);f.api.net();assert.equal(f.sources.length,2);
+ await f.api.unlock();assert.equal(f.requests.length,6);f.api.net();assert.equal(f.sources.length,2);
 });
 test('cold-load contacts are dropped, loading can be muted, completion never plays late',async()=>{
  const f=fixture();let release;f.holdFetch(new Promise(r=>release=r));
@@ -131,4 +131,28 @@ test('sound activation and reactivation never invent a ball contact',async()=>{
  b.onclick({stopPropagation(){}});await f.api.unlock();assert.equal(f.sources.length,0);
  await f.api.set(false);b.onclick({stopPropagation(){}});await f.api.unlock();
  assert.equal(f.sources.length,0);f.api.hit();assert.equal(f.sources.length,1);
+});
+
+// Rewards must feel complete without regressing gesture, mute or contact timing.
+test('natural rewards over one second decode, while excessive reward/contact duration is rejected',async()=>{
+ const good=fixture({durations:{'audio/applause-1.mp3':4.5,'audio/applause-2.mp3':4.5,'audio/applause-3.mp3':3.8}});
+ assert.equal(await good.api.unlock(),true);good.api.applause();assert.equal(good.sources[0].buffer.duration,4.5);
+ for(const durations of [{'audio/applause-1.mp3':6.1},{'audio/contact-1.wav':1.1}]){
+  const f=fixture({durations});assert.equal(await f.api.unlock(),false);f.api.applause();assert.equal(f.sources.length,0);
+ }
+});
+test('rewards rotate across navigation, cannot overlap, and muted calls do not consume a variation',async()=>{
+ const storage={},f=fixture({storage});await f.api.unlock();
+ f.api.applause();const first=f.sources[0];assert.match(first.buffer.url,/applause-1/);
+ f.contexts[0].currentTime=10;f.api.applause();assert.equal(f.sources.length,1,'active reward cannot overlap');
+ first.onended();f.api.applause();assert.match(f.sources[1].buffer.url,/applause-2/);
+ await f.api.set(false);f.api.applause();assert.equal(storage.gs_reward_last,'applause-2');
+ const next=fixture({storage});await next.api.unlock();next.api.applause();assert.match(next.sources[0].buffer.url,/applause-3/);
+ next.sources[0].onended();next.contexts[0].currentTime=7;next.api.applause();assert.match(next.sources[1].buffer.url,/applause-1/);
+});
+test('blocked storage and malformed stored selection retain a valid rotation',async()=>{
+ for(const opts of [{blocked:true},{storage:{gs_reward_last:'not-a-recording'}}]){
+  const f=fixture(opts);await f.api.set(true);f.api.applause();const first=f.sources[0];
+  first.onended();f.contexts[0].currentTime=7;f.api.applause();assert.notEqual(first.buffer.url,f.sources[1].buffer.url);
+ }
 });
