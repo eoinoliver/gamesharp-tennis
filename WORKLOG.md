@@ -556,3 +556,22 @@ canonical local paths and “next” steps below are historical, not current rul
   Frank 0.95 prototypes (short-ball, defence, recovery; 3 credits); preserved
   originals, task/hash provenance, direct mobile URLs and decode verification.
   All ten are editorial drafts, three are audio prototypes, none deployed.
+
+## 27 October 2026 — three-lesson voice integration (Codex)
+
+- User says proceed with the recommended three complete lesson pilots. Owner:
+  Codex, existing branch codex/completion-voice-pilot / PR 49. Implement Short
+  Ball, Earned Defence and Recovery with Frank 0.95 and matching Remember text.
+- Separate persistent voice opt-in; explicit hear/replay/stop and auto preference;
+  global mute/background/navigation cancellation; no download-delayed automatic
+  speech, no per-answer voice, no applause overlap. Preserve saved authored cues.
+- Standing full-autonomy and deploy-live instructions apply. Keep Git build,
+  full CI, exact preview/staged/live verification and rollback safeguards.
+- Current live rollback baseline dpl_6cmgiFL3bhovR3QdTyd6vxfVAWoa / adaf396f61;
+  main 7fec4ae8d982ca33168b1381bb3ed2ed291c8ba1. Auto domain assignment off.
+- 37 unit tests pass; all three Chromium journeys pass, including 2/3 completion,
+  transcript, opt-in, silence during questions, replay, mute, save and next.
+  Physical-device listening remains unverified; further release evidence follows.
+- Interaction refinement: one-off Hear court cue does not silently opt into
+  future narration. Auto voice is an explicit separate choice. Existing sensory
+  audit passed; final candidate reruns both browser engines with that distinction.

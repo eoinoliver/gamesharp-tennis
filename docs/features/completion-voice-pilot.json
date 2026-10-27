@@ -1,5 +1,5 @@
 {
-  "status": "auditions_generated_listening_pending",
+  "status": "three_lesson_integration_candidate",
   "voiceDirection": "Natural resonance, warmth and quiet confidence, without dramatic announcer delivery. Two very short, sharp sentences. Accent open. No celebrity imitation.",
   "lessons": [
     {
@@ -219,5 +219,18 @@
     "sha256": "23df80c15877fccff80a10e29dcb86797cdc2de65e6a272defa39faa88ae9d49",
     "status": "Revised audition generated; not yet deployed. Speed is a synthesis setting, not a guarantee of exact runtime reduction between generated takes."
   },
-  "currentEditorialBatch": "docs/features/completion-voice-batch-ten.json"
+  "currentEditorialBatch": "docs/features/completion-voice-batch-ten.json",
+  "integration": {
+    "lessons": [
+      "short-ball",
+      "earned-defence",
+      "recovery"
+    ],
+    "voice": "Frank",
+    "speed": 0.95,
+    "status": "candidate_not_live",
+    "behavior": "Hear court cue plays once without opting into future narration. A separate Auto voice control persists opt-in. Automatic cue starts only after the silent finale settles; manual replay/stop; global mute, background and navigation cancel; no late auto-play after download; voice suppresses applause only for opted-in pilot completions.",
+    "transcript": "Pilot Remember text matches the recording. Original authored saved court cue and sourced Pro Lens remain available.",
+    "scope": "3 integrated pilot lessons; 7 additional editorial drafts; 38 other catalogue lessons unchanged."
+  }
 }

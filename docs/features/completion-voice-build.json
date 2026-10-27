@@ -1,0 +1,74 @@
+{
+  "source": {
+    "rally/lesson_body.html": {
+      "baseline": "86108bfa4985ae4a09666fee47eaccef4a1d21c5eb77372f9984b617819e0b9f",
+      "candidate": "5d38921d6aeeeb388c670c4d885ee3382115a0d2ca87a6cb2201fbe8a4b8248e"
+    },
+    "app_src/sfx.js": {
+      "baseline": "f21db2c8e222ae28f9009057cbba2ac9eb06ffbf57c2368850ec05fa90932e27",
+      "candidate": "9e63808a3c79f981f710b18745ea731fb07b58428ffd71b38a0f60e0571679f9"
+    },
+    "app_src/play_host.html": {
+      "baseline": "c3a7625bfd90466d82583deff424316456a180c3d58965d6cf27d76afb570f5c",
+      "candidate": "3450c5838d482229c1bb32faaac5979d11dc4c7b053ef1f20ea84656314dd464"
+    },
+    "app_src/sfx.test.mjs": {
+      "baseline": "7df11436fdc34d85938c42e73f0d08b8f1aa59574d82c34505265899b7cade81",
+      "candidate": "72ec21dab811dbc340db1abe609cae83aac2b48285e88d20b3c5d1e296b45a61"
+    },
+    "tools/voice-browser.mjs": {
+      "baseline": null,
+      "candidate": "ba76be4da0dc877bd982b1bcc9f6124fccebe6d54a68c4b1f4755cca89c326b8"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "d0b24820b90e6803ab31243074b83f7b3ac0381d08df6f164ab133ba862fcac5",
+      "candidate": "3c155f75f660ccc03e7ba90ea78d7ca368f3eb6ef69cf7f6889231b253909952"
+    },
+    "app_src/audio/voice-short-ball.mp3": {
+      "baseline": null,
+      "candidate": "b454d44efb7efa66f64bf6a73567da119d50069b6352ad911f031b08568c74bd"
+    },
+    "app_src/audio/voice-earned-defence.mp3": {
+      "baseline": null,
+      "candidate": "f593e27144405f326b386a1f63c06b1ac943b8fc932f245cbf39583fe5a0ba88"
+    },
+    "app_src/audio/voice-recovery.mp3": {
+      "baseline": null,
+      "candidate": "3631ffcdd3f19f7f3c7dce7fe2b920498dd945f546fef73a4f2795503a6d538e"
+    }
+  },
+  "release": {
+    "app/engine/engine.js": {
+      "baseline": "1637594cd2aee3e6062189cb703eef4757a19e68e52a6fe34ebdabbf2331d0c1",
+      "candidate": "686762ac8c66dea58083285bf851711f2d419d8e277273ad86615d8190f7f325"
+    },
+    "app/sfx.js": {
+      "baseline": "f21db2c8e222ae28f9009057cbba2ac9eb06ffbf57c2368850ec05fa90932e27",
+      "candidate": "9e63808a3c79f981f710b18745ea731fb07b58428ffd71b38a0f60e0571679f9"
+    },
+    "app/catalog.js": {
+      "baseline": "024c45e6d7bc71de879c91aaba77d5a4318b78f717c21bb06916be6dbb321d01",
+      "candidate": "a41d16bcc9d34bedfddbea17f308a07a940d5d5b838f4d460cfdc5f4b0719fb5"
+    },
+    "app/index.html": {
+      "baseline": "4e9176715f902598a73c997b82a2377d1b531b1e7bc2da23c8cde8bfb8a451af",
+      "candidate": "49774eb4fa39d0560161c29d35c0e7d4a149f9f03aa4feb2a1a7b960deadfbe1"
+    },
+    "app/play.html": {
+      "baseline": "32df4b0a2d2ef0ac02147fe268fd772ceb03d3bec7d8cad1d5c5dd7b77d17365",
+      "candidate": "f980cb0169b928cf5cd8faef2b9ab995763163b6abe4b46d17845b204324aaf3"
+    },
+    "app/audio/voice-short-ball.mp3": {
+      "baseline": null,
+      "candidate": "b454d44efb7efa66f64bf6a73567da119d50069b6352ad911f031b08568c74bd"
+    },
+    "app/audio/voice-earned-defence.mp3": {
+      "baseline": null,
+      "candidate": "f593e27144405f326b386a1f63c06b1ac943b8fc932f245cbf39583fe5a0ba88"
+    },
+    "app/audio/voice-recovery.mp3": {
+      "baseline": null,
+      "candidate": "3631ffcdd3f19f7f3c7dce7fe2b920498dd945f546fef73a4f2795503a6d538e"
+    }
+  }
+}

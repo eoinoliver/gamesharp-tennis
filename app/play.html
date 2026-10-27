@@ -131,6 +131,7 @@ button{font:inherit}
 .wrapup .k{font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:var(--gold)}
 .wrapup .mem{font-family:"Bebas Neue",Impact,sans-serif;font-size:clamp(28px,7vw,36px);letter-spacing:.03em;line-height:1.02;margin:6px 0 14px;text-wrap:balance}
 .wrapup .mem span{color:var(--gold)}
+.voice-controls{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}.voice-controls button{min-height:44px;padding:8px 14px;border:1px solid rgba(200,168,75,.5);border-radius:999px;background:transparent;color:var(--ink);font:600 13px "DM Sans",sans-serif;cursor:pointer}.voice-controls button:disabled{opacity:.5;cursor:default}
 .wrapup .blk{border-top:1px solid rgba(255,255,255,.09);padding-top:12px;margin-top:12px}
 .wrapup p{margin:5px 0 0;font-size:14px;line-height:1.5;color:rgba(255,255,255,.72)}
 .wrapup p b{color:var(--ink);font-weight:600}
@@ -350,14 +351,15 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=adaf396f61"></script>
-<script src="catalog.js?v=adaf396f61"></script>
-<script src="app.js?v=adaf396f61"></script>
-<script src="sfx.js?v=adaf396f61"></script>
+<script src="config.js?v=fd7d062450"></script>
+<script src="catalog.js?v=fd7d062450"></script>
+<script src="app.js?v=fd7d062450"></script>
+<script src="sfx.js?v=fd7d062450"></script>
 <script>
 (function(){
-const A=GSApp, V="adaf396f61", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="fd7d062450", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
+GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
 const QS=new URLSearchParams(location.search);
 /* An auto-started lesson replaced the bare Home visit, so give back/close a Home entry to return to:

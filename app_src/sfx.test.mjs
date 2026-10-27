@@ -156,3 +156,48 @@ test('blocked storage and malformed stored selection retain a valid rotation',as
   first.onended();f.contexts[0].currentTime=7;f.api.applause();assert.notEqual(first.buffer.url,f.sources[1].buffer.url);
  }
 });
+
+test('court voice requires separate opt-in; only the configured lesson is loaded',async()=>{
+ const f=fixture();f.api.configureVoice('short-ball');await f.api.unlock();
+ assert.equal(f.requests.length,6);assert.equal(f.api.completeVoice(),false);
+ assert.equal(f.api.voiceInfo().text,'Check the height. Choose the shot.');
+ assert.equal(await f.api.hearVoice(),true);assert.equal(f.requests.length,7);
+ assert.match(f.sources.at(-1).buffer.url,/voice-short-ball/);
+ assert.equal(f.api.voiceState().enabled,false,'a one-off listen does not opt into automatic voice');
+});
+test('manual court cue replaces applause and a second tap stops speech',async()=>{
+ const f=fixture();f.api.configureVoice('recovery');await f.api.unlock();f.api.applause();const reward=f.sources[0];
+ await f.api.hearVoice();assert.ok(reward.stopped);assert.equal(f.api.voiceState().playing,true);
+ f.api.applause();assert.equal(f.sources.length,2);
+ await f.api.hearVoice();assert.equal(f.api.voiceState().playing,false);
+});
+test('pending court cue cannot play after mute, navigation, or background',async()=>{
+ for(const cancel of [f=>f.api.set(false),f=>f.api.stop(),f=>{f.document.hidden=true;f.events.visibilitychange();}]){
+  const f=fixture();f.api.configureVoice('earned-defence');await f.api.unlock();let release;
+  f.holdFetch(new Promise(r=>release=r));const pending=f.api.hearVoice();await Promise.resolve();cancel(f);release();
+  assert.equal(await pending,false);assert.equal(f.sources.length,0);
+ }
+});
+test('automatic voice drops cold completions; cached next completion works only when allowed',async()=>{
+ const f=fixture({storage:{gs_voice:'1'}});f.api.configureVoice('short-ball');let release;
+ f.holdFetch(new Promise(r=>release=r));const pending=f.api.unlock();
+ assert.equal(f.api.completeVoice(),false);release();await pending;await new Promise(r=>setTimeout(r,0));
+ assert.equal(f.sources.length,0,'loading never replays a missed completion');
+ assert.equal(f.api.completeVoice(),true);f.api.setVoice(false);assert.ok(f.sources[0].stopped);
+ assert.equal(f.api.completeVoice(),false);assert.equal(f.api.enabled(),true,'voice off retains court sound');
+});
+test('failed voice remains retryable without breaking contact recordings',async()=>{
+ const f=fixture();f.api.configureVoice('recovery');await f.api.unlock();f.failFetch();
+ assert.equal(await f.api.hearVoice(),false);assert.equal(f.api.voiceState().error,true);
+ assert.equal(f.api.ready(),true);f.api.hit();assert.equal(f.sources.length,1);
+ f.recoverFetch();assert.equal(await f.api.hearVoice(),true);
+});
+test('non-pilot lessons never load or offer a generic substitute',async()=>{
+ const f=fixture({storage:{gs_voice:'1'}});f.api.configureVoice('serve-plus-one');await f.api.unlock();
+ assert.equal(f.api.voiceInfo(),null);assert.equal(await f.api.hearVoice(),false);assert.equal(f.requests.length,6);
+});
+test('cross-tab voice opt-out stops speech but retains sound preference',async()=>{
+ const f=fixture();f.api.configureVoice('short-ball');await f.api.hearVoice();
+ f.events.storage({key:'gs_voice',newValue:'0'});assert.equal(f.api.voiceState().playing,false);
+ assert.equal(f.api.voiceState().enabled,false);assert.equal(f.api.enabled(),true);
+});

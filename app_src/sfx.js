@@ -6,6 +6,40 @@
   const rewards=['applause-1','applause-2','applause-3'];
   const voices=new Set(), buffers={}, files=['contact-1','contact-2','bounce',...rewards];
   const REWARD_KEY='gs_reward_last';
+  const VOICE_KEY='gs_voice', courtVoices={
+    'short-ball':'Check the height. Choose the shot.',
+    'earned-defence':'Need time? Add height and depth.',
+    'recovery':'Read their options. Recover to cover them.'
+  };
+  let voiceSlug=null, voiceEnabled=false, voiceLoading=null, voiceError=false,
+      voicePending=false, voiceGeneration=0, voiceListener=null;
+  try{voiceEnabled=localStorage.getItem(VOICE_KEY)==='1';}catch(e){}
+  const speaking=()=>[...voices].some(v=>v.kind==='voice');
+  const paintVoice=()=>voiceListener?.();
+  function stopVoice(){
+    voiceGeneration++;voicePending=false;
+    for(const v of [...voices])if(v.kind==='voice')v.cancel();
+    paintVoice();
+  }
+  function loadVoice(c,manual=false){
+    if(!c||!voiceSlug||(!voiceEnabled&&!manual)||!enabled)return Promise.resolve(false);
+    const key='voice-'+voiceSlug;
+    if(buffers[key])return Promise.resolve(true);
+    if(voiceLoading)return voiceLoading;
+    voiceError=false;
+    voiceLoading=(async()=>{
+      const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
+      try{
+        const r=await fetch(`audio/${key}.mp3?v=${version}`,{signal:controller.signal});
+        if(!r.ok)throw Error('Voice unavailable');
+        const b=await c.decodeAudioData(await r.arrayBuffer());
+        if(!b.length||!Number.isFinite(b.duration)||b.duration>5)throw Error('Invalid voice');
+        buffers[key]=b;return true;
+      }catch(e){voiceError=true;return false;}
+      finally{clearTimeout(timer);}
+    })().finally(()=>{voiceLoading=null;paintVoice();});
+    return voiceLoading;
+  }
   let previousReward=null;
   try{previousReward=localStorage.getItem(REWARD_KEY);}catch(e){}
   let loading=null, loadError=false, contact=0;
@@ -40,6 +74,7 @@
     });
   }
   function stop(){
+    stopVoice();
     last={};
     if(master){master.gain.cancelScheduledValues(ctx.currentTime);master.gain.setValueAtTime(0,ctx.currentTime);}
     for(const v of [...voices])v.cancel();
@@ -75,7 +110,7 @@
     // Safari can be interrupted (screen lock, another app), not just suspended.
     let result;try{result=c.state!=="running"?c.resume():undefined;}catch(e){releaseSession();paint();return Promise.resolve(false);}
     return Promise.all([Promise.resolve(result),load(c)]).then(()=>{
-      if(c===ctx&&ready()){master.gain.setValueAtTime(.65,c.currentTime);paint();return true;}
+      if(c===ctx&&ready()){master.gain.setValueAtTime(.65,c.currentTime);loadVoice(c);paint();paintVoice();return true;}
       releaseSession();paint();return false;
     },()=>{releaseSession();paint();return false;});
   }
@@ -88,7 +123,8 @@
   document.addEventListener('visibilitychange',()=>{if(document.hidden)deactivate();else if(ctx)unlock();paint();});
   window.addEventListener('pagehide',()=>{deactivate();paint();});
   window.addEventListener('pageshow',()=>{if(ctx)unlock();});
-  window.addEventListener('storage',e=>{if(e.key===KEY){enabled=e.newValue==='1';if(!enabled)deactivate();paint();}});
+  window.addEventListener('storage',e=>{if(e.key===KEY){enabled=e.newValue==='1';if(!enabled)deactivate();paint();paintVoice();}
+    if(e.key===VOICE_KEY){voiceEnabled=e.newValue==='1';if(!voiceEnabled)stopVoice();paintVoice();}});
   const vol=v=>Math.max(0,Math.min(1,v==null?1:v));
   // The recording contains its own transient and fade; preserve both.
   function play(key,level,pan=0,depth=0){
@@ -99,8 +135,8 @@
     if(p.pan)p.pan.value=Math.max(-1,Math.min(1,pan))*.45;
     source.connect(gain);gain.connect(p);p.connect(master);
     let ended=false;
-    const cleanup=()=>{if(ended)return;ended=true;source.disconnect();gain.disconnect();p.disconnect();voices.delete(v);};
-    const v={kind:rewards.includes(key)?'reward':'contact',cancel(){try{source.stop();}catch(e){}cleanup();}};
+    const cleanup=()=>{if(ended)return;ended=true;source.disconnect();gain.disconnect();p.disconnect();voices.delete(v);if(v.kind==='voice')paintVoice();};
+    const v={kind:key.startsWith('voice-')?'voice':rewards.includes(key)?'reward':'contact',cancel(){try{source.stop();}catch(e){}cleanup();}};
     voices.add(v);source.onended=cleanup;source.start(ctx.currentTime);
   }
   function allow(kind,gap){
@@ -110,6 +146,28 @@
   }
   const api=window.GSSfx={
     enabled:()=>enabled,ready,unlock,stop,
+    configureVoice(slug){voiceSlug=Object.hasOwn(courtVoices,slug)?slug:null;},
+    voiceInfo:()=>voiceSlug?{text:courtVoices[voiceSlug]}:null,
+    voiceState:()=>({enabled:voiceEnabled,playing:speaking(),pending:voicePending,error:voiceError,available:!!AC,generation:voiceGeneration}),
+    onVoiceChange(fn){voiceListener=fn;paintVoice();},
+    setVoice(value){voiceEnabled=!!value;try{localStorage.setItem(VOICE_KEY,voiceEnabled?'1':'0');}catch(e){}if(!voiceEnabled)stopVoice();paintVoice();},
+    stopVoice,
+    // Automatic completions never wait for a download or resume and never play late.
+    completeVoice(manual=false){
+      if(!voiceSlug||(!voiceEnabled&&!manual)||!ready()||voicePending||!buffers['voice-'+voiceSlug])return false;
+      stop();master.gain.setValueAtTime(.65,ctx.currentTime);play('voice-'+voiceSlug,1);paintVoice();return true;
+    },
+    async hearVoice(){
+      if(!voiceSlug||!AC)return false;
+      if(voicePending||speaking()){stopVoice();return false;}
+      const unlocking=api.set(true),request=++voiceGeneration;voicePending=true;paintVoice();
+      const ok=await unlocking;
+      const loaded=ok&&await loadVoice(ctx,true);
+      if(request!==voiceGeneration)return false;
+      voicePending=false;
+      if(loaded&&ready())return api.completeVoice(true);
+      paintVoice();return false;
+    },
     stopContacts(){for(const v of [...voices])if(v.kind==='contact')v.cancel();},
     set(value){enabled=!!value;try{localStorage.setItem(KEY,enabled?'1':'0');}catch(e){}if(!enabled)deactivate();paint();return enabled?unlock():Promise.resolve(false);},
     hit(v,pan,depth){if(!vol(v)||!allow('hit',.12))return;play(`contact-${1+(contact++%2)}`,vol(v),pan,depth);},
@@ -118,7 +176,7 @@
     net(){},
     applause(k=.6){
       // One completed-challenge reward, never overlapping or queued for later.
-      if(!vol(k)||[...voices].some(v=>v.kind==='reward')||!allow('applause',6))return;
+      if(!vol(k)||speaking()||voicePending||[...voices].some(v=>v.kind==='reward')||!allow('applause',6))return;
       // Read again so another tab's last reward is respected. Storage failure
       // still rotates within this page; muted/missed rewards never advance it.
       try{previousReward=localStorage.getItem(REWARD_KEY)||previousReward;}catch(e){}
