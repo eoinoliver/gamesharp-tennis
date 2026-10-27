@@ -73,6 +73,14 @@ for records, expected in [(natural['source'], source), (natural['release'], mani
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Natural completion baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Watch first, read second, choose third; freeze the prior release fingerprints.
+sequence = json.loads((ROOT/'docs/features/question-sequence-build.json').read_text())
+assert set(sequence['source']) == {'rally/lesson_body.html','tools/question-action-browser.mjs'}
+assert set(sequence['release']) == {'app/engine/engine.js','app/catalog.js','app/index.html','app/play.html'}
+for records, expected in [(sequence['source'], source), (sequence['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Question sequence baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

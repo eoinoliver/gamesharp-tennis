@@ -743,18 +743,20 @@ function paintAsk(S){
   $("askQ").textContent=S.q; const box=$("askOpts"); box.replaceChildren();
   S.opts.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.disabled=true;
     b.innerHTML=`<span class="l">${LETTERS[i]}</span><span>${txt}</span>`;b.onclick=()=>pick(LETTERS[i]);box.appendChild(b);});
-  zone.hidden=false; zone.classList.add("reading"); zone.classList.remove("on","ans");
+  zone.hidden=false; zone.inert=true; zone.classList.add("reading"); zone.classList.remove("on","ans");
   $("verdict").hidden=true; $("verdict").innerHTML="";
 }
 let sitT=[];
-function typeSit(html,done,wps){sitT.forEach(clearTimeout);sitT=[]; const el=$("sitTx");
+// Reserve the sentence's space during the play, without visible or spoken words.
+function stageSit(html){sitT.forEach(clearTimeout);sitT=[]; const el=$("sitTx");el.setAttribute("aria-hidden","true");
   const words=String(html).split(/\s+/).filter(Boolean); el.innerHTML=words.map(w=>`<span class="w">${w}</span>`).join(" ");
-  const sp=[...el.querySelectorAll(".w")], dt=1000/(wps||5.5);
+  return [...el.querySelectorAll(".w")];}
+function typeSit(html,done,wps){const sp=stageSit(html),dt=1000/(wps||5.5);$("sitTx").removeAttribute("aria-hidden");
   sp.forEach((s,k)=>sitT.push(setTimeout(()=>s.classList.add("on"),k*dt)));
   if(done) sitT.push(setTimeout(done,sp.length*dt+150));}
 function enableAsk(){
   if(isFull()) exitFull();
-  zone.classList.remove("reading"); zone.classList.add("on");
+  zone.inert=false; zone.classList.remove("reading"); zone.classList.add("on");
   $("askOpts").querySelectorAll(".opt").forEach(b=>{b.disabled=false;b.className="opt";});
 }
 let pick=()=>{};
@@ -802,11 +804,12 @@ function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
   if(i>=NS()){finishLesson();return;}
   const S=LESSON.steps[i];
   $("count").textContent=LESSON.branch?`Shot ${i+1}`:`${i+1} of ${NS()}`;
-  let ready=0; const go=()=>{if(step===i&&!answered&&++ready===2) enableAsk();};   // both: the situation read in, and the play at the decision
-  typeSit(S.sit,go);
+  stageSit(S.sit);
   paintRail(railFor(S)); paintAsk(S); tallView();
   pick=X=>choose(i,X,false);
-  playQuestion(S,()=>{ if(!S.reveal&&!S.noTargets) showTargets=S.scene; go(); });   // a later read in one point starts near its decision
+  playQuestion(S,()=>{if(step!==i||answered)return;
+    if(!S.reveal&&!S.noTargets)showTargets=S.scene;
+    typeSit(S.sit,()=>{if(step===i&&!answered)enableAsk();});});
 }
 // Play one option out. demo = watching the better option after a miss (the first answer still counts).
 function choose(i,X,demo){
@@ -1043,7 +1046,7 @@ function setupPredict(){
     typeT.forEach(clearTimeout);typeT=[];
     clearTimeout(stopTimer);stopTimer=null;pendingStop=null;onStop=null;stopGeneration++;}
   // read the sentence in, a word at a time, so the eye follows it
-  function typeIn(el,html,done,wps){typeT.forEach(clearTimeout);typeT=[];
+  function typeIn(el,html,done,wps){typeT.forEach(clearTimeout);typeT=[];el.removeAttribute("aria-hidden");
     const words=html.split(/\s+/).filter(Boolean); el.innerHTML=words.map(w=>`<span class="w">${w}</span>`).join(" ");
     const spans=[...el.querySelectorAll(".w")], dt=1000/(wps||5.5);
     spans.forEach((s,k)=>typeT.push(setTimeout(()=>{s.classList.add("on");},k*dt)));
@@ -1068,9 +1071,9 @@ function setupPredict(){
       const land=SC[S.scene+X].info.shot.land;
       window.__trail.push({from:hitFrom[i],to:land,h:hitFrom[i][2],arc:i===0?0.4:1,X,col:"#c8a84b",t0:performance.now()});
       later(()=>startStep(i+1),1700);};
-    let ready=0;const go=()=>{if(step===i&&++ready===2){showTargets=S.scene;enableAsk();}};
-    typeIn($("sitTx"),S.sit,go);
-    playQuestion(S,go); // Show this read's premise; no verdict or chosen outcome yet.
+    stageSit(S.sit);
+    playQuestion(S,()=>{if(step!==i)return;
+      typeIn($("sitTx"),S.sit,()=>{if(step===i){showTargets=S.scene;enableAsk();}});});
   };
   function chip(k){const S=LESSON.steps[k],ok=okAt(k); typeIn($("sitTx"),(P.says&&P.says[k])||S.payoff,null,6);   // say what just happened const tr=savedTrail[k]; if(tr){window.__trail.push({...tr,col:ok?"#7fbf7a":"#e05252",t0:performance.now()});}
     setInk(ok?`Read ${k+1} · ${S.short}: you had it`:`Read ${k+1} · ${S.short}: you said ${ans[k]}, best is ${LETTERS[S.correct]}`,!ok);}
