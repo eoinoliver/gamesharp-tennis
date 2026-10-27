@@ -108,7 +108,7 @@
     "scope": "First audition six existing lessons; expand only after listening to an actual recording.",
     "firstUse": "Offer Hear the court cue at completion only when a real recording exists. Speech requires its own explicit opt-in; current sound permission does not silently enable narration.",
     "presentation": "Use the existing court cue as the exact spoken transcript. Add no extra recap paragraph. Keep the sourced Pro Lens available separately.",
-    "repetition": "One completion line, no voice on each right answer, no random praise, and no automatic repeat from replaying a point.",
+    "repetition": "One court cue at completion; no voice on each right answer or automatic repeat from replaying a point. Occasionally include one eligible short sign-off; most endings use the cue alone, and no sign-off repeats on consecutive completions.",
     "rewardMixRecommendation": "When spoken coaching is enabled, use the voice as the completion payoff instead of stacking it with applause. Retain the existing applause behavior when speech is off. This is a proposed listening choice, not a shipped change.",
     "control": "A visible replay/stop action, persistent separate speech preference, and immediate stop on global mute, background or navigation. Never block Save cue or Next challenge.",
     "loading": "Serve mastered audio from the app origin, load only after opt-in, and never play a missed completion late when a download finishes.",
@@ -129,9 +129,40 @@
   ],
   "recordingBlocker": {
     "provider": "Runway",
-    "toolResult": "UNAUTHORIZED: reauthentication required",
-    "browserFallback": "Signed-out guest workspace",
+    "toolResult": "Authenticated; generation blocked by paid_plan_required.",
+    "verifiedAt": "2026-10-27",
+    "workspacePlanReported": "Free",
+    "availableSpeechModels": [],
+    "multipleWorkspacesAvailable": false,
     "generatedAssets": 0,
-    "requiredNextAction": "Recording waits until provider access is available; user currently cannot access Runway."
+    "requiredNextAction": "Speech access must become available in the connected Runway workspace before the James/Paula audition can run. No subscription purchase or live-app change made."
+  },
+  "occasionalSignOffs": {
+    "status": "editorial direction approved; unrecorded and not implemented",
+    "priority": "The lesson cue remains central. Sign-offs are optional, never a second recap.",
+    "phrases": [
+      {
+        "text": "Vamos!",
+        "eligibility": "Occasional perfect challenge: all three accepted first answers correct."
+      },
+      {
+        "text": "Come on!",
+        "eligibility": "Occasional perfect challenge: all three accepted first answers correct."
+      },
+      {
+        "text": "Take it to court.",
+        "eligibility": "Any completed score; preferred transfer-to-practice sign-off."
+      },
+      {
+        "text": "See you tomorrow.",
+        "eligibility": "End of session only; avoid when continuing to another beta challenge."
+      },
+      {
+        "text": "Stay GameSharp.",
+        "eligibility": "Any completed score; occasional brand sign-off."
+      }
+    ],
+    "delivery": "Same consistent conversational voice as the court cue. At most one phrase, no hype or imitation of a player. Audition natural delivery before choosing frequency or placement.",
+    "duration": "The cue alone retains its 2–4 second target; any occasional sign-off adds time and must be judged in the full ending."
   }
 }

@@ -521,3 +521,9 @@ canonical local paths and “next” steps below are historical, not current rul
 - Follow-up: user requests less text and cannot currently access Runway. Shorten
   all six recordings to the existing court cue alone (roughly 2–4 seconds),
   reuse that text on screen, and defer recording without further login attempts.
+
+- Follow-up: user approves occasional sign-offs and reports Runway sign-in.
+  Authentication now succeeds, but generation returns paid_plan_required;
+  workspace inspection reports Free with no available speech models and no
+  alternate workspaces. Zero recordings generated. Saved the restrained phrase
+  bank and score/context eligibility; no subscription purchase or app changes.
