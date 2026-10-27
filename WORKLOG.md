@@ -507,3 +507,16 @@ canonical local paths and “next” steps below are historical, not current rul
 - Verify real playback and reading boundaries, cancellation on replay/back,
   mobile layout and the complete catalogue. Standing autonomy/deploy-live
   authorization applies with existing Git/staged/live/rollback safeguards.
+
+## 27 October 2026 — question sequence release record (Codex)
+
+- Owner: Codex; branch `codex/question-sequence-release-record` from main 7fec4ae.
+- Record PR #47's animation-before-reading release: app adaf396f61, Production
+  dpl_6cmgiFL3bhovR3QdTyd6vxfVAWoa. Full CI 40455177800 passed; preview, staged
+  and live each pass 248/248 hosted checks. Local Chromium and WebKit each pass
+  1,389 action/sequence assertions over 135 questions in all 41 lessons.
+- Release identity, exact tree comparison, configuration and rollback evidence
+  are in docs/features/question-sequence-release.md. All three direct live journeys
+  pass in Chromium and WebKit, with no sequence violations or page errors; test
+  analytics intercepted. No rollback needed. Documentation only; do not promote
+  this follow-up build.
