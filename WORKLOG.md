@@ -575,3 +575,6 @@ canonical local paths and “next” steps below are historical, not current rul
 - Interaction refinement: one-off Hear court cue does not silently opt into
   future narration. Auto voice is an explicit separate choice. Existing sensory
   audit passed; final candidate reruns both browser engines with that distinction.
+- Replay review found that contact sounds could interrupt manually requested
+  speech during final-point replay. Voice now holds audio priority until it
+  finishes; a dedicated test verifies contacts resume afterward (38 unit tests).

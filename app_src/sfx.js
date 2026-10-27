@@ -140,7 +140,7 @@
     voices.add(v);source.onended=cleanup;source.start(ctx.currentTime);
   }
   function allow(kind,gap){
-    if(!ready())return false;
+    if(!ready()||speaking()||voicePending)return false;
     const now=ctx.currentTime;if(now-(last[kind]??-Infinity)<gap)return false;
     last[kind]=now;master.gain.setValueAtTime(.65,now);return true;
   }

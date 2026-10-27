@@ -201,3 +201,8 @@ test('cross-tab voice opt-out stops speech but retains sound preference',async()
  f.events.storage({key:'gs_voice',newValue:'0'});assert.equal(f.api.voiceState().playing,false);
  assert.equal(f.api.voiceState().enabled,false);assert.equal(f.api.enabled(),true);
 });
+test('court contacts cannot cut across a manually replayed voice cue',async()=>{
+ const f=fixture();f.api.configureVoice('short-ball');await f.api.hearVoice();
+ f.api.hit();f.api.bounce();assert.equal(f.sources.length,1);
+ f.sources[0].onended();f.api.hit();assert.equal(f.sources.length,2,'court sound returns after speech');
+});

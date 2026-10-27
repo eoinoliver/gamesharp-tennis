@@ -6,7 +6,7 @@
     },
     "app_src/sfx.js": {
       "baseline": "f21db2c8e222ae28f9009057cbba2ac9eb06ffbf57c2368850ec05fa90932e27",
-      "candidate": "9e63808a3c79f981f710b18745ea731fb07b58428ffd71b38a0f60e0571679f9"
+      "candidate": "837672f90d713e805228b91b9b76ac6a84ef4d90560e1dc3612ded7bda1e9058"
     },
     "app_src/play_host.html": {
       "baseline": "c3a7625bfd90466d82583deff424316456a180c3d58965d6cf27d76afb570f5c",
@@ -14,7 +14,7 @@
     },
     "app_src/sfx.test.mjs": {
       "baseline": "7df11436fdc34d85938c42e73f0d08b8f1aa59574d82c34505265899b7cade81",
-      "candidate": "72ec21dab811dbc340db1abe609cae83aac2b48285e88d20b3c5d1e296b45a61"
+      "candidate": "464fa8b0717126309af4ab600e63d0feca2b3e7c95a0f70a0f3acedf9764f742"
     },
     "tools/voice-browser.mjs": {
       "baseline": null,
@@ -44,19 +44,19 @@
     },
     "app/sfx.js": {
       "baseline": "f21db2c8e222ae28f9009057cbba2ac9eb06ffbf57c2368850ec05fa90932e27",
-      "candidate": "9e63808a3c79f981f710b18745ea731fb07b58428ffd71b38a0f60e0571679f9"
+      "candidate": "837672f90d713e805228b91b9b76ac6a84ef4d90560e1dc3612ded7bda1e9058"
     },
     "app/catalog.js": {
       "baseline": "024c45e6d7bc71de879c91aaba77d5a4318b78f717c21bb06916be6dbb321d01",
-      "candidate": "a41d16bcc9d34bedfddbea17f308a07a940d5d5b838f4d460cfdc5f4b0719fb5"
+      "candidate": "6e7a0a29d602f4e24092eb835bfce1addf12d0f81c286c9da553d46bd68cdaf8"
     },
     "app/index.html": {
       "baseline": "4e9176715f902598a73c997b82a2377d1b531b1e7bc2da23c8cde8bfb8a451af",
-      "candidate": "49774eb4fa39d0560161c29d35c0e7d4a149f9f03aa4feb2a1a7b960deadfbe1"
+      "candidate": "79d4ad85c92a1ad33ed9f5cbb929d4d122cbebd51aaab2fd31146befc89fc977"
     },
     "app/play.html": {
       "baseline": "32df4b0a2d2ef0ac02147fe268fd772ceb03d3bec7d8cad1d5c5dd7b77d17365",
-      "candidate": "f980cb0169b928cf5cd8faef2b9ab995763163b6abe4b46d17845b204324aaf3"
+      "candidate": "692f2a1e119e6547ec1d9d4ca5d393599e8858f4b4dcb8a4fef1eff84591079e"
     },
     "app/audio/voice-short-ball.mp3": {
       "baseline": null,
