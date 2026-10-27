@@ -497,3 +497,17 @@ canonical local paths and “next” steps below are historical, not current rul
   an empty voice control. Record exact lesson-specific scripts for later work.
 - Standing full-autonomy/deploy-live authorization applies; retain Git preview,
   staged production, complete required tests, inventories and rollback checks.
+
+## 27 October 2026 — natural completion audio live release record (Codex)
+
+- Owner: Codex; branch `codex/natural-audio-release-record` from main 90e3680.
+- PR #45 merged the exact tested tree. App 953ecc8011 is live from Production
+  dpl_G9TH2BbFKvoDNgyGFUPdnEAiRVk5. Preview, staged and live each pass 248/248
+  checks; three full direct live journeys pass in Chromium and WebKit with
+  the selected reward rotation and no page errors.
+- CI 40451754253 passes the full suite. Both local engines pass 91 sensory
+  assertions; the three encoded rewards are within 0.14 LUFS of one another.
+- Release identities, verification and rollback are recorded in
+  docs/features/natural-completion-release.md. No rollback needed.
+- Voice pilot blocked by provider reconnection; physical-device listening is
+  unverified. Documentation only; do not promote this follow-up build.
