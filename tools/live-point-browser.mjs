@@ -23,6 +23,11 @@ for(const width of [375,820,1280]){
     await p.locator('#askOpts button').nth('AB'.indexOf(path[i])).click();
     await p.waitForSelector('#verdict:not([hidden]) #next');
     check(await p.evaluate(()=>!playing),`${slug}/${path}/${i}: consequence settles before feedback`);
+    if(i===0&&width===375&&path==='AA'&&slug==='live-point-buy-time'){
+     await p.locator('#tryOther').click();await p.waitForSelector('#verdict:not([hidden]) #next');
+     check(await p.locator('#next').innerText()==='Continue your chosen route →','Alternative demo clearly continues original route');
+     check(await p.evaluate(()=>ans[0]==='A'),'Alternative demo preserves first answer');
+    }
     if(i===0)check(await p.evaluate(X=>LESSON.steps[1].scene===LESSON.branch+X,path[0]),`${slug}/${path}: first choice changes next situation`);
     if(width===375&&path==='BA')await p.screenshot({path:`${out}/${slug}-${i}-answer.png`,fullPage:true});
     await p.locator('#next').click();
@@ -38,6 +43,7 @@ for(const width of [375,820,1280]){
    check(await p.evaluate(()=>JSON.stringify(ans))===before,`${slug}/${path}: replay preserves decisions`);
    check(await p.evaluate(()=>silentPlayback),`${slug}/${path}: inspection is silent`);
    await p.locator('#compareRecovery').click();await p.waitForFunction(()=>!playing);
+   check((await p.locator('#questionContext').textContent()).startsWith('Alternative'),`${slug}/${path}: comparison labelled on court`);
    check(await p.evaluate(()=>scene!==LESSON.finaleScene),`${slug}/${path}: alternative movement shown`);
    check(await p.evaluate(()=>JSON.stringify(ans))===before,`${slug}/${path}: comparison cannot rescore`);
    await p.locator('#saveCue').click();

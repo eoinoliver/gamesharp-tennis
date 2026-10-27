@@ -34,7 +34,7 @@
     },
     "rally/lesson_body.html": {
       "baseline": "8c0f0df035cff4e07c84c03ad1dfa76234e956db3132dd627afbac03d0abb56c",
-      "candidate": "52241e9072e67032f764183bacf523bcb4da7501b249a3ed0a9f0411a82bc7b3"
+      "candidate": "8ad630856623312533ac2289eff51f9ce2ecd87029cb500637803be9b878da34"
     },
     "rally/build_live_point.py": {
       "baseline": null,
@@ -58,7 +58,7 @@
     },
     "tools/live-point-browser.mjs": {
       "baseline": null,
-      "candidate": "6761be10309fe24a71f97e5d214242b7c076a0ed162ae1c4825fc1cf9306d121"
+      "candidate": "3dbe96fad6d832d9e09646375b2a763684e8be98085531eba1b1ec1baf014c19"
     },
     "tools/browser-checks.mjs": {
       "baseline": "d3b92bda880011bf2366756b0869742522b10ec401e14468de866f6cd3512bb9",
@@ -100,7 +100,7 @@
   "release": {
     "app/play.html": {
       "baseline": "3b221602cdde1fd7683f8b442e57637d94eeefd77b4c3b96709edc94efdab72f",
-      "candidate": "7df23dc0aa7675f43d84dfb77512021f6736a77a02cb39e6d6ce6066678a0d1c"
+      "candidate": "c830acf7362130c98df73e383e2458237410e6488bb9934349c24af7ab1c748a"
     },
     "app/sfx.js": {
       "baseline": "97e830d8b668b80b65e62fbe14cd9e27a7ac2755f91e2b6eb75cc424e1787a70",
@@ -108,11 +108,11 @@
     },
     "app/index.html": {
       "baseline": "fa6ebb4f64f69774f4d89ee63bd6931b2875d8c8687a87230532a009dd5363ec",
-      "candidate": "db48c8c33346250733be92e681a3f157b64c1049f689b15d11eaa019e2f448b8"
+      "candidate": "3f4f1c26c7024ab8c21e4a4cc0aff5b04d089732e556b3489b1ccc7f20f1fc28"
     },
     "app/catalog.js": {
       "baseline": "fc897f07e4fbc3574aa47f676bfd020c8c82bfa9eeb2325b106a81408d42a77e",
-      "candidate": "cd87adea9b85abe414b5b83c74d2e862535a3fd68793855021057b2bdb1d4c6a"
+      "candidate": "3c06b55421bc97dd642ffdf35a82d1950449556301a8401e92206d4eb1daadbd"
     },
     "app/app.js": {
       "baseline": "7b10d2820bf5ac96d417d6dff067f2df538318f0b9973ce69a5521bf2b89183a",
@@ -136,7 +136,7 @@
     },
     "app/engine/engine.js": {
       "baseline": "28b3fdbde0bd3ebd207d2d93fe3ab9d460f7a200a634f602e29e2723cfb27a89",
-      "candidate": "0aad3f1a61d968601ad17c63c542d53002478f23d77dbe942e679718cccc02e7"
+      "candidate": "9980be15b5c2a37342ca68bd4dd59484a441afe6a44f85c5a7173fc69522677c"
     }
   }
 }

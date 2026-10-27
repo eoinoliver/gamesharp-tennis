@@ -826,6 +826,7 @@ function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
 }
 // Play one option out. demo = watching the better option after a miss (the first answer still counts).
 function choose(i,X,demo){
+  if(LESSON.livePoint&&ans[i]!=null)demo=true;
   clearContactInspection();questionCaption();
   const S=LESSON.steps[i];
   if(!demo&&ans[i]==null){ans[i]=X;emit('answer',{i,X,node:S.scene,ok:LETTERS.indexOf(X)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(X))});
@@ -860,7 +861,7 @@ function verdict(i,X,demo){
       <div class="prin">${S.take}</div>
       <div class="whyp" id="whyp" hidden><p>${S.payoff}</p><p>${S.principle}</p><p>${S.why}</p></div></div>
     <div class="acts">${S.reveal?"":`<button class="alt" id="tryOther">${ok||demo?"Try another":`Watch ${corr} play out`}</button>`}
-    <button class="next" id="next">${i<NS()-1?"Next decision →":LESSON.livePoint?"See what you created →":LESSON.branch?"Watch your point →":"Take it to court →"}</button></div>`;
+    <button class="next" id="next">${demo&&LESSON.livePoint?'Continue your chosen route →':i<NS()-1?"Next decision →":LESSON.livePoint?"See what you created →":LESSON.branch?"Watch your point →":"Take it to court →"}</button></div>`;
   if(CONTACT_FOCUS){const bt=document.createElement('button');bt.id='inspectContact';bt.className='contact-inspect';bt.textContent='Inspect contact';bt.setAttribute('aria-expanded','false');bt.onclick=()=>inspectContact('first');v.querySelector('.fbh').insertBefore(bt,$('why'));}
   if(LESSON.readinessLesson){
     const evidence=document.createElement('div');evidence.className='arrival-review';
@@ -924,6 +925,7 @@ function finishLesson(){
   const turning=$('replayTurningPoint');if(turning){
     const inspect=other=>{GSSfx?.stopVoice();let k=LESSON.finaleScene;if(other)k=k.slice(0,-1)+(k.endsWith('A')?'B':'A');
       $('recoveryComparison').textContent=(other?'Alternative: ':'Your choice: ')+(SC[k].info.liveRecovery.recover?'recover during your shot.':'wait for their direction.');
+      questionCaption((other?'Alternative · ':'Your choice · ')+(SC[k].info.liveRecovery.recover?'recover during your shot':'wait for their direction'));
       run(k,SC[k].info.freeze,SC[k].frames-1,null,true);stageInView();emit('payoff_open',{k:other?'recovery_comparison':'turning_point'});};
     turning.onclick=()=>inspect(false);$('compareRecovery').onclick=()=>inspect(true);
   }
@@ -1048,7 +1050,7 @@ $("stage").onclick=()=>{if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPl
 $("playBtn").onclick=()=>{if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);} else $("again").click();};
 $("again").onclick=()=>{
   clearContactInspection();
-  if(done){const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
+  if(done){if(LESSON.livePoint){questionCaption('Your chosen route');const note=$('recoveryComparison');if(note)note.textContent='Your original choices.';}const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
   const S=LESSON.steps[step];
   if(!answered){startStep(step);return;}   // restart both reading and playback gates together
   if(S.reveal){if(LESSON.readinessLesson)replayArrival(S.scene);return;}
