@@ -351,13 +351,13 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=61678680f2"></script>
-<script src="catalog.js?v=61678680f2"></script>
-<script src="app.js?v=61678680f2"></script>
-<script src="sfx.js?v=61678680f2"></script>
+<script src="config.js?v=ef17c2bec2"></script>
+<script src="catalog.js?v=ef17c2bec2"></script>
+<script src="app.js?v=ef17c2bec2"></script>
+<script src="sfx.js?v=ef17c2bec2"></script>
 <script>
 (function(){
-const A=GSApp, V="61678680f2", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="ef17c2bec2", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
@@ -430,10 +430,10 @@ A.opened("lesson");
 let started=false;
 A.on((n,d)=>{
   if(n==="step"&&!started){started=true;A.startLesson(slug);A.track("lesson_start",{lesson:slug,replay:!!A.S.done[slug],daily:A.isDaily(slug)});}
-  if(n==="answer") A.track("read",{lesson:slug,step:d.i+1,pick:d.X,ok:!!d.ok});
+  if(n==="answer"){A.track("read",{lesson:slug,step:d.i+1,pick:d.X,ok:!!d.ok});A.recordLiveRead(slug,d);}
   if(n==="cue_save") A.track("cue_save",{lesson:slug,cue:d&&d.cue});   /* payoff layer (4 Oct) */
   if(n==="payoff_open") A.track("payoff_open",{lesson:slug,part:d&&d.k});
-  if(n==="complete"){A.complete(slug,d.n);setTimeout(()=>wrap(d.n),0);}
+  if(n==="complete"){A.complete(slug,d.n,d.total);setTimeout(()=>wrap(d.n),0);}
 });
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function wrap(n){
@@ -446,7 +446,10 @@ function wrap(n){
     :feeds.length?`<p class="strk gs-feeds">This lesson shows up in <a href="play.html?l=${feeds[0].slug}">${esc(feeds[0].title)}</a>.</p>`:"";
   const flav=(A.CAT.flavours||[]).find(f=>f.lessons.includes(slug));
   const b=document.createElement("div"); b.className="appblk";
-  b.innerHTML=`${weekBlk}<div class="k">Your streak</div>
+  const returnPoint=L.followup&&A.bySlug(L.followup);
+  const transfer=L.transferOf&&A.S.liveReads?.[slug]?.[0];
+  const returnBlk=returnPoint?`<div class="blk"><div class="k">Tomorrow’s read</div><p class="strk">A different point on the other wing. Can you spot the same principle?</p><p class="strk">It will appear on Home from tomorrow in this browser. You can also try it now in Explore.</p></div>`:transfer?`<div class="blk"><div class="k">${transfer.delayed?'Your return read':'Practice variation'}</div><p class="strk">${transfer.delayed?(transfer.ok?'You recognised the recovery-time choice in this new point.':'This point exposed a useful cue to practise: how much recovery time you need.'):'Try this again on court. A same-day attempt is practice, not a next-day learning check.'}</p></div>`:'';
+  b.innerHTML=`${returnBlk}${weekBlk}<div class="k">Your streak</div>
     <p class="strk"><b>${s} day${s===1?"":"s"}</b> in a row. Come back tomorrow for another read.</p>
     ${nx?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nx.title)}. You can play it now.</p><a class="next" id="nextDaily" href="play.html?l=${nx.slug}">Play next challenge →</a></div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
     ${asked?"":`<div class="gsfb"><p class="fbq">Was this useful for your tennis?</p>

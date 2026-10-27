@@ -1,0 +1,142 @@
+{
+  "source": {
+    "app_src/app.js": {
+      "baseline": "7b10d2820bf5ac96d417d6dff067f2df538318f0b9973ce69a5521bf2b89183a",
+      "candidate": "287986aa17108d4d0b15f339ca910683e2d82cb99873e5750c11dd5b6c8ac1cc"
+    },
+    "app_src/build.py": {
+      "baseline": "1bfbb68683296b85f6a3acd11e1b97b5593fa443585a68851d01ecfc86cdc96c",
+      "candidate": "b4d88e4b45d26e7b578f711a2252f5e9d491139ae4ab53513549f3888870884e"
+    },
+    "app_src/catalog.py": {
+      "baseline": "65fc88552d961e8a55801c7aa8fc2d9c81a6e1feff671e79886d4b6a2022e405",
+      "candidate": "ddcfdfb16ffc33e4fae9775166b014dd5edfa5d0935aceaa271304d042cb7ef8"
+    },
+    "app_src/index.html": {
+      "baseline": "ce7cccb37f58e1117df9794309b3b0bddb61726de5d0e2684f4ab7443b69226b",
+      "candidate": "1c2105c8c1ae88e3078a671ce377a383db49bef89fc35d93d51e8673bdcb4b50"
+    },
+    "app_src/play_host.html": {
+      "baseline": "d92fe97d711ab5644089aee5a84645a83090123904a7fdff802f8140d444e820",
+      "candidate": "8020b606999145df6b2c0277b9044dbe2bbe2fb7ab9c48eb83546c82f53f631f"
+    },
+    "app_src/sfx.js": {
+      "baseline": "97e830d8b668b80b65e62fbe14cd9e27a7ac2755f91e2b6eb75cc424e1787a70",
+      "candidate": "fb004a7cb5a73979b49d22548bd4d66f6901bf260f7f5660f5df43e8dd9310e9"
+    },
+    "app_src/analytics.test.mjs": {
+      "baseline": "1d446dca143162f23df13c6ae6a297f352192da718d774477ba755ac3fdbf314",
+      "candidate": "9ce75f178412c7a549355ab8477ecbcc9ccf7680817c2937f556e7ad0ecaf9f3"
+    },
+    "app_src/sfx.test.mjs": {
+      "baseline": "fd3be66a217da39338e27cd22e6c2d87dba0df26a55374537e9c03679db147cc",
+      "candidate": "a279d26531681c29ebe887204743a0d8c10324f076e1393ee47db1b1b9bac97e"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "8c0f0df035cff4e07c84c03ad1dfa76234e956db3132dd627afbac03d0abb56c",
+      "candidate": "52241e9072e67032f764183bacf523bcb4da7501b249a3ed0a9f0411a82bc7b3"
+    },
+    "rally/build_live_point.py": {
+      "baseline": null,
+      "candidate": "3902d3fe408b49cb73489836d9384ab5026c9859ef7035b349b9129ac8c99326"
+    },
+    "rally/lesson_lp.js": {
+      "baseline": null,
+      "candidate": "86b78f9a1abce25e2609c9d155af9889a23ada4acd04de4a2a7f5bf40dd939bd"
+    },
+    "rally/lesson_lt.js": {
+      "baseline": null,
+      "candidate": "c7c853dcdcdbae116612dbfd8d6346013230597ca33385b053bab46d3a460de4"
+    },
+    "rally/lp_data.json": {
+      "baseline": null,
+      "candidate": "50976d8b8d7fc865abe38cb592ab19f643efa043f97761610bb1a1ef72959a44"
+    },
+    "rally/lt_data.json": {
+      "baseline": null,
+      "candidate": "9c7189610fd5b49f63d3666aaf504c0dd347f4f508d343df6dccfbe3909e8ebc"
+    },
+    "tools/live-point-browser.mjs": {
+      "baseline": null,
+      "candidate": "6761be10309fe24a71f97e5d214242b7c076a0ed162ae1c4825fc1cf9306d121"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "d3b92bda880011bf2366756b0869742522b10ec401e14468de866f6cd3512bb9",
+      "candidate": "dff7f9889b26482f73a894ed8110a349e557c9f5a092cfd59a6f9a0fd4925bda"
+    },
+    "tools/voice-catalogue-browser.mjs": {
+      "baseline": "7c9608253565e786aa0fcef54fc8adc96ec878db0037f204f873e053f93c9b53",
+      "candidate": "5c5e7c93a137cd9907cff31f707c9d9c9c9318f9ff809a7af65950761ae3c4c8"
+    },
+    "tools/voice-browser.mjs": {
+      "baseline": "45cdf74a73d3b066759b4074a0d934198cd708fe3fb2ed4d4a603a9080448119",
+      "candidate": "e82da96dce081a88b897f2f1cc1e7d9b71bbe41d309f01f8e925f106b12688ae"
+    },
+    "gs/app_flow.mjs": {
+      "baseline": "52be15fed384e75c794bce7e3de2d360af712d307d73af50fcaec97493c2d34d",
+      "candidate": "f876b1f485371bf42c9582970e7acae55114789fae7aacb6e1cd9558bbfa011a"
+    },
+    "gs/gate.mjs": {
+      "baseline": "a99920e09f9c6c1b484a0883fe690fa6f19811a27181dd68e7640c4f47301318",
+      "candidate": "e57e0d7537f37eddcf862b6a3b95309bddc9ff20c3c04231a48af057ca1c5699"
+    },
+    "docs/features/live-point-voice.json": {
+      "baseline": null,
+      "candidate": "cd88f652e4bc5de48034c6c99984eb24e0a26e959781299af0f6f7824c464c05"
+    },
+    "docs/features/live-point.md": {
+      "baseline": null,
+      "candidate": "b68ea533c52467da73eaffdabcecd4141a5c3db9f1a8d70c1267daadef2e7c0a"
+    },
+    "app_src/audio/voice-live-point-buy-time.mp3": {
+      "baseline": null,
+      "candidate": "9586ff8bf84e1c96ea4a2d2e498558af2ea2155c16c0b614f5ee9a9fabaac583"
+    },
+    "app_src/audio/voice-live-point-other-wing.mp3": {
+      "baseline": null,
+      "candidate": "9586ff8bf84e1c96ea4a2d2e498558af2ea2155c16c0b614f5ee9a9fabaac583"
+    }
+  },
+  "release": {
+    "app/play.html": {
+      "baseline": "3b221602cdde1fd7683f8b442e57637d94eeefd77b4c3b96709edc94efdab72f",
+      "candidate": "7df23dc0aa7675f43d84dfb77512021f6736a77a02cb39e6d6ce6066678a0d1c"
+    },
+    "app/sfx.js": {
+      "baseline": "97e830d8b668b80b65e62fbe14cd9e27a7ac2755f91e2b6eb75cc424e1787a70",
+      "candidate": "fb004a7cb5a73979b49d22548bd4d66f6901bf260f7f5660f5df43e8dd9310e9"
+    },
+    "app/index.html": {
+      "baseline": "fa6ebb4f64f69774f4d89ee63bd6931b2875d8c8687a87230532a009dd5363ec",
+      "candidate": "db48c8c33346250733be92e681a3f157b64c1049f689b15d11eaa019e2f448b8"
+    },
+    "app/catalog.js": {
+      "baseline": "fc897f07e4fbc3574aa47f676bfd020c8c82bfa9eeb2325b106a81408d42a77e",
+      "candidate": "cd87adea9b85abe414b5b83c74d2e862535a3fd68793855021057b2bdb1d4c6a"
+    },
+    "app/app.js": {
+      "baseline": "7b10d2820bf5ac96d417d6dff067f2df538318f0b9973ce69a5521bf2b89183a",
+      "candidate": "287986aa17108d4d0b15f339ca910683e2d82cb99873e5750c11dd5b6c8ac1cc"
+    },
+    "app/audio/voice-live-point-other-wing.mp3": {
+      "baseline": null,
+      "candidate": "9586ff8bf84e1c96ea4a2d2e498558af2ea2155c16c0b614f5ee9a9fabaac583"
+    },
+    "app/audio/voice-live-point-buy-time.mp3": {
+      "baseline": null,
+      "candidate": "9586ff8bf84e1c96ea4a2d2e498558af2ea2155c16c0b614f5ee9a9fabaac583"
+    },
+    "app/lessons/live-point-other-wing.json": {
+      "baseline": null,
+      "candidate": "779b9f64b990608a4130ce81b793f7cd2d9bd5f408ea8d42133f55d8b77749f1"
+    },
+    "app/lessons/live-point-buy-time.json": {
+      "baseline": null,
+      "candidate": "f2d02fb6c76969e9451a90d78b9a70dd8aec9961d6307739a517170f48349797"
+    },
+    "app/engine/engine.js": {
+      "baseline": "28b3fdbde0bd3ebd207d2d93fe3ab9d460f7a200a634f602e29e2723cfb27a89",
+      "candidate": "0aad3f1a61d968601ad17c63c542d53002478f23d77dbe942e679718cccc02e7"
+    }
+  }
+}

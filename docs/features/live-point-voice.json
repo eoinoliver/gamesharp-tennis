@@ -1,0 +1,32 @@
+[
+  {
+    "lesson": "live-point-buy-time",
+    "path": "app_src/audio/voice-live-point-buy-time.mp3",
+    "text": "Buy yourself time. Use it to recover.",
+    "taskId": "48d3cbf4-cffb-421c-b375-e629be49866a",
+    "voice": "Frank",
+    "speed": 0.95,
+    "model": "eleven_multilingual_v2",
+    "durationSeconds": 2.832834,
+    "releaseSha256": "9586ff8bf84e1c96ea4a2d2e498558af2ea2155c16c0b614f5ee9a9fabaac583",
+    "originalSha256": "c0e2cc0201455fa498e28a472e1b60b297b09ae8a53a192eec8b4a7ca691a5ec",
+    "processing": "Gain +5.3 dB only, MP3 128 kbps; timing and pitch preserved.",
+    "scope": "Same principle, same recording for the original point and changed-wing variation.",
+    "listeningStatus": "Technical checks only; physical-device and perceptual listening unverified."
+  },
+  {
+    "lesson": "live-point-other-wing",
+    "path": "app_src/audio/voice-live-point-other-wing.mp3",
+    "text": "Buy yourself time. Use it to recover.",
+    "taskId": "48d3cbf4-cffb-421c-b375-e629be49866a",
+    "voice": "Frank",
+    "speed": 0.95,
+    "model": "eleven_multilingual_v2",
+    "durationSeconds": 2.832834,
+    "releaseSha256": "9586ff8bf84e1c96ea4a2d2e498558af2ea2155c16c0b614f5ee9a9fabaac583",
+    "originalSha256": "c0e2cc0201455fa498e28a472e1b60b297b09ae8a53a192eec8b4a7ca691a5ec",
+    "processing": "Gain +5.3 dB only, MP3 128 kbps; timing and pitch preserved.",
+    "scope": "Same principle, same recording for the original point and changed-wing variation.",
+    "listeningStatus": "Technical checks only; physical-device and perceptual listening unverified."
+  }
+]

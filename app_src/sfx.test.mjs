@@ -226,3 +226,11 @@ test('every catalogue ending has its exact reviewed recording and transcript',as
   assert.ok(bytes.length>10000,row.lesson);
  }
 });
+
+ test('Live Point and its variation use the recorded shared movement cue',async()=>{
+ const rows=JSON.parse(readFileSync(new URL('../docs/features/live-point-voice.json',import.meta.url)));
+ for(const row of rows){const f=fixture();f.api.configureVoice(row.lesson);await f.api.unlock();
+ assert.equal(f.api.voiceInfo().text,row.text);
+ assert.ok(f.requests.some(u=>u.startsWith('audio/voice-'+row.lesson+'.mp3?')));
+ assert.equal(createHash('sha256').update(readFileSync(new URL('../'+row.path,import.meta.url))).digest('hex'),row.releaseSha256);}
+ });
