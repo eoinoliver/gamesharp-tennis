@@ -137,7 +137,7 @@
     "verifiedAt": "2026-10-27",
     "authenticated": true,
     "speechGeneration": "confirmed by three successful recordings",
-    "creditsConsumed": 10
+    "creditsConsumed": 13
   },
   "audition": {
     "spokenText": "Serve the question. Hit the space. Take it to court.",
@@ -218,5 +218,6 @@
     "durationSeconds": 1.393197,
     "sha256": "23df80c15877fccff80a10e29dcb86797cdc2de65e6a272defa39faa88ae9d49",
     "status": "Revised audition generated; not yet deployed. Speed is a synthesis setting, not a guarantee of exact runtime reduction between generated takes."
-  }
+  },
+  "currentEditorialBatch": "docs/features/completion-voice-batch-ten.json"
 }

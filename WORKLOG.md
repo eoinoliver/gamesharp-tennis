@@ -548,3 +548,11 @@ canonical local paths and “next” steps below are historical, not current rul
   short text at 0.95 speech speed; preserved original, task ID and hash. Verified
   direct phone-accessible MP3 response and decoding. Revised audition only; no
   live app changes. Synthesis speed does not guarantee an exact runtime delta.
+
+- User asks for exact wording across a batch of ten and a recommendation on
+  progression. Drafted ten lesson-completion lines from actual authored steps,
+  two sentences and at most nine words each. Distinguish completion coaching
+  from per-question praise and generic branding. Generated three contrasting
+  Frank 0.95 prototypes (short-ball, defence, recovery; 3 credits); preserved
+  originals, task/hash provenance, direct mobile URLs and decode verification.
+  All ten are editorial drafts, three are audio prototypes, none deployed.
