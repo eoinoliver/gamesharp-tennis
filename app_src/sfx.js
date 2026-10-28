@@ -169,7 +169,7 @@
   // End-of-touch and click are needed by browsers that do not unlock on touchstart.
   // Capture runs before app handlers; a sound button owns its own activation.
   for(const event of ['pointerdown','touchend','click','keydown'])window.addEventListener(event,e=>{
-    if(e.target.closest?.('[data-gs-sound]'))return;
+    if(e.target.closest?.('[data-gs-sound],a[href]'))return; // Navigation should not start a download as the page unloads.
     unlock();
   },{capture:true,passive:true});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)deactivate();else if(ctx)unlock();paint();});

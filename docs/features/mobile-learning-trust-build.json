@@ -26,11 +26,11 @@
     },
     "app_src/sfx.js": {
       "baseline": "fb004a7cb5a73979b49d22548bd4d66f6901bf260f7f5660f5df43e8dd9310e9",
-      "candidate": "ed52627a547fadbb2ae2e6d329d2f0244a2d688a7758a590c3889d3ff8faf3e1"
+      "candidate": "cacab60522a94881cdc9705aa1d2ba531e64376a9673b77ee2c20dc9575331bc"
     },
     "app_src/sfx.test.mjs": {
       "baseline": "a279d26531681c29ebe887204743a0d8c10324f076e1393ee47db1b1b9bac97e",
-      "candidate": "fc5cf48997ab045be683264153eea815c23f13541042efc02fc516650b00d52f"
+      "candidate": "6f21c394f7173700b4bb1e45f29456d24a5772449c35c88a53d2e92b6f8e85db"
     },
     "docs/features/mobile-learning-trust.md": {
       "baseline": null,
@@ -124,7 +124,7 @@
     },
     "app/catalog.js": {
       "baseline": "165f772bc1079678330e8892e424d7f56e890da579f6bc8f1a96daf5e4d8b4a7",
-      "candidate": "6d7a24eecab64c67b8f9d7dc09f93d19fa5f05dbdaed47fca44e2a1072a5b452"
+      "candidate": "4838bc3f6419e20d980124356c48ffbb73b91996730a75c8b5990094db9c3cbb"
     },
     "app/engine/engine.js": {
       "baseline": "03ac64c1f6319e315b96fc5561688e31729fcc317ec85ddda50982f85b30d3af",
@@ -132,7 +132,7 @@
     },
     "app/index.html": {
       "baseline": "1fc7369f3f297183e6caa513df863b8f50f9c1d9c9000a079fa23533f07d982d",
-      "candidate": "297aaba218bf0eccb003707b37f278822cbeecc80a7bc0aa640915c4816b6c72"
+      "candidate": "693cbd6439fe4277e1c1b7d836a8627deedf06c931f967f372f681f439d12126"
     },
     "app/lessons/down-the-line.json": {
       "baseline": "52fea0cc543d7a3de3dab0b75818b0f7963cd39d88006e483ea70deb1d2e2a8f",
@@ -188,11 +188,11 @@
     },
     "app/play.html": {
       "baseline": "2cc7e265a82ca4a80f8320055c77fd64d9dbec46e372eb24b06615b4cf378d34",
-      "candidate": "de5a128c9810659e8be36f914b3196eb2452f9d3f9c00494af64ca692ddad4f5"
+      "candidate": "3ac35621e44c706f822895e899b06b931b50da0a2f58bc407e35d0edb43ab743"
     },
     "app/sfx.js": {
       "baseline": "fb004a7cb5a73979b49d22548bd4d66f6901bf260f7f5660f5df43e8dd9310e9",
-      "candidate": "ed52627a547fadbb2ae2e6d329d2f0244a2d688a7758a590c3889d3ff8faf3e1"
+      "candidate": "cacab60522a94881cdc9705aa1d2ba531e64376a9673b77ee2c20dc9575331bc"
     }
   }
 }

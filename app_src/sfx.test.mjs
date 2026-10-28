@@ -252,3 +252,11 @@ test('voice remains playable when every court recording is unavailable',async()=
  const f=fixture({blockedFiles:['audio/contact-1.wav','audio/contact-2.wav','audio/bounce.wav']});f.api.configureVoice('recovery');
  assert.equal(await f.api.hearVoice(),true);assert.equal(f.api.voiceState().playing,true);
 });
+
+test('navigation gestures do not start audio work on a page being left',async()=>{
+ const f=fixture({stored:null});f.api.configureVoice('short-ball');
+ const anchor={closest:selector=>selector.split(',').some(s=>s.trim()==='a[href]')?{}:null};
+ for(const event of ['pointerdown','touchend','click'])f.events[event]({target:anchor});
+ await Promise.resolve();assert.equal(f.contexts.length,0);assert.equal(f.requests.length,0);
+ f.events.touchend({target:{}});await f.api.unlock();assert.equal(f.api.ready(),true,'lesson interactions still unlock sound');
+});
