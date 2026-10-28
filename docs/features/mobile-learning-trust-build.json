@@ -34,7 +34,7 @@
     },
     "docs/features/mobile-learning-trust.md": {
       "baseline": null,
-      "candidate": "44161d7d7ff25d19f87b46eb2d87bb7f08295464c085200ba72efd8dd9d2d8cd"
+      "candidate": "64ce4d240e89a5784a3815402bff3df0fdb2e618b34e868beec91a8f7e8e9fc9"
     },
     "rally/build_live_point.py": {
       "baseline": "b916271536f8adadaa1c782f8c190d6841f9714f693dbda717fd44209b2d0868",
@@ -46,7 +46,7 @@
     },
     "rally/lesson_body.html": {
       "baseline": "d2336f515f59124aa639584ecdec1135b41aea3533ec0b18d00158b2f4439cc6",
-      "candidate": "1d6f317cd6de6d9d69eec3368958e4befab11b20e36561682b1618e1f19fb9bb"
+      "candidate": "e2232314557d8c8389b40cba324acd0cdfcd4fe293311c1ddb07826a42d64101"
     },
     "rally/lesson_dl.js": {
       "baseline": null,
@@ -110,7 +110,7 @@
     },
     "tools/mobile-learning-browser.mjs": {
       "baseline": null,
-      "candidate": "1e5c8658c0ed76587900ff13b1405f040908b0e1e0cb698312708b31c909bb50"
+      "candidate": "8678649c3a83ec4ca96eca9dfc643e1c14c185e60c1acacea2ce2bd59ea2dd86"
     },
     "tools/live-point-browser.mjs": {
       "baseline": "b68d54fa1d54a30471b56e7acd008459d6b976d6bb11ae1cec2de0a6da86343c",
@@ -188,7 +188,7 @@
     },
     "app/play.html": {
       "baseline": "2cc7e265a82ca4a80f8320055c77fd64d9dbec46e372eb24b06615b4cf378d34",
-      "candidate": "54aa3004374bc0ff3eaae626cff7f5305a622b78dd856051c8bcfa4fe91e7ef9"
+      "candidate": "69b7f53057358e6a6737387a0627db1d9762c92715c229bc479d29d04c8bb62d"
     },
     "app/sfx.js": {
       "baseline": "fb004a7cb5a73979b49d22548bd4d66f6901bf260f7f5660f5df43e8dd9310e9",

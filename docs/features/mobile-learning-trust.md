@@ -5,7 +5,7 @@ No catalogue expansion: 43 eligible journeys remain (32 Daily, 2 Predict, 9 Play
 
 - Predict's worked example completes each shot sequence before revealing its explanation. Reading completes before the next sequence begins.
 - Correct Saturday feedback waits for an explicit next tap, like the other modes.
-- Three-read recaps reserve the stage for the replay, then hold each teaching caption for a word-count-based reading interval (minimum 2.8 seconds). Pause/resume and skip sit on the stage. The written payoff appears after completion or skip; a replay does not repeat automatic narration.
+- Three-read recaps reserve the stage for the replay, then hold each teaching caption for a word-count-based reading interval (minimum 2.8 seconds). Pause/resume and skip sit directly beneath the court without obscuring it. The written payoff appears after completion or skip; a replay does not repeat automatic narration.
 - The third Late Is the Culprit situation uses a side-rear camera that exposes the ball, racket and separate feet at the held backhand contact. This changes framing, not the stroke data or its coaching certification.
 - Fixed authored landing dots are labelled illustrative. Unsupported numerical success-rate and guaranteed-landing claims are removed from the affected lesson copy. Sourced professional statistics are unchanged.
 - Optional reward assets load independently of contact/bounce and completion voice. A failed or stalled applause file cannot disable those sounds.
