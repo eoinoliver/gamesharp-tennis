@@ -127,7 +127,7 @@
     ".github/workflows/checks.yml": {
       "baseline": null,
       "previous_source_sha256": "47267a117866720c63a107597ae04d11c03b4172fdb08c3b9e092680d18bd97e",
-      "candidate": "d037ce852aaabe51f349384b641189bc566258d5e514312414be1f9c4eb150de"
+      "candidate": "dbd2bde4aac6acaf5dae3d4f8ae38d235c2db8333241856aab7f5a28c1a1b452"
     }
   },
   "release": {
