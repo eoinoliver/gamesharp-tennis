@@ -110,7 +110,7 @@
     },
     "tools/mobile-learning-browser.mjs": {
       "baseline": null,
-      "candidate": "dbfce02a49f1c1b4db4c18765b6b1cf9c3336cefce9a524af121bfe61eb7a401"
+      "candidate": "1e5c8658c0ed76587900ff13b1405f040908b0e1e0cb698312708b31c909bb50"
     },
     "tools/live-point-browser.mjs": {
       "baseline": "b68d54fa1d54a30471b56e7acd008459d6b976d6bb11ae1cec2de0a6da86343c",

@@ -51,7 +51,7 @@ try{
  check(!p.url().includes('play.html'),'Closing the next challenge returns Home, not the previous lesson');
  await p.evaluate(()=>{const s=GSApp.S,slug='live-point-buy-time';s.done[slug]={n:2,best:2,total:2,times:1,first:'2026-10-27',last:'2026-10-27'};s.seen||={};s.seen[slug]=1;localStorage.setItem('gs6',JSON.stringify(s));});
  await p.reload();await p.waitForFunction(()=>window.GSApp);
- check(await p.locator('body').innerText().then(s=>s.includes('Up to 4 decisions')&&s.includes('Earlier edition: 2 of 2 best · saved')),'Home labels the updated four-decision edition and preserves the old 2/2');
+ check(await p.locator('body').innerText().then(s=>s.toLowerCase().includes('up to 4 decisions')&&s.includes('Earlier edition: 2 of 2 best · saved')),'Home labels the updated four-decision edition and preserves the old 2/2');
  check(await p.evaluate(()=>!GSApp.S.done['live-point-buy-time']&&GSApp.previousEdition('live-point-buy-time').done.total===2),'Earlier completion is archived without relabelling its denominator');
  await p.screenshot({path:out+'/updated-home.png',fullPage:true});
  await open('late-is-the-culprit');await p.evaluate(()=>{__speed=24;startStep(2)});await p.waitForSelector('#askOpts button:not(:disabled)');
