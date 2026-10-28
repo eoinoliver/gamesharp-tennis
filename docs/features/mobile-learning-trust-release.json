@@ -1,0 +1,153 @@
+{
+  "date": "2026-10-28",
+  "project": "gamesharp-tennis",
+  "project_id": "prj_SHIw7K0JxhCtoQQgh1zVHlR3r2Pe",
+  "pr": 59,
+  "candidate_sha": "b4f2e7ab45da3509095f9de72218249d2ae77322",
+  "candidate_tree": "897612d152b03b4aeaa8c051f98a5ec1d0ed06af",
+  "app_version": "a9d9eec67d",
+  "preview": {
+    "id": "dpl_G9PpzL8c7PES7qBq7UqXo86yLHsB",
+    "url": "https://gamesharp-tennis-2osgjhyvo-eoinlynn-5978s-projects.vercel.app"
+  },
+  "previous_live": {
+    "app": "770952be5c",
+    "merge": "ed82ad3b981376599c55968ee5d47a1ef2bfbf7f",
+    "id": "dpl_8VBCaALRwvW6FXuyFvX1CythZjmz",
+    "url": "https://gamesharp-tennis-edsv2pb9w-eoinlynn-5978s-projects.vercel.app"
+  },
+  "authority": "User full autonomy, deploy all live, no further action required, and proceed with superb corrections. Per-version permission wording superseded; Git and verification safeguards retained.",
+  "scope": {
+    "eligible": 43,
+    "daily": 32,
+    "predict": 2,
+    "play": 9,
+    "newly_eligible": 0,
+    "withheld": 0
+  },
+  "verification": {
+    "source_audio_tests": 55,
+    "targeted_webkit_checks": 27,
+    "recap_checks_per_engine": 40,
+    "connected_route_checks_webkit": 1165,
+    "daily_payoff_render_checks": 32,
+    "hosted_webkit_journeys": 43,
+    "hosted_webkit_decisions": 139,
+    "hosted_webkit_errors": 0,
+    "preview_http_checks": 293,
+    "public_files": 151,
+    "functions": 0,
+    "middleware": 0,
+    "ci_run": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/40643728064",
+    "ci_status": "success",
+    "connected_route_checks_chromium": 1165,
+    "contact_comparison_checks": 325,
+    "lesson_contract_gates": 43,
+    "hosted_webkit_artifact_note": "Full 43-journey sweep on previous candidate Git Preview, app a9d9eec67d. Final head changes test synchronization only; identical application manifest. Final head Preview additionally runs complete Daily, Predict and Live Point journeys.",
+    "sensory_webkit_assertions": 93,
+    "sensory_webkit_lesson_schedules": 43,
+    "final_head_preview_journeys": 3,
+    "final_head_preview_browser": "webkit",
+    "all_ci_browser_invocations": 57,
+    "production_http_checks": 293,
+    "configuration_equivalence": "All effective project/build/runtime inputs and exact public path inventory match; no unexplained differences.",
+    "staged_browser_transport": "Browsers execute actual response bytes downloaded from the exact protected Production deployment through authenticated Vercel CLI, after all 293 HTTP/hash checks. Public live verification will use native browser requests.",
+    "staged_chromium_journeys": 7,
+    "staged_webkit_targeted_checks": 27,
+    "live_http_checks": 293,
+    "live_native_webkit_journeys": 7,
+    "live_native_webkit_decisions": 23,
+    "live_native_chromium_targeted_checks": 27,
+    "live_browser_errors": 0
+  },
+  "local_evidence": {
+    "targeted_webkit": {
+      "file": "app_src/evidence/mobile-learning-webkit/report.json",
+      "sha256": "ed0e4033c95567ac23c8a47cd97cf12bb95b84e9d41d01d9050047d96f6b717d"
+    },
+    "recap_webkit": {
+      "file": "app_src/evidence/recap-webkit/report.json",
+      "sha256": "811538863ef8e9c2bab884d699527243cca920249ac72b654c992a69f223f8aa"
+    },
+    "routes_webkit": {
+      "file": "app_src/evidence/live-point/webkit/report.json",
+      "sha256": "138617645edd9ff291ba73752195cb35e4696ea503c7ee694e2f2f514cc682b8"
+    },
+    "catalogue_webkit": {
+      "file": "app_src/evidence/voice-catalogue-mobile-final-candidate-webkit/report.json",
+      "sha256": "1d367ef490937353ba0eecc5e923fbc6d6ccdae97bce3fc2f5f12326e6d33fd1"
+    },
+    "preview_http": {
+      "file": "app_src/evidence/mobile-learning-trust/candidate-preview-host.json",
+      "sha256": "1f71dedc8ea29f400c30e3a0004090264dd6440015c1e7fbe2fa86006a0859f9"
+    },
+    "preview_inventory": {
+      "file": "app_src/evidence/mobile-learning-trust/candidate-preview-inventory.json",
+      "sha256": "d1756bc591dc91bea66519732850d940c29ef32f2745c39c037164e9ec0f0783"
+    },
+    "optional_audio": {
+      "file": "app_src/evidence/mobile-learning-trust/optional-audio-webkit.json",
+      "sha256": "a98fda2bdb529e0f002c806e46e3b14ee0eea0081d7e88d9372a8ebfdad6958c"
+    },
+    "ci": {
+      "file": "app_src/evidence/mobile-learning-trust/ci.json",
+      "sha256": "2cd7c498b1303d7bd8a930566892e0049e581ea894a52f72e9d8b545f8b5ca04"
+    },
+    "production_http": {
+      "file": "app_src/evidence/mobile-learning-trust/production-host.json",
+      "sha256": "06aba93fe4bebc6c862aad7e9c16e4078af6af405cb0fc8c4fe7a41a27047861"
+    },
+    "configuration_equivalence": {
+      "file": "app_src/evidence/mobile-learning-trust/configuration-equivalence.json",
+      "sha256": "6b979f1e179c9ef595bd8d9be9d6519a4126f0d71a71690edf7edc814ad13270"
+    },
+    "final_head_preview": {
+      "file": "app_src/evidence/voice-catalogue-mobile-final-head-preview-webkit/report.json",
+      "sha256": "0598e9a2400f0f89a6298b7f121d1e9d0070a4aaaa6d603cf150f0aeec8775c5"
+    },
+    "staged_journeys": {
+      "file": "app_src/evidence/voice-catalogue-mobile-staged-production-chromium/report.json",
+      "sha256": "d1f979538d6e4b094cc4ce49c10994277f7407d5fc18d1286e7cddba0e859036"
+    },
+    "staged_targeted": {
+      "file": "app_src/evidence/mobile-learning-staged-production-webkit/report.json",
+      "sha256": "c9ff6291e2757d5e61d9c7fecb3d0a19e99da73ebef8467a1f858f0460e297b1"
+    },
+    "live_journeys": {
+      "file": "app_src/evidence/voice-catalogue-mobile-public-live-webkit/report.json",
+      "sha256": "6a2e452d3aa98ff1c4a4f7b04dcb59e4d44ccb6008138b185dc5c82043a6e636"
+    },
+    "live_targeted": {
+      "file": "app_src/evidence/mobile-learning-public-live-chromium/report.json",
+      "sha256": "2e29995a29b25b21e3e7b7bdefd6d9fd8ffbd2e1afd37abd81df63304699abdd"
+    },
+    "live_http": {
+      "file": "app_src/evidence/mobile-learning-trust/live-host.json",
+      "sha256": "949a95fcbdbf124c5d96b087d1dd1a73187ea6c8166b2b6b3f8037838400ca9e"
+    },
+    "live_identity": {
+      "file": "app_src/evidence/mobile-learning-trust/live-identity.json",
+      "sha256": "f2bff0bf842333e31118f6af5e9a79c149995e09f8af105727c743391f23d8bb"
+    },
+    "sensory_levels_webkit": {
+      "file": "app_src/evidence/sensory/webkit-levels.json",
+      "sha256": "84228f055e174ae8783bfe4a077010468f2224c70134150a16bbce7371cd63d7"
+    }
+  },
+  "limits": [
+    "Browser emulation is not physical iPhone or iPad verification.",
+    "Stroke framing and structural checks do not constitute independent coaching certification.",
+    "No claim of measured improvement in next-day recognition or retention."
+  ],
+  "production": {
+    "id": "dpl_8SiBXt32r6MDvWViUkcKtMzHTJLA",
+    "url": "https://gamesharp-tennis-1r84b3zbr-eoinlynn-5978s-projects.vercel.app",
+    "state": "live",
+    "target": "production",
+    "public_url": "https://www.gamesharptennis.com",
+    "verified_at": "2026-10-28T06:45:37Z",
+    "auto_assign_custom_domains": false
+  },
+  "merge": "6ea37be2c2335f05b78bb7eb8bc646eabfb49b49",
+  "merge_tree_matches_candidate": true
+}
