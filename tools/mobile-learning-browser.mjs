@@ -39,6 +39,7 @@ try{
  for(const size of [{width:320,height:568},{width:430,height:932},{width:820,height:1180}]){
   await p.setViewportSize(size);await p.evaluate(()=>window.scrollTo(0,0));
   check(await p.evaluate(()=>{const r=document.getElementById('skipRecap').getBoundingClientRect();return r.top>=document.getElementById('stage').getBoundingClientRect().bottom&&r.bottom<=innerHeight&&r.width>=44&&r.height>=44;}),`Recap skip is visible and touch-sized at ${size.width}`);
+  check(await p.evaluate(()=>document.getElementById('tools').getBoundingClientRect().bottom<=document.getElementById('recapDock').getBoundingClientRect().top),`Playback tools do not overlap recap controls at ${size.width}`);
   check(await p.locator('#wrapup').isHidden(),`Payoff stays out of the recap's way at ${size.width}`);
   check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`No horizontal overflow at ${size.width}`);
   await p.screenshot({path:`${out}/recap-${size.width}.png`});
