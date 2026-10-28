@@ -22,6 +22,10 @@ try{
   check(await p.evaluate(()=>__recapSeen.length===3&&LESSON.steps.every((s,i)=>{const own=LETTERS[s.correct]===ans[i]||(s.alsoOk||[]).includes(LETTERS.indexOf(ans[i]));return __recapSeen[i].includes(s.reveal?'Situation replay':own?'Your choice':'Better option')&&__recapKeys[i]===(s.reveal?s.scene:s.scene+(own?ans[i]:LETTERS[s.correct]));})),slug+': three honest labels and scenes, including accepted alternatives');
   check(await p.evaluate(()=>__voiceEvents[0].active===false&&__voiceEvents[0].playing===false),slug+': speech follows recap');
   const score=await p.evaluate(()=>JSON.stringify(ans));
+  await p.evaluate(()=>{GSSfx.hearVoice=()=>{window.__manualVoice=(window.__manualVoice||0)+1;};});
+  await p.locator('#replayRecap').tap();await p.waitForFunction(()=>recapActive&&!playing);
+  await p.locator('#hearVoice').tap();await p.waitForTimeout(800);
+  check(await p.evaluate(()=>!recapActive&&!playing&&__manualVoice===1),slug+': manual voice between clips cancels pending recap');
   await p.locator('#replayRecap').tap();await p.waitForFunction(()=>recapActive);await p.locator('#skipRecap').tap();
   check(await p.evaluate(()=>!recapActive&&!playing&&__voiceEvents.length===1),slug+': replay and skip do not repeat speech');
   check(await p.evaluate(()=>JSON.stringify(ans))===score,slug+': score remains original');

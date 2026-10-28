@@ -1040,7 +1040,7 @@ function wireCompletionVoice(){
     GSSfx.onVoiceChange(()=>{const s=GSSfx.voiceState();hear.disabled=!s.available;
       hear.textContent=!s.available?'Voice unavailable':s.pending?'Loading voice — tap to cancel':s.playing?'Stop voice':s.error?'Retry court cue':'Hear court cue';
       pref.disabled=!s.available;pref.textContent='Auto voice: '+(s.enabled?'on':'off');pref.setAttribute('aria-pressed',String(s.enabled));});
-    hear.onclick=()=>GSSfx.hearVoice();
+    hear.onclick=()=>{if(recapActive){cancelRecap();onStop=null;setPlaying(false);questionCaption('Your court cue');}GSSfx.hearVoice();};
     pref.onclick=()=>{GSSfx.setVoice(!GSSfx.voiceState().enabled);if(GSSfx.voiceState().enabled)GSSfx.set(true);};
   }
 }
@@ -1057,6 +1057,7 @@ function playLessonRecap(speak=false,reward=false){
     if(done&&!document.hidden&&GSSfx?.voiceState().generation===voiceGeneration){if(speak&&GSSfx.voiceState().enabled)GSSfx.completeVoice();else if(reward)GSSfx.applause(.6);}};
   const next=()=>{
     if(token!==recapGeneration||!done)return;
+    if(voiceGeneration!=null&&GSSfx?.voiceState().generation!==voiceGeneration){cancelRecap();return;}
     if(i===LESSON.steps.length){finish();return;}
     const S=LESSON.steps[i],picked=ans[i],preferred=LETTERS[S.correct];
     const own=picked===preferred||(S.alsoOk||[]).includes(LETTERS.indexOf(picked));
