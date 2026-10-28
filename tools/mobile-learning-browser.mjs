@@ -29,6 +29,7 @@ try{
  await answer();await p.waitForSelector('#verdict:not([hidden]) #next');const first=await p.evaluate(()=>step);
  await p.waitForTimeout(2600);check(await p.evaluate(()=>step)===first,'Correct Saturday feedback waits for the learner');
  await p.locator('#next').tap();
+ await open('short-ball');await p.evaluate(()=>window.__speed=24);
  while(!await p.evaluate(()=>done)){await answer();await p.waitForSelector('#verdict:not([hidden]) #next');await p.locator('#next').tap();}
  await p.waitForFunction(()=>recapActive&&!!recapAdvance);
  const held=await p.locator('#questionContext').innerText();await p.waitForTimeout(1800);
