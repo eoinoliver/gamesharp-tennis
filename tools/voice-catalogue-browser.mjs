@@ -69,15 +69,18 @@ async function journey(row,index){
   if(evidence.predict)assert.equal(await p.locator('#wrapup .review').count(),3,'all reads reviewed');
   if(evidence.cue){await p.locator('#saveCue').tap();assert.equal(await p.locator('#saveCue').innerText(),'Saved to My Game ✓');}
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
-  await p.locator('#hearVoice').tap();assert.equal(await p.evaluate(()=>GSSfx.voiceState().playing),false);
+  // A short cue can finish during the preceding hosted assertions. If the tap
+  // starts it again, stop that manual playback before testing silent replay.
+  await p.locator('#hearVoice').tap();if(await p.evaluate(()=>GSSfx.voiceState().playing))await p.locator('#hearVoice').tap();assert.equal(await p.evaluate(()=>GSSfx.voiceState().playing),false);
+  const replayBaseline=await voiceCount();
   await p.locator('#wrapup').screenshot({path:`${out}/${row.lesson}-ending.png`});
   await p.locator('#again').tap();
   if(evidence.predict)await p.waitForSelector('#wrapup:not([hidden]) #hearVoice');else await p.waitForFunction(()=>!playing&&t===stopAt);
-  assert.equal(await voiceCount(),1,'point replay never repeats cue');
+  assert.equal(await voiceCount(),replayBaseline,'point replay never repeats cue');
   await p.waitForSelector('#wrapup:not([hidden]) #nextDaily');
   assert.equal(await p.evaluate(()=>GSApp.S.done[new URL(location).searchParams.get('l')].n),evidence.score,'replay preserves score');
   await p.locator('#hearVoice').tap();await p.waitForFunction(()=>GSSfx.voiceState().playing);
-  assert.equal(await voiceCount(),2,'manual replay available');
+  assert.equal(await voiceCount(),replayBaseline+1,'manual replay available');
   await p.locator('#voicePreference').tap();assert.equal(await p.evaluate(()=>GSSfx.voiceState().playing),false,'voice off stops speech');
   if(evidence.predict){await p.locator('#redo').tap();assert.equal(await p.evaluate(()=>done),false,'predict can restart');}
   for(const size of index===0?[{width:320,height:740},{width:1100,height:900}]:[]){await p.setViewportSize(size);assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await p.screenshot({path:`${out}/${row.lesson}-${size.width}.png`,fullPage:true});}

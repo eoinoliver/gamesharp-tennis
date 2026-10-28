@@ -1,5 +1,6 @@
 const LESSON={
   "title": "Other Wing. Same Read?",
+  "decisionCount": 2,
   "hook": "Two decisions. Watch how your reply and recovery shape the next ball.",
   "livePoint": true,
   "branch": "lt1",

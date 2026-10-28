@@ -140,8 +140,10 @@ function drawFigure(parts,pose,rq,opts){
           const pa=P(a0),pb=P(a1); if(pa&&pb) push(el_("line",{x1:pa.s[0].toFixed(1),y1:pa.s[1].toFixed(1),x2:pb.s[0].toFixed(1),y2:pb.s[1].toFixed(1),stroke:o.band,"stroke-width":Math.max(1,r*.2).toFixed(1),"stroke-linecap":"round",opacity:op}),hq.z+0.002);}}}}
   // shoes
   for(const s of ["L","R"]){const a=J("ankle"+s),k=J("knee"+s);
-    const fw=o.fwd||[0,1,0]; const toe=add(a,[fw[0]*0.14,fw[1]*0.14,-0.05]);
-    limb(add(a,[0,0,-0.03]),toe,.043,.037,S.shoe,ghost?S.shoe:"#9c978c");}
+    const fw=o.feet?.[s]||norm([...(o.fwd||[0,1,0]).slice(0,2),-.28]);
+    const toe=add(a,mul(fw,.17)),heel=add(a,[-fw[0]*.035,-fw[1]*.035,-.05]);
+    toe[2]=Math.max(.035,toe[2]);heel[2]=Math.max(.035,heel[2]);
+    limb(heel,toe,.038,.034,S.shoe,ghost?S.shoe:"#9c978c");}
   // racquet
   if(rq){
     const neck=add(rq.w,mul(rq.axis,.20)), fr=ghost?o.col:(o.kit||KIT).frame, hi=ghost?o.col:(o.kit||KIT).frameHi;
@@ -188,7 +190,8 @@ function at(c,f){
   f=clamp(f,1,c.frameCount); const i=Math.floor(f),u=f-i,j=Math.min(c.frameCount,i+1);
   const A=c.frames[i-1],B=c.frames[j-1],RA=c.racquetFrames[i-1],RB=c.racquetFrames[j-1];
   const pose=A.map((p,k)=>lerp3(p,B[k],u)), axis=norm(lerp3(RA.axis,RB.axis,u)), lat=lerp3(RA.lateral,RB.lateral,u);
-  return {pose,rq:{w:pose[I.wristR],axis,lateral:norm(sub(lat,mul(axis,dot(lat,axis)))),centre:lerp3(RA.centre,RB.centre,u)}};
+  const feet=c.footFrames?Object.fromEntries(["L","R"].map((s,k)=>[s,norm(lerp3(c.footFrames[i-1][k],c.footFrames[j-1][k],u))])):undefined;
+  return {pose,feet,rq:{w:pose[I.wristR],axis,lateral:norm(sub(lat,mul(axis,dot(lat,axis)))),centre:lerp3(RA.centre,RB.centre,u)}};
 }
 /* the ball: in from the far side (a toss on the serve), met at the clip's own contact point, then away toward the net */
 function ballAt(k,c,f){
@@ -215,7 +218,7 @@ function draw(svg,k,c,f){
   const g=document.createDocumentFragment(); court(g);
   const s=at(c,f), A=s.pose[I.ankleL], B=s.pose[I.ankleR];
   ring(g,[(A[0]+B[0])/2,(A[1]+B[1])/2,.004],.42,.32,"none",0,1,"rgba(0,0,0,.35)");
-  const parts=[]; drawFigure(parts,s.pose,s.rq,{kit:KIT_PREM,fwd:[0,1,0],band:"#d9b24a",bandDk:"#8f7632"});   // the premium kit, as in the lessons
+  const parts=[]; drawFigure(parts,s.pose,s.rq,{kit:KIT_PREM,feet:s.feet,fwd:[0,1,0],band:"#d9b24a",bandDk:"#8f7632"});   // the premium kit, as in the lessons
   const b=ballAt(k,c,f), bq=b&&P(b);
   if(bq){const sh=P([b[0],b[1],.003]); if(sh) g.appendChild(el_("ellipse",{cx:sh.s[0].toFixed(1),cy:sh.s[1].toFixed(1),rx:(FOCAL*.05/sh.z).toFixed(1),ry:(FOCAL*.02/sh.z).toFixed(1),fill:"rgba(0,0,0,.3)"}));
     const r=Math.max(2.2,FOCAL*.034/bq.z);

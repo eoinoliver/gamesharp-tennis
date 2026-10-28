@@ -58,3 +58,18 @@ Trimmed, faded and level matched; original pitch preserved. Source and output
 hashes, exact processing and reuse verification are recorded in
 `docs/features/natural-completion-sources.json`. These are general audience
 recordings, not recordings of the on-screen tennis point.
+
+## Stroke integrity supplement — 28 October 2026
+
+`rally/foot_directions.json` recovers ankle end-site directions from the pinned
+Tennis-MoCap revision above for 20 shared clips. Each record includes the raw
+source SHA-256, source frame, fit error and authored clip fingerprint. The
+neutral ready stance is authored; the drop-shot fallback remains illustrative.
+The offline recovery scripts require separately obtained BVH inputs and NumPy.
+No raw dataset or reference video is included in the app or this repository.
+
+`rally/stroke_integrity.py` makes explicit geometric adaptations to the three
+volley grips/arms and the slice's supporting arm. These derived poses retain the
+same attribution and share-alike license. They are illustrations, not newly
+captured or professionally certified strokes. The ball contact positions are
+preserved; the adaptation and its limits are recorded in the feature evidence.

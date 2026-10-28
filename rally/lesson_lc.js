@@ -1,7 +1,7 @@
 const LESSON={
  "title": "Late Is the Culprit",
  "hook": "Your forehand keeps flying wide, so you change everything except when you hit it.",
- "memHTML": "The miss tells you <span>when you hit it.</span>",
+ "memHTML": "Read the miss. <span>Check the contact.</span>",
  "tomorrow": "Next time your forehand sprays the same way twice, check your contact: was the ball out in front, or beside your hip?",
  "drill": {
   "name": "Turn on \"bounce\"",
@@ -54,8 +54,8 @@ const LESSON={
    ],
    "correct": 2,
    "payoff": "The ball was beside your hip. Out in front, it went where you aimed.",
-   "principle": "A forehand that sprays right was hit late.",
-   "why": "Met late, the racquet face still points to the right, and the ball follows the face. Pace, height and spin don't turn the face; meeting it earlier does.",
+   "principle": "Here, the held contact explains the miss.",
+   "why": "In this example the ball is beside the hip and the face sends it wide. Use both clues: direction alone cannot diagnose late contact. Prepare earlier to give yourself room to meet it in front.",
    "rail": [
     "1 The miss",
     "2 Held at contact",
@@ -120,8 +120,8 @@ const LESSON={
    ],
    "correct": 0,
    "payoff": "Same culprit on the other wing: late, so the face pointed left, off your line.",
-   "principle": "Where the ball pulls to tells you it was late.",
-   "why": "A late backhand pulls left, just as a late forehand pushes right. Either way the ball goes where the face points, so meet it earlier.",
+   "principle": "Check the contact, not just the direction of the miss.",
+   "why": "Here the held frame shows contact beside the body and a face pointing off the intended line. Earlier preparation helps this example. Other misses can have different causes; the direction alone is not proof.",
    "rail": [
     "1 The miss",
     "2 Held at contact",

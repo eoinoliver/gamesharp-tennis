@@ -78,8 +78,10 @@ function drawFigure(parts,pose,rq,opts){
           const pa=P(a0),pb=P(a1); if(pa&&pb) push(el_("line",{x1:pa.s[0].toFixed(1),y1:pa.s[1].toFixed(1),x2:pb.s[0].toFixed(1),y2:pb.s[1].toFixed(1),stroke:o.band,"stroke-width":Math.max(1,r*.2).toFixed(1),"stroke-linecap":"round",opacity:op}),hq.z+0.002);}}}}
   // shoes
   for(const s of ["L","R"]){const a=J("ankle"+s),k=J("knee"+s);
-    const fw=o.fwd||[0,1,0]; const toe=add(a,[fw[0]*0.14,fw[1]*0.14,-0.05]);
-    limb(add(a,[0,0,-0.03]),toe,.043,.037,S.shoe,ghost?S.shoe:"#9c978c");}
+    const fw=o.feet?.[s]||norm([...(o.fwd||[0,1,0]).slice(0,2),-.28]);
+    const toe=add(a,mul(fw,.17)),heel=add(a,[-fw[0]*.035,-fw[1]*.035,-.05]);
+    toe[2]=Math.max(.035,toe[2]);heel[2]=Math.max(.035,heel[2]);
+    limb(heel,toe,.038,.034,S.shoe,ghost?S.shoe:"#9c978c");}
   // racquet
   if(rq){
     const neck=add(rq.w,mul(rq.axis,.20)), fr=ghost?o.col:(o.kit||KIT).frame, hi=ghost?o.col:(o.kit||KIT).frameHi;

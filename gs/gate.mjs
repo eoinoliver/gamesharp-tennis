@@ -20,7 +20,7 @@ const r=await p.evaluate(()=>{
       if('ABCD'.indexOf(X)!==S.correct&&c==='won') notes.push(`  note: wrong answer ${k} ends as a won point`);
       if(c==='neutral'){const segs=SC[k].actors, last=a=>Math.max(...(segs[a]||[]).filter(s=>!s.hold).map(s=>s.start+CL[s.clip].contactFrame));
         if(last('you')<last('opp')) fails.push(`${k}: neutral ending but the last shot is theirs`);}}});
-  for(const [k,s] of Object.entries(SC).filter(([k,s])=>s.info.liveRecovery)){
+  for(const [k,s] of Object.entries(SC).filter(([k,s])=>s.info.liveRecovery&&!s.info.liveRead)){
     const h=s.info.liveRecovery.theirHit;
     if(s.info.outcome!=='in_play'||s.frames!==h+19||!ballAt(s,h+18))fails.push(k+': Live Point must stop with the reply in flight');
   }

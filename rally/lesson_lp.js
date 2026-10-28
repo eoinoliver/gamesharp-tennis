@@ -1,6 +1,7 @@
 const LESSON={
   "title": "Buy Time. Use It.",
-  "hook": "Two decisions. Watch how your reply and recovery shape the next ball.",
+  "decisionCount": 4,
+  "hook": "Four connected decisions. Reply, recover, read the next ball, choose again.",
   "livePoint": true,
   "branch": "lp1",
   "nodes": {
@@ -89,6 +90,381 @@ const LESSON={
       "payoff": "When stretched, choose a reply that gives you time to recover.",
       "principle": "Your reply buys time. Your movement puts it to work.",
       "why": "Here you are wide with a low contact. Height and depth crosscourt offer margin and extra flight time. The flatter middle reply remains playable in this example, but leaves less time to regain position. The useful comparison is time and position, not whether one illustrated shot wins."
+    },
+    "lp1AA": {
+      "scene": "lp1AA",
+      "ph": "Live Point",
+      "short": "Read",
+      "name": "Which side needs your first move?",
+      "sit": "Their reply is now coming back. Read this ball, not the gap you expected.",
+      "q": "Which side needs your first move?",
+      "opts": [
+        "Move towards the backhand side",
+        "Move towards the forehand side"
+      ],
+      "correct": 0,
+      "lines": {
+        "A": "The ball is heading to your backhand.",
+        "B": "That first move takes you away from this ball."
+      },
+      "noTargets": true,
+      "rail": [
+        "Watch",
+        "Choose",
+        "See what changes"
+      ],
+      "unlock": "Read the next situation",
+      "take": "Recover for the available angles. Then move to the ball you see.",
+      "payoff": "Recover for the available angles. Then move to the ball you see.",
+      "principle": "Your reply buys time. Your movement puts it to work.",
+      "why": "Recovery covers possibilities. Once the opponent hits, the visible ball gives you new evidence. A first step the wrong way spends time you may need at contact.",
+      "opening": {
+        "scene": "lp1AAA",
+        "from": 262,
+        "to": 305,
+        "label": "Their reply · replay",
+        "after": "Read its direction",
+        "silent": true
+      }
+    },
+    "lp1AAA": {
+      "scene": "lp1AAA",
+      "ph": "Live Point",
+      "short": "Read",
+      "name": "What reply fits the time you have?",
+      "sit": "You have more time to organise this contact.",
+      "q": "What reply fits the time you have?",
+      "opts": [
+        "Lift with margin through the middle",
+        "Drive with controlled depth through the middle"
+      ],
+      "correct": 1,
+      "lines": {
+        "A": "Height gives you another recovery window. The point continues.",
+        "B": "You use your time to play a firmer reply. Keep recovering."
+      },
+      "noTargets": true,
+      "rail": [
+        "Watch",
+        "Choose",
+        "See what changes"
+      ],
+      "unlock": "Read the next situation",
+      "take": "Choose again from this contact. Then recover again.",
+      "payoff": "Choose again from this contact. Then recover again.",
+      "principle": "Your reply buys time. Your movement puts it to work.",
+      "why": "The earlier reply, recovery and first move affect your preparation time. When time is tight, height gives margin and another recovery window. With time to organise, a controlled deeper drive is an option; a higher reset is still valid.",
+      "alsoOk": [
+        0
+      ],
+      "opening": {
+        "scene": "lp1AAAA",
+        "from": 305,
+        "to": 401,
+        "label": "Your movement to the next ball",
+        "after": "Choose from this contact",
+        "silent": true
+      }
+    },
+    "lp1AAB": {
+      "scene": "lp1AAB",
+      "ph": "Live Point",
+      "short": "Read",
+      "name": "What reply fits the time you have?",
+      "sit": "You are still moving as this contact approaches.",
+      "q": "What reply fits the time you have?",
+      "opts": [
+        "Lift with margin through the middle",
+        "Drive with controlled depth through the middle"
+      ],
+      "correct": 0,
+      "lines": {
+        "A": "Height gives you another recovery window. The point continues.",
+        "B": "The firmer reply leaves a shorter recovery window. Still in play."
+      },
+      "noTargets": true,
+      "rail": [
+        "Watch",
+        "Choose",
+        "See what changes"
+      ],
+      "unlock": "Read the next situation",
+      "take": "Choose again from this contact. Then recover again.",
+      "payoff": "Choose again from this contact. Then recover again.",
+      "principle": "Your reply buys time. Your movement puts it to work.",
+      "why": "The earlier reply, recovery and first move affect your preparation time. When time is tight, height gives margin and another recovery window. With time to organise, a controlled deeper drive is an option; a higher reset is still valid.",
+      "opening": {
+        "scene": "lp1AABA",
+        "from": 305,
+        "to": 401,
+        "label": "Your movement to the next ball",
+        "after": "Choose from this contact",
+        "silent": true
+      }
+    },
+    "lp1AB": {
+      "scene": "lp1AB",
+      "ph": "Live Point",
+      "short": "Read",
+      "name": "Which side needs your first move?",
+      "sit": "Their reply is now coming back. Read this ball, not the gap you expected.",
+      "q": "Which side needs your first move?",
+      "opts": [
+        "Move towards the backhand side",
+        "Move towards the forehand side"
+      ],
+      "correct": 0,
+      "lines": {
+        "A": "The ball is heading to your backhand.",
+        "B": "That first move takes you away from this ball."
+      },
+      "noTargets": true,
+      "rail": [
+        "Watch",
+        "Choose",
+        "See what changes"
+      ],
+      "unlock": "Read the next situation",
+      "take": "Recover for the available angles. Then move to the ball you see.",
+      "payoff": "Recover for the available angles. Then move to the ball you see.",
+      "principle": "Your reply buys time. Your movement puts it to work.",
+      "why": "Recovery covers possibilities. Once the opponent hits, the visible ball gives you new evidence. A first step the wrong way spends time you may need at contact.",
+      "opening": {
+        "scene": "lp1ABA",
+        "from": 262,
+        "to": 305,
+        "label": "Their reply · replay",
+        "after": "Read its direction",
+        "silent": true
+      }
+    },
+    "lp1BA": {
+      "scene": "lp1BA",
+      "ph": "Live Point",
+      "short": "Read",
+      "name": "Which side needs your first move?",
+      "sit": "Their reply is now coming back. Read this ball, not the gap you expected.",
+      "q": "Which side needs your first move?",
+      "opts": [
+        "Move towards the backhand side",
+        "Move towards the forehand side"
+      ],
+      "correct": 1,
+      "lines": {
+        "A": "That first move takes you away from this ball.",
+        "B": "The ball is heading to your forehand."
+      },
+      "noTargets": true,
+      "rail": [
+        "Watch",
+        "Choose",
+        "See what changes"
+      ],
+      "unlock": "Read the next situation",
+      "take": "Recover for the available angles. Then move to the ball you see.",
+      "payoff": "Recover for the available angles. Then move to the ball you see.",
+      "principle": "Your reply buys time. Your movement puts it to work.",
+      "why": "Recovery covers possibilities. Once the opponent hits, the visible ball gives you new evidence. A first step the wrong way spends time you may need at contact.",
+      "opening": {
+        "scene": "lp1BAA",
+        "from": 309,
+        "to": 352,
+        "label": "Their reply · replay",
+        "after": "Read its direction",
+        "silent": true
+      }
+    },
+    "lp1BAA": {
+      "scene": "lp1BAA",
+      "ph": "Live Point",
+      "short": "Read",
+      "name": "What reply fits the time you have?",
+      "sit": "You have more time to organise this contact.",
+      "q": "What reply fits the time you have?",
+      "opts": [
+        "Lift with margin through the middle",
+        "Drive with controlled depth through the middle"
+      ],
+      "correct": 1,
+      "lines": {
+        "A": "Height gives you another recovery window. The point continues.",
+        "B": "You use your time to play a firmer reply. Keep recovering."
+      },
+      "noTargets": true,
+      "rail": [
+        "Watch",
+        "Choose",
+        "See what changes"
+      ],
+      "unlock": "Read the next situation",
+      "take": "Choose again from this contact. Then recover again.",
+      "payoff": "Choose again from this contact. Then recover again.",
+      "principle": "Your reply buys time. Your movement puts it to work.",
+      "why": "The earlier reply, recovery and first move affect your preparation time. When time is tight, height gives margin and another recovery window. With time to organise, a controlled deeper drive is an option; a higher reset is still valid.",
+      "alsoOk": [
+        0
+      ],
+      "opening": {
+        "scene": "lp1BAAA",
+        "from": 352,
+        "to": 460,
+        "label": "Your movement to the next ball",
+        "after": "Choose from this contact",
+        "silent": true
+      }
+    },
+    "lp1BAB": {
+      "scene": "lp1BAB",
+      "ph": "Live Point",
+      "short": "Read",
+      "name": "What reply fits the time you have?",
+      "sit": "You have more time to organise this contact.",
+      "q": "What reply fits the time you have?",
+      "opts": [
+        "Lift with margin through the middle",
+        "Drive with controlled depth through the middle"
+      ],
+      "correct": 1,
+      "lines": {
+        "A": "Height gives you another recovery window. The point continues.",
+        "B": "You use your time to play a firmer reply. Keep recovering."
+      },
+      "noTargets": true,
+      "rail": [
+        "Watch",
+        "Choose",
+        "See what changes"
+      ],
+      "unlock": "Read the next situation",
+      "take": "Choose again from this contact. Then recover again.",
+      "payoff": "Choose again from this contact. Then recover again.",
+      "principle": "Your reply buys time. Your movement puts it to work.",
+      "why": "The earlier reply, recovery and first move affect your preparation time. When time is tight, height gives margin and another recovery window. With time to organise, a controlled deeper drive is an option; a higher reset is still valid.",
+      "alsoOk": [
+        0
+      ],
+      "opening": {
+        "scene": "lp1BABA",
+        "from": 352,
+        "to": 460,
+        "label": "Your movement to the next ball",
+        "after": "Choose from this contact",
+        "silent": true
+      }
+    },
+    "lp1BB": {
+      "scene": "lp1BB",
+      "ph": "Live Point",
+      "short": "Read",
+      "name": "Which side needs your first move?",
+      "sit": "Their reply is now coming back. Read this ball, not the gap you expected.",
+      "q": "Which side needs your first move?",
+      "opts": [
+        "Move towards the backhand side",
+        "Move towards the forehand side"
+      ],
+      "correct": 1,
+      "lines": {
+        "A": "That first move takes you away from this ball.",
+        "B": "The ball is heading to your forehand."
+      },
+      "noTargets": true,
+      "rail": [
+        "Watch",
+        "Choose",
+        "See what changes"
+      ],
+      "unlock": "Read the next situation",
+      "take": "Recover for the available angles. Then move to the ball you see.",
+      "payoff": "Recover for the available angles. Then move to the ball you see.",
+      "principle": "Your reply buys time. Your movement puts it to work.",
+      "why": "Recovery covers possibilities. Once the opponent hits, the visible ball gives you new evidence. A first step the wrong way spends time you may need at contact.",
+      "opening": {
+        "scene": "lp1BBA",
+        "from": 309,
+        "to": 352,
+        "label": "Their reply · replay",
+        "after": "Read its direction",
+        "silent": true
+      }
+    },
+    "lp1BBA": {
+      "scene": "lp1BBA",
+      "ph": "Live Point",
+      "short": "Read",
+      "name": "What reply fits the time you have?",
+      "sit": "You have more time to organise this contact.",
+      "q": "What reply fits the time you have?",
+      "opts": [
+        "Lift with margin through the middle",
+        "Drive with controlled depth through the middle"
+      ],
+      "correct": 1,
+      "lines": {
+        "A": "Height gives you another recovery window. The point continues.",
+        "B": "You use your time to play a firmer reply. Keep recovering."
+      },
+      "noTargets": true,
+      "rail": [
+        "Watch",
+        "Choose",
+        "See what changes"
+      ],
+      "unlock": "Read the next situation",
+      "take": "Choose again from this contact. Then recover again.",
+      "payoff": "Choose again from this contact. Then recover again.",
+      "principle": "Your reply buys time. Your movement puts it to work.",
+      "why": "The earlier reply, recovery and first move affect your preparation time. When time is tight, height gives margin and another recovery window. With time to organise, a controlled deeper drive is an option; a higher reset is still valid.",
+      "alsoOk": [
+        0
+      ],
+      "opening": {
+        "scene": "lp1BBAA",
+        "from": 352,
+        "to": 460,
+        "label": "Your movement to the next ball",
+        "after": "Choose from this contact",
+        "silent": true
+      }
+    },
+    "lp1BBB": {
+      "scene": "lp1BBB",
+      "ph": "Live Point",
+      "short": "Read",
+      "name": "What reply fits the time you have?",
+      "sit": "You have more time to organise this contact.",
+      "q": "What reply fits the time you have?",
+      "opts": [
+        "Lift with margin through the middle",
+        "Drive with controlled depth through the middle"
+      ],
+      "correct": 1,
+      "lines": {
+        "A": "Height gives you another recovery window. The point continues.",
+        "B": "You use your time to play a firmer reply. Keep recovering."
+      },
+      "noTargets": true,
+      "rail": [
+        "Watch",
+        "Choose",
+        "See what changes"
+      ],
+      "unlock": "Read the next situation",
+      "take": "Choose again from this contact. Then recover again.",
+      "payoff": "Choose again from this contact. Then recover again.",
+      "principle": "Your reply buys time. Your movement puts it to work.",
+      "why": "The earlier reply, recovery and first move affect your preparation time. When time is tight, height gives margin and another recovery window. With time to organise, a controlled deeper drive is an option; a higher reset is still valid.",
+      "alsoOk": [
+        0
+      ],
+      "opening": {
+        "scene": "lp1BBBA",
+        "from": 352,
+        "to": 460,
+        "label": "Your movement to the next ball",
+        "after": "Choose from this contact",
+        "silent": true
+      }
     }
   },
   "steps": [],
