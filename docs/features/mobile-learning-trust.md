@@ -16,3 +16,5 @@ No catalogue expansion: 43 eligible journeys remain (32 Daily, 2 Predict, 9 Play
 Validation includes source/audio state tests, the existing full browser release suite, targeted Chromium/WebKit pacing and navigation checks, visual phone/tablet/desktop review, and Git deployment artifact/routing verification. Screenshots and detailed run logs are ignored local evidence. Browser emulation is not physical iPhone/iPad testing, independent tennis coaching validation, or evidence of better next-day retention.
 
 Release authority: the user's current full-autonomy, deploy-live and “proceed with superb corrections” instructions supersede the older per-version permission wording. Git, CI, staged Production verification and rollback safeguards remain required.
+
+The existing release checks run in four independent CI groups, with the required `contracts` check succeeding only when the build/source checks and every browser group pass. Local `npm run test:browser` still runs the entire check set. Cheap per-lesson contracts run first within the route group.

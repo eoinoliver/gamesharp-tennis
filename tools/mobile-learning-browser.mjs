@@ -44,7 +44,13 @@ try{
   check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`No horizontal overflow at ${size.width}`);
   await p.screenshot({path:`${out}/recap-${size.width}.png`});
  }
- await p.setViewportSize({width:375,height:667});await p.locator('#skipRecap').tap();
+ await p.setViewportSize({width:375,height:667});await p.locator('#fsBtn').tap();
+ await p.waitForFunction(()=>document.fullscreenElement||document.getElementById('viewer').classList.contains('full'));
+ check(await p.evaluate(()=>document.getElementById('tools').getBoundingClientRect().bottom<=document.getElementById('questionContext').getBoundingClientRect().top),'Full-screen caption leaves playback tools visible');
+ check(await p.evaluate(()=>document.getElementById('skipRecap').getBoundingClientRect().bottom<=innerHeight),'Full-screen recap retains visible skip');
+ await p.screenshot({path:out+'/fullscreen-recap.png'});await p.locator('#fsBtn').tap();
+ await p.waitForFunction(()=>!document.fullscreenElement&&!document.getElementById('viewer').classList.contains('full'));
+ await p.locator('#skipRecap').tap();
  check(await p.evaluate(()=>!playing&&!recapActive),'Skip cannot restart motion through the stage click handler');
  check(await p.evaluate(()=>document.querySelector('#wrapup').firstElementChild.nextElementSibling.classList.contains('gs-continue')),'Next challenge sits immediately after the court cue');
  await p.screenshot({path:out+'/daily-ending.png',fullPage:true});

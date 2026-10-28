@@ -225,6 +225,7 @@ details.note a{color:var(--gold)}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}
   .rail span{opacity:.72;transform:none}#ink{clip-path:none}}
 .question-context{position:absolute;top:12px;left:12px;max-width:calc(100% - 92px);padding:6px 9px;border-radius:8px;background:rgba(5,18,10,.88);color:#e8dfb0;font:500 12px/1.35 "DM Sans",sans-serif;pointer-events:none;z-index:6}.question-context[hidden]{display:none}
+.visual.full .question-context,.visual:fullscreen .question-context{top:66px}
 </style>
 
 </head>
@@ -357,13 +358,13 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=2cf548d2bb"></script>
-<script src="catalog.js?v=2cf548d2bb"></script>
-<script src="app.js?v=2cf548d2bb"></script>
-<script src="sfx.js?v=2cf548d2bb"></script>
+<script src="config.js?v=a9d9eec67d"></script>
+<script src="catalog.js?v=a9d9eec67d"></script>
+<script src="app.js?v=a9d9eec67d"></script>
+<script src="sfx.js?v=a9d9eec67d"></script>
 <script>
 (function(){
-const A=GSApp, V="2cf548d2bb", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="a9d9eec67d", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */

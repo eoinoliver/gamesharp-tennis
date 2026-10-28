@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 jobs:
-  contracts:
+  build-contracts:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,9 +20,38 @@ jobs:
       - run: npm ci
       - run: npm run check:build
       - run: npm test
+  browser:
+    needs: build-contracts
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [routes, learning, sound, shell]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
       - run: npx playwright install --with-deps chromium
       - name: Browser release checks
+        env:
+          GS_BROWSER_SUITE: ${{ matrix.suite }}
         run: |
           mkdir -p app_src/evidence/lesson-layout
           python3 -m http.server 8765 --directory app > /tmp/tennis-server.log 2>&1 &
           npm run test:browser -- http://127.0.0.1:8765/
+  contracts:
+    if: always()
+    needs: [build-contracts, browser]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every release check
+        env:
+          BUILD_RESULT: ${{ needs.build-contracts.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
+        run: test "$BUILD_RESULT" = success && test "$BROWSER_RESULT" = success

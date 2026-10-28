@@ -51,7 +51,7 @@ const LESSON={
    "lines": {
     "A": "One winner cannot show the margin. Compare these illustrative landings.",
     "B": "Nothing forced the line — the big crosscourt was there too.",
-    "C": "Right — this one landed. The illustration compares margin, not your success rate.",
+    "C": "Right — one winner does not prove a reliable choice.",
     "D": "A low ball rarely earns full pace — look at the misses."
    }
   },

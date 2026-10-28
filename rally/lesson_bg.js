@@ -121,7 +121,7 @@ const LESSON={
    "lines": {
     "A": "Right: the slice stays below their waist. Rally pace back; you're in time.",
     "B": "Deep middle sits at their waist: their big ball, and you're stretched.",
-    "C": "The flat reply gives less net clearance here. The slice changes their contact height.",
+    "C": "Less net clearance. The slice changes their contact height.",
     "D": "The heavy ball reaches them waist high: big ball back, just in time."
    }
   },

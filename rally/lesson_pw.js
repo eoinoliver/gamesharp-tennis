@@ -90,7 +90,7 @@ const LESSON={
    "lines": {
     "A": "They're stuck in the corner — too far to get across. Winner.",
     "B": "Back to where they're standing — you're only just in time.",
-    "C": "Also works: more margin and you are set early. The line attacks the opening here.",
+    "C": "Also works: more margin and an early recovery. The line attacks the opening.",
     "D": "Through the middle — they get it back; you're only just in time."
    },
    "alsoOk": [
