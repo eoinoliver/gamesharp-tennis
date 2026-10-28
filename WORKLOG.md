@@ -615,3 +615,18 @@ canonical local paths and “next” steps below are historical, not current rul
 - Verify every authored path, mobile rendering, sound sequencing, saved cues and browser-local follow-up eligibility. Standing autonomy/deploy-live authorization applies with Git, preview, staged and live verification safeguards. No claim of coaching certification or physical-device validation.
 
 - Released PR 55: head 6c1c1d1a9715eeb588a936ea2526915af1a534be, merge e80d1adc9b44ea41a63d8356fec3e578d099d4cb, identical Git tree, app bcaab23b1a, Production dpl_9rfGigZibdqHUfpTW24UMLgsHUCt. Two new journeys, eight routes, 43 total, no withheld new journeys. 47 unit tests, deterministic 152-file build, 447 route checks per Chromium/WebKit engine, final full CI, 293 hosted checks per environment, 151 static assets/no functions, configuration equivalence and five complete preview/stage/live Chromium journeys passed. Isolated reruns resolved local browser/CLI transport timeouts; initial evidence is retained. Live WebKit verification is recorded in the release JSON. Physical iPhone/iPad listening and independent coaching validation remain unverified. No claim of on-court learning transfer. Rollback 61678680f2 / dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX. Follow-up branch codex/live-point-release-record records this release only and is not a new production promotion.
+
+## 28 October 2026 — stroke integrity, completion recap and four-decision point (Codex)
+
+- User authorizes proceeding in full with no further action required from them. Own codex/stroke-integrity-recaps. First isolate and repair shared feet/legs, racket and contact representation for backhand, slice and volleys; then short labelled lesson recaps and one genuinely connected four-decision Live Point.
+- Existing source and rendered views require comparison; passing functional tests is not coaching certification. Preserve raw asset provenance, old build fingerprints, browser-local progress and existing opted-out voice preferences. Add specific motion integrity checks and inspect affected lessons.
+- Standing release authority applies. Preserve Git preview, final CI, staged Production and live verification. Baseline app bcaab23b1a / merge e80d1adc9b44ea41a63d8356fec3e578d099d4cb / Production dpl_9rfGigZibdqHUfpTW24UMLgsHUCt; recheck before release.
+
+28 October implementation checkpoint: recovered and exactly reproduced 20 source
+foot-direction tracks; added explicit volley/slice adaptations, grounded-height
+repair, 21 consistent Sharpen stills, three-read completion recaps, and the second
+Live Point pair. Twelve original-point routes reach four decisions; two stop
+with the planned contact unavailable. Local checks so far: 47 unit tests,
+87 geometry checks, 1,111 route checks, 18 initial recap checks, and the Live Point
+motion/framing gate passed. Final recap/sensory, full catalogue, hosted preview,
+staged production and live verification remain pending. No production change yet.

@@ -12,10 +12,11 @@ for(const width of [375,820,1280]){
  await c.route(/posthog\.com\//,r=>r.fulfill({status:200,body:'{}'}));
  const p=await c.newPage();p.on('pageerror',e=>errors.push(String(e)));
  for(const slug of ['live-point-buy-time','live-point-other-wing']){
-  for(const path of ['AA','AB','BA','BB']){
+  const paths=slug==='live-point-buy-time'?[...Array.from({length:16},(_,n)=>n.toString(2).padStart(4,'0').replaceAll('0','A').replaceAll('1','B')).filter(p=>!p.startsWith('AB')),'ABA','ABB']:['AA','AB','BA','BB'];
+  for(const path of paths){
    await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);await p.waitForSelector('#loading',{state:'hidden'});
    await p.evaluate(()=>{window.__speed=18;const timer=setTimeout;window.setTimeout=(fn,ms,...a)=>timer(fn,ms/10,...a);});
-   for(let i=0;i<2;i++){
+   for(let i=0;i<path.length;i++){
     await p.waitForFunction(()=>document.querySelector('#askOpts button:not(:disabled)'));
     check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${slug}/${path}/${width}/${i}: fits`);
     if(width===375&&path==='BA')await p.screenshot({path:`${out}/${slug}-${i}-question.png`,fullPage:true});
@@ -37,7 +38,7 @@ for(const width of [375,820,1280]){
    check(await p.evaluate(()=>SC[LESSON.finaleScene].info.outcome==='in_play'),`${slug}/${path}: no manufactured win/loss`);
    check((await p.locator('#svg').textContent()).includes('AT THEIR HIT'),`${slug}/${path}: decisive position annotated`);
    check((await p.locator('#wrapup').innerText()).includes('The point is still in play'),`${slug}/${path}: outcome explained`);
-   check(await p.evaluate(slug=>GSApp.S.done[slug].total===2,slug),`${slug}/${path}: two decisions recorded`);
+   check(await p.evaluate(n=>GSApp.S.done[new URL(location).searchParams.get('l')].total===n,path.length),`${slug}/${path}: all connected decisions recorded`);
    const before=await p.evaluate(()=>JSON.stringify(ans));
    await p.locator('#replayTurningPoint').click();await p.waitForFunction(()=>!playing);
    check(await p.evaluate(()=>JSON.stringify(ans))===before,`${slug}/${path}: replay preserves decisions`);

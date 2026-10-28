@@ -46,11 +46,11 @@ try{
   check(await p.evaluate(()=>__calls.filter(k=>k==='applause').length)===0,'replay cannot add applause');
   await p.locator('#next').tap();
  }
- await p.waitForSelector('#nextDaily');
+ await p.waitForSelector('#nextDaily');await p.waitForFunction(()=>!recapActive&&!playing);
  check(await p.evaluate(()=>__calls.filter(k=>k==='applause').length)===1,'one applause for the completed perfect challenge');
  const next=await p.evaluate(()=>GSApp.nextDaily().slug);check(await p.locator('#nextDaily').getAttribute('href')===`play.html?l=${next}`,'completion points to real next unplayed lesson');
  check(await p.evaluate(()=>silentPlayback),'automatic wrap-up stays silent');
- await p.locator('#again').tap();check(await p.evaluate(()=>!silentPlayback),'intentional replay can have contact cues');
+ await p.locator('#again').tap();check(await p.evaluate(()=>hasLessonRecap()?silentPlayback:!silentPlayback),'recap stays quiet; single-point replay can have contact cues');
  await p.locator('#saveCue').tap();check(await p.evaluate(()=>JSON.parse(localStorage.gs_my_game).length>0),'cue still saves');
  await p.screenshot({path:`${out}/${engine.name()}-completion.png`,fullPage:true});
  await Promise.all([p.waitForURL(u=>u.searchParams.get('l')===next),p.locator('#nextDaily').tap()]);await p.waitForFunction(()=>window.__test);

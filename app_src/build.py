@@ -36,7 +36,19 @@ for group, rows in (('daily', DAILY), ('predict', PREDICT), ('play', PLAY)):
         for field in ('livePoint','followup','transferOf'):
             if L.get(field): cat[group][-1][field] = L[field]
         if L.get('uses'): cat[group][-1]['uses'] = list(dict.fromkeys(u['lesson'] for u in L['uses']))   # weekend point: the lessons it is built from
-for k, s in clips.items(): open(os.path.join(OUT, 'clips', k + '.json'), 'w').write(s)
+# Foot orientation is recovered from the source ankle/end-site rotations;
+# keep this derived supplement separate from the immutable authored scenes.
+from stroke_integrity import repair
+feet = json.load(open(os.path.join(R, 'foot_directions.json')))
+for k, s in clips.items():
+    c = json.loads(s)
+    if k in feet['provenance']:
+        assert hashlib.sha256(json.dumps(c,sort_keys=True,separators=(',',':')).encode()).hexdigest() == feet['provenance'][k]['sourceClipSha256'], k+' foot source drift'
+    c = repair(k,c)
+    if k in feet['clips']:
+        assert len(feet['clips'][k]) == c['frameCount'], k
+        c['footFrames'] = feet['clips'][k]
+    open(os.path.join(OUT, 'clips', k + '.json'), 'w').write(dump(c))
 cat['flavours'] = [{'key': k, 'name': n, 'lessons': sl} for k, n, sl in FLAVOURS]
 assert set(FLAV) == {r[0] for r in DAILY + PREDICT + PLAY}, 'every lesson needs one flavour'
 

@@ -422,10 +422,11 @@ function prep(sc){
 }
 function clipAt(c,f){f=clamp(f,1,c.frameCount);const i=Math.floor(f),u=f-i,j=Math.min(c.frameCount,i+1);
   const A=c.frames[i-1],B=c.frames[j-1],RA=c.racquetFrames[i-1],RB=c.racquetFrames[j-1];
-  return {pose:A.map((p,k)=>lerp3(p,B[k],u)),
+  const feet=c.footFrames?Object.fromEntries(["L","R"].map((s,k)=>[s,norm(lerp3(c.footFrames[i-1][k],c.footFrames[j-1][k],u))])):{L:[0,1,-.28],R:[0,1,-.28]};
+  return {feet,pose:A.map((p,k)=>lerp3(p,B[k],u)),
     rq:{axis:lerp3(RA.axis,RB.axis,u),lateral:lerp3(RA.lateral,RB.lateral,u),centre:lerp3(RA.centre,RB.centre,u)}};}
 // Holds are a neutral ready stance (the ready clip, else the forehand's first frame), whatever clip the hold names.
-function localAt(w,g){const r=w.fixed?clipAt(CL.ready||CL.fh,1):clipAt(w.c,g-w.s.start+1+(w.s.poseFrameOffset||0));r.T=w.s.T;r.yaw=w.s.yaw;r.mirror=w.s.mirror;return r;}
+function localAt(w,g){const r=w.fixed?clipAt(CL.ready||CL.fh,1):clipAt(w.c,g-w.s.start+1+(w.s.poseFrameOffset||0));r.T=w.s.T;r.yaw=w.s.yaw;r.mirror=w.s.mirror;r.overhead=w.s.clip.startsWith("serve")||w.s.clip==="sm";return r;}
 function worldOf(L){
   const dz=L.T[2]||0;
   // a left-handed player (segment marked mirror): the captured swing mirrored side to side before it is placed
@@ -433,9 +434,32 @@ function worldOf(L){
   const c=Math.cos(L.yaw),s=Math.sin(L.yaw),R=p=>{p=Mi(p);return [c*p[0]-s*p[1],s*p[0]+c*p[1],p[2]];},X=p=>{const r=R(p);return [r[0]+L.T[0],r[1]+L.T[1],r[2]+dz];};
   const pose=L.pose.map(X);
   if(L.mirror) for(const n of ["shoulder","elbow","wrist","hip","knee","ankle"]){const l=I[n+"L"],r=I[n+"R"],t=pose[l];pose[l]=pose[r];pose[r]=t;}   // keep left/right anatomical
-  if(dz){for(const F of ["L","R"]){const H=pose[I["hip"+F]],K=pose[I["knee"+F]],A=pose[I["ankle"+F]],A0=[A[0],A[1],A[2]-dz];
-      const l1=len(sub(K,H)),l2=len(sub(A,K)),mid=lerp3(H,A0,0.5),r=ik2(H,A0,l1,l2,sub(K,mid));pose[I["knee"+F]]=r.knee;pose[I["ankle"+F]]=r.ankle;}}
-  return {pose,axis:R(L.rq.axis),lateral:R(L.rq.lateral),centre:X(L.rq.centre),fwd:R([0,1,0])};
+  // A height adjustment must not stretch a leg and pull a planted foot off court.
+  // Bound the pelvis lift by both legs, then solve the arms to the original
+  // wrists. The racket and authored ball contact remain in the same place.
+  const feet=Object.fromEntries(["L","R"].map(F=>[F,R(L.feet?.[L.mirror?(F==="L"?"R":"L"):F]||[0,1,-.28])]));
+  if(dz&&L.overhead){for(const F of ["L","R"]){const H=pose[I["hip"+F]],K=pose[I["knee"+F]],A=pose[I["ankle"+F]],ground=add(A,[0,0,-dz]);
+    const r=ik2(H,ground,len(sub(K,H)),len(sub(A,K)),sub(K,lerp3(H,ground,.5)));pose[I["knee"+F]]=r.knee;pose[I["ankle"+F]]=r.ankle;}}
+  else if(dz){
+    let lift=dz;
+    for(const F of ["L","R"]){const H=pose[I["hip"+F]],K=pose[I["knee"+F]],A=pose[I["ankle"+F]];
+      const reach=(len(sub(K,H))+len(sub(A,K)))*.995;
+      const maxZ=Math.sqrt(Math.max(0,reach*reach-(A[0]-H[0])**2-(A[1]-H[1])**2));
+      lift=Math.min(lift,maxZ-(H[2]-A[2]));}
+    const delta=Math.min(0,lift-dz), wrists={L:pose[I.wristL],R:pose[I.wristR]};
+    for(let j=0;j<pose.length;j++)pose[j]=add(pose[j],[0,0,delta]);
+    for(const F of ["L","R"]){
+      const H=pose[I["hip"+F]],K=pose[I["knee"+F]],A=pose[I["ankle"+F]],ground=add(A,[0,0,-dz-delta]);
+      const r=ik2(H,ground,len(sub(K,H)),len(sub(A,K)),sub(K,lerp3(H,ground,.5)));
+      pose[I["knee"+F]]=r.knee;pose[I["ankle"+F]]=r.ankle;
+      if(delta){const S=pose[I["shoulder"+F]],E=pose[I["elbow"+F]],W=pose[I["wrist"+F]],target=wrists[F];
+        const arm=ik2(S,target,len(sub(E,S)),len(sub(W,E)),sub(E,lerp3(S,target,.5)));
+        pose[I["elbow"+F]]=arm.knee;pose[I["wrist"+F]]=arm.ankle;}
+    }
+    // racquetTip belongs to the rigid racket, not the shifted pelvis.
+    if(delta)pose[I.racquetTip]=add(pose[I.racquetTip],[0,0,-delta]);
+  }
+  return {pose,feet,axis:R(L.rq.axis),lateral:R(L.rq.lateral),centre:X(L.rq.centre),fwd:R([0,1,0])};
 }
 const facingOf=P=>{const l=P[I.shoulderL],r=P[I.shoulderR];return Math.atan2(r[0]-l[0],-(r[1]-l[1]));}
 const wrapA=a=>{a=(a+Math.PI)%(2*Math.PI);if(a<0)a+=2*Math.PI;return a-Math.PI;};
@@ -448,7 +472,7 @@ function blendWorld(A,B,u,away){
   if((d>0&&t>0&&t<d)||(d<0&&t<0&&t>d)) d=d>0?d-2*Math.PI:d+2*Math.PI;
   const ca=A.pose[I.hips],cb=B.pose[I.hips],ra=d*u,rb=-d*(1-u);
   const pose=A.pose.map((p,k)=>lerp3(rotAbout(p,ca,ra),rotAbout(B.pose[k],cb,rb),u));
-  return {pose,axis:lerp3(rotV(A.axis,ra),rotV(B.axis,rb),u),lateral:lerp3(rotV(A.lateral,ra),rotV(B.lateral,rb),u),
+  return {pose,feet:Object.fromEntries(["L","R"].map(F=>[F,norm(lerp3(rotV(A.feet[F],ra),rotV(B.feet[F],rb),u))])),axis:lerp3(rotV(A.axis,ra),rotV(B.axis,rb),u),lateral:lerp3(rotV(A.lateral,ra),rotV(B.lateral,rb),u),
     centre:lerp3(rotAbout(A.centre,ca,ra),rotAbout(B.centre,cb,rb),u),fwd:lerp3(rotV(A.fwd,ra),rotV(B.fwd,rb),u)};
 }
 function actorAt(sc,name,g){
@@ -475,9 +499,27 @@ function actorAt(sc,name,g){
   // to begin moving. End just after their hit; never imply an unplayed result.
   if(name==='you'&&sc.info.liveRecovery&&g>=sc.info.liveRecovery.start){
     const r=sc.info.liveRecovery,hit=W.find(w=>!w.fixed);
-    const A=worldOf(localAt(hit,r.start)),L=clipAt(CL.ready,1);L.T=r.target;L.yaw=0;
-    const B=worldOf(L),u=smooth(r.move,r.move+r.duration,g);
-    Wd=footwork(blendWorld(A,B,u,away),A,B,u);
+    const recoveryAt=f=>{const A=worldOf(localAt(hit,r.start)),L=clipAt(CL.ready,1);L.T=r.target;L.yaw=0;
+      const B=worldOf(L),u=smooth(r.move,r.move+r.duration,f);return footwork(blendWorld(A,B,u,away),A,B,u);};
+    const read=sc.info.liveRead;
+    if(!read||g<read.start)Wd=recoveryAt(g);
+    else {
+      const next=W.find(w=>!w.fixed&&w.s.start===read.clipStart);
+      if(g>=read.arrival&&!read.noContact)Wd=worldOf(localAt(next,g));
+      else {
+        const A=recoveryAt(read.start);let B;
+        if(read.noContact){const L=clipAt(CL.ready,1);L.T=read.target;L.yaw=0;B=worldOf(L);}
+        else B=worldOf(localAt(next,read.arrival));
+        let from=A,start=read.start;
+        if(!read.correct){
+          const delta=[read.left?-.45:.45,0,0],mid={...A,pose:A.pose.map(p=>add(p,delta)),centre:add(A.centre,delta)};
+          const turn=read.start+25;
+          if(g<turn){const u=smooth(read.start,turn,g);Wd=footwork(blendWorld(A,mid,u,away),A,mid,u);}
+          else {from=mid;start=turn;}
+        }
+        if(read.correct||g>=read.start+25){const u=smooth(start,read.arrival,g);Wd=footwork(blendWorld(from,B,u,away),from,B,u);}
+      }
+    }
   }
   // split step: a small two-footed hop that lands at a chosen moment, then a brief load
   if(name==="you"&&sc.info.splits) for(const [L,air] of sc.info.splits){
@@ -485,7 +527,7 @@ function actorAt(sc,name,g){
     else if(g>=L&&g<L+10) dz=-0.035*Math.sin(Math.PI*(g-L)/10);
     if(dz){Wd={...Wd,pose:Wd.pose.map((p,k)=>dz<0&&(k===I.ankleL||k===I.ankleR)?p:[p[0],p[1],p[2]+dz]),centre:[Wd.centre[0],Wd.centre[1],Wd.centre[2]+dz]};}}
   const axis=norm(Wd.axis), lateral=norm(sub(Wd.lateral,mul(axis,dot(Wd.lateral,axis))));
-  return {pose:Wd.pose,rq:{w:Wd.pose[W.some(w=>w.s.mirror)?I.wristL:I.wristR],axis,lateral,centre:Wd.centre},fwd:norm(Wd.fwd)};   // a lefty holds it in the left hand
+  return {pose:Wd.pose,feet:Wd.feet,rq:{w:Wd.pose[W.some(w=>w.s.mirror)?I.wristL:I.wristR],axis,lateral,centre:Wd.centre},fwd:norm(Wd.fwd)};   // a lefty holds it in the left hand
 }
 /* ---------- footwork: run to the next spot instead of gliding in a ready stance ----------
    Between two shots the body travels from stance A to stance B. The feet step there: each step
@@ -511,7 +553,7 @@ function footwork(Wd,A,B,u){
   const c=Wd.pose[I.hips], stepPh=s/L-Math.floor(s/L);
   const dz=-0.07*env*k+0.028*k*Math.sin(Math.PI*stepPh)*env;
   const R=p=>{const q=rotAbout(p,c,turn);return [q[0],q[1],q[2]+dz];};
-  const pose=Wd.pose.map(R), out={pose,axis:rotV(Wd.axis,turn),lateral:rotV(Wd.lateral,turn),centre:R(Wd.centre),fwd:rotV(Wd.fwd,turn)};
+  const pose=Wd.pose.map(R), out={pose,feet:{...Wd.feet},axis:rotV(Wd.axis,turn),lateral:rotV(Wd.lateral,turn),centre:R(Wd.centre),fwd:rotV(Wd.fwd,turn)};
   // feet
   const aL=A.pose[I.ankleL], aR=A.pose[I.ankleR];
   const proj=p=>(p[0]-ha[0])*dir[0]+(p[1]-ha[1])*dir[1];
@@ -531,6 +573,10 @@ function footwork(Wd,A,B,u){
     const H=pose[I["hip"+F]], K0=pose[I["knee"+F]];
     const l1=len(sub(Wd.pose[I["knee"+F]],Wd.pose[I["hip"+F]])), l2=len(sub(Wd.pose[I["ankle"+F]],Wd.pose[I["knee"+F]]));
     const mid=lerp3(H,pos,0.5), pole=add(norm(sub(K0,mid)),mul(out.fwd,0.6));
+    // Preserve each planted shoe's direction; turn it only during its swing.
+    const curStep=steps.find(j=>j>=cur),lastStep=steps.filter(j=>j<cur).at(-1);
+    const heading=j=>j===undefined?A.feet[F]:j===steps.at(-1)?B.feet[F]:norm([dir[0],dir[1],-.28]);
+    out.feet[F]=curStep===cur?norm(lerp3(heading(lastStep),heading(curStep),smooth(0,1,p))):heading(lastStep);
     const r=ik2(H,pos,l1,l2,pole); pose[I["knee"+F]]=r.knee; pose[I["ankle"+F]]=r.ankle;
   }
   return out;
@@ -761,7 +807,8 @@ if(CONTACT_FOCUS){
 }
 
 let stopTimer=null, stopGeneration=0, pendingStop=null, silentPlayback=false;
-function run(key,from,stop,cb,silent=false){
+function run(key,from,stop,cb,silent=false,keepRecap=false){
+  if(!keepRecap)cancelRecap();
   silentPlayback=silent;
   clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;
   if(window.GSSfx)GSSfx.stop();scene=key;t=from;stopAt=Math.min(stop,SC[key].frames-1);onStop=cb;setPlaying(true);
@@ -769,7 +816,7 @@ function run(key,from,stop,cb,silent=false){
 function setPlaying(p){if(!p&&window.GSSfx)GSSfx.stopContacts();playing=p;lastTs=null;$("paused").hidden=p||t>=stopAt;
   const i=$("playIcon"); if(i){const pl=p&&t<stopAt; i.innerHTML=pl?PAUSE_I:PLAY_I; $("playBtn").setAttribute("aria-label",pl?"Pause":"Play");}}
 const PAUSE_I='<path d="M9 5.5v13M15 5.5v13"/>', PLAY_I='<path d="M8 5.5l11 6.5-11 6.5z"/>';
-function rate(){const sc=SC[scene];let r=1;
+function rate(){if(recapActive)return 1;const sc=SC[scene];let r=1;
   for(const c of contactsOf(sc,"you")) r=Math.min(r,0.3+0.7*smooth(6,28,Math.abs(t-c)));
   if(onStop) r*=0.45+0.55*smooth(0,45,stopAt-t);
   return r;}
@@ -912,7 +959,7 @@ function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
   $("wrapup").hidden=true; setInk("");
   if(i>=NS()){finishLesson();return;}
   const S=LESSON.steps[i];
-  $("count").textContent=LESSON.livePoint?`Decision ${i+1} of 2`:LESSON.branch?`Shot ${i+1}`:`${i+1} of ${NS()}`;
+  $("count").textContent=LESSON.livePoint?`Decision ${i+1} of ${LESSON.decisionCount||2}`:LESSON.branch?`Shot ${i+1}`:`${i+1} of ${NS()}`;
   stageSit(S.sit);
   paintRail(railFor(S)); paintAsk(S); tallView();
   pick=X=>choose(i,X,false);
@@ -997,6 +1044,35 @@ function wireCompletionVoice(){
     pref.onclick=()=>{GSSfx.setVoice(!GSSfx.voiceState().enabled);if(GSSfx.voiceState().enabled)GSSfx.set(true);};
   }
 }
+// A recap is three explicitly separate situations, never a fabricated rally.
+let recapActive=false,recapTimer=null,recapGeneration=0;
+function hasLessonRecap(){return !LESSON.branch&&LESSON.steps.length===3;}
+function cancelRecap(){recapGeneration++;recapActive=false;clearTimeout(recapTimer);recapTimer=null;const skip=$('skipRecap');if(skip)skip.hidden=true;}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&recapActive){cancelRecap();clearTimeout(stopTimer);pendingStop=null;onStop=null;stopGeneration++;setPlaying(false);questionCaption('Recap paused · replay when ready');}});
+addEventListener('pagehide',()=>cancelRecap());
+function playLessonRecap(speak=false,reward=false){
+  cancelRecap();const token=recapGeneration;recapActive=true;let i=0,voiceGeneration;
+  const skip=$('skipRecap');if(skip)skip.hidden=false;
+  const finish=()=>{recapActive=false;if(skip)skip.hidden=true;questionCaption('Your court cue');
+    if(done&&!document.hidden&&GSSfx?.voiceState().generation===voiceGeneration){if(speak&&GSSfx.voiceState().enabled)GSSfx.completeVoice();else if(reward)GSSfx.applause(.6);}};
+  const next=()=>{
+    if(token!==recapGeneration||!done)return;
+    if(i===LESSON.steps.length){finish();return;}
+    const S=LESSON.steps[i],X=LETTERS[S.correct],key=S.reveal?S.scene:S.scene+X,sc=SC[key];
+    const picked=ans[i],own=picked===X||(S.alsoOk||[]).includes(LETTERS.indexOf(picked));
+    questionCaption(`Separate read ${i+1} of 3 · ${own?'Your choice':'Better option'}`);
+    const end=sc.frames-1,from=Math.max(0,Math.min(sc.info.freeze,end-80),end-320);
+    run(key,from,end,()=>{
+      if(token!==recapGeneration||!done)return;
+      if(GSSfx?.voiceState().generation!==voiceGeneration){cancelRecap();return;}
+      questionCaption(S.take||S.payoff||'Take this read to court.');i++;
+      recapTimer=setTimeout(next,650);
+    },true,true);
+    voiceGeneration=GSSfx?.voiceState().generation;
+  };
+  if(skip)skip.onclick=()=>{const eligible=GSSfx?.voiceState().generation===voiceGeneration;cancelRecap();onStop=null;setPlaying(false);questionCaption('Your court cue');if(eligible){if(speak&&GSSfx.voiceState().enabled)GSSfx.completeVoice();else if(reward)GSSfx.applause(.6);}};
+  next();
+}
 function finishLesson(){
   clearContactInspection();questionCaption();
   done=true; const okA=(a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)));
@@ -1008,7 +1084,8 @@ function finishLesson(){
   w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${voice?voice.text:LESSON.memHTML}</div>
       ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
       <div class="score3">${A.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
-    ${LESSON.livePoint?`<div class="blk"><div class="k">What your choices created</div><p><b>${liveTake}</b></p><p>The point is still in play. Watch your position as they hit.</p><button class="alt" id="replayTurningPoint">Replay your recovery</button><button class="alt" id="compareRecovery">Compare the other recovery</button><p id="recoveryComparison" role="status"></p></div>`:''}
+    ${LESSON.livePoint?`<div class="blk"><div class="k">What your choices created</div><p><b>${liveTake}</b></p>${LESSON.decisionCount===4&&A.length===4?`<p>${okA(A[2],2)?'Your first move followed the actual reply.':'Your first move went away from the ball; the correction cost time.'} ${SC[LESSON.finaleScene].info.secondReply?.kind==='higher'?'Your higher reply buys another recovery window.':'Your firmer reply puts the next recovery on a shorter clock.'}</p>`:''}<p>The point is still in play. ${LESSON.decisionCount===4?(A.length===4?'You read the reply and chose again from the next contact.':'Your route left no preparation window for the planned reply.'):'Watch your position as they hit.'}</p><button class="alt" id="replayTurningPoint">Replay your recovery</button><button class="alt" id="compareRecovery">Compare the other recovery</button><p id="recoveryComparison" role="status"></p></div>`:''}
+    ${hasLessonRecap()?'<div class="blk"><div class="k">Three reads to take to court</div><p>Separate situations. One lesson.</p><button class="alt" id="replayRecap">Replay the three reads</button><button class="alt" id="skipRecap" hidden>Skip to the court cue</button></div>':''}
     ${payoffHTML(p)}
     ${LESSON.cue?`<div class="cuebox"><div class="k">Your cue</div><div class="cue">${LESSON.cue}</div>
       <button class="savecue" id="saveCue">${cueSaved()?"Saved to My Game ✓":"Save to My Game"}</button></div>`:""}
@@ -1016,21 +1093,23 @@ function finishLesson(){
   w.hidden=false; w.querySelectorAll("details.pay").forEach(d=>{let first=d.open; d.addEventListener("toggle",()=>{if(first){first=false;return;} if(d.open)emit('payoff_open',{k:d.dataset.k});});});   // only opens the player makes: Pro Lens starts open
   const sc=$("saveCue"); if(sc){if(cueSaved())sc.classList.add("on");
     sc.onclick=()=>{if(cueSaved())return; saveCue(); sc.textContent="Saved to My Game ✓"; sc.classList.add("on"); emit('cue_save',{lesson:LESSON.title,cue:LESSON.cue});};}
-  $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
+  $("redo").onclick=()=>{ans=[];celebrated.clear();if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
   wireCompletionVoice();
   const turning=$('replayTurningPoint');if(turning){
-    const inspect=other=>{GSSfx?.stopVoice();let k=LESSON.finaleScene;if(other)k=k.slice(0,-1)+(k.endsWith('A')?'B':'A');
+    const inspect=other=>{GSSfx?.stopVoice();let k=LESSON.branch+ans.slice(0,2).join('');if(other)k=k.slice(0,-1)+(k.endsWith('A')?'B':'A');
       $('recoveryComparison').textContent=(other?'Alternative: ':'Your choice: ')+(SC[k].info.liveRecovery.recover?'recover during your shot.':'wait for their direction.');
       questionCaption((other?'Alternative · ':'Your choice · ')+(SC[k].info.liveRecovery.recover?'recover during your shot':'wait for their direction'));
       run(k,SC[k].info.freeze,SC[k].frames-1,null,true);stageInView();emit('payoff_open',{k:other?'recovery_comparison':'turning_point'});};
     turning.onclick=()=>inspect(false);$('compareRecovery').onclick=()=>inspect(true);
   }
+  if(hasLessonRecap())$("replayRecap").onclick=()=>{playLessonRecap(false);stageInView();emit("payoff_open",{k:"lesson_recap"});};
   // Let the final point settle before the spoken payoff; replays never repeat it.
   const speak=!!(voice&&GSSfx.voiceState().enabled);
   let voiceGeneration;
-  {const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,speak?()=>{if(done&&!document.hidden&&GSSfx.voiceState().generation===voiceGeneration)GSSfx.completeVoice();}:null,true);}
+  if(hasLessonRecap()&&!CALM_MOTION)playLessonRecap(speak,n===NS()&&n>0&&!speak);
+  else {const k=LESSON.finaleScene;run(k,hasLessonRecap()&&CALM_MOTION?SC[k].frames-1:LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,()=>{if(done&&!document.hidden&&GSSfx.voiceState().generation===voiceGeneration){if(speak)GSSfx.completeVoice();else if(hasLessonRecap()&&n===NS()&&n>0)GSSfx.applause(.6);}},true);}
   if(voice)voiceGeneration=GSSfx.voiceState().generation;
-  if(n===NS()&&n>0)celebrate('complete',!speak);
+  if(n===NS()&&n>0)celebrate('complete',!speak&&!hasLessonRecap());
 }
 
 /* ---------- render ---------- */
@@ -1100,10 +1179,10 @@ function render(){
     ring(frag,[x,y,0.004],0.38,0.3,"none",0,op,"rgba(0,0,0,.35)");};
   if(PREM()){   // the whole body's shadow on the grass, along the light
     for(const a of (detail?[you]:[opp,you])) if(a){const sh=[], g=el_("g",{opacity:a===you?.3:.24});
-      drawFigure(sh,shadowPose(a.pose),null,{ghost:true,col:"#04100a",op:1,fwd:a.fwd}); for(const {n} of sh) g.appendChild(n); frag.appendChild(g);}}
+      drawFigure(sh,shadowPose(a.pose),null,{ghost:true,col:"#04100a",op:1,fwd:a.fwd,feet:a.feet}); for(const {n} of sh) g.appendChild(n); frag.appendChild(g);}}
   else {shadow(you,1);shadow(opp,.8);}
-  if(opp&&!detail) drawFigure(parts,opp.pose,opp.rq,{kit:PREM()?OPP_PREM:OPPKIT,op:.95,fwd:opp.fwd});
-  if(you){drawFigure(parts,you.pose,you.rq,PREM()?{kit:KIT_PREM,fwd:you.fwd,band:"#d9b24a",bandDk:"#8f7632"}:{fwd:you.fwd,band:"#e2bd4f",bandDk:"#8f7632"});
+  if(opp&&!detail) drawFigure(parts,opp.pose,opp.rq,{kit:PREM()?OPP_PREM:OPPKIT,op:.95,fwd:opp.fwd,feet:opp.feet});
+  if(you){drawFigure(parts,you.pose,you.rq,PREM()?{kit:KIT_PREM,fwd:you.fwd,feet:you.feet,band:"#d9b24a",bandDk:"#8f7632"}:{fwd:you.fwd,feet:you.feet,band:"#e2bd4f",bandDk:"#8f7632"});
     for(const c of contactsOf(sc,"you")) if(Math.abs(g-c)<16){const W=prep(sc).you.find(w=>w.cG===c);
       for(let f=Math.max(c-14,Math.floor(g)-12);f<=Math.floor(g);f++){const a=actorAt(sc,"you",f-1),b=actorAt(sc,"you",f);
         seg(frag,a.pose[I.racquetTip],b.pose[I.racquetTip],"var(--accent)",2,0.12+0.5*(1-(g-f)/12));}}}
@@ -1146,7 +1225,7 @@ $("stage").onclick=()=>{if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPl
 $("playBtn").onclick=()=>{if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);} else $("again").click();};
 $("again").onclick=()=>{
   clearContactInspection();
-  if(done){if(LESSON.livePoint){questionCaption('Your chosen route');const note=$('recoveryComparison');if(note)note.textContent='Your original choices.';}const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
+  if(done){if(hasLessonRecap()){playLessonRecap(false);return;}if(LESSON.livePoint){questionCaption('Your chosen route');const note=$('recoveryComparison');if(note)note.textContent='Your original choices.';}const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
   const S=LESSON.steps[step];
   if(!answered){startStep(step);return;}   // restart both reading and playback gates together
   if(S.reveal){if(LESSON.readinessLesson)replayArrival(S.scene);return;}

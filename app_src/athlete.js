@@ -15,7 +15,8 @@ function at(c,f){
   f=clamp(f,1,c.frameCount); const i=Math.floor(f),u=f-i,j=Math.min(c.frameCount,i+1);
   const A=c.frames[i-1],B=c.frames[j-1],RA=c.racquetFrames[i-1],RB=c.racquetFrames[j-1];
   const pose=A.map((p,k)=>lerp3(p,B[k],u)), axis=norm(lerp3(RA.axis,RB.axis,u)), lat=lerp3(RA.lateral,RB.lateral,u);
-  return {pose,rq:{w:pose[I.wristR],axis,lateral:norm(sub(lat,mul(axis,dot(lat,axis)))),centre:lerp3(RA.centre,RB.centre,u)}};
+  const feet=c.footFrames?Object.fromEntries(["L","R"].map((s,k)=>[s,norm(lerp3(c.footFrames[i-1][k],c.footFrames[j-1][k],u))])):undefined;
+  return {pose,feet,rq:{w:pose[I.wristR],axis,lateral:norm(sub(lat,mul(axis,dot(lat,axis)))),centre:lerp3(RA.centre,RB.centre,u)}};
 }
 /* the ball: in from the far side (a toss on the serve), met at the clip's own contact point, then away toward the net */
 function ballAt(k,c,f){
@@ -42,7 +43,7 @@ function draw(svg,k,c,f){
   const g=document.createDocumentFragment(); court(g);
   const s=at(c,f), A=s.pose[I.ankleL], B=s.pose[I.ankleR];
   ring(g,[(A[0]+B[0])/2,(A[1]+B[1])/2,.004],.42,.32,"none",0,1,"rgba(0,0,0,.35)");
-  const parts=[]; drawFigure(parts,s.pose,s.rq,{kit:KIT_PREM,fwd:[0,1,0],band:"#d9b24a",bandDk:"#8f7632"});   // the premium kit, as in the lessons
+  const parts=[]; drawFigure(parts,s.pose,s.rq,{kit:KIT_PREM,feet:s.feet,fwd:[0,1,0],band:"#d9b24a",bandDk:"#8f7632"});   // the premium kit, as in the lessons
   const b=ballAt(k,c,f), bq=b&&P(b);
   if(bq){const sh=P([b[0],b[1],.003]); if(sh) g.appendChild(el_("ellipse",{cx:sh.s[0].toFixed(1),cy:sh.s[1].toFixed(1),rx:(FOCAL*.05/sh.z).toFixed(1),ry:(FOCAL*.02/sh.z).toFixed(1),fill:"rgba(0,0,0,.3)"}));
     const r=Math.max(2.2,FOCAL*.034/bq.z);
