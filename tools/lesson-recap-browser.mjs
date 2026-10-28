@@ -6,20 +6,20 @@ const b=await ({chromium,webkit}[engine]).launch(),checks=[],errors=[];
 const check=(v,s)=>{assert(v,s);checks.push(s);};
 const dir=`app_src/evidence/recap-${engine}`;mkdirSync(dir,{recursive:true});
 try{
- for(const slug of ['late-is-the-culprit','approach-volley','earned-defence']){
+ for(const slug of ['late-is-the-culprit','approach-volley','earned-defence','down-the-line']){
   const p=await b.newPage({viewport:{width:390,height:844},hasTouch:true});p.on('pageerror',e=>errors.push(String(e)));
   await p.route(/posthog\.com\//,r=>r.fulfill({status:200,body:'{}'}));
   await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);
-  await p.evaluate(()=>{window.__speed=24;window.__recapSeen=[];window.__voiceEvents=[];
+  await p.evaluate(()=>{window.__speed=24;window.__recapSeen=[];window.__voiceEvents=[];window.__recapKeys=[];const originalRun=run;run=(key,...args)=>{if(recapActive)__recapKeys.push(key);return originalRun(key,...args);};
    const complete=GSSfx.completeVoice.bind(GSSfx);GSSfx.completeVoice=()=>{__voiceEvents.push({active:recapActive,playing});return complete();};
    const caption=questionCaption;questionCaption=text=>{if(text?.startsWith('Separate read'))__recapSeen.push(text);return caption(text);};});
   for(let i=0;i<3;i++){
    await p.waitForSelector('#askOpts button:not(:disabled)');
-   const pick=await p.evaluate(i=>{const S=LESSON.steps[step];return i===0?(S.correct+1)%S.opts.length:S.correct;},i);
+   const pick=await p.evaluate(i=>{const S=LESSON.steps[step];return S.alsoOk?.length?S.alsoOk[0]:i===0?(S.correct+1)%S.opts.length:S.correct;},i);
    await p.locator('#askOpts button').nth(pick).tap();await p.waitForSelector('#verdict:not([hidden]) #next');await p.locator('#next').tap();
   }
   await p.waitForFunction(()=>done&&!recapActive&&!playing&&__voiceEvents.length===1);
-  check(await p.evaluate(()=>__recapSeen.length===3&&__recapSeen[0].includes('Better option')),slug+': three separate reads, correction labelled');
+  check(await p.evaluate(()=>__recapSeen.length===3&&LESSON.steps.every((s,i)=>{const own=LETTERS[s.correct]===ans[i]||(s.alsoOk||[]).includes(LETTERS.indexOf(ans[i]));return __recapSeen[i].includes(s.reveal?'Situation replay':own?'Your choice':'Better option')&&__recapKeys[i]===(s.reveal?s.scene:s.scene+(own?ans[i]:LETTERS[s.correct]));})),slug+': three honest labels and scenes, including accepted alternatives');
   check(await p.evaluate(()=>__voiceEvents[0].active===false&&__voiceEvents[0].playing===false),slug+': speech follows recap');
   const score=await p.evaluate(()=>JSON.stringify(ans));
   await p.locator('#replayRecap').tap();await p.waitForFunction(()=>recapActive);await p.locator('#skipRecap').tap();

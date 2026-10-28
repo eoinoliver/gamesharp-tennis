@@ -103,7 +103,7 @@
     },
     "docs/features/stroke-integrity-recaps.md": {
       "baseline": null,
-      "candidate": "597a0f581fb73875900495c3aa8d28a59c07431eb97dc9d44bd55f12e856a3c3"
+      "candidate": "9428d4a5d7f591f8eed0955a8c764065dfa17493a7e07297f61145a16900863d"
     },
     "gs/gate.mjs": {
       "baseline": "e57e0d7537f37eddcf862b6a3b95309bddc9ff20c3c04231a48af057ca1c5699",
@@ -123,7 +123,7 @@
     },
     "rally/lesson_body.html": {
       "baseline": "8ad630856623312533ac2289eff51f9ce2ecd87029cb500637803be9b878da34",
-      "candidate": "18b8bcef0cb18b81199ecc7a7acfaf0423ad16baff85079f42be189c6b4a3935"
+      "candidate": "f6b9ee118679b76b424fc9a9983ea2a79509cfdb13aeddc9be600be5c4a90436"
     },
     "rally/lesson_lc.js": {
       "baseline": "999f23d7a502dda7277077854d1bf35fa7498b029cce806a227079051a20d8e6",
@@ -151,7 +151,7 @@
     },
     "tools/lesson-recap-browser.mjs": {
       "baseline": null,
-      "candidate": "6c119dc98eb24a65c7fde4adbd44b931cf737643f256b23e68e9c76126644454"
+      "candidate": "f5b8552c79f4d8ed38faa4f022d2529393a168ccb49e7ca9b5f4eec213ee28c5"
     },
     "tools/live-point-browser.mjs": {
       "baseline": "3dbe96fad6d832d9e09646375b2a763684e8be98085531eba1b1ec1baf014c19",
@@ -185,7 +185,7 @@
     },
     "app/catalog.js": {
       "baseline": "3c06b55421bc97dd642ffdf35a82d1950449556301a8401e92206d4eb1daadbd",
-      "candidate": "773be103765c9e4ccc099c6b23ef3f364637c840a339efa0c3b0dd53e5804f04"
+      "candidate": "2311da14d0708a9f8806049dbd742e15fdf7af3a04e1967549e1442019e74ed1"
     },
     "app/clips/bh.json": {
       "baseline": "33de82c422ba3afd7fc2f6bbc47b81358000db850ebea68183fb481b00b3450d",
@@ -273,11 +273,11 @@
     },
     "app/engine/engine.js": {
       "baseline": "9980be15b5c2a37342ca68bd4dd59484a441afe6a44f85c5a7173fc69522677c",
-      "candidate": "639ab55a05c93f1db70f89bdc089911f24815c1c94faf13d43d903b73623563b"
+      "candidate": "50e2bbc3ef02c10f46bcdd35a0ebcc5f8f9724f1d9c608224b25180926db6af4"
     },
     "app/index.html": {
       "baseline": "3f4f1c26c7024ab8c21e4a4cc0aff5b04d089732e556b3489b1ccc7f20f1fc28",
-      "candidate": "406609eabe537016cf42216de2cad275edd535ad00413ff6f203228dcebd1f3f"
+      "candidate": "fd0f683c79c42087c465887892d5aa08a5da7f892e98d5f49b12cb49f7fb3e61"
     },
     "app/lessons/late-is-the-culprit.json": {
       "baseline": "e2d260fd64df6bf8388b950412a76be3110af2101a2d2360c2ddb5a16da9731f",
@@ -293,7 +293,7 @@
     },
     "app/play.html": {
       "baseline": "c830acf7362130c98df73e383e2458237410e6488bb9934349c24af7ab1c748a",
-      "candidate": "3ca8ed73ce33e77596620d8a7225240c16cd68b19e8366d8431bf1b252ab7ba5"
+      "candidate": "7b716e5727b9f0797e3825811031eb9ee40e76e47fedb3f15c9c9e47e3645f2f"
     },
     "app/sharpen.js": {
       "baseline": "42b8222f1a3e56f08a03c5870efd092000595e8d40cc33c2de15f9fc51622953",

@@ -41,7 +41,9 @@ made. No independent coach or physical-device certification is claimed.
 ## Completion recap
 
 Three-step non-branching lesson completions replay three separate situations.
-Each is labelled “Your choice” or “Better option” before its visual consequence;
+Each is labelled “Your choice” or “Better option” before its visual consequence.
+Accepted alternatives replay the actual accepted choice and its feedback.
+Observation-only questions use “Situation replay”;
 original answers and score are untouched. The short court cue follows the last
 motion. Replay is silent, does not repeat automatic speech, and can be skipped.
 Restart/navigation and hiding the page cancel pending recap work. Reduced-motion users get a still completion unless they explicitly replay. Predict keeps its existing

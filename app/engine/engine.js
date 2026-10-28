@@ -964,14 +964,15 @@ function playLessonRecap(speak=false,reward=false){
   const next=()=>{
     if(token!==recapGeneration||!done)return;
     if(i===LESSON.steps.length){finish();return;}
-    const S=LESSON.steps[i],X=LETTERS[S.correct],key=S.reveal?S.scene:S.scene+X,sc=SC[key];
-    const picked=ans[i],own=picked===X||(S.alsoOk||[]).includes(LETTERS.indexOf(picked));
-    questionCaption(`Separate read ${i+1} of 3 · ${own?'Your choice':'Better option'}`);
+    const S=LESSON.steps[i],picked=ans[i],preferred=LETTERS[S.correct];
+    const own=picked===preferred||(S.alsoOk||[]).includes(LETTERS.indexOf(picked));
+    const X=own?picked:preferred,key=S.reveal?S.scene:S.scene+X,sc=SC[key];
+    questionCaption(`Separate read ${i+1} of 3 · ${S.reveal?'Situation replay':own?'Your choice':'Better option'}`);
     const end=sc.frames-1,from=Math.max(0,Math.min(sc.info.freeze,end-80),end-320);
     run(key,from,end,()=>{
       if(token!==recapGeneration||!done)return;
       if(GSSfx?.voiceState().generation!==voiceGeneration){cancelRecap();return;}
-      questionCaption(S.take||S.payoff||'Take this read to court.');i++;
+      questionCaption(own&&X!==preferred&&!S.reveal?S.lines?.[X]||S.principle:S.take||S.payoff||'Take this read to court.');i++;
       recapTimer=setTimeout(next,650);
     },true,true);
     voiceGeneration=GSSfx?.voiceState().generation;
