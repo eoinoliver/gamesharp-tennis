@@ -38,7 +38,8 @@ for(const width of [375,820,1280]){
    check(await p.evaluate(()=>SC[LESSON.finaleScene].info.outcome==='in_play'),`${slug}/${path}: no manufactured win/loss`);
    check((await p.locator('#svg').textContent()).includes('AT THEIR HIT'),`${slug}/${path}: decisive position annotated`);
    check((await p.locator('#wrapup').innerText()).includes('The point is still in play'),`${slug}/${path}: outcome explained`);
-   check(await p.evaluate(n=>GSApp.S.done[new URL(location).searchParams.get('l')].total===n,path.length),`${slug}/${path}: all connected decisions recorded`);
+   check(await p.evaluate(path=>{const slug=new URL(location).searchParams.get('l'),d=GSApp.S.done[slug],a=GSApp.S.liveAttempts[slug].at(-1);return (d.lastTotal||d.total)===path.length&&a.result.total===path.length&&a.reads.map(r=>r.pick).join('')===path;},path),`${slug}/${path}: complete attempt records its own connected decisions and denominator`);
+   check(await p.evaluate(()=>{const slug=new URL(location).searchParams.get('l'),first=GSApp.S.liveAttempts[slug][0];return GSApp.S.done[slug].total===first.result.total&&JSON.stringify(GSApp.S.liveReads[slug])===JSON.stringify(first.reads);}),`${slug}/${path}: first route and score remain unchanged`);
    const before=await p.evaluate(()=>JSON.stringify(ans));
    await p.locator('#replayTurningPoint').click();await p.waitForFunction(()=>!playing);
    check(await p.evaluate(()=>JSON.stringify(ans))===before,`${slug}/${path}: replay preserves decisions`);
