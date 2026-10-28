@@ -38,6 +38,7 @@ const LESSON={
  },
  "closeUp": true,
  "authored": true,
+ "sceneCams": {"lc3": {"c":{"az":-140,"el":18,"d":5.8,"fov":42,"tgt":[-0.75,-11,0.95]},"phone":{"az":-140,"el":18,"d":5.8,"fov":42,"tgt":[-0.75,-11,0.95]}}},
  "steps": [
   {
    "ph": "See · Read the miss",
@@ -62,8 +63,8 @@ const LESSON={
     "3 Your change"
    ],
    "cues": null,
-   "unlock": "Late sprays it right",
-   "take": "Forehand flying wide right? Meet it out in front.",
+   "unlock": "Check the held contact",
+   "take": "Here, contact beside the hip sent it wide. Prepare to meet it in front.",
    "lines": {
     "A": "Still late — harder, and it flies wide again.",
     "B": "Still late — higher, but the face still sends it wide.",
@@ -129,7 +130,7 @@ const LESSON={
    ],
    "cues": null,
    "unlock": "Same clue, other wing",
-   "take": "Backhand pulling into the middle? Late again: meet it in front.",
+   "take": "Here, the held contact confirms the timing clue. Meet it in front.",
    "lines": {
     "A": "Out in front, the face points crosscourt — deep, rally on.",
     "B": "Still late — higher, but it still pulls to the middle.",

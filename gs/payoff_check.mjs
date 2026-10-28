@@ -5,7 +5,7 @@ const cat=await (await fetch(base+'catalog.js')).text(); const C=JSON.parse(cat.
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'}); let fails=0;
 for(const l of C.daily){const p=await b.newPage({viewport:{width:390,height:844}}); const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
  await p.goto(base+'play.html?l='+l.slug); await p.waitForFunction(()=>typeof LESSON!=='undefined'&&typeof finishLesson==='function',null,{timeout:20000}); await p.waitForTimeout(400);
- const r=await p.evaluate(()=>{ans=LESSON.steps.map(()=> 'A'); finishLesson(); const w=document.getElementById('wrapup');
+ const r=await p.evaluate(()=>{ans=LESSON.steps.map(()=> 'A'); finishLesson(); if(recapActive)document.getElementById('skipRecap').click(); const w=document.getElementById('wrapup');
    return {pro:!!LESSON.pro, proOpen:w.querySelectorAll('details.pay[data-k=pro][open]').length, take:/take it to court/i.test(w.innerText), drill:w.querySelectorAll('details.pay[data-k=drill]').length, cue:!!w.querySelector('#saveCue'), credit:/Tennis-MoCap/.test(w.innerText),
      links:[...w.querySelectorAll('.src a')].map(a=>a.href)};});
  const ok=(r.pro?r.proOpen===1&&!r.take:r.take)&&r.drill===1&&r.cue&&!r.credit&&!errs.length;

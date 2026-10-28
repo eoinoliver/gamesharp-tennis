@@ -4,7 +4,8 @@
   const KEY="gs_sound", AC=window.AudioContext||window.webkitAudioContext;
   let ctx=null, master=null, enabled=true, last={}, session=null, previousSession=null;
   const rewards=['applause-1','applause-2','applause-3'];
-  const voices=new Set(), buffers={}, files=['contact-1','contact-2','bounce',...rewards];
+  const core=['contact-1','contact-2','bounce'];
+  const voices=new Set(), buffers={}, pending={}, files=[...core,...rewards];
   const REWARD_KEY='gs_reward_last';
   const VOICE_KEY='gs_voice', courtVoices={
   "live-point-buy-time": "Buy yourself time. Use it to recover.",
@@ -85,14 +86,21 @@
   let loading=null, loadError=false, contact=0;
   const version=encodeURIComponent(window.GS_VERSION||'local');
   try { enabled=localStorage.getItem(KEY)!=="0"; } catch(e) {}
-  const ready=()=>!!(enabled&&!document.hidden&&ctx&&ctx.state==="running"&&files.every(k=>buffers[k]));
+  const contextReady=()=>!!(enabled&&!document.hidden&&ctx&&ctx.state==='running');
+  const ready=()=>contextReady()&&core.some(k=>buffers[k]);
   // Load after a permitted gesture; respect saved mute. Never queue missed contacts.
   function load(c){
-    if(files.every(k=>buffers[k]))return Promise.resolve();
+    if(core.every(k=>buffers[k])){rewards.forEach(k=>loadSample(c,k));return Promise.resolve();}
     if(loading)return loading;
     loadError=false;
-    loading=Promise.allSettled(files.map(async k=>{
-      if(buffers[k])return;
+    rewards.forEach(k=>loadSample(c,k));
+    loading=Promise.all(core.map(k=>loadSample(c,k))).then(()=>{loadError=!core.some(k=>buffers[k]);}).finally(()=>{loading=null;paint();});
+    paint();return loading;
+  }
+  function loadSample(c,k){
+    if(buffers[k])return Promise.resolve(true);
+    if(pending[k])return pending[k];
+    pending[k]=(async()=>{
       const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
       try{
         const reward=rewards.includes(k);
@@ -100,10 +108,10 @@
         if(!r.ok)throw Error('Audio unavailable');
         const b=await c.decodeAudioData(await r.arrayBuffer());
         if(!b.length||!Number.isFinite(b.duration)||b.duration>(reward?6:1))throw Error('Invalid audio');
-        buffers[k]=b;
-      }finally{clearTimeout(timer);}
-    })).then(results=>{loadError=results.some(r=>r.status==='rejected');}).finally(()=>{loading=null;paint();});
-    paint();return loading;
+        buffers[k]=b;return true;
+      }catch(e){return false;}finally{clearTimeout(timer);}
+    })().finally(()=>{delete pending[k];paint();});
+    return pending[k];
   }
   function paint(){
     document.querySelectorAll('[data-gs-sound]').forEach(b=>{
@@ -149,15 +157,19 @@
     const c=boot();if(!c){releaseSession();return Promise.resolve(false);}
     // Safari can be interrupted (screen lock, another app), not just suspended.
     let result;try{result=c.state!=="running"?c.resume():undefined;}catch(e){releaseSession();paint();return Promise.resolve(false);}
-    return Promise.all([Promise.resolve(result),load(c)]).then(()=>{
-      if(c===ctx&&ready()){master.gain.setValueAtTime(.65,c.currentTime);loadVoice(c);paint();paintVoice();return true;}
+    const resumed=Promise.resolve(result).then(()=>{
+      if(c===ctx&&contextReady()){master.gain.setValueAtTime(.65,c.currentTime);loadVoice(c);return true;}
+      return false;
+    });
+    return Promise.all([resumed,load(c)]).then(([running])=>{
+      if(running&&c===ctx&&contextReady()){paint();paintVoice();return ready()||!!voiceSlug;}
       releaseSession();paint();return false;
     },()=>{releaseSession();paint();return false;});
   }
   // End-of-touch and click are needed by browsers that do not unlock on touchstart.
   // Capture runs before app handlers; a sound button owns its own activation.
   for(const event of ['pointerdown','touchend','click','keydown'])window.addEventListener(event,e=>{
-    if(e.target.closest?.('[data-gs-sound]'))return;
+    if(e.target.closest?.('[data-gs-sound],a[href]'))return; // Navigation should not start a download as the page unloads.
     unlock();
   },{capture:true,passive:true});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)deactivate();else if(ctx)unlock();paint();});
@@ -168,6 +180,7 @@
   const vol=v=>Math.max(0,Math.min(1,v==null?1:v));
   // The recording contains its own transient and fade; preserve both.
   function play(key,level,pan=0,depth=0){
+    if(!buffers[key]||!contextReady())return;
     const source=ctx.createBufferSource(),gain=ctx.createGain();
     const p=ctx.createStereoPanner?ctx.createStereoPanner():ctx.createGain();
     source.buffer=buffers[key];
@@ -194,7 +207,7 @@
     stopVoice,
     // Automatic completions never wait for a download or resume and never play late.
     completeVoice(manual=false){
-      if(!voiceSlug||(!voiceEnabled&&!manual)||!ready()||voicePending||!buffers['voice-'+voiceSlug])return false;
+      if(!voiceSlug||(!voiceEnabled&&!manual)||!contextReady()||voicePending||!buffers['voice-'+voiceSlug])return false;
       stop();master.gain.setValueAtTime(.65,ctx.currentTime);play('voice-'+voiceSlug,1);paintVoice();return true;
     },
     async hearVoice(){
@@ -205,12 +218,12 @@
       const loaded=ok&&await loadVoice(ctx,true);
       if(request!==voiceGeneration)return false;
       voicePending=false;
-      if(loaded&&ready())return api.completeVoice(true);
+      if(loaded&&contextReady())return api.completeVoice(true);
       paintVoice();return false;
     },
     stopContacts(){for(const v of [...voices])if(v.kind==='contact')v.cancel();},
     set(value){enabled=!!value;try{localStorage.setItem(KEY,enabled?'1':'0');}catch(e){}if(!enabled)deactivate();paint();return enabled?unlock():Promise.resolve(false);},
-    hit(v,pan,depth){if(!vol(v)||!allow('hit',.12))return;play(`contact-${1+(contact++%2)}`,vol(v),pan,depth);},
+    hit(v,pan,depth){const choices=['contact-1','contact-2'].filter(k=>buffers[k]);if(!choices.length||!vol(v)||!allow('hit',.12))return;play(choices[contact++%choices.length],vol(v),pan,depth);},
     bounce(v,pan,depth){if(!vol(v)||!allow('bounce',.22))return;play('bounce',vol(v)*.65,pan,depth);},
     // No authentic net sample yet. Silence is preferable to the old electronic buzz.
     net(){},
@@ -220,7 +233,8 @@
       // Read again so another tab's last reward is respected. Storage failure
       // still rotates within this page; muted/missed rewards never advance it.
       try{previousReward=localStorage.getItem(REWARD_KEY)||previousReward;}catch(e){}
-      const key=rewards[(rewards.indexOf(previousReward)+1)%rewards.length];
+      const choices=rewards.filter(k=>buffers[k]);if(!choices.length)return;
+      const key=choices[(choices.indexOf(previousReward)+1)%choices.length];
       play(key,vol(k)*.9);previousReward=key;
       try{localStorage.setItem(REWARD_KEY,key);}catch(e){}
     },

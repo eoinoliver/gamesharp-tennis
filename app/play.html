@@ -161,6 +161,10 @@ details.pay .pbody p:first-child{margin-top:0}
 .contact-controls button{flex:1;min-height:40px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--ink);font-size:11px;font-weight:700;cursor:pointer}
 .contact-controls button[aria-pressed=true]{border-color:var(--gold);color:var(--gold);background:rgba(200,168,75,.12)}
 .contact-mode{position:absolute;left:10px;top:10px;border-radius:7px;padding:5px 8px;background:rgba(5,14,9,.88);color:#f0ece3;font-size:10px;font-weight:700;letter-spacing:.04em;pointer-events:none;z-index:1}
+.recap-dock{display:flex;justify-content:center;gap:8px;padding:8px;border-top:1px solid rgba(200,168,75,.2)}
+.recap-dock[hidden]{display:none}
+.recap-dock button{min-height:44px;padding:8px 12px;border:1px solid rgba(240,236,227,.35);border-radius:12px;background:#10231e;color:#f0ece3;font:600 12px "DM Sans",sans-serif;cursor:pointer}
+.illustration-note{font-size:12px;line-height:1.4;color:rgba(255,255,255,.72);margin:8px 0 0}
 .contact-focus .tools{z-index:5}
 .contact-focus.inspecting .tools,.contact-focus.inspecting .paused{visibility:hidden}
 .contact-focus.inspecting .contact-mode{max-width:calc(100% - 20px)}
@@ -201,6 +205,7 @@ details.note a{color:var(--gold)}
   .meta{margin:0 0 5px}
   .setup{font-size:15px;line-height:1.35;margin:0 0 8px;min-height:2.7em}
   .tools{position:absolute;top:auto;bottom:32px;right:0;z-index:2;display:flex;min-height:0;padding:0;border:0;background:none}
+  .visual:not(.full):not(:fullscreen):has(.recap-dock:not([hidden])) .tools{bottom:93px}
   .paused{right:auto;left:10px;bottom:40px}
   .tbtn{width:38px;height:38px;border:0;color:rgba(240,236,227,.62)}
   .ink{min-height:32px;padding:3px 10px 5px;display:grid;align-items:center}
@@ -220,6 +225,7 @@ details.note a{color:var(--gold)}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}
   .rail span{opacity:.72;transform:none}#ink{clip-path:none}}
 .question-context{position:absolute;top:12px;left:12px;max-width:calc(100% - 92px);padding:6px 9px;border-radius:8px;background:rgba(5,18,10,.88);color:#e8dfb0;font:500 12px/1.35 "DM Sans",sans-serif;pointer-events:none;z-index:6}.question-context[hidden]{display:none}
+.visual.full .question-context,.visual:fullscreen .question-context{top:66px}
 </style>
 
 </head>
@@ -250,6 +256,7 @@ details.note a{color:var(--gold)}
         <div class="scorechip" id="scorechip" hidden></div>
       </div>
       <div class="ink" id="inkRow"><span id="ink"></span></div>
+        <div class="recap-dock" id="recapDock" hidden><button id="pauseRecap">Pause review</button><button id="skipRecap">Skip to court cue</button></div>
     </div>
 
     <section class="zone reading" id="ask" aria-live="polite">
@@ -351,13 +358,13 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=770952be5c"></script>
-<script src="catalog.js?v=770952be5c"></script>
-<script src="app.js?v=770952be5c"></script>
-<script src="sfx.js?v=770952be5c"></script>
+<script src="config.js?v=a9d9eec67d"></script>
+<script src="catalog.js?v=a9d9eec67d"></script>
+<script src="app.js?v=a9d9eec67d"></script>
+<script src="sfx.js?v=a9d9eec67d"></script>
 <script>
 (function(){
-const A=GSApp, V="770952be5c", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="a9d9eec67d", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
@@ -429,6 +436,7 @@ const W=(()=>{
 A.opened("lesson");
 let started=false;
 A.on((n,d)=>{
+  if(n==='step'&&d.fresh)A.beginLiveAttempt(slug);
   if(n==="step"&&!started){started=true;A.startLesson(slug);A.track("lesson_start",{lesson:slug,replay:!!A.S.done[slug],daily:A.isDaily(slug)});}
   if(n==="answer"){A.track("read",{lesson:slug,step:d.i+1,pick:d.X,ok:!!d.ok});A.recordLiveRead(slug,d);}
   if(n==="cue_save") A.track("cue_save",{lesson:slug,cue:d&&d.cue});   /* payoff layer (4 Oct) */
@@ -448,7 +456,7 @@ function wrap(n){
   const b=document.createElement("div"); b.className="appblk";
   const returnPoint=L.followup&&A.bySlug(L.followup);
   const transfer=L.transferOf&&A.S.liveReads?.[slug]?.[0];
-  const returnBlk=returnPoint?`<div class="blk"><div class="k">Tomorrow’s read</div><p class="strk">A different point on the other wing. Can you spot the same principle?</p><p class="strk">It will appear on Home from tomorrow in this browser. You can also try it now in Explore.</p></div>`:transfer?`<div class="blk"><div class="k">${transfer.delayed?'Your return read':'Practice variation'}</div><p class="strk">${transfer.delayed?(transfer.ok?'You recognised the recovery-time choice in this new point.':'This point exposed a useful cue to practise: how much recovery time you need.'):'Try this again on court. A same-day attempt is practice, not a next-day learning check.'}</p></div>`:'';
+  const returnBlk=returnPoint&&!A.S.done[returnPoint.slug]?`<div class="blk"><div class="k">Tomorrow’s read</div><p class="strk">A different point on the other wing. Can you spot the same principle?</p><p class="strk">It will appear on Home from tomorrow in this browser. You can also try it now in Explore.</p></div>`:transfer?`<div class="blk"><div class="k">${transfer.delayed?'Your return read':'Practice variation'}</div><p class="strk">${transfer.delayed?(transfer.ok?'You recognised the recovery-time choice in this new point.':'This point exposed a useful cue to practise: how much recovery time you need.'):'Try this again on court. A same-day attempt is practice, not a next-day learning check.'}</p></div>`:'';
   b.innerHTML=`${returnBlk}${weekBlk}<div class="k">Your streak</div>
     <p class="strk"><b>${s} day${s===1?"":"s"}</b> in a row. Come back tomorrow for another read.</p>
     ${nx?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nx.title)}. You can play it now.</p><a class="next" id="nextDaily" href="play.html?l=${nx.slug}">Play next challenge →</a></div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
@@ -459,6 +467,8 @@ function wrap(n){
     <a class="next home" href="./?home=1">Back to home</a>`;
   const r=w.querySelector("#redo"); r?w.insertBefore(b,r):w.append(b);
   const more=b.querySelector('#nextDaily');if(more)more.onclick=()=>A.track('asked_more',{next:nx.slug,from:slug});
+  const continuation=b.querySelector('.gs-continue')||b.querySelector('a.next:not(.home)');
+  if(continuation)w.firstElementChild.after(continuation);
   b.querySelectorAll("[data-fv]").forEach(bt=>bt.onclick=()=>{A.track("flavour_vote",{lesson:slug,flavour:flav.key,vote:bt.dataset.fv});
     b.querySelector(".gsfv").innerHTML=`<p class="fbthanks">Noted: ${bt.dataset.fv==="more"?"more":"fewer"} ${esc(flav.name.toLowerCase())} lessons.</p>`; const op=b.querySelector(".gsop"); if(op) op.hidden=false;});
   b.querySelectorAll("[data-op]").forEach(bt=>bt.onclick=()=>{A.track("opponent_trouble",{lesson:slug,pick:bt.dataset.op});
@@ -474,8 +484,11 @@ function wrap(n){
 }
 function afterEngine(){
   /* close returns to the Home you came from (so the browser's back doesn't reopen the lesson) */
-  const cl=document.getElementById("close"), fromApp=(()=>{try{return document.referrer&&new URL(document.referrer).origin===location.origin;}catch(e){return false;}})();
-  if(cl&&(fromApp||QS.has("auto"))&&history.length>1) cl.addEventListener("click",e=>{e.preventDefault();history.back();const t=setTimeout(()=>{location.href="./?home=1";},700);addEventListener("pagehide",()=>clearTimeout(t),{once:true});});
+  const cl=document.getElementById('close');
+  if(cl){
+    const destination=(()=>{try{const u=new URL(document.referrer);if(u.origin===location.origin&&(u.pathname==='/'||u.pathname==='/index.html')&&(u.searchParams.has('all')||u.searchParams.has('review')))return u.pathname+u.search;}catch(e){}return './?home=1';})();
+    cl.href=destination;
+  }
   const st=document.getElementById("stage");
   if(st&&window.GSSfx){const b=document.createElement("button");b.type="button";b.className="gs-snd";b.setAttribute("data-gs-sound","");st.appendChild(b);GSSfx.wire(st);}
   if(QS.has("auto")) A.track("auto_start",{lesson:slug,intro:QS.has("intro")});

@@ -125,6 +125,14 @@ for records, expected in [(integrity['source'], source), (integrity['release'], 
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Stroke integrity baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Explicit mobile learning/trust correction; all historical fingerprints remain frozen.
+mobile = json.loads((ROOT/'docs/features/mobile-learning-trust-build.json').read_text())
+assert set(mobile['source']) == set(['app_src/analytics.test.mjs', 'app_src/app.js', 'app_src/build.py', 'app_src/catalog.py', 'app_src/index.html', 'app_src/play_host.html', 'app_src/sfx.js', 'app_src/sfx.test.mjs', 'docs/features/mobile-learning-trust.md', 'rally/build_live_point.py', 'rally/lesson_bg.js', 'rally/lesson_body.html', 'rally/lesson_dl.js', 'rally/lesson_dm.js', 'rally/lesson_lc.js', 'rally/lesson_lf.js', 'rally/lesson_line.js', 'rally/lesson_lp.js', 'rally/lesson_ma.js', 'rally/lesson_pw.js', 'rally/lesson_ra.js', 'rally/lesson_sd.js', 'rally/lesson_short.js', 'rally/lesson_winner.js', 'tools/browser-checks.mjs', 'tools/lesson-recap-browser.mjs', 'tools/mobile-learning-browser.mjs', 'tools/sensory-browser.mjs', 'tools/live-point-browser.mjs', 'gs/app_flow.mjs', 'gs/payoff_check.mjs', '.github/workflows/checks.yml'])
+assert set(mobile['release']) == set(['app/app.js', 'app/catalog.js', 'app/engine/engine.js', 'app/index.html', 'app/lessons/down-the-line.json', 'app/lessons/late-is-the-culprit.json', 'app/lessons/live-point-buy-time.json', 'app/lessons/midweek-point-1.json', 'app/lessons/pulled-wide.json', 'app/lessons/running-around.json', 'app/lessons/rushed-out-wide.json', 'app/lessons/saturday-point-4.json', 'app/lessons/short-ball.json', 'app/lessons/the-big-hitter.json', 'app/lessons/the-lefty.json', 'app/lessons/the-line.json', 'app/lessons/the-winner.json', 'app/play.html', 'app/sfx.js'])
+for records, expected in [(mobile['source'], source), (mobile['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Mobile trust baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

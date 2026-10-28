@@ -630,3 +630,9 @@ with the planned contact unavailable. Local checks so far: 47 unit tests,
 87 geometry checks, 1,111 route checks, 18 initial recap checks, and the Live Point
 motion/framing gate passed. Final recap/sensory, full catalogue, hosted preview,
 staged production and live verification remain pending. No production change yet.
+
+## 28 October 2026 — mobile learning and trust repairs (Codex)
+
+- User: “proceed with superb corrections” after the 43-opening/nine-journey mobile audit. Own codex/mobile-learning-trust. Correct all eleven confirmed findings: Predict evidence timing, readable focused recaps, contact camera, illustrative outcomes, independent audio readiness, edition/attempt-safe progress, consistent timing copy, learner-paced feedback, journey labels, Close navigation and reachable completion actions.
+- No catalogue expansion or claim of professional technique certification. Preserve recorded voice, saved opt-outs, original archived scores and all 43 journeys. Standing full-autonomy/deploy-live authorization applies with exact Git preview, CI, staged Production and live verification.
+- Live baseline: app 770952be5c, main ed82ad3b981376599c55968ee5d47a1ef2bfbf7f, Production dpl_8VBCaALRwvW6FXuyFvX1CythZjmz. Recheck before release. Prior documentation-only PR 58 remains separate.

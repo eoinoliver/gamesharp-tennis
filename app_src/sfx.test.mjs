@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 const code=readFileSync(new URL('./sfx.js',import.meta.url),'utf8');
-function fixture({stored="1",blocked=false,unsupported=false,audioSession,storage={},durations={}}={}){
+function fixture({stored="1",blocked=false,unsupported=false,audioSession,storage={},durations={},blockedFiles=[],heldFiles={}}={}){
  const events={},sources=[],contexts=[],buttons=[];let reject=false,failFetch=false,hold=null;const requests=[];
  const param=()=>({value:0,setValueAtTime(v){this.value=v;},exponentialRampToValueAtTime(v){this.value=v;},cancelScheduledValues(){}});
  const node=()=>({gain:param(),frequency:param(),Q:param(),pan:param(),connect(){},disconnect(){this.disconnected=true;},start(){this.started=true;},stop(){this.stopped=true;},onended:null});
@@ -20,7 +20,7 @@ function fixture({stored="1",blocked=false,unsupported=false,audioSession,storag
  }
  const document={hidden:false,querySelectorAll:()=>buttons,addEventListener:(n,f)=>events[n]=f};
  const window={navigator:{audioSession},AudioContext:unsupported?undefined:AC,addEventListener:(n,f)=>events[n]=f};
- vm.runInNewContext(code,{window,document,localStorage:{getItem(k){if(blocked)throw Error();return k==="gs_sound"?stored:storage[k]??null;},setItem(k,v){if(blocked)throw Error();if(k==="gs_sound")stored=v;else storage[k]=v;}},fetch:async url=>{requests.push(url);if(hold)await hold;if(failFetch)throw Error('network');return{ok:true,arrayBuffer:async()=>url};},AbortController,setTimeout,clearTimeout,performance:{now:()=>0},Math,Promise});
+ vm.runInNewContext(code,{window,document,localStorage:{getItem(k){if(blocked)throw Error();return k==="gs_sound"?stored:storage[k]??null;},setItem(k,v){if(blocked)throw Error();if(k==="gs_sound")stored=v;else storage[k]=v;}},fetch:async url=>{requests.push(url);const key=url.split('?')[0];if(blockedFiles.includes(key))throw Error('file unavailable');if(heldFiles[key])await heldFiles[key];if(hold)await hold;if(failFetch)throw Error('network');return{ok:true,arrayBuffer:async()=>url};},AbortController,setTimeout,clearTimeout,performance:{now:()=>0},Math,Promise});
  return{api:window.GSSfx,requests,failFetch:()=>failFetch=true,recoverFetch:()=>failFetch=false,holdFetch:p=>hold=p,events,contexts,sources,document,buttons,reject:()=>reject=true,stored:()=>stored};
 }
 test('no autoplay/context at load; end of touch unlocks; one contact has sources',async()=>{
@@ -142,7 +142,9 @@ test('natural rewards over one second decode, while excessive reward/contact dur
  const good=fixture({durations:{'audio/applause-1.mp3':4.5,'audio/applause-2.mp3':4.5,'audio/applause-3.mp3':3.8}});
  assert.equal(await good.api.unlock(),true);good.api.applause();assert.equal(good.sources[0].buffer.duration,4.5);
  for(const durations of [{'audio/applause-1.mp3':6.1},{'audio/contact-1.wav':1.1}]){
-  const f=fixture({durations});assert.equal(await f.api.unlock(),false);f.api.applause();assert.equal(f.sources.length,0);
+  const f=fixture({durations});assert.equal(await f.api.unlock(),true);f.api.hit();f.api.applause();
+  assert.equal(f.sources.length,2,'other valid sounds remain playable');
+  assert.ok(f.sources.every(s=>s.buffer.duration<=6&&!Object.keys(durations).includes(s.buffer.url.split('?')[0])),'invalid sample is never played');
  }
 });
 test('rewards rotate across navigation, cannot overlap, and muted calls do not consume a variation',async()=>{
@@ -234,3 +236,27 @@ test('every catalogue ending has its exact reviewed recording and transcript',as
  assert.ok(f.requests.some(u=>u.startsWith('audio/voice-'+row.lesson+'.mp3?')));
  assert.equal(createHash('sha256').update(readFileSync(new URL('../'+row.path,import.meta.url))).digest('hex'),row.releaseSha256);}
  });
+
+test('a missing optional reward cannot block court sounds or narration',async()=>{
+ const f=fixture({blockedFiles:['audio/applause-2.mp3']});f.api.configureVoice('recovery');await f.api.unlock();
+ f.api.hit();f.api.bounce();assert.equal(f.sources.length,2);assert.equal(f.api.ready(),true);
+ await f.api.hearVoice();assert.equal(f.api.voiceState().playing,true);
+ assert.ok(f.sources.some(s=>s.buffer.url.includes('voice-recovery')));
+});
+test('a stalled optional reward does not delay ready contacts or manual narration',async()=>{
+ let release;const pending=new Promise(r=>release=r),f=fixture({heldFiles:{'audio/applause-2.mp3':pending}});
+ f.api.configureVoice('recovery');await f.api.unlock();f.api.hit();assert.equal(f.sources.length,1);
+ assert.equal(await f.api.hearVoice(),true);release();
+});
+test('voice remains playable when every court recording is unavailable',async()=>{
+ const f=fixture({blockedFiles:['audio/contact-1.wav','audio/contact-2.wav','audio/bounce.wav']});f.api.configureVoice('recovery');
+ assert.equal(await f.api.hearVoice(),true);assert.equal(f.api.voiceState().playing,true);
+});
+
+test('navigation gestures do not start audio work on a page being left',async()=>{
+ const f=fixture({stored:null});f.api.configureVoice('short-ball');
+ const anchor={closest:selector=>selector.split(',').some(s=>s.trim()==='a[href]')?{}:null};
+ for(const event of ['pointerdown','touchend','click'])f.events[event]({target:anchor});
+ await Promise.resolve();assert.equal(f.contexts.length,0);assert.equal(f.requests.length,0);
+ f.events.touchend({target:{}});await f.api.unlock();assert.equal(f.api.ready(),true,'lesson interactions still unlock sound');
+});

@@ -23,6 +23,7 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  const t0=Date.now();
  while(Date.now()-t0<150000){
    if(await p.$eval('#wrapup',e=>!e.hidden)) break;
+   if(await p.evaluate(()=>done)){await p.waitForSelector('#wrapup:not([hidden])',{timeout:60000});break;}
    if(await p.$('#verdict:not([hidden]) #next')){await p.click('#verdict #next'); await p.waitForTimeout(250); continue;}
    const on=await p.$('#ask.on #askOpts button:not([disabled])');
    if(on){const i=await p.evaluate(()=>{const s=__test.state().step;return LESSON.steps[s].correct;});

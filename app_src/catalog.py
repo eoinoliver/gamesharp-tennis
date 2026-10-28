@@ -4,7 +4,7 @@ DAILY = [
     ('serve-plus-one', 'serve', 'Read the reply your serve creates, then use the space.'),
     ('short-ball', 'short', 'Short isn\'t enough. Height, balance and their position earn the attack.'),
     ('the-line', 'line', 'The open line is tempting. When is it actually on?'),
-    ('the-winner', 'winner', 'One winner proves little. See the same shot hit ten times.'),
+    ('the-winner', 'winner', 'One winner proves little. Compare the margin in each choice.'),
     ('recovery', 'rc', 'Where you recover decides whether you reach their reply.'),
     ('open-court', 'fs', 'Play the defender’s movement, not the empty space.'),
     ('forehand-bill', 'fb', 'A run-around forehand has to pay for the way back.'),
@@ -18,7 +18,7 @@ DAILY = [
     ('running-around', 'ra', 'Earn the forehand. Cover its cost.'),
     ('net-rusher', 'nr', 'They come in. Where they stop decides: at their feet, or over them.'),   # legacy content (authored volley rule)
     ('pass-where-they-arent', 'pa', 'At the net they cover one side. Pass the side they left.'),   # legacy content (authored volley rule)
-    ('late-is-the-culprit', 'lc', 'Same miss, same side? It tells you when you hit it.'),   # legacy technique culprit (contact timing on the captured swing)
+    ('late-is-the-culprit', 'lc', 'A repeated miss is a clue. Check the contact before changing the swing.'),   # legacy technique culprit (contact timing on the captured swing)
     ('the-moonballer', 'mb', 'They loop it high and deep. Take their time, then take the net.'),   # opponents (legacy)
     ('the-pusher', 'pu', 'They get everything back. Stop out-waiting them: change the game.'),   # opponents (legacy)
     ('pulled-wide', 'pw', 'Off the court? Buy time first, unless you got there early.'),   # legacy content (authored replies)
@@ -29,14 +29,14 @@ DAILY = [
     ('answer-the-drop', 'ad', 'You got to their drop. Where they go decides your answer.'),   # batch 1 (6 Oct)
     ('attack-the-backhand', 'ab', 'Their backhand is weak and they know it. Move them off it first.'),   # batch 1 (6 Oct; documented wing rule)
     ('down-the-line', 'dl', 'The line is about where they are, not how brave you are.'),   # batch 2 (7 Oct; opponent_model, ten tries)
-    ('rushed-out-wide', 'dm', 'Pulled wide? The big shot lands 6 in 10. Deep through the middle lands every time.'),   # batch 2 (7 Oct; opponent_model, ten tries)
+    ('rushed-out-wide', 'dm', 'Pulled wide? Compare the margin and recovery time each reply gives you.'),   # batch 2 (7 Oct; opponent_model, ten tries)
     ('earned-attack', 'ea', 'Read your arrival before taking the opening.'),
     ('earned-defence', 'ed', 'Your arrival changes the choices a wide ball offers.'),
     ('earned-net', 'en', 'Arrive, read the ball, then decide whether to follow.'),
 ]
 PREDICT = [
-    ('predict-the-point', 'pt', 'Call the serve, the +1 and the finish. Then watch your point.'),
-    ('predict-second-serve', 'ps', 'Call the return, the approach and the volley. Then watch your point.'),
+    ('predict-the-point', 'pt', 'Call the serve, the +1 and the finish. Then compare with a worked example.'),
+    ('predict-second-serve', 'ps', 'Call the return, the approach and the volley. Then compare with a worked example.'),
 ]
 
 # Play the Point (5 Oct 2026): one branching point; your calls decide what happens next. Its own mode, like Predict.

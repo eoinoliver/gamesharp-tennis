@@ -99,11 +99,21 @@ try{
   const level=await mix.evaluate(async({code,effect})=>{
    const reward=effect.startsWith('applause');
    const offline=new OfflineAudioContext(2,48000*(reward?7:2),48000);
+   let decoded=0;
+   const decode=offline.decodeAudioData.bind(offline);
+   offline.decodeAudioData=async bytes=>{const buffer=await decode(bytes);decoded++;return buffer;};
    localStorage.removeItem('gs_reward_last');
    if(effect==='applause-2')localStorage.setItem('gs_reward_last','applause-1');
    if(effect==='applause-3')localStorage.setItem('gs_reward_last','applause-2');
    window.AudioContext=function(){return new Proxy(offline,{get(t,k){if(k==='state')return 'running';if(k==='resume')return ()=>Promise.resolve();const v=Reflect.get(t,k,t);return typeof v==='function'?v.bind(t):v;},set(t,k,v){t[k]=v;return true;}});};
-   localStorage.setItem('gs_sound','1');(0,eval)(code);await GSSfx.unlock();GSSfx[reward?'applause':effect](.7);
+   localStorage.setItem('gs_sound','1');(0,eval)(code);await GSSfx.unlock();
+   // Core readiness intentionally does not wait for optional rewards. Waveform
+   // inspection must wait for all six recordings, including the selected reward.
+   const deadline=Date.now()+15000;
+   while(decoded<6&&Date.now()<deadline)await new Promise(r=>setTimeout(r,20));
+   if(decoded!==6)throw Error(`Waveform fixtures: decoded ${decoded}/6 recordings`);
+   await new Promise(r=>setTimeout(r,0));
+   GSSfx[reward?'applause':effect](.7);
    const b=await offline.startRendering(),d=b.getChannelData(0);let peak=0,sum=0,tail=0,body=0;
    for(let i=0;i<d.length;i++){peak=Math.max(peak,Math.abs(d[i]));sum+=d[i]*d[i];if(i>48000*(reward?6:1))tail=Math.max(tail,Math.abs(d[i]));if(i>48000&&i<48000*2)body=Math.max(body,Math.abs(d[i]));}
    return{peak,rms:Math.sqrt(sum/d.length),tail,body};

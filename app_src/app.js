@@ -76,7 +76,22 @@ function doneToday(){ return S.days.includes(today()); }
 // Reload before choosing or saving so another tab's progress is not overwritten.
 function syncProgress(){
   try{const latest=JSON.parse(ls.get(KEY));if(latest&&latest.v===1&&latest.id===S.id)Object.assign(S,latest);}catch(e){}
+  migrateEditions();
 }
+function migrateEditions(){
+  let changed=false;
+  for(const l of all().filter(l=>l.edition)){
+    const d=S.done[l.slug],seen=S.seen?.[l.slug];
+    if((!d||d.edition===l.edition)&&(!seen||S.seenEditions?.[l.slug]===l.edition))continue;
+    S.editionHistory||={};S.editionHistory[l.slug]||=[];
+    S.editionHistory[l.slug].push({edition:d?.edition||'earlier',done:d||null,seen:seen||null,reads:S.liveReads?.[l.slug]||[],attempts:S.liveAttempts?.[l.slug]||[]});
+    delete S.done[l.slug];if(S.seen)delete S.seen[l.slug];if(S.liveReads)delete S.liveReads[l.slug];if(S.liveAttempts)delete S.liveAttempts[l.slug];
+    if(S.liveFirstAttemptIds)delete S.liveFirstAttemptIds[l.slug];
+    changed=true;
+  }
+  if(changed)save(S);
+}
+function previousEdition(slug){return S.editionHistory?.[slug]?.at(-1)||null;}
 function nextDaily(){
   syncProgress();const pending=CAT.daily.filter(l=>!S.done[l.slug]),seen=S.seen||{};
   return pending.find(l=>!seen[l.slug])||pending.sort((a,b)=>(seen[a.slug]||0)-(seen[b.slug]||0))[0]||null;
@@ -89,17 +104,33 @@ function nextLivePoint(){
 }
 function startLesson(slug){
   if(!isDaily(slug)&&!bySlug(slug)?.livePoint)return;
-  syncProgress();S.seen||={};S.seen[slug]=Math.max(Date.now(),...Object.values(S.seen).map(Number).filter(Number.isFinite),0)+1;save(S);
+  syncProgress();S.seen||={};S.seen[slug]=Math.max(Date.now(),...Object.values(S.seen).map(Number).filter(Number.isFinite),0)+1;
+  S.seenEditions||={};S.seenEditions[slug]=bySlug(slug)?.edition||'original';save(S);
+}
+const activeAttempts={};
+function beginLiveAttempt(slug){
+  if(!bySlug(slug)?.livePoint)return;
+  activeAttempts[slug]={id:rid(),edition:bySlug(slug).edition||'original',day:today(),reads:[]};
 }
 function recordLiveRead(slug,d){
   const lesson=bySlug(slug);if(!lesson?.livePoint)return;
-  syncProgress();S.liveReads||={};S.liveReads[slug]||=[];
-  if(S.liveReads[slug][d.i])return;
+  syncProgress();if(!activeAttempts[slug])beginLiveAttempt(slug);
+  const active=activeAttempts[slug];S.liveAttempts||={};S.liveAttempts[slug]||=[];
+  const attempts=S.liveAttempts[slug],attempt=attempts.find(a=>a.id===active.id)||active;
+  // A retry must never append its later decisions to an earlier route.
+  if(d.i!==attempt.reads.length)return;
   const prior=lesson.transferOf&&S.done[lesson.transferOf];
   const delayed=!!(prior&&prior.first<today());
   const read={day:today(),pick:d.X,ok:!!d.ok,node:d.node,delayed};
-  S.liveReads[slug][d.i]=read;save(S);
-  track('live_point_read',{lesson:slug,step:d.i+1,...read,transfer_of:lesson.transferOf||null,
+  if(!attempts.some(a=>a.id===attempt.id))attempts.push(attempt);
+  attempt.reads.push(read);
+  S.liveReads||={};S.liveFirstAttemptIds||={};
+  S.liveFirstAttemptIds[slug]||=S.liveReads[slug]?.length?'legacy':attempt.id;
+  if(S.liveFirstAttemptIds[slug]===attempt.id){S.liveReads[slug]||=[];S.liveReads[slug].push(read);}
+  // Retain the first attempt permanently and the latest nineteen for review.
+  if(attempts.length>20)S.liveAttempts[slug]=[attempts[0],...attempts.slice(-19)];
+  save(S);
+  track('live_point_read',{lesson:slug,edition:lesson.edition||'original',attempt:attempt.id,step:d.i+1,...read,transfer_of:lesson.transferOf||null,
     gap_days:prior?daysBetween(prior.first,today()):null});
 }
 /* Show exhaustion or an explicit unfinished revisit before today's completion. */
@@ -112,13 +143,18 @@ function todays(){
 function complete(slug,n,total=3){
   syncProgress();
   const t=today(), d=S.done[slug], firstTime=!d;
-  S.done[slug]=d?Object.assign(d,{last:t,times:d.times+1,best:Math.max(d.best,n),total}):{first:t,last:t,times:1,best:n,n,total};
+  const bestTotal=d?.bestTotal||d?.total||3;
+  const improves=!d||n/total>d.best/bestTotal||(n/total===d.best/bestTotal&&total>bestTotal);
+  // n/total is the immutable first result; best/bestTotal always stay a pair.
+  S.done[slug]=d?Object.assign(d,{last:t,times:d.times+1,best:improves?n:d.best,bestTotal:improves?total:bestTotal,lastScore:n,lastTotal:total}):{first:t,last:t,times:1,best:n,bestTotal:total,n,total,edition:bySlug(slug)?.edition||'original'};
+  const attempt=S.liveAttempts?.[slug]?.find(a=>a.id===activeAttempts[slug]?.id);
+  if(attempt&&!attempt.result)attempt.result={n,total};
   if(!S.days.includes(t)){
     S.streak=(S.last&&daysBetween(S.last,t)===1)?S.streak+1:(S.last===t?S.streak:1);
     S.last=t; S.days.push(t); S.days=S.days.slice(-120);
   }
   save(S);
-  track("lesson_complete",{lesson:slug,daily:isDaily(slug),first_time:firstTime,score:n,times:S.done[slug].times});
+  track("lesson_complete",{lesson:slug,edition:bySlug(slug)?.edition||'original',daily:isDaily(slug),first_time:firstTime,score:n,total,times:S.done[slug].times});
   if(isDaily(slug)&&firstTime&&!nextDaily()) track("content_exhausted",{});
 }
 function setLevel(v){syncProgress();S.level=v;save(S);track("level_set",{level:v});}
@@ -141,6 +177,6 @@ const listeners=[];
 function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
-window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,recordLiveRead,todays,startLesson,complete,setLevel,feedback,emit,on,
+window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,recordLiveRead,beginLiveAttempt,previousEdition,todays,startLesson,complete,setLevel,feedback,emit,on,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();

@@ -1,7 +1,8 @@
 const LESSON={
   "title": "Buy Time. Use It.",
   "decisionCount": 4,
-  "hook": "Four connected decisions. Reply, recover, read the next ball, choose again.",
+  "edition": "connected-four-v2",
+  "hook": "Up to four connected decisions. Reply, recover, read the next ball, choose again.",
   "livePoint": true,
   "branch": "lp1",
   "nodes": {

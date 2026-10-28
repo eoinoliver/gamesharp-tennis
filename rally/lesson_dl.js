@@ -38,7 +38,7 @@ const LESSON={
    "correct": 2,
    "payoff": "Down the line, they're stretched and you're set early for the next ball.",
    "principle": "Change direction when they're still on their way back.",
-   "why": "Down the line stretches them (2.7 m/s to get there), so all they have is a safe ball, and you're set early. It lands 8 in 10. Deep through the middle is about as good: it lands every time and they can only rally it. The flat crosscourt stretches them most, but only 5 in 10 land.",
+   "why": "Here, down the line stretches them and leaves you set early. Deep through the middle also keeps you in the rally with more margin. The flat crosscourt stretches them most but leaves a smaller landing window.",
    "rail": [
     "1 Their short ball",
     "2 Your shot",
@@ -53,9 +53,9 @@ const LESSON={
    "take": "Short, and they're recovering? Down the line.",
    "lines": {
     "A": "Safe, but they're set. Back in the rally.",
-    "B": "Also fine: lands every time, and they can only rally it.",
+    "B": "Also works here: more margin, and a rally ball back.",
     "C": "Right: they're stretched, and you're set early.",
-    "D": "Stretches them most, but only 5 in 10 land."
+    "D": "Stretches them most, but leaves less margin."
    },
    "alsoOk": [
     1
@@ -77,7 +77,7 @@ const LESSON={
    "correct": 3,
    "payoff": "Crosscourt goes behind them. At full stretch, all they have is a defensive ball.",
    "principle": "If they're covering the line, go crosscourt.",
-   "why": "They're already moving to the line, so the line goes to them. Crosscourt goes behind them: they reach it at full stretch and can only defend, and it lands 9 in 10. The flat crosscourt wins outright here, but only 5 in 10 land.",
+   "why": "They are moving towards the line. Crosscourt goes behind their recovery and stretches them here. The flat crosscourt wins this illustrated point, but leaves less margin.",
    "rail": [
     "1 Their short ball",
     "2 They move early",
@@ -93,7 +93,7 @@ const LESSON={
    "lines": {
     "A": "Straight to where they're going. Back in the rally.",
     "B": "Safe, but no pressure.",
-    "C": "A winner this time, but only 5 in 10 land.",
+    "C": "A winner this time, with little margin for error.",
     "D": "Right: behind them. All they have is a defensive ball."
    }
   },
@@ -113,7 +113,7 @@ const LESSON={
    "correct": 1,
    "payoff": "Down the line, they're stretched again. You're set for the next ball.",
    "principle": "Same rule on the backhand: line while they're still recovering.",
-   "why": "Down the line goes away from where they're heading, so they're stretched, and it lands 9 in 10. Crosscourt lands every time, but they're set. The middle goes right to them and leaves you only just in time.",
+   "why": "Down the line goes away from their recovery and stretches them here. Crosscourt offers margin but finds them set. The middle leaves you less time for the next ball.",
    "rail": [
     "1 Their short ball",
     "2 Your backhand",
@@ -129,8 +129,8 @@ const LESSON={
    "lines": {
     "A": "Right at them. You're only just in time.",
     "B": "Right: they're still on the way back. Stretched.",
-    "C": "Lands every time, but they're set.",
-    "D": "Only 7 in 10 land."
+    "C": "More margin, but they are set for it here.",
+    "D": "A smaller landing window here."
    }
   }
  ]
