@@ -115,6 +115,14 @@
     "tools/live-point-browser.mjs": {
       "baseline": "b68d54fa1d54a30471b56e7acd008459d6b976d6bb11ae1cec2de0a6da86343c",
       "candidate": "2cc0f39cd76c9950af9c4a4bee797b3789d22d9728091f17213cbfdd493e73a8"
+    },
+    "gs/app_flow.mjs": {
+      "baseline": "f876b1f485371bf42c9582970e7acae55114789fae7aacb6e1cd9558bbfa011a",
+      "candidate": "6251fe7982a2edcaa4c1910b0bd8d8ebae19493ef3bfcf8fffaf2b9d8fee7780"
+    },
+    "gs/payoff_check.mjs": {
+      "baseline": "803b70d87180eccb867700408dbfd31a36e72dd9174d331224729cafce574d75",
+      "candidate": "691aa8708abf726f27bad0da333afbcc40076d18e771b030c30e08747e4fa5ee"
     }
   },
   "release": {
