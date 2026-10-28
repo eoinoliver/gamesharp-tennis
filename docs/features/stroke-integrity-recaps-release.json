@@ -1,0 +1,255 @@
+{
+  "feature": "Shared stroke integrity, lesson recaps and four-decision Live Point",
+  "app_version": "770952be5c",
+  "candidate_commit": "13618a030d751cf9f93db6f5cec32c445d68ac0f",
+  "pull_request": 57,
+  "project": "gamesharp-tennis",
+  "preview": {
+    "id": "dpl_CQmNwtRTKyh7qWB46s66o6m2zURp",
+    "url": "https://gamesharp-tennis-3vqvsojpz-eoinlynn-5978s-projects.vercel.app",
+    "static_assets": 151,
+    "functions": 0
+  },
+  "rollback": {
+    "app_version": "bcaab23b1a",
+    "commit": "e80d1adc9b44ea41a63d8356fec3e578d099d4cb",
+    "id": "dpl_9rfGigZibdqHUfpTW24UMLgsHUCt",
+    "url": "https://gamesharp-tennis-m5c5ph29t-eoinlynn-5978s-projects.vercel.app"
+  },
+  "scope": {
+    "total_journeys": 43,
+    "new_journeys": 0,
+    "shared_clips_checked": 22,
+    "source_foot_tracks_recovered": 20,
+    "ready_foot_track": "authored",
+    "drop_foot_direction": "illustrative fallback",
+    "sharpen_stills_regenerated": 21,
+    "original_live_point_four_decision_endings": 12,
+    "original_live_point_early_three_decision_endings": 2,
+    "other_wing_two_decision_endings": 4
+  },
+  "verification": {
+    "unit_tests": 47,
+    "geometry_assertions": 87,
+    "source_foot_max_fit_error_metres": 0.00016699525548806438,
+    "live_point_assertions_per_engine": 1111,
+    "recap_assertions_per_engine": 32,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "build_release_files": 152,
+    "public_files": 151,
+    "source_test_inputs": 183,
+    "full_ci_run": 40624263028,
+    "manual_mobile_route_review": "12 four-decision routes and 2 early endings; 4 other-wing paths exercised",
+    "recap_regression": "Accepted alternatives retain their actual scenes. Observation-only reads are labelled situation replay. Manual voice cancels pending recap.",
+    "webkit_parallel_note": "A parallel full-catalogue run missed automatic voice on split-step. Isolated split-step and the final sequential 43-journey WebKit run passed; concurrent test audio sessions remain a harness limitation, not a physical-device certification.",
+    "webkit_serial_complete_journeys": 43,
+    "preview_http_checks": 293,
+    "preview_complete_journeys": 6,
+    "full_ci": "passed exact candidate",
+    "ci_browser_job_seconds": 1616,
+    "staged_http_checks": 293,
+    "staged_webkit_complete_journeys": 6,
+    "live_http_checks": 293,
+    "live_chromium_complete_journeys": 6,
+    "live_webkit_complete_journeys": 6
+  },
+  "limitations": [
+    "Adapted tactical illustrations; no independent coach certification",
+    "No physical iPhone/iPad listening verification",
+    "Supplied YouTube channels could not be fetched reliably; no claim of comparison",
+    "Slice remains an explicit adaptation of a captured one-handed backhand; volley grips are authored repairs",
+    "Browser-local history only"
+  ],
+  "next_evidence": [
+    "Observe whether beta users can explain how their movement changed the next reply",
+    "Review later-day first responses separately from retries and same-day practice",
+    "Prioritise independent coach review of backhand, slice and volley sequences before further catalogue expansion",
+    "Keep historical two-decision Live Point results separate from the new four-decision edition; existing first-response history is preserved."
+  ],
+  "clip_audit": {
+    "bh": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 0.00013187135660517314,
+      "grounding_check": "passed"
+    },
+    "fh": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.885780586188048e-16,
+      "max_contact_grip_gap_metres": 0.000164117491219664,
+      "grounding_check": "passed"
+    },
+    "ready": {
+      "basis": "Authored ready stance and neutral foot directions",
+      "max_bone_length_error_metres": 1.1102230246251565e-16,
+      "max_contact_grip_gap_metres": 4.304295815850749e-05,
+      "grounding_check": "passed"
+    },
+    "fhhi": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.885780586188048e-16,
+      "max_contact_grip_gap_metres": 0.00012522968729626258,
+      "grounding_check": "passed"
+    },
+    "fvhi": {
+      "basis": "Captured body motion with authored stance, elbow and grip-face repair",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 6.937464201405543e-05,
+      "grounding_check": "passed"
+    },
+    "lowfv": {
+      "basis": "Captured body motion with authored stance, elbow and grip-face repair",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 6.86515407586302e-05,
+      "grounding_check": "passed"
+    },
+    "serveW": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 9.293711652612985e-05,
+      "grounding_check": "existing airborne treatment retained"
+    },
+    "bhlo": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.885780586188048e-16,
+      "max_contact_grip_gap_metres": 9.294680014288264e-05,
+      "grounding_check": "passed"
+    },
+    "bv": {
+      "basis": "Captured body motion with authored stance, elbow and grip-face repair",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 6.66677337384292e-05,
+      "grounding_check": "passed"
+    },
+    "fhlo": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 0.0001051317634252897,
+      "grounding_check": "passed"
+    },
+    "serveT": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 9.293711652612985e-05,
+      "grounding_check": "existing airborne treatment retained"
+    },
+    "fhChest": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.885780586188048e-16,
+      "max_contact_grip_gap_metres": 0.00018995470676124707,
+      "grounding_check": "passed"
+    },
+    "fhHigh": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.885780586188048e-16,
+      "max_contact_grip_gap_metres": 0.0011415467739465137,
+      "grounding_check": "passed"
+    },
+    "fhHigher": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.885780586188048e-16,
+      "max_contact_grip_gap_metres": 0.012182823687334433,
+      "grounding_check": "passed"
+    },
+    "bhChest": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 0.00017835132960982927,
+      "grounding_check": "passed"
+    },
+    "bhHigh": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 0.0001565393911432321,
+      "grounding_check": "passed"
+    },
+    "bhHigher": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 0.0031317845827680954,
+      "grounding_check": "passed"
+    },
+    "serveB": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 9.293711652612985e-05,
+      "grounding_check": "existing airborne treatment retained"
+    },
+    "fhCramped": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.885780586188048e-16,
+      "max_contact_grip_gap_metres": 0.00016411749121965369,
+      "grounding_check": "passed"
+    },
+    "bhSlice": {
+      "basis": "Captured one-handed backhand adapted to illustrate slice; supporting hand repaired",
+      "max_bone_length_error_metres": 3.3306690738754696e-16,
+      "max_contact_grip_gap_metres": 0.00017499392879472193,
+      "grounding_check": "passed"
+    },
+    "sm": {
+      "basis": "Captured body motion with source-derived foot directions",
+      "max_bone_length_error_metres": 3.885780586188048e-16,
+      "max_contact_grip_gap_metres": 0.00012445169405417297,
+      "grounding_check": "existing airborne treatment retained"
+    },
+    "drop": {
+      "basis": "Existing illustrative clip; foot direction remains a fallback",
+      "max_bone_length_error_metres": 3.885780586188048e-16,
+      "max_contact_grip_gap_metres": 0.00012278198719690357,
+      "grounding_check": "passed"
+    }
+  },
+  "merge_commit": "ed82ad3b981376599c55968ee5d47a1ef2bfbf7f",
+  "merge_tree": "74dbb749f674e01c6421a6529998b01dfe10d02c",
+  "authorization": "28 October 2026: proceed in full. no further action required from me; current full-autonomy/deploy-live direction supersedes historical per-version confirmation wording while retaining Git and verification safeguards.",
+  "production": {
+    "id": "dpl_8VBCaALRwvW6FXuyFvX1CythZjmz",
+    "url": "https://gamesharp-tennis-edsv2pb9w-eoinlynn-5978s-projects.vercel.app",
+    "static_assets": 151,
+    "functions": 0,
+    "status": "live_verified"
+  },
+  "configuration_equivalence": {
+    "preview": "dpl_CQmNwtRTKyh7qWB46s66o6m2zURp",
+    "production": "dpl_8VBCaALRwvW6FXuyFvX1CythZjmz",
+    "same_git_tree": "74dbb749f674e01c6421a6529998b01dfe10d02c",
+    "matches": [
+      "entire build config",
+      "entire projectSettings",
+      "env",
+      "nodeVersion",
+      "routes",
+      "deployment config"
+    ],
+    "env_count": 0,
+    "middleware": 0,
+    "functions": 0,
+    "explained_differences": [
+      "Git ref and commit: task branch versus main merge with identical tree",
+      "Deployment ID and environment: preview versus production staged",
+      "Platform preview feedback suffix"
+    ],
+    "inventory_check": {
+      "exact_public_paths": 151,
+      "unexpected_files": 0,
+      "functions": 0,
+      "basis": "Authenticated Vercel output file tree, recursively enumerated. Null middleware marker returned for every directory is a file-tree UI placeholder; both deployment build records have an empty middleware array."
+    }
+  },
+  "evidence_sha256": {
+    "manifest": "71a4312fcb4da74e01092ed7252b8c392f65d0435653695c71be37e5ca787ae5",
+    "preview_http": "dd4f4c3e00385322235251b2796c2c2d57af2a1b7426ad68f88c6dbc7147bbf1",
+    "stage_http": "8957f12bfc80b5a414cf6e55848e78daccccfa0ab3f6e8814747cd9e15276a8a",
+    "live_http": "d50b88836c428b7a8a4438e3d4afd5180e7f094e505b4fba6a4a37314ced3721",
+    "preview_inventory": "e7aeff3fc1162d54002970401b8038523e3e26f16907903e61209ffa158233fc",
+    "stage_inventory": "3fc4993ecdaaf701b7fc72c467bac99cd2c3b4ac35358fa5f9c9ac0bda5c0ae5"
+  },
+  "verified_at": "2026-10-28T03:45:22.419763+00:00",
+  "automatic_domain_assignment": false,
+  "rollback_used": false,
+  "documentation_only_followup": true
+}

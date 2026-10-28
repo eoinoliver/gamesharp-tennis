@@ -630,3 +630,16 @@ with the planned contact unavailable. Local checks so far: 47 unit tests,
 87 geometry checks, 1,111 route checks, 18 initial recap checks, and the Live Point
 motion/framing gate passed. Final recap/sensory, full catalogue, hosted preview,
 staged production and live verification remain pending. No production change yet.
+
+
+## 28 October 2026 — Stroke integrity release completed (Codex)
+
+- Release-record owner/branch: Codex, `codex/stroke-integrity-release-record`, based on main `ed82ad3b981376599c55968ee5d47a1ef2bfbf7f`. Documentation only; this follow-up must not be promoted over the verified runtime release.
+- Authorization: Eoin's “proceed in full. no further action required from me” and current full-autonomy/deploy-live direction. The Git, exact-artifact, staged-production and live-verification safeguards were retained.
+- PR 57 candidate `13618a030d751cf9f93db6f5cec32c445d68ac0f`; app `770952be5c`. Full CI run 40624263028 passed. Merge and candidate share tree `74dbb749f674e01c6421a6529998b01dfe10d02c`.
+- Preview `dpl_CQmNwtRTKyh7qWB46s66o6m2zURp`: https://gamesharp-tennis-3vqvsojpz-eoinlynn-5978s-projects.vercel.app. Staged Production and exact promoted deployment `dpl_8VBCaALRwvW6FXuyFvX1CythZjmz`: https://gamesharp-tennis-edsv2pb9w-eoinlynn-5978s-projects.vercel.app. Public https://www.gamesharptennis.com resolves to that identity.
+- Validation: 47 unit tests; 87 geometry assertions across 22 clips; exact recovery of 20 source foot tracks; 1,111 Live Point assertions per engine; 32 recap assertions per engine; all 43 completion/voice journeys sequentially in WebKit; full Chromium catalogue CI. All 21 Sharpen stills regenerated and reviewed. Twelve four-decision routes and two early endings inspected on mobile.
+- HTTP checks: Preview 293/293, staged Production 293/293, live 293/293. Full authenticated output inventories match all 151 public files, with zero functions and empty middleware lists. Build/runtime settings and inputs match; Preview/Production identity and platform feedback suffix are the explained differences. Six hosted Preview journeys, six staged WebKit journeys, and six live journeys in each engine pass.
+- Full-suite feedback caught and repaired a manual-voice/recap transition race. Accepted alternative recap choices now retain their actual scene and feedback; observation-only scenes are honestly labelled. A parallel WebKit run missed one automatic cue; isolated and sequential full-catalogue verification passed. This harness observation is retained in the release record, not represented as a physical-device pass.
+- Before merge and promotion, rechecked correct project/repo/main, automatic domain assignment off, and exact rollback identity. Promotion used the already verified staged Production deployment without rebuilding. No rollback used. Automatic assignment remains off; rollback is `dpl_9rfGigZibdqHUfpTW24UMLgsHUCt` / app `bcaab23b1a`.
+- Limits: adapted tactical illustrations; no independent coach certification; supplied YouTube channels could not be fetched reliably; no physical iPhone/iPad listening verification. Ready is authored and drop retains an illustrative foot-direction fallback. Existing first-response history is preserved. Full scope and per-clip basis: `docs/features/stroke-integrity-recaps-release.json`.
