@@ -128,6 +128,10 @@
       "baseline": null,
       "previous_source_sha256": "47267a117866720c63a107597ae04d11c03b4172fdb08c3b9e092680d18bd97e",
       "candidate": "dbd2bde4aac6acaf5dae3d4f8ae38d235c2db8333241856aab7f5a28c1a1b452"
+    },
+    "tools/sensory-browser.mjs": {
+      "baseline": "32b252f8a6d2ab42b97099d43a3f80846a0bfa117034feececfea15cf998426d",
+      "candidate": "1abca6b6b2e575061c2a101012900ad73bfcd48eb06c06f4296fef4ce6c0aafc"
     }
   },
   "release": {
