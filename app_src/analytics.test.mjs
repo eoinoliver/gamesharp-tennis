@@ -9,7 +9,7 @@ const source=readFileSync(new URL("./app.js",import.meta.url),"utf8");
 const configSource=readFileSync(new URL("./config.js",import.meta.url),"utf8");
 
 function boot({origin="https://gamesharptennis.com",now="2026-09-28T00:00:00Z",storage=new Map(),hidden=false,config={},fetchError=false,catalog={daily:[],predict:[]}}={}){
-  let time=Date.parse(now);
+  let time=Date.parse(now),ids=0;
   const requests=[],beacons=[],handlers={window:new Map(),document:new Map()};
   const on=surface=>(name,fn)=>{
     const list=handlers[surface].get(name)||[];
@@ -23,7 +23,7 @@ function boot({origin="https://gamesharptennis.com",now="2026-09-28T00:00:00Z",s
   }
   const context=vm.createContext({
     window,document,location:new URL(origin),Date:Clock,
-    crypto:{randomUUID:()=>"test-anonymous-id"},
+    crypto:{randomUUID:()=>"test-anonymous-id-"+(ids++)},
     localStorage:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,String(value))},
     navigator:{sendBeacon:(url,body)=>{beacons.push({url,payload:JSON.parse(body)});return true;}},
     fetch:(url,options)=>{
@@ -203,4 +203,37 @@ test('two tabs retain each others encounters, completions and preferences',()=>{
 test('old progress without encounter history keeps completed lessons excluded',()=>{
  const b=boot({catalog:queueCatalog});b.app.complete('one',2);assert.equal(b.app.S.seen,undefined);
  const next=boot({catalog:queueCatalog,storage:b.storage});assert.equal(next.app.nextDaily().slug,'two');
+});
+
+test('an updated edition archives its original score and resurfaces exactly once',()=>{
+ const b=boot({catalog:liveCatalog});b.app.startLesson('point');b.app.complete('point',2,2);
+ b.app.recordLiveRead('point',{i:0,X:'B',ok:true,node:'p'});
+ const revised={...liveCatalog,play:liveCatalog.play.map(l=>l.slug==='point'?{...l,edition:'four-v2',decisionCount:4}:l)};
+ const c=boot({catalog:revised,storage:b.storage});assert.equal(c.app.nextLivePoint().slug,'point');
+ assert.equal(c.app.previousEdition('point').done.best,2);assert.equal(c.app.previousEdition('point').done.total,2);
+ assert.equal(c.app.previousEdition('point').reads.length,1);assert.equal(c.app.S.done.point,undefined);
+ c.app.startLesson('point');c.app.complete('point',1,4);c.app.nextDaily();
+ assert.equal(c.app.S.done.point.n,1);assert.equal(c.app.S.done.point.total,4);
+ assert.equal(c.app.S.editionHistory.point.length,1);assert.equal(c.app.previousEdition('point').done.total,2);
+});
+test('best scores retain their own denominators across early-ending routes',()=>{
+ const b=boot({catalog:liveCatalog});b.app.complete('point',2,3);b.app.complete('point',2,4);
+ assert.equal(b.app.S.done.point.bestTotal,3);assert.equal(b.app.S.done.point.total,3);
+ b.app.complete('point',3,4);assert.equal(b.app.S.done.point.best,3);assert.equal(b.app.S.done.point.bestTotal,4);
+ assert.equal(b.app.S.done.point.n,2);assert.equal(b.app.S.done.point.total,3,'first result unchanged');
+});
+test('a retry records its own route without extending an abandoned first attempt',()=>{
+ const b=boot({catalog:liveCatalog});b.app.beginLiveAttempt('point');
+ b.app.recordLiveRead('point',{i:0,X:'A',ok:false,node:'p'});
+ b.app.beginLiveAttempt('point');b.app.recordLiveRead('point',{i:0,X:'B',ok:true,node:'p'});
+ b.app.recordLiveRead('point',{i:1,X:'A',ok:true,node:'pB'});b.app.complete('point',2,2);
+ assert.equal(b.app.S.liveReads.point.length,1);assert.equal(b.app.S.liveReads.point[0].pick,'A');
+ assert.equal(b.app.S.liveAttempts.point.length,2);assert.equal(b.app.S.liveAttempts.point[1].reads.map(x=>x.pick).join(''),'BA');
+ assert.equal(b.app.S.liveAttempts.point[1].result.total,2);
+});
+test('unversioned first reads are preserved without appending a later route',()=>{
+ const b=boot({catalog:liveCatalog});b.app.S.liveReads={point:[{pick:'A',node:'p',ok:false}]};b.storage.set('gs6',JSON.stringify(b.app.S));
+ b.app.beginLiveAttempt('point');b.app.recordLiveRead('point',{i:0,X:'B',ok:true,node:'p'});b.app.recordLiveRead('point',{i:1,X:'B',ok:false,node:'pB'});
+ assert.equal(b.app.S.liveReads.point.length,1);assert.equal(b.app.S.liveReads.point[0].pick,'A');
+ assert.equal(b.app.S.liveAttempts.point[0].reads.length,2);
 });

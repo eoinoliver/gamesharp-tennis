@@ -159,7 +159,7 @@ def write(p, title, keys, higher, followup=False):
         'The flatter middle reply remains playable in this example, but leaves less time to regain position. '
         'The useful comparison is time and position, not whether one illustrated shot wins.')
     if not followup:extend_point(scenes,nodes,root,keys)
-    lesson=dict(title=title,decisionCount=2 if followup else 4,hook='Two decisions. Watch how your reply and recovery shape the next ball.' if followup else 'Four connected decisions. Reply, recover, read the next ball, choose again.',
+    lesson=dict(title=title,decisionCount=2 if followup else 4,hook='Two decisions. Watch how your reply and recovery shape the next ball.' if followup else 'Up to four connected decisions. Reply, recover, read the next ball, choose again.',
         livePoint=True,branch=root,nodes=nodes,steps=[],finaleScene=root+'AA',finaleFull=True,
         memHTML='Buy yourself time. <span>Use it to recover.</span>',
         cue='Buy yourself time. Use it to recover.',callbackTags=['movement_read','recovery_time'],
@@ -172,6 +172,7 @@ def write(p, title, keys, higher, followup=False):
             read='Your next point: judge the reply and the recovery together. A higher ball can buy time; moving while it travels turns that time into a better starting position. Keep reading the opponent—neither choice guarantees the next reply.',
             src='Craig O’Shannessy · Winning on Defense · public overview',url='https://braingametennis.com/webinar-73-winning-on-defense/'),
         drill=dict(name='Use the flight',how='With a partner, start from a comfortable wide feed. Try a higher reply and a flatter one, then notice where you are when they hit. Judge your available time and position, not just the point result.'))
+    if not followup:lesson['edition']='connected-four-v2'
     used={'ready'}|{a['clip'] for s in scenes.values() for aa in s['actors'].values() for a in aa}
     (R/f'{p}_data.json').write_text(json.dumps(dict(clips={k:v for k,v in D['clips'].items() if k in used},scenes=scenes),separators=(',',':'))+'\n')
     (R/f'lesson_{p}.js').write_text('const LESSON='+json.dumps(lesson,ensure_ascii=False,indent=2)+';\n')

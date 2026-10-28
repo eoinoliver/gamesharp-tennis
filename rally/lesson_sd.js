@@ -94,7 +94,7 @@ const LESSON={
    "take": "Wide to your backhand? Hit the backhand.",
    "lines": {
     "A": "Right: it keeps you close enough to cover their next ball.",
-    "B": "Also fine: you only just reach their angle, but the forehand lands every time."
+    "B": "Also works here: the forehand has margin, but you only just reach their angle."
    },
    "noTargets": true,
    "alsoOk": [
@@ -147,7 +147,7 @@ const LESSON={
    "correct": 1,
    "payoff": "Down the line goes away from them. At full stretch, all they can do is float it back deep.",
    "principle": "Change direction when they're still on their way back.",
-   "why": "They're still recovering from the corner, so crosscourt goes straight back to them and they rally. Down the line is 4.1 m/s away for them: they can only float it back, and you're set early. It lands 9 in 10 either way.",
+   "why": "They are still recovering from the corner. Crosscourt goes back towards them; the line makes them cover more ground and draws a float here. You are set early for that reply.",
    "rail": [
     "1 Their loop",
     "2 Your ball",

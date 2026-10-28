@@ -1,6 +1,6 @@
 const LESSON={
  "title": "Rushed Out Wide",
- "hook": "Pulled off the court, the big crosscourt and the angle feel like the way out. Only 6 in 10 of them land. The deep middle lands every time.",
+ "hook": "Pulled off the court, compare the landing margin and the time each reply gives you to recover.",
  "memHTML": "Out wide? <span>Deep through the middle.</span>",
  "tomorrow": "Next time you're pulled wide, late or not, go deep through the middle. Save the angle and the line for balls you're set for in the middle of the court.",
  "pro": {
@@ -36,9 +36,9 @@ const LESSON={
     "Flat crosscourt"
    ],
    "correct": 2,
-   "payoff": "Deep and safe lands every time, and all they can do is rally it back.",
+   "payoff": "Here, the deep middle gives you margin and draws a rally ball back.",
    "principle": "Rushed out wide, go deep and safe.",
-   "why": "Rushed, you can't swing fully, so the flat crosscourt and the angle land only 6 in 10, and the angle gives them your open court. High and deep through the middle lands every time and they can only rally it. Down the line lands 8 in 10 and leaves you less time for their next ball.",
+   "why": "Here you arrive rushed. High and deep through the middle gives a larger target and a recovery window. The angle opens your court; the firmer line reply leaves less time for the next ball.",
    "rail": [
     "1 Their angle",
     "2 You're late",
@@ -52,10 +52,10 @@ const LESSON={
    "unlock": "Deep and safe",
    "take": "Rushed out wide? Deep and safe.",
    "lines": {
-    "A": "Only 6 in 10 land, and it opens your court. Passed.",
-    "B": "8 in 10 land, and you have less time for their next ball.",
-    "C": "Right: lands every time. They can only rally it.",
-    "D": "Only 6 in 10 land when you're late."
+    "A": "Less margin, and it opens your court. Passed in this example.",
+    "B": "A tighter target, with less time for their next ball.",
+    "C": "Good read: more margin and a rally ball back here.",
+    "D": "A small landing window from this rushed contact."
    }
   },
   {
@@ -72,9 +72,9 @@ const LESSON={
     "Down the line"
    ],
    "correct": 0,
-   "payoff": "Even in time, the deep middle lands every time, and they can only rally it.",
+   "payoff": "Even with time, the deep middle offers margin and keeps you in this rally.",
    "principle": "Out wide, the deep middle is the percentage ball, late or not.",
-   "why": "In time, down the line stretches them and leaves you set early, but it lands 8 in 10. The deep middle lands every time and they can only rally it, which is worth a little more. The angle and the flat crosscourt still land only 6 in 10.",
+   "why": "With time, the line stretches them but uses a tighter target. The middle offers more margin and a playable reply here. Compare that trade-off with the smaller windows on the angle and flat crosscourt.",
    "rail": [
     "1 Their angle",
     "2 You're in time",
@@ -88,10 +88,10 @@ const LESSON={
    "unlock": "Still the middle",
    "take": "Wide but in time? The middle is still the percentage ball.",
    "lines": {
-    "A": "Right: lands every time, and they can only rally it.",
-    "B": "Only 6 in 10, and it opens your court.",
-    "C": "Only 6 in 10 land.",
-    "D": "Close: it stretches them, but 2 in 10 miss."
+    "A": "Good read: more margin and a playable reply here.",
+    "B": "Less margin, and it opens your court.",
+    "C": "A smaller landing window.",
+    "D": "It stretches them here, with a tighter target."
    }
   },
   {
@@ -110,7 +110,7 @@ const LESSON={
    "correct": 3,
    "payoff": "The deep slice through the middle gives you the most time to get back.",
    "principle": "Late on the backhand: a deep slice through the middle.",
-   "why": "Late, the slice through the middle lands 8 in 10 and stays low and deep, so they can only rally it, and you have the most time to recover. The crosscourt lands 9 in 10 but leaves you less time. The line leaves you only just in time; the angle lands 7 in 10 and opens your court.",
+   "why": "Here, the deep middle slice stays low and gives the longest recovery window among these replies. The crosscourt and line return sooner; the angle also opens your court.",
    "rail": [
     "1 Their angle",
     "2 You're late",
@@ -125,7 +125,7 @@ const LESSON={
    "take": "Late on the backhand? Deep slice, middle.",
    "lines": {
     "A": "Lands, but you're only just in time for the next.",
-    "B": "Lands 9 in 10, but you have less time to get back.",
+    "B": "A playable reply here, but less time to get back.",
     "C": "Opens your court. Passed.",
     "D": "Right: deep and low. The most time to recover."
    }

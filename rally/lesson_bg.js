@@ -105,7 +105,7 @@ const LESSON={
    "correct": 0,
    "payoff": "Below their waist, they can't swing big.",
    "principle": "Pace needs the right height. Don't give it to them.",
-   "why": "Deep through the middle and the heavy crosscourt both reach them waist high, their favourite height, and the big ball comes back. The low slice stays below their waist and takes long enough to get there that you're ready again. Flat and hard lands 9 in 10, the slice every time.",
+   "why": "In this example, the middle and heavy crosscourt reach their preferred height. The low slice changes that contact and gives you time to recover. Compare the contact height and recovery window, not a guaranteed result.",
    "rail": [
     "1 You're set",
     "2 Their zone",
@@ -121,7 +121,7 @@ const LESSON={
    "lines": {
     "A": "Right: the slice stays below their waist. Rally pace back; you're in time.",
     "B": "Deep middle sits at their waist: their big ball, and you're stretched.",
-    "C": "Flat lands 9 in 10, 62 cm over the net. The slice lands every time.",
+    "C": "The flat reply gives less net clearance here. The slice changes their contact height.",
     "D": "The heavy ball reaches them waist high: big ball back, just in time."
    }
   },

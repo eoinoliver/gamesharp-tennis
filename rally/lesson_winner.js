@@ -39,7 +39,7 @@ const LESSON={
    "correct": 2,
    "payoff": "One winner only proves that one ball went in.",
    "principle": "Judge the choice by what you knew before you hit it, not by where it landed.",
-   "why": "Clipping the line feels like proof. It isn't: from this ball the same shot misses often, and the ten tries show it.",
+   "why": "Clipping the line does not establish a reliable choice. The illustrated landings show how a smaller target leaves less room for error; they are not measured success rates.",
    "rail": [
     "1 Low neutral ball",
     "2 Line clip",
@@ -49,16 +49,16 @@ const LESSON={
    "unlock": "It went in. Once.",
    "take": "Would you choose it ten times? Judge the choice, not the applause.",
    "lines": {
-    "A": "One winner can't show the margin — here are ten tries of the same shot.",
+    "A": "One winner cannot show the margin. Compare these illustrative landings.",
     "B": "Nothing forced the line — the big crosscourt was there too.",
-    "C": "Right — this one landed. Ten tries show how often it would.",
+    "C": "Right — this one landed. The illustration compares margin, not your success rate.",
     "D": "A low ball rarely earns full pace — look at the misses."
    }
   },
   {
    "ph": "Deepen · Judge before impact",
    "short": "Judge",
-   "name": "Same ball, ten tries",
+   "name": "Same ball, compare the margin",
    "scene": "wn2",
    "sit": "Same ball again. Choose before you see where it lands.",
    "q": "Which shot would you pick ten times?",
@@ -71,7 +71,7 @@ const LESSON={
    "correct": 0,
    "payoff": "The bigger target leaves room for the small misses everyone makes.",
    "principle": "Pick the shot that still works when you hit it slightly wrong.",
-   "why": "From the same ball, the crosscourt window gives you more net and more court with the same balance. Ten tries show what one winner hides.",
+   "why": "From this contact, the crosscourt window gives you more net clearance and court to aim into. The illustrated landings make that margin visible.",
    "rail": [
     "1 Same ball",
     "2 Result hidden",
@@ -83,11 +83,11 @@ const LESSON={
     "opp": "NEUTRAL"
    },
    "unlock": "Bigger window, more margin",
-   "take": "Same ball: pick the target that lands ten times out of ten.",
+   "take": "Same ball: choose a target with room for error.",
    "lines": {
-    "A": "The big crosscourt window lands every time — rally on.",
-    "B": "Flat from a low ball — half of them miss.",
-    "C": "The line again — 4 in 10 land. It misses more often than it wins.",
+    "A": "The bigger crosscourt window offers more margin — rally on here.",
+    "B": "Flat from a low ball leaves little net clearance.",
+    "C": "The line again — a narrow target from this contact.",
     "D": "It lands, but short and slow — they run it down."
    }
   },

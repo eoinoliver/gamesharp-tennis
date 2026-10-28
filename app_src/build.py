@@ -33,7 +33,7 @@ for group, rows in (('daily', DAILY), ('predict', PREDICT), ('play', PLAY)):
         open(os.path.join(OUT, 'lessons', slug + '.json'), 'w').write(dump({'lesson': L, 'scenes': D['scenes']}))
         _sit = re.sub(r'<[^>]+>', '', (L.get('steps') or [{}])[0].get('sit', '') or '')   # Home teaser: the first situation line
         cat[group].append({'slug': slug, 'title': L['title'], 'line': line, 'sit': _sit, 'clips': sorted(D['clips']), 'flavour': FLAV[slug]})
-        for field in ('livePoint','followup','transferOf'):
+        for field in ('livePoint','followup','transferOf','decisionCount','edition'):
             if L.get(field): cat[group][-1][field] = L[field]
         if L.get('uses'): cat[group][-1]['uses'] = list(dict.fromkeys(u['lesson'] for u in L['uses']))   # weekend point: the lessons it is built from
 # Foot orientation is recovered from the source ankle/end-site rotations;

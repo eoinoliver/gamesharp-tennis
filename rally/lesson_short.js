@@ -82,7 +82,7 @@ const LESSON={
    "lines": {
     "A": "They scramble; you come in and put it away.",
     "B": "Straight to them — they're set, and the rally goes on.",
-    "C": "It lands this time, but only 5 in 10 do.",
+    "C": "It lands this time, with little margin for error.",
     "D": "Too safe — they recover and the point starts again."
    },
    "unlock": "Attack earned",

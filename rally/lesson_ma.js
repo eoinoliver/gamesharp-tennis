@@ -77,9 +77,9 @@ const LESSON={
     "Flat crosscourt"
    ],
    "correct": 0,
-   "payoff": "The deep middle lands every time, and all they have is a rally ball.",
+   "payoff": "The deep middle offers margin and draws a rally ball here.",
    "principle": "Out wide? Deep through the middle.",
-   "why": "The deep middle lands 10 in 10, they can only rally it, and you're in time for their next ball. The flat crosscourt stretches them and buys more time, but only 7 in 10 land.",
+   "why": "The deep middle gives you margin and time for the next ball here. The flat crosscourt stretches them but uses a smaller landing window.",
    "rail": [
     "1 Their ball",
     "2 You're wide",
@@ -93,8 +93,8 @@ const LESSON={
    "unlock": "Deep middle",
    "take": "Out wide? Deep middle.",
    "lines": {
-    "A": "Right: lands every time. They can only rally it.",
-    "B": "More time if it lands, but only 7 in 10 do."
+    "A": "Good read: more margin and a rally ball back here.",
+    "B": "More time if it lands, but a smaller landing window."
    }
   },
   {
@@ -111,7 +111,7 @@ const LESSON={
    "correct": 0,
    "payoff": "Down the line goes away from where they're heading. They can only rally it.",
    "principle": "Line while they're still recovering.",
-   "why": "They're still on their way back, so the line is open: it lands 8 in 10, they can only rally it, and you're in time. Crosscourt goes back toward them, they attack it, and you're only just in time.",
+   "why": "They are still recovering, so the line goes into the available space and leaves you ready here. Crosscourt goes towards them and leaves you rushed for their reply.",
    "rail": [
     "1 Their reply",
     "2 They recover",

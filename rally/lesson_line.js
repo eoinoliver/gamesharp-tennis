@@ -76,7 +76,7 @@ const LESSON={
    "unlock": "The line is not free",
    "take": "Low and late? Crosscourt first — the line can wait.",
    "lines": {
-    "A": "Low, late and at the line — only 5 in 10 land. Too much risk for what it wins.",
+    "A": "Low, late and at the line — little margin for what it gains.",
     "B": "Short through the middle — they step in and hit where you're not.",
     "C": "Crosscourt gives you net, court and time — you're back in the rally.",
     "D": "Short and soft — it sits up, and they step in and punish it."
@@ -114,7 +114,7 @@ const LESSON={
    "lines": {
     "A": "Safe, but the line was on — the rally just goes on.",
     "B": "Down the line, well inside it — they scramble, and the reply is yours.",
-    "C": "Flat and hard — 3 in 10 miss, and the ones that land come back.",
+    "C": "Flat and hard — less margin, and it comes back here.",
     "D": "High through the middle gives them back their time."
    }
   },
@@ -148,7 +148,7 @@ const LESSON={
    "unlock": "The wing doesn’t decide",
    "take": "Late and wide? Either wing — crosscourt, then recover.",
    "lines": {
-    "A": "Late, at the line — only 6 in 10 land, and the ones that do don't hurt them.",
+    "A": "Late and at the line — less margin, without stretching them here.",
     "B": "Short crosscourt sits up — they step in and punish it.",
     "C": "Short through the middle — they step in and hit where you're not.",
     "D": "Crosscourt buys the time to get back — you're back in the rally."

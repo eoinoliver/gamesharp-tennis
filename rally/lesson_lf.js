@@ -71,9 +71,9 @@ const LESSON={
     "Crosscourt, as usual"
    ],
    "correct": 1,
-   "payoff": "Crosscourt from your backhand corner feeds a lefty's forehand. Through the middle reaches their backhand, every time.",
+   "payoff": "From this position, crosscourt feeds the lefty's forehand. The middle reaches their backhand in this example.",
    "principle": "Break the forehand-to-backhand rally: get the ball off their forehand.",
-   "why": "From your backhand corner, crosscourt goes straight back to a lefty's forehand, and they attack. Through the middle reaches their backhand: it lands every time, and they can only rally it. Down the line reaches the backhand too and gives you a touch more time, but it lands 9 in 10.",
+   "why": "From your backhand corner, crosscourt feeds their forehand here. The middle reaches their backhand with more margin. The line also reaches that wing but asks for a tighter target. Read their actual position before choosing.",
    "rail": [
     "1 Their forehand",
     "2 Your backhand",
@@ -88,8 +88,8 @@ const LESSON={
    "take": "Lefty pinning your backhand? Through the middle, to their backhand.",
    "lines": {
     "A": "Crosscourt slice lands on their forehand: they attack; you're in time.",
-    "B": "Right: the middle reaches their backhand and lands every time.",
-    "C": "Their backhand too, but the line lands 9 in 10. The middle is safer.",
+    "B": "Good read: the middle reaches their backhand here, with margin.",
+    "C": "Their backhand too, but a tighter target than the middle.",
     "D": "Crosscourt feeds their forehand again: they attack; you're just in time."
    }
   },

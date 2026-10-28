@@ -594,7 +594,8 @@ function setCamera(you){
     cam={az:-90,el:16,d:10.5,fov:50,tgt:[h[0]*.7,h[1]+2.6,.9]};return;
   }
   if(window.__camOverride){const O=window.__camOverride, c=NARROW.matches&&O.phone?O.phone:O.c; cam={...c,tgt:[...c.tgt]}; if(NARROW.matches&&!O.phone) cam.fov*=(window.__fovScale||PHONE_FOV); return;}
-  const C=camI===0&&typeof LESSON!=="undefined"&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];   // a lesson played deep behind the baseline can widen the broadcast view
+  const sceneCam=Object.entries(LESSON.sceneCams||{}).find(([key])=>scene.startsWith(key))?.[1];
+  const C=camI===0&&(sceneCam||LESSON.cam0)?{...CAMS[0],...(sceneCam||LESSON.cam0)}:CAMS[camI];
   if(C.follow&&showTargets&&!answered&&!window.__camOverride){const V=NARROW.matches?{az:-90,el:44,d:40,fov:24,tgt:[0,0.2,0]}:{az:-90,el:40,d:30,fov:36,tgt:[0,0.8,0]}; cam={...V,tgt:[...V.tgt]}; return;}   // choosing: lift up so the targets can be told apart
   if(C.follow&&you){const h=you.pose[I.hips], ph=NARROW.matches;cam={az:-90,el:ph?13:11,d:ph?11:12,fov:50,tgt:[h[0]*0.7,h[1]+(ph?3.3:4.5),0.9]};   // a phone is taller: keep you higher in the frame
     // while you serve, pull back and up so the toss and the whole body stay in view
@@ -859,7 +860,7 @@ function playQuestion(S,cb){
   const q=questionRange(S);questionCaption(q.label);
   run(q.scene,q.from,q.to,()=>{questionCaption(q.after);cb();},q.silent);
 }
-function startStep(i){emit('step',{i}); clearTimeout(window.__flowT);
+function startStep(i){emit('step',{i,fresh:i===0&&ans.every(a=>a==null)}); clearTimeout(window.__flowT);
   clearContactInspection();
   step=i; chosen=null; answered=false; showTargets=null; revealPattern=false; showDots=false; done=false;
   $("wrapup").hidden=true; setInk("");
@@ -896,18 +897,14 @@ function verdict(i,X,demo){
   showOnly(ok||demo?[X]:[X,corr]);
   optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
   setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
-  /* a point (LESSON.flow): a right answer flows on, one line and straight into the next shot; a miss still stops and explains */
-  if(LESSON.flow&&ok&&!also&&!demo&&!S.reveal&&i<NS()-1){
-    const v=$("verdict"); zone.classList.add("ans");
-    v.innerHTML=`<div class="fb flow" role="status"><div class="copy">${S.lines[X]}</div></div>`; v.hidden=false; tallView();
-    clearTimeout(window.__flowT); window.__flowT=setTimeout(()=>{if(step===i&&answered)startStep(i+1);},1800);
-    return;}
+  // Every explanation remains until the learner continues, including connected points.
   const lab=demo?`Option ${X}`:LESSON.livePoint&&i===0?(ok?'More recovery time':'Less recovery time'):also?`Also works · best: ${corr}`:ok?"Good read":`Better: ${corr}`;
   const v=$("verdict");
   zone.classList.add("ans");
-  v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div>${d?`<div class="tries ${n>=9?"good":n>=7?"mid":"bad"}">In ${n} of 10 tries</div>`:""}<button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
+  v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div>${d?`<div class="tries ${n>=9?"good":n>=7?"mid":"bad"}">Illustrated landings · ${n}/${d.length}</div>`:""}<button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
       <div class="copy">${S.lines[X]}</div>
       <div class="prin">${S.take}</div>
+      ${d?'<p class="illustration-note">Illustrative examples, not a prediction of your success rate.</p>':''}
       <div class="whyp" id="whyp" hidden><p>${S.payoff}</p><p>${S.principle}</p><p>${S.why}</p></div></div>
     <div class="acts">${S.reveal?"":`<button class="alt" id="tryOther">${ok||demo?"Try another":`Watch ${corr} play out`}</button>`}
     <button class="next" id="next">${demo&&LESSON.livePoint?'Continue your chosen route →':i<NS()-1?"Next decision →":LESSON.livePoint?"See what you created →":LESSON.branch?"Watch your point →":"Take it to court →"}</button></div>`;
@@ -951,15 +948,28 @@ function wireCompletionVoice(){
   }
 }
 // A recap is three explicitly separate situations, never a fabricated rally.
-let recapActive=false,recapTimer=null,recapGeneration=0;
+let recapActive=false,recapTimer=null,recapGeneration=0,recapAdvance=null,recapDue=0,recapRemaining=0,recapPaused=false;
 function hasLessonRecap(){return !LESSON.branch&&LESSON.steps.length===3;}
-function cancelRecap(){recapGeneration++;recapActive=false;clearTimeout(recapTimer);recapTimer=null;const skip=$('skipRecap');if(skip)skip.hidden=true;}
+function revealCompletion(){if(done){$('wrapup').hidden=false;$('sitTx').textContent='Take this read to court.';}}
+function cancelRecap(){recapGeneration++;recapActive=false;clearTimeout(recapTimer);recapTimer=null;recapAdvance=null;recapPaused=false;$('recapDock').hidden=true;revealCompletion();}
+function holdRecap(next,ms){recapAdvance=next;recapRemaining=ms;recapDue=performance.now()+ms;if(recapPaused)return;recapTimer=setTimeout(()=>{recapTimer=null;recapAdvance=null;next();},ms);}
+function toggleRecap(){
+  if(!recapActive)return;
+  recapPaused=!recapPaused;$('pauseRecap').textContent=recapPaused?'Resume review':'Pause review';
+  if(recapAdvance){
+    if(recapPaused){recapRemaining=Math.max(0,recapDue-performance.now());clearTimeout(recapTimer);recapTimer=null;}
+    else holdRecap(recapAdvance,recapRemaining);
+  }else if(t<stopAt)setPlaying(!recapPaused);
+}
+$('pauseRecap').onclick=e=>{e.stopPropagation();toggleRecap();};
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&recapActive){cancelRecap();clearTimeout(stopTimer);pendingStop=null;onStop=null;stopGeneration++;setPlaying(false);questionCaption('Recap paused · replay when ready');}});
 addEventListener('pagehide',()=>cancelRecap());
 function playLessonRecap(speak=false,reward=false){
   cancelRecap();const token=recapGeneration;recapActive=true;let i=0,voiceGeneration;
-  const skip=$('skipRecap');if(skip)skip.hidden=false;
-  const finish=()=>{recapActive=false;if(skip)skip.hidden=true;questionCaption('Your court cue');
+  $('pauseRecap').textContent='Pause review';
+  $('wrapup').hidden=true;$('sitTx').textContent='Three separate reads. Watch what each choice creates.';
+  const skip=$('skipRecap');$('recapDock').hidden=false;
+  const finish=()=>{recapActive=false;$('recapDock').hidden=true;revealCompletion();questionCaption('Your court cue');
     if(done&&!document.hidden&&GSSfx?.voiceState().generation===voiceGeneration){if(speak&&GSSfx.voiceState().enabled)GSSfx.completeVoice();else if(reward)GSSfx.applause(.6);}};
   const next=()=>{
     if(token!==recapGeneration||!done)return;
@@ -973,12 +983,13 @@ function playLessonRecap(speak=false,reward=false){
     run(key,from,end,()=>{
       if(token!==recapGeneration||!done)return;
       if(GSSfx?.voiceState().generation!==voiceGeneration){cancelRecap();return;}
-      questionCaption(own&&X!==preferred&&!S.reveal?S.lines?.[X]||S.principle:S.take||S.payoff||'Take this read to court.');i++;
-      recapTimer=setTimeout(next,650);
+      const cue=own&&X!==preferred&&!S.reveal?S.lines?.[X]||S.principle:S.take||S.payoff||'Take this read to court.';
+      const explain=()=>{questionCaption(cue);i++;holdRecap(next,Math.max(2800,cue.split(/\s+/).length*260+900));};
+      if(recapPaused)holdRecap(explain,0);else explain();
     },true,true);
     voiceGeneration=GSSfx?.voiceState().generation;
   };
-  if(skip)skip.onclick=()=>{const eligible=GSSfx?.voiceState().generation===voiceGeneration;cancelRecap();onStop=null;setPlaying(false);questionCaption('Your court cue');if(eligible){if(speak&&GSSfx.voiceState().enabled)GSSfx.completeVoice();else if(reward)GSSfx.applause(.6);}};
+  if(skip)skip.onclick=e=>{e.stopPropagation();const eligible=GSSfx?.voiceState().generation===voiceGeneration;cancelRecap();onStop=null;setPlaying(false);questionCaption('Your court cue');if(eligible){if(speak&&GSSfx.voiceState().enabled)GSSfx.completeVoice();else if(reward)GSSfx.applause(.6);}};
   next();
 }
 function finishLesson(){
@@ -993,7 +1004,7 @@ function finishLesson(){
       ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
       <div class="score3">${A.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
     ${LESSON.livePoint?`<div class="blk"><div class="k">What your choices created</div><p><b>${liveTake}</b></p>${LESSON.decisionCount===4&&A.length===4?`<p>${okA(A[2],2)?'Your first move followed the actual reply.':'Your first move went away from the ball; the correction cost time.'} ${SC[LESSON.finaleScene].info.secondReply?.kind==='higher'?'Your higher reply buys another recovery window.':'Your firmer reply puts the next recovery on a shorter clock.'}</p>`:''}<p>The point is still in play. ${LESSON.decisionCount===4?(A.length===4?'You read the reply and chose again from the next contact.':'Your route left no preparation window for the planned reply.'):'Watch your position as they hit.'}</p><button class="alt" id="replayTurningPoint">Replay your recovery</button><button class="alt" id="compareRecovery">Compare the other recovery</button><p id="recoveryComparison" role="status"></p></div>`:''}
-    ${hasLessonRecap()?'<div class="blk"><div class="k">Three reads to take to court</div><p>Separate situations. One lesson.</p><button class="alt" id="replayRecap">Replay the three reads</button><button class="alt" id="skipRecap" hidden>Skip to the court cue</button></div>':''}
+    ${hasLessonRecap()?'<button class="alt" id="replayRecap">Replay the three reads</button>':''}
     ${payoffHTML(p)}
     ${LESSON.cue?`<div class="cuebox"><div class="k">Your cue</div><div class="cue">${LESSON.cue}</div>
       <button class="savecue" id="saveCue">${cueSaved()?"Saved to My Game ✓":"Save to My Game"}</button></div>`:""}
@@ -1129,8 +1140,8 @@ function render(){
 
 /* ---------- controls ---------- */
 $("camBtn").onclick=()=>{clearContactInspection();camI=(camI+1)%CAMS.length;toast(CAMS[camI].n);};
-$("stage").onclick=()=>{if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);}};
-$("playBtn").onclick=()=>{if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);} else $("again").click();};
+$("stage").onclick=()=>{if(recapActive){toggleRecap();return;}if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);}};
+$("playBtn").onclick=()=>{if(recapActive){toggleRecap();return;}if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);} else $("again").click();};
 $("again").onclick=()=>{
   clearContactInspection();
   if(done){if(hasLessonRecap()){playLessonRecap(false);return;}if(LESSON.livePoint){questionCaption('Your chosen route');const note=$('recoveryComparison');if(note)note.textContent='Your original choices.';}const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,null);return;}
@@ -1198,20 +1209,23 @@ function setupPredict(){
     playQuestion(S,()=>{if(step!==i)return;
       typeIn($("sitTx"),S.sit,()=>{if(step===i){showTargets=S.scene;enableAsk();}});});
   };
-  function chip(k){const S=LESSON.steps[k],ok=okAt(k); typeIn($("sitTx"),(P.says&&P.says[k])||S.payoff,null,6);   // say what just happened const tr=savedTrail[k]; if(tr){window.__trail.push({...tr,col:ok?"#7fbf7a":"#e05252",t0:performance.now()});}
+  function chip(k,after){const S=LESSON.steps[k],ok=okAt(k); typeIn($("sitTx"),(P.says&&P.says[k])||S.payoff,after,6);
     setInk(ok?`Read ${k+1} · ${S.short}: you had it`:`Read ${k+1} · ${S.short}: you said ${ans[k]}, best is ${LETTERS[S.correct]}`,!ok);}
   function watchPoint(){
     questionCaption();window.__camOverride=null; savedTrail=(savedTrail&&savedTrail.length===3?savedTrail:(window.__trail||[])).map(x=>({...x})); window.__trail=[];   // redrawn read by read as the point plays
-    zone.hidden=true; $("count").textContent="The point"; typeIn($("sitTx"),P.watch||"Now watch the point you pictured.");
+    zone.hidden=true; $("count").textContent="Worked example";
     paintRail(LESSON.steps.map((s,j)=>`${j+1} ${s.short}`)); setInk(""); stageInView();
-    let k=0;
+    // Read freezes are BEFORE the shot. Its evidence ends at the NEXT freeze.
+    const evidenceEnds=[...readAt.slice(1),SC[K].frames-1];let k=0,voiceGeneration;
     const next=()=>{
-      if(k<readAt.length){const from=k?readAt[k-1]:0; run(K,from,readAt[k],()=>{chip(k);setRail(k+1);k++;later(next,1700);});}
-      else {
-        let voiceGeneration;
-        run(K,readAt[readAt.length-1],SC[K].frames-1,()=>later(()=>review(voiceGeneration),600));
-        voiceGeneration=window.GSSfx?.voiceState().generation;
-      }};
+      if(k===evidenceEnds.length){questionCaption();review(voiceGeneration);return;}
+      stageSit((P.says&&P.says[k])||LESSON.steps[k].payoff);
+      questionCaption(`Worked example · ${k+1} of 3`);
+      run(K,k?evidenceEnds[k-1]:0,evidenceEnds[k],()=>{
+        chip(k,()=>later(()=>{k++;next();},1200));setRail(k+1);
+      });
+      voiceGeneration=window.GSSfx?.voiceState().generation;
+    };
     next();
   }
   function review(voiceGeneration){
