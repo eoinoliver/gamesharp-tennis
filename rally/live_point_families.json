@@ -1,11 +1,122 @@
 {
   "recovery-time": {
     "principle": "Your reply buys time. Your movement puts it to work.",
-    "comparison": {"changed": "recovery timing", "heldConstant": ["reply", "opponent motion", "ball flight", "camera", "freeze event"], "freezeEvent": "opponent contact"},
-    "learningSignals": ["reply", "recovery", "direction", "next-reply"],
+    "comparison": {
+      "changed": "recovery timing",
+      "heldConstant": [
+        "reply",
+        "opponent motion",
+        "ball flight",
+        "camera",
+        "freeze event"
+      ],
+      "freezeEvent": "opponent contact"
+    },
+    "learningSignals": [
+      "reply",
+      "recovery",
+      "direction",
+      "next-reply"
+    ],
     "plays": [
-      {"prefix": "lp", "slug": "live-point-buy-time", "title": "Buy Time. Use It.", "sources": ["pw1B", "pw1C"], "higher": 1, "transfer": false},
-      {"prefix": "lt", "slug": "live-point-other-wing", "title": "Other Wing. Same Read?", "sources": ["pw3D", "pw3A"], "higher": 0, "transfer": true}
+      {
+        "prefix": "lp",
+        "slug": "live-point-buy-time",
+        "title": "Buy Time. Use It.",
+        "sources": [
+          "pw1B",
+          "pw1C"
+        ],
+        "higher": 1,
+        "transfer": false
+      },
+      {
+        "prefix": "lt",
+        "slug": "live-point-other-wing",
+        "title": "Other Wing. Same Read?",
+        "sources": [
+          "pw3D",
+          "pw3A"
+        ],
+        "higher": 0,
+        "transfer": true
+      }
+    ]
+  },
+  "contact-space": {
+    "builder": "build_live_pilot.py",
+    "principle": "Prepare early, then read the actual contact.",
+    "comparison": {
+      "changed": "preparation timing",
+      "heldConstant": [
+        "incoming ball",
+        "opponent motion",
+        "camera",
+        "freeze event"
+      ],
+      "freezeEvent": "before contact"
+    },
+    "plays": [
+      {
+        "prefix": "ls",
+        "slug": "live-point-make-room",
+        "title": "Make Room. Use It.",
+        "sources": [
+          "fb2A",
+          "fb2D"
+        ],
+        "transferOf": null,
+        "followup": "live-point-short-low"
+      },
+      {
+        "prefix": "ll",
+        "slug": "live-point-short-low",
+        "title": "Short Can Be Low.",
+        "sources": [
+          "sb2A",
+          "sb2B"
+        ],
+        "transferOf": "live-point-make-room",
+        "followup": null
+      }
+    ]
+  },
+  "serve-readiness": {
+    "builder": "build_live_pilot.py",
+    "principle": "Recover after serving, then read the actual return.",
+    "comparison": {
+      "changed": "recovery position",
+      "heldConstant": [
+        "incoming ball",
+        "opponent motion",
+        "camera",
+        "freeze event"
+      ],
+      "freezeEvent": "after return contact"
+    },
+    "plays": [
+      {
+        "prefix": "sv",
+        "slug": "live-point-serve-see",
+        "title": "Serve. Then See.",
+        "sources": [
+          "daily2B",
+          "daily2C"
+        ],
+        "transferOf": null,
+        "followup": "live-point-return-deep"
+      },
+      {
+        "prefix": "sr",
+        "slug": "live-point-return-deep",
+        "title": "The Return Pushes Back.",
+        "sources": [
+          "daily3A",
+          "daily3B"
+        ],
+        "transferOf": "live-point-serve-see",
+        "followup": null
+      }
     ]
   }
 }

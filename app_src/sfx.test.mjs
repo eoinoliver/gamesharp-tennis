@@ -275,3 +275,13 @@ test('a slow old voice download cannot substitute its words for the selected rou
  f.api.configureVoice('live-point-buy-time');await f.api.unlock();f.api.configureLiveVoice(true,false);await f.api.hearVoice();release();await new Promise(r=>setTimeout(r,0));
  assert.equal(f.api.voiceInfo().asset,'live-time-watched');assert.match(f.sources.at(-1).buffer.url,/voice-live-time-watched/);
 });
+test('new Live Point families use their own recorded endings and preserve opt-out',async()=>{
+ const rows=JSON.parse(readFileSync(new URL('../docs/features/six-play-voice-sources.json',import.meta.url)));
+ for(const row of rows){
+  const f=fixture(),slug=row.asset.includes('space')?'live-point-short-low':'live-point-return-deep';
+  f.api.configureVoice(slug);await f.api.unlock();f.api.configureLiveVoice(row.asset.at(-2)==='1',row.asset.at(-1)==='1',row.asset);await f.api.hearVoice();
+  assert.equal(f.api.voiceInfo().text,row.text);assert.match(f.sources.at(-1).buffer.url,new RegExp('voice-'+row.asset));
+  const bytes=readFileSync(new URL('./audio/voice-'+row.asset+'.mp3',import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),row.sha256);assert(row.duration<5);
+  f.api.setVoice(false);assert.equal(f.api.completeVoice(),false);assert.equal(f.api.voiceState().playing,false);
+ }
+});

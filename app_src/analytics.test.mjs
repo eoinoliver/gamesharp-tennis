@@ -259,3 +259,23 @@ test('challenge links identify the point and contain no player, answer, route or
  assert.equal(b.app.challengeUrl('point'),'https://www.gamesharptennis.com/play.html?l=point&challenge=point');
  assert.equal(b.app.challengeUrl('one'),null);assert.equal(b.app.challengeUrl('untrusted&score=2'),null);
 });
+
+test('six-play queue offers distinct families, then only due unplayed return points',()=>{
+ const points=['time','space','serve'].flatMap(f=>[{slug:f,livePoint:true},{slug:f+'-return',livePoint:true,transferOf:f}]);
+ const catalog={daily:[],predict:[],play:points};const b=boot({catalog});
+ for(const f of ['time','space','serve']){assert.equal(b.app.nextLivePoint().slug,f);b.app.startLesson(f);assert.equal(b.app.nextLivePoint().slug,f,'unfinished point remains reachable');b.app.complete(f,2,2);}
+ assert.equal(b.app.nextLivePoint(),null,'same-day transfer remains an explicit practice choice');
+ b.time('2026-09-29T00:00:00Z');
+ for(const f of ['time','space','serve']){assert.equal(b.app.nextLivePoint().slug,f+'-return');b.app.complete(f+'-return',2,2);}
+ assert.equal(b.app.nextLivePoint(),null,'completed points do not silently repeat');
+});
+test('changed-context feedback uses each family and both decisions',()=>{
+ const summaries={'11':'prepared and read','10':'prepared but forced','01':'late but adapted','00':'late and forced'};
+ for(const a of [false,true])for(const b of [false,true]){
+  const catalog={daily:[],predict:[],play:[{slug:'serve',livePoint:true},{slug:'deep',livePoint:true,transferOf:'serve',learningSignals:['serve-recovery','return-read'],liveFeedback:{summaries}}]};
+  const f=boot({catalog});f.app.complete('serve',2,2);f.time('2026-09-29T00:00:00Z');f.app.startLesson('deep');f.app.beginLiveAttempt('deep');
+  f.app.recordLiveRead('deep',{i:0,X:'B',ok:a});f.app.recordLiveRead('deep',{i:1,X:'B',ok:b});f.app.complete('deep',Number(a)+Number(b),2);
+  assert.equal(f.app.transferEvidence('deep').kind,'first_later_day');assert.equal(f.app.transferEvidence('deep').text,summaries[`${+a}${+b}`]);
+  assert.deepEqual(Array.from(f.app.S.liveReads.deep,r=>r.signal),['serve-recovery','return-read']);
+ }
+});

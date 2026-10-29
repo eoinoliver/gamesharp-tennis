@@ -6,7 +6,7 @@ const p=await b.newPage({viewport:{width:1100,height:900}}); const errs=[]; p.on
 await p.goto(/^https?:/.test(page)?page:'file://'+page); await p.waitForFunction(()=>window.__test,null,{timeout:20000}); await p.waitForTimeout(600);
 const r=await p.evaluate(()=>{
   const fails=[], notes=[]; window.__camOverride=null;
-  const cls=k=>{if(SC[k].info.livePoint)return 'in_play';const ms=SC[k].marks, m=ms[ms.length-1]; if(!m) return 'none';
+  const cls=k=>{if(SC[k].info.livePoint)return ['net','out'].includes(SC[k].info.outcome)?'lost':'in_play';const ms=SC[k].marks, m=ms[ms.length-1]; if(!m) return 'none';
     return m.kind==='land'?'won':m.kind==='rally'?'neutral':m.kind==='contact'?'observed':(m.kind==='reply'||m.kind==='out'||m.kind==='net')?'lost':'?';};
   const L=(s,n,what)=>{if(s&&s.length>n) fails.push(`text too long (${s.length}>${n}): ${what}: "${s}"`);};
   (LESSON.branch?Object.values(LESSON.nodes):LESSON.steps).forEach((S,i)=>{   // a branching point: check every node

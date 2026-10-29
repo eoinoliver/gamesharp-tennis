@@ -641,3 +641,10 @@ staged production and live verification remain pending. No production change yet
 
 - Own codex/live-point-flagship-cycle. User approves the flagship comparison/share/next-day-transfer direction. Deliver the full first cycle using the existing two authored movement points before multiplying families; establish an explicit reusable authoring contract and production gates for the proposed six-play pilot.
 - Make one-change comparison conspicuous and evidence-led, preserve blind recipient decisions and original scores, judge reply and recovery in transfer feedback, and keep unfinished points reachable. Preserve mobile sequencing, voice opt-outs and credible outcomes. Standing autonomous release authority applies with all Git, CI and staged/live safeguards. Baseline app a9d9eec67d / Production dpl_8SiBXt32r6MDvWViUkcKtMzHTJLA / main 6ea37be2c2335f05b78bb7eb8bc646eabfb49b49. PR 58 and PR 60 remain separate documentation branches.
+
+
+## 29 October 2026 — six-play Live Point pilot (Codex)
+
+- User: “Proceed in full.” Own codex/live-point-six-play-pilot. Add contact-space and serve/recovery families, each with a changed-context return point, expanding the existing two Live Points to six. Build genuine decision differences and controlled comparisons, complete the coaching/voice/return flow, and record production effort before claiming a sustainable cadence.
+- Preserve first attempts, beta access, reduced motion, mobile sequencing, recorded sound, truthful point outcomes and historical fingerprints. No independent coaching certification or physical-device listening claim. Standing full-autonomy/deploy-live authority applies with full Git CI, exact Preview/staged Production and live checks.
+- Baseline: app 8c1c840652 / main f0131705b6e18ff9b3b42cfba269e5fd1bb5a3f8 / Production dpl_EHAWMdXkhUa3APEZXyAxi3u1BEXb. PRs 58, 60 and 62 remain separate documentation-only branches.

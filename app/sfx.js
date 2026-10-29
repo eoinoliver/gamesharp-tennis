@@ -8,6 +8,14 @@
   const voices=new Set(), buffers={}, pending={}, files=[...core,...rewards];
   const REWARD_KEY='gs_reward_last';
   const VOICE_KEY='gs_voice', courtVoices={
+  "live-space-11": "You made room, then read the ball. Take that to court.",
+  "live-space-10": "You made room. Let the ball choose the shot.",
+  "live-space-01": "Good shot selection. Make room a little sooner.",
+  "live-space-00": "Make room before you swing. Then read the ball.",
+  "live-serve-11": "Recover, then read the return. Your serve is only the start.",
+  "live-serve-10": "You were ready. Let the return shape your next shot.",
+  "live-serve-01": "You read the return. Recover before you guess.",
+  "live-serve-00": "Recover before you guess. Read the return before attacking.",
   "live-time-used": "You bought time and used it. Keep reading the next ball.",
   "live-time-watched": "You bought time. Start moving while it travels.",
   "live-early-recovery": "You recovered early. More height could buy more time.",
@@ -56,6 +64,7 @@
   "midweek-point-1": "Buy time when wide. Attack the opening.",
   "play-the-point": "Your shot shapes their reply. Read it."
 };
+  const voiceAliases={'live-point-make-room':'live-space-00','live-point-short-low':'live-space-00','live-point-serve-see':'live-serve-00','live-point-return-deep':'live-serve-00'};
   const voiceLoads={};let liveVoiceFamily=false;
   let voiceSlug=null, voiceEnabled=true, voiceError=false,
       voicePending=false, voiceGeneration=0, voiceListener=null;
@@ -204,10 +213,11 @@
   }
   const api=window.GSSfx={
     enabled:()=>enabled,ready,unlock,stop,
-    configureVoice(slug){if(voiceSlug!==slug)stopVoice();liveVoiceFamily=['live-point-buy-time','live-point-other-wing'].includes(slug);voiceSlug=Object.hasOwn(courtVoices,slug)?slug:null;},
-    configureLiveVoice(time,recovery){
+    configureVoice(slug){if(voiceSlug!==slug)stopVoice();liveVoiceFamily=Object.hasOwn(voiceAliases,slug)||['live-point-buy-time','live-point-other-wing'].includes(slug);const asset=voiceAliases[slug]||slug;voiceSlug=Object.hasOwn(courtVoices,asset)?asset:null;},
+    configureLiveVoice(time,recovery,authoredAsset){
       if(!liveVoiceFamily)return;
-      const key='live-'+(time?(recovery?'time-used':'time-watched'):(recovery?'early-recovery':'recover-sooner'));
+      const key=authoredAsset||'live-'+(time?(recovery?'time-used':'time-watched'):(recovery?'early-recovery':'recover-sooner'));
+      if(!Object.hasOwn(courtVoices,key))return;
       if(voiceSlug!==key)stopVoice();voiceSlug=key;voiceError=false;
       if(contextReady())loadVoice(ctx);
     },

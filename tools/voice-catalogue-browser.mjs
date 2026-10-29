@@ -5,7 +5,7 @@ import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';import {join} from 'node:path';
 import {execFile} from 'node:child_process';import {promisify} from 'node:util';
 const base=process.argv[2],engine=process.env.GS_READINESS_BROWSER||'chromium';assert(base?.endsWith('/'));
-const catalogue=JSON.parse(readFileSync('docs/features/completion-voice-catalogue.json')).lessons.concat(JSON.parse(readFileSync('docs/features/live-point-voice.json')));
+const catalogue=JSON.parse(readFileSync('docs/features/completion-voice-catalogue.json')).lessons.concat(JSON.parse(readFileSync('docs/features/live-point-voice.json')),JSON.parse(readFileSync('docs/features/six-play-voice.json')));
 const cat=JSON.parse(readFileSync('app/catalog.js','utf8').match(/GS_CATALOG=(.*);\n/)[1]);
 assert.deepEqual(catalogue.map(r=>r.lesson).sort(),[...cat.daily,...cat.predict,...cat.play].map(r=>r.slug).sort());
 const selected=process.env.GS_VOICE_SLUGS?.split(',');const rows=catalogue.filter(r=>!selected||selected.includes(r.lesson));
@@ -22,7 +22,7 @@ async function journey(row,index){
  await c.route(/posthog\.com\//,r=>r.fulfill({status:200,body:'{}'}));
  if(process.env.GS_AUTH_TRANSPORT){
   // Warm audio before the first gesture: CLI authentication latency is not app network latency.
-  for(const name of ['contact-1.wav','contact-2.wav','bounce.wav','applause-1.mp3','applause-2.mp3','applause-3.mp3','voice-'+row.lesson+'.mp3',...['time-used','time-watched','early-recovery','recover-sooner'].map(k=>'voice-live-'+k+'.mp3')])await fetchPath('/audio/'+name+'?v='+version);
+  for(const name of ['contact-1.wav','contact-2.wav','bounce.wav','applause-1.mp3','applause-2.mp3','applause-3.mp3','voice-'+(row.asset||row.lesson)+'.mp3',...['time-used','time-watched','early-recovery','recover-sooner'].map(k=>'voice-live-'+k+'.mp3')])await fetchPath('/audio/'+name+'?v='+version);
   await c.route(origin+'/**',async r=>{const u=new URL(r.request().url());await r.fulfill(await fetchPath(u.pathname+u.search));});
   await c.route('https://vercel.live/**',r=>r.abort());
  }
@@ -56,8 +56,9 @@ async function journey(row,index){
   }
   await p.waitForSelector('#hearVoice');await p.waitForFunction(()=>__audio.some(a=>a.asset?.includes('/voice-')));
   assert.equal(await voiceCount(),1,'one automatic cue');
-  const route=await p.evaluate(()=>LESSON.livePoint?{time:LETTERS.indexOf(ans[0])===LESSON.steps[0].correct,recovery:LETTERS.indexOf(ans[1])===LESSON.steps[1].correct}:null);
-  const variant=route&&JSON.parse(readFileSync('docs/features/flagship-voice-sources.json')).find(r=>r.key===(route.time?(route.recovery?'time-used':'time-watched'):(route.recovery?'early-recovery':'recover-sooner')));
+  const route=await p.evaluate(()=>{const good=i=>LETTERS.indexOf(ans[i])===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(ans[i]));return LESSON.livePoint?{time:good(0),recovery:good(1)}:null;});
+  const pilotVariant=row.family&&JSON.parse(readFileSync('docs/features/six-play-voice-sources.json')).find(r=>r.asset===('live-'+(row.family==='contact-space'?'space':'serve')+'-'+Number(route.time)+Number(route.recovery)));
+  const variant=pilotVariant||(route&&!row.family&&JSON.parse(readFileSync('docs/features/flagship-voice-sources.json')).find(r=>r.key===(route.time?(route.recovery?'time-used':'time-watched'):(route.recovery?'early-recovery':'recover-sooner'))));
   const expectedText=variant?.text||row.text,expectedAsset=variant?.asset||row.lesson;
   assert.equal(await p.locator('#wrapup .mem').innerText(),expectedText);
   assert.equal(await p.locator('#voicePreference').getAttribute('aria-pressed'),'true');
