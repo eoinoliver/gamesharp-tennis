@@ -24,7 +24,9 @@ for prefix,source,keys,hit,ends in [('ls','fb',['fb2A','fb2D'],210,['in_play','i
         reset=d['ls1AB'];assert reset['info']['shot']['land']==[0,10]
         assert reset['marks'][-1]['frame']==335
         cross=min(reset['ball'][211:335],key=lambda b:abs(b[1]));assert cross[2]>1.3,'reset needs net clearance'
-    if prefix=='ll':assert original['sb2A']['info']['youContact'][2]<.914,'low-ball teaching needs low contact'
+    if prefix=='ll':
+        assert original['sb2A']['info']['youContact'][2]<.914,'low-ball teaching needs low contact'
+        assert d['ll1A']['info']['freeze']>=90,'show at least 40 frames of incoming flight before the movement question'
     if prefix=='sv':assert original[keys[0]]['ball'][hit][1]>-10,'pressure follows a shorter return'
     if prefix=='sr':assert original[keys[0]]['ball'][hit][1]<-12,'deep return changes the contact'
 print('PASS: 16 authored routes preserve their incoming ball, source strikes, declared outcomes and distinct tactical evidence')

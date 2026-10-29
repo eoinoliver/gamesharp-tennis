@@ -37,7 +37,7 @@ const LESSON={
       "why": "Closing the distance early gives you time to adjust, but the ball remains below the net. The flat attempt shown hits the net; that is an illustration of the clearance problem, not a prediction that every hard shot misses. Lift first, then assess whether to follow.",
       "opening": {
         "scene": "ll1AA",
-        "from": 55,
+        "from": 90,
         "to": 192,
         "label": "Your preparation · replay",
         "after": "Read this contact",
@@ -73,7 +73,7 @@ const LESSON={
       "why": "Closing the distance early gives you time to adjust, but the ball remains below the net. The flat attempt shown hits the net; that is an illustration of the clearance problem, not a prediction that every hard shot misses. Lift first, then assess whether to follow.",
       "opening": {
         "scene": "ll1BA",
-        "from": 55,
+        "from": 90,
         "to": 192,
         "label": "Your preparation · replay",
         "after": "Read this contact",
@@ -88,7 +88,7 @@ const LESSON={
       "sit": "A short ball is coming to your backhand. There is space ahead of you.",
       "q": "How do you prepare for the short ball?",
       "opts": [
-        "Wait for the bounce, then hurry forward",
+        "Stay back a little longer",
         "Move forward now; shorten the last steps"
       ],
       "correct": 1,

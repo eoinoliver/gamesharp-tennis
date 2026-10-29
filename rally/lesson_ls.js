@@ -92,7 +92,7 @@ const LESSON={
       "q": "When do you make room for the forehand?",
       "opts": [
         "Move now; adjust into contact space",
-        "Wait near the middle, then rush around"
+        "Hold the middle a little longer"
       ],
       "correct": 0,
       "lines": {
