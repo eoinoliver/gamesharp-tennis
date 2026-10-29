@@ -1,0 +1,124 @@
+{
+  "head": "5f4609ec128b601cc414ae2e653da31fff3d8da7",
+  "tree": "ba67bbc1f8e001674c7edebc57a438f6f50f5db1",
+  "version": "8c1c840652",
+  "pr": 61,
+  "preview": "dpl_4FkgUcgnWX8tTDMoyNM5KQZzXDiF",
+  "preview_url": "https://gamesharp-tennis-j0vf1l3tn-eoinlynn-5978s-projects.vercel.app",
+  "unit_tests": 60,
+  "local_flagship": {
+    "chromium": 136,
+    "webkit": 136
+  },
+  "preview_flagship_webkit": 136,
+  "hosted_checks": 297,
+  "public_files": 155,
+  "source_inputs": 198,
+  "motion_change": false,
+  "limits": [
+    "Physical iPhone/iPad audio not verified",
+    "Independent coaching certification not obtained",
+    "No measured retention or referral conversion",
+    "43 existing journeys; no new point family claimed"
+  ],
+  "github_ci": {
+    "run": 40859663284,
+    "status": "success",
+    "browser_invocations": 58,
+    "live_point_assertions": 1165,
+    "mobile_learning_assertions": 27,
+    "recap_checks": 40,
+    "contact_assertions": 325,
+    "readiness_assertions": 445
+  },
+  "preview_complete_voice_journeys_webkit": 43,
+  "preview_flagship_audio_checks_webkit": 144,
+  "preview_mobile_checks_webkit": 27,
+  "feature": "Live Point flagship learning cycle",
+  "authorization": "Current full-autonomy and deploy-live instructions; PROJECT_ALIGNMENT beta authority supersedes historical per-version approval wording.",
+  "merge": "f0131705b6e18ff9b3b42cfba269e5fd1bb5a3f8",
+  "production": {
+    "id": "dpl_EHAWMdXkhUa3APEZXyAxi3u1BEXb",
+    "url": "https://gamesharp-tennis-72zltbgq4-eoinlynn-5978s-projects.vercel.app",
+    "domain": "https://www.gamesharptennis.com",
+    "promoted_without_rebuild": true
+  },
+  "rollback": {
+    "id": "dpl_8SiBXt32r6MDvWViUkcKtMzHTJLA",
+    "url": "https://gamesharp-tennis-1r84b3zbr-eoinlynn-5978s-projects.vercel.app",
+    "app": "a9d9eec67d",
+    "merge": "6ea37be2c2335f05b78bb7eb8bc646eabfb49b49"
+  },
+  "scope": {
+    "existing_journeys": 43,
+    "new_journeys": 0,
+    "existing_live_points": 2,
+    "new_voice_recordings": 4,
+    "new_point_families": 0
+  },
+  "staged": {
+    "http_checks": 297,
+    "flagship_webkit_checks": 144,
+    "voice_journeys": 4,
+    "browser_transport": "Exact authenticated CLI response bodies, then browser playback; native protected production browser access is not claimed."
+  },
+  "configuration_equivalence": {
+    "preview": "dpl_4FkgUcgnWX8tTDMoyNM5KQZzXDiF",
+    "production": "dpl_EHAWMdXkhUa3APEZXyAxi3u1BEXb",
+    "same_git_tree": "ba67bbc1f8e001674c7edebc57a438f6f50f5db1",
+    "checks": [
+      "projectSettings",
+      "env",
+      "nodeVersion",
+      "routes",
+      "config",
+      "functions",
+      "resourceConfig",
+      "entire build config"
+    ],
+    "project_env_count": 0,
+    "platform_env_declarations": 138,
+    "middleware": 0,
+    "functions": 0,
+    "exact_public_paths": 155,
+    "unexplained_differences": [],
+    "explained_differences": [
+      "Git branch/merge SHA with identical tree",
+      "Preview versus staged Production identity and environment",
+      "Preview-only Vercel feedback suffix"
+    ]
+  },
+  "next_evidence": [
+    "Measure actual next-day returns and both decisions in the first fresh return read, separately from practice.",
+    "Author contact-space and serve/recovery families with controlled comparisons and changed-context followups; include balanced pressure to avoid an always-higher rule.",
+    "Record editorial, animation, coaching review and QA time before promising a sustainable publishing cadence."
+  ],
+  "promotion_note": "The immediate public catalogue identity assertion failed after promotion. Subsequent ordinary requests matched the candidate without a cache-bypass parameter; final full public verification is recorded below.",
+  "released_at_utc": "2026-10-29T11:05:24.738732+00:00",
+  "live": {
+    "http_checks": 297,
+    "flagship_webkit_checks": 144,
+    "chromium_complete_voice_journeys": [
+      "short-ball",
+      "predict-the-point",
+      "live-point-buy-time",
+      "live-point-other-wing"
+    ],
+    "native_public_browser_requests": true,
+    "analytics_intercepted_in_browser_qa": true,
+    "identity": {
+      "checkedAt": "2026-10-29T11:05:24.661Z",
+      "deployment": "dpl_EHAWMdXkhUa3APEZXyAxi3u1BEXb",
+      "merge": "f0131705b6e18ff9b3b42cfba269e5fd1bb5a3f8",
+      "app": "8c1c840652",
+      "public": "https://www.gamesharptennis.com",
+      "aliasMatches": true,
+      "autoAssignCustomDomains": false,
+      "restoredGuard": false,
+      "apex": {
+        "status": 307,
+        "location": "https://www.gamesharptennis.com/play.html?l=short-ball"
+      }
+    }
+  }
+}
