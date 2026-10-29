@@ -141,7 +141,7 @@ function transferEvidence(slug){
   if(!attempt?.result||attempt.reads.length<2)return null;
   const [reply,recovery]=attempt.reads,prior=S.liveReads?.[lesson.transferOf];
   const blind=attempt.id===S.liveFirstAttemptIds?.[slug]&&reply.delayed&&recovery.delayed;
-  const text=reply.ok?(recovery.ok?(blind&&prior?.[1]?.ok===false?'This time, you recovered while your ball travelled.':'You chose more time and recovered while the ball travelled.'):'You chose more time, then waited to recover.'):(recovery.ok?'You recovered promptly. A higher reply could have bought more time.':'The quicker reply and the wait left you less recovery time.');
+  const text=lesson.liveFeedback?.summaries[`${+reply.ok}${+recovery.ok}`]||(reply.ok?(recovery.ok?(blind&&prior?.[1]?.ok===false?'This time, you recovered while your ball travelled.':'You chose more time and recovered while the ball travelled.'):'You chose more time, then waited to recover.'):(recovery.ok?'You recovered promptly. A higher reply could have bought more time.':'The quicker reply and the wait left you less recovery time.'));
   return {kind:blind?'first_later_day':'practice',reply:reply.ok,recovery:recovery.ok,text};
 }
 function challengeUrl(slug){return bySlug(slug)?.livePoint?'https://www.gamesharptennis.com/play.html?l='+encodeURIComponent(slug)+'&challenge=point':null;}

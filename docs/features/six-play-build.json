@@ -1,0 +1,222 @@
+{
+  "source": {
+    "app_src/analytics.test.mjs": {
+      "baseline": "e8475f844f3d82804e6f7b04746c4ef52a1f63b0b9c6a202af8b06e8813a96f6",
+      "candidate": "602d984d67bdcf6a81504e4584d5afdfb016135102fc28e1a8165863c7a2eb8b"
+    },
+    "app_src/app.js": {
+      "baseline": "f651f6219b4bf95525e4663bccdb202f34a174c8eeab023903065ffba80693bb",
+      "candidate": "7ae36d5d45477a50242d431d6441ab6da6020f169ec9425ac284cc23a2fef38a"
+    },
+    "app_src/audio/voice-live-serve-00.mp3": {
+      "baseline": null,
+      "candidate": "d2d814e3afac22b89bbfd2befbe70b1a3b42653f56b04f216bad16b7351401ad"
+    },
+    "app_src/audio/voice-live-serve-01.mp3": {
+      "baseline": null,
+      "candidate": "7a39268ce178967568837af2ac98e936997f217496ac0bc609342e896b7c5087"
+    },
+    "app_src/audio/voice-live-serve-10.mp3": {
+      "baseline": null,
+      "candidate": "c2ebde06945e442208c45f3da791e809b6aa5a28acd355783570c7ff055f8670"
+    },
+    "app_src/audio/voice-live-serve-11.mp3": {
+      "baseline": null,
+      "candidate": "2d124e6c6f40c582f5859ddfac85d55c5d00d543c4f5c613394d9395f44d36e7"
+    },
+    "app_src/audio/voice-live-space-00.mp3": {
+      "baseline": null,
+      "candidate": "7334b0608cc2ece3b84ca5d28e17a8ac65ce811694353ea9a8fc62cccdc9d82e"
+    },
+    "app_src/audio/voice-live-space-01.mp3": {
+      "baseline": null,
+      "candidate": "e54696f315c2dc45fe7ebd328351b64f3b2375f60c4c941f125f0cbf155893f0"
+    },
+    "app_src/audio/voice-live-space-10.mp3": {
+      "baseline": null,
+      "candidate": "3cd7de080c17c68c0adcc97aa1ee25e4f3661a45d44e59da7c28524b5fb33128"
+    },
+    "app_src/audio/voice-live-space-11.mp3": {
+      "baseline": null,
+      "candidate": "b06c33b2dc5b3cc3d7ebdca2ac4f504e98902858dba4ae61c71811e305578a3a"
+    },
+    "app_src/build.py": {
+      "baseline": "1f25e4c9633defe70fe9a66d8ab56005d4b0d8154e5f1145ec650804a51ac738",
+      "candidate": "bc33fbfb58648d3c7756f392d15d216f3fcb8a17baec795ef6ee12513f88bd34"
+    },
+    "app_src/catalog.py": {
+      "baseline": "6ca20659b1e75c0608039721792815d6e1a252e81005413e5b79b9d4ef53cfce",
+      "candidate": "c20d68aaff37e0c3cd14aab36f864fb79b42ac97e870947d8a22ecd392addd05"
+    },
+    "app_src/index.html": {
+      "baseline": "bc753ef3c9e31c85bc2dcc90a8d172a21ce8a9f748c486958bb8506bee134bf9",
+      "candidate": "e188c8486b0b0aa6c1b9f6c76f0cc4e8506db7ad569b9a4482d6410738014470"
+    },
+    "app_src/play_host.html": {
+      "baseline": "8f2954eab7c8c1cd6002507c5758f61ebb61513f21277885645933c9fd266131",
+      "candidate": "5146ca20d496818a0d6b8ce477c174bd96335bf496adf6d1538a18bdcd403c0a"
+    },
+    "app_src/sfx.js": {
+      "baseline": "d8c43e454425654c5f0c97c9239a6bce32aea269a008ac0e0a6a2ea44a08ac94",
+      "candidate": "ee568b5957051e7edeb434b2efa677019a46e82b1a2c223a9aeddb4ebbd863c8"
+    },
+    "app_src/sfx.test.mjs": {
+      "baseline": "146b57932539bc1f2dd029a552366ab90e59e9bee1ef4aadfa57664bee574c8f",
+      "candidate": "88cb6b8bc5ab356214e1da778c539655b5c3afdc23ea75a8a54264e6309df37a"
+    },
+    "docs/features/six-play-pilot.json": {
+      "baseline": null,
+      "candidate": "c2a220f8f6feba4ff149b0c6af41279003e4afd8a7fbfe1c6c6c8709c3920004"
+    },
+    "docs/features/six-play-voice-sources.json": {
+      "baseline": null,
+      "candidate": "f2d0bf2761f752d65868b11a343d2e06ba25b348295d5a17f2286a2f2c051a06"
+    },
+    "docs/features/six-play-voice.json": {
+      "baseline": null,
+      "candidate": "4fab33ce531ffd382b783238688bec5b6b7160ffb1b3488b9469b92c4e9acbb4"
+    },
+    "gs/gate.mjs": {
+      "baseline": "ac472351967df9a675a6ca9b066d9f21d211b3e865e0d1ef4c7d336397d13d8b",
+      "candidate": "abb6d1d131a3b684d203120062cdc918042142f83773a46ba7f1d569fa375f79"
+    },
+    "rally/build_live_pilot.py": {
+      "baseline": null,
+      "candidate": "9a89551999ebad89b623e7d4f3b4d091ae61570c2e93639f67046873ede39d8a"
+    },
+    "rally/build_live_point.py": {
+      "baseline": "07a6b314515512647f6c01fd650785e24c754a432c6ef173960481fa66a17b91",
+      "candidate": "4891ac3eeb249d1a35a98334252ffcb0beba29a98a9c2d22baa2f602b86c75ce"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "c9fd5c209330cdb5aa4de883d444362d1d8418139797db1248f1f8ae1f7f60d7",
+      "candidate": "f84484a70ede557387adb5476299dc15fef880a3c1da20de577f616cf8991e03"
+    },
+    "rally/lesson_ll.js": {
+      "baseline": null,
+      "candidate": "796abdaa95cf64a342f5e157e4bd4ca51b46abf7b7a25fa7e3a9a0ea77ced7eb"
+    },
+    "rally/lesson_ls.js": {
+      "baseline": null,
+      "candidate": "7dbd2019962aa5f4daae043427bd03b47191ff2be482ee1a7dba30a1b47dffd2"
+    },
+    "rally/lesson_sr.js": {
+      "baseline": null,
+      "candidate": "787a4f1ecd6873fc02e4c1f389ff70f26e8ea917a4b988adcd1c1bba25d6b528"
+    },
+    "rally/lesson_sv.js": {
+      "baseline": null,
+      "candidate": "29cb40c7b7c8637817cc990dcc153554064b86dbb9ae709ad85608d379a7a272"
+    },
+    "rally/live_point_families.json": {
+      "baseline": "ffb6afd92e8db2c63e69adcdddf9844a1a014c51b41afc5feab1cca5f7da128b",
+      "candidate": "73b6b230bfe64806e2beba909c2e78f57ed002b6b9aa1ede09f5c21c40732525"
+    },
+    "rally/ll_data.json": {
+      "baseline": null,
+      "candidate": "5f257922c91c1949d79dca225b00a4d5a2e6ae76ed48826e6b66ed72273343e1"
+    },
+    "rally/ls_data.json": {
+      "baseline": null,
+      "candidate": "36f128c36dbf4df41fc129529f155c0970af14494c2b9256cbf992dd2fa2f1dc"
+    },
+    "rally/sr_data.json": {
+      "baseline": null,
+      "candidate": "6eed17b8ecb296a6f822daa736db782ec341132e8a24e8d4e155f2986f0c8d00"
+    },
+    "rally/sv_data.json": {
+      "baseline": null,
+      "candidate": "5ab875bfc5354b3d699bcdfc065a72d9fe4bece2433a0cf5f8821e265fe27295"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "d986335b230d17497b878b455dee3566d34cab195b35f21a6331010611514c8b",
+      "candidate": "8c52e446b6d8e2af9fbdcc4fdf19bfc08c29c7aa85def10497dea901d6682bc6"
+    },
+    "tools/six-play-browser.mjs": {
+      "baseline": null,
+      "candidate": "a29f7634bf7f5d8523ce5252dbf8cfca59cef79587f72b1af6a809caddf9e55e"
+    },
+    "tools/six-play-source.py": {
+      "baseline": null,
+      "candidate": "fc75b83462bf9ec0bb74547425b56f1a502f19d86b4f85d4765037fbe4ae3390"
+    },
+    "tools/voice-catalogue-browser.mjs": {
+      "baseline": "690d7d0203b603af922d4a0f70aa0185bfedf2f6ab42b4e799d40f270b2a977d",
+      "candidate": "0f61e01a14a173bb3eccddbf3ebed5b44a4091a548100db3c07385f302602171"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "f651f6219b4bf95525e4663bccdb202f34a174c8eeab023903065ffba80693bb",
+      "candidate": "7ae36d5d45477a50242d431d6441ab6da6020f169ec9425ac284cc23a2fef38a"
+    },
+    "app/audio/voice-live-serve-00.mp3": {
+      "baseline": null,
+      "candidate": "d2d814e3afac22b89bbfd2befbe70b1a3b42653f56b04f216bad16b7351401ad"
+    },
+    "app/audio/voice-live-serve-01.mp3": {
+      "baseline": null,
+      "candidate": "7a39268ce178967568837af2ac98e936997f217496ac0bc609342e896b7c5087"
+    },
+    "app/audio/voice-live-serve-10.mp3": {
+      "baseline": null,
+      "candidate": "c2ebde06945e442208c45f3da791e809b6aa5a28acd355783570c7ff055f8670"
+    },
+    "app/audio/voice-live-serve-11.mp3": {
+      "baseline": null,
+      "candidate": "2d124e6c6f40c582f5859ddfac85d55c5d00d543c4f5c613394d9395f44d36e7"
+    },
+    "app/audio/voice-live-space-00.mp3": {
+      "baseline": null,
+      "candidate": "7334b0608cc2ece3b84ca5d28e17a8ac65ce811694353ea9a8fc62cccdc9d82e"
+    },
+    "app/audio/voice-live-space-01.mp3": {
+      "baseline": null,
+      "candidate": "e54696f315c2dc45fe7ebd328351b64f3b2375f60c4c941f125f0cbf155893f0"
+    },
+    "app/audio/voice-live-space-10.mp3": {
+      "baseline": null,
+      "candidate": "3cd7de080c17c68c0adcc97aa1ee25e4f3661a45d44e59da7c28524b5fb33128"
+    },
+    "app/audio/voice-live-space-11.mp3": {
+      "baseline": null,
+      "candidate": "b06c33b2dc5b3cc3d7ebdca2ac4f504e98902858dba4ae61c71811e305578a3a"
+    },
+    "app/catalog.js": {
+      "baseline": "e090fafdd66718dfed20dc09ab89e24b7c733625ba9ba3d7bca357f2070da594",
+      "candidate": "b42a52f6de7c1d9f346cafd70a6bb25a352925dd0855c221044fd0d634e20fed"
+    },
+    "app/engine/engine.js": {
+      "baseline": "3ec435121b5c93e30ea6451b00a18a03da2c81a1f91558d1ccb4ef95a8a66b38",
+      "candidate": "5fadcaaa5295dbb6b9cd52365739ed6221933d4e3dafed6d9bcbabfd1aac4876"
+    },
+    "app/index.html": {
+      "baseline": "eb45003733090358799ec887d3e5143706060c27974e6b47a79f67ffc2993071",
+      "candidate": "c123871669f61aa7760367fabc751f84f10742fb845189f69879fc7d4afc91c2"
+    },
+    "app/lessons/live-point-make-room.json": {
+      "baseline": null,
+      "candidate": "95d28cf50ca5c3f07d6b6fee30095c70add6dba9ac4ff4434c66a3b6cf7be39a"
+    },
+    "app/lessons/live-point-return-deep.json": {
+      "baseline": null,
+      "candidate": "45b29ebb7aa7f55ada4526ded863ce5056c1ad2858b60b64287fa8347398f72e"
+    },
+    "app/lessons/live-point-serve-see.json": {
+      "baseline": null,
+      "candidate": "8ce64e25a4604a1cc8ad78363017017b1aad8e607c1da4308d6d720f38f04b32"
+    },
+    "app/lessons/live-point-short-low.json": {
+      "baseline": null,
+      "candidate": "0b36faf1cc599cd3bddbde56256290805eb140e976ed0235062ba90e60c8cb51"
+    },
+    "app/play.html": {
+      "baseline": "474bf5c91a0a72ef1f9c5ba4de30f1164870fe93b4d7500396e1fb1a1322d040",
+      "candidate": "3feaa251c76c6cea3f5121dff3c3e621927e3c6c21d51d29df7c33e3023044d3"
+    },
+    "app/sfx.js": {
+      "baseline": "d8c43e454425654c5f0c97c9239a6bce32aea269a008ac0e0a6a2ea44a08ac94",
+      "candidate": "ee568b5957051e7edeb434b2efa677019a46e82b1a2c223a9aeddb4ebbd863c8"
+    }
+  }
+}

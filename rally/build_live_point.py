@@ -180,7 +180,7 @@ def write(p, title, keys, higher, followup=False):
     (R/f'lesson_{p}.js').write_text('const LESSON='+json.dumps(lesson,ensure_ascii=False,indent=2)+';\n')
 
 families=json.loads((R/'live_point_families.json').read_text())
-for family in families.values():
+for family in [families['recovery-time']]:
     for play in family['plays']:
         assert all(k in D['scenes'] for k in play['sources'])
         write(play['prefix'],play['title'],play['sources'],play['higher'],play['transfer'])

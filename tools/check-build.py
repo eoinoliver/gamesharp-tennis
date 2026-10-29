@@ -141,6 +141,15 @@ for records, expected in [(flagship['source'], source), (flagship['release'], ma
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Flagship cycle baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Six-play pilot: explicitly scoped additions preserve every earlier fingerprint.
+pilot = json.loads((ROOT/'docs/features/six-play-build.json').read_text())
+assert set(pilot['source']) == set(['app_src/analytics.test.mjs', 'app_src/app.js', 'app_src/audio/voice-live-serve-00.mp3', 'app_src/audio/voice-live-serve-01.mp3', 'app_src/audio/voice-live-serve-10.mp3', 'app_src/audio/voice-live-serve-11.mp3', 'app_src/audio/voice-live-space-00.mp3', 'app_src/audio/voice-live-space-01.mp3', 'app_src/audio/voice-live-space-10.mp3', 'app_src/audio/voice-live-space-11.mp3', 'app_src/build.py', 'app_src/catalog.py', 'app_src/index.html', 'app_src/play_host.html', 'app_src/sfx.js', 'app_src/sfx.test.mjs', 'docs/features/six-play-pilot.json', 'docs/features/six-play-voice-sources.json', 'docs/features/six-play-voice.json', 'gs/gate.mjs', 'rally/build_live_pilot.py', 'rally/build_live_point.py', 'rally/lesson_body.html', 'rally/lesson_ll.js', 'rally/lesson_ls.js', 'rally/lesson_sr.js', 'rally/lesson_sv.js', 'rally/live_point_families.json', 'rally/ll_data.json', 'rally/ls_data.json', 'rally/sr_data.json', 'rally/sv_data.json', 'tools/browser-checks.mjs', 'tools/six-play-browser.mjs', 'tools/six-play-source.py', 'tools/voice-catalogue-browser.mjs'])
+assert set(pilot['release']) == set(['app/app.js', 'app/audio/voice-live-serve-00.mp3', 'app/audio/voice-live-serve-01.mp3', 'app/audio/voice-live-serve-10.mp3', 'app/audio/voice-live-serve-11.mp3', 'app/audio/voice-live-space-00.mp3', 'app/audio/voice-live-space-01.mp3', 'app/audio/voice-live-space-10.mp3', 'app/audio/voice-live-space-11.mp3', 'app/catalog.js', 'app/engine/engine.js', 'app/index.html', 'app/lessons/live-point-make-room.json', 'app/lessons/live-point-return-deep.json', 'app/lessons/live-point-serve-see.json', 'app/lessons/live-point-short-low.json', 'app/play.html', 'app/sfx.js'])
+for records, expected in [(pilot['source'], source), (pilot['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Six-play baseline drift: {name}'
+        expected[name] = hashes['candidate']
+subprocess.run(['python3','tools/six-play-source.py'],cwd=ROOT,check=True)
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

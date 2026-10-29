@@ -367,13 +367,13 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=8c1c840652"></script>
-<script src="catalog.js?v=8c1c840652"></script>
-<script src="app.js?v=8c1c840652"></script>
-<script src="sfx.js?v=8c1c840652"></script>
+<script src="config.js?v=43a43cb8ab"></script>
+<script src="catalog.js?v=43a43cb8ab"></script>
+<script src="app.js?v=43a43cb8ab"></script>
+<script src="sfx.js?v=43a43cb8ab"></script>
 <script>
 (function(){
-const A=GSApp, V="8c1c840652", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="43a43cb8ab", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
@@ -458,7 +458,7 @@ A.on((n,d)=>{
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function wrap(n){
   const w=document.getElementById("wrapup"); if(!w||w.querySelector(".appblk")) return;
-  const s=A.streakNow(), nx=A.nextDaily(), asked=A.S.fb[slug];
+  const s=A.streakNow(), nx=A.nextDaily(), nextPoint=L.livePoint&&A.nextLivePoint(), asked=A.S.fb[slug];
   /* Saturday Point (6 Oct): lessons and the weekend point point at each other */
   const feeds=(A.CAT.play||[]).filter(p=>p.uses&&p.uses.includes(slug));
   const used=(L.uses||[]).map(u=>A.bySlug(u)).filter(Boolean);
@@ -468,10 +468,10 @@ function wrap(n){
   const b=document.createElement("div"); b.className="appblk";
   const returnPoint=L.followup&&A.bySlug(L.followup);
   const transfer=A.transferEvidence(slug),due=returnPoint&&A.S.done[slug]?.first<A.today();
-  const returnBlk=returnPoint&&!A.S.done[returnPoint.slug]?`<div class="blk" id="returnRead"><div class="k">${due?'Your next read':'Tomorrow’s read'}</div><p class="strk">A different point on the other wing. Make both calls before seeing your cue.</p><p class="strk">${due?'Ready on Home now.':'It appears on Home tomorrow in this browser.'}</p><a class="alt" href="play.html?l=${returnPoint.slug}">${due?'Read the other point':'Try now as practice'} →</a></div>`:transfer?`<div class="blk" id="returnRead"><div class="k">${transfer.kind==='first_later_day'?'Your return read':'Practice variation'}</div><p class="strk">${esc(transfer.text)}</p><p class="strk">${transfer.kind==='first_later_day'?'Two decisions in a changed situation. Take the cue onto court.':'A repeat or an early look is practice, not a fresh next-day check.'}</p></div>`:'';
+  const returnBlk=returnPoint&&!A.S.done[returnPoint.slug]?`<div class="blk" id="returnRead"><div class="k">${due?'Your next read':'Tomorrow’s read'}</div><p class="strk">${esc(L.returnPrompt||'A different point on the other wing. Make both calls before seeing your cue.')}</p><p class="strk">${due?'Ready on Home now.':'It appears on Home tomorrow in this browser.'}</p><a class="alt" href="play.html?l=${returnPoint.slug}">${due?'Read the other point':'Try now as practice'} →</a></div>`:transfer?`<div class="blk" id="returnRead"><div class="k">${transfer.kind==='first_later_day'?'Your return read':'Practice variation'}</div><p class="strk">${esc(transfer.text)}</p><p class="strk">${transfer.kind==='first_later_day'?'Two decisions in a changed situation. Take the cue onto court.':'A repeat or an early look is practice, not a fresh next-day check.'}</p></div>`:'';
   b.innerHTML=`${returnBlk}${weekBlk}<div class="k">Your streak</div>
     <p class="strk"><b>${s} day${s===1?"":"s"}</b> in a row. Come back tomorrow for another read.</p>
-    ${nx?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nx.title)}. You can play it now.</p><a class="next" id="nextDaily" href="play.html?l=${nx.slug}">Play next challenge →</a></div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
+    ${nx||nextPoint?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nextPoint?nextPoint.title:nx.title)}. You can play it now.</p>${nextPoint?`<a class="next" id="nextLivePoint" href="play.html?l=${nextPoint.slug}">Read the next Live Point →</a>`:""}${nx?`<a class="${nextPoint?'alt':'next'}" id="nextDaily" href="play.html?l=${nx.slug}">${nextPoint?'Try a daily challenge':'Play next challenge'} →</a>`:""}</div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
     ${asked?"":`<div class="gsfb"><p class="fbq">Was this useful for your tennis?</p>
       <div class="fbrow"><button data-u="yes">Yes</button><button data-u="no">Not really</button></div></div>`}
     ${flav?`<div class="gsfv"${asked?"":" hidden"}><p class="fbq">More lessons like this one?</p><div class="fbrow"><button data-fv="more">More</button><button data-fv="fewer">Fewer</button></div></div>`:""}

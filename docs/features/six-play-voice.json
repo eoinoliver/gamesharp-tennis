@@ -1,0 +1,26 @@
+[
+  {
+    "lesson": "live-point-make-room",
+    "asset": "live-space-00",
+    "text": "Make room before you swing. Then read the ball.",
+    "family": "contact-space"
+  },
+  {
+    "lesson": "live-point-short-low",
+    "asset": "live-space-00",
+    "text": "Make room before you swing. Then read the ball.",
+    "family": "contact-space"
+  },
+  {
+    "lesson": "live-point-serve-see",
+    "asset": "live-serve-00",
+    "text": "Recover before you guess. Read the return before attacking.",
+    "family": "serve-readiness"
+  },
+  {
+    "lesson": "live-point-return-deep",
+    "asset": "live-serve-00",
+    "text": "Recover before you guess. Read the return before attacking.",
+    "family": "serve-readiness"
+  }
+]

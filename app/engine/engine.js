@@ -427,6 +427,24 @@ function actorAt(sc,name,g){
       }
     }
   }
+  // Preparation comparisons retain the licensed stroke and its exact contact.
+  // All shot branches share one preparation state up to the decision freeze.
+  if(name==='you'&&sc.info.liveSetup&&g>=sc.info.liveSetup.start){
+    const r=sc.info.liveSetup,actual=W.find(w=>!w.fixed&&w.s.start===r.clipStart);
+    const canonical={...actual,s:r.canonical};
+    const ready=T=>{const L=clipAt(CL.ready,1);L.T=T;L.yaw=0;return worldOf(L);};
+    const initial=r.serve?worldOf(localAt(W.find(w=>!w.fixed),r.start)):ready(r.origin);
+    const target=worldOf(localAt(canonical,r.setupFrame));
+    const preparation=f=>{
+      let A=initial;
+      if(r.serve){const B=ready(r.target);if(f<r.readyAt){const u=smooth(r.start,r.readyAt,f);return footwork(blendWorld(A,B,u,away),A,B,u);}A=B;}
+      const u=smooth(r.move,r.arrive,f);return footwork(blendWorld(A,target,u,away),A,target,u);
+    };
+    if(g<=r.decision)Wd=preparation(g);
+    else if(g<r.release){const A=preparation(r.decision),B=worldOf(localAt(actual,g)),u=smooth(r.decision,r.release,g);Wd=blendWorld(A,B,u,away);}
+    // At release and beyond the unmodified source strike is authoritative.
+    else Wd=worldOf(localAt(actual,g));
+  }
   // split step: a small two-footed hop that lands at a chosen moment, then a brief load
   if(name==="you"&&sc.info.splits) for(const [L,air] of sc.info.splits){
     let dz=0; if(g>L-air&&g<L) dz=0.11*(air/26)*Math.sin(Math.PI*(g-(L-air))/air);
@@ -617,7 +635,7 @@ const NS=()=>LESSON.steps.length;   // 3 for a lesson; a branching point has as 
 const nT=k=>[...LETTERS].filter(X=>SC[k+X]).length;   // options with a scene (a branch node can have 2 or 3)
 if(LESSON.branch) LESSON.steps=[LESSON.nodes[LESSON.branch]];
 function dotsOf(key){return SC[key]&&SC[key].info.dots||null;}
-function endLabel(key){if(SC[key].info.livePoint)return 'Point in play';const ms=SC[key].marks, m=ms[ms.length-1]; if(!m)return "";
+function endLabel(key){if(SC[key].info.livePoint)return SC[key].info.outcome==='net'?'Into the net':SC[key].info.outcome==='out'?'Out':'Point in play';const ms=SC[key].marks, m=ms[ms.length-1]; if(!m)return "";
   const t=m.kind==="net"?"INTO THE NET":m.kind==="out"?"OUT · "+m.label:m.label; return t.charAt(0)+t.slice(1).toLowerCase();}
 
 /* ---------- state ---------- */
@@ -843,7 +861,7 @@ function questionRange(S){
   const key=S.reveal?S.scene:S.scene+'A',sc=SC[key],to=sc.info.freeze;
   if(LESSON.livePoint&&S.continuation)return {scene:key,from:164,to,type:'continuation',silent:true,label:'Your reply · replay',after:'Decide your recovery'};
   const from=(LESSON.branch?SC[S.scene]?.info.from:undefined)??sc.info.from??0;
-  if(S.opening)return {...S.opening,type:'example',silent:false};
+  if(S.opening)return {...S.opening,type:'example',silent:S.opening.silent??false};
   if(to-from<30&&from>0)return {scene:key,from:Math.max(0,to-160),to,type:'lead-in',silent:true,label:'Replay the incoming ball',after:'Your next decision'};
   if(to-from<30&&from===0){
     const serve=(sc.actors.you||[]).find(s=>!s.hold&&s.clip.startsWith('serve'));
@@ -881,7 +899,10 @@ function choose(i,X,demo){
   const S=LESSON.steps[i];
   if(!demo&&ans[i]==null){ans[i]=X;emit('answer',{i,X,node:S.scene,signal:LESSON.learningSignals?.[i],ok:LETTERS.indexOf(X)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(X))});
     if(LESSON.branch){const k=S.scene+X, nx=LESSON.nodes[k];   /* nodes are keyed by the pick that leads to them */ LESSON.steps.length=i+1; if(nx) LESSON.steps.push(nx); LESSON.finaleScene=k;}}   // your real pick decides where the point goes
-  if(LESSON.livePoint&&!demo&&i===1)GSSfx?.configureLiveVoice(LETTERS.indexOf(ans[0])===LESSON.steps[0].correct,LETTERS.indexOf(ans[1])===LESSON.steps[1].correct);
+  if(LESSON.livePoint&&!demo&&i===1){
+    const good=j=>LETTERS.indexOf(ans[j])===LESSON.steps[j].correct||(LESSON.steps[j].alsoOk||[]).includes(LETTERS.indexOf(ans[j]));
+    GSSfx?.configureLiveVoice(good(0),good(1),LESSON.liveVoices?.[`${+good(0)}${+good(1)}`]);
+  }
   chosen=X; answered=true; zone.classList.remove("on"); showOnly([X]); setRail(3); setInk("");
   $("verdict").hidden=true;
   if(S.reveal){showDots=true;if(S.pattern)revealPattern=true;verdict(i,X,demo);return;}
@@ -899,7 +920,7 @@ function verdict(i,X,demo){
   optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
   setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
   // Every explanation remains until the learner continues, including connected points.
-  const lab=demo?`Option ${X}`:LESSON.livePoint&&i===0?(ok?'More recovery time':'Less recovery time'):also?`Also works · best: ${corr}`:ok?"Good read":`Better: ${corr}`;
+  const lab=demo?`Option ${X}`:LESSON.livePoint&&!LESSON.comparison&&i===0?(ok?'More recovery time':'Less recovery time'):also?`Also works · best: ${corr}`:ok?"Good read":`Better: ${corr}`;
   const v=$("verdict");
   zone.classList.add("ans");
   v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div>${d?`<div class="tries ${n>=9?"good":n>=7?"mid":"bad"}">Illustrated landings · ${n}/${d.length}</div>`:""}<button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
@@ -998,7 +1019,7 @@ function clearLiveComparison(){
   if(!liveComparison)return;liveComparison=false;$('liveCompareDock').hidden=true;
   window.__camOverride=null;if(liveComparisonCamera!=null)camI=liveComparisonCamera;liveComparisonCamera=null;
 }
-function revealLiveCompletion(){if(!done||!LESSON.livePoint)return;$('wrapup').hidden=false;questionCaption('Your court cue');$('lessonName').textContent=LESSON.title;$('sitTx').textContent='One earlier decision. A different starting position.';}
+function revealLiveCompletion(){if(!done||!LESSON.livePoint)return;$('wrapup').hidden=false;questionCaption('Your court cue');$('lessonName').textContent=LESSON.title;$('sitTx').textContent=LESSON.comparison?'Prepare early. Read the ball you actually get.':'One earlier decision. A different starting position.';}
 function finishLesson(){
   clearLiveComparison();clearContactInspection();questionCaption();
   done=true; const okA=(a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)));
@@ -1006,11 +1027,13 @@ function finishLesson(){
   sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook;
   zone.hidden=true; paintRail([]); setInk(LESSON.branch?(SC[LESSON.finaleScene].info.outcome==="won"?"You built the winner":`${n} of ${A.length} read right`):`${n} of ${NS()} read right`,false);
   const w=$("wrapup"), p=LESSON.pro, voice=window.GSSfx?.voiceInfo();
-  const liveTake=LESSON.livePoint?(okA(A[0],0)?(okA(A[1],1)?'You bought time—and used it to recover.':'You bought time, then stayed wide watching your shot.'):(okA(A[1],1)?'Your recovery helped. A higher reply could have bought more time.':'The quicker reply and delayed recovery left you less prepared.')):'';
+  const liveTake=LESSON.liveFeedback?.summaries[`${+okA(A[0],0)}${+okA(A[1],1)}`]||(LESSON.livePoint?(okA(A[0],0)?(okA(A[1],1)?'You bought time—and used it to recover.':'You bought time, then stayed wide watching your shot.'):(okA(A[1],1)?'Your recovery helped. A higher reply could have bought more time.':'The quicker reply and delayed recovery left you less prepared.')):'');
+  const finalOutcome=SC[LESSON.finaleScene]?.info.outcome;
+  const liveEnding=finalOutcome==='net'?'This illustrated attempt hit the net.':finalOutcome==='out'?'This illustrated attempt went wide.':'The point is still in play.';
   w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Remember</div><div class="mem">${voice?voice.text:LESSON.memHTML}</div>
       ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
       <div class="score3">${A.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
-    ${LESSON.livePoint?`<div class="blk live-evidence" id="liveEvidence"><div class="k">Where the point turned</div><p><b>${liveTake}</b></p>${LESSON.decisionCount===4&&A.length===4?`<p>${okA(A[2],2)?'Your first move followed the actual reply.':'Your first move went away from the ball; the correction cost time.'} ${SC[LESSON.finaleScene].info.secondReply?.kind==='higher'?'Your higher reply buys another recovery window.':'Your firmer reply puts the next recovery on a shorter clock.'}</p>`:''}<p>The point is still in play. ${LESSON.decisionCount===4?(A.length===4?'You read the reply and chose again from the next contact.':'Your route left no preparation window for the planned reply.'):'Watch your position as they hit.'}</p><p>Watch the same ball twice. Change only when you recover.</p><button class="alt" id="replayTurningPoint">Watch your recovery</button><button class="alt" id="compareRecovery">Change only recovery</button><p id="recoveryComparison" role="status"></p></div>`:''}
+    ${LESSON.livePoint?`<div class="blk live-evidence" id="liveEvidence"><div class="k">Where the point turned</div><p><b>${liveTake}</b></p>${LESSON.decisionCount===4&&A.length===4?`<p>${okA(A[2],2)?'Your first move followed the actual reply.':'Your first move went away from the ball; the correction cost time.'} ${SC[LESSON.finaleScene].info.secondReply?.kind==='higher'?'Your higher reply buys another recovery window.':'Your firmer reply puts the next recovery on a shorter clock.'}</p>`:''}<p>${liveEnding} ${LESSON.decisionCount===4?(A.length===4?'You read the reply and chose again from the next contact.':'Your route left no preparation window for the planned reply.'):LESSON.comparison?'Compare the preparation, then read the shot.':'Watch your position as they hit.'}</p><p>${LESSON.comparison?.intro||'Watch the same ball twice. Change only when you recover.'}</p><button class="alt" id="replayTurningPoint">${LESSON.comparison?.own||'Watch your recovery'}</button><button class="alt" id="compareRecovery">${LESSON.comparison?.other||'Change only recovery'}</button><p id="recoveryComparison" role="status"></p></div>`:''}
     ${hasLessonRecap()?'<button class="alt" id="replayRecap">Replay the three reads</button>':''}
     ${payoffHTML(p)}
     ${LESSON.cue?`<div class="cuebox"><div class="k">Your cue</div><div class="cue">${LESSON.cue}</div>
@@ -1023,11 +1046,17 @@ function finishLesson(){
   wireCompletionVoice();
   const turning=$('replayTurningPoint');if(turning){
     const inspect=other=>{
-      GSSfx?.stopVoice();let k=LESSON.branch+ans.slice(0,2).join('');if(other)k=k.slice(0,-1)+(k.endsWith('A')?'B':'A');
+      GSSfx?.stopVoice();let k=LESSON.comparison?LESSON.branch+(other?(ans[0]==='A'?'B':'A'):ans[0])+'A':LESSON.branch+ans.slice(0,2).join('');if(other&&!LESSON.comparison)k=k.slice(0,-1)+(k.endsWith('A')?'B':'A');
       if(!liveComparison)liveComparisonCamera=camI;liveComparison=true;camI=0;
       window.__camOverride={c:{az:-90,el:26,d:31,fov:34,tgt:[0,-4,0]},phone:{az:-90,el:28,d:38,fov:26,tgt:[0,-4,0]}};
       $('liveCompareDock').hidden=false;
       $('compareOwn').setAttribute('aria-pressed',String(!other));$('compareOther').setAttribute('aria-pressed',String(other));
+      if(LESSON.comparison){
+        const r=SC[k].info.comparison;
+        $('compareOwn').textContent='Your preparation';$('recoveryComparison').textContent='';questionCaption((other?'Alternative · ':'Your choice · ')+r.label);
+        run(k,r.start,r.end,()=>{questionCaption((other?'Alternative · ':'Your choice · ')+r.label);$('recoveryComparison').textContent=r.explanation;emit('comparison_seen',{variant:other?'alternative':'own',event:r.event,prepared:r.good});},true);
+        stageInView();emit('payoff_open',{k:other?'preparation_comparison':'turning_point'});return;
+      }
       const r=SC[k].info.liveRecovery,label=(other?'Alternative · ':'Your choice · ')+(r.recover?'recover during your shot':'wait for their direction');
       $('recoveryComparison').textContent='';questionCaption(label);
       // Both views hold at exactly the same opponent-contact event, with identical ball and camera.
