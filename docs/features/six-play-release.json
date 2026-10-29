@@ -1,0 +1,133 @@
+{
+  "feature": "Six-play Live Point pilot",
+  "status": "Live and verified",
+  "app_version": "1d8e1511d4",
+  "project": "gamesharp-tennis",
+  "pull_request": 63,
+  "candidate_commit": "949da89280f12dd50f86a74c00f6393bc1d7973d",
+  "merge_commit": "8a74b7f0de1edb79436025cd60c3634117c77a5b",
+  "identical_git_tree": "f867a5d4a1bd9ec0443e0b4952a7381c95586b37",
+  "preview": {
+    "id": "dpl_AwmxF8hdrhfojUgoCz4QXd8jEVY3",
+    "url": "https://gamesharp-tennis-qya7dzwx0-eoinlynn-5978s-projects.vercel.app"
+  },
+  "production": {
+    "id": "dpl_BmMBcmi5RnuPE94pwEckd2GPU9Pc",
+    "url": "https://gamesharp-tennis-9hrfe79lv-eoinlynn-5978s-projects.vercel.app",
+    "public": "https://www.gamesharptennis.com",
+    "promoted_at": "2026-10-29T12:40:51.889Z",
+    "automatic_domain_assignment": false,
+    "rebuilt_for_promotion": false
+  },
+  "rollback": {
+    "id": "dpl_EHAWMdXkhUa3APEZXyAxi3u1BEXb",
+    "url": "https://gamesharp-tennis-72zltbgq4-eoinlynn-5978s-projects.vercel.app",
+    "app_version": "8c1c840652",
+    "merge_commit": "f0131705b6e18ff9b3b42cfba269e5fd1bb5a3f8"
+  },
+  "scope": {
+    "live_points": 6,
+    "families": 3,
+    "new_journeys": 4,
+    "new_routes": 16,
+    "new_voice_recordings": 8,
+    "eligible_journeys": 47,
+    "withheld_new_journeys": 0
+  },
+  "new_plays": [
+    "live-point-make-room",
+    "live-point-short-low",
+    "live-point-serve-see",
+    "live-point-return-deep"
+  ],
+  "verification": {
+    "unit_tests": 63,
+    "browser_release_invocations": 63,
+    "ci_run": 40872053613,
+    "ci_status": "success",
+    "release_files": 168,
+    "public_files": 167,
+    "checked_source_test_inputs": 220,
+    "preview_http": {
+      "passed": 309,
+      "total": 309
+    },
+    "production_http": {
+      "passed": 309,
+      "total": 309
+    },
+    "public_http": {
+      "passed": 309,
+      "total": 309
+    },
+    "preview_native_webkit_journeys": 47,
+    "preview_native_webkit_new_routes": 32,
+    "preview_pilot_assertions": 681,
+    "production_webkit_journeys": 6,
+    "production_webkit_new_routes": 16,
+    "production_transport": "Browser uses verified authenticated HTTP response bodies from the exact staged deployment. Full direct authenticated HTTP inventory and configuration checks passed separately.",
+    "public_native_webkit_journeys": 6,
+    "public_native_webkit_new_routes": 16,
+    "public_pilot_assertions": 341,
+    "browser_errors": 0,
+    "physical_device_listening": false
+  },
+  "configuration_equivalence": {
+    "preview": "dpl_AwmxF8hdrhfojUgoCz4QXd8jEVY3",
+    "production": "dpl_BmMBcmi5RnuPE94pwEckd2GPU9Pc",
+    "same_git_tree": "f867a5d4a1bd9ec0443e0b4952a7381c95586b37",
+    "checks": [
+      "projectSettings",
+      "env",
+      "nodeVersion",
+      "routes",
+      "config",
+      "functions",
+      "resourceConfig",
+      "entire build config"
+    ],
+    "project_env_count": 0,
+    "platform_env_declarations": 138,
+    "middleware": 0,
+    "functions": 0,
+    "exact_public_paths": 167,
+    "unexplained_differences": [],
+    "explained_differences": [
+      "Git branch/merge SHA with identical tree",
+      "Preview versus staged Production identity and environment",
+      "Preview-only Vercel feedback suffix"
+    ]
+  },
+  "content_review": {
+    "reviewer": "Builder self-review against source motion, primary coaching guidance and rendered mobile journeys",
+    "source": "https://www.lta.org.uk/play/tennis-tips-and-techniques/improve-your-tennis-footwork-on-court-with-these-simple-tips/",
+    "corrections": [
+      "Replaced a crosscourt/trajectory mismatch with an explicitly authored deep-middle reset.",
+      "Moved the low-ball opening to show 40 frames of incoming flight and removed the inconsistent wait-for-bounce wording."
+    ],
+    "adaptations": "Player preparation paths and one deep-middle ball arc are modelled. Original strike poses and contact positions remain intact; no opponent reply is fabricated."
+  },
+  "effort": {
+    "started": "2026-10-29T11:33:42.108133+00:00",
+    "phases": [
+      {
+        "name": "research-and-authoring",
+        "start": "2026-10-29T11:33:42.108334+00:00",
+        "end": "2026-10-29T11:57:27.464315+00:00",
+        "note": "Authoring, motion adaptation and self-review interleaved. This is a single-operator elapsed envelope, not separate billed times or an independent coaching review."
+      },
+      {
+        "name": "cross-browser-validation-and-release",
+        "start": "2026-10-29T11:57:27.464315+00:00",
+        "end": "2026-10-29T12:45:46.181188+00:00"
+      }
+    ],
+    "note": "The final timing/copy correction occurred within the validation phase; phases are elapsed envelopes, not isolated labour measurements."
+  },
+  "limits": [
+    "Progress and return-read evidence remain browser-local.",
+    "No independent coaching certification or physical iPhone/iPad listening claim.",
+    "No measured retention, viral demand, sustainable weekly cadence or on-court learning-transfer claim."
+  ],
+  "next_decision": "Use observed next-day returns, first changed-context decisions and qualitative beta feedback to choose the next content investment."
+}
