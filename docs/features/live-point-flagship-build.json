@@ -1,0 +1,138 @@
+{
+  "source": {
+    "app_src/analytics.test.mjs": {
+      "baseline": "8ca190501f973d9f80859b7b2fad3465e06687060c33f10717771df2c73f07cc",
+      "candidate": "e8475f844f3d82804e6f7b04746c4ef52a1f63b0b9c6a202af8b06e8813a96f6"
+    },
+    "app_src/app.js": {
+      "baseline": "166493e89cb7b86dc13f7611daa1e7a385e7217de6d415cdd348baf6125a81a1",
+      "candidate": "f651f6219b4bf95525e4663bccdb202f34a174c8eeab023903065ffba80693bb"
+    },
+    "app_src/audio/voice-live-early-recovery.mp3": {
+      "baseline": null,
+      "candidate": "e5013d77861cd0c951ea38a96c02bb590383281ad8c5986bd4951aecf0b1e967"
+    },
+    "app_src/audio/voice-live-recover-sooner.mp3": {
+      "baseline": null,
+      "candidate": "1583044e21c59990cd9285df88e2983949f9268ecd81c4c5c35736049c1abf08"
+    },
+    "app_src/audio/voice-live-time-used.mp3": {
+      "baseline": null,
+      "candidate": "f68db75b3f718dc2cd52f9cada0dd216a6eeb003400aa2ba7d46d3ec6445ae37"
+    },
+    "app_src/audio/voice-live-time-watched.mp3": {
+      "baseline": null,
+      "candidate": "9126088c2220293d115020045890530d3c59367b1774a325b940307fcbc86889"
+    },
+    "app_src/build.py": {
+      "baseline": "0d63a88434c67fa4eeb3ec3f8f8aea1f8c25c42634c10c270d2854959424b89d",
+      "candidate": "1f25e4c9633defe70fe9a66d8ab56005d4b0d8154e5f1145ec650804a51ac738"
+    },
+    "app_src/index.html": {
+      "baseline": "5d47cc7898151a36c6057a83abb08129b0ae25a4e856ad1a86a11bcc5ad8be68",
+      "candidate": "bc753ef3c9e31c85bc2dcc90a8d172a21ce8a9f748c486958bb8506bee134bf9"
+    },
+    "app_src/play_host.html": {
+      "baseline": "a1ab1da000ae24f0e398d2d40eca20ae8ec102a1e0c8207fc22eef6c268fcc08",
+      "candidate": "8f2954eab7c8c1cd6002507c5758f61ebb61513f21277885645933c9fd266131"
+    },
+    "app_src/sfx.js": {
+      "baseline": "cacab60522a94881cdc9705aa1d2ba531e64376a9673b77ee2c20dc9575331bc",
+      "candidate": "d8c43e454425654c5f0c97c9239a6bce32aea269a008ac0e0a6a2ea44a08ac94"
+    },
+    "app_src/sfx.test.mjs": {
+      "baseline": "6f21c394f7173700b4bb1e45f29456d24a5772449c35c88a53d2e92b6f8e85db",
+      "candidate": "146b57932539bc1f2dd029a552366ab90e59e9bee1ef4aadfa57664bee574c8f"
+    },
+    "docs/features/flagship-voice-sources.json": {
+      "baseline": null,
+      "candidate": "fc2bb8990460366eecae88987a27fb63f53c84f6ec3d4d2fc7e175f4b207ee3e"
+    },
+    "docs/features/live-point-flagship-cycle.md": {
+      "baseline": null,
+      "candidate": "3593b8a4e853cb1289b03e32649b03e622408707700b85da65e8e351ab5ab423"
+    },
+    "rally/build_live_point.py": {
+      "baseline": "4f0f022ef4974305389353a53ea0c54799b8fb81b6b18168146e7d8a4971ba73",
+      "candidate": "07a6b314515512647f6c01fd650785e24c754a432c6ef173960481fa66a17b91"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "5e0a0ff0cc60d419b8cb4849f7def21389e24d78eee7918e16ee572fc1fbfb6a",
+      "candidate": "c9fd5c209330cdb5aa4de883d444362d1d8418139797db1248f1f8ae1f7f60d7"
+    },
+    "rally/lesson_lp.js": {
+      "baseline": "c74c40793f7b4f9eefddb499bff302bb8c077fa9c55e87acf7213f3e60dd5ae3",
+      "candidate": "a13d92c9e469d0e1e727251f5915c3fe93951b75eda4ae1fa89d17154b09d083"
+    },
+    "rally/lesson_lt.js": {
+      "baseline": "c81c957e5b542f4fae25596b632e4c2d88309c4eb499d3c1d8aab85d1534aa3f",
+      "candidate": "d5cf28e34056da69f9de685880c878d7f8646ccd456d37deb469c85f90384f95"
+    },
+    "rally/live_point_families.json": {
+      "baseline": null,
+      "candidate": "ffb6afd92e8db2c63e69adcdddf9844a1a014c51b41afc5feab1cca5f7da128b"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "93cabcbbf5f5d835aaa51aaaaef1015affeb3bb9c74d148d44584e1678d4e927",
+      "candidate": "d986335b230d17497b878b455dee3566d34cab195b35f21a6331010611514c8b"
+    },
+    "tools/flagship-browser.mjs": {
+      "baseline": null,
+      "candidate": "9d57798a78545699cac84eb61105d5322bf0a3097e09d35e7bad9596c61d7688"
+    },
+    "tools/voice-catalogue-browser.mjs": {
+      "baseline": "97cf77b69e645facb0e4fa6d12a5eedb8cafa8f8d0bbfa9853446e991f9b5a8d",
+      "candidate": "690d7d0203b603af922d4a0f70aa0185bfedf2f6ab42b4e799d40f270b2a977d"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "166493e89cb7b86dc13f7611daa1e7a385e7217de6d415cdd348baf6125a81a1",
+      "candidate": "f651f6219b4bf95525e4663bccdb202f34a174c8eeab023903065ffba80693bb"
+    },
+    "app/audio/voice-live-early-recovery.mp3": {
+      "baseline": null,
+      "candidate": "e5013d77861cd0c951ea38a96c02bb590383281ad8c5986bd4951aecf0b1e967"
+    },
+    "app/audio/voice-live-recover-sooner.mp3": {
+      "baseline": null,
+      "candidate": "1583044e21c59990cd9285df88e2983949f9268ecd81c4c5c35736049c1abf08"
+    },
+    "app/audio/voice-live-time-used.mp3": {
+      "baseline": null,
+      "candidate": "f68db75b3f718dc2cd52f9cada0dd216a6eeb003400aa2ba7d46d3ec6445ae37"
+    },
+    "app/audio/voice-live-time-watched.mp3": {
+      "baseline": null,
+      "candidate": "9126088c2220293d115020045890530d3c59367b1774a325b940307fcbc86889"
+    },
+    "app/catalog.js": {
+      "baseline": "7a47e91aaaf52797164c0e9f364ebfa80de58cbfe323953bb7a8f39ba3ce8656",
+      "candidate": "e090fafdd66718dfed20dc09ab89e24b7c733625ba9ba3d7bca357f2070da594"
+    },
+    "app/engine/engine.js": {
+      "baseline": "ee1bcc22cad09628058038ee69cf04c44f24761ffb4831ae1f9fde73dab681a5",
+      "candidate": "3ec435121b5c93e30ea6451b00a18a03da2c81a1f91558d1ccb4ef95a8a66b38"
+    },
+    "app/index.html": {
+      "baseline": "5436743c0f72429605fe7e08336e675340756e0c4c6f38ea767c3691c5b04b47",
+      "candidate": "eb45003733090358799ec887d3e5143706060c27974e6b47a79f67ffc2993071"
+    },
+    "app/lessons/live-point-buy-time.json": {
+      "baseline": "a561a8eb6dce79726bd1b2171e5c94b9aa40a62c1707ba6b3b3e6d034feb024d",
+      "candidate": "440539ce73a9e00e4b8793e994d5b4b2cde3df648f54655e7cd187e45faebf2d"
+    },
+    "app/lessons/live-point-other-wing.json": {
+      "baseline": "dcbd96c1457b736d61b1bf32951832439fb12e4d8657657124f59d3c0955d382",
+      "candidate": "79f1a9a402ae615d21343657f08f9d89da10937209d40417f4bcfee77b324a95"
+    },
+    "app/play.html": {
+      "baseline": "83f06eeb5211b5d0e9db6ade50dfe886132eed3eaf60d392da5fedd53cf37132",
+      "candidate": "474bf5c91a0a72ef1f9c5ba4de30f1164870fe93b4d7500396e1fb1a1322d040"
+    },
+    "app/sfx.js": {
+      "baseline": "cacab60522a94881cdc9705aa1d2ba531e64376a9673b77ee2c20dc9575331bc",
+      "candidate": "d8c43e454425654c5f0c97c9239a6bce32aea269a008ac0e0a6a2ea44a08ac94"
+    }
+  }
+}

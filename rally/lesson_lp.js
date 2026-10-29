@@ -1,7 +1,6 @@
 const LESSON={
   "title": "Buy Time. Use It.",
   "decisionCount": 4,
-  "edition": "connected-four-v2",
   "hook": "Up to four connected decisions. Reply, recover, read the next ball, choose again.",
   "livePoint": true,
   "branch": "lp1",
@@ -492,5 +491,13 @@ const LESSON={
   "drill": {
     "name": "Use the flight",
     "how": "With a partner, start from a comfortable wide feed. Try a higher reply and a flatter one, then notice where you are when they hit. Judge your available time and position, not just the point result."
-  }
+  },
+  "family": "recovery-time",
+  "learningSignals": [
+    "reply",
+    "recovery",
+    "direction",
+    "next-reply"
+  ],
+  "edition": "connected-four-v2"
 };

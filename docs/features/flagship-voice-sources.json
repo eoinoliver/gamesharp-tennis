@@ -1,0 +1,78 @@
+[
+  {
+    "key": "time-used",
+    "asset": "live-time-used",
+    "text": "You bought time and used it. Keep reading the next ball.",
+    "path": "app_src/audio/voice-live-time-used.mp3",
+    "taskId": "75df0cfb-d72d-424e-b99c-445bc925ef24",
+    "voice": "Frank",
+    "speed": 0.95,
+    "model": "eleven_multilingual_v2",
+    "durationSeconds": 4.086712,
+    "releaseSha256": "f68db75b3f718dc2cd52f9cada0dd216a6eeb003400aa2ba7d46d3ec6445ae37",
+    "originalSha256": "f54f040d7953da5df145139ac92dbfd6924d886ac4374f27f10ccd4a4f9e2981",
+    "processing": "Gain -1.0 dB only, MP3 128 kbps; timing and pitch preserved.",
+    "levelsDb": {
+      "mean_volume": -22.5,
+      "max_volume": -4.1
+    },
+    "listeningStatus": "Technical checks; physical-device and perceptual listening not verified."
+  },
+  {
+    "key": "time-watched",
+    "asset": "live-time-watched",
+    "text": "You bought time. Start moving while it travels.",
+    "path": "app_src/audio/voice-live-time-watched.mp3",
+    "taskId": "84f35080-50cb-414e-a4e8-139139cbe5c8",
+    "voice": "Frank",
+    "speed": 0.95,
+    "model": "eleven_multilingual_v2",
+    "durationSeconds": 3.204354,
+    "releaseSha256": "9126088c2220293d115020045890530d3c59367b1774a325b940307fcbc86889",
+    "originalSha256": "6bbfdc8c7f1df8371221975b4a6c0ad19179f49b180f36f3ed33c38cfff5239e",
+    "processing": "Gain -0.4 dB only, MP3 128 kbps; timing and pitch preserved.",
+    "levelsDb": {
+      "mean_volume": -22.5,
+      "max_volume": -3.7
+    },
+    "listeningStatus": "Technical checks; physical-device and perceptual listening not verified."
+  },
+  {
+    "key": "early-recovery",
+    "asset": "live-early-recovery",
+    "text": "You recovered early. More height could buy more time.",
+    "path": "app_src/audio/voice-live-early-recovery.mp3",
+    "taskId": "1cce7ebb-af85-48b5-9b7c-bd4ee5d3c1d2",
+    "voice": "Frank",
+    "speed": 0.95,
+    "model": "eleven_multilingual_v2",
+    "durationSeconds": 3.529433,
+    "releaseSha256": "e5013d77861cd0c951ea38a96c02bb590383281ad8c5986bd4951aecf0b1e967",
+    "originalSha256": "529a90117ecf00788d5a91f541dbe083b90dcd7f52b7c442e712f06b04d25d1b",
+    "processing": "Gain +2.2 dB only, MP3 128 kbps; timing and pitch preserved.",
+    "levelsDb": {
+      "mean_volume": -22.5,
+      "max_volume": -4.4
+    },
+    "listeningStatus": "Technical checks; physical-device and perceptual listening not verified."
+  },
+  {
+    "key": "recover-sooner",
+    "asset": "live-recover-sooner",
+    "text": "Your reply gave you less time. Start recovering sooner.",
+    "path": "app_src/audio/voice-live-recover-sooner.mp3",
+    "taskId": "f2066f07-746f-41d9-9898-2abefa0dad88",
+    "voice": "Frank",
+    "speed": 0.95,
+    "model": "eleven_multilingual_v2",
+    "durationSeconds": 4.179592,
+    "releaseSha256": "1583044e21c59990cd9285df88e2983949f9268ecd81c4c5c35736049c1abf08",
+    "originalSha256": "8f8ce7d2c2cc44aa3eefe1bfbb5bca4167ff261ba30e2466646232e506a1d47e",
+    "processing": "Gain +1.6 dB only, MP3 128 kbps; timing and pitch preserved.",
+    "levelsDb": {
+      "mean_volume": -22.4,
+      "max_volume": -2.4
+    },
+    "listeningStatus": "Technical checks; physical-device and perceptual listening not verified."
+  }
+]

@@ -166,7 +166,7 @@ test('Live Point returns a new context on a later day, never an automatic repeat
  assert.equal(b.app.nextLivePoint(),null);
  const c=boot({catalog:liveCatalog,storage:b.storage,now:'2026-10-30T00:00:00Z'});
  assert.equal(c.app.nextLivePoint().slug,'return');c.app.startLesson('return');
- assert.equal(c.app.nextLivePoint(),null);assert.equal(c.app.S.done.point.total,2);
+ assert.equal(c.app.nextLivePoint().slug,'return','an unfinished return remains reachable');c.app.complete('return',1,2);assert.equal(c.app.nextLivePoint(),null);assert.equal(c.app.S.done.point.total,2);
 });
 test('first Live Point decisions survive retries and distinguish same-day practice',()=>{
  const b=boot({catalog:liveCatalog});b.app.complete('point',1,2);
@@ -236,4 +236,26 @@ test('unversioned first reads are preserved without appending a later route',()=
  b.app.beginLiveAttempt('point');b.app.recordLiveRead('point',{i:0,X:'B',ok:true,node:'p'});b.app.recordLiveRead('point',{i:1,X:'B',ok:false,node:'pB'});
  assert.equal(b.app.S.liveReads.point.length,1);assert.equal(b.app.S.liveReads.point[0].pick,'A');
  assert.equal(b.app.S.liveAttempts.point[0].reads.length,2);
+});
+
+test('transfer feedback judges both decisions and a retry cannot claim a fresh read',()=>{
+ const b=boot({catalog:liveCatalog});b.app.startLesson('point');b.app.beginLiveAttempt('point');
+ for(const [i,ok]of [true,false].entries())b.app.recordLiveRead('point',{i,X:'A',ok,node:'p'+i});b.app.complete('point',1,2);
+ b.time('2026-09-29T00:00:00Z');b.app.startLesson('return');b.app.beginLiveAttempt('return');
+ for(const [i,ok]of [true,false].entries())b.app.recordLiveRead('return',{i,X:'A',ok,node:'r'+i});b.app.complete('return',1,2);
+ let e=b.app.transferEvidence('return');assert.equal(e.kind,'first_later_day');assert.equal(e.reply,true);assert.equal(e.recovery,false);assert.match(e.text,/waited to recover/);
+ b.app.beginLiveAttempt('return');for(const i of [0,1])b.app.recordLiveRead('return',{i,X:'B',ok:true,node:'r'+i});b.app.complete('return',2,2);
+ e=b.app.transferEvidence('return');assert.equal(e.kind,'practice');assert.equal(e.recovery,true);assert.equal(b.app.S.liveReads.return[1].ok,false);
+ assert.equal(b.app.log().filter(x=>x[1]==='live_point_transfer').length,2);
+});
+test('an earlier look, even without an answer, invalidates a fresh later-day transfer claim',()=>{
+ const b=boot({catalog:liveCatalog});b.app.complete('point',2,2);b.app.startLesson('return');
+ b.time('2026-09-29T00:00:00Z');b.app.startLesson('return');b.app.beginLiveAttempt('return');
+ for(const i of [0,1])b.app.recordLiveRead('return',{i,X:'B',ok:true,node:'r'+i});b.app.complete('return',2,2);
+ assert.equal(b.app.transferEvidence('return').kind,'practice');
+});
+test('challenge links identify the point and contain no player, answer, route or score',()=>{
+ const b=boot({catalog:liveCatalog});b.app.complete('point',1,2);
+ assert.equal(b.app.challengeUrl('point'),'https://www.gamesharptennis.com/play.html?l=point&challenge=point');
+ assert.equal(b.app.challengeUrl('one'),null);assert.equal(b.app.challengeUrl('untrusted&score=2'),null);
 });

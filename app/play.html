@@ -161,6 +161,12 @@ details.pay .pbody p:first-child{margin-top:0}
 .contact-controls button{flex:1;min-height:40px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--ink);font-size:11px;font-weight:700;cursor:pointer}
 .contact-controls button[aria-pressed=true]{border-color:var(--gold);color:var(--gold);background:rgba(200,168,75,.12)}
 .contact-mode{position:absolute;left:10px;top:10px;border-radius:7px;padding:5px 8px;background:rgba(5,14,9,.88);color:#f0ece3;font-size:10px;font-weight:700;letter-spacing:.04em;pointer-events:none;z-index:1}
+.live-dock{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border-top:1px solid rgba(200,168,75,.3)}
+.live-dock[hidden]{display:none}
+.live-dock button{flex:1;min-height:44px;padding:8px;border:1px solid rgba(240,236,227,.35);border-radius:10px;background:#10231e;color:var(--ink);font:600 12px "DM Sans",sans-serif}
+.live-dock button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
+.live-evidence{border:1px solid rgba(200,168,75,.4);border-radius:14px;padding:14px!important}
+.live-evidence .alt{min-height:44px}
 .recap-dock{display:flex;justify-content:center;gap:8px;padding:8px;border-top:1px solid rgba(200,168,75,.2)}
 .recap-dock[hidden]{display:none}
 .recap-dock button{min-height:44px;padding:8px 12px;border:1px solid rgba(240,236,227,.35);border-radius:12px;background:#10231e;color:#f0ece3;font:600 12px "DM Sans",sans-serif;cursor:pointer}
@@ -205,7 +211,7 @@ details.note a{color:var(--gold)}
   .meta{margin:0 0 5px}
   .setup{font-size:15px;line-height:1.35;margin:0 0 8px;min-height:2.7em}
   .tools{position:absolute;top:auto;bottom:32px;right:0;z-index:2;display:flex;min-height:0;padding:0;border:0;background:none}
-  .visual:not(.full):not(:fullscreen):has(.recap-dock:not([hidden])) .tools{bottom:93px}
+  .visual:not(.full):not(:fullscreen):has(.recap-dock:not([hidden]),.live-dock:not([hidden])) .tools{bottom:93px}
   .paused{right:auto;left:10px;bottom:40px}
   .tbtn{width:38px;height:38px;border:0;color:rgba(240,236,227,.62)}
   .ink{min-height:32px;padding:3px 10px 5px;display:grid;align-items:center}
@@ -256,6 +262,7 @@ details.note a{color:var(--gold)}
         <div class="scorechip" id="scorechip" hidden></div>
       </div>
       <div class="ink" id="inkRow"><span id="ink"></span></div>
+      <div class="live-dock" id="liveCompareDock" hidden><button id="compareOwn" aria-pressed="false">Your recovery</button><button id="compareOther" aria-pressed="false">One change</button><button id="compareDone">Court cue ↓</button></div>
         <div class="recap-dock" id="recapDock" hidden><button id="pauseRecap">Pause review</button><button id="skipRecap">Skip to court cue</button></div>
     </div>
 
@@ -284,6 +291,8 @@ details.note a{color:var(--gold)}
 .fbtx{width:100%;margin-top:10px;min-height:70px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:var(--ink,#f0ece3);font:14px "DM Sans",sans-serif;padding:10px 12px;resize:vertical}
 .fbthanks{margin-top:8px;font-size:14px;color:rgba(255,255,255,.72)}
 .wrapup a.next{display:flex;align-items:center;justify-content:center;text-decoration:none;margin-top:14px;color:#16130a}
+#challengeLink{display:block;width:100%;box-sizing:border-box;min-height:44px;margin:8px 0;padding:10px;border:1px solid #758477;border-radius:8px;background:#10231e;color:#f0ece3;font-size:14px}
+#sharePoint .alt,#returnRead .alt{display:inline-flex;align-items:center;min-height:44px}
 .gs-continue{margin:16px 0;padding:14px;border:1px solid rgba(200,168,75,.4);border-radius:14px}
 .wrapup .fbwrap{flex-wrap:wrap}
 .wrapup #redo{background:transparent;color:var(--ink,#f0ece3);border:1px solid rgba(255,255,255,.18)}
@@ -358,17 +367,19 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=a9d9eec67d"></script>
-<script src="catalog.js?v=a9d9eec67d"></script>
-<script src="app.js?v=a9d9eec67d"></script>
-<script src="sfx.js?v=a9d9eec67d"></script>
+<script src="config.js?v=8c1c840652"></script>
+<script src="catalog.js?v=8c1c840652"></script>
+<script src="app.js?v=8c1c840652"></script>
+<script src="sfx.js?v=8c1c840652"></script>
 <script>
 (function(){
-const A=GSApp, V="a9d9eec67d", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="8c1c840652", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
 const QS=new URLSearchParams(location.search);
+window.GS_BLIND_CHALLENGE=!!(L.livePoint&&QS.get('challenge')==='point');
+if(window.GS_BLIND_CHALLENGE)A.track('challenge_open',{lesson:slug,previously_played:!!A.S.done[slug]});
 // Bookmarked automatic entries advance too; explicit lesson/replay links stay exact.
 if(QS.has('auto')&&(A.S.seen?.[slug]||A.S.done[slug])){
   const fresh=A.nextDaily();
@@ -378,7 +389,7 @@ if(QS.has('auto')&&(A.S.seen?.[slug]||A.S.done[slug])){
    this page's entry becomes ./?home=1 and the lesson is pushed on top; going back to it loads Home. */
 if(QS.has("auto")&&!(history.state&&history.state.gsLesson)){const here=location.href;history.replaceState({gsHome:1},"","./?home=1");history.pushState({gsLesson:1},"",here);}
 addEventListener("popstate",e=>{if(e.state&&e.state.gsHome)location.replace("./?home=1");});
-document.title=L.title+" · GameSharp";
+document.title=(window.GS_BLIND_CHALLENGE?"Read this point":L.title)+" · GameSharp";
 /* Welcome timeline (full ~2.0 s): 0.15-1.10 s the ball rolls in from the right (P is the first letter it meets, as in V5) with two small bounces and slows into the P;
    1.10 s impact (P snaps straight, wordmark sharpens, gold glint, ball drops away); 1.10-1.60 s the promise fades up;
    1.60-2.00 s dissolve to the lesson, which has been loading underneath since 0 s. Short: glint, dissolve at 0.2 s.
@@ -436,9 +447,10 @@ const W=(()=>{
 A.opened("lesson");
 let started=false;
 A.on((n,d)=>{
-  if(n==='step'&&d.fresh)A.beginLiveAttempt(slug);
+  if(n==='step'&&d.fresh){A.beginLiveAttempt(slug);GSSfx.configureVoice(slug);}
   if(n==="step"&&!started){started=true;A.startLesson(slug);A.track("lesson_start",{lesson:slug,replay:!!A.S.done[slug],daily:A.isDaily(slug)});}
   if(n==="answer"){A.track("read",{lesson:slug,step:d.i+1,pick:d.X,ok:!!d.ok});A.recordLiveRead(slug,d);}
+  if(n==='comparison_seen')A.track('live_point_comparison',{lesson:slug,...d});
   if(n==="cue_save") A.track("cue_save",{lesson:slug,cue:d&&d.cue});   /* payoff layer (4 Oct) */
   if(n==="payoff_open") A.track("payoff_open",{lesson:slug,part:d&&d.k});
   if(n==="complete"){A.complete(slug,d.n,d.total);setTimeout(()=>wrap(d.n),0);}
@@ -455,8 +467,8 @@ function wrap(n){
   const flav=(A.CAT.flavours||[]).find(f=>f.lessons.includes(slug));
   const b=document.createElement("div"); b.className="appblk";
   const returnPoint=L.followup&&A.bySlug(L.followup);
-  const transfer=L.transferOf&&A.S.liveReads?.[slug]?.[0];
-  const returnBlk=returnPoint&&!A.S.done[returnPoint.slug]?`<div class="blk"><div class="k">Tomorrow’s read</div><p class="strk">A different point on the other wing. Can you spot the same principle?</p><p class="strk">It will appear on Home from tomorrow in this browser. You can also try it now in Explore.</p></div>`:transfer?`<div class="blk"><div class="k">${transfer.delayed?'Your return read':'Practice variation'}</div><p class="strk">${transfer.delayed?(transfer.ok?'You recognised the recovery-time choice in this new point.':'This point exposed a useful cue to practise: how much recovery time you need.'):'Try this again on court. A same-day attempt is practice, not a next-day learning check.'}</p></div>`:'';
+  const transfer=A.transferEvidence(slug),due=returnPoint&&A.S.done[slug]?.first<A.today();
+  const returnBlk=returnPoint&&!A.S.done[returnPoint.slug]?`<div class="blk" id="returnRead"><div class="k">${due?'Your next read':'Tomorrow’s read'}</div><p class="strk">A different point on the other wing. Make both calls before seeing your cue.</p><p class="strk">${due?'Ready on Home now.':'It appears on Home tomorrow in this browser.'}</p><a class="alt" href="play.html?l=${returnPoint.slug}">${due?'Read the other point':'Try now as practice'} →</a></div>`:transfer?`<div class="blk" id="returnRead"><div class="k">${transfer.kind==='first_later_day'?'Your return read':'Practice variation'}</div><p class="strk">${esc(transfer.text)}</p><p class="strk">${transfer.kind==='first_later_day'?'Two decisions in a changed situation. Take the cue onto court.':'A repeat or an early look is practice, not a fresh next-day check.'}</p></div>`:'';
   b.innerHTML=`${returnBlk}${weekBlk}<div class="k">Your streak</div>
     <p class="strk"><b>${s} day${s===1?"":"s"}</b> in a row. Come back tomorrow for another read.</p>
     ${nx?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nx.title)}. You can play it now.</p><a class="next" id="nextDaily" href="play.html?l=${nx.slug}">Play next challenge →</a></div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
@@ -468,7 +480,8 @@ function wrap(n){
   const r=w.querySelector("#redo"); r?w.insertBefore(b,r):w.append(b);
   const more=b.querySelector('#nextDaily');if(more)more.onclick=()=>A.track('asked_more',{next:nx.slug,from:slug});
   const continuation=b.querySelector('.gs-continue')||b.querySelector('a.next:not(.home)');
-  if(continuation)w.firstElementChild.after(continuation);
+  if(continuation)(w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
+  if(L.livePoint)wireChallenge(w);
   b.querySelectorAll("[data-fv]").forEach(bt=>bt.onclick=()=>{A.track("flavour_vote",{lesson:slug,flavour:flav.key,vote:bt.dataset.fv});
     b.querySelector(".gsfv").innerHTML=`<p class="fbthanks">Noted: ${bt.dataset.fv==="more"?"more":"fewer"} ${esc(flav.name.toLowerCase())} lessons.</p>`; const op=b.querySelector(".gsop"); if(op) op.hidden=false;});
   b.querySelectorAll("[data-op]").forEach(bt=>bt.onclick=()=>{A.track("opponent_trouble",{lesson:slug,pick:bt.dataset.op});
@@ -496,6 +509,20 @@ function afterEngine(){
     (W?W.whenGone:f=>f())(()=>{   /* the first-visit caption comes after the welcome, never under it */
     const c=document.createElement("div");c.className="gs-intro";c.innerHTML=`<b>One three-minute tennis decision a day.</b><span>Here's today's. Watch the ball.</span>`;
     st.appendChild(c);const go=()=>{c.classList.add("out");setTimeout(()=>c.remove(),500);};setTimeout(go,4200);c.addEventListener("click",go);});}
+}
+function wireChallenge(w){
+  const link=A.challengeUrl(slug),box=document.createElement('div');box.className='blk';box.id='sharePoint';
+  box.innerHTML=`<div class="k">Let someone else make the call</div><p>Same point. Their decisions. Your answers stay private.</p><button class="alt" id="sharePointButton">Challenge a tennis friend</button><div id="shareFallback" hidden><label for="challengeLink">Challenge link</label><input id="challengeLink" readonly aria-label="Challenge link"><button class="alt" id="copyChallenge">Copy link</button></div><p id="shareStatus" role="status"></p>`;
+  w.querySelector('#liveEvidence').after(box);box.querySelector('input').value=link;
+  const status=box.querySelector('#shareStatus'),fallback=box.querySelector('#shareFallback');
+  const reveal=()=>{fallback.hidden=false;box.querySelector('input').select();status.textContent='Copy this link. It contains no answers or scores.';};
+  box.querySelector('#sharePointButton').onclick=async()=>{
+    A.track('challenge_share_intent',{lesson:slug});
+    if(!navigator.share){reveal();return;}
+    try{await navigator.share({title:'Where does this point turn?',text:'Make your calls. Then see what they create.',url:link});status.textContent='Challenge shared.';A.track('challenge_shared',{lesson:slug,method:'native'});}
+    catch(e){if(e.name==='AbortError'){status.textContent='Share cancelled.';return;}reveal();}
+  };
+  box.querySelector('#copyChallenge').onclick=async()=>{try{await navigator.clipboard.writeText(link);status.textContent='Link copied. Their choices come first.';A.track('challenge_shared',{lesson:slug,method:'copy'});}catch(e){box.querySelector('input').select();status.textContent='Select and copy the link above.';}};
 }
 function fail(){if(W)W.drop();ld.className="err";ld.innerHTML=`Couldn't load this lesson. Check your connection and <a href="">try again</a>, or go <a href="./?home=1">home</a>.`;}
 const get=u=>fetch(u).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();});

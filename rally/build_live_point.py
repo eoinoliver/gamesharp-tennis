@@ -172,11 +172,16 @@ def write(p, title, keys, higher, followup=False):
             read='Your next point: judge the reply and the recovery together. A higher ball can buy time; moving while it travels turns that time into a better starting position. Keep reading the opponent—neither choice guarantees the next reply.',
             src='Craig O’Shannessy · Winning on Defense · public overview',url='https://braingametennis.com/webinar-73-winning-on-defense/'),
         drill=dict(name='Use the flight',how='With a partner, start from a comfortable wide feed. Try a higher reply and a flatter one, then notice where you are when they hit. Judge your available time and position, not just the point result.'))
+    lesson['family']='recovery-time'
+    lesson['learningSignals']=['reply','recovery'] if followup else ['reply','recovery','direction','next-reply']
     if not followup:lesson['edition']='connected-four-v2'
     used={'ready'}|{a['clip'] for s in scenes.values() for aa in s['actors'].values() for a in aa}
     (R/f'{p}_data.json').write_text(json.dumps(dict(clips={k:v for k,v in D['clips'].items() if k in used},scenes=scenes),separators=(',',':'))+'\n')
     (R/f'lesson_{p}.js').write_text('const LESSON='+json.dumps(lesson,ensure_ascii=False,indent=2)+';\n')
 
-write('lp','Buy Time. Use It.',['pw1B','pw1C'],1)
-write('lt','Other Wing. Same Read?',['pw3D','pw3A'],0,True)
+families=json.loads((R/'live_point_families.json').read_text())
+for family in families.values():
+    for play in family['plays']:
+        assert all(k in D['scenes'] for k in play['sources'])
+        write(play['prefix'],play['title'],play['sources'],play['higher'],play['transfer'])
 print('Authored up to four connected decisions; unreachable contacts end honestly without a fabricated return.')

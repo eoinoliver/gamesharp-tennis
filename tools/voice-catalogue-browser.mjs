@@ -22,7 +22,7 @@ async function journey(row,index){
  await c.route(/posthog\.com\//,r=>r.fulfill({status:200,body:'{}'}));
  if(process.env.GS_AUTH_TRANSPORT){
   // Warm audio before the first gesture: CLI authentication latency is not app network latency.
-  for(const name of ['contact-1.wav','contact-2.wav','bounce.wav','applause-1.mp3','applause-2.mp3','applause-3.mp3','voice-'+row.lesson+'.mp3'])await fetchPath('/audio/'+name+'?v='+version);
+  for(const name of ['contact-1.wav','contact-2.wav','bounce.wav','applause-1.mp3','applause-2.mp3','applause-3.mp3','voice-'+row.lesson+'.mp3',...['time-used','time-watched','early-recovery','recover-sooner'].map(k=>'voice-live-'+k+'.mp3')])await fetchPath('/audio/'+name+'?v='+version);
   await c.route(origin+'/**',async r=>{const u=new URL(r.request().url());await r.fulfill(await fetchPath(u.pathname+u.search));});
   await c.route('https://vercel.live/**',r=>r.abort());
  }
@@ -56,10 +56,13 @@ async function journey(row,index){
   }
   await p.waitForSelector('#hearVoice');await p.waitForFunction(()=>__audio.some(a=>a.asset?.includes('/voice-')));
   assert.equal(await voiceCount(),1,'one automatic cue');
-  assert.equal(await p.locator('#wrapup .mem').innerText(),row.text);
+  const route=await p.evaluate(()=>LESSON.livePoint?{time:LETTERS.indexOf(ans[0])===LESSON.steps[0].correct,recovery:LETTERS.indexOf(ans[1])===LESSON.steps[1].correct}:null);
+  const variant=route&&JSON.parse(readFileSync('docs/features/flagship-voice-sources.json')).find(r=>r.key===(route.time?(route.recovery?'time-used':'time-watched'):(route.recovery?'early-recovery':'recover-sooner')));
+  const expectedText=variant?.text||row.text,expectedAsset=variant?.asset||row.lesson;
+  assert.equal(await p.locator('#wrapup .mem').innerText(),expectedText);
   assert.equal(await p.locator('#voicePreference').getAttribute('aria-pressed'),'true');
   const audio=await p.evaluate(()=>__audio.filter(a=>a.asset?.includes('/voice-')));
-  assert.ok(audio[0].asset.startsWith('audio/voice-'+row.lesson+'.mp3?'),'lesson-specific asset');
+  assert.ok(audio[0].asset.startsWith('audio/voice-'+expectedAsset+'.mp3?'),'lesson-specific asset');
   assert.equal(audio[0].moving,false,'voice follows completed motion');
   assert.equal(await p.evaluate(()=>__audio.some(a=>a.asset?.includes('/applause-'))),false,'no applause overlap');
   const evidence=await p.evaluate(()=>({score:GSApp.S.done[new URL(location).searchParams.get('l')]?.n,expected:ans.filter((a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)))).length,predict:!!LESSON.predict,pro:!!LESSON.pro,drill:!!LESSON.drill,cue:!!LESSON.cue}));
@@ -84,7 +87,7 @@ async function journey(row,index){
   await p.locator('#voicePreference').tap();assert.equal(await p.evaluate(()=>GSSfx.voiceState().playing),false,'voice off stops speech');
   if(evidence.predict){await p.locator('#redo').tap();assert.equal(await p.evaluate(()=>done),false,'predict can restart');}
   for(const size of index===0?[{width:320,height:740},{width:1100,height:900}]:[]){await p.setViewportSize(size);assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await p.screenshot({path:`${out}/${row.lesson}-${size.width}.png`,fullPage:true});}
-  results.push({lesson:row.lesson,questions,wrong,...evidence,duration:audio[0].duration,transcript:row.text,automaticVoice:1,replayVoice:0});console.log('PASS',row.lesson,questions,'questions',audio[0].duration.toFixed(2)+'s');
+  results.push({lesson:row.lesson,questions,wrong,...evidence,duration:audio[0].duration,transcript:expectedText,automaticVoice:1,replayVoice:0});console.log('PASS',row.lesson,questions,'questions',audio[0].duration.toFixed(2)+'s');
  }catch(e){await p.screenshot({path:`${out}/${row.lesson}-failure.png`,fullPage:true}).catch(()=>{});throw e;}finally{await c.close();}
 }
 try{

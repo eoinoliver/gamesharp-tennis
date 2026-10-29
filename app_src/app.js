@@ -87,6 +87,7 @@ function migrateEditions(){
     S.editionHistory[l.slug].push({edition:d?.edition||'earlier',done:d||null,seen:seen||null,reads:S.liveReads?.[l.slug]||[],attempts:S.liveAttempts?.[l.slug]||[]});
     delete S.done[l.slug];if(S.seen)delete S.seen[l.slug];if(S.liveReads)delete S.liveReads[l.slug];if(S.liveAttempts)delete S.liveAttempts[l.slug];
     if(S.liveFirstAttemptIds)delete S.liveFirstAttemptIds[l.slug];
+    if(S.liveFirstSeen)delete S.liveFirstSeen[l.slug];
     changed=true;
   }
   if(changed)save(S);
@@ -99,12 +100,12 @@ function nextDaily(){
 function nextLivePoint(){
   syncProgress();
   const points=(CAT.play||[]).filter(l=>l.livePoint),seen=S.seen||{};
-  const due=points.find(l=>l.transferOf&&S.done[l.transferOf]?.first<today()&&!S.done[l.slug]&&!seen[l.slug]);
-  return due||points.find(l=>!l.transferOf&&!S.done[l.slug]&&!seen[l.slug])||null;
+  const due=points.find(l=>l.transferOf&&S.done[l.transferOf]?.first<today()&&!S.done[l.slug]);
+  return due||points.find(l=>!l.transferOf&&!S.done[l.slug])||null;
 }
 function startLesson(slug){
   if(!isDaily(slug)&&!bySlug(slug)?.livePoint)return;
-  syncProgress();S.seen||={};S.seen[slug]=Math.max(Date.now(),...Object.values(S.seen).map(Number).filter(Number.isFinite),0)+1;
+  syncProgress();if(bySlug(slug)?.livePoint){S.liveFirstSeen||={};S.liveFirstSeen[slug]||=S.seen?.[slug]?'earlier':today();}S.seen||={};S.seen[slug]=Math.max(Date.now(),...Object.values(S.seen).map(Number).filter(Number.isFinite),0)+1;
   S.seenEditions||={};S.seenEditions[slug]=bySlug(slug)?.edition||'original';save(S);
 }
 const activeAttempts={};
@@ -120,8 +121,8 @@ function recordLiveRead(slug,d){
   // A retry must never append its later decisions to an earlier route.
   if(d.i!==attempt.reads.length)return;
   const prior=lesson.transferOf&&S.done[lesson.transferOf];
-  const delayed=!!(prior&&prior.first<today());
-  const read={day:today(),pick:d.X,ok:!!d.ok,node:d.node,delayed};
+  const delayed=!!(prior&&prior.first<today()&&(!S.liveFirstSeen?.[slug]||S.liveFirstSeen[slug]===attempt.day)&&attempt.day===today());
+  const read={day:today(),pick:d.X,ok:!!d.ok,node:d.node,signal:d.signal||bySlug(slug)?.learningSignals?.[d.i]||null,delayed};
   if(!attempts.some(a=>a.id===attempt.id))attempts.push(attempt);
   attempt.reads.push(read);
   S.liveReads||={};S.liveFirstAttemptIds||={};
@@ -133,6 +134,17 @@ function recordLiveRead(slug,d){
   track('live_point_read',{lesson:slug,edition:lesson.edition||'original',attempt:attempt.id,step:d.i+1,...read,transfer_of:lesson.transferOf||null,
     gap_days:prior?daysBetween(prior.first,today()):null});
 }
+// A transfer claim needs both decisions from the first, unexposed later-day attempt.
+function transferEvidence(slug){
+  const lesson=bySlug(slug);if(!lesson?.transferOf)return null;
+  const attempt=S.liveAttempts?.[slug]?.find(a=>a.id===activeAttempts[slug]?.id)||S.liveAttempts?.[slug]?.at(-1);
+  if(!attempt?.result||attempt.reads.length<2)return null;
+  const [reply,recovery]=attempt.reads,prior=S.liveReads?.[lesson.transferOf];
+  const blind=attempt.id===S.liveFirstAttemptIds?.[slug]&&reply.delayed&&recovery.delayed;
+  const text=reply.ok?(recovery.ok?(blind&&prior?.[1]?.ok===false?'This time, you recovered while your ball travelled.':'You chose more time and recovered while the ball travelled.'):'You chose more time, then waited to recover.'):(recovery.ok?'You recovered promptly. A higher reply could have bought more time.':'The quicker reply and the wait left you less recovery time.');
+  return {kind:blind?'first_later_day':'practice',reply:reply.ok,recovery:recovery.ok,text};
+}
+function challengeUrl(slug){return bySlug(slug)?.livePoint?'https://www.gamesharptennis.com/play.html?l='+encodeURIComponent(slug)+'&challenge=point':null;}
 /* Show exhaustion or an explicit unfinished revisit before today's completion. */
 function todays(){
   syncProgress();
@@ -148,12 +160,14 @@ function complete(slug,n,total=3){
   // n/total is the immutable first result; best/bestTotal always stay a pair.
   S.done[slug]=d?Object.assign(d,{last:t,times:d.times+1,best:improves?n:d.best,bestTotal:improves?total:bestTotal,lastScore:n,lastTotal:total}):{first:t,last:t,times:1,best:n,bestTotal:total,n,total,edition:bySlug(slug)?.edition||'original'};
   const attempt=S.liveAttempts?.[slug]?.find(a=>a.id===activeAttempts[slug]?.id);
-  if(attempt&&!attempt.result)attempt.result={n,total};
+  const firstCompletion=attempt&&!attempt.result;
+  if(firstCompletion)attempt.result={n,total};
   if(!S.days.includes(t)){
     S.streak=(S.last&&daysBetween(S.last,t)===1)?S.streak+1:(S.last===t?S.streak:1);
     S.last=t; S.days.push(t); S.days=S.days.slice(-120);
   }
   save(S);
+  const transfer=firstCompletion&&transferEvidence(slug);if(transfer)track('live_point_transfer',{lesson:slug,attempt:attempt.id,...transfer,text:undefined});
   track("lesson_complete",{lesson:slug,edition:bySlug(slug)?.edition||'original',daily:isDaily(slug),first_time:firstTime,score:n,total,times:S.done[slug].times});
   if(isDaily(slug)&&firstTime&&!nextDaily()) track("content_exhausted",{});
 }
@@ -177,6 +191,6 @@ const listeners=[];
 function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
-window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,recordLiveRead,beginLiveAttempt,previousEdition,todays,startLesson,complete,setLevel,feedback,emit,on,
+window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,startLesson,complete,setLevel,feedback,emit,on,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();
