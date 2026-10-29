@@ -133,6 +133,14 @@ for records, expected in [(mobile['source'], source), (mobile['release'], manife
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Mobile trust baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Complete flagship learning cycle; preserve every historical fingerprint.
+flagship = json.loads((ROOT/'docs/features/live-point-flagship-build.json').read_text())
+assert set(flagship['source']) == set(['app_src/analytics.test.mjs', 'app_src/app.js', 'app_src/audio/voice-live-early-recovery.mp3', 'app_src/audio/voice-live-recover-sooner.mp3', 'app_src/audio/voice-live-time-used.mp3', 'app_src/audio/voice-live-time-watched.mp3', 'app_src/build.py', 'app_src/index.html', 'app_src/play_host.html', 'app_src/sfx.js', 'app_src/sfx.test.mjs', 'docs/features/flagship-voice-sources.json', 'docs/features/live-point-flagship-cycle.md', 'rally/build_live_point.py', 'rally/lesson_body.html', 'rally/lesson_lp.js', 'rally/lesson_lt.js', 'rally/live_point_families.json', 'tools/browser-checks.mjs', 'tools/flagship-browser.mjs', 'tools/voice-catalogue-browser.mjs'])
+assert set(flagship['release']) == set(['app/app.js', 'app/audio/voice-live-early-recovery.mp3', 'app/audio/voice-live-recover-sooner.mp3', 'app/audio/voice-live-time-used.mp3', 'app/audio/voice-live-time-watched.mp3', 'app/catalog.js', 'app/engine/engine.js', 'app/index.html', 'app/lessons/live-point-buy-time.json', 'app/lessons/live-point-other-wing.json', 'app/play.html', 'app/sfx.js'])
+for records, expected in [(flagship['source'], source), (flagship['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Flagship cycle baseline drift: {name}'
+        expected[name] = hashes['candidate']
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)

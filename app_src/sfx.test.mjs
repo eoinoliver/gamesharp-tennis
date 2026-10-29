@@ -260,3 +260,18 @@ test('navigation gestures do not start audio work on a page being left',async()=
  await Promise.resolve();assert.equal(f.contexts.length,0);assert.equal(f.requests.length,0);
  f.events.touchend({target:{}});await f.api.unlock();assert.equal(f.api.ready(),true,'lesson interactions still unlock sound');
 });
+
+test('four Live Point endings match the reply/recovery combination and retain mute',async()=>{
+ const rows=JSON.parse(readFileSync(new URL('../docs/features/flagship-voice-sources.json',import.meta.url)));
+ for(const [time,recovery,key]of [[true,true,'time-used'],[true,false,'time-watched'],[false,true,'early-recovery'],[false,false,'recover-sooner']]){
+  const f=fixture();f.api.configureVoice('live-point-buy-time');await f.api.unlock();f.api.configureLiveVoice(time,recovery);await f.api.hearVoice();
+  const row=rows.find(r=>r.key===key);assert.equal(f.api.voiceInfo().text,row.text);assert.match(f.sources.at(-1).buffer.url,new RegExp('voice-live-'+key));
+  const bytes=readFileSync(new URL('../'+row.path,import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),row.releaseSha256);assert(row.durationSeconds<5);
+  f.api.setVoice(false);assert.equal(f.api.completeVoice(),false);assert.equal(f.api.voiceState().playing,false);
+ }
+});
+test('a slow old voice download cannot substitute its words for the selected route',async()=>{
+ let release;const hold=new Promise(r=>release=r),f=fixture({heldFiles:{'audio/voice-live-point-buy-time.mp3':hold}});
+ f.api.configureVoice('live-point-buy-time');await f.api.unlock();f.api.configureLiveVoice(true,false);await f.api.hearVoice();release();await new Promise(r=>setTimeout(r,0));
+ assert.equal(f.api.voiceInfo().asset,'live-time-watched');assert.match(f.sources.at(-1).buffer.url,/voice-live-time-watched/);
+});

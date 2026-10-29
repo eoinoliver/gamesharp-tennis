@@ -116,5 +116,10 @@ const LESSON={
   "drill": {
     "name": "Use the flight",
     "how": "With a partner, start from a comfortable wide feed. Try a higher reply and a flatter one, then notice where you are when they hit. Judge your available time and position, not just the point result."
-  }
+  },
+  "family": "recovery-time",
+  "learningSignals": [
+    "reply",
+    "recovery"
+  ]
 };

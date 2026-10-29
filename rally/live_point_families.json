@@ -1,0 +1,11 @@
+{
+  "recovery-time": {
+    "principle": "Your reply buys time. Your movement puts it to work.",
+    "comparison": {"changed": "recovery timing", "heldConstant": ["reply", "opponent motion", "ball flight", "camera", "freeze event"], "freezeEvent": "opponent contact"},
+    "learningSignals": ["reply", "recovery", "direction", "next-reply"],
+    "plays": [
+      {"prefix": "lp", "slug": "live-point-buy-time", "title": "Buy Time. Use It.", "sources": ["pw1B", "pw1C"], "higher": 1, "transfer": false},
+      {"prefix": "lt", "slug": "live-point-other-wing", "title": "Other Wing. Same Read?", "sources": ["pw3D", "pw3A"], "higher": 0, "transfer": true}
+    ]
+  }
+}

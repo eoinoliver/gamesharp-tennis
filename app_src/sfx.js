@@ -8,6 +8,10 @@
   const voices=new Set(), buffers={}, pending={}, files=[...core,...rewards];
   const REWARD_KEY='gs_reward_last';
   const VOICE_KEY='gs_voice', courtVoices={
+  "live-time-used": "You bought time and used it. Keep reading the next ball.",
+  "live-time-watched": "You bought time. Start moving while it travels.",
+  "live-early-recovery": "You recovered early. More height could buy more time.",
+  "live-recover-sooner": "Your reply gave you less time. Start recovering sooner.",
   "live-point-buy-time": "Buy yourself time. Use it to recover.",
   "live-point-other-wing": "Buy yourself time. Use it to recover.",
   "serve-plus-one": "Plan the next ball. Read the return.",
@@ -52,7 +56,8 @@
   "midweek-point-1": "Buy time when wide. Attack the opening.",
   "play-the-point": "Your shot shapes their reply. Read it."
 };
-  let voiceSlug=null, voiceEnabled=true, voiceLoading=null, voiceError=false,
+  const voiceLoads={};let liveVoiceFamily=false;
+  let voiceSlug=null, voiceEnabled=true, voiceError=false,
       voicePending=false, voiceGeneration=0, voiceListener=null;
   try{voiceEnabled=localStorage.getItem(VOICE_KEY)!=='0';}catch(e){}
   const speaking=()=>[...voices].some(v=>v.kind==='voice');
@@ -66,9 +71,9 @@
     if(!c||!voiceSlug||(!voiceEnabled&&!manual)||!enabled)return Promise.resolve(false);
     const key='voice-'+voiceSlug;
     if(buffers[key])return Promise.resolve(true);
-    if(voiceLoading)return voiceLoading;
+    if(voiceLoads[key])return voiceLoads[key];
     voiceError=false;
-    voiceLoading=(async()=>{
+    voiceLoads[key]=(async()=>{
       const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);
       try{
         const r=await fetch(`audio/${key}.mp3?v=${version}`,{signal:controller.signal});
@@ -76,10 +81,10 @@
         const b=await c.decodeAudioData(await r.arrayBuffer());
         if(!b.length||!Number.isFinite(b.duration)||b.duration>5)throw Error('Invalid voice');
         buffers[key]=b;return true;
-      }catch(e){voiceError=true;return false;}
+      }catch(e){if(key==='voice-'+voiceSlug)voiceError=true;return false;}
       finally{clearTimeout(timer);}
-    })().finally(()=>{voiceLoading=null;paintVoice();});
-    return voiceLoading;
+    })().finally(()=>{delete voiceLoads[key];paintVoice();});
+    return voiceLoads[key];
   }
   let previousReward=null;
   try{previousReward=localStorage.getItem(REWARD_KEY);}catch(e){}
@@ -199,8 +204,14 @@
   }
   const api=window.GSSfx={
     enabled:()=>enabled,ready,unlock,stop,
-    configureVoice(slug){voiceSlug=Object.hasOwn(courtVoices,slug)?slug:null;},
-    voiceInfo:()=>voiceSlug?{text:courtVoices[voiceSlug]}:null,
+    configureVoice(slug){if(voiceSlug!==slug)stopVoice();liveVoiceFamily=['live-point-buy-time','live-point-other-wing'].includes(slug);voiceSlug=Object.hasOwn(courtVoices,slug)?slug:null;},
+    configureLiveVoice(time,recovery){
+      if(!liveVoiceFamily)return;
+      const key='live-'+(time?(recovery?'time-used':'time-watched'):(recovery?'early-recovery':'recover-sooner'));
+      if(voiceSlug!==key)stopVoice();voiceSlug=key;voiceError=false;
+      if(contextReady())loadVoice(ctx);
+    },
+    voiceInfo:()=>voiceSlug?{text:courtVoices[voiceSlug],asset:voiceSlug}:null,
     voiceState:()=>({enabled:voiceEnabled,playing:speaking(),pending:voicePending,error:voiceError,available:!!AC,generation:voiceGeneration}),
     onVoiceChange(fn){voiceListener=fn;paintVoice();},
     setVoice(value){voiceEnabled=!!value;try{localStorage.setItem(VOICE_KEY,voiceEnabled?'1':'0');}catch(e){}if(!voiceEnabled)stopVoice();paintVoice();},
