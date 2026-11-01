@@ -1,5 +1,13 @@
 # GameSharp Tennis shared worklog
 
+## 2 November 2026 — Sharpen stroke clarity (Codex owns this task)
+
+- Branch `codex/sharpen-stroke-clarity-2026-11-02`, from main `8a74b7f`.
+- Eoin authorised practical stroke corrections before further content: visible serve toss, clearer slice, compact volleys and connected two-handed backhand. Existing Tennis Australia/reference work guides the illustrations; no Blender rebuild or new capture pipeline.
+- Shared clip corrections carry into existing lessons. Contact anchors, authored decisions, captured foot directions and historical manifests are preserved.
+- In progress: implementation, visual review, full existing journey checks and Git release verification.
+
+
 ## 26 October 2026 — Contact Clue visual-focus review (Codex)
 
 - Branch `codex/contact-focus-2026-10-26`, based on main `e215a4c`.
