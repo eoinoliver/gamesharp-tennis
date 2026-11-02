@@ -1,0 +1,141 @@
+{
+  "status": "live",
+  "verifiedAt": "2026-11-02T01:40:16.265467+00:00",
+  "app": "df4099ec6b",
+  "pullRequest": "https://github.com/eoinoliver/gamesharp-tennis/pull/67",
+  "project": "prj_SHIw7K0JxhCtoQQgh1zVHlR3r2Pe",
+  "candidate": "e4a8896432116b098d72091daf83d10367505154",
+  "tree": "e7028d49bab6a1bb938bd14451a5ac0b224d6878",
+  "merge": "0bd91c70a17fb49bce0f33ecfdbdc87d2511ada1",
+  "preview": {
+    "id": "dpl_3wqw44kWMpBsjtX1WuLAB7M1Gw91",
+    "url": "https://gamesharp-tennis-fffbwiadt-eoinlynn-5978s-projects.vercel.app"
+  },
+  "production": {
+    "id": "dpl_FQE8a3wpByQaCagLqJXrsdtkPiWx",
+    "url": "https://gamesharp-tennis-c3oc7fpw4-eoinlynn-5978s-projects.vercel.app",
+    "target": "production",
+    "promotion": "exact verified Git-triggered Production artifact; no rebuild"
+  },
+  "public": "https://www.gamesharptennis.com/?review=1",
+  "automaticDomainAssignment": false,
+  "rollback": {
+    "app": "884076afe6",
+    "deployment": "dpl_AY9y1LRbcFy2Zr9WvTbTBeoKbGbr",
+    "url": "https://gamesharp-tennis-kyh9qp8qf-eoinlynn-5978s-projects.vercel.app",
+    "sha": "943568b3e7ede119d24e0c71c1d86a9d6a55affe"
+  },
+  "changes": [
+    "Sharpen serve releases after 0.25 s, clears the net by about 28 cm and shows the opposite service-box bounce.",
+    "All three serves share a rising-hand release between Sharpen and lesson rendering.",
+    "125 ready-hold openings across 12 lessons now play captured serve preparation instead of blending straight to contact.",
+    "Three volley derivatives coordinate split, knee loading, shoulder turn, opposite-foot step, forward body motion and continuous descending punch.",
+    "Above-net forehand demonstration, near-net volley placement, and full foot framing in animation and six reference stills."
+  ],
+  "scope": {
+    "catalogue": 47,
+    "newlyEligible": 0,
+    "withheld": 0,
+    "sharedClipsChanged": 6,
+    "affectedExistingJourneys": 24,
+    "newContent": 0,
+    "sourceServeBodies": "unchanged",
+    "contactsAndTiming": "unchanged",
+    "outgoingLessonBallTracks": "unchanged"
+  },
+  "verification": {
+    "ciRun": 41371965785,
+    "ciHead": "e4a8896432116b098d72091daf83d10367505154",
+    "unitTests": 63,
+    "browserInvocations": 65,
+    "catalogueJourneys": 47,
+    "localCompleteJourneys": 47,
+    "serveLessons": 17,
+    "serveScenes": 169,
+    "maximumSourceBodyGapMetres": 0,
+    "mirroredServeRegression": "synthetic fixture passes",
+    "sharpen": {
+      "preview": {
+        "views": 21,
+        "errors": 0
+      },
+      "production": {
+        "views": 21,
+        "errors": 0
+      },
+      "live": {
+        "views": 21,
+        "errors": 0
+      }
+    },
+    "completeWebkitJourneys": {
+      "preview": {
+        "complete": 7,
+        "errors": 0
+      },
+      "production": {
+        "complete": 7,
+        "errors": 0
+      },
+      "live": {
+        "complete": 7,
+        "errors": 0
+      }
+    },
+    "http": {
+      "preview": {
+        "passed": 309,
+        "total": 309,
+        "base": "https://gamesharp-tennis-fffbwiadt-eoinlynn-5978s-projects.vercel.app"
+      },
+      "production": {
+        "passed": 309,
+        "total": 309,
+        "base": "https://gamesharp-tennis-c3oc7fpw4-eoinlynn-5978s-projects.vercel.app"
+      },
+      "live": {
+        "passed": 309,
+        "total": 309,
+        "base": "https://www.gamesharptennis.com"
+      }
+    },
+    "publicOutputFiles": 167,
+    "configurationEquivalence": {
+      "preview": "dpl_3wqw44kWMpBsjtX1WuLAB7M1Gw91",
+      "production": "dpl_FQE8a3wpByQaCagLqJXrsdtkPiWx",
+      "same_git_tree": "e7028d49bab6a1bb938bd14451a5ac0b224d6878",
+      "checks": [
+        "projectSettings",
+        "env",
+        "nodeVersion",
+        "routes",
+        "config",
+        "functions",
+        "resourceConfig",
+        "entire build config"
+      ],
+      "project_env_count": 0,
+      "platform_env_declarations": 139,
+      "middleware": 0,
+      "functions": 0,
+      "exact_public_paths": 167,
+      "unexplained_differences": [],
+      "explained_differences": [
+        "Git branch/merge SHA with identical tree",
+        "Preview versus staged Production identity and environment",
+        "Preview-only Vercel feedback suffix"
+      ]
+    },
+    "browserTransport": {
+      "preview": "native hosted requests with origin-scoped short-lived OIDC header",
+      "production": "exact authenticated HTTP response bodies replayed at the staged origin; direct HTTP/routing/inventory checks separate",
+      "live": "native public requests; test analytics intercepted"
+    }
+  },
+  "reference": "https://www.tennis.com.au/wp-content/uploads/2014/11/Technical-and-Tactical-fundamentals-guidelines_low-res.pdf",
+  "limits": [
+    "Builder sequence/multi-angle/mobile visual review; no independent coaching certification.",
+    "Browser phone/desktop layouts; no physical-device certification.",
+    "Authored body and foot motion for the volley derivatives, preserving original limb lengths and contacts."
+  ]
+}
