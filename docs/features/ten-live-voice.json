@@ -1,0 +1,72 @@
+[
+  {
+    "lesson": "live-point-return-pressure",
+    "text": "Read the pace. Give your return room, then recover.",
+    "neutral": true,
+    "batch": 1,
+    "prefix": "tp"
+  },
+  {
+    "lesson": "live-point-return-time",
+    "text": "Use the time. Apply pressure, then read what comes back.",
+    "neutral": true,
+    "batch": 1,
+    "prefix": "tt"
+  },
+  {
+    "lesson": "live-point-line-tempting",
+    "text": "Balance before direction. Give yourself room to recover.",
+    "neutral": true,
+    "batch": 1,
+    "prefix": "tl"
+  },
+  {
+    "lesson": "live-point-line-opens",
+    "text": "Use the opening you earn. Cover the reply it creates.",
+    "neutral": true,
+    "batch": 2,
+    "prefix": "to"
+  },
+  {
+    "lesson": "live-point-volley-build",
+    "text": "Low volley, compact action. Build the point, then stay ready.",
+    "neutral": true,
+    "batch": 2,
+    "prefix": "tv"
+  },
+  {
+    "lesson": "live-point-volley-opening",
+    "text": "Use the height and space. Place it, then stay ready.",
+    "neutral": true,
+    "batch": 2,
+    "prefix": "th"
+  },
+  {
+    "lesson": "live-point-pass-two",
+    "text": "Make the first volley difficult. Read it before you pass.",
+    "neutral": true,
+    "batch": 3,
+    "prefix": "tf"
+  },
+  {
+    "lesson": "live-point-over-head",
+    "text": "Read how close they stand. Use the space above them.",
+    "neutral": true,
+    "batch": 3,
+    "prefix": "tb"
+  },
+  {
+    "lesson": "live-point-reach-drop",
+    "text": "Reach the ball, then find balance. Keep the next shot playable.",
+    "neutral": true,
+    "batch": 3,
+    "prefix": "td"
+  },
+  {
+    "lesson": "live-point-arrive-options",
+    "text": "Early arrival creates options. Place the ball, then stay ready.",
+    "neutral": true,
+    "batch": 4,
+    "prefix": "te"
+  }
+]

@@ -118,5 +118,180 @@
         "followup": null
       }
     ]
+  },
+  "return-pressure": {
+    "builder": "build_live_ten.py",
+    "principle": "Read the serve\u2019s pace, then read the next ball afresh.",
+    "comparison": {
+      "changed": "first shot and its resulting reply",
+      "heldConstant": [
+        "incoming ball",
+        "both players before first contact",
+        "camera"
+      ],
+      "freezeEvent": "opponent reply contact"
+    },
+    "plays": [
+      {
+        "prefix": "tp",
+        "slug": "live-point-return-pressure",
+        "title": "Return Under Pressure",
+        "sources": [
+          "rs1A"
+        ],
+        "transferOf": null,
+        "followup": "live-point-return-time"
+      },
+      {
+        "prefix": "tt",
+        "slug": "live-point-return-time",
+        "title": "Return With Time",
+        "sources": [
+          "mr3A"
+        ],
+        "transferOf": "live-point-return-pressure",
+        "followup": null
+      }
+    ]
+  },
+  "direction-change": {
+    "builder": "build_live_ten.py",
+    "principle": "An empty corner is only an opportunity if your contact supports the shot.",
+    "comparison": {
+      "changed": "first shot and its resulting reply",
+      "heldConstant": [
+        "incoming ball",
+        "both players before first contact",
+        "camera"
+      ],
+      "freezeEvent": "opponent reply contact"
+    },
+    "plays": [
+      {
+        "prefix": "tl",
+        "slug": "live-point-line-tempting",
+        "title": "The Line Is Tempting",
+        "sources": [
+          "ln1B"
+        ],
+        "transferOf": null,
+        "followup": "live-point-line-opens"
+      },
+      {
+        "prefix": "to",
+        "slug": "live-point-line-opens",
+        "title": "Now the Line Opens",
+        "sources": [
+          "ln2B"
+        ],
+        "transferOf": "live-point-line-tempting",
+        "followup": null
+      }
+    ]
+  },
+  "first-volley": {
+    "builder": "build_live_ten.py",
+    "principle": "A low first volley builds the point. Depth can earn the next ball.",
+    "comparison": {
+      "changed": "first shot and its resulting reply",
+      "heldConstant": [
+        "incoming ball",
+        "both players before first contact",
+        "camera"
+      ],
+      "freezeEvent": "opponent reply contact"
+    },
+    "plays": [
+      {
+        "prefix": "tv",
+        "slug": "live-point-volley-build",
+        "title": "First Volley: Build the Point",
+        "sources": [
+          "av3A"
+        ],
+        "transferOf": null,
+        "followup": "live-point-volley-opening"
+      },
+      {
+        "prefix": "th",
+        "slug": "live-point-volley-opening",
+        "title": "First Volley: Use the Opening",
+        "sources": [
+          "av1C"
+        ],
+        "transferOf": "live-point-volley-build",
+        "followup": null
+      }
+    ]
+  },
+  "passing-read": {
+    "builder": "build_live_ten.py",
+    "principle": "Build the pass in two balls. Read the volley before choosing again.",
+    "comparison": {
+      "changed": "first shot and its resulting reply",
+      "heldConstant": [
+        "incoming ball",
+        "both players before first contact",
+        "camera"
+      ],
+      "freezeEvent": "opponent reply contact"
+    },
+    "plays": [
+      {
+        "prefix": "tf",
+        "slug": "live-point-pass-two",
+        "title": "Pass in Two",
+        "sources": [
+          "nr1C"
+        ],
+        "transferOf": null,
+        "followup": "live-point-over-head"
+      },
+      {
+        "prefix": "tb",
+        "slug": "live-point-over-head",
+        "title": "Over Their Head",
+        "sources": [
+          "nr2D"
+        ],
+        "transferOf": "live-point-pass-two",
+        "followup": null
+      }
+    ]
+  },
+  "drop-arrival": {
+    "builder": "build_live_ten.py",
+    "principle": "Reaching a drop shot is only the first job. Your balance shapes the reply.",
+    "comparison": {
+      "changed": "first shot and its resulting reply",
+      "heldConstant": [
+        "incoming ball",
+        "both players before first contact",
+        "camera"
+      ],
+      "freezeEvent": "opponent reply contact"
+    },
+    "plays": [
+      {
+        "prefix": "td",
+        "slug": "live-point-reach-drop",
+        "title": "Reach the Drop",
+        "sources": [
+          "ad1B"
+        ],
+        "transferOf": null,
+        "followup": "live-point-arrive-options"
+      },
+      {
+        "prefix": "te",
+        "slug": "live-point-arrive-options",
+        "title": "Arrive With Options",
+        "sources": [
+          "ad1B"
+        ],
+        "transferOf": "live-point-reach-drop",
+        "followup": null
+      }
+    ]
   }
 }

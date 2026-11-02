@@ -8,6 +8,19 @@
   const voices=new Set(), buffers={}, pending={}, files=[...core,...rewards];
   const REWARD_KEY='gs_reward_last';
   const VOICE_KEY='gs_voice', courtVoices={
+  "live-point-arrive-options": "Early arrival creates options. Place the ball, then stay ready.",
+  "live-point-pass-two": "Make the first volley difficult. Read it before you pass.",
+  "live-point-over-head": "Read how close they stand. Use the space above them.",
+  "live-point-reach-drop": "Reach the ball, then find balance. Keep the next shot playable.",
+
+  "live-point-line-opens": "Use the opening you earn. Cover the reply it creates.",
+  "live-point-volley-build": "Low volley, compact action. Build the point, then stay ready.",
+  "live-point-volley-opening": "Use the height and space. Place it, then stay ready.",
+
+  "live-point-return-pressure": "Read the pace. Give your return room, then recover.",
+  "live-point-return-time": "Use the time. Apply pressure, then read what comes back.",
+  "live-point-line-tempting": "Balance before direction. Give yourself room to recover.",
+
   "live-space-11": "You made room, then read the ball. Take that to court.",
   "live-space-10": "You made room. Let the ball choose the shot.",
   "live-space-01": "Good shot selection. Make room a little sooner.",

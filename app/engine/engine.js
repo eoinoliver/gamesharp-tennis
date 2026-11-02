@@ -429,7 +429,7 @@ function actorAt(sc,name,g){
   }
   // Preparation comparisons retain the licensed stroke and its exact contact.
   // All shot branches share one preparation state up to the decision freeze.
-  if(name==='you'&&sc.info.liveSetup&&g>=sc.info.liveSetup.start){
+  if(name==='you'&&sc.info.liveSetup&&g>=sc.info.liveSetup.start&&(sc.info.liveSetup.end==null||g<=sc.info.liveSetup.end)){
     const r=sc.info.liveSetup,actual=W.find(w=>!w.fixed&&w.s.start===r.clipStart);
     const canonical={...actual,s:r.canonical};
     const ready=T=>{const L=clipAt(CL.ready,1);L.T=T;L.yaw=0;return worldOf(L);};
@@ -574,7 +574,7 @@ function fitFull(){window.__pc=null; const tall=!isFull()&&TALL;
   else if(camI===0&&LESSON.closeUp){const s=Math.min(VH/PHONE_VH,1.6); FOCAL*=s; window.__pc=[VW/2, VH/2]; return;}   // a close-up keeps its framing, just bigger
   else if(C.follow){const s=Math.min(VH/PHONE_VH,1.75); FOCAL*=s; window.__pc=[VW/2, VH-(PHONE_VH*(1-PHONE_CYF))*s*0.92]; return;}   // tall screen: zoom in, keep the lower part of the picture on screen
   let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
-  for(const X of [-5.5,5.5]) for(const Y of [-14.2,14.2]) for(const Z of [0,2.0]){const q=toCam([X,Y,Z]); if(q.z<=ZNEAR) return;
+  for(const X of [-5.5,5.5]) for(const Y of [-14.2,14.2]) for(const Z of [0,LESSON.frameHeight||2.0]){const q=toCam([X,Y,Z]); if(q.z<=ZNEAR) return;
     const u=q.x/q.z, v=q.y/q.z; x0=Math.min(x0,u);x1=Math.max(x1,u);y0=Math.min(y0,v);y1=Math.max(y1,v);}
   FOCAL=Math.min(VW*0.96/(x1-x0), VH*0.94/(y1-y0));
   window.__pc=[VW/2-FOCAL*(x0+x1)/2, VH/2+FOCAL*(y0+y1)/2];}
@@ -859,7 +859,7 @@ function questionRange(S){
   const key=S.reveal?S.scene:S.scene+'A',sc=SC[key],to=sc.info.freeze;
   if(LESSON.livePoint&&S.continuation)return {scene:key,from:164,to,type:'continuation',silent:true,label:'Your reply · replay',after:'Decide your recovery'};
   const from=(LESSON.branch?SC[S.scene]?.info.from:undefined)??sc.info.from??0;
-  if(S.opening)return {...S.opening,type:'example',silent:S.opening.silent??false};
+  if(S.opening)return {...S.opening,type:S.opening.continuous?'held-continuation':'example',silent:S.opening.silent??false};
   if(to-from<30&&from>0)return {scene:key,from:Math.max(0,to-160),to,type:'lead-in',silent:true,label:'Replay the incoming ball',after:'Your next decision'};
   if(to-from<30&&from===0){
     const serve=(sc.actors.you||[]).find(s=>!s.hold&&s.clip.startsWith('serve'));
@@ -1018,7 +1018,7 @@ function clearLiveComparison(){
   if(!liveComparison)return;liveComparison=false;$('liveCompareDock').hidden=true;
   window.__camOverride=null;if(liveComparisonCamera!=null)camI=liveComparisonCamera;liveComparisonCamera=null;
 }
-function revealLiveCompletion(){if(!done||!LESSON.livePoint)return;$('wrapup').hidden=false;questionCaption('Your court cue');$('lessonName').textContent=LESSON.title;$('sitTx').textContent=LESSON.comparison?'Prepare early. Read the ball you actually get.':'One earlier decision. A different starting position.';}
+function revealLiveCompletion(){if(!done||!LESSON.livePoint)return;$('wrapup').hidden=false;questionCaption('Your court cue');$('lessonName').textContent=LESSON.title;$('sitTx').textContent=LESSON.completionIntro||(LESSON.comparison?'Prepare early. Read the ball you actually get.':'One earlier decision. A different starting position.');}
 function finishLesson(){
   clearLiveComparison();clearContactInspection();questionCaption();
   done=true; const okA=(a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)));
@@ -1032,7 +1032,7 @@ function finishLesson(){
   w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Take this to court</div><div class="mem">${voice?voice.text:LESSON.memHTML}</div>
       ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
       <div class="score3">${A.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
-    ${LESSON.livePoint?`<div class="blk live-evidence" id="liveEvidence"><div class="k">Where the point turned</div><p><b>${liveTake}</b></p>${LESSON.decisionCount===4&&A.length===4?`<p>${okA(A[2],2)?'Your first move followed the actual reply.':'Your first move went away from the ball; the correction cost time.'} ${SC[LESSON.finaleScene].info.secondReply?.kind==='higher'?'Your higher reply buys another recovery window.':'Your firmer reply puts the next recovery on a shorter clock.'}</p>`:''}<p>${liveEnding} ${LESSON.decisionCount===4?(A.length===4?'You read the reply and chose again from the next contact.':'Your route left no preparation window for the planned reply.'):LESSON.comparison?'Compare the preparation, then read the shot.':'Watch your position as they hit.'}</p><p>${LESSON.comparison?.intro||'Watch the same ball twice. Change only when you recover.'}</p><button class="alt" id="replayTurningPoint">Compare the decision</button><button class="alt" id="compareRecovery">${LESSON.comparison?.other||'Change only recovery'}</button><p id="recoveryComparison" role="status"></p></div>`:''}
+    ${LESSON.livePoint?`<div class="blk live-evidence" id="liveEvidence"><div class="k">Where the point turned</div><p><b>${liveTake}</b></p>${LESSON.decisionCount===4&&A.length===4?`<p>${okA(A[2],2)?'Your first move followed the actual reply.':'Your first move went away from the ball; the correction cost time.'} ${SC[LESSON.finaleScene].info.secondReply?.kind==='higher'?'Your higher reply buys another recovery window.':'Your firmer reply puts the next recovery on a shorter clock.'}</p>`:''}<p>${liveEnding} ${LESSON.decisionCount===4?(A.length===4?'You read the reply and chose again from the next contact.':'Your route left no preparation window for the planned reply.'):LESSON.comparison?(LESSON.comparison.summary||'Compare the preparation, then read the shot.'):'Watch your position as they hit.'}</p><p>${LESSON.comparison?.intro||'Watch the same ball twice. Change only when you recover.'}</p><button class="alt" id="replayTurningPoint">Compare the decision</button><button class="alt" id="compareRecovery">${LESSON.comparison?.other||'Change only recovery'}</button><p id="recoveryComparison" role="status"></p></div>`:''}
     <details class="completion-more"><summary>Replays, context &amp; practice</summary>
     ${hasLessonRecap()?'<button class="alt" id="replayRecap">Replay the three reads</button>':''}
     ${payoffHTML(p)}
@@ -1048,12 +1048,12 @@ function finishLesson(){
     const inspect=other=>{
       GSSfx?.stopVoice();let k=LESSON.comparison?LESSON.branch+(other?(ans[0]==='A'?'B':'A'):ans[0])+'A':LESSON.branch+ans.slice(0,2).join('');if(other&&!LESSON.comparison)k=k.slice(0,-1)+(k.endsWith('A')?'B':'A');
       if(!liveComparison)liveComparisonCamera=camI;liveComparison=true;camI=0;
-      window.__camOverride={c:{az:-90,el:26,d:31,fov:34,tgt:[0,-4,0]},phone:{az:-90,el:28,d:38,fov:26,tgt:[0,-4,0]}};
+      window.__camOverride=LESSON.comparison?.camera||{c:{az:-90,el:26,d:31,fov:34,tgt:[0,-4,0]},phone:{az:-90,el:28,d:38,fov:26,tgt:[0,-4,0]}};
       $('liveCompareDock').hidden=false;
       $('compareOwn').setAttribute('aria-pressed',String(!other));$('compareOther').setAttribute('aria-pressed',String(other));
       if(LESSON.comparison){
         const r=SC[k].info.comparison;
-        $('compareOwn').textContent='Your preparation';$('recoveryComparison').textContent='';questionCaption((other?'Alternative · ':'Your choice · ')+r.label);
+        $('compareOwn').textContent=LESSON.comparison.ownLabel||'Your preparation';$('recoveryComparison').textContent='';questionCaption((other?'Alternative · ':'Your choice · ')+r.label);
         run(k,r.start,r.end,()=>{questionCaption((other?'Alternative · ':'Your choice · ')+r.label);$('recoveryComparison').textContent=r.explanation;emit('comparison_seen',{variant:other?'alternative':'own',event:r.event,prepared:r.good});},false);
         stageInView();emit('payoff_open',{k:other?'preparation_comparison':'turning_point'});return;
       }

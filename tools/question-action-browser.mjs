@@ -13,7 +13,7 @@ try{
  await c.route(/posthog\.com\//,r=>r.fulfill({status:200,body:'{}'}));
  const p=await c.newPage();p.on('pageerror',e=>errors.push(String(e)));
  const cat=JSON.parse(readFileSync('app/catalog.js','utf8').match(/GS_CATALOG=(.*);\n/)[1]);
- for(const l of [...cat.daily,...cat.predict,...cat.play]){
+ for(const l of [...cat.daily,...cat.predict,...cat.play].filter(l=>!process.env.GS_ACTION_SLUGS||process.env.GS_ACTION_SLUGS.split(',').includes(l.slug))){
   await p.goto(base+'play.html?l='+l.slug);await p.waitForFunction(()=>window.__test);
   const rows=await p.evaluate(()=>{
    window.__speed=12;window.__sounds=[];
@@ -28,13 +28,15 @@ try{
      if(b&&!first)first=b;prev=b;prevPose=pose;
     }
     const held=Object.values(SC).filter(x=>endsOnYou(x));
-    return{question:S.scene,...q,ballTravel,jointTravel,held:held.length,phantoms:held.filter(x=>audibleEvents(x).some(([f,k])=>k==='hit'&&f>=endsOnYou(x).L-2)).length};
+    const prior=SC[S.scene],eq=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+    const continuous=q.type==='held-continuation'&&prior&&prior.frames-1===q.to&&q.from===q.to&&eq(ballAt(prior,q.to),ballAt(sc,q.to))&&['you','opp'].every(w=>eq(actorAt(prior,w,q.to),actorAt(sc,w,q.to)));
+    return{question:S.scene,...q,continuous,ballTravel,jointTravel,held:held.length,phantoms:held.filter(x=>audibleEvents(x).some(([f,k])=>k==='hit'&&f>=endsOnYou(x).L-2)).length};
    });
   });
   for(let i=0;i<rows.length;i++){
    const r=rows[i],id=l.slug+'/'+r.question;
-   check(r.to-r.from>=30,id+': meaningful action interval');
-   check(r.ballTravel>.2||r.jointTravel>.2,id+': observable ball or player movement');
+   check(r.continuous||r.to-r.from>=30,id+': prior consequence or meaningful action interval');
+   check(r.continuous||r.ballTravel>.2||r.jointTravel>.2,id+': observable ball or player movement');
    check(r.phantoms===0,id+': no racket sound for a held incoming ball');
    // Exercise the real RAF/run/stop path, not just the opening metadata.
    const live=await p.evaluate(async i=>{
@@ -70,7 +72,7 @@ try{
        stableTextHeight:Math.abs(reserved-$('sitTx').getBoundingClientRect().height)<1};
     }finally{window.setTimeout=nativeTimeout;}
    },i);
-   check(live.changes>1&&live.samples>2,id+': rendered motion actually advances');
+   check(r.continuous||(live.changes>1&&live.samples>2),id+': rendered motion actually advances');
    check(!live.playing&&live.freeze===r.to&&live.stable&&live.quiet,id+': freeze is stable and silent');
    check(live.enabled,id+': choices available after playback and reading');
    check(live.during.words===0&&live.during.inert&&live.during.hidden&&live.during.silentText,id+': action begins without competing setup or choices');
@@ -136,5 +138,5 @@ try{
  await openCompletionPanels(p);await p.waitForSelector('#redo');check(await p.evaluate(()=>__praise===0),'2/3 completion does not applaud');
  check(errors.length===0,errors.join('\n'));
  writeFileSync(`${out}/report.json`,JSON.stringify({checks,questions:report.length,report,errors},null,2));
- console.log(`PASS ${engine.name()}: ${checks} action assertions, ${report.length} questions across ${cat.daily.length+cat.predict.length+cat.play.length} lessons`);
+ console.log(`PASS ${engine.name()}: ${checks} action assertions, ${report.length} questions across ${new Set(report.map(r=>r.lesson)).size} lessons`);
 }finally{await browser.close();}
