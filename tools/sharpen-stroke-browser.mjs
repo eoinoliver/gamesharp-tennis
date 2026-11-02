@@ -27,7 +27,7 @@ for(const [width,height]of [[375,667],[430,932],[1280,900]]){
    const dist=(a,b)=>Math.hypot(...a.map((v,i)=>v-b[i]));
    let maxJump=0,missing=0,minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity,bodyBottom=0;
    for(let f=range[0];f<=range[1];f+=.5){
-    if(k==='serve')for(const p of api.body(f))if(p)bodyBottom=Math.max(bodyBottom,p.s[1]);
+    if(['serve','fv','bv'].includes(k))for(const p of api.body(f))if(p)bodyBottom=Math.max(bodyBottom,p.s[1]);
     const b=api.ball(f);if(!b){missing++;continue;}
     const next=api.ball(f+.5);if(next)maxJump=Math.max(maxJump,dist(b,next));
     if(k==='serve'&&f<=c.contactFrame){const p=api.project(f);if(p){minX=Math.min(minX,p.s[0]);maxX=Math.max(maxX,p.s[0]);minY=Math.min(minY,p.s[1]);maxY=Math.max(maxY,p.s[1]);}}
@@ -47,6 +47,7 @@ for(const [width,height]of [[375,667],[430,932],[1280,900]]){
   },k);
   assert.equal(result.contactGap,0,k+' ball must reach the preserved contact');
   assert(result.maxJump<.3,k+' ball teleports');assert(!result.overflow,k+' page overflow');
+  if(['fv','bv'].includes(k))assert(result.bodyBottom<338,k+' shoes cropped during the step');
   if(k==='serve'){
    assert(result.serve.releaseDelay<=.3,'serve waits before tossing');
    assert(result.serve.netClearance>.22,'serve has no readable net margin');

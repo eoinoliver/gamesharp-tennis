@@ -263,7 +263,7 @@ window.GSAthlete={mount(stage,o){
   function show(nk){k=nk;c=null;o.onStroke&&o.onStroke(k);
     if(!still)load(next(nk)).catch(()=>{});   /* the next stroke's clip, fetched while this one plays */
     load(k).then(cl=>{if(k!==nk)return;c=cl;
-      const h=cl.frames[cl.contactFrame-1][I.hips]; cam={az:["bh","slice","bv"].includes(k)?-120:-65,el:13,d:k==="serve"?10:6.6,fov:35,tgt:[h[0],h[1]+.2,k==="serve"?1.5:1.05]}; buildBasis();   /* frame each stroke on the player */
+      const h=cl.frames[cl.contactFrame-1][I.hips]; cam={az:["bh","slice","bv"].includes(k)?-120:-65,el:13,d:k==="serve"?10:6.6,fov:35,tgt:[h[0],h[1]+.2,k==="serve"?1.5:(k==="fv"||k==="bv")?.9:1.05]}; buildBasis();   /* frame each stroke on the player */
       f=still?cl.contactFrame:range(cl)[0];hold=0;stage.classList.add("ready");if(still)draw(svg,k,c,f);})
       .catch(()=>{});}
   function tick(ts){

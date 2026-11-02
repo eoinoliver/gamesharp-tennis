@@ -7,7 +7,7 @@
     },
     "app_src/athlete.js": {
       "baseline": "a08b852297fecf54a39c89935a887371029e5421616f102922edc43a9885e192",
-      "candidate": "bf7d529cef7f0c87965f92718df2fc2865e199848a4d19a89ee3818e229299d4"
+      "candidate": "b40dbb61925023883a9bf54c22ec153b4c88690945b5bda7ecefd3d94b82a2dc"
     },
     "app_src/build.py": {
       "baseline": "bc33fbfb58648d3c7756f392d15d216f3fcb8a17baec795ef6ee12513f88bd34",
@@ -127,7 +127,7 @@
     },
     "tools/sharpen-stroke-browser.mjs": {
       "baseline": "6caee68995b0ea8828734f88e651cdf41e59719ac2e149fef7a7cdd8494b2f7e",
-      "candidate": "c1102d9947e748bd1bd76b76aada145d14ba0823d0bdba0457a10a0d04cefcc6"
+      "candidate": "df417496a2b9b7fd585c16c7d8c3e29b70f1508b2b147a40ed427d037ec7c915"
     },
     "tools/sharpen-stroke-source.py": {
       "baseline": "b85685d84f675276b346702351474e8ebefce55c543e0761b1a5af1d91be5266",
@@ -137,11 +137,11 @@
   "release": {
     "app/athlete.js": {
       "baseline": "b5a3ad09533ebdeabc1653629756e9b597e2709ed64d9b183ef4bedd0d9fca36",
-      "candidate": "1375512de05b8fbd5087f902ec58e5e2f2ff8c1c1de34fce12134d6f37b37a00"
+      "candidate": "551f6572d8991fdb73ad6508ed38ab14a34f1d3b1684805119e8e4fa804acb48"
     },
     "app/catalog.js": {
       "baseline": "e6818c544285a404127e40729156a8de7ee5ac43fd46bac19c7e58a998925dec",
-      "candidate": "c672b6d74f67532d22fe3d049a55575ff5e9b1e714b3c119291fe5ac39e4dfdd"
+      "candidate": "651fe676acf2cbc7c9c7c49c701a1201b91e1806c4aaf9ee35dbe6ad913a82e0"
     },
     "app/clips/bv.json": {
       "baseline": "483369a24f158067e7b027d00064f1ad4a9f94fe6e74206a4d73568f3138d17b",
@@ -173,11 +173,11 @@
     },
     "app/index.html": {
       "baseline": "9f04e90e3887128aa96502d01f3d6c970e2f4eec76e997244dfd01177b52486b",
-      "candidate": "199c65abbfdfa90629a37c66085e3116c9d261269407e98bde49975ba95d0af0"
+      "candidate": "e5b3ed08cce43eae81f56c8a57a38eed171af6ca5d0e09b98e58f15e8e158294"
     },
     "app/play.html": {
       "baseline": "9fe707d6192ddb6a0cd888c80f316c28b3cbc4b53b08b3f08f0b3a25f1e57322",
-      "candidate": "80daee672a1fbbccc11775504bbeffbda1fb3fb46caa655f03a947fd5e0a4c40"
+      "candidate": "bfce4ae4c1f51a415b6a0419c14ec4c4c4fea6ca979b8a656991065c3aa007eb"
     },
     "app/sharpen.js": {
       "baseline": "00a2a0721f627ef6fba4ba4dae845d38e5c21df08142da06bf369d4b0be34c8b",
