@@ -165,6 +165,23 @@ POINTS = [
       why='A late pickup below the net needs clearance and a manageable target. The illustration shows a playable recovery, not a miracle winner. After the pickup, organise your feet and racket for the actual passing shot.',
       pro='Tennis Australia’s movement and tactical fundamentals connect balance and court position to shot selection. A low, moving contact changes what is sensible even when an empty corner is visible.',url=TA,
       drill='Begin deep. Have a partner disguise an occasional drop shot, then play a pass after your pickup. Judge the pickup height and how quickly you regain balance.',signals=['drop-pickup','balance-recovery']),
+ dict(batch=4,prefix='te',slug='live-point-arrive-options',title='Arrive With Options',family='drop-arrival',
+      source=['ad','ad1B'],hit=186,transferOf='live-point-reach-drop',net=True,
+      incoming=dict(sourceHit=30,sourceContact=[.3,11.4,.78],opponentReady=[.3,11.5],target=[1,-3],time=1.20,post=.36,move=45,arrive=151),
+      intro='You spot the drop early. You arrive higher and more balanced, while they remain deep near the middle.',
+      q='What has arriving early made available?',opts=['Place it shorter and away from their position','Send it deep back toward them'],good=0,
+      lines=['Your placement brings them forward and across. Stay ready for their pass.', 'They meet your deep pickup near their waiting position. Read the firmer pass.'],
+      branches=[dict(target=[-2.6,5.5],time=1.35,post=.18,opponentRecovery=[-1.5,7],reply=[.2,-6.8],replyTime=1.30,replyPost=0,replyIntercept=.94),
+                dict(target=[.3,10],time=1.15,post=.18,reply=[2.6,-7.5],replyTime=1.02,replyPost=0,replyIntercept=.75)],
+      situations=['They move forward and stretch across. Their pass comes higher through the middle.', 'Their comfortable contact sends the pass wider to your forehand. Adjust before volleying.'],
+      secondQ='What does the passing shot offer now?',secondOpts=['Keep a compact volley with controlled depth','Place a shorter volley into the open side'],secondGood=[1,0],also=[[0],[]],
+      secondLines=[['A sound controlled volley. The higher ball also offered the shorter placement.', 'You use the higher ball and open side. Keep covering until the point ends.'],
+                   ['You adjust to the wider contact and keep a generous target.', 'The placement lands here, but the wider contact makes it less forgiving.']],
+      secondTargets=[[[0,9.5],1.10],[[3.4,4.5],.95]],cue='Early arrival creates options. Place the ball, then stay ready.',
+      principle='Earlier arrival creates options. Placement still depends on their position.',
+      why='Compared with the late pickup, earlier movement lets you contact the ball higher and closer to the net. With the opponent still deep, controlled shorter placement can make them move. It is not a winner by definition: organise for the pass they actually reach.',
+      pro='Tennis Australia connects movement, balance and available space to tactical decisions. This changed drop-shot situation shows why the same pickup target is not right for every arrival.',url=TA,
+      drill='Alternate a disguised drop with an obvious one. Let the receiver call “reach” or “options”, place the pickup, then play the real passing shot and next volley.',signals=['early-drop-read','placement-follow-up']),
 ]
 
 def rot(v,yaw):
@@ -221,11 +238,12 @@ def build(p):
     if incoming:
         base=copy.deepcopy(base);r=incoming
         base['ball']=base['ball'][:r['sourceHit']+1];base['marks']=[]
+        if r.get('sourceContact'):base['ball'][-1]=r['sourceContact']
         drop=placed(clips,'drop',base['ball'][-1],r['sourceHit'],True)
         contact,point=append_flight(base,r['target'],r['time'],r['post']);assert contact==hit
         first=placed(clips,'fh',point,hit)
         base['actors']['you']=[ready([.4,-11.4],0),first]
-        base['actors']['opp']=[drop,ready([.3,7],r['sourceHit']+60,True)]
+        base['actors']['opp']=[drop,ready(r.get('opponentReady',[.3,7]),r['sourceHit']+60,True)]
     else:first=next(a for a in base['actors']['you'] if not a.get('hold') and a['start']+clips[a['clip']]['contactFrame']-1-a.get('poseFrameOffset',0)==hit)
     s0=copy.deepcopy(base);s0['ball']=s0['ball'][:hit+1]
     # Source grids put the first outgoing sample one frame before their nominal

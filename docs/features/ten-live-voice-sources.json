@@ -133,5 +133,20 @@
       "mean": -23.5,
       "max": -5.0
     }
+  },
+  {
+    "asset": "live-point-arrive-options",
+    "taskId": "6ee2bd23-b49b-4e8b-a57d-883b84584cf7",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "duration": 4.92263,
+    "gainDb": -0.10000000000000142,
+    "originalSha256": "90124cf7f03a87491a6918450eb2450bf28a551e0a7231db98bdbbe6bdebb423",
+    "sha256": "2692fcbd5dc22e3e80028549f5ae8cbd66799eb589eef8f082c23f4d4d8e4fee",
+    "levels": {
+      "mean": -23.5,
+      "max": -5.8
+    }
   }
 ]

@@ -8,6 +8,7 @@
   const voices=new Set(), buffers={}, pending={}, files=[...core,...rewards];
   const REWARD_KEY='gs_reward_last';
   const VOICE_KEY='gs_voice', courtVoices={
+  "live-point-arrive-options": "Early arrival creates options. Place the ball, then stay ready.",
   "live-point-pass-two": "Make the first volley difficult. Read it before you pass.",
   "live-point-over-head": "Read how close they stand. Use the space above them.",
   "live-point-reach-drop": "Reach the ball, then find balance. Keep the next shot playable.",

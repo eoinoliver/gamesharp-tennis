@@ -70,3 +70,23 @@ time around fast opponent volleys (peak player speed reduced from 10.9 to 6.2 m/
 in the lob point). The lob remains framed throughout normal and comparison views.
 Question-action checks verify the held instant between decisions. Shortened
 feedback and corrected the late-drop opponent's rushed recovery. Batch 4 may begin.
+
+### Batch 4 checkpoint
+
+Arrive With Options passed its four routes on mobile Chromium/WebKit and desktop
+Chromium (149 assertions), the truth gate and source checks. Personally inspected
+all four route sheets and normal-speed AB with sound. The paired source check
+requires earlier movement, a higher/closer pickup and a deep opponent. All 40
+new routes pass independent net, bounce and continuity checks; 63 unit tests pass.
+The ten new journeys bring the catalogue to 57 journeys, including 16 Live Points.
+
+### Scope and limits
+
+Ten new eligible points, zero withheld; all four branches per point reviewed.
+The existing 47 lesson payloads and all 22 shared clips remain byte-identical to
+the live baseline. Five paired situations provide changed reads, not ten skins
+for the same tactical answer. The player can compare the first committed choice
+without overwriting its score. First attempts, optional sound and saved cues
+remain browser-local. Captured clips and explicit authored continuations are
+illustrations. Browser playback does not establish physical-device listening,
+independent coaching certification or on-court learning transfer.

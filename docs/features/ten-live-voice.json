@@ -61,5 +61,12 @@
     "neutral": true,
     "batch": 3,
     "prefix": "td"
+  },
+  {
+    "lesson": "live-point-arrive-options",
+    "text": "Early arrival creates options. Place the ball, then stay ready.",
+    "neutral": true,
+    "batch": 4,
+    "prefix": "te"
   }
 ]

@@ -94,3 +94,13 @@ anchors remain. The main Sharpen forehand demonstration uses the above-net
 volley; the low variant remains in its existing lesson scenes. These derived
 clips and stills retain the existing CC BY-SA 3.0 attribution and license.
 See docs/features/serve-volley-rework.md.
+
+## Ten connected Live Points — 2 November 2026
+
+`rally/build_live_ten.py` reuses the licensed source clips above and authors
+court placement, recovery timing and possible ball continuations for ten new
+points. Derived scene data retains the same CC BY-SA 3.0 attribution and license;
+the original shared clip files are unchanged. The drop-shot fallback remains
+illustrative. Coaching links provide context; no reference video is copied.
+Ten short generated Frank completion cues have source/output fingerprints and
+processing records in `docs/features/ten-live-voice-sources.json`.

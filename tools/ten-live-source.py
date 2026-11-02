@@ -39,4 +39,10 @@ for row in rows:
  if row['prefix']=='td':
   assert a['ball'][f][2]<.75 and a['info']['liveSetup']['move']>100,'late pickup must be visibly low and late'
   assert a['actors']['opp'][0]['clip']=='drop','incoming action must be a drop stroke'
+ if row['prefix']=='te':
+  late=json.loads((R/'rally/td_data.json').read_text())['scenes']['td1AA'];lf=late['info']['authoredPoint']['firstHit']
+  assert a['ball'][f][2]>late['ball'][lf][2]+.2,'early pickup must be higher'
+  assert a['ball'][f][1]>late['ball'][lf][1]+.8,'early pickup must be closer'
+  assert a['info']['liveSetup']['move']<60 and a['actors']['opp'][1]['T'][1]>11,'early read with opponent deep'
+  assert a['actors']['opp'][0]['clip']=='drop','incoming action must be a drop stroke'
 print(f'PASS: {len(rows)*4} routes; continuous choices, net clearance, legal bounces and changed next contacts')
