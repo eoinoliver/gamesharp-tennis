@@ -54,27 +54,10 @@
     "physical_device_tested": false
   },
   "rollback": {
-    "checkedAt": "2026-11-02T00:17:19.922Z",
-    "project": "prj_SHIw7K0JxhCtoQQgh1zVHlR3r2Pe",
-    "autoAssign": false,
-    "git": {
-      "type": "github",
-      "repo": "gamesharp-tennis",
-      "repoId": 1244327928,
-      "org": "eoinoliver",
-      "repoOwnerId": 278355213,
-      "gitCredentialId": "cred_c310cef870655df29427c1adcbf42e4173092e39",
-      "productionBranch": "main",
-      "sourceless": true,
-      "createdAt": 1779260778397,
-      "updatedAt": 1779260778397,
-      "deployHooks": []
-    },
-    "root": null,
-    "rollback": "dpl_BmMBcmi5RnuPE94pwEckd2GPU9Pc",
-    "rollbackUrl": "gamesharp-tennis-9hrfe79lv-eoinlynn-5978s-projects.vercel.app",
-    "rollbackSha": "8a74b7f0de1edb79436025cd60c3634117c77a5b",
-    "liveApp": "1d8e1511d4"
+    "id": "dpl_BmMBcmi5RnuPE94pwEckd2GPU9Pc",
+    "url": "https://gamesharp-tennis-9hrfe79lv-eoinlynn-5978s-projects.vercel.app",
+    "sha": "8a74b7f0de1edb79436025cd60c3634117c77a5b",
+    "app_version": "1d8e1511d4"
   },
   "limitations": [
     "Builder visual review, not independent coaching certification.",
