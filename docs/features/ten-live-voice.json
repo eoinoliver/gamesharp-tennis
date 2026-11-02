@@ -40,5 +40,26 @@
     "neutral": true,
     "batch": 2,
     "prefix": "th"
+  },
+  {
+    "lesson": "live-point-pass-two",
+    "text": "Make the first volley difficult. Read it before you pass.",
+    "neutral": true,
+    "batch": 3,
+    "prefix": "tf"
+  },
+  {
+    "lesson": "live-point-over-head",
+    "text": "Read how close they stand. Use the space above them.",
+    "neutral": true,
+    "batch": 3,
+    "prefix": "tb"
+  },
+  {
+    "lesson": "live-point-reach-drop",
+    "text": "Reach the ball, then find balance. Keep the next shot playable.",
+    "neutral": true,
+    "batch": 3,
+    "prefix": "td"
   }
 ]

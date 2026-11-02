@@ -31,8 +31,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "A higher volley offers more placement options. The next pass still decides your next shot.",
-      "payoff": "A higher volley offers more placement options. The next pass still decides your next shot.",
+      "take": "A higher volley offers options. Read the next pass before choosing again.",
+      "payoff": "A higher volley offers options. Read the next pass before choosing again.",
       "principle": "Use the height and space. Place it, then stay ready.",
       "why": "Compared with the low first volley, this ball arrives above the net and the opponent is displaced. A compact forward action can use the open side. Do not assume a winner: recover and split for the return they actually produce.",
       "opening": {
@@ -41,7 +41,8 @@ const LESSON={
         "to": 634,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "th1B": {
@@ -67,8 +68,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "A higher volley offers more placement options. The next pass still decides your next shot.",
-      "payoff": "A higher volley offers more placement options. The next pass still decides your next shot.",
+      "take": "A higher volley offers options. Read the next pass before choosing again.",
+      "payoff": "A higher volley offers options. Read the next pass before choosing again.",
       "principle": "Use the height and space. Place it, then stay ready.",
       "why": "Compared with the low first volley, this ball arrives above the net and the opponent is displaced. A compact forward action can use the open side. Do not assume a winner: recover and split for the return they actually produce.",
       "alsoOk": [
@@ -80,7 +81,8 @@ const LESSON={
         "to": 697,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "th1": {
@@ -97,7 +99,7 @@ const LESSON={
       "correct": 1,
       "lines": {
         "A": "You send it toward their side. They get a more comfortable passing attempt.",
-        "B": "You use the height and space with a compact volley. They still get a racket to it."
+        "B": "You use the height and space. They still get a racket to your compact volley."
       },
       "noTargets": true,
       "rail": [
@@ -106,8 +108,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "A higher volley offers more placement options. The next pass still decides your next shot.",
-      "payoff": "A higher volley offers more placement options. The next pass still decides your next shot.",
+      "take": "A higher volley offers options. Read the next pass before choosing again.",
+      "payoff": "A higher volley offers options. Read the next pass before choosing again.",
       "principle": "Use the height and space. Place it, then stay ready.",
       "why": "Compared with the low first volley, this ball arrives above the net and the opponent is displaced. A compact forward action can use the open side. Do not assume a winner: recover and split for the return they actually produce."
     }
@@ -121,7 +123,7 @@ const LESSON={
     "volley-opportunity",
     "next-volley-read"
   ],
-  "tomorrow": "A higher volley offers more placement options. The next pass still decides your next shot.",
+  "tomorrow": "A higher volley offers options. Read the next pass before choosing again.",
   "followup": null,
   "transferOf": "live-point-volley-build",
   "returnPrompt": null,

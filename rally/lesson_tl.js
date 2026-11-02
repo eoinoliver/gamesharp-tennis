@@ -44,7 +44,8 @@ const LESSON={
         "to": 526,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "tl1B": {
@@ -80,7 +81,8 @@ const LESSON={
         "to": 453,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "tl1": {
@@ -97,7 +99,7 @@ const LESSON={
       "correct": 0,
       "lines": {
         "A": "The higher crosscourt ball gives you time to cover. Read their next direction.",
-        "B": "You change direction from a stretched contact. Their reply takes you across the court."
+        "B": "You change direction while stretched. Their reply takes you across the court."
       },
       "noTargets": true,
       "rail": [

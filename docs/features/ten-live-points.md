@@ -58,3 +58,15 @@ Low first volley: 0.87 m; higher first volley: 1.33 m. Both keep the approach,
 split and repaired source stroke, then continue into an actual second volley.
 The opponent cannot anticipate the second choice. Three more neutral recordings
 passed real browser playback. Batch 3 may begin.
+
+### Batch 3 checkpoint
+
+Passed the 12 new routes on mobile Chromium/WebKit and desktop Chromium
+(443 assertions), inspected all route sheets and normal-speed AA, BA and BA
+journeys. All nine points passed the existing truth gate and independent source
+checks. Shared motion corrections were rechecked across all nine points at both
+widths: fixed opponent facing and first-choice anticipation, and allowed recovery
+time around fast opponent volleys (peak player speed reduced from 10.9 to 6.2 m/s
+in the lob point). The lob remains framed throughout normal and comparison views.
+Question-action checks verify the held instant between decisions. Shortened
+feedback and corrected the late-drop opponent's rushed recovery. Batch 4 may begin.

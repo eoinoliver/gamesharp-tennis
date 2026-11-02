@@ -50,12 +50,21 @@ try{
        const actual=actorAt(s,who,w.cG),b=ballAt(s,w.cG),distance=len(sub(actual.rq.centre,b));
        contacts.push({scene:root+X+Y,who,frame:w.cG,distance});if(distance>.035)fail.push('racket misses ball '+distance);
       }
-      for(let f=0;f<r.firstHit-14;f+=5){
-       if(!eq(actorAt(SC[root+'AA'],'you',f),actorAt(SC[root+'BA'],'you',f)))fail.push('first choice leaked into preparation');
+      for(const a of s.actors.opp)if(a.hold&&a.start>=r.theirHit&&Math.abs(a.yaw-Math.PI)>.01)fail.push('opponent recovers facing away');
+      for(let f=0;f<=r.firstHit;f+=5){
+       for(const who of ['you','opp'])if(!eq(actorAt(SC[root+'AA'],who,f),actorAt(SC[root+'BA'],who,f)))fail.push('first choice leaked into '+who+' preparation');
       }
       const prefix=SC[root+X];
       for(let f=0;f<prefix.frames;f+=5)for(const who of ['you','opp'])if(!eq(actorAt(prefix,who,f),actorAt(s,who,f)))fail.push('prefix actor jump');
       for(let f=r.firstHit+2;f<r.nextHit;f+=4){const a=actorAt(s,'you',f).pose[I.hips],b=actorAt(s,'you',f-4).pose[I.hips];maxSpeed=Math.max(maxSpeed,Math.hypot(a[0]-b[0],a[1]-b[1])*25);}
+     }
+     if(LESSON.frameHeight){
+      for(const override of [null,LESSON.comparison.camera]){
+       window.__camOverride=override;
+       const s=SC[root+'BA'],r=s.info.authoredPoint;
+       for(let f=r.firstHit;f<=r.theirHit;f+=3){__test.go(root+'BA',f);render();const q=P(ballAt(s,f));if(!q||q.s[0]<10||q.s[0]>VW-10||q.s[1]<10||q.s[1]>VH-10)fail.push('lob leaves frame');}
+      }
+      window.__camOverride=null;
      }
      return {fail:[...new Set(fail)],contacts,maxSpeed};
     });check(!geometry.fail.length,label+' geometry '+geometry.fail.join('; '));data.geometry=geometry;

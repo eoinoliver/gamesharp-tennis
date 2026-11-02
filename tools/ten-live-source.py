@@ -29,4 +29,14 @@ for row in rows:
  assert a['ball'][f+50]!=b['ball'][f+50],'first choice has no consequence'
  ha,hb=a['info']['authoredPoint']['nextHit'],b['info']['authoredPoint']['nextHit']
  assert math.dist(a['ball'][ha],b['ball'][hb])>.6,'first choices lead to the same read'
+ if row['prefix']=='tf':
+  low=a['ball'][a['info']['authoredPoint']['theirHit']][2];high=b['ball'][b['info']['authoredPoint']['theirHit']][2]
+  assert low<.914 and high>1.25,'passing choices must create genuinely different volley heights'
+ if row['prefix']=='tb':
+  r=b['info']['authoredPoint'];lob=b['ball'][r['firstHit']:r['theirHit']]
+  over=min(lob,key=lambda p:abs(p[1]-2));assert over[2]>3.5,'lob must clear the close net player'
+  assert b['ball'][r['theirHit']][1]>10,'opponent must chase the deep lob'
+ if row['prefix']=='td':
+  assert a['ball'][f][2]<.75 and a['info']['liveSetup']['move']>100,'late pickup must be visibly low and late'
+  assert a['actors']['opp'][0]['clip']=='drop','incoming action must be a drop stroke'
 print(f'PASS: {len(rows)*4} routes; continuous choices, net clearance, legal bounces and changed next contacts')

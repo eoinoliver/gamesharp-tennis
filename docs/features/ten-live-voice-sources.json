@@ -88,5 +88,50 @@
       "mean": -23.5,
       "max": -3.6
     }
+  },
+  {
+    "asset": "live-point-pass-two",
+    "taskId": "499def3d-04e9-4b65-82c2-e11f52cb0e0e",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "duration": 3.529433,
+    "gainDb": 0.2999999999999998,
+    "originalSha256": "d7664181a03469dde1665574bf303dcb306e9b4cf655a698bc4df7f12f216d4f",
+    "sha256": "0226a9edc25d64791e91f72a5000bba89ec59be7a3f4c54fc224b4ea4f54a9f5",
+    "levels": {
+      "mean": -24.3,
+      "max": -3.3
+    }
+  },
+  {
+    "asset": "live-point-over-head",
+    "taskId": "6cabe275-1d6f-4c96-8b6c-f2c2873d4efa",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "duration": 3.761633,
+    "gainDb": 2.1000000000000014,
+    "originalSha256": "392f3351ab366f9c6d71cc1217c99affed4169eb34df6700e810564381ba9611",
+    "sha256": "42a0f55ce82f642385aa9f682ca3a9ea8b73c3638c0d27699abcad76e7ca52cb",
+    "levels": {
+      "mean": -23.4,
+      "max": -7.5
+    }
+  },
+  {
+    "asset": "live-point-reach-drop",
+    "taskId": "d540065d-91fb-4343-a452-c92e4980d3aa",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "duration": 4.504671,
+    "gainDb": 2.3000000000000007,
+    "originalSha256": "2099b53c073949c61d893b17ae31ad4e7ffe81ccf9f4427baa18e0ba97f7e8d4",
+    "sha256": "cf8bf0735bbbecafc101e3f92e2b852a1e26e911ffc8b219e9b373a784d3c3d6",
+    "levels": {
+      "mean": -23.5,
+      "max": -5.0
+    }
   }
 ]

@@ -31,8 +31,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "A first volley below the net is a building shot. Depth can earn the next ball.",
-      "payoff": "A first volley below the net is a building shot. Depth can earn the next ball.",
+      "take": "A low first volley builds the point. Depth can earn the next ball.",
+      "payoff": "A low first volley builds the point. Depth can earn the next ball.",
       "principle": "Low volley, compact action. Build the point, then stay ready.",
       "why": "Split around their hit, lower with the legs and use a compact forward action. A low contact needs clearance. A short floating volley gives the passer time and space; a deep volley can restrict those options without guaranteeing an easy finish.",
       "opening": {
@@ -41,7 +41,8 @@ const LESSON={
         "to": 631,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "tv1B": {
@@ -58,7 +59,7 @@ const LESSON={
       "correct": 0,
       "lines": {
         "A": "You respect the lower contact and keep the ball playable.",
-        "B": "The small target asks more of an already hurried contact. Judge the margin, not this landing."
+        "B": "A small target demands more while hurried. A landing does not prove the choice."
       },
       "noTargets": true,
       "rail": [
@@ -67,8 +68,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "A first volley below the net is a building shot. Depth can earn the next ball.",
-      "payoff": "A first volley below the net is a building shot. Depth can earn the next ball.",
+      "take": "A low first volley builds the point. Depth can earn the next ball.",
+      "payoff": "A low first volley builds the point. Depth can earn the next ball.",
       "principle": "Low volley, compact action. Build the point, then stay ready.",
       "why": "Split around their hit, lower with the legs and use a compact forward action. A low contact needs clearance. A short floating volley gives the passer time and space; a deep volley can restrict those options without guaranteeing an easy finish.",
       "opening": {
@@ -77,7 +78,8 @@ const LESSON={
         "to": 608,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "tv1": {
@@ -93,7 +95,7 @@ const LESSON={
       ],
       "correct": 0,
       "lines": {
-        "A": "Your compact volley gives the low ball clearance and depth. Reset for their next hit.",
+        "A": "Your compact volley gives clearance and depth. Reset for their next hit.",
         "B": "The short float lets them move forward. Stay ready for a harder second volley."
       },
       "noTargets": true,
@@ -103,8 +105,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "A first volley below the net is a building shot. Depth can earn the next ball.",
-      "payoff": "A first volley below the net is a building shot. Depth can earn the next ball.",
+      "take": "A low first volley builds the point. Depth can earn the next ball.",
+      "payoff": "A low first volley builds the point. Depth can earn the next ball.",
       "principle": "Low volley, compact action. Build the point, then stay ready.",
       "why": "Split around their hit, lower with the legs and use a compact forward action. A low contact needs clearance. A short floating volley gives the passer time and space; a deep volley can restrict those options without guaranteeing an easy finish."
     }
@@ -118,7 +120,7 @@ const LESSON={
     "volley-height",
     "second-volley"
   ],
-  "tomorrow": "A first volley below the net is a building shot. Depth can earn the next ball.",
+  "tomorrow": "A low first volley builds the point. Depth can earn the next ball.",
   "followup": "live-point-volley-opening",
   "transferOf": null,
   "returnPrompt": "A different ball changes the decision. Try the paired point.",

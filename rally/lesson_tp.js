@@ -31,8 +31,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "The serve sets your preparation time. The next ball sets your next decision.",
-      "payoff": "The serve sets your preparation time. The next ball sets your next decision.",
+      "take": "Read the serve’s pace, then read the next ball afresh.",
+      "payoff": "Read the serve’s pace, then read the next ball afresh.",
       "principle": "Read the pace. Give your return room, then recover.",
       "why": "A fast serve rewards compact preparation and a generous target. These are two possible replies, not guaranteed outcomes. Read the depth and your balance again before changing direction.",
       "opening": {
@@ -41,7 +41,8 @@ const LESSON={
         "to": 548,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "tp1B": {
@@ -67,8 +68,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "The serve sets your preparation time. The next ball sets your next decision.",
-      "payoff": "The serve sets your preparation time. The next ball sets your next decision.",
+      "take": "Read the serve’s pace, then read the next ball afresh.",
+      "payoff": "Read the serve’s pace, then read the next ball afresh.",
       "principle": "Read the pace. Give your return room, then recover.",
       "why": "A fast serve rewards compact preparation and a generous target. These are two possible replies, not guaranteed outcomes. Read the depth and your balance again before changing direction.",
       "opening": {
@@ -77,7 +78,8 @@ const LESSON={
         "to": 506,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "tp1": {
@@ -103,8 +105,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "The serve sets your preparation time. The next ball sets your next decision.",
-      "payoff": "The serve sets your preparation time. The next ball sets your next decision.",
+      "take": "Read the serve’s pace, then read the next ball afresh.",
+      "payoff": "Read the serve’s pace, then read the next ball afresh.",
       "principle": "Read the pace. Give your return room, then recover.",
       "why": "A fast serve rewards compact preparation and a generous target. These are two possible replies, not guaranteed outcomes. Read the depth and your balance again before changing direction."
     }
@@ -118,7 +120,7 @@ const LESSON={
     "serve-pace",
     "reply-margin"
   ],
-  "tomorrow": "The serve sets your preparation time. The next ball sets your next decision.",
+  "tomorrow": "Read the serve’s pace, then read the next ball afresh.",
   "followup": "live-point-return-time",
   "transferOf": null,
   "returnPrompt": "A different ball changes the decision. Try the paired point.",

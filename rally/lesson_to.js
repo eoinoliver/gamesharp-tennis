@@ -31,8 +31,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "The same line can be demanding or available. Read the contact that changes it.",
-      "payoff": "The same line can be demanding or available. Read the contact that changes it.",
+      "take": "The line changes with your contact. Read what makes it available.",
+      "payoff": "The line changes with your contact. Read what makes it available.",
       "principle": "Use the opening you earn. Cover the reply it creates.",
       "why": "Compared with the stretched wide ball, this contact is closer, higher and better organised. The opponent is also away from the line. Controlled depth can use that opening; the next reply still needs a fresh read.",
       "alsoOk": [
@@ -44,7 +44,8 @@ const LESSON={
         "to": 505,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "to1B": {
@@ -70,8 +71,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "The same line can be demanding or available. Read the contact that changes it.",
-      "payoff": "The same line can be demanding or available. Read the contact that changes it.",
+      "take": "The line changes with your contact. Read what makes it available.",
+      "payoff": "The line changes with your contact. Read what makes it available.",
       "principle": "Use the opening you earn. Cover the reply it creates.",
       "why": "Compared with the stretched wide ball, this contact is closer, higher and better organised. The opponent is also away from the line. Controlled depth can use that opening; the next reply still needs a fresh read.",
       "opening": {
@@ -80,7 +81,8 @@ const LESSON={
         "to": 470,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "to1": {
@@ -106,8 +108,8 @@ const LESSON={
         "See what changes"
       ],
       "unlock": "Read the next ball",
-      "take": "The same line can be demanding or available. Read the contact that changes it.",
-      "payoff": "The same line can be demanding or available. Read the contact that changes it.",
+      "take": "The line changes with your contact. Read what makes it available.",
+      "payoff": "The line changes with your contact. Read what makes it available.",
       "principle": "Use the opening you earn. Cover the reply it creates.",
       "why": "Compared with the stretched wide ball, this contact is closer, higher and better organised. The opponent is also away from the line. Controlled depth can use that opening; the next reply still needs a fresh read."
     }
@@ -121,7 +123,7 @@ const LESSON={
     "direction-opportunity",
     "follow-up-read"
   ],
-  "tomorrow": "The same line can be demanding or available. Read the contact that changes it.",
+  "tomorrow": "The line changes with your contact. Read what makes it available.",
   "followup": null,
   "transferOf": "live-point-line-tempting",
   "returnPrompt": null,

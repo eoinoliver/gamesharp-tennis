@@ -41,7 +41,8 @@ const LESSON={
         "to": 531,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "tt1B": {
@@ -80,7 +81,8 @@ const LESSON={
         "to": 589,
         "label": "Read the reply",
         "after": "Choose from this contact",
-        "silent": true
+        "silent": true,
+        "continuous": true
       }
     },
     "tt1": {
