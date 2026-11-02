@@ -186,19 +186,19 @@ function wrap(n){
   const weekBlk=used.length?`<div class="k">Built from your lessons</div><div class="gs-uses">${used.map(u=>{const d=A.S.done[u.slug];return `<a href="play.html?l=${u.slug}" class="${d?"done":"todo"}"><span>${d?"✓":"○"}</span>${esc(u.title)}${d?"":` <i>Not played yet</i>`}</a>`;}).join("")}</div>`
     :feeds.length?`<p class="strk gs-feeds">This lesson shows up in <a href="play.html?l=${feeds[0].slug}">${esc(feeds[0].title)}</a>.</p>`:"";
   const flav=(A.CAT.flavours||[]).find(f=>f.lessons.includes(slug));
-  const b=document.createElement("div"); b.className="appblk";
+  const b=document.createElement("details"); b.className="appblk completion-extras";
   const returnPoint=L.followup&&A.bySlug(L.followup);
   const transfer=A.transferEvidence(slug),due=returnPoint&&A.S.done[slug]?.first<A.today();
   const returnBlk=returnPoint&&!A.S.done[returnPoint.slug]?`<div class="blk" id="returnRead"><div class="k">${due?'Your next read':'Tomorrow’s read'}</div><p class="strk">${esc(L.returnPrompt||'A different point on the other wing. Make both calls before seeing your cue.')}</p><p class="strk">${due?'Ready on Home now.':'It appears on Home tomorrow in this browser.'}</p><a class="alt" href="play.html?l=${returnPoint.slug}">${due?'Read the other point':'Try now as practice'} →</a></div>`:transfer?`<div class="blk" id="returnRead"><div class="k">${transfer.kind==='first_later_day'?'Your return read':'Practice variation'}</div><p class="strk">${esc(transfer.text)}</p><p class="strk">${transfer.kind==='first_later_day'?'Two decisions in a changed situation. Take the cue onto court.':'A repeat or an early look is practice, not a fresh next-day check.'}</p></div>`:'';
-  b.innerHTML=`${returnBlk}${weekBlk}<div class="k">Your streak</div>
+  b.innerHTML=`<summary>Progress &amp; feedback</summary>${returnBlk}${weekBlk}<div class="k">Your streak</div>
     <p class="strk"><b>${s} day${s===1?"":"s"}</b> in a row. Come back tomorrow for another read.</p>
-    ${nx||nextPoint?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nextPoint?nextPoint.title:nx.title)}. You can play it now.</p>${nextPoint?`<a class="next" id="nextLivePoint" href="play.html?l=${nextPoint.slug}">Read the next Live Point →</a>`:""}${nx?`<a class="${nextPoint?'alt':'next'}" id="nextDaily" href="play.html?l=${nx.slug}">${nextPoint?'Try a daily challenge':'Play next challenge'} →</a>`:""}</div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
+    ${nx||nextPoint?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nextPoint?nextPoint.title:nx.title)}</p>${nextPoint?`<a class="next" id="nextLivePoint" href="play.html?l=${nextPoint.slug}">Read the next Live Point →</a>`:""}${nx?`<a class="${nextPoint?'alt':'next'}" id="nextDaily" href="play.html?l=${nx.slug}">${nextPoint?'Try a daily challenge':'Play next challenge'} →</a>`:""}</div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
     ${asked?"":`<div class="gsfb"><p class="fbq">Was this useful for your tennis?</p>
       <div class="fbrow"><button data-u="yes">Yes</button><button data-u="no">Not really</button></div></div>`}
     ${flav?`<div class="gsfv"${asked?"":" hidden"}><p class="fbq">More lessons like this one?</p><div class="fbrow"><button data-fv="more">More</button><button data-fv="fewer">Fewer</button></div></div>`:""}
     ${flav&&flav.key==="opponents"?`<div class="gsop" hidden><p class="fbq">Which opponent gives you the most trouble?</p><div class="fbrow fbwrap">${["Moonballer","Pusher","Big hitter","Net rusher","Lefty","Other"].map(o=>`<button data-op="${o}">${o}</button>`).join("")}</div></div>`:""}
     <a class="next home" href="./?home=1">Back to home</a>`;
-  const r=w.querySelector("#redo"); r?w.insertBefore(b,r):w.append(b);
+  w.append(b);
   const more=b.querySelector('#nextDaily');if(more)more.onclick=()=>A.track('asked_more',{next:nx.slug,from:slug});
   const continuation=b.querySelector('.gs-continue')||b.querySelector('a.next:not(.home)');
   if(continuation)(w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
@@ -234,7 +234,7 @@ function afterEngine(){
 function wireChallenge(w){
   const link=A.challengeUrl(slug),box=document.createElement('div');box.className='blk';box.id='sharePoint';
   box.innerHTML=`<div class="k">Let someone else make the call</div><p>Same point. Their decisions. Your answers stay private.</p><button class="alt" id="sharePointButton">Challenge a tennis friend</button><div id="shareFallback" hidden><label for="challengeLink">Challenge link</label><input id="challengeLink" readonly aria-label="Challenge link"><button class="alt" id="copyChallenge">Copy link</button></div><p id="shareStatus" role="status"></p>`;
-  w.querySelector('#liveEvidence').after(box);box.querySelector('input').value=link;
+  w.querySelector('.completion-extras').append(box);box.querySelector('input').value=link;
   const status=box.querySelector('#shareStatus'),fallback=box.querySelector('#shareFallback');
   const reveal=()=>{fallback.hidden=false;box.querySelector('input').select();status.textContent='Copy this link. It contains no answers or scores.';};
   box.querySelector('#sharePointButton').onclick=async()=>{

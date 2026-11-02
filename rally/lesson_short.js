@@ -1,9 +1,9 @@
 const LESSON={
  "title": "The Short Ball Is Not Permission",
- "hook": "A short ball pulls you forward. Its height decides what it earns: the open court, or an approach.",
+ "hook": "A short ball pulls you forward. Your arrival, contact height and their position decide what it earns.",
  "finaleScene": "sb1B",
  "memHTML": "The attack begins <span>one ball earlier.</span>",
- "tomorrow": "Next time a ball lands short, check its height first: high, take the open court; low, lift an approach and come in.",
+ "tomorrow": "On a short ball, check your balance and contact height. Low contact needs lift and margin; follow in only when your approach leaves you ready for the reply.",
  "pro": {
   "player": "Rafael Nadal",
   "label": "Nadal, Monte Carlo 2017 final",
@@ -14,9 +14,9 @@ const LESSON={
  },
  "drill": {
   "name": "Earned or not",
-  "how": "Rally. Any ball that lands inside your service line: above net height and balanced, attack the open court; below it, lift a deep approach and come in. Never flat from below the net. Your partner calls \"earned\" or \"approach\" after each one."
+  "how": "Rally. On a short ball, call your contact height and whether you arrived balanced. Attack with margin when the space is earned. At low contact, lift with margin; follow only behind an approach that leaves you ready for the reply. Your partner checks your balance and recovery."
  },
- "cue": "High: go. Low: lift and come in.",
+ "cue": "Arrive balanced. Read the height. Earn the approach.",
  "callbackTags": [
   "short_ball_choice"
  ],
@@ -107,8 +107,8 @@ const LESSON={
     "Low crosscourt, stay back"
    ],
    "correct": 1,
-   "payoff": "Other wing, same ball: lift it and come in.",
-   "principle": "The height decides, not the wing.",
+   "payoff": "Other wing, same conditions: balanced, low contact, opponent deep. Lift the approach and follow.",
+   "principle": "Read height, balance and their position on either wing.",
    "why": "The slice stays below the net, so a flat drive has no room. You've already come forward: lift a deep approach and keep coming, rather than stopping mid-court.",
    "cues": {
     "ball": "LOW",
@@ -122,7 +122,7 @@ const LESSON={
     "D": "Low and flat from below the net — it finds the tape."
    },
    "unlock": "Either wing",
-   "take": "Short and low, either wing: lift a deep approach and come in.",
+   "take": "Low and balanced, opponent deep: lift a deep approach and follow.",
    "rail": [
     "1 Low contact",
     "2 You stable",

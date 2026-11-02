@@ -31,6 +31,8 @@ try{
  await p.locator('#next').tap();
  await open('short-ball');await p.evaluate(()=>window.__speed=24);
  while(!await p.evaluate(()=>done)){await answer();await p.waitForSelector('#verdict:not([hidden]) #next');await p.locator('#next').tap();}
+ check(await p.evaluate(()=>!recapActive),'Completion does not force another replay');
+ await p.locator('.completion-more > summary').tap();await p.locator('#replayRecap').tap();
  await p.waitForFunction(()=>recapActive&&!!recapAdvance);
  const held=await p.locator('#questionContext').innerText();await p.waitForTimeout(1800);
  check(await p.locator('#questionContext').innerText()===held,'Recap teaching caption is still readable after 1.8 seconds');

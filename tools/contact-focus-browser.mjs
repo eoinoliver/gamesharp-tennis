@@ -1,3 +1,4 @@
+import {openCompletionPanels} from './completion-panels.mjs';
 // Exercise the real Contact Clue review flow; local/Preview only (never production analytics).
 import {chromium} from 'playwright';
 import {mkdirSync,writeFileSync} from 'node:fs';
@@ -39,7 +40,7 @@ try{
    const next=await p.locator('#next').boundingBox();check(next&&next.y+next.height<=size.height+2,`${size.width} step ${i+1}: Next stays on screen`);
    await p.locator('#next').click();
   }
-  await p.waitForSelector('#wrapup:not([hidden]) #saveCue');await p.locator('#saveCue').click();
+  await openCompletionPanels(p);await p.waitForSelector('#wrapup:not([hidden]) #saveCue');await openCompletionPanels(p);await p.locator('#saveCue').click();
   check(await p.evaluate(()=>JSON.parse(localStorage.getItem('gs_my_game')).some(c=>c.cue===LESSON.cue)),`${size.width}: existing cue saves`);
   check(await p.evaluate(()=>GSApp.S.done['contact-clue'].n)===2,`${size.width}: first wrong answer still counts after comparison/replay`);
   check(await p.locator('#contactControls').count()===0,`${size.width}: completion clears comparison`);
@@ -80,7 +81,7 @@ try{
    check(await p.evaluate(()=>scene===LESSON.steps[step].scene+chosen&&!contactInspection),`${slug} ${i}: returns to own result`);
    await p.locator('#next').click();
   }
-  await p.waitForSelector('#wrapup:not([hidden]) #saveCue');await p.locator('#saveCue').click();
+  await openCompletionPanels(p);await p.waitForSelector('#wrapup:not([hidden]) #saveCue');await openCompletionPanels(p);await p.locator('#saveCue').click();
   check(await p.evaluate(slug=>GSApp.S.done[slug].n===3,slug),`${slug}: completion score preserved`);
   check(await p.evaluate(()=>JSON.parse(localStorage.getItem('gs_my_game')).some(c=>c.cue===LESSON.cue)),`${slug}: cue saved`);
   if(size.width===375)for(let i=0;i<3;i++)for(let j=0;j<4;j++){

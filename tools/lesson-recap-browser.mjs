@@ -19,8 +19,12 @@ try{
    await p.locator('#askOpts button').nth(pick).tap();await p.waitForSelector('#verdict:not([hidden]) #next');await p.locator('#next').tap();
   }
   await p.waitForFunction(()=>done&&!recapActive&&!playing&&__voiceEvents.length===1,null,{timeout:60000});
+  check(await p.evaluate(()=>__recapSeen.length===0&&!recapActive),slug+': court cue appears without a mandatory replay');
+  await p.locator('.completion-more > summary').tap();
+  await p.locator('#replayRecap').tap();
+  await p.waitForFunction(()=>!recapActive&&!playing,null,{timeout:60000});
   check(await p.evaluate(()=>__recapSeen.length===3&&LESSON.steps.every((s,i)=>{const own=LETTERS[s.correct]===ans[i]||(s.alsoOk||[]).includes(LETTERS.indexOf(ans[i]));return __recapSeen[i].includes(s.reveal?'Situation replay':own?'Your choice':'Better option')&&__recapKeys[i]===(s.reveal?s.scene:s.scene+(own?ans[i]:LETTERS[s.correct]));})),slug+': three honest labels and scenes, including accepted alternatives');
-  check(await p.evaluate(()=>__voiceEvents[0].active===false&&__voiceEvents[0].playing===false),slug+': speech follows recap');
+  check(await p.evaluate(()=>__voiceEvents[0].active===false&&__voiceEvents[0].playing===false),slug+': speech follows the final consequence');
   const score=await p.evaluate(()=>JSON.stringify(ans));
   await p.evaluate(()=>{GSSfx.hearVoice=()=>{window.__manualVoice=(window.__manualVoice||0)+1;};});
   await p.locator('#replayRecap').tap();await p.waitForFunction(()=>recapActive&&!playing);

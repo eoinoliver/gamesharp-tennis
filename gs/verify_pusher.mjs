@@ -1,3 +1,4 @@
+import {openCompletionPanels} from '../tools/completion-panels.mjs';
 // Usage: node verify_pusher.mjs <url of the Pusher lesson>   e.g. http://localhost:8000/play.html?l=pusher
 // Plays all three steps choosing the drop options, then checks the wrap-up. Exits 1 on any failure.
 import { chromium } from "playwright";
@@ -20,7 +21,7 @@ for (const vp of [{ width: 390, height: 844 }, { width: 375, height: 667 }]) {
   ok(await pg.locator("details.pay").count() === 3, `${vp.width}: 3 payoff toggles (Pro Lens, The stroke, Do this)`);
   ok(await pg.locator("details.pay[open]").count() === 1 && await pg.locator("details.pay[data-k=pro][open]").count() === 1, `${vp.width}: Pro Lens open, the other toggles closed`);
   ok(await pg.locator(".strip img").count() === 6, `${vp.width}: 6 stroke freeze-frames`);
-  await pg.locator("#saveCue").click();
+  await openCompletionPanels(pg);await pg.locator("#saveCue").click();
   ok(await pg.evaluate(() => JSON.parse(localStorage.getItem("gs_my_game") || "[]").length === 1), `${vp.width}: cue saved to gs_my_game`);
   ok(errs.length === 0, `${vp.width}: no page errors ${errs.join(" | ")}`);
   await b.close();

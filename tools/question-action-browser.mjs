@@ -1,3 +1,4 @@
+import {openCompletionPanels} from './completion-panels.mjs';
 // Every authored question, including all reachable branch nodes, must show action.
 import {chromium,webkit} from 'playwright';
 import assert from 'node:assert/strict';
@@ -103,7 +104,7 @@ try{
   check(await p.locator('#sitTx .w.on').count()===0,slug+': pausing the action does not start reading');
   await p.locator('#playBtn').click();
   await p.waitForFunction(()=>document.querySelectorAll('#sitTx .w.on').length>=2);
-  check(await p.evaluate(()=>!playing&&zone.inert),slug+': reading follows action, before choices');
+  check(await p.evaluate(()=>!playing&&!zone.inert),slug+': complete sentence and choices arrive after the action');
   await p.locator('#again').click();await p.evaluate(()=>setPlaying(false));
   await p.waitForTimeout(700);
   check(await p.locator('#sitTx .w.on').count()===0,slug+': replay cancels old typing');
@@ -132,7 +133,7 @@ try{
   if(i===1){await p.locator('#tryOther').click();await p.waitForSelector('#verdict:not([hidden]) #next');check(await p.evaluate(()=>ans[1]!==LETTERS[LESSON.steps[1].correct]),'better-option demo preserves original miss');}
   await p.locator('#next').click();
  }
- await p.waitForSelector('#redo');check(await p.evaluate(()=>__praise===0),'2/3 completion does not applaud');
+ await openCompletionPanels(p);await p.waitForSelector('#redo');check(await p.evaluate(()=>__praise===0),'2/3 completion does not applaud');
  check(errors.length===0,errors.join('\n'));
  writeFileSync(`${out}/report.json`,JSON.stringify({checks,questions:report.length,report,errors},null,2));
  console.log(`PASS ${engine.name()}: ${checks} action assertions, ${report.length} questions across ${cat.daily.length+cat.predict.length+cat.play.length} lessons`);

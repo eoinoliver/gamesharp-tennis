@@ -58,7 +58,8 @@ for(const [width,height]of [[375,667],[430,932],[1280,900]]){
    const [x0,x1,y0,y1]=result.tossBounds;assert(x0>4&&x1<516&&y0>4&&y1<356,'serve toss cropped');
   }
   await page.locator('#shAthCard').scrollIntoViewIfNeeded();
-  await page.waitForFunction(()=>[...document.querySelectorAll('#shAthCard img')].every(i=>i.complete&&i.naturalWidth>0));
+  for(let phase=0;phase<3;phase++){await page.locator('#shAthCard [data-phase]').nth(phase).click();await page.waitForFunction(()=>[...document.querySelectorAll('#shAthCard figure:not([hidden]) img')].every(i=>i.complete&&i.naturalWidth>0));}
+  await page.locator('#shAthCard [data-phase]').first().click();
   await page.locator('#shAth').screenshot({path:`${dir}/${width}-${k}-contact.png`});
   if(width===375&&['serve','slice','fv','bv','bh'].includes(k)){
    const frames=await page.evaluate(()=>{const {clip:c}=__sharpenTest.inspect();return [Math.max(1,c.contactFrame-35),c.contactFrame+25];});

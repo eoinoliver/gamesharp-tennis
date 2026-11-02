@@ -1,3 +1,4 @@
+import {openCompletionPanels} from '../tools/completion-panels.mjs';
 // End-to-end check of the app shell: node app_flow.mjs http://localhost:8765/ [lesson-slug]
 import { chromium } from 'playwright';
 const base=process.argv[2]||'http://localhost:8765/', slug=process.argv[3]||'serve-plus-one';
@@ -30,7 +31,7 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
      const bs=await p.$$('#askOpts button'); await bs[i].click(); await p.waitForTimeout(250); continue;}
    await p.waitForTimeout(200);}
  ok(await p.$eval('#wrapup',e=>!e.hidden),'lesson reached the wrap-up');
- await p.waitForSelector('.appblk'); ok(true,'app block shown in wrap-up');
+ await openCompletionPanels(p);await p.waitForSelector('.appblk'); ok(true,'app block shown in wrap-up');
  ok((await p.textContent('.appblk')).includes('1 day'),'streak line says 1 day: '+(await p.textContent('.appblk .strk')));
  await p.screenshot({path:out+'app_wrap.png',fullPage:true});
  await p.click('[data-u=yes]'); await p.fill('.fbtx','Loved seeing the reply'); await p.click('#fbsend');

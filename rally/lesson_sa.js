@@ -1,6 +1,6 @@
 const LESSON={
  "title": "Saturday Point #1",
- "hook": "One point on your serve, built from five of your lessons. Two choices each shot: the one you want to hit, and the one that wins.",
+ "hook": "One point on your serve, built from five of your lessons. Two choices each shot: the one you want to hit, and the stronger read in this situation.",
  "memHTML": "Serve to open it. <span>Earn the finish.</span>",
  "tomorrow": "In your next match, play this pattern once on purpose: serve wide, hit into the open court, then look behind them.",
  "cam0": {
@@ -145,7 +145,7 @@ const LESSON={
    ],
    "correct": 0,
    "payoff": "They're running toward the open side. The corner they left stays empty.",
-   "principle": "When a player is moving, the empty space is where they're arriving.",
+   "principle": "When a player is moving, look for the space they are leaving.",
    "why": "The open side looks empty, but that's where they're running, so by the time your ball gets there, so are they. The corner they just hit from stays empty while they race back.",
    "rail": [
     "1 They sprint",
