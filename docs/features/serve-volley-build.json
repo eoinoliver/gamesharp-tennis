@@ -31,15 +31,15 @@
     },
     "app_src/sharpen/bv_0.jpg": {
       "baseline": "18c9a940c85b95625f8aaea5998fa182cd61cd1fb66dcf41c59c7fa985153d05",
-      "candidate": "e9e8195d1432f5c28528b31bf248f02ee09a45dd9b2e2c623731f275169f3525"
+      "candidate": "0289336a3da07726e4a7de8364e7bb5943ed11603fce59538d2a422f76cb83ff"
     },
     "app_src/sharpen/bv_1.jpg": {
       "baseline": "03b766a3f49cfdaacf094a93444343612f5d72955b8b9b66f3726bef7cca0b34",
-      "candidate": "485ee8c4f0899f490509338d80c59151378c4ece87ab3d13d7697cfb050606a4"
+      "candidate": "42b2f7abdbd64d48fe286f8f4167ccdd2e0a9085bd93f21b4254cd9be5d9e439"
     },
     "app_src/sharpen/bv_2.jpg": {
       "baseline": "d4fb7bb01222bf0aad30066a90349d478822c7772888ef040afaaabb97c1e74a",
-      "candidate": "839fa0f10e9288b9c99081be75938c14024e3c86d814203756729bc2e5d4f158"
+      "candidate": "936b973d1bc0eaa319d96e8734e8c0002598380bc5342bc9dd8c8b1e42c13497"
     },
     "app_src/sharpen/drop_0.jpg": {
       "baseline": "ecdc26818acc29d1651c5d122d9ab90341d5b4242f5540538d7435f81195c100",
@@ -67,15 +67,15 @@
     },
     "app_src/sharpen/fv_0.jpg": {
       "baseline": "b731d9394178b712f1c5a489083400ef7224d49be2823c37d04a2ec07911c115",
-      "candidate": "be1415bd6c803753f0492134689c0b7118fc3a7b50a5de04ca4c31c560432999"
+      "candidate": "18ddaa1b6fb0ef91cf6bb33571421aedf50d48bd6190d0fccef6ea9382579d24"
     },
     "app_src/sharpen/fv_1.jpg": {
       "baseline": "c76d18ace4320ffcdad008988d4383867592ca7de85a056bed5fca4ad568acc0",
-      "candidate": "a789e8bf73494b104b115a4aa13ff14732bdb66be16b83e3a9d5bd53341131cc"
+      "candidate": "e1f2b3f0295bb32b36a792b1a7f477f26ae19b3b8097883e5eb99ca33f4fdac2"
     },
     "app_src/sharpen/fv_2.jpg": {
       "baseline": "82939d417dbc3d8e387fdc038408d475ad473b8676a0eed3fdce91da466c0cde",
-      "candidate": "3b2c8184195c0c8f1334d97541618d96aa3cc19bc74ff00ef81ed2de4342524f"
+      "candidate": "41746a649dbc0466baeb9ae50ad50f67980f0f26eb4761829b6ff6a569ffe6cd"
     },
     "app_src/sharpen/serve_0.jpg": {
       "baseline": "145537ead4775ba88e5a445a47eedd03b8190fb441b7b9154407e0ba4a927fbf",
@@ -119,7 +119,7 @@
     },
     "tools/render-sharpen-stills.mjs": {
       "baseline": "40f0ca7568eeec81642bf590dd272802cd2cdc5fe76b98956cb6b6a54e1b5cce",
-      "candidate": "99e87a06c1eaf65c66eaaf8a41b174ee2cae04db73f43d0aca2570a6daee0329"
+      "candidate": "be9d59610a68304a3973c2ceb46c6b6cdb617342bcc252e0347cd69ad36ca4ce"
     },
     "tools/serve-toss-browser.mjs": {
       "baseline": null,
@@ -141,7 +141,7 @@
     },
     "app/catalog.js": {
       "baseline": "e6818c544285a404127e40729156a8de7ee5ac43fd46bac19c7e58a998925dec",
-      "candidate": "651fe676acf2cbc7c9c7c49c701a1201b91e1806c4aaf9ee35dbe6ad913a82e0"
+      "candidate": "11607992debdfe17c194562e9130ce9d9a130ad6b254c6159efc4e3e010bfb69"
     },
     "app/clips/bv.json": {
       "baseline": "483369a24f158067e7b027d00064f1ad4a9f94fe6e74206a4d73568f3138d17b",
@@ -173,11 +173,11 @@
     },
     "app/index.html": {
       "baseline": "9f04e90e3887128aa96502d01f3d6c970e2f4eec76e997244dfd01177b52486b",
-      "candidate": "e5b3ed08cce43eae81f56c8a57a38eed171af6ca5d0e09b98e58f15e8e158294"
+      "candidate": "1bf7683957f3dd770a5b6e66afa8277101fa0cab62b9c96d7b5830ff99e22812"
     },
     "app/play.html": {
       "baseline": "9fe707d6192ddb6a0cd888c80f316c28b3cbc4b53b08b3f08f0b3a25f1e57322",
-      "candidate": "bfce4ae4c1f51a415b6a0419c14ec4c4c4fea6ca979b8a656991065c3aa007eb"
+      "candidate": "1af2b77944b201b2bface1b1f9287894d5285ad5904e25eae1caaa1112adbcb6"
     },
     "app/sharpen.js": {
       "baseline": "00a2a0721f627ef6fba4ba4dae845d38e5c21df08142da06bf369d4b0be34c8b",
@@ -197,15 +197,15 @@
     },
     "app/sharpen/bv_0.jpg": {
       "baseline": "18c9a940c85b95625f8aaea5998fa182cd61cd1fb66dcf41c59c7fa985153d05",
-      "candidate": "e9e8195d1432f5c28528b31bf248f02ee09a45dd9b2e2c623731f275169f3525"
+      "candidate": "0289336a3da07726e4a7de8364e7bb5943ed11603fce59538d2a422f76cb83ff"
     },
     "app/sharpen/bv_1.jpg": {
       "baseline": "03b766a3f49cfdaacf094a93444343612f5d72955b8b9b66f3726bef7cca0b34",
-      "candidate": "485ee8c4f0899f490509338d80c59151378c4ece87ab3d13d7697cfb050606a4"
+      "candidate": "42b2f7abdbd64d48fe286f8f4167ccdd2e0a9085bd93f21b4254cd9be5d9e439"
     },
     "app/sharpen/bv_2.jpg": {
       "baseline": "d4fb7bb01222bf0aad30066a90349d478822c7772888ef040afaaabb97c1e74a",
-      "candidate": "839fa0f10e9288b9c99081be75938c14024e3c86d814203756729bc2e5d4f158"
+      "candidate": "936b973d1bc0eaa319d96e8734e8c0002598380bc5342bc9dd8c8b1e42c13497"
     },
     "app/sharpen/drop_0.jpg": {
       "baseline": "ecdc26818acc29d1651c5d122d9ab90341d5b4242f5540538d7435f81195c100",
@@ -233,15 +233,15 @@
     },
     "app/sharpen/fv_0.jpg": {
       "baseline": "b731d9394178b712f1c5a489083400ef7224d49be2823c37d04a2ec07911c115",
-      "candidate": "be1415bd6c803753f0492134689c0b7118fc3a7b50a5de04ca4c31c560432999"
+      "candidate": "18ddaa1b6fb0ef91cf6bb33571421aedf50d48bd6190d0fccef6ea9382579d24"
     },
     "app/sharpen/fv_1.jpg": {
       "baseline": "c76d18ace4320ffcdad008988d4383867592ca7de85a056bed5fca4ad568acc0",
-      "candidate": "a789e8bf73494b104b115a4aa13ff14732bdb66be16b83e3a9d5bd53341131cc"
+      "candidate": "e1f2b3f0295bb32b36a792b1a7f477f26ae19b3b8097883e5eb99ca33f4fdac2"
     },
     "app/sharpen/fv_2.jpg": {
       "baseline": "82939d417dbc3d8e387fdc038408d475ad473b8676a0eed3fdce91da466c0cde",
-      "candidate": "3b2c8184195c0c8f1334d97541618d96aa3cc19bc74ff00ef81ed2de4342524f"
+      "candidate": "41746a649dbc0466baeb9ae50ad50f67980f0f26eb4761829b6ff6a569ffe6cd"
     },
     "app/sharpen/serve_0.jpg": {
       "baseline": "145537ead4775ba88e5a445a47eedd03b8190fb441b7b9154407e0ba4a927fbf",
