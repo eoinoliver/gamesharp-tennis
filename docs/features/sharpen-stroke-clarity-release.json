@@ -1,0 +1,131 @@
+{
+  "feature": "Sharpen stroke clarity",
+  "status": "Live and verified",
+  "app_version": "884076afe6",
+  "pull_request": 65,
+  "candidate_commit": "6a8cb0e0b047b282102481ede1a90ece3a9b22fc",
+  "preview": {
+    "id": "dpl_8P6nuMHjcpFV9KKXput3HWKDbbBv",
+    "url": "https://gamesharp-tennis-ddrv0wodf-eoinlynn-5978s-projects.vercel.app"
+  },
+  "scope": {
+    "new_journeys": 0,
+    "catalogue_journeys": 47,
+    "changed_shared_clips": 9,
+    "affected_existing_journeys": 42
+  },
+  "verification": {
+    "unit_tests": 63,
+    "release_files": 168,
+    "public_files": 167,
+    "source_test_inputs": 223,
+    "preview_http": 309,
+    "preview_chromium_sharpen_views": 21,
+    "local_webkit_sharpen_views": 21,
+    "python_3_9_vs_3_12_clips_identical": true,
+    "preview_native_webkit_complete_journeys": [
+      "serve-plus-one",
+      "approach-volley",
+      "predict-the-point",
+      "late-is-the-culprit",
+      "live-point-short-low",
+      "live-point-buy-time"
+    ],
+    "targeted_geometry_failures": [],
+    "ci_run": 41365694598,
+    "ci_status": "success",
+    "browser_release_invocations": 64,
+    "all_catalogue_journeys_checked": 47,
+    "staged_http": 309,
+    "staged_webkit_sharpen_views": 21,
+    "staged_webkit_complete_journeys": 6,
+    "staged_browser_transport": "Exact authenticated HTTP response bodies from the verified staged deployment, replayed in WebKit; direct authenticated HTTP inventory and configuration verified separately.",
+    "live_http": 309,
+    "live_native_webkit_sharpen_views": 21,
+    "live_native_webkit_complete_journeys": [
+      "approach-volley",
+      "serve-plus-one",
+      "predict-the-point",
+      "late-is-the-culprit",
+      "live-point-short-low",
+      "live-point-buy-time"
+    ],
+    "browser_errors": 0,
+    "physical_device_tested": false
+  },
+  "rollback": {
+    "checkedAt": "2026-11-02T00:17:19.922Z",
+    "project": "prj_SHIw7K0JxhCtoQQgh1zVHlR3r2Pe",
+    "autoAssign": false,
+    "git": {
+      "type": "github",
+      "repo": "gamesharp-tennis",
+      "repoId": 1244327928,
+      "org": "eoinoliver",
+      "repoOwnerId": 278355213,
+      "gitCredentialId": "cred_c310cef870655df29427c1adcbf42e4173092e39",
+      "productionBranch": "main",
+      "sourceless": true,
+      "createdAt": 1779260778397,
+      "updatedAt": 1779260778397,
+      "deployHooks": []
+    },
+    "root": null,
+    "rollback": "dpl_BmMBcmi5RnuPE94pwEckd2GPU9Pc",
+    "rollbackUrl": "gamesharp-tennis-9hrfe79lv-eoinlynn-5978s-projects.vercel.app",
+    "rollbackSha": "8a74b7f0de1edb79436025cd60c3634117c77a5b",
+    "liveApp": "1d8e1511d4"
+  },
+  "limitations": [
+    "Builder visual review, not independent coaching certification.",
+    "Browser engine emulation, not physical iPhone validation."
+  ],
+  "initial_failures": [
+    "An initial local browser run overlapped the rebuilding app directory and timed out; final checks use a frozen artifact.",
+    "Initial Git build differed in signed zero serialization across Python versions; normalization corrected it, then exact rebuild passed.",
+    "Staged cached-transport image.decode was aborted by a lazy image source change; waiting for the card to enter view and complete image loading passed without a product change."
+  ],
+  "released_at_utc": "2026-11-02T00:29:44.532042+00:00",
+  "merge": {
+    "candidate": "6a8cb0e0b047b282102481ede1a90ece3a9b22fc",
+    "merge": "943568b3e7ede119d24e0c71c1d86a9d6a55affe",
+    "tree": "5ef3ddba19c501cc230d2287ad693ea9e0aef704"
+  },
+  "production": {
+    "checkedAt": "2026-11-02T00:28:53.729Z",
+    "deployment": "dpl_AY9y1LRbcFy2Zr9WvTbTBeoKbGbr",
+    "url": "gamesharp-tennis-kyh9qp8qf-eoinlynn-5978s-projects.vercel.app",
+    "sha": "943568b3e7ede119d24e0c71c1d86a9d6a55affe",
+    "app_version": "884076afe6",
+    "autoAssignCustomDomains": false,
+    "apexRedirect": "https://www.gamesharptennis.com/",
+    "promoted_without_rebuild": true
+  },
+  "configuration_equivalence": {
+    "preview": "dpl_8P6nuMHjcpFV9KKXput3HWKDbbBv",
+    "production": "dpl_AY9y1LRbcFy2Zr9WvTbTBeoKbGbr",
+    "same_git_tree": "5ef3ddba19c501cc230d2287ad693ea9e0aef704",
+    "checks": [
+      "projectSettings",
+      "env",
+      "nodeVersion",
+      "routes",
+      "config",
+      "functions",
+      "resourceConfig",
+      "entire build config"
+    ],
+    "project_env_count": 0,
+    "platform_env_declarations": 139,
+    "middleware": 0,
+    "functions": 0,
+    "exact_public_paths": 167,
+    "unexplained_differences": [],
+    "explained_differences": [
+      "Git branch/merge SHA with identical tree",
+      "Preview versus staged Production identity and environment",
+      "Preview-only Vercel feedback suffix"
+    ]
+  },
+  "next_priority": "Technical credibility and readability of existing strokes before new features or catalogue expansion. Use the current renderer and bounded reference-led corrections; avoid reopening a Blender/biomechanics pipeline."
+}
