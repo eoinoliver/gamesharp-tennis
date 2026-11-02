@@ -1,3 +1,4 @@
+import {openCompletionPanels} from './completion-panels.mjs';
 import assert from 'node:assert/strict';
 import {chromium,webkit} from 'playwright';
 import {mkdirSync,writeFileSync} from 'node:fs';
@@ -11,7 +12,7 @@ async function finish(p,picks){
   await p.waitForSelector('#askOpts button:not(:disabled)');const pick=picks[i]||await p.evaluate(()=>'AB'[LESSON.steps[step].correct]);
   await p.locator('#askOpts button').nth('AB'.indexOf(pick)).tap();await p.waitForSelector('#verdict:not([hidden]) #next');await p.locator('#next').tap();i++;
  }
- await p.waitForSelector('#wrapup:not([hidden]) #sharePointButton');await p.waitForFunction(()=>!playing);
+ await openCompletionPanels(p);await p.waitForSelector('#wrapup:not([hidden]) #sharePointButton');await p.waitForFunction(()=>!playing);
 }
 try{
  for(const slug of ['live-point-buy-time','live-point-other-wing'])for(const picks of ['AA','AB','BA','BB']){
@@ -34,7 +35,7 @@ try{
   check(JSON.stringify(own.ball)===JSON.stringify(other.ball)&&own.frame===other.frame,'Only recovery changes: identical ball and freeze');
   check(JSON.stringify(own.camera)===JSON.stringify(other.camera),'Comparison camera stays fixed');
   check(Math.hypot(...own.hips.map((v,i)=>v-other.hips[i]))>1.5,'Recovery creates a visible difference');
-  check(other.silent&&!await p.evaluate(()=>GSSfx.voiceState().playing),'Comparison stays acoustically clear');
+  check(!other.silent&&!await p.evaluate(()=>GSSfx.voiceState().playing),'Comparison permits court events without overlapping narration');
   check(await p.evaluate(()=>JSON.stringify({ans,done:GSApp.S.done}))===before,'Inspection cannot rescore or change the route');
   if(picks==='BA'&&slug==='live-point-buy-time'){
    for(const size of [{width:320,height:568},{width:820,height:1180},{width:1200,height:900}]){
@@ -45,9 +46,9 @@ try{
   }
   await p.locator('#compareDone').tap();check(await p.locator('#liveCompareDock').isHidden(),'Exit restores the court cue');
   await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:async()=>{throw new DOMException('cancelled','AbortError');}}));
-  await p.locator('#sharePointButton').tap();check(await p.locator('#shareStatus').innerText()==='Share cancelled.','Cancelling native share does not copy or announce success');
+  await openCompletionPanels(p);await p.locator('#sharePointButton').tap();check(await p.locator('#shareStatus').innerText()==='Share cancelled.','Cancelling native share does not copy or announce success');
   check(await p.locator('#shareFallback').isHidden(),'Cancel does not force a fallback');
-  await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:undefined}));await p.locator('#sharePointButton').tap();
+  await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:undefined}));await openCompletionPanels(p);await p.locator('#sharePointButton').tap();
   const link=await p.locator('#challengeLink').inputValue(),url=new URL(link);
   check(url.origin==='https://www.gamesharptennis.com'&&url.search==='?l='+slug+'&challenge=point','Share contains only a point identifier');
   await p.screenshot({path:`${out}/${slug}-${picks}-ending.png`,fullPage:true});

@@ -1,3 +1,4 @@
+import {openCompletionPanels} from './completion-panels.mjs';
 // Exercise real answers and completion in every mode; not a synthetic finishLesson call.
 import assert from 'node:assert/strict';
 import {chromium,webkit} from 'playwright';
@@ -71,7 +72,7 @@ async function journey(row,index){
   if(evidence.pro)assert.ok(await p.locator('#wrapup details.pay[data-k="pro"]').count(),'professional payoff remains');
   if(evidence.drill)assert.ok(await p.locator('#wrapup details.pay[data-k="drill"]').count(),'drill remains');
   if(evidence.predict)assert.equal(await p.locator('#wrapup .review').count(),3,'all reads reviewed');
-  if(evidence.cue){await p.locator('#saveCue').tap();assert.equal(await p.locator('#saveCue').innerText(),'Saved to My Game ✓');}
+  if(evidence.cue){await openCompletionPanels(p);await p.locator('#saveCue').tap();assert.equal(await p.locator('#saveCue').innerText(),'Saved to My Game ✓');}
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   // A short cue can finish during the preceding hosted assertions. If the tap
   // starts it again, stop that manual playback before testing silent replay.
@@ -86,7 +87,7 @@ async function journey(row,index){
   await p.locator('#hearVoice').tap();await p.waitForFunction(()=>GSSfx.voiceState().playing);
   assert.equal(await voiceCount(),replayBaseline+1,'manual replay available');
   await p.locator('#voicePreference').tap();assert.equal(await p.evaluate(()=>GSSfx.voiceState().playing),false,'voice off stops speech');
-  if(evidence.predict){await p.locator('#redo').tap();assert.equal(await p.evaluate(()=>done),false,'predict can restart');}
+  if(evidence.predict){await openCompletionPanels(p);await p.locator('#redo').tap();assert.equal(await p.evaluate(()=>done),false,'predict can restart');}
   for(const size of index===0?[{width:320,height:740},{width:1100,height:900}]:[]){await p.setViewportSize(size);assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await p.screenshot({path:`${out}/${row.lesson}-${size.width}.png`,fullPage:true});}
   results.push({lesson:row.lesson,questions,wrong,...evidence,duration:audio[0].duration,transcript:expectedText,automaticVoice:1,replayVoice:0});console.log('PASS',row.lesson,questions,'questions',audio[0].duration.toFixed(2)+'s');
  }catch(e){await p.screenshot({path:`${out}/${row.lesson}-failure.png`,fullPage:true}).catch(()=>{});throw e;}finally{await c.close();}

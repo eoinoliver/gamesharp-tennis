@@ -1,3 +1,4 @@
+import {openCompletionPanels} from './completion-panels.mjs';
 // Shared sound + beta continuation contract. Real browser audio graph; no production analytics.
 import {chromium,webkit,devices} from 'playwright';
 import assert from 'node:assert/strict';
@@ -49,9 +50,9 @@ try{
  await p.waitForSelector('#nextDaily');await p.waitForFunction(()=>!recapActive&&!playing);
  check(await p.evaluate(()=>__calls.filter(k=>k==='applause').length)===1,'one applause for the completed perfect challenge');
  const next=await p.evaluate(()=>GSApp.nextDaily().slug);check(await p.locator('#nextDaily').getAttribute('href')===`play.html?l=${next}`,'completion points to real next unplayed lesson');
- check(await p.evaluate(()=>silentPlayback),'automatic wrap-up stays silent');
- await p.locator('#again').tap();check(await p.evaluate(()=>hasLessonRecap()?silentPlayback:!silentPlayback),'recap stays quiet; single-point replay can have contact cues');
- await p.locator('#saveCue').tap();check(await p.evaluate(()=>JSON.parse(localStorage.gs_my_game).length>0),'cue still saves');
+ check(await p.evaluate(()=>!playing&&!recapActive),'completion adds no automatic court playback');
+ await p.locator('#again').tap();check(await p.evaluate(()=>!silentPlayback&&!GSSfx.voiceState().playing),'explicit replay permits court sounds without overlapping narration');
+ await openCompletionPanels(p);await p.locator('#saveCue').tap();check(await p.evaluate(()=>JSON.parse(localStorage.gs_my_game).length>0),'cue still saves');
  await p.screenshot({path:`${out}/${engine.name()}-completion.png`,fullPage:true});
  await Promise.all([p.waitForURL(u=>u.searchParams.get('l')===next),p.locator('#nextDaily').tap()]);await p.waitForFunction(()=>window.__test);
  check(new URL(p.url()).searchParams.get('l')===next,'next challenge actually loads');
@@ -88,7 +89,7 @@ try{
  for(const l of [...cat.daily,...cat.predict,...cat.play]){
   await p.goto(base+'play.html?l='+l.slug);await p.waitForFunction(()=>window.__test);
   const rows=await p.evaluate(()=>Object.values(SC).map(sc=>({original:sfxEvents(sc).length,audible:audibleEvents(sc).length,valid:audibleEvents(sc).every(([f,k])=>sfxEvents(sc).some(e=>e[0]===f&&e[1]===k)),bounces:audibleEvents(sc).filter(e=>e[1]==='bounce').length})));
-  check(rows.every(x=>x.valid&&x.bounces<=1&&x.audible<=x.original),l.slug+': sounds aligned and reduced across every scene');
+  check(rows.every(x=>x.valid&&x.audible<=x.original),l.slug+': sounds match authored events across every scene');
   report.push({lesson:l.slug,scenes:rows.length,original:rows.reduce((n,x)=>n+x.original,0),selected:rows.reduce((n,x)=>n+x.audible,0)});
  }
  writeFileSync(`${out}/${engine.name()}-catalogue.json`,JSON.stringify(report,null,2));

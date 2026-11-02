@@ -232,6 +232,14 @@ details.note a{color:var(--gold)}
   .rail span{opacity:.72;transform:none}#ink{clip-path:none}}
 .question-context{position:absolute;top:12px;left:12px;max-width:calc(100% - 92px);padding:6px 9px;border-radius:8px;background:rgba(5,18,10,.88);color:#e8dfb0;font:500 12px/1.35 "DM Sans",sans-serif;pointer-events:none;z-index:6}.question-context[hidden]{display:none}
 .visual.full .question-context,.visual:fullscreen .question-context{top:66px}
+
+/* Deliberate pace: the action ends, then one explanation and a clear continuation. */
+.model-reset{font-size:13px;line-height:1.5;padding:12px 14px;border-left:2px solid #c8a84b;background:#10271c;color:#dbe5de;}
+#wrapup{scroll-margin-top:24px;min-height:calc(100vh - 48px);min-height:calc(100svh - 48px)}#wrapup>.blk:first-child{padding:20px 0!important;margin:0!important}#wrapup .mem{font-family:"DM Sans",sans-serif;letter-spacing:-.4px;text-transform:none;font-weight:650;font-size:clamp(24px,5vw,32px);line-height:1.3;}
+#wrapup .live-evidence{border:1px solid #c8a84b45;border-radius:14px;padding:20px;background:#10271c;}#wrapup #replayTurningPoint{border-radius:12px;padding:12px 18px;text-decoration:none;line-height:1.3;background:#d4b65a;color:#142117;border:0;font-weight:700;min-height:48px;margin:8px 8px 0 0;}#wrapup #compareRecovery{font-size:12px;margin-top:8px;}
+.completion-more,.completion-extras{margin:22px 0 0;border-top:1px solid #c8a84b30;padding:16px 0;}.completion-more>summary,.completion-extras>summary{font:600 15px "DM Sans",sans-serif;min-height:44px;cursor:pointer;color:#dbe5de;list-style:none;display:flex;align-items:center;justify-content:space-between}.completion-more>summary:after,.completion-extras>summary:after{content:'+';color:#c8a84b}.completion-more[open]>summary:after,.completion-extras[open]>summary:after{content:'−'}
+#wrapup .gs-continue{padding:20px 0;margin:0;border:0}#wrapup .gs-continue .k{display:none}#wrapup .gs-continue .next{min-height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center}#wrapup .voice-controls{margin-top:14px;}.completion-more .pay[open]{margin-top:14px}
+
 </style>
 
 </head>
@@ -367,13 +375,13 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=df4099ec6b"></script>
-<script src="catalog.js?v=df4099ec6b"></script>
-<script src="app.js?v=df4099ec6b"></script>
-<script src="sfx.js?v=df4099ec6b"></script>
+<script src="config.js?v=ad1e5b4d36"></script>
+<script src="catalog.js?v=ad1e5b4d36"></script>
+<script src="app.js?v=ad1e5b4d36"></script>
+<script src="sfx.js?v=ad1e5b4d36"></script>
 <script>
 (function(){
-const A=GSApp, V="df4099ec6b", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="ad1e5b4d36", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
@@ -465,19 +473,19 @@ function wrap(n){
   const weekBlk=used.length?`<div class="k">Built from your lessons</div><div class="gs-uses">${used.map(u=>{const d=A.S.done[u.slug];return `<a href="play.html?l=${u.slug}" class="${d?"done":"todo"}"><span>${d?"✓":"○"}</span>${esc(u.title)}${d?"":` <i>Not played yet</i>`}</a>`;}).join("")}</div>`
     :feeds.length?`<p class="strk gs-feeds">This lesson shows up in <a href="play.html?l=${feeds[0].slug}">${esc(feeds[0].title)}</a>.</p>`:"";
   const flav=(A.CAT.flavours||[]).find(f=>f.lessons.includes(slug));
-  const b=document.createElement("div"); b.className="appblk";
+  const b=document.createElement("details"); b.className="appblk completion-extras";
   const returnPoint=L.followup&&A.bySlug(L.followup);
   const transfer=A.transferEvidence(slug),due=returnPoint&&A.S.done[slug]?.first<A.today();
   const returnBlk=returnPoint&&!A.S.done[returnPoint.slug]?`<div class="blk" id="returnRead"><div class="k">${due?'Your next read':'Tomorrow’s read'}</div><p class="strk">${esc(L.returnPrompt||'A different point on the other wing. Make both calls before seeing your cue.')}</p><p class="strk">${due?'Ready on Home now.':'It appears on Home tomorrow in this browser.'}</p><a class="alt" href="play.html?l=${returnPoint.slug}">${due?'Read the other point':'Try now as practice'} →</a></div>`:transfer?`<div class="blk" id="returnRead"><div class="k">${transfer.kind==='first_later_day'?'Your return read':'Practice variation'}</div><p class="strk">${esc(transfer.text)}</p><p class="strk">${transfer.kind==='first_later_day'?'Two decisions in a changed situation. Take the cue onto court.':'A repeat or an early look is practice, not a fresh next-day check.'}</p></div>`:'';
-  b.innerHTML=`${returnBlk}${weekBlk}<div class="k">Your streak</div>
+  b.innerHTML=`<summary>Progress &amp; feedback</summary>${returnBlk}${weekBlk}<div class="k">Your streak</div>
     <p class="strk"><b>${s} day${s===1?"":"s"}</b> in a row. Come back tomorrow for another read.</p>
-    ${nx||nextPoint?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nextPoint?nextPoint.title:nx.title)}. You can play it now.</p>${nextPoint?`<a class="next" id="nextLivePoint" href="play.html?l=${nextPoint.slug}">Read the next Live Point →</a>`:""}${nx?`<a class="${nextPoint?'alt':'next'}" id="nextDaily" href="play.html?l=${nx.slug}">${nextPoint?'Try a daily challenge':'Play next challenge'} →</a>`:""}</div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
+    ${nx||nextPoint?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nextPoint?nextPoint.title:nx.title)}</p>${nextPoint?`<a class="next" id="nextLivePoint" href="play.html?l=${nextPoint.slug}">Read the next Live Point →</a>`:""}${nx?`<a class="${nextPoint?'alt':'next'}" id="nextDaily" href="play.html?l=${nx.slug}">${nextPoint?'Try a daily challenge':'Play next challenge'} →</a>`:""}</div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
     ${asked?"":`<div class="gsfb"><p class="fbq">Was this useful for your tennis?</p>
       <div class="fbrow"><button data-u="yes">Yes</button><button data-u="no">Not really</button></div></div>`}
     ${flav?`<div class="gsfv"${asked?"":" hidden"}><p class="fbq">More lessons like this one?</p><div class="fbrow"><button data-fv="more">More</button><button data-fv="fewer">Fewer</button></div></div>`:""}
     ${flav&&flav.key==="opponents"?`<div class="gsop" hidden><p class="fbq">Which opponent gives you the most trouble?</p><div class="fbrow fbwrap">${["Moonballer","Pusher","Big hitter","Net rusher","Lefty","Other"].map(o=>`<button data-op="${o}">${o}</button>`).join("")}</div></div>`:""}
     <a class="next home" href="./?home=1">Back to home</a>`;
-  const r=w.querySelector("#redo"); r?w.insertBefore(b,r):w.append(b);
+  w.append(b);
   const more=b.querySelector('#nextDaily');if(more)more.onclick=()=>A.track('asked_more',{next:nx.slug,from:slug});
   const continuation=b.querySelector('.gs-continue')||b.querySelector('a.next:not(.home)');
   if(continuation)(w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
@@ -513,7 +521,7 @@ function afterEngine(){
 function wireChallenge(w){
   const link=A.challengeUrl(slug),box=document.createElement('div');box.className='blk';box.id='sharePoint';
   box.innerHTML=`<div class="k">Let someone else make the call</div><p>Same point. Their decisions. Your answers stay private.</p><button class="alt" id="sharePointButton">Challenge a tennis friend</button><div id="shareFallback" hidden><label for="challengeLink">Challenge link</label><input id="challengeLink" readonly aria-label="Challenge link"><button class="alt" id="copyChallenge">Copy link</button></div><p id="shareStatus" role="status"></p>`;
-  w.querySelector('#liveEvidence').after(box);box.querySelector('input').value=link;
+  w.querySelector('.completion-extras').append(box);box.querySelector('input').value=link;
   const status=box.querySelector('#shareStatus'),fallback=box.querySelector('#shareFallback');
   const reveal=()=>{fallback.hidden=false;box.querySelector('input').select();status.textContent='Copy this link. It contains no answers or scores.';};
   box.querySelector('#sharePointButton').onclick=async()=>{

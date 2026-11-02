@@ -1,3 +1,4 @@
+import {openCompletionPanels} from './completion-panels.mjs';
 // Complete pilot journeys; audio routing assertions supplement physical listening.
 import assert from 'node:assert/strict';
 import {chromium,webkit} from 'playwright';
@@ -49,7 +50,7 @@ try{
   await p.locator('[data-gs-sound]').tap();assert.equal(await p.evaluate(()=>GSSfx.voiceState().playing),false);
   assert.equal(await p.evaluate(()=>GSSfx.enabled()),false);await p.locator('[data-gs-sound]').tap();await p.waitForFunction(()=>GSSfx.ready());
   assert.equal(await voiceCount(),2,'unmuting does not replay speech');
-  await p.locator('#saveCue').tap();assert.equal(await p.locator('#saveCue').innerText(),'Saved to My Game ✓');
+  await openCompletionPanels(p);await p.locator('#saveCue').tap();assert.equal(await p.locator('#saveCue').innerText(),'Saved to My Game ✓');
   const n=await p.evaluate(slug=>GSApp.S.done[slug].n,slug);assert.equal(n,index===2?2:3);
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   await p.screenshot({path:`${out}/${slug}-complete.png`,fullPage:true});

@@ -1,3 +1,4 @@
+import {openCompletionPanels} from './completion-panels.mjs';
 import assert from 'node:assert/strict';
 import {chromium,webkit} from 'playwright';
 import {mkdirSync,writeFileSync,readFileSync} from 'node:fs';
@@ -33,7 +34,7 @@ for(const width of [375,820,1280]){
     if(width===375&&path==='BA')await p.screenshot({path:`${out}/${slug}-${i}-answer.png`,fullPage:true});
     await p.locator('#next').click();
    }
-   await p.waitForSelector('#saveCue');await p.waitForFunction(()=>!playing);
+   await openCompletionPanels(p);await p.waitForSelector('#saveCue');await p.waitForFunction(()=>!playing);
    check(await p.evaluate(path=>LESSON.finaleScene===LESSON.branch+path,path),`${slug}/${path}: finale follows committed route`);
    check(await p.evaluate(()=>SC[LESSON.finaleScene].info.outcome==='in_play'),`${slug}/${path}: no manufactured win/loss`);
    check((await p.locator('#svg').textContent()).includes('AT THEIR HIT'),`${slug}/${path}: decisive position annotated`);
@@ -43,12 +44,12 @@ for(const width of [375,820,1280]){
    const before=await p.evaluate(()=>JSON.stringify(ans));
    await p.locator('#replayTurningPoint').click();await p.waitForFunction(()=>!playing);
    check(await p.evaluate(()=>JSON.stringify(ans))===before,`${slug}/${path}: replay preserves decisions`);
-   check(await p.evaluate(()=>silentPlayback),`${slug}/${path}: inspection is silent`);
+   check(await p.evaluate(()=>!silentPlayback&&!GSSfx.voiceState().playing),`${slug}/${path}: inspection permits native court events without narration`);
    await p.locator('#compareRecovery').click();await p.waitForFunction(()=>!playing);
    check((await p.locator('#questionContext').textContent()).startsWith('Alternative'),`${slug}/${path}: comparison labelled on court`);
    check(await p.evaluate(()=>scene!==LESSON.finaleScene),`${slug}/${path}: alternative movement shown`);
    check(await p.evaluate(()=>JSON.stringify(ans))===before,`${slug}/${path}: comparison cannot rescore`);
-   await p.locator('#saveCue').click();
+   await openCompletionPanels(p);await p.locator('#saveCue').click();
    check(await p.evaluate(()=>JSON.parse(localStorage.getItem('gs_my_game')).some(c=>c.cue===LESSON.cue)),`${slug}: cue saved`);
    if(path==='BA')await p.screenshot({path:`${out}/${slug}-${width}-ending.png`,fullPage:true});
   }
