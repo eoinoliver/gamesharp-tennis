@@ -51,3 +51,10 @@ PR 53 is live: app 61678680f2, Production dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX, merg
 ## Movement-led Live Point — 27 October 2026
 
 PR 55 is live: app bcaab23b1a, merge e80d1adc9b44ea41a63d8356fec3e578d099d4cb, Production dpl_9rfGigZibdqHUfpTW24UMLgsHUCt. Two new journeys (43 total) connect a reply choice to recovery timing, with eight authored routes that stop with the point still in play. Returning players can find the unplayed original on Home; the changed-wing variation becomes eligible from the next local calendar day after completing it. First responses survive retries; history remains browser-local. Both share the short Frank cue “Buy yourself time. Use it to recover.” The next product gate is later-day recognition and beta feedback before catalogue expansion. Release evidence and limits are in docs/features/live-point-release.json. Rollback remains 61678680f2 / dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX. Automatic domain assignment remains off.
+
+
+## Sharpen technique priority — 2 November 2026
+
+PR 65 is live: app 884076afe6, merge 943568b3e7ede119d24e0c71c1d86a9d6a55affe, Production dpl_AY9y1LRbcFy2Zr9WvTbTBeoKbGbr. The serve has a continuous visible toss and complete framing; the slice extends forward; volleys have compact set/follow-through/recovery; five backhand variants keep the supporting hand on the handle. Shared corrections reach 42 of the existing 47 journeys. Contact anchors and timing remain intact.
+
+Eoin's priority is convincing, technically credible existing strokes before further features or content. Use the existing reference material and renderer pragmatically; very good is sufficient, and a new Blender or biomechanics pipeline is not the objective. The full catalogue and hosted release checks passed; no independent coach or physical-device certification is claimed. See docs/features/sharpen-stroke-clarity-release.json. Automatic domain assignment remains off. Rollback: 1d8e1511d4 / dpl_BmMBcmi5RnuPE94pwEckd2GPU9Pc.
