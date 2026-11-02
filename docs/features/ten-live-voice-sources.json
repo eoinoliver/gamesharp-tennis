@@ -43,5 +43,50 @@
       "mean": -23.5,
       "max": -7.3
     }
+  },
+  {
+    "asset": "live-point-line-opens",
+    "taskId": "a85c1e26-f8f4-47eb-bb22-8f838a67d91e",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "duration": 4.226032,
+    "gainDb": 0.3000000000000007,
+    "originalSha256": "759d006223a8eddd13818badd0165ef76b0b93269fdc26a3ed88a57d998f268f",
+    "sha256": "7269467162d8e3276992995c88879e604eabd0f224104c7c86628ff827f8fe25",
+    "levels": {
+      "mean": -23.4,
+      "max": -5.2
+    }
+  },
+  {
+    "asset": "live-point-volley-build",
+    "taskId": "5be68c4d-e884-4b3e-a203-d2dbb85db2cf",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "duration": 4.458231,
+    "gainDb": 1.3999999999999986,
+    "originalSha256": "415c1bb9f38677d568e9618d09f9fd366822ad2f9b8def36334dbfbb96fed761",
+    "sha256": "84c73eb97296eac8175ccc8fca347d2b974fe97dc2c2fd1422fa32a2d7fe6f78",
+    "levels": {
+      "mean": -23.5,
+      "max": -5.4
+    }
+  },
+  {
+    "asset": "live-point-volley-opening",
+    "taskId": "69acb706-e444-4131-ad24-0de569e00707",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "duration": 3.808073,
+    "gainDb": 2.1999999999999993,
+    "originalSha256": "89f735864df22c2f140eb165eb9662bbdde69557b9ca69b50f39ee8a40399cc5",
+    "sha256": "2a185a4e5ecf0b0f6671040ab6fe8e1d907350e781365f168d74fdd7d66ee99d",
+    "levels": {
+      "mean": -23.5,
+      "max": -3.6
+    }
   }
 ]

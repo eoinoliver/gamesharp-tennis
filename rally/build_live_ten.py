@@ -68,6 +68,54 @@ POINTS = [
       why='A wide, low contact behind the baseline makes a direction change more demanding and leaves court to cover. Higher crosscourt play can buy recovery time. Judge the next shot from the new ball and balance, not from whether the previous attempt happened to land.',
       pro='Technical and tactical fundamentals connect shot selection with balance, court position and recovery. The point applies those principles to a stretched direction change.',url=TA,
       drill='Alternate a wide deep feed and a shorter central feed. Call “hold” or “change” before contact; recover and play the next ball.',signals=['direction-margin','recovery-read']),
+ dict(batch=2,prefix='to',slug='live-point-line-opens',title='Now the Line Opens',family='direction-change',
+      source=['line','ln2B'],hit=181,transferOf='live-point-line-tempting',
+      intro='This ball is shorter. You have time to set on the backhand, and they are recovering toward the crosscourt side.',
+      q='What has changed from the stretched wide ball?',opts=['Use controlled depth down the open line','Float short toward their recovery'],good=0,
+      lines=['Your balanced contact lets you use the line with margin. Watch how they defend.', 'The shorter float gives them time to step in. Read their deeper reply.'],
+      branches=[dict(target=[-3,10],time=1.40,post=.20,reply=[.3,-7.4],replyTime=1.60,replyPost=.18),
+                dict(target=[1.5,6.5],time=1.45,post=.18,reply=[-3.2,-9.9],replyTime=1.20,replyPost=.20)],
+      situations=['They stretch to the line and send a shorter reply toward the middle.', 'They step into your short ball and send you back out to the backhand.'],
+      secondQ='What does their reply permit now?',secondOpts=['Use controlled depth into the space','Lift through the middle to regain time'],secondGood=[0,1],also=[[1],[]],
+      secondLines=[['You move forward and use the space with a generous target.', 'A sound reset. You also had a shorter ball to work with.'],
+                   ['The space is there, but the deeper contact makes pressing less comfortable.', 'You adapt to the deeper ball and regain recovery time.']],
+      secondTargets=[[[2.8,9.6],1.20],[[0,9.6],1.55]],cue='Use the opening you earn. Cover the reply it creates.',
+      principle='The same line can be demanding or available. Read the contact that changes it.',
+      why='Compared with the stretched wide ball, this contact is closer, higher and better organised. The opponent is also away from the line. Controlled depth can use that opening; the next reply still needs a fresh read.',
+      pro='Tennis Australia links positioning and balance to choosing and recovering from a shot. This changed situation applies the same principle without making “always crosscourt” a rule.',url=TA,
+      drill='Alternate a deep wide backhand feed and a shorter one. Recover toward the crosscourt side as feeder. Let the receiver call the opening, then play your actual reply.',signals=['direction-opportunity','follow-up-read']),
+ dict(batch=2,prefix='tv',slug='live-point-volley-build',title='First Volley: Build the Point',family='first-volley',
+      source=['av','av3A'],hit=416,followup='live-point-volley-opening',net=True,
+      intro='Your approach brings you in. Their passing shot dips below net height on your forehand side.',
+      q='What does this low first volley need?',opts=['Bend and guide with depth through the middle','Float a short volley toward their side'],good=0,
+      lines=['Your compact volley gives the low ball clearance and depth. Reset for their next hit.', 'The short float lets them move forward. Stay ready for a harder second volley.'],
+      branches=[dict(target=[0,10],time=1.25,post=.18,reply=[-1.2,-7],replyTime=1.17,replyPost=0,replyIntercept=.86),
+                dict(target=[-1.5,6.2],time=1.15,post=.18,reply=[-3,-7.5],replyTime=.98,replyPost=0,replyIntercept=.73)],
+      situations=['Their next pass comes to your backhand. You have stayed balanced near the net.', 'Their earlier pass comes lower and farther to your backhand. You have to adjust.'],
+      secondQ='How do you handle this next volley?',secondOpts=['Keep the action compact and place it deep','Force a very short angle'],secondGood=[0,0],also=[[],[]],
+      secondLines=[['You keep the racket in front and use depth. The point continues.', 'The angle lands here, but the moving contact makes that small target demanding.'],
+                   ['You respect the lower contact and keep the ball playable.', 'The small target asks more of an already hurried contact. Judge the margin, not this landing.']],
+      secondTargets=[[[0,9.8],1.10],[[3.6,3.5],.90]],cue='Low volley, compact action. Build the point, then stay ready.',
+      principle='A first volley below the net is a building shot. Depth can earn the next ball.',
+      why='Split around their hit, lower with the legs and use a compact forward action. A low contact needs clearance. A short floating volley gives the passer time and space; a deep volley can restrict those options without guaranteeing an easy finish.',
+      pro='Tennis Australia’s volley fundamentals emphasise preparation, balance and contact in front. The low volley here uses the repaired shared leg-loading and forward-action motion.',url=TA,
+      drill='Approach a deep feed. Have the passer alternate low forehand and backhand passes. Play two volleys, valuing balance and depth before a finish.',signals=['volley-height','second-volley']),
+ dict(batch=2,prefix='th',slug='live-point-volley-opening',title='First Volley: Use the Opening',family='first-volley',
+      source=['av','av1C'],hit=434,transferOf='live-point-volley-build',net=True,
+      intro='Your approach moves them wide. This backhand volley is above the net, with the opposite side open.',
+      q='What does the higher contact offer?',opts=['Send it back toward the waiting passer','Place the volley into the open side'],good=1,
+      lines=['You send it toward their side. They get a more comfortable passing attempt.', 'You use the height and space with a compact volley. They still get a racket to it.'],
+      branches=[dict(target=[2.5,9.5],time=1.15,post=.18,reply=[2.8,-7.2],replyTime=1.10,replyPost=0,replyIntercept=.81),
+                dict(target=[-2.9,9],time=1.65,post=.18,reply=[.5,-6.8],replyTime=1.30,replyPost=0,replyIntercept=.94)],
+      situations=['Their pass comes wider to your forehand. Recover into the next volley.', 'Their stretched reply comes higher through the middle. Stay organised for the forehand volley.'],
+      secondQ='What has the first volley actually earned?',secondOpts=['Place the next volley with controlled depth','Try a sharp finishing angle'],secondGood=[0,1],also=[[],[0]],
+      secondLines=[['You adjust and keep a generous target for the wider ball.', 'This angle lands, but the wider contact leaves less room to force it.'],
+                   ['A sound controlled placement. The higher contact also offered the shorter angle.', 'You use the higher contact and open side. Stay ready until the point is over.']],
+      secondTargets=[[[0,9.6],1.10],[[3.4,4.5],.95]],cue='Use the height and space. Place it, then stay ready.',
+      principle='A higher volley offers more placement options. The next pass still decides your next shot.',
+      why='Compared with the low first volley, this ball arrives above the net and the opponent is displaced. A compact forward action can use the open side. Do not assume a winner: recover and split for the return they actually produce.',
+      pro='Volley fundamentals combine a stable racket, coordinated footwork and contact in front. The opportunity changes with contact height and opponent position, not with a bigger backswing.',url=TA,
+      drill='Have a partner feed one low volley and one above the net, while changing sides. Call “build” or “place” from the contact and court, then play a second volley.',signals=['volley-opportunity','next-volley-read']),
 ]
 
 def rot(v,yaw):
@@ -97,9 +145,11 @@ def flight(p0,target,duration,post=.20):
         out.append([round(x,5) for x in pos])
     return out,n
 
-def append_flight(s,target,duration,post):
+def append_flight(s,target,duration,post,intercept=None):
     start=len(s['ball'])-1;track,bounce=flight(s['ball'][-1],target,duration,post)
-    s['ball'].extend(track);s['marks'].append(dict(frame=start+bounce,pos=target,kind='bounce',label=None))
+    if intercept is not None:track=track[:round(intercept*100)]
+    s['ball'].extend(track)
+    if len(track)>=bounce:s['marks'].append(dict(frame=start+bounce,pos=target,kind='bounce',label=None))
     return len(s['ball'])-1,s['ball'][-1]
 
 def node(p,key,sit,q,opts,good,lines):
@@ -126,7 +176,7 @@ def build(p):
     for f in range(hit-7,hit+1):
         u=(f-(hit-8))/8
         s0['ball'][f]=[round(s0['ball'][f][i]+delta[i]*u*u,5) for i in range(3)]
-    s0['actors']['you']=[copy.deepcopy(a) for a in base['actors']['you'] if a is first or a.get('hold') and a['start']<first['start']]
+    s0['actors']['you']=[copy.deepcopy(a) for a in base['actors']['you'] if a['start']<=first['start']]
     s0['actors']['opp']=[copy.deepcopy(a) for a in base['actors']['opp'] if a['start']<hit and (a.get('hold') or a['start']+clips[a['clip']]['contactFrame']-1<=hit)]
     s0['marks']=[dict(m,label=None) for m in base['marks'] if m['frame']<hit and m['kind']=='bounce']
     for i,X in enumerate('AB'):
@@ -134,22 +184,22 @@ def build(p):
         theirHit,pc=append_flight(s,b['target'],b['time'],b['post'])
         oppClip='bh' if pc[0]>1 else 'fh'
         s['actors']['opp'].append(placed(clips,oppClip,pc,theirHit,True))
-        nextHit,nc=append_flight(s,b['reply'],b['replyTime'],b['replyPost'])
-        nextClip='bhlo' if nc[0]<-.5 and nc[2]<.85 else 'bh' if nc[0]<-.5 else 'fhhi' if nc[2]>1 else 'fh'
-        s['actors']['you'].extend([ready([-.3,-11.3],theirHit-32),placed(clips,nextClip,nc,nextHit)])
+        nextHit,nc=append_flight(s,b['reply'],b['replyTime'],b['replyPost'],b.get('replyIntercept'))
+        nextClip=('bv' if nc[0]<-.5 else 'lowfv' if nc[2]<1.1 else 'fvhi') if p.get('net') else 'bhlo' if nc[0]<-.5 and nc[2]<.85 else 'bh' if nc[0]<-.5 else 'fhhi' if nc[2]>1 else 'fh'
+        s['actors']['you'].extend([ready([-.3,-3.7 if p.get('net') else -11.3],theirHit-(25 if p.get('net') else 32)),placed(clips,nextClip,nc,nextHit)])
         # Recover to neutral coverage before seeing our second shot. Otherwise a
         # later hold target would make them anticipate the unchosen final reply.
         s['actors']['opp'].append(ready([0,11.6],nextHit))
         decision=nextHit-14
         s['info']=dict(freeze=decision,**{'from':freeze},livePoint=True,outcome='in_play',
             authoredPoint=dict(firstHit=hit,theirHit=theirHit,nextHit=nextHit,branch=X,source=p['source'],illustrated=True),
-            splits=[[theirHit+3,16]],
+            splits=[v for v in base['info'].get('splits',[]) if v[0]<hit]+[[theirHit+3,16]],
             comparison=dict(start=max(0,hit-55),end=theirHit+12,good=i==p['good'],label=p['opts'][i],
                 explanation='Same incoming ball and starting positions. Only the first choice changes; the reply shown is one possible response.',event='opponent_reply'))
         for j,Y in enumerate('AB'):
             end=copy.deepcopy(s);target,duration=p['secondTargets'][j]
             last,_=append_flight(end,target,duration,.12)
-            end['actors']['you'].append(ready([0,-10.8],nextHit+80))
+            end['actors']['you'].append(ready([0,-3.4 if p.get('net') else -10.8],nextHit+80))
             # Show recovery, never a frozen spectator while the final ball lands.
             end['actors']['opp'].append(ready([target[0]*.75,11.6],last))
             end['frames']=len(end['ball']);end['info']['shot']={'land':target,'illustrated':True}

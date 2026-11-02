@@ -8,6 +8,10 @@
   const voices=new Set(), buffers={}, pending={}, files=[...core,...rewards];
   const REWARD_KEY='gs_reward_last';
   const VOICE_KEY='gs_voice', courtVoices={
+  "live-point-line-opens": "Use the opening you earn. Cover the reply it creates.",
+  "live-point-volley-build": "Low volley, compact action. Build the point, then stay ready.",
+  "live-point-volley-opening": "Use the height and space. Place it, then stay ready.",
+
   "live-point-return-pressure": "Read the pace. Give your return room, then recover.",
   "live-point-return-time": "Use the time. Apply pressure, then read what comes back.",
   "live-point-line-tempting": "Balance before direction. Give yourself room to recover.",

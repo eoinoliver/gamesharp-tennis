@@ -19,5 +19,26 @@
     "neutral": true,
     "batch": 1,
     "prefix": "tl"
+  },
+  {
+    "lesson": "live-point-line-opens",
+    "text": "Use the opening you earn. Cover the reply it creates.",
+    "neutral": true,
+    "batch": 2,
+    "prefix": "to"
+  },
+  {
+    "lesson": "live-point-volley-build",
+    "text": "Low volley, compact action. Build the point, then stay ready.",
+    "neutral": true,
+    "batch": 2,
+    "prefix": "tv"
+  },
+  {
+    "lesson": "live-point-volley-opening",
+    "text": "Use the height and space. Place it, then stay ready.",
+    "neutral": true,
+    "batch": 2,
+    "prefix": "th"
   }
 ]

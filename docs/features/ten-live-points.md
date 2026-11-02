@@ -48,3 +48,13 @@ All 24 authored new strike contacts coincide with the stringbed within 0.01 mm
 in the renderer; this establishes contact alignment, not coaching certification.
 Fixed opponent anticipation before the second choice. Three short recordings
 are installed with provenance and levels. Batch 2 may begin.
+
+### Batch 2 checkpoint
+
+Passed all 12 unique new routes on mobile Chromium/WebKit and desktop Chromium
+(443 assertions), plus the source gate across all 24 authored routes. Personally
+inspected the 12 new route sheets and normal-speed AA, AA and BB journeys.
+Low first volley: 0.87 m; higher first volley: 1.33 m. Both keep the approach,
+split and repaired source stroke, then continue into an actual second volley.
+The opponent cannot anticipate the second choice. Three more neutral recordings
+passed real browser playback. Batch 3 may begin.
