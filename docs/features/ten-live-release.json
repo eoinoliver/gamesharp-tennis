@@ -1,0 +1,130 @@
+{
+  "date": "2026-11-02",
+  "status": "live",
+  "project": "gamesharp-tennis",
+  "projectId": "prj_SHIw7K0JxhCtoQQgh1zVHlR3r2Pe",
+  "pullRequest": "https://github.com/eoinoliver/gamesharp-tennis/pull/71",
+  "candidate": "6f64e6815da3ea008a4b3900cd01b2f283bead35",
+  "merge": "18ef19f93c41a1bb4e951ac87fc4163b8045e4eb",
+  "tree": "0a14b8d11912f7a614c51085985cc2184542cd93",
+  "appVersion": "c2fd381df3",
+  "production": {
+    "id": "dpl_GWEsvNFXm7QUrUYahmruLCDzLCbr",
+    "url": "https://gamesharp-tennis-dbi5j32cc-eoinlynn-5978s-projects.vercel.app",
+    "domain": "https://www.gamesharptennis.com",
+    "source": "Git-triggered Production; exact staged artifact promoted without rebuilding"
+  },
+  "preview": {
+    "id": "dpl_Acmb1Jk6ZPBGPPzRfR3q6ziHeQSX",
+    "url": "https://gamesharp-tennis-qtmsixgod-eoinlynn-5978s-projects.vercel.app"
+  },
+  "rollback": {
+    "id": "dpl_EDDRVTwViUsCvZTd8sRtrcVJEqnQ",
+    "appVersion": "ad1e5b4d36",
+    "url": "https://gamesharp-tennis-g6oxn0hgj-eoinlynn-5978s-projects.vercel.app"
+  },
+  "scope": {
+    "newEligible": 10,
+    "withheld": 0,
+    "totalJourneys": 57,
+    "totalLivePoints": 16,
+    "newBranches": 40,
+    "batches": [
+      3,
+      3,
+      3,
+      1
+    ],
+    "unchangedOriginalLessonPayloads": 47,
+    "unchangedSharedClips": 22
+  },
+  "validation": {
+    "unitTests": 63,
+    "releaseFiles": 188,
+    "publicFiles": 187,
+    "checkedSourceInputs": 268,
+    "batchRouteExecutions": 120,
+    "batchAssertions": 1478,
+    "questionActionAssertions": 1969,
+    "questionNodes": 193,
+    "ci": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/41428495594",
+    "ciConclusion": "success",
+    "http": {
+      "preview": {
+        "total": 329,
+        "passed": 329,
+        "retries": 0,
+        "sha256": "f34f3fed6d78b05a6f3daa328b8be8ba3179e45db45c8268ab250c2d170f4f44"
+      },
+      "stage": {
+        "total": 329,
+        "passed": 329,
+        "retries": 0,
+        "sha256": "6d2c699fc586dab3ee481894db870ea85c1f2d3437909beac66abbb0e6d07f3a"
+      },
+      "live": {
+        "total": 329,
+        "passed": 329,
+        "retries": 0,
+        "sha256": "df72cc2d6af83bce9db67f573f3e8c7144b4fc71e76a8ca7497650a39d5782af"
+      }
+    },
+    "completeHostedJourneysPerPhase": 10,
+    "configuration": {
+      "preview": "dpl_Acmb1Jk6ZPBGPPzRfR3q6ziHeQSX",
+      "production": "dpl_GWEsvNFXm7QUrUYahmruLCDzLCbr",
+      "rawMatches": {
+        "config": true,
+        "resourceConfig": true,
+        "regions": true,
+        "originCacheRegion": true,
+        "nodeVersion": true,
+        "crons": true,
+        "functions": true,
+        "projectSettings": true,
+        "routes": true,
+        "env": false,
+        "build": false,
+        "buildConfig": true
+      },
+      "matchesAfterExplainedDifferences": {
+        "config": true,
+        "resourceConfig": true,
+        "regions": true,
+        "originCacheRegion": true,
+        "nodeVersion": true,
+        "crons": true,
+        "functions": true,
+        "projectSettings": true,
+        "routes": true,
+        "env": true,
+        "build": true,
+        "buildConfig": true
+      },
+      "configuredEnvironmentVariables": 0,
+      "rootDirectory": null,
+      "autoAssignCustomDomains": false,
+      "staticAssets": {
+        "preview": 187,
+        "production": 187
+      },
+      "functions": {
+        "preview": 0,
+        "production": 0
+      },
+      "inventoryProof": "Authenticated Vercel Resources UI reports 187 static assets only for each deployment. Every path and byte is independently checked by the complete HTTP manifest.",
+      "explainedDifferences": [
+        "Preview branch versus main merge; Git trees identical",
+        "Environment target, deployment identity and standard Vercel identity",
+        "Expected Preview Feedback suffix normalised by exact deployment ID",
+        "Production adds the platform-provided USE_RUST_LAYER_LATEST variable name. No project variables are configured; no application/build source references it; both outputs are identical static files with zero functions. Its internal platform semantics are not independently asserted."
+      ]
+    }
+  },
+  "limits": [
+    "No physical-device listening claimed",
+    "No independent coaching certification claimed",
+    "No on-court learning-transfer claim; authored possible continuations, all endings in play"
+  ],
+  "authority": "Current request authorises all ten in gated batches. Standing full-autonomy/deploy-live instruction in PROJECT_ALIGNMENT.md supersedes older per-version permission wording; all Git and verification safeguards retained."
+}
