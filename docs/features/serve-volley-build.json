@@ -103,11 +103,11 @@
     },
     "docs/features/serve-volley-rework.md": {
       "baseline": null,
-      "candidate": "db2ca13ddb4de55a22bd808c235b818cd49818f2d05f943ad74edc598c283159"
+      "candidate": "7df2aeaa4cec3faf2ac6bdda23d8a23be5270babd4383ea107bec6dd6ef42893"
     },
     "rally/lesson_body.html": {
       "baseline": "f84484a70ede557387adb5476299dc15fef880a3c1da20de577f616cf8991e03",
-      "candidate": "fb8d1b7f046d28f44b7c75aafaf426c86af5099cdc5fd8027c4cddeda1e307fc"
+      "candidate": "6787c4ad22d6e2108c67c90fefb0d347bf1290a44e035750f530abe62bbe4926"
     },
     "rally/stroke_integrity.py": {
       "baseline": "da30f95fcef886e56f1c70997787ea78e00c15e6b423c22feadeb6b6a43ccc00",
@@ -123,7 +123,7 @@
     },
     "tools/serve-toss-browser.mjs": {
       "baseline": null,
-      "candidate": "a214ec42021c22b689998a48d81e0b8c12d20d4b5796880152c3b90efe330d60"
+      "candidate": "d7840eac651408f37b6d50b2d278ff28b1646e5705adb027aada6c77aae1d48f"
     },
     "tools/sharpen-stroke-browser.mjs": {
       "baseline": "6caee68995b0ea8828734f88e651cdf41e59719ac2e149fef7a7cdd8494b2f7e",
@@ -141,7 +141,7 @@
     },
     "app/catalog.js": {
       "baseline": "e6818c544285a404127e40729156a8de7ee5ac43fd46bac19c7e58a998925dec",
-      "candidate": "11607992debdfe17c194562e9130ce9d9a130ad6b254c6159efc4e3e010bfb69"
+      "candidate": "ad8f62f053227de236862f63f894d39fe8739a3cad85fdfc37c57e89036c922f"
     },
     "app/clips/bv.json": {
       "baseline": "483369a24f158067e7b027d00064f1ad4a9f94fe6e74206a4d73568f3138d17b",
@@ -169,15 +169,15 @@
     },
     "app/engine/engine.js": {
       "baseline": "5fadcaaa5295dbb6b9cd52365739ed6221933d4e3dafed6d9bcbabfd1aac4876",
-      "candidate": "da953a301b20b57487e53bde5d2f14458ab4de5aabf152424e8384c5a4e5419b"
+      "candidate": "94fa0b6a94fa11a308d8fc83ccbcbf59884127422b51f6badec8cc68c84b5d4e"
     },
     "app/index.html": {
       "baseline": "9f04e90e3887128aa96502d01f3d6c970e2f4eec76e997244dfd01177b52486b",
-      "candidate": "1bf7683957f3dd770a5b6e66afa8277101fa0cab62b9c96d7b5830ff99e22812"
+      "candidate": "5760fb99f41759186706bf2f599ddf16072282118cf6153af594a271321db37a"
     },
     "app/play.html": {
       "baseline": "9fe707d6192ddb6a0cd888c80f316c28b3cbc4b53b08b3f08f0b3a25f1e57322",
-      "candidate": "1af2b77944b201b2bface1b1f9287894d5285ad5904e25eae1caaa1112adbcb6"
+      "candidate": "c93799432a1abd9942b7302dcd0ed8b0cae14e5d4e8a6d1abf60c1c6e4ddf483"
     },
     "app/sharpen.js": {
       "baseline": "00a2a0721f627ef6fba4ba4dae845d38e5c21df08142da06bf369d4b0be34c8b",

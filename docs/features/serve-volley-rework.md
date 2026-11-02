@@ -16,6 +16,11 @@ continuity/layout checks had not demonstrated technically convincing movement.
   illustrative flight clears by approximately 28 cm and lands in the opposite
   service box. Draw the far service court, and keep playback going through the
   bounce so the outcome is visible. Show the full toss and both feet.
+- 125 serve openings across 12 lessons begin with a ready hold. A zero-length serve preparation
+  window made those scenes blend straight to contact, skipping the captured
+  toss/throwing action. Reserve the source preparation from 25 frames before
+  release, while keeping all contact and decision timings. Mirrored serves use
+  the anatomical tossing hand after the skeleton is mirrored.
 - Volleys previously moved the racket around a nearly upright/receding
   forehand body and a late backhand step. The three shared derivatives now
   coordinate split, knee loading, shoulder turn, opposite-foot step, forward
@@ -51,6 +56,8 @@ judgments; the release does not claim coach certification or physical-device QA.
 
 ## Regression checks
 
+The shared lesson test also requires the rendered body to match the captured
+serve throughout release-to-contact, including held openings and mirrors.
 The source check protects original contacts, timing and limbs and measures
 knee loading, opposite-foot progression, body drive, continuous forward racket
 speed through contact and descending punch. The browser check now explicitly

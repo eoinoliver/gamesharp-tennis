@@ -302,7 +302,7 @@ function label(frag,p,txt,col,size,op,dy){const q=P(p);if(!q)return;
     stroke:"#07130a","stroke-width":3.2*LSC(),"paint-order":"stroke"});e.textContent=txt;frag.appendChild(e);}
 
 /* ---------- actors: captured clips placed on court ---------- */
-const PRE={drop:70,bhChest:34,bhHigh:34,bhHigher:34,fh:70,fhhi:70,fhret:70,lowfv:55,bh:34,serveW:0,serveT:0,serveB:0,bv:60,sm:90,fvhi:55};
+const PRE={drop:70,bhChest:34,bhHigh:34,bhHigher:34,fh:70,fhhi:70,fhret:70,lowfv:55,bh:34,serveW:125,serveT:125,serveB:125,bv:60,sm:90,fvhi:55};
 function prep(sc){
   if(sc._p) return sc._p; const out={};
   for(const [name,segs] of Object.entries(sc.actors)){
@@ -534,12 +534,12 @@ function serveToss(sc){
   // Some source scenes already contain a separate toss track; use the same
   // hand/release illustration everywhere, then join the untouched contact.
   const contact=Math.max(start+c.contactFrame-1,firstBall(sc));
-  return sc._serveToss={who,clip:serve.clip,release:start+tossInfo(serve.clip).releaseLocal-1,contact};
+  return sc._serveToss={who,clip:serve.clip,handJoint:serve.mirror?I.wristR:I.wristL,release:start+tossInfo(serve.clip).releaseLocal-1,contact};
 }
 function ballAt(sc,g){
   const toss=serveToss(sc);
   if(toss&&g<toss.contact){
-    const hand=f=>add(actorAt(sc,toss.who,f).pose[I.wristL],[0,0,.035]);
+    const hand=f=>add(actorAt(sc,toss.who,f).pose[toss.handJoint],[0,0,.035]);
     if(g<=toss.release)return hand(g);
     const p0=hand(toss.release),pc=sc.ball[toss.contact];
     if(!pc)return null;
