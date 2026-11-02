@@ -51,3 +51,12 @@ PR 53 is live: app 61678680f2, Production dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX, merg
 ## Movement-led Live Point — 27 October 2026
 
 PR 55 is live: app bcaab23b1a, merge e80d1adc9b44ea41a63d8356fec3e578d099d4cb, Production dpl_9rfGigZibdqHUfpTW24UMLgsHUCt. Two new journeys (43 total) connect a reply choice to recovery timing, with eight authored routes that stop with the point still in play. Returning players can find the unplayed original on Home; the changed-wing variation becomes eligible from the next local calendar day after completing it. First responses survive retries; history remains browser-local. Both share the short Frank cue “Buy yourself time. Use it to recover.” The next product gate is later-day recognition and beta feedback before catalogue expansion. Release evidence and limits are in docs/features/live-point-release.json. Rollback remains 61678680f2 / dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX. Automatic domain assignment remains off.
+
+
+## Serve and volley quality correction — 2 November 2026
+
+PR 67 is live: app df4099ec6b, main merge 0bd91c70a17fb49bce0f33ecfdbdc87d2511ada1, Production dpl_FQE8a3wpByQaCagLqJXrsdtkPiWx. Eoin rejected the prior serve delay/unreadable flight and arm-led volley repair. The new version shows a 0.25-second start-to-release, approximately 28 cm net margin and opposite service-box bounce; coordinates volley split, knee loading, shoulder turn, step and punch; and includes the full footwork in animations and stills.
+
+The wider audit found 125 held serve openings across 12 lessons that blended ready-to-contact instead of playing captured preparation. Those windows are fixed, with shared toss metadata and correct mirrored-hand selection. Contacts, timing, source serve bodies and outgoing authored lesson flights stay intact. Six shared clips reach 24 existing journeys; no catalogue expansion or Blender work.
+
+All 47 journeys and the exact hosted release checks pass. Passing structural tests did not establish convincing technique in the previous attempt; future reviews must inspect complete actions, ball outcomes, mobile framing and reference cards. User technical feedback overrides prior claims of completion. Evidence: docs/features/serve-volley-release.json. Rollback is app 884076afe6 / dpl_AY9y1LRbcFy2Zr9WvTbTBeoKbGbr. Automatic domain assignment remains off. Existing full-autonomy delivery authority and Git/verification safeguards remain in force.
