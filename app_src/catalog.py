@@ -47,6 +47,9 @@ PLAY = [
     ('live-point-short-low', 'll', 'Early arrival helps. A low ball still needs lift.'),
     ('live-point-serve-see', 'sv', 'Recover after the serve. Read what comes back.'),
     ('live-point-return-deep', 'sr', 'A deeper return changes the plan.'),
+    ('live-point-return-pressure', 'tp', 'The serve sets your preparation time. The next ball sets your next decision.'),
+    ('live-point-return-time', 'tt', 'Pressure comes from the serve you receive, not its first-or-second label.'),
+    ('live-point-line-tempting', 'tl', 'An empty corner is only an opportunity if your contact supports the shot.'),
     ('saturday-point-1', 'sa', 'One point, built from five of your lessons. Each shot: the one you want to hit, or the one that wins.'),   # weekend point (6 Oct)
     ('saturday-point-2', 'sb', 'A return game at 5-2, built from five more of your lessons. Each shot: the tempting one, or the one that wins.'),
     ('saturday-point-3', 'sc', 'Your serve at 30-40, built from five more of your lessons. Each shot: the tempting one, or the one that wins.'),
@@ -65,5 +68,5 @@ FLAVOURS = [
     ('net', 'Net play', ['approach-volley', 'pass-where-they-arent', 'split-step', 'answer-the-drop']),
     ('technique', 'Technique', ['late-is-the-culprit', 'contact-clue']),
     ('predict', 'Predict the Point', ['predict-the-point', 'predict-second-serve']),
-    ('play', 'Play the Point', ['live-point-buy-time', 'live-point-other-wing', 'live-point-make-room', 'live-point-short-low', 'live-point-serve-see', 'live-point-return-deep', 'saturday-point-1', 'saturday-point-2', 'saturday-point-3', 'saturday-point-4', 'saturday-point-5', 'midweek-point-1', 'play-the-point']),   # has its own card on Home: not in the taster row
+    ('play', 'Play the Point', ['live-point-buy-time', 'live-point-other-wing', 'live-point-make-room', 'live-point-short-low', 'live-point-serve-see', 'live-point-return-deep', 'live-point-return-pressure', 'live-point-return-time', 'live-point-line-tempting', 'saturday-point-1', 'saturday-point-2', 'saturday-point-3', 'saturday-point-4', 'saturday-point-5', 'midweek-point-1', 'play-the-point']),   # has its own card on Home: not in the taster row
 ]

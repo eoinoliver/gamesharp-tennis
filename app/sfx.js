@@ -8,6 +8,10 @@
   const voices=new Set(), buffers={}, pending={}, files=[...core,...rewards];
   const REWARD_KEY='gs_reward_last';
   const VOICE_KEY='gs_voice', courtVoices={
+  "live-point-return-pressure": "Read the pace. Give your return room, then recover.",
+  "live-point-return-time": "Use the time. Apply pressure, then read what comes back.",
+  "live-point-line-tempting": "Balance before direction. Give yourself room to recover.",
+
   "live-space-11": "You made room, then read the ball. Take that to court.",
   "live-space-10": "You made room. Let the ball choose the shot.",
   "live-space-01": "Good shot selection. Make room a little sooner.",

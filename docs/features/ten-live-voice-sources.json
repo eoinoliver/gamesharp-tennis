@@ -1,0 +1,47 @@
+[
+  {
+    "asset": "live-point-return-pressure",
+    "taskId": "928aa131-4eb9-467c-b62b-234dea03b882",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "duration": 3.715193,
+    "gainDb": 0.8999999999999986,
+    "originalSha256": "ed3e92962972a358d169a6491088cbdc2b71013daa016dccd88a55d90df29cce",
+    "sha256": "df7eb25f3d18a433690e91be37a56c25661f0ac8947802a4989e5185d19e4d41",
+    "levels": {
+      "mean": -23.5,
+      "max": -6.0
+    }
+  },
+  {
+    "asset": "live-point-return-time",
+    "taskId": "8ccc5c62-0469-4205-acb8-9027821caf82",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "duration": 4.272472,
+    "gainDb": -0.5,
+    "originalSha256": "3d76ef8a214e1b450c39473114fc87e71a961ad4da3483ff032c334d5df3a89b",
+    "sha256": "33bdbf90b612a2797ccbb871177e18ab2d918895339b51d56957100c1eb238e6",
+    "levels": {
+      "mean": -24.1,
+      "max": -3.6
+    }
+  },
+  {
+    "asset": "live-point-line-tempting",
+    "taskId": "b7a8c78f-4270-4892-8c5b-9dabf265b7ea",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "duration": 4.133152,
+    "gainDb": 1.3999999999999986,
+    "originalSha256": "2844348a1be88f897eb1a9d22cf41ef3865c187ce504946981c8422f01321ca4",
+    "sha256": "478c489690e50422be0ae0cd60a93f4732559bb22a0fe1673f4d9dafa9dc904a",
+    "levels": {
+      "mean": -23.5,
+      "max": -7.3
+    }
+  }
+]

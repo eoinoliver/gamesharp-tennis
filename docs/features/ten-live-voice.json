@@ -1,0 +1,23 @@
+[
+  {
+    "lesson": "live-point-return-pressure",
+    "text": "Read the pace. Give your return room, then recover.",
+    "neutral": true,
+    "batch": 1,
+    "prefix": "tp"
+  },
+  {
+    "lesson": "live-point-return-time",
+    "text": "Use the time. Apply pressure, then read what comes back.",
+    "neutral": true,
+    "batch": 1,
+    "prefix": "tt"
+  },
+  {
+    "lesson": "live-point-line-tempting",
+    "text": "Balance before direction. Give yourself room to recover.",
+    "neutral": true,
+    "batch": 1,
+    "prefix": "tl"
+  }
+]
