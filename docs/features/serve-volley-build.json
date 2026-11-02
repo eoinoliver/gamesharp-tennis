@@ -1,0 +1,271 @@
+{
+  "purpose": "Coordinated serve release/visible flight and whole-body volleys; previous release hashes frozen",
+  "source": {
+    "THIRD_PARTY_NOTICES.md": {
+      "baseline": "0292433880d1b92be33f3a4775f27979594d415bb5819448d395bb4c96e75397",
+      "candidate": "9fda749bc1bec916bb931b4f700ea23bd94ba9f1a67ca6b1a913b404e9045e39"
+    },
+    "app_src/athlete.js": {
+      "baseline": "a08b852297fecf54a39c89935a887371029e5421616f102922edc43a9885e192",
+      "candidate": "bf7d529cef7f0c87965f92718df2fc2865e199848a4d19a89ee3818e229299d4"
+    },
+    "app_src/build.py": {
+      "baseline": "bc33fbfb58648d3c7756f392d15d216f3fcb8a17baec795ef6ee12513f88bd34",
+      "candidate": "89b0325f9a3fdb347a53ac9674dff1509935505b47c668ca06bc5ecccff950bb"
+    },
+    "app_src/sharpen.js": {
+      "baseline": "00a2a0721f627ef6fba4ba4dae845d38e5c21df08142da06bf369d4b0be34c8b",
+      "candidate": "ea6bc952baee4637f193a4e3657d91c59962b10a376e9425bf256425de14825c"
+    },
+    "app_src/sharpen/bh_0.jpg": {
+      "baseline": "adec70aec63c77205605051d74fd997de8409433f7474b8d5edfa1eccc43122a",
+      "candidate": "92a3ab2d50e24247b55dda7451bcd5ce07c76b79af5d3dbe5deec9245153c50c"
+    },
+    "app_src/sharpen/bh_1.jpg": {
+      "baseline": "fcd26e153a36907392c0a8f3b1787b1e88bbed822ef153c48d80f873dcc94d95",
+      "candidate": "56378ac19ea26a3be437d5c1a6f9d46f94a37390d3d8d1fc9e5afd5fc7b45feb"
+    },
+    "app_src/sharpen/bh_2.jpg": {
+      "baseline": "623931114abc2d302210deaba1964ecc8ade914aae31abace549440ca311bf19",
+      "candidate": "2424ad9d1a8dc6c1eb5a07b35104c7e58911c9977243f3c76c028f5eec489481"
+    },
+    "app_src/sharpen/bv_0.jpg": {
+      "baseline": "18c9a940c85b95625f8aaea5998fa182cd61cd1fb66dcf41c59c7fa985153d05",
+      "candidate": "e9e8195d1432f5c28528b31bf248f02ee09a45dd9b2e2c623731f275169f3525"
+    },
+    "app_src/sharpen/bv_1.jpg": {
+      "baseline": "03b766a3f49cfdaacf094a93444343612f5d72955b8b9b66f3726bef7cca0b34",
+      "candidate": "485ee8c4f0899f490509338d80c59151378c4ece87ab3d13d7697cfb050606a4"
+    },
+    "app_src/sharpen/bv_2.jpg": {
+      "baseline": "d4fb7bb01222bf0aad30066a90349d478822c7772888ef040afaaabb97c1e74a",
+      "candidate": "839fa0f10e9288b9c99081be75938c14024e3c86d814203756729bc2e5d4f158"
+    },
+    "app_src/sharpen/drop_0.jpg": {
+      "baseline": "ecdc26818acc29d1651c5d122d9ab90341d5b4242f5540538d7435f81195c100",
+      "candidate": "04ed6246bf58439e2e7756d99e8c0451ebff0f24d92a6928b2a3a66f747b4744"
+    },
+    "app_src/sharpen/drop_1.jpg": {
+      "baseline": "af38132a23c8aba57d1402f9a16fa2e37483eab7285fb0e3d1f0c638ed5c1fc0",
+      "candidate": "0d617a9b9c6c153d99fee616e916f75e840b8a837fe565c6700edd6396958ccc"
+    },
+    "app_src/sharpen/drop_2.jpg": {
+      "baseline": "394d01a2ee88007f5e3ba59e487e7eb002cbbe632bb22405c9f3b8fce199a170",
+      "candidate": "a045a24150d0cd01ee24deda7b04dd3895058619c97172f01499916a846bdb11"
+    },
+    "app_src/sharpen/fh_0.jpg": {
+      "baseline": "0bdfc26254c01efe566d8ac51130c3f7454e3026487700e1b9baa38f8ab15d7f",
+      "candidate": "36b6a4aac6ef5819bd2cdb884d864aef34b089546714f0bbd488744e85c03bd9"
+    },
+    "app_src/sharpen/fh_1.jpg": {
+      "baseline": "4144283fd1af7fc997bfff717ddd863c9e0f0d6c35cc73157925b72f311dfc16",
+      "candidate": "0a3671b9d7be0111e6f7da87afae5daf2c113e5dce3b791dafcc110ab2422e40"
+    },
+    "app_src/sharpen/fh_2.jpg": {
+      "baseline": "7471b41e4060327010acf159aadefeaecee2d6b4788050db807d22a1a91f8038",
+      "candidate": "4f8507ab150c750bdd49d4c3aa72df6c5b207f114b52f9acd5c2e63863dfe161"
+    },
+    "app_src/sharpen/fv_0.jpg": {
+      "baseline": "b731d9394178b712f1c5a489083400ef7224d49be2823c37d04a2ec07911c115",
+      "candidate": "be1415bd6c803753f0492134689c0b7118fc3a7b50a5de04ca4c31c560432999"
+    },
+    "app_src/sharpen/fv_1.jpg": {
+      "baseline": "c76d18ace4320ffcdad008988d4383867592ca7de85a056bed5fca4ad568acc0",
+      "candidate": "a789e8bf73494b104b115a4aa13ff14732bdb66be16b83e3a9d5bd53341131cc"
+    },
+    "app_src/sharpen/fv_2.jpg": {
+      "baseline": "82939d417dbc3d8e387fdc038408d475ad473b8676a0eed3fdce91da466c0cde",
+      "candidate": "3b2c8184195c0c8f1334d97541618d96aa3cc19bc74ff00ef81ed2de4342524f"
+    },
+    "app_src/sharpen/serve_0.jpg": {
+      "baseline": "145537ead4775ba88e5a445a47eedd03b8190fb441b7b9154407e0ba4a927fbf",
+      "candidate": "6202204248412b29cf01ffbd3ea7fe6259eb06b6e24fc68fe14099ce2db9378f"
+    },
+    "app_src/sharpen/serve_1.jpg": {
+      "baseline": "f9f4af597b0324474a39c13effd9a4ed955e64f1582c177a35e7ea47e3c01c97",
+      "candidate": "a20228b463d21d77b3a7708d6b3a9e1cfba73101c6f8f348efc747c1ebcbb01b"
+    },
+    "app_src/sharpen/serve_2.jpg": {
+      "baseline": "0194c82dd4a5795d5d9e16a1b76c5435f690b595453e94150267d2e2894ef599",
+      "candidate": "8f4de8872c262518e5273cf7f794c0e6715facfbb4836a29fdc15ff50cf655c1"
+    },
+    "app_src/sharpen/slice_0.jpg": {
+      "baseline": "36eecf51d09e433c4bbdb70004747221269eb6a1b295e8ec3a3431bcad841624",
+      "candidate": "1a4bb35055acd7239a13cf5596e59c786d1949a2d87dc31f9686d8d665539a3e"
+    },
+    "app_src/sharpen/slice_1.jpg": {
+      "baseline": "7b35f067c43d4fdcc3ffc695d4fe738094cf752dc272165266b5ccdfbfa6e6e6",
+      "candidate": "77e5796ea1adc19d95ebd183022649df208940d1eff3569bdf8ac9e0bca10bfb"
+    },
+    "app_src/sharpen/slice_2.jpg": {
+      "baseline": "144b1c6145d9841da39e8e0b2e4f2ddc520243d59701dd13648648402eedafea",
+      "candidate": "4622846455ea19a170d64ee89e745abf8a334af697681e71f938ed105f25610f"
+    },
+    "docs/features/serve-volley-rework.md": {
+      "baseline": null,
+      "candidate": "db2ca13ddb4de55a22bd808c235b818cd49818f2d05f943ad74edc598c283159"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "f84484a70ede557387adb5476299dc15fef880a3c1da20de577f616cf8991e03",
+      "candidate": "fb8d1b7f046d28f44b7c75aafaf426c86af5099cdc5fd8027c4cddeda1e307fc"
+    },
+    "rally/stroke_integrity.py": {
+      "baseline": "da30f95fcef886e56f1c70997787ea78e00c15e6b423c22feadeb6b6a43ccc00",
+      "candidate": "3a5b2a8d95d2e50d347b41378b923e4ca4f4c8731d5feb6e275c8c617081c3ca"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "7771f8b050dc88f4523f719d26be7ceec5fff3656882311b9a03a126c62496aa",
+      "candidate": "39c61224980944c01f407393bf2851e3e1941e2e6760f0877d409f49373dfea8"
+    },
+    "tools/render-sharpen-stills.mjs": {
+      "baseline": "40f0ca7568eeec81642bf590dd272802cd2cdc5fe76b98956cb6b6a54e1b5cce",
+      "candidate": "99e87a06c1eaf65c66eaaf8a41b174ee2cae04db73f43d0aca2570a6daee0329"
+    },
+    "tools/serve-toss-browser.mjs": {
+      "baseline": null,
+      "candidate": "a214ec42021c22b689998a48d81e0b8c12d20d4b5796880152c3b90efe330d60"
+    },
+    "tools/sharpen-stroke-browser.mjs": {
+      "baseline": "6caee68995b0ea8828734f88e651cdf41e59719ac2e149fef7a7cdd8494b2f7e",
+      "candidate": "c1102d9947e748bd1bd76b76aada145d14ba0823d0bdba0457a10a0d04cefcc6"
+    },
+    "tools/sharpen-stroke-source.py": {
+      "baseline": "b85685d84f675276b346702351474e8ebefce55c543e0761b1a5af1d91be5266",
+      "candidate": "b959c1770bc0c6be4d1e492555bb1b9f209528250e338e67012263f320cf4d1c"
+    }
+  },
+  "release": {
+    "app/athlete.js": {
+      "baseline": "b5a3ad09533ebdeabc1653629756e9b597e2709ed64d9b183ef4bedd0d9fca36",
+      "candidate": "1375512de05b8fbd5087f902ec58e5e2f2ff8c1c1de34fce12134d6f37b37a00"
+    },
+    "app/catalog.js": {
+      "baseline": "e6818c544285a404127e40729156a8de7ee5ac43fd46bac19c7e58a998925dec",
+      "candidate": "c672b6d74f67532d22fe3d049a55575ff5e9b1e714b3c119291fe5ac39e4dfdd"
+    },
+    "app/clips/bv.json": {
+      "baseline": "483369a24f158067e7b027d00064f1ad4a9f94fe6e74206a4d73568f3138d17b",
+      "candidate": "b5cfdf093ea1e89ae0029d24276496383f22f2d862f7a1acb20cd98538ee767b"
+    },
+    "app/clips/fvhi.json": {
+      "baseline": "69087097e027799aaea7f34e8f355d9efaf8366ba9a6c60287892a277b1cc838",
+      "candidate": "c8d9fbd03eeb9f184aed580b2b34ce6375fb2cd8ef10ed7cc7b0da3758f354da"
+    },
+    "app/clips/lowfv.json": {
+      "baseline": "dfe5db07169e5f477f1dc8800f21a5ac0a4d9cb69879200709a350ece4aaa25d",
+      "candidate": "6cbd9cb1494df86a14e80360194253a29de82bce5ede41b4150f2b05ef553987"
+    },
+    "app/clips/serveB.json": {
+      "baseline": "a10432df24d68acb9503dca5eda5f94e493732c217862a2873f961c52f684257",
+      "candidate": "10f91028f90745f3bd946d0c86e7966b5720324729fc19967f219b522283ac10"
+    },
+    "app/clips/serveT.json": {
+      "baseline": "33ca1ee3f77a004b45214886090a621b802fad0e1a6d0893fbe5b9c9e821fa7f",
+      "candidate": "4d9cbcda435355e60a38379695a9b66e80651540b280b0c5e7ba365dc175143f"
+    },
+    "app/clips/serveW.json": {
+      "baseline": "78aff658efc3dec4b438c9aba58251d062c7fda09384c9ec4dc23d36fddc2178",
+      "candidate": "d13d39053f61a5bef3fc847bfb2556278c5aecd8d52ee8e706d1e3972c4a2b5a"
+    },
+    "app/engine/engine.js": {
+      "baseline": "5fadcaaa5295dbb6b9cd52365739ed6221933d4e3dafed6d9bcbabfd1aac4876",
+      "candidate": "da953a301b20b57487e53bde5d2f14458ab4de5aabf152424e8384c5a4e5419b"
+    },
+    "app/index.html": {
+      "baseline": "9f04e90e3887128aa96502d01f3d6c970e2f4eec76e997244dfd01177b52486b",
+      "candidate": "199c65abbfdfa90629a37c66085e3116c9d261269407e98bde49975ba95d0af0"
+    },
+    "app/play.html": {
+      "baseline": "9fe707d6192ddb6a0cd888c80f316c28b3cbc4b53b08b3f08f0b3a25f1e57322",
+      "candidate": "80daee672a1fbbccc11775504bbeffbda1fb3fb46caa655f03a947fd5e0a4c40"
+    },
+    "app/sharpen.js": {
+      "baseline": "00a2a0721f627ef6fba4ba4dae845d38e5c21df08142da06bf369d4b0be34c8b",
+      "candidate": "ea6bc952baee4637f193a4e3657d91c59962b10a376e9425bf256425de14825c"
+    },
+    "app/sharpen/bh_0.jpg": {
+      "baseline": "adec70aec63c77205605051d74fd997de8409433f7474b8d5edfa1eccc43122a",
+      "candidate": "92a3ab2d50e24247b55dda7451bcd5ce07c76b79af5d3dbe5deec9245153c50c"
+    },
+    "app/sharpen/bh_1.jpg": {
+      "baseline": "fcd26e153a36907392c0a8f3b1787b1e88bbed822ef153c48d80f873dcc94d95",
+      "candidate": "56378ac19ea26a3be437d5c1a6f9d46f94a37390d3d8d1fc9e5afd5fc7b45feb"
+    },
+    "app/sharpen/bh_2.jpg": {
+      "baseline": "623931114abc2d302210deaba1964ecc8ade914aae31abace549440ca311bf19",
+      "candidate": "2424ad9d1a8dc6c1eb5a07b35104c7e58911c9977243f3c76c028f5eec489481"
+    },
+    "app/sharpen/bv_0.jpg": {
+      "baseline": "18c9a940c85b95625f8aaea5998fa182cd61cd1fb66dcf41c59c7fa985153d05",
+      "candidate": "e9e8195d1432f5c28528b31bf248f02ee09a45dd9b2e2c623731f275169f3525"
+    },
+    "app/sharpen/bv_1.jpg": {
+      "baseline": "03b766a3f49cfdaacf094a93444343612f5d72955b8b9b66f3726bef7cca0b34",
+      "candidate": "485ee8c4f0899f490509338d80c59151378c4ece87ab3d13d7697cfb050606a4"
+    },
+    "app/sharpen/bv_2.jpg": {
+      "baseline": "d4fb7bb01222bf0aad30066a90349d478822c7772888ef040afaaabb97c1e74a",
+      "candidate": "839fa0f10e9288b9c99081be75938c14024e3c86d814203756729bc2e5d4f158"
+    },
+    "app/sharpen/drop_0.jpg": {
+      "baseline": "ecdc26818acc29d1651c5d122d9ab90341d5b4242f5540538d7435f81195c100",
+      "candidate": "04ed6246bf58439e2e7756d99e8c0451ebff0f24d92a6928b2a3a66f747b4744"
+    },
+    "app/sharpen/drop_1.jpg": {
+      "baseline": "af38132a23c8aba57d1402f9a16fa2e37483eab7285fb0e3d1f0c638ed5c1fc0",
+      "candidate": "0d617a9b9c6c153d99fee616e916f75e840b8a837fe565c6700edd6396958ccc"
+    },
+    "app/sharpen/drop_2.jpg": {
+      "baseline": "394d01a2ee88007f5e3ba59e487e7eb002cbbe632bb22405c9f3b8fce199a170",
+      "candidate": "a045a24150d0cd01ee24deda7b04dd3895058619c97172f01499916a846bdb11"
+    },
+    "app/sharpen/fh_0.jpg": {
+      "baseline": "0bdfc26254c01efe566d8ac51130c3f7454e3026487700e1b9baa38f8ab15d7f",
+      "candidate": "36b6a4aac6ef5819bd2cdb884d864aef34b089546714f0bbd488744e85c03bd9"
+    },
+    "app/sharpen/fh_1.jpg": {
+      "baseline": "4144283fd1af7fc997bfff717ddd863c9e0f0d6c35cc73157925b72f311dfc16",
+      "candidate": "0a3671b9d7be0111e6f7da87afae5daf2c113e5dce3b791dafcc110ab2422e40"
+    },
+    "app/sharpen/fh_2.jpg": {
+      "baseline": "7471b41e4060327010acf159aadefeaecee2d6b4788050db807d22a1a91f8038",
+      "candidate": "4f8507ab150c750bdd49d4c3aa72df6c5b207f114b52f9acd5c2e63863dfe161"
+    },
+    "app/sharpen/fv_0.jpg": {
+      "baseline": "b731d9394178b712f1c5a489083400ef7224d49be2823c37d04a2ec07911c115",
+      "candidate": "be1415bd6c803753f0492134689c0b7118fc3a7b50a5de04ca4c31c560432999"
+    },
+    "app/sharpen/fv_1.jpg": {
+      "baseline": "c76d18ace4320ffcdad008988d4383867592ca7de85a056bed5fca4ad568acc0",
+      "candidate": "a789e8bf73494b104b115a4aa13ff14732bdb66be16b83e3a9d5bd53341131cc"
+    },
+    "app/sharpen/fv_2.jpg": {
+      "baseline": "82939d417dbc3d8e387fdc038408d475ad473b8676a0eed3fdce91da466c0cde",
+      "candidate": "3b2c8184195c0c8f1334d97541618d96aa3cc19bc74ff00ef81ed2de4342524f"
+    },
+    "app/sharpen/serve_0.jpg": {
+      "baseline": "145537ead4775ba88e5a445a47eedd03b8190fb441b7b9154407e0ba4a927fbf",
+      "candidate": "6202204248412b29cf01ffbd3ea7fe6259eb06b6e24fc68fe14099ce2db9378f"
+    },
+    "app/sharpen/serve_1.jpg": {
+      "baseline": "f9f4af597b0324474a39c13effd9a4ed955e64f1582c177a35e7ea47e3c01c97",
+      "candidate": "a20228b463d21d77b3a7708d6b3a9e1cfba73101c6f8f348efc747c1ebcbb01b"
+    },
+    "app/sharpen/serve_2.jpg": {
+      "baseline": "0194c82dd4a5795d5d9e16a1b76c5435f690b595453e94150267d2e2894ef599",
+      "candidate": "8f4de8872c262518e5273cf7f794c0e6715facfbb4836a29fdc15ff50cf655c1"
+    },
+    "app/sharpen/slice_0.jpg": {
+      "baseline": "36eecf51d09e433c4bbdb70004747221269eb6a1b295e8ec3a3431bcad841624",
+      "candidate": "1a4bb35055acd7239a13cf5596e59c786d1949a2d87dc31f9686d8d665539a3e"
+    },
+    "app/sharpen/slice_1.jpg": {
+      "baseline": "7b35f067c43d4fdcc3ffc695d4fe738094cf752dc272165266b5ccdfbfa6e6e6",
+      "candidate": "77e5796ea1adc19d95ebd183022649df208940d1eff3569bdf8ac9e0bca10bfb"
+    },
+    "app/sharpen/slice_2.jpg": {
+      "baseline": "144b1c6145d9841da39e8e0b2e4f2ddc520243d59701dd13648648402eedafea",
+      "candidate": "4622846455ea19a170d64ee89e745abf8a334af697681e71f938ed105f25610f"
+    }
+  }
+}

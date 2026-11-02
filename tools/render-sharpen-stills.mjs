@@ -7,7 +7,7 @@ await p.setContent('<style>html,body{margin:0;background:#0b3016}svg{display:blo
 let source=readFileSync('app/athlete.js','utf8');
 source=source.replace('window.GSAthlete={mount',`window.__still=(k,c,f)=>{c.joints.forEach((n,i)=>I[n]=i);VW=420;VH=399;CYF=.56;cam={az:['bh','slice','bv'].includes(k)?-120:-65,el:13,d:k==='serve'?6.7:5.2,fov:35,tgt:[0,.15,k==='serve'?1.35:1.02]};buildBasis();draw(document.getElementById('still'),k,c,f);};window.GSAthlete={mount`);
 await p.addScriptTag({content:source});
-for(const [key,clip,offsets]of [['bh','bh',[-32,0,35]],['slice','bhSlice',[-25,0,35]],['fv','lowfv',[-24,0,16]],['bv','bv',[-24,0,16]],['fh','fh',[-50,0,35]],['serve','serveT',[-65,0,30]],['drop','drop',[-45,0,25]]]){
+for(const [key,clip,offsets]of [['bh','bh',[-32,0,35]],['slice','bhSlice',[-25,0,35]],['fv','fvhi',[-24,0,16]],['bv','bv',[-24,0,16]],['fh','fh',[-50,0,35]],['serve','serveT',[-65,0,30]],['drop','drop',[-45,0,25]]]){
  const c=JSON.parse(readFileSync(`app/clips/${clip}.json`));
  for(let i=0;i<offsets.length;i++){
   await p.evaluate(({key,c,f})=>__still(key,c,f),{key,c,f:c.contactFrame+offsets[i]});

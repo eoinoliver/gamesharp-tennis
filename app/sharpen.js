@@ -43,8 +43,8 @@ const STROKES={
  bh:{name:"Two-handed backhand",cols:["Turn","Contact","Finish"],grip:"Bottom hand continental, top hand eastern forehand",cues:[["Turn with both hands.","Shoulders side-on, racquet back early."],["Contact in front.","Hands together, face square."],["Finish high.","Keep both hands on the handle through the finish."]]},
  slice:{name:"Backhand slice",cols:["Take-back","Contact","Finish"],grip:"Continental",cues:[["High take-back.","Racquet above the ball before you swing."],["Down and through.","Face slightly open, a descending path."],["Finish forward.","Extend through the contact before recovering."]]},
  serve:{name:"Serve",cols:["Trophy","Contact","Finish"],grip:"Continental",cues:[["Trophy.","Side-on, hitting elbow near shoulder height."],["Full reach.","Contact high and in front, arm extended."],["Finish across.","The racquet comes down across the body."]]},
- fv:{name:"Forehand volley",cols:["Set","Contact","Punch"],grip:"Continental",cues:[["Small set.","Turn the shoulders; keep the set compact."],["Contact in front.","Firm wrist, face slightly open."],["Short punch.","A compact follow-through, then recover."]]},
- bv:{name:"Backhand volley",cols:["Set","Contact","Punch"],grip:"Continental",cues:[["Small set.","Racquet head above the wrist."],["Contact in front.","Meet it early, beside the front shoulder."],["Short punch.","Step into a short, controlled follow-through."]]}
+ fv:{name:"Forehand volley",cols:["Set","Contact","Punch"],grip:"Continental",cues:[["Small set.","Split, bend the knees and turn the shoulders."],["Contact in front.","Firm wrist, face slightly open."],["Short punch.","Step with the left foot and punch towards the target."]]},
+ bv:{name:"Backhand volley",cols:["Set","Contact","Punch"],grip:"Continental",cues:[["Small set.","Split, load the legs and turn; support the racquet throat."],["Contact in front.","Meet it early, beside the front shoulder."],["Short punch.","Step with the right foot; extend towards the target, then recover."]]}
 };
 /* the athlete's stroke labels, in the order he plays them (5 Oct) */
 const ATH=["fh","bh","slice","serve","fv","bv","drop"];

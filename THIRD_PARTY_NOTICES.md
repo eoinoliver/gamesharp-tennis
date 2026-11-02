@@ -83,3 +83,14 @@ retained. These motion-derived clips and regenerated stills retain the existing
 CC BY-SA 3.0 attribution and license. Reference cross-checks and the distinction
 between captured movement and authored adaptation are recorded in
 `docs/features/sharpen-stroke-clarity.md`.
+
+## Coordinated volley supplement — 2 November 2026
+
+The three volley derivatives now include authored split-step, knee loading,
+shoulder turn, opposite-foot step, forward punch and recovery. Their foot
+directions are authored to match those plants, superseding the captured
+directions for these three clips only. Source limb lengths and ball contact
+anchors remain. The main Sharpen forehand demonstration uses the above-net
+volley; the low variant remains in its existing lesson scenes. These derived
+clips and stills retain the existing CC BY-SA 3.0 attribution and license.
+See docs/features/serve-volley-rework.md.
