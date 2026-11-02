@@ -70,7 +70,7 @@
     },
     "rally/stroke_integrity.py": {
       "baseline": "840f2f0c09e6822ed381611dd2819428694a22b792f465caf16aff5a6cfd4f70",
-      "candidate": "93398e8a4212bb44118f11636d9900dd96509f8b556f1f28e2c156042b35272c"
+      "candidate": "da30f95fcef886e56f1c70997787ea78e00c15e6b423c22feadeb6b6a43ccc00"
     },
     "tools/browser-checks.mjs": {
       "baseline": "8c52e446b6d8e2af9fbdcc4fdf19bfc08c29c7aa85def10497dea901d6682bc6",
@@ -92,7 +92,7 @@
     },
     "app/catalog.js": {
       "baseline": "70dff518da9a6959fd2d38a591a13b3105e3cdc546a1206b30186e5c75f0d888",
-      "candidate": "717b918128d4269f35cd80f3b505237f11e40c4fc1415398229aaf12dab16a6b"
+      "candidate": "e6818c544285a404127e40729156a8de7ee5ac43fd46bac19c7e58a998925dec"
     },
     "app/clips/bh.json": {
       "baseline": "4c08d597d8d3c91f78bfb30f8ecb5893dee8e4218ed0ed431c542cbc27d63d32",
@@ -124,7 +124,7 @@
     },
     "app/clips/fvhi.json": {
       "baseline": "ca9b44f28a021646fe319a9440e1f2e7e12fc450c901853fe56e882a6c785dfa",
-      "candidate": "a602b941fcab75410588461a57e8a099ad185188abe92c6fa553134186ccf56a"
+      "candidate": "69087097e027799aaea7f34e8f355d9efaf8366ba9a6c60287892a277b1cc838"
     },
     "app/clips/lowfv.json": {
       "baseline": "9f92730e8083a0e50e736caf4ae865665f9f01fdc0e4aa2c497e4b0f9b3831ff",
@@ -132,11 +132,11 @@
     },
     "app/index.html": {
       "baseline": "71158e52e655d9fd742f2d298021507ca26e56a4f78f36d9ec562138fb2789c3",
-      "candidate": "e87369ad4126589d5716883a13233086eef1d086e3a84941edc04e3968acaab6"
+      "candidate": "9f04e90e3887128aa96502d01f3d6c970e2f4eec76e997244dfd01177b52486b"
     },
     "app/play.html": {
       "baseline": "b52e39b63101f01faa0e6c66f64e61593e7a60ea75aba961a816007c9d41b003",
-      "candidate": "a86932dce383e8d677908458489f4932f38bc1d5eb44d09e2a49b488e21c4a7a"
+      "candidate": "9fe707d6192ddb6a0cd888c80f316c28b3cbc4b53b08b3f08f0b3a25f1e57322"
     },
     "app/sharpen.js": {
       "baseline": "22dac52e0e32888e66a74d05b8641ecf915b768db71a589c0619f4ec16bd1539",

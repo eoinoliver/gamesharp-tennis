@@ -15,7 +15,9 @@ def dot(a,b): return sum(x*y for x,y in zip(a,b))
 def norm(a): return mul(a,1/sqrt(dot(a,a)))
 def cross(a,b): return [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]]
 def length(a): return sqrt(dot(a,a))
-def rounded(a,n=4): return [round(x,n) for x in a]
+# Python 3.12's compensated sum can change the sign of an exact zero. Keep
+# generated JSON byte-identical across Python versions, including that sign.
+def rounded(a,n=4): return [round(x,n) or 0.0 for x in a]
 def basis(r):
     a=norm(r['axis']);l=norm(sub(r['lateral'],mul(a,dot(r['lateral'],a))))
     return a,l,cross(l,a)
