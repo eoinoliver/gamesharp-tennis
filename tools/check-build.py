@@ -157,6 +157,14 @@ for records, expected in [(sharpen['source'], source), (sharpen['release'], mani
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Sharpen baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Explicit response to the rejected serve/volley motion; previous hashes frozen.
+serve_volley = json.loads((ROOT/'docs/features/serve-volley-build.json').read_text())
+assert set(serve_volley['source']) == set(['THIRD_PARTY_NOTICES.md', 'app_src/athlete.js', 'app_src/build.py', 'app_src/sharpen.js', 'app_src/sharpen/bh_0.jpg', 'app_src/sharpen/bh_1.jpg', 'app_src/sharpen/bh_2.jpg', 'app_src/sharpen/bv_0.jpg', 'app_src/sharpen/bv_1.jpg', 'app_src/sharpen/bv_2.jpg', 'app_src/sharpen/drop_0.jpg', 'app_src/sharpen/drop_1.jpg', 'app_src/sharpen/drop_2.jpg', 'app_src/sharpen/fh_0.jpg', 'app_src/sharpen/fh_1.jpg', 'app_src/sharpen/fh_2.jpg', 'app_src/sharpen/fv_0.jpg', 'app_src/sharpen/fv_1.jpg', 'app_src/sharpen/fv_2.jpg', 'app_src/sharpen/serve_0.jpg', 'app_src/sharpen/serve_1.jpg', 'app_src/sharpen/serve_2.jpg', 'app_src/sharpen/slice_0.jpg', 'app_src/sharpen/slice_1.jpg', 'app_src/sharpen/slice_2.jpg', 'docs/features/serve-volley-rework.md', 'rally/lesson_body.html', 'rally/stroke_integrity.py', 'tools/browser-checks.mjs', 'tools/render-sharpen-stills.mjs', 'tools/serve-toss-browser.mjs', 'tools/sharpen-stroke-browser.mjs', 'tools/sharpen-stroke-source.py'])
+assert set(serve_volley['release']) == set(['app/athlete.js', 'app/catalog.js', 'app/clips/bv.json', 'app/clips/fvhi.json', 'app/clips/lowfv.json', 'app/clips/serveB.json', 'app/clips/serveT.json', 'app/clips/serveW.json', 'app/engine/engine.js', 'app/index.html', 'app/play.html', 'app/sharpen.js', 'app/sharpen/bh_0.jpg', 'app/sharpen/bh_1.jpg', 'app/sharpen/bh_2.jpg', 'app/sharpen/bv_0.jpg', 'app/sharpen/bv_1.jpg', 'app/sharpen/bv_2.jpg', 'app/sharpen/drop_0.jpg', 'app/sharpen/drop_1.jpg', 'app/sharpen/drop_2.jpg', 'app/sharpen/fh_0.jpg', 'app/sharpen/fh_1.jpg', 'app/sharpen/fh_2.jpg', 'app/sharpen/fv_0.jpg', 'app/sharpen/fv_1.jpg', 'app/sharpen/fv_2.jpg', 'app/sharpen/serve_0.jpg', 'app/sharpen/serve_1.jpg', 'app/sharpen/serve_2.jpg', 'app/sharpen/slice_0.jpg', 'app/sharpen/slice_1.jpg', 'app/sharpen/slice_2.jpg'])
+for records, expected in [(serve_volley['source'], source), (serve_volley['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Serve/volley baseline drift: {name}'
+        expected[name] = hashes['candidate']
 subprocess.run(['python3','tools/six-play-source.py'],cwd=ROOT,check=True)
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'

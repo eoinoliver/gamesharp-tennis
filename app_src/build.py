@@ -44,10 +44,11 @@ for k, s in clips.items():
     c = json.loads(s)
     if k in feet['provenance']:
         assert hashlib.sha256(json.dumps(c,sort_keys=True,separators=(',',':')).encode()).hexdigest() == feet['provenance'][k]['sourceClipSha256'], k+' foot source drift'
-    c = repair(k,c)
     if k in feet['clips']:
         assert len(feet['clips'][k]) == c['frameCount'], k
         c['footFrames'] = feet['clips'][k]
+    c = repair(k,c)
+    if 'footFrames' in c: c['footFrames'] = c.pop('footFrames')  # retain canonical field order
     open(os.path.join(OUT, 'clips', k + '.json'), 'w').write(dump(c))
 cat['flavours'] = [{'key': k, 'name': n, 'lessons': sl} for k, n, sl in FLAVOURS]
 assert set(FLAV) == {r[0] for r in DAILY + PREDICT + PLAY}, 'every lesson needs one flavour'

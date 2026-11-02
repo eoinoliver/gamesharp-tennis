@@ -2,8 +2,8 @@
    build.py wraps this file with rally/core.js + rally/figure.js into app/athlete.js (one closure, no globals but GSAthlete).
    Loaded only when Sharpen opens. Cycles through the strokes; a picked stroke loops. Reduced motion: the contact frame, still.
    Built 5 Oct 2026 (Claude). */
-const CLIPS={fh:"fh",bh:"bh",slice:"bhSlice",serve:"serveT",fv:"lowfv",bv:"bv",drop:"drop"};
-const LEAD={fh:70,bh:62,slice:60,serve:999,fv:55,bv:60,drop:70};   /* frames of preparation shown before contact */
+const CLIPS={fh:"fh",bh:"bh",slice:"bhSlice",serve:"serveT",fv:"fvhi",bv:"bv",drop:"drop"};
+const LEAD={fh:70,bh:62,slice:60,serve:123,fv:65,bv:65,drop:70};   /* frames of preparation shown before contact */
 const I={}, CL={}, V=window.GS_VERSION||"";
 VW=520; VH=360; CYF=0.56;
 cam={az:-128,el:13,d:7.6,fov:30,tgt:[0.15,0.9,1.0]}; buildBasis();
@@ -22,7 +22,6 @@ function at(c,f){
    Serve: held in the tossing hand, released as that hand rises, then a smooth
    arc onto contact. Other strokes show an incoming ball and its flight away.
    Adapted from the unshipped October PR #30; current feet/figure are retained. */
-const TOSS_FROM=96;
 const G=9.81, GROUND=new Set(["fh","bh","slice","drop"]);
 function fall(p,v,t){return [p[0]+v[0]*t,p[1]+v[1]*t,p[2]+v[2]*t-G/2*t*t];}
 function bounced(p,v,t){   /* one bounce if it reaches the ground (70% of the vertical speed back) */
@@ -32,10 +31,10 @@ const OUT={fh:[0,25,1.55],bh:[0,25,1.45],slice:[0,22,1.15],drop:[0,14,1.1],fv:[0
 function ballAt(k,c,f){
   const C=c.contactBall, cf=c.contactFrame, t=(f-cf)/100;
   if(k==="serve"){
-    if(f>=cf){const T=0.4, v=[-1.5/T,16.5/T,(-C[2]+G/2*T*T)/T]; return bounced(C,v,t);}   /* lands about 16.5 m on, inside the service line */
-    const hand=add(at(c,Math.min(f,TOSS_FROM)).pose[I.wristL],[0,0,.035]);
-    if(f<TOSS_FROM) return hand;
-    const duration=(cf-TOSS_FROM)/100, elapsed=(f-TOSS_FROM)/100;
+    if(f>=cf){const T=0.62, v=[-1.5/T,16.5/T,(-C[2]+G/2*T*T)/T]; return bounced(C,v,t);}   /* lands about 16.5 m on, inside the service line */
+    const hand=add(at(c,Math.min(f,c.tossReleaseFrame)).pose[I.wristL],[0,0,.035]);
+    if(f<c.tossReleaseFrame) return hand;
+    const duration=(cf-c.tossReleaseFrame)/100, elapsed=(f-c.tossReleaseFrame)/100;
     return fall(hand,[(C[0]-hand[0])/duration,(C[1]-hand[1])/duration,(C[2]-hand[2]+G/2*duration*duration)/duration],elapsed);}
   if(f<cf){
     if(GROUND.has(k)){const tb=0.18, B=[C[0]-0.25,C[1]+4.5,0];
@@ -45,7 +44,7 @@ function ballAt(k,c,f){
       return [B[0]-0.4*(u/ta),B[1]+25*u,z0+vz0*(ta-u)-G/2*(ta-u)*(ta-u)].map((x,i)=>i<2?x:Math.max(0,x));}
     const ta=0.45; if(-t>ta) return null;                    /* a volley: straight in, still in the air */
     return fall([C[0]-0.3,C[1]+18*ta,1.4],[0.3/ta,-18,(C[2]-1.4+G/2*ta*ta)/ta],t+ta);}
-  const [vx,vy,hn]=OUT[k], T=Math.max(0.2,(11.5-C[1])/vy);    /* over the net at height hn */
+  const [vx,vy,hn]=OUT[k], T=Math.max(0.2,(NET-C[1])/vy);    /* over the net at height hn */
   return bounced(C,[vx+(k==="bh"||k==="slice"||k==="bv"?-0.6:0.6),vy,(hn-C[2]+G/2*T*T)/T],t);
 }
 const SL=4.115, DL=5.485;
@@ -53,13 +52,13 @@ const SL=4.115, DL=5.485;
    the captured serve (courtOffset [1.2, -11.95]): the baseline 6.5 cm in front of the clip's origin and the centre mark
    1.2 m to the left, so the feet start behind the line and cross it only in the air, after contact. No foot fault. */
 let BL=-0.35, DX=0, NET=BL+11.885;
-function courtFor(k){BL=k==="serve"?0.065:-0.35; DX=k==="serve"?-1.2:0; NET=BL+11.885;}
+function courtFor(k){NET=k==="serve"?11.95:(k==="fv"||k==="bv")?3.8:11.535; BL=NET-11.885; DX=k==="serve"?-1.2:0;}
 function court(g){
-  quad(g,[[-9,-4,0],[9,-4,0],[9,NET+3,0],[-9,NET+3,0]],"#0b3016");
-  quad(g,[[-DL+DX,BL,0],[DL+DX,BL,0],[DL+DX,NET,0],[-DL+DX,NET,0]],"#13502a");
+  quad(g,[[-9,BL-3,0],[9,BL-3,0],[9,NET+15,0],[-9,NET+15,0]],"#0b3016");
+  quad(g,[[-DL+DX,BL,0],[DL+DX,BL,0],[DL+DX,NET+11.885,0],[-DL+DX,NET+11.885,0]],"#13502a");
   const ln=(a,b)=>seg(g,[a[0]+DX,a[1],0],[b[0]+DX,b[1],0],"rgba(240,236,227,.8)",1.6);
-  ln([-DL,BL],[DL,BL]);ln([-DL,BL],[-DL,NET]);ln([DL,BL],[DL,NET]);ln([-SL,BL],[-SL,NET]);ln([SL,BL],[SL,NET]);
-  ln([-SL,NET-6.4],[SL,NET-6.4]);ln([0,NET-6.4],[0,NET]);ln([0,BL],[0,BL+.15]);
+  ln([-DL,BL],[DL,BL]);ln([-DL,NET+11.885],[DL,NET+11.885]);ln([-DL,BL],[-DL,NET+11.885]);ln([DL,BL],[DL,NET+11.885]);ln([-SL,BL],[-SL,NET+11.885]);ln([SL,BL],[SL,NET+11.885]);
+  ln([-SL,NET+6.4],[SL,NET+6.4]);ln([0,NET],[0,NET+6.4]);ln([-SL,NET-6.4],[SL,NET-6.4]);ln([0,NET-6.4],[0,NET]);ln([0,BL],[0,BL+.15]);
   const W=DL+.9,top=[[-W+DX,NET,1.07],[DX,NET,.914],[W+DX,NET,1.07]];
   quad(g,[[-W+DX,NET,0],[W+DX,NET,0],top[2],top[1],top[0]],"rgba(4,10,6,.45)");
   seg(g,top[0],top[1],"rgba(240,236,227,.85)",2);seg(g,top[1],top[2],"rgba(240,236,227,.85)",2);
@@ -72,7 +71,7 @@ function draw(svg,k,c,f){
   const b=ballAt(k,c,f), bq=b&&P(b);
   if(bq){const sh=P([b[0],b[1],.003]); if(sh) g.appendChild(el_("ellipse",{cx:sh.s[0].toFixed(1),cy:sh.s[1].toFixed(1),rx:(FOCAL*.05/sh.z).toFixed(1),ry:(FOCAL*.02/sh.z).toFixed(1),fill:"rgba(0,0,0,.3)"}));
     const r=Math.max(3.2,FOCAL*.034/bq.z);
-    parts.push({n:el_("circle",{cx:bq.s[0].toFixed(1),cy:bq.s[1].toFixed(1),r:r.toFixed(1),fill:"#e3f25a",stroke:"#9fb02a","stroke-width":.8,"data-ball":"true"}),z:bq.z-(k==="serve"&&f<TOSS_FROM?.09:.01)});}
+    parts.push({n:el_("circle",{cx:bq.s[0].toFixed(1),cy:bq.s[1].toFixed(1),r:r.toFixed(1),fill:"#e3f25a",stroke:"#9fb02a","stroke-width":.8,"data-ball":"true"}),z:bq.z-(k==="serve"&&f<c.tossReleaseFrame?.09:.01)});}
   parts.sort((x,y)=>y.z-x.z).forEach(p=>g.appendChild(p.n));
   /* the racquet head's path into and through contact */
   if(Math.abs(f-c.contactFrame)<16) for(let i=Math.max(c.contactFrame-14,Math.floor(f)-12);i<=Math.floor(f);i++)
@@ -84,12 +83,12 @@ window.GSAthlete={mount(stage,o){
   stage.appendChild(svg);
   const order=o.order, still=matchMedia("(prefers-reduced-motion: reduce)").matches;
   let k=o.start||order[0], loop=!!o.start, f=0, hold=0, last=null, alive=true, c=null;
-  const range=c=>[Math.max(1,c.contactFrame-LEAD[k]),Math.min(c.frameCount,c.contactFrame+45)];
+  const range=c=>[Math.max(1,k==="serve"?c.tossReleaseFrame-25:c.contactFrame-LEAD[k]),Math.min(c.frameCount,c.contactFrame+(k==="serve"?85:65))];
   const next=k=>order[(order.indexOf(k)+1)%order.length];
   function show(nk){k=nk;c=null;o.onStroke&&o.onStroke(k);
     if(!still)load(next(nk)).catch(()=>{});   /* the next stroke's clip, fetched while this one plays */
     load(k).then(cl=>{if(k!==nk)return;c=cl;
-      const h=cl.frames[cl.contactFrame-1][I.hips]; cam={az:["bh","slice","bv"].includes(k)?-120:-65,el:13,d:k==="serve"?10:6.6,fov:35,tgt:[h[0],h[1]+.2,k==="serve"?1.5:1.05]}; buildBasis();   /* frame each stroke on the player */
+      const h=cl.frames[cl.contactFrame-1][I.hips]; cam={az:["bh","slice","bv"].includes(k)?-120:-65,el:13,d:k==="serve"?10:6.6,fov:35,tgt:[h[0],h[1]+.2,k==="serve"?1.5:(k==="fv"||k==="bv")?.9:1.05]}; buildBasis();   /* frame each stroke on the player */
       f=still?cl.contactFrame:range(cl)[0];hold=0;stage.classList.add("ready");if(still)draw(svg,k,c,f);})
       .catch(()=>{});}
   function tick(ts){

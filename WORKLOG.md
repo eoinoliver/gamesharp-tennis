@@ -656,3 +656,8 @@ staged production and live verification remain pending. No production change yet
 - User: “Proceed in full.” Own codex/live-point-six-play-pilot. Add contact-space and serve/recovery families, each with a changed-context return point, expanding the existing two Live Points to six. Build genuine decision differences and controlled comparisons, complete the coaching/voice/return flow, and record production effort before claiming a sustainable cadence.
 - Preserve first attempts, beta access, reduced motion, mobile sequencing, recorded sound, truthful point outcomes and historical fingerprints. No independent coaching certification or physical-device listening claim. Standing full-autonomy/deploy-live authority applies with full Git CI, exact Preview/staged Production and live checks.
 - Baseline: app 8c1c840652 / main f0131705b6e18ff9b3b42cfba269e5fd1bb5a3f8 / Production dpl_EHAWMdXkhUa3APEZXyAxi3u1BEXb. PRs 58, 60 and 62 remain separate documentation-only branches.
+
+
+## 2 November 2026 — serve and volley forensic correction (Codex)
+
+Own codex/serve-volley-rework. User rejected the live serve delay/flight and arm-only volleys. Inspect the complete toss-to-bounce action and author coordinated preparation, leg loading, step and punch in the shared volley clips. Keep the existing renderer, source contacts and lesson timing; no content expansion. Standing autonomous release authority applies with Preview, staged Production and public verification. Baseline live app 884076afe6 / main 943568b3e7ede119d24e0c71c1d86a9d6a55affe / Production dpl_AY9y1LRbcFy2Zr9WvTbTBeoKbGbr. PR 66 remains a separate documentation branch.

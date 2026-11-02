@@ -302,7 +302,7 @@ function label(frag,p,txt,col,size,op,dy){const q=P(p);if(!q)return;
     stroke:"#07130a","stroke-width":3.2*LSC(),"paint-order":"stroke"});e.textContent=txt;frag.appendChild(e);}
 
 /* ---------- actors: captured clips placed on court ---------- */
-const PRE={drop:70,bhChest:34,bhHigh:34,bhHigher:34,fh:70,fhhi:70,fhret:70,lowfv:55,bh:34,serveW:0,serveT:0,serveB:0,bv:60,sm:90,fvhi:55};
+const PRE={drop:70,bhChest:34,bhHigh:34,bhHigher:34,fh:70,fhhi:70,fhret:70,lowfv:55,bh:34,serveW:125,serveT:125,serveB:125,bv:60,sm:90,fvhi:55};
 function prep(sc){
   if(sc._p) return sc._p; const out={};
   for(const [name,segs] of Object.entries(sc.actors)){
@@ -510,10 +510,10 @@ function contactsOf(sc,name){return (prep(sc)[name]||[]).filter(w=>!w.fixed).map
 /* ---------- ball, including the serve toss the flight data starts after ---------- */
 function firstBall(sc){if(sc._fb!=null)return sc._fb;let i=0;while(i<sc.ball.length&&!sc.ball[i])i++;return sc._fb=i;}
 const TOSS={};
-function tossInfo(clip){   // toss release frame of this serve clip (was fixed to serveW, which a lesson may not ship)
-  if(TOSS[clip]) return TOSS[clip]; const c=CL[clip]; let best=1,bz=-1;
-  for(let f=1;f<c.contactFrame-25;f++){const z=c.frames[f-1][I.wristL][2];if(z>bz){bz=z;best=f;}}
-  return TOSS[clip]={releaseLocal:best};
+function tossInfo(clip){
+  // Shared with Sharpen: release as the rising hand reaches eye level, not
+  // at its later maximum height. Authored contact and outgoing flight stay put.
+  return TOSS[clip]||(TOSS[clip]={releaseLocal:CL[clip].tossReleaseFrame});
 }
 // The scene ends on your contact: the ball's last frame is your contact and only empty frames follow. (8 Oct)
 function endsOnYou(sc){
@@ -524,20 +524,33 @@ function endsOnYou(sc){
   if(Math.abs(L-cG)<=2) sc._eoy={L,cG};
   return sc._eoy;
 }
-function ballAt(sc,g){
-  const n=sc.ball.length, f0=firstBall(sc), e=endsOnYou(sc);
-  if(e&&g>e.L) return sc.ball[e.L];   // the ball stays on the strings with the frozen swing
-  if(g>=f0){const i=Math.floor(g),u=g-i,a=sc.ball[Math.min(n-1,i)],b=sc.ball[Math.min(n-1,i+1)];
-    if(!a) return null; return b?lerp3(a,b,u):a;}
-  // the server's toss: whoever's first segment is a serve (you or them)
+function serveToss(sc){
+  if(sc._serveToss!==undefined)return sc._serveToss;
   let who=null,serve=null;
-  for(const w of ["you","opp"]){const s0=sc.actors[w]&&sc.actors[w].find(s=>!s.hold); if(s0&&s0.clip.startsWith("serve")&&(!serve||s0.start<serve.start)){who=w;serve=s0;}}
-  if(!serve) return null;
-  const rel=serve.start+tossInfo(serve.clip).releaseLocal-1, pc=sc.ball[f0];
-  const hand=g2=>{const a=actorAt(sc,who,g2);return add(a.pose[I.wristL],[0,0,0.07]);};
-  if(g<=rel) return hand(g);
-  const p0=hand(rel), T=(f0-rel)/100, tt=(g-rel)/100, vz=(pc[2]-p0[2]+4.905*T*T)/T;
-  return [lerp(p0[0],pc[0],tt/T),lerp(p0[1],pc[1],tt/T),p0[2]+vz*tt-4.905*tt*tt];
+  for(const w of ["you","opp"]){const s=sc.actors[w]?.find(s=>!s.hold);
+    if(s?.clip.startsWith("serve")&&(!serve||s.start<serve.start)){who=w;serve=s;}}
+  if(!serve)return sc._serveToss=null;
+  const start=serve.start-(serve.poseFrameOffset||0),c=CL[serve.clip];
+  // Some source scenes already contain a separate toss track; use the same
+  // hand/release illustration everywhere, then join the untouched contact.
+  const contact=Math.max(start+c.contactFrame-1,firstBall(sc));
+  return sc._serveToss={who,clip:serve.clip,handJoint:serve.mirror?I.wristR:I.wristL,release:start+tossInfo(serve.clip).releaseLocal-1,contact};
+}
+function ballAt(sc,g){
+  const toss=serveToss(sc);
+  if(toss&&g<toss.contact){
+    const hand=f=>add(actorAt(sc,toss.who,f).pose[toss.handJoint],[0,0,.035]);
+    if(g<=toss.release)return hand(g);
+    const p0=hand(toss.release),pc=sc.ball[toss.contact];
+    if(!pc)return null;
+    const T=(toss.contact-toss.release)/100,tt=(g-toss.release)/100,vz=(pc[2]-p0[2]+4.905*T*T)/T;
+    return [lerp(p0[0],pc[0],tt/T),lerp(p0[1],pc[1],tt/T),p0[2]+vz*tt-4.905*tt*tt];
+  }
+  const n=sc.ball.length,f0=firstBall(sc),e=endsOnYou(sc);
+  if(e&&g>e.L)return sc.ball[e.L];
+  if(g<f0)return null;
+  const i=Math.floor(g),u=g-i,a=sc.ball[Math.min(n-1,i)],b=sc.ball[Math.min(n-1,i+1)];
+  if(!a)return null;return b?lerp3(a,b,u):a;
 }
 
 /* ---------- cameras ---------- */
@@ -1163,7 +1176,7 @@ function render(){
     const qb=P(b);
     if(qb){parts.push({n:gtrail,z:qb.z+0.05});
       if(b[2]>0.05) ring(frag,[b[0],b[1],0.004],0.05,0.04,"none",0,.55,"rgba(0,0,0,.6)");
-      const toss=g<firstBall(sc), rr=Math.max(toss?3.6:2.8,FOCAL*0.033/qb.z), zb=toss?qb.z-3:qb.z;   // the toss is drawn in front of the server so it can always be seen
+      const toss=g<(serveToss(sc)?.contact??firstBall(sc)), rr=Math.max(toss?3.6:2.8,FOCAL*0.033/qb.z), zb=toss?qb.z-3:qb.z;   // the toss is drawn in front of the server so it can always be seen
       parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:(rr*2.6).toFixed(1),fill:"var(--ball)",opacity:toss?.28:.18}),z:zb+0.01});
       parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:rr.toFixed(1),fill:"var(--ball)",stroke:"#6f7d10","stroke-width":.6}),z:zb-0.02});}}
   parts.sort((a,b)=>b.z-a.z); for(const {n} of parts) frag.appendChild(n);
