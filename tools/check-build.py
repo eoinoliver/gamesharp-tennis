@@ -149,10 +149,19 @@ for records, expected in [(pilot['source'], source), (pilot['release'], manifest
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Six-play baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Explicit Sharpen corrections; every earlier release fingerprint stays frozen.
+sharpen = json.loads((ROOT/'docs/features/sharpen-stroke-clarity-build.json').read_text())
+assert set(sharpen['source']) == set(['THIRD_PARTY_NOTICES.md', 'app_src/athlete.js', 'app_src/sharpen.js', 'app_src/sharpen/bh_0.jpg', 'app_src/sharpen/bh_1.jpg', 'app_src/sharpen/bh_2.jpg', 'app_src/sharpen/bv_0.jpg', 'app_src/sharpen/bv_1.jpg', 'app_src/sharpen/bv_2.jpg', 'app_src/sharpen/fv_0.jpg', 'app_src/sharpen/fv_1.jpg', 'app_src/sharpen/fv_2.jpg', 'app_src/sharpen/serve_0.jpg', 'app_src/sharpen/serve_1.jpg', 'app_src/sharpen/serve_2.jpg', 'app_src/sharpen/slice_2.jpg', 'docs/features/sharpen-stroke-clarity.md', 'rally/stroke_integrity.py', 'tools/browser-checks.mjs', 'tools/sharpen-stroke-browser.mjs', 'tools/sharpen-stroke-source.py'])
+assert set(sharpen['release']) == set(['app/athlete.js', 'app/catalog.js', 'app/clips/bh.json', 'app/clips/bhChest.json', 'app/clips/bhHigh.json', 'app/clips/bhHigher.json', 'app/clips/bhSlice.json', 'app/clips/bhlo.json', 'app/clips/bv.json', 'app/clips/fvhi.json', 'app/clips/lowfv.json', 'app/index.html', 'app/play.html', 'app/sharpen.js', 'app/sharpen/bh_0.jpg', 'app/sharpen/bh_1.jpg', 'app/sharpen/bh_2.jpg', 'app/sharpen/bv_0.jpg', 'app/sharpen/bv_1.jpg', 'app/sharpen/bv_2.jpg', 'app/sharpen/fv_0.jpg', 'app/sharpen/fv_1.jpg', 'app/sharpen/fv_2.jpg', 'app/sharpen/serve_0.jpg', 'app/sharpen/serve_1.jpg', 'app/sharpen/serve_2.jpg', 'app/sharpen/slice_2.jpg'])
+for records, expected in [(sharpen['source'], source), (sharpen['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Sharpen baseline drift: {name}'
+        expected[name] = hashes['candidate']
 subprocess.run(['python3','tools/six-play-source.py'],cwd=ROOT,check=True)
 for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)
+subprocess.run(['python3','tools/sharpen-stroke-source.py'],cwd=ROOT,check=True)
 actual = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
           for p in sorted((ROOT/'app').rglob('*')) if p.is_file()}
 assert actual == manifest, 'Build differs from the approved live source artifact'

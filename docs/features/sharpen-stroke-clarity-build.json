@@ -1,0 +1,198 @@
+{
+  "source": {
+    "THIRD_PARTY_NOTICES.md": {
+      "baseline": "66e605cdc83ade1dc50dde970d50078825a5e9f9749033a944722de0756dee74",
+      "candidate": "0292433880d1b92be33f3a4775f27979594d415bb5819448d395bb4c96e75397"
+    },
+    "app_src/athlete.js": {
+      "baseline": "e0da9a4c376748a5057119ffea079bc25718b4b5e10d3232c914beb49b4b139e",
+      "candidate": "a08b852297fecf54a39c89935a887371029e5421616f102922edc43a9885e192"
+    },
+    "app_src/sharpen.js": {
+      "baseline": "22dac52e0e32888e66a74d05b8641ecf915b768db71a589c0619f4ec16bd1539",
+      "candidate": "00a2a0721f627ef6fba4ba4dae845d38e5c21df08142da06bf369d4b0be34c8b"
+    },
+    "app_src/sharpen/bh_0.jpg": {
+      "baseline": "cc7f3e5853dd16f9abd31a2c94a5f0dc1ed758a7ee68ea89c73a9fc01af34247",
+      "candidate": "adec70aec63c77205605051d74fd997de8409433f7474b8d5edfa1eccc43122a"
+    },
+    "app_src/sharpen/bh_1.jpg": {
+      "baseline": "ee05888f491ec84b4936251e8de548ac0e315389dd3bd5665f8456dc488da6b8",
+      "candidate": "fcd26e153a36907392c0a8f3b1787b1e88bbed822ef153c48d80f873dcc94d95"
+    },
+    "app_src/sharpen/bh_2.jpg": {
+      "baseline": "cf17256c86f41dc70cfc7a157c0196323633adf2f233f849f0901599e3976ff7",
+      "candidate": "623931114abc2d302210deaba1964ecc8ade914aae31abace549440ca311bf19"
+    },
+    "app_src/sharpen/bv_0.jpg": {
+      "baseline": "a7d5f7299d27ce41cac5889e6e50d8ceb0208b50d5d3707e11fa569bdfcb48b9",
+      "candidate": "18c9a940c85b95625f8aaea5998fa182cd61cd1fb66dcf41c59c7fa985153d05"
+    },
+    "app_src/sharpen/bv_1.jpg": {
+      "baseline": "9488a7064a77a5ff0fb86e73634b60dfa7eb3a33e2d02ce9513b8aead8ff6323",
+      "candidate": "03b766a3f49cfdaacf094a93444343612f5d72955b8b9b66f3726bef7cca0b34"
+    },
+    "app_src/sharpen/bv_2.jpg": {
+      "baseline": "46be841a79110b589c77303c82c76e91133012e26e2bad57bc155f3df64aec4e",
+      "candidate": "d4fb7bb01222bf0aad30066a90349d478822c7772888ef040afaaabb97c1e74a"
+    },
+    "app_src/sharpen/fv_0.jpg": {
+      "baseline": "d4743d067273493b30a2ba83f2bd57cf89c9a3b4e79f14883d188804c358ff2e",
+      "candidate": "b731d9394178b712f1c5a489083400ef7224d49be2823c37d04a2ec07911c115"
+    },
+    "app_src/sharpen/fv_1.jpg": {
+      "baseline": "9276cc9c0f4d5dffa6b991a73633d8c000a7a51b8cf00bbd4b34b5e5b2e228b8",
+      "candidate": "c76d18ace4320ffcdad008988d4383867592ca7de85a056bed5fca4ad568acc0"
+    },
+    "app_src/sharpen/fv_2.jpg": {
+      "baseline": "3819605621b58cc7fe32fdca7c26e7cf5218967e4cfb39d6c11cb1ed65c20f9b",
+      "candidate": "82939d417dbc3d8e387fdc038408d475ad473b8676a0eed3fdce91da466c0cde"
+    },
+    "app_src/sharpen/serve_0.jpg": {
+      "baseline": "7a2bcebf10e0105a228454ee1a8e4744233148075396174c79ad3e3dafaef9b2",
+      "candidate": "145537ead4775ba88e5a445a47eedd03b8190fb441b7b9154407e0ba4a927fbf"
+    },
+    "app_src/sharpen/serve_1.jpg": {
+      "baseline": "186571f73373100b8d894e476e651f4db20411acc8c0c19ab8139a3693bc58ce",
+      "candidate": "f9f4af597b0324474a39c13effd9a4ed955e64f1582c177a35e7ea47e3c01c97"
+    },
+    "app_src/sharpen/serve_2.jpg": {
+      "baseline": "959af2e6a95a789283b9139102f5f06a83fff3f19e2e20a9682f15d6d52199d8",
+      "candidate": "0194c82dd4a5795d5d9e16a1b76c5435f690b595453e94150267d2e2894ef599"
+    },
+    "app_src/sharpen/slice_2.jpg": {
+      "baseline": "d4eed3e68d783d774922507be46a00b113b9369a86bc87a12bdfa616667087af",
+      "candidate": "144b1c6145d9841da39e8e0b2e4f2ddc520243d59701dd13648648402eedafea"
+    },
+    "docs/features/sharpen-stroke-clarity.md": {
+      "baseline": null,
+      "candidate": "c0e5959868b98c4021e10e9eaa832ae8ab4ef9b3700e6343a0febbca0f67d437"
+    },
+    "rally/stroke_integrity.py": {
+      "baseline": "840f2f0c09e6822ed381611dd2819428694a22b792f465caf16aff5a6cfd4f70",
+      "candidate": "da30f95fcef886e56f1c70997787ea78e00c15e6b423c22feadeb6b6a43ccc00"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "8c52e446b6d8e2af9fbdcc4fdf19bfc08c29c7aa85def10497dea901d6682bc6",
+      "candidate": "7771f8b050dc88f4523f719d26be7ceec5fff3656882311b9a03a126c62496aa"
+    },
+    "tools/sharpen-stroke-browser.mjs": {
+      "baseline": null,
+      "candidate": "6caee68995b0ea8828734f88e651cdf41e59719ac2e149fef7a7cdd8494b2f7e"
+    },
+    "tools/sharpen-stroke-source.py": {
+      "baseline": null,
+      "candidate": "b85685d84f675276b346702351474e8ebefce55c543e0761b1a5af1d91be5266"
+    }
+  },
+  "release": {
+    "app/athlete.js": {
+      "baseline": "523449abfa4d96f9ea57874b7f6c3ec28293fc92e7ffc53ce5f99de637f5ef8f",
+      "candidate": "b5a3ad09533ebdeabc1653629756e9b597e2709ed64d9b183ef4bedd0d9fca36"
+    },
+    "app/catalog.js": {
+      "baseline": "70dff518da9a6959fd2d38a591a13b3105e3cdc546a1206b30186e5c75f0d888",
+      "candidate": "e6818c544285a404127e40729156a8de7ee5ac43fd46bac19c7e58a998925dec"
+    },
+    "app/clips/bh.json": {
+      "baseline": "4c08d597d8d3c91f78bfb30f8ecb5893dee8e4218ed0ed431c542cbc27d63d32",
+      "candidate": "90bd5c2ec1aa2084698d08405802975fe04b6fd21ce8e866df6bf9847fe892d3"
+    },
+    "app/clips/bhChest.json": {
+      "baseline": "bfdc507325e94513155c853ceb824f1041d61b3590d13d0785fe59e54462155b",
+      "candidate": "024f0d3dfad702d67a86cb559153eeaea923155227422b3d8fdbc066ed229c53"
+    },
+    "app/clips/bhHigh.json": {
+      "baseline": "925ec7b5afe6602636588603eab1e1f4688afa6859e819388c90bfdd37f7022c",
+      "candidate": "bd8cb1ab8059efbf2cd3899bfd89eb3e517365746be69d727a140c93a9d1c2de"
+    },
+    "app/clips/bhHigher.json": {
+      "baseline": "d25fa6a7b16e24a8243920dcd3906650d6e58afd79eeb885dfa76c2bf61201c3",
+      "candidate": "25d50d68c9808e2dd08302a566a13345c87ab4edfa9a0ba58f06ba4d6ecfc518"
+    },
+    "app/clips/bhSlice.json": {
+      "baseline": "7768650d756769e88b1f738921eb484616894f98e1bddaf7a30c7e87ff0aeea5",
+      "candidate": "319970fe7afd1a0215611ae697865e83936d202af61603268b287d82e40909c1"
+    },
+    "app/clips/bhlo.json": {
+      "baseline": "8e93bea3878a24e056146cc95d024493e9cbd9134ebdb02676485f51252db85e",
+      "candidate": "38250ce7c61dcac9829974306a07ec8bc9d111a96ee7d7af36194ad54b238494"
+    },
+    "app/clips/bv.json": {
+      "baseline": "64d9dfc9a173b1bb11e93c477ed325193f3e2d1a785c5d96f231cbdb36debfa7",
+      "candidate": "483369a24f158067e7b027d00064f1ad4a9f94fe6e74206a4d73568f3138d17b"
+    },
+    "app/clips/fvhi.json": {
+      "baseline": "ca9b44f28a021646fe319a9440e1f2e7e12fc450c901853fe56e882a6c785dfa",
+      "candidate": "69087097e027799aaea7f34e8f355d9efaf8366ba9a6c60287892a277b1cc838"
+    },
+    "app/clips/lowfv.json": {
+      "baseline": "9f92730e8083a0e50e736caf4ae865665f9f01fdc0e4aa2c497e4b0f9b3831ff",
+      "candidate": "dfe5db07169e5f477f1dc8800f21a5ac0a4d9cb69879200709a350ece4aaa25d"
+    },
+    "app/index.html": {
+      "baseline": "71158e52e655d9fd742f2d298021507ca26e56a4f78f36d9ec562138fb2789c3",
+      "candidate": "9f04e90e3887128aa96502d01f3d6c970e2f4eec76e997244dfd01177b52486b"
+    },
+    "app/play.html": {
+      "baseline": "b52e39b63101f01faa0e6c66f64e61593e7a60ea75aba961a816007c9d41b003",
+      "candidate": "9fe707d6192ddb6a0cd888c80f316c28b3cbc4b53b08b3f08f0b3a25f1e57322"
+    },
+    "app/sharpen.js": {
+      "baseline": "22dac52e0e32888e66a74d05b8641ecf915b768db71a589c0619f4ec16bd1539",
+      "candidate": "00a2a0721f627ef6fba4ba4dae845d38e5c21df08142da06bf369d4b0be34c8b"
+    },
+    "app/sharpen/bh_0.jpg": {
+      "baseline": "cc7f3e5853dd16f9abd31a2c94a5f0dc1ed758a7ee68ea89c73a9fc01af34247",
+      "candidate": "adec70aec63c77205605051d74fd997de8409433f7474b8d5edfa1eccc43122a"
+    },
+    "app/sharpen/bh_1.jpg": {
+      "baseline": "ee05888f491ec84b4936251e8de548ac0e315389dd3bd5665f8456dc488da6b8",
+      "candidate": "fcd26e153a36907392c0a8f3b1787b1e88bbed822ef153c48d80f873dcc94d95"
+    },
+    "app/sharpen/bh_2.jpg": {
+      "baseline": "cf17256c86f41dc70cfc7a157c0196323633adf2f233f849f0901599e3976ff7",
+      "candidate": "623931114abc2d302210deaba1964ecc8ade914aae31abace549440ca311bf19"
+    },
+    "app/sharpen/bv_0.jpg": {
+      "baseline": "a7d5f7299d27ce41cac5889e6e50d8ceb0208b50d5d3707e11fa569bdfcb48b9",
+      "candidate": "18c9a940c85b95625f8aaea5998fa182cd61cd1fb66dcf41c59c7fa985153d05"
+    },
+    "app/sharpen/bv_1.jpg": {
+      "baseline": "9488a7064a77a5ff0fb86e73634b60dfa7eb3a33e2d02ce9513b8aead8ff6323",
+      "candidate": "03b766a3f49cfdaacf094a93444343612f5d72955b8b9b66f3726bef7cca0b34"
+    },
+    "app/sharpen/bv_2.jpg": {
+      "baseline": "46be841a79110b589c77303c82c76e91133012e26e2bad57bc155f3df64aec4e",
+      "candidate": "d4fb7bb01222bf0aad30066a90349d478822c7772888ef040afaaabb97c1e74a"
+    },
+    "app/sharpen/fv_0.jpg": {
+      "baseline": "d4743d067273493b30a2ba83f2bd57cf89c9a3b4e79f14883d188804c358ff2e",
+      "candidate": "b731d9394178b712f1c5a489083400ef7224d49be2823c37d04a2ec07911c115"
+    },
+    "app/sharpen/fv_1.jpg": {
+      "baseline": "9276cc9c0f4d5dffa6b991a73633d8c000a7a51b8cf00bbd4b34b5e5b2e228b8",
+      "candidate": "c76d18ace4320ffcdad008988d4383867592ca7de85a056bed5fca4ad568acc0"
+    },
+    "app/sharpen/fv_2.jpg": {
+      "baseline": "3819605621b58cc7fe32fdca7c26e7cf5218967e4cfb39d6c11cb1ed65c20f9b",
+      "candidate": "82939d417dbc3d8e387fdc038408d475ad473b8676a0eed3fdce91da466c0cde"
+    },
+    "app/sharpen/serve_0.jpg": {
+      "baseline": "7a2bcebf10e0105a228454ee1a8e4744233148075396174c79ad3e3dafaef9b2",
+      "candidate": "145537ead4775ba88e5a445a47eedd03b8190fb441b7b9154407e0ba4a927fbf"
+    },
+    "app/sharpen/serve_1.jpg": {
+      "baseline": "186571f73373100b8d894e476e651f4db20411acc8c0c19ab8139a3693bc58ce",
+      "candidate": "f9f4af597b0324474a39c13effd9a4ed955e64f1582c177a35e7ea47e3c01c97"
+    },
+    "app/sharpen/serve_2.jpg": {
+      "baseline": "959af2e6a95a789283b9139102f5f06a83fff3f19e2e20a9682f15d6d52199d8",
+      "candidate": "0194c82dd4a5795d5d9e16a1b76c5435f690b595453e94150267d2e2894ef599"
+    },
+    "app/sharpen/slice_2.jpg": {
+      "baseline": "d4eed3e68d783d774922507be46a00b113b9369a86bc87a12bdfa616667087af",
+      "candidate": "144b1c6145d9841da39e8e0b2e4f2ddc520243d59701dd13648648402eedafea"
+    }
+  }
+}

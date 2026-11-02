@@ -73,3 +73,13 @@ volley grips/arms and the slice's supporting arm. These derived poses retain the
 same attribution and share-alike license. They are illustrations, not newly
 captured or professionally certified strokes. The ball contact positions are
 preserved; the adaptation and its limits are recorded in the feature evidence.
+
+## Sharpen clarity supplement — 2 November 2026
+
+The same licensed motion data now has authored slice extension, compact volley
+set/follow-through/recovery, and supporting-hand placement for five two-handed
+backhand variants. Captured body/foot motion and ball-contact anchors are
+retained. These motion-derived clips and regenerated stills retain the existing
+CC BY-SA 3.0 attribution and license. Reference cross-checks and the distinction
+between captured movement and authored adaptation are recorded in
+`docs/features/sharpen-stroke-clarity.md`.
