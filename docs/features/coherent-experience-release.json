@@ -1,0 +1,142 @@
+{
+  "feature": "Coherent Home and Sharpen, clearer pacing, recorded sound and focused completion",
+  "released_at_utc": "2026-11-02T08:37:04.238970+00:00",
+  "authorization": "User explicitly said proceed after the recommendation to verify and deploy this reviewed version, 2 November 2026.",
+  "project": "gamesharp-tennis",
+  "pull_request": 69,
+  "app_version": "ad1e5b4d36",
+  "candidate_commit": "5a1f504b93d5f86267415bd79da8ae356ca5f062",
+  "merge_commit": "84b4cf8945e962c39451cc03a00d2244ab0e065f",
+  "candidate_and_merge_tree": "685dc35b0b18091848ed570bad34dc4601274f9b",
+  "preview": {
+    "id": "dpl_EpnwzyCYa41cT4To66ACz4R827fk",
+    "url": "https://gamesharp-tennis-4n7n2tc5e-eoinlynn-5978s-projects.vercel.app"
+  },
+  "production": {
+    "id": "dpl_EDDRVTwViUsCvZTd8sRtrcVJEqnQ",
+    "url": "https://gamesharp-tennis-g6oxn0hgj-eoinlynn-5978s-projects.vercel.app",
+    "domain": "https://www.gamesharptennis.com",
+    "promoted_without_rebuild": true,
+    "git_triggered": true
+  },
+  "rollback": {
+    "app_version": "df4099ec6b",
+    "id": "dpl_FQE8a3wpByQaCagLqJXrsdtkPiWx",
+    "url": "https://gamesharp-tennis-c3oc7fpw4-eoinlynn-5978s-projects.vercel.app",
+    "merge_commit": "0bd91c70a17fb49bce0f33ecfdbdc87d2511ada1"
+  },
+  "scope": {
+    "existing_journeys": 47,
+    "new_journeys": 0,
+    "withheld_journeys": 0
+  },
+  "verification": {
+    "unit_tests": 63,
+    "build_release_files": 168,
+    "source_test_inputs": 231,
+    "local_experience_checks": {
+      "chromium": 73,
+      "webkit": 73
+    },
+    "candidate_ci": {
+      "run": 41405269269,
+      "status": "success"
+    },
+    "merged_ci": {
+      "run": 41413096025,
+      "status": "success"
+    },
+    "http": {
+      "preview": {
+        "passed": 309,
+        "total": 309,
+        "retried": 0
+      },
+      "staged": {
+        "passed": 309,
+        "total": 309,
+        "retried": 0
+      },
+      "live": {
+        "passed": 309,
+        "total": 309,
+        "retried": 0
+      }
+    },
+    "configuration_equivalence": {
+      "preview": "dpl_EpnwzyCYa41cT4To66ACz4R827fk",
+      "production": "dpl_EDDRVTwViUsCvZTd8sRtrcVJEqnQ",
+      "matches": {
+        "config": true,
+        "resourceConfig": true,
+        "regions": true,
+        "originCacheRegion": true,
+        "nodeVersion": true,
+        "crons": true,
+        "functions": true,
+        "projectSettings": true,
+        "routes": true,
+        "env": true,
+        "build": true,
+        "buildConfig": true
+      },
+      "configuredEnvironmentVariables": 0,
+      "rootDirectory": null,
+      "autoAssignCustomDomains": false,
+      "staticAssets": {
+        "preview": 167,
+        "production": 167
+      },
+      "functions": {
+        "preview": 0,
+        "production": 0
+      },
+      "inventoryProof": "Authenticated Vercel Resources UI reports 167 static assets only for each deployment; all 167 paths and bytes independently verified by HTTP manifest.",
+      "explainedDifferences": [
+        "Preview branch versus main merge; Git trees identical",
+        "Environment target, deployment identity and standard Vercel environment identity",
+        "Preview feedback suffix only; expected and normalized by exact deployment ID"
+      ]
+    },
+    "staged_complete_journeys": 5,
+    "staged_normal_speed_browser": "Home, Sharpen controls and complete Make Room lesson including visible automatic voice playback",
+    "staged_transport_note": {
+      "initialRun": {
+        "passed": [
+          "saturday-point-1",
+          "short-ball",
+          "live-point-buy-time"
+        ],
+        "failure": "live-point-make-room automatic voice load timed out through authenticated CLI transport",
+        "notCompleted": [
+          "live-point-serve-see"
+        ]
+      },
+      "cause": "Test accelerates setTimeout by 8x, reducing the voice network timeout from 10s to 1.25s. Authenticated CLI per-request transport had warmed only the pilot default 00 asset, not the selected 11 asset. The displayed Retry court cue was consistent with the aborted request.",
+      "recheck": "Same app and original all-correct decisions; all eight pilot voice variants warmed through authenticated transport before browser use, as existing test transport already does for other audio assets. Both affected journeys passed automatic cue, manual replay, opt-out and saved score assertions.",
+      "productChanges": false,
+      "rawInitialLog": "stage-journeys.log",
+      "recheckLog": "stage-recheck.log"
+    },
+    "live_complete_journeys": {
+      "chromium": [
+        "saturday-point-1",
+        "short-ball",
+        "live-point-buy-time",
+        "live-point-make-room",
+        "live-point-serve-see"
+      ]
+    },
+    "live_experience_checks": 73,
+    "production_target_verified": true,
+    "automatic_domain_assignment": false,
+    "apex_redirect": "307 to https://www.gamesharptennis.com/",
+    "build_warning": "npm Unknown env config cache-dir; build succeeded, zero dependency vulnerabilities reported."
+  },
+  "limits": [
+    "No physical-device listening certification",
+    "No independent coach certification or proof of on-court learning transfer",
+    "Movement quality remains the principal product improvement priority"
+  ],
+  "release_record_policy": "This follow-up documentation branch records the already-live deployment; its own build must not be promoted."
+}
