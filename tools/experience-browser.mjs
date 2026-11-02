@@ -47,6 +47,8 @@ try{
   }
   await p.locator('#wrapup:not([hidden]) .gs-continue').waitFor();
   check(await p.evaluate(()=>done&&!playing&&!recapActive),slug+': final cue arrives without a forced replay');
+  await p.waitForFunction(()=>document.querySelector('#wrapup').getBoundingClientRect().top<80);
+  check(await p.locator('#wrapup .mem').isVisible(),slug+': completion lands on the court cue');
   check(await p.locator('.completion-more').getAttribute('open')===null,slug+': supplementary coaching is available on demand');
   const answers=await p.evaluate(()=>JSON.stringify(ans));
   if(await p.locator('#replayTurningPoint').count()){
