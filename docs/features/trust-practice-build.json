@@ -124,6 +124,10 @@
       "baseline": "d0f1281b264935d040ae9b3458a913536750f86dd5e2e6024ef2644ba5915e12",
       "candidate": "dec25db8e8b0f2214b2f975f408d31246ecb7d93d87cfd28fa1d2b737bd92d37"
     },
+    "tools/sensory-browser.mjs": {
+      "baseline": "2365a68949167424509f9a2843e5f9640650ab5d4ad1709a799d1001d00db667",
+      "candidate": "9d9481918d0df00667ad81b50148fd7452873f7b70c9c70407cf3fffac7a2285"
+    },
     "tools/six-play-browser.mjs": {
       "baseline": "eb9c00980bdfa53970c0c19866bead0a04008145ca7d32a8536e35831e44956e",
       "candidate": "eb39287c93248996fbd8983300f0cdfe6d96190cdfed73857a8c918543d0b9c9"
