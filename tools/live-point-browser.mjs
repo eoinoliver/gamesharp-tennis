@@ -45,7 +45,7 @@ for(const width of [375,820,1280]){
    await p.locator('#replayTurningPoint').click();await p.waitForFunction(()=>!playing);
    check(await p.evaluate(()=>JSON.stringify(ans))===before,`${slug}/${path}: replay preserves decisions`);
    check(await p.evaluate(()=>!silentPlayback&&!GSSfx.voiceState().playing),`${slug}/${path}: inspection permits native court events without narration`);
-   await p.locator('#compareRecovery').click();await p.waitForFunction(()=>!playing);
+   await p.locator('#compareOther').click();await p.waitForFunction(()=>!playing);
    check((await p.locator('#questionContext').textContent()).startsWith('Alternative'),`${slug}/${path}: comparison labelled on court`);
    check(await p.evaluate(()=>scene!==LESSON.finaleScene),`${slug}/${path}: alternative movement shown`);
    check(await p.evaluate(()=>JSON.stringify(ans))===before,`${slug}/${path}: comparison cannot rescore`);

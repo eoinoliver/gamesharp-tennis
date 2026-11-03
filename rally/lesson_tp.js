@@ -3,6 +3,7 @@ const LESSON={
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
   "liveIntro": "A fast serve is coming into your backhand. Your preparation window is small.",
+  "specificFeedback": true,
   "livePoint": true,
   "family": "return-pressure",
   "edition": "ten-live-v1",
@@ -17,7 +18,7 @@ const LESSON={
       "q": "What fits the reply you actually receive?",
       "opts": [
         "Height and depth through the middle",
-        "Force a narrow change of direction"
+        "Change direction toward the sideline"
       ],
       "correct": 0,
       "lines": {
@@ -54,7 +55,7 @@ const LESSON={
       "q": "What fits the reply you actually receive?",
       "opts": [
         "Height and depth through the middle",
-        "Force a narrow change of direction"
+        "Change direction toward the sideline"
       ],
       "correct": 0,
       "lines": {

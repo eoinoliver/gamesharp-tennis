@@ -4,16 +4,16 @@ const LESSON={
  "memHTML": "Your shot includes <span>the recovery.</span>",
  "tomorrow": "Next time you run around, judge the shot and recovery as one decision.",
  "pro": {
-  "player": "Jim Courier",
-  "label": "Courier's weapon and its bill",
-  "moment": "Coach Jim McLennan: Courier built his career around the inside-out and inside-in forehand, but it sometimes left him with awkward court positioning.",
+  "player": "Coaching fundamentals",
+  "label": "Footwork and recovery",
+  "moment": "LTA coach Matt Smith describes moving efficiently to the ball, using smaller adjustment steps for balance, and pushing off after the shot to recover.",
   "read": "Count the court your favourite shot leaves behind.",
-  "src": "TennisOne, Jim McLennan",
-  "url": "https://tennisone.tennisplayer.net/club/lessons/jm/positioning/court.php"
+  "src": "LTA · Tennis footwork",
+  "url": "https://www.lta.org.uk/play/tennis-tips-and-techniques/improve-your-tennis-footwork-on-court-with-these-simple-tips/"
  },
  "drill": {
   "name": "Pay the bill",
-  "how": "After every run-around forehand, touch the centre mark before the next ball arrives. Miss it and you lose the point, whatever happens next."
+  "how": "After each run-around forehand, recover while your ball travels. Your partner can reply to either side. Before their contact, balance where you can cover their likely angles; do not aim automatically for the centre mark. Play five points and notice which forehands leave you time to recover."
  },
  "cue": "Shot and recovery: one decision.",
  "callbackTags": [

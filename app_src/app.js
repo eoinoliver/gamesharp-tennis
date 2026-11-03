@@ -5,7 +5,7 @@
 const CFG=window.GS_CONFIG||{}, CAT=window.GS_CATALOG, VER=window.GS_VERSION||"dev";
 const KEY="gs6";
 const ls={get(k){try{return localStorage.getItem(k);}catch(e){return null;}},
-          set(k,v){try{localStorage.setItem(k,v);}catch(e){}}};
+          set(k,v){try{localStorage.setItem(k,v);return localStorage.getItem(k)===v;}catch(e){return false;}}};
 const pad=n=>String(n).padStart(2,"0");
 const dayOf=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const today=()=>dayOf(new Date());
@@ -14,12 +14,15 @@ const daysBetween=(a,b)=>{const p=s=>{const [y,m,d]=s.split("-").map(Number);ret
 const rid=()=>(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));
 
 /* ---------- state ---------- */
+let progressSaved=true;
 function load(){
   let S=null; try{S=JSON.parse(ls.get(KEY));}catch(e){}
   if(!S||S.v!==1){S={v:1,id:rid(),first:today(),level:null,done:{},days:[],streak:0,last:null,fb:{},opens:[]};migrateLegacy(S);save(S);}
   return S;
 }
-function save(S){ls.set(KEY,JSON.stringify(S));}
+// After a failed write, keep this page's progress in memory. Do not overwrite
+// another tab's newer saved state with a stale snapshot if storage returns.
+function save(S){if(progressSaved)progressSaved=ls.set(KEY,JSON.stringify(S));return progressSaved;}
 /* The old app kept a streak in gamesharp_streak / gamesharp_last_day (gamesharp_daily_Y_M_D, month from 0).
    Carry it over once if it is still alive (played today or yesterday). Nothing else is read from the old app. */
 function migrateLegacy(S){
@@ -38,14 +41,14 @@ function log(event,props){
 function capture(event,props){
   const host=location.hostname.toLowerCase();
   const production=location.protocol==="https:"&&(CFG.posthogAllowedHosts||[]).includes(host);
-  if(!CFG.posthogKey||!production) return;
+  if(!CFG.posthogKey||!production) return Promise.resolve(false);
   const p=Object.assign({app:VER,day_n:daysBetween(S.first,today()),level:S.level||"unset",streak:S.streak,$process_person_profile:false},props||{},{$host:host,environment:"production"});
   const body=JSON.stringify({api_key:CFG.posthogKey,event,distinct_id:S.id,properties:p,timestamp:new Date().toISOString()});
   const url=(CFG.posthogHost||"https://us.i.posthog.com")+"/capture/";
-  try{fetch(url,{method:"POST",body,keepalive:true,headers:{"Content-Type":"application/json"}}).catch(()=>{});}
-  catch(e){try{navigator.sendBeacon&&navigator.sendBeacon(url,body);}catch(_){}}
+  try{return fetch(url,{method:"POST",body,keepalive:true,...(typeof AbortSignal!=="undefined"&&typeof AbortSignal.timeout==="function"?{signal:AbortSignal.timeout(8000)}:{}),headers:{"Content-Type":"application/json"}}).then(r=>r.ok).catch(()=>false);}
+  catch(e){return Promise.resolve(false);}
 }
-function track(event,props){log(event,props);capture(event,props);}
+function track(event,props){log(event,props);return capture(event,props);}
 /* Keep the local history/log daily. Capture each visible page entry or foreground return:
    PostHog buckets unique users in its project timezone, independently of the local streak.
    No sent-day marker: an off/failed capture cannot suppress the next real app entry. */
@@ -71,10 +74,32 @@ window.addEventListener("pageshow",e=>{if(e.persisted) resume();});
 const all=()=>CAT.daily.concat(CAT.predict,CAT.play||[]);
 const bySlug=s=>all().find(l=>l.slug===s);
 const isDaily=s=>CAT.daily.some(l=>l.slug===s);
+const activityLabel=l=>`${l.livePoint?'Live Point':isDaily(l.slug)?'Daily challenge':CAT.predict.some(p=>p.slug===l.slug)?'Predict the Point':'Play the Point'}${l.decisionCount?` · ${l.decisionCount>2&&l.livePoint?'Up to ':''}${l.decisionCount} decisions`:''}`;
+const remaining=()=>all().filter(l=>!S.done[l.slug]);
+const CUES='gs_my_game';
+function savedCues(){
+  let rows;try{rows=JSON.parse(ls.get(CUES)||'[]');}catch(e){return [];}
+  if(!Array.isArray(rows))return [];
+  const seen=new Set();return rows.filter(c=>c&&typeof c.cue==='string').map(c=>{
+    const l=bySlug(c.slug)||all().find(l=>l.title===c.lesson);
+    return {...c,slug:l?.slug||null,lesson:l?.title||c.lesson,cue:l?.cue||c.cue,drill:l?.drill||c.drill,updated:!!(l?.cue&&l.cue!==c.cue)};
+  }).reverse().filter(c=>{const k=c.slug||c.cue;if(seen.has(k))return false;seen.add(k);return true;});
+}
+function cueSaved(slug){return savedCues().some(c=>c.slug===slug);}
+function saveCue(slug){
+  const l=bySlug(slug);if(!l?.cue)return false;
+  // Never replace unreadable data with an empty list.
+  try{const raw=localStorage.getItem(CUES),rows=raw?JSON.parse(raw):[];if(!Array.isArray(rows))return false;
+    const next=rows.filter(c=>c?.slug!==slug&&c?.lesson!==l.title);
+    next.push({slug,lesson:l.title,cue:l.cue,drill:l.drill,saved_at:Date.now()});
+    return ls.set(CUES,JSON.stringify(next));
+  }catch(e){return false;}
+}
 function streakNow(){ if(!S.last) return 0; const g=daysBetween(S.last,today()); return g<=1?S.streak:0; }
 function doneToday(){ return S.days.includes(today()); }
 // Reload before choosing or saving so another tab's progress is not overwritten.
 function syncProgress(){
+  if(!progressSaved)return;
   try{const latest=JSON.parse(ls.get(KEY));if(latest&&latest.v===1&&latest.id===S.id)Object.assign(S,latest);}catch(e){}
   migrateEditions();
 }
@@ -172,9 +197,9 @@ function complete(slug,n,total=3){
   if(isDaily(slug)&&firstTime&&!nextDaily()) track("content_exhausted",{});
 }
 function setLevel(v){syncProgress();S.level=v;save(S);track("level_set",{level:v});}
-function feedback(slug,useful,comment){
-  syncProgress();S.fb[slug]={useful,day:today()};save(S);
-  track("feedback",Object.assign({lesson:slug,useful},comment?{comment:String(comment).slice(0,500)}:{}));
+async function feedback(slug,useful,comment){
+  const sent=await track("feedback",Object.assign({lesson:slug,useful},comment?{comment:String(comment).slice(0,500)}:{}));
+  if(sent){syncProgress();S.fb[slug]={useful,day:today()};save(S);}return sent;
 }
 
 /* ---------- the old app: no service worker ever installed (it registered a blob: URL, which browsers refuse),
@@ -192,5 +217,6 @@ function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
 window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,startLesson,complete,setLevel,feedback,emit,on,
+  activityLabel,remaining,savedCues,cueSaved,saveCue,progressSaved:()=>progressSaved,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();

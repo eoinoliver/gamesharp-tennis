@@ -3,6 +3,7 @@ const LESSON={
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
   "liveIntro": "You read the drop late from behind the baseline. You reach it low, still moving forward.",
+  "specificFeedback": true,
   "livePoint": true,
   "family": "drop-arrival",
   "edition": "ten-live-v1",
@@ -17,7 +18,7 @@ const LESSON={
       "q": "You reached it. What does this next contact need?",
       "opts": [
         "Compact placement with depth",
-        "Force the short angle"
+        "Place a short angled reply"
       ],
       "correct": 0,
       "lines": {
@@ -54,7 +55,7 @@ const LESSON={
       "q": "You reached it. What does this next contact need?",
       "opts": [
         "Compact placement with depth",
-        "Force the short angle"
+        "Place a short angled reply"
       ],
       "correct": 0,
       "lines": {
@@ -91,7 +92,7 @@ const LESSON={
       "q": "What is realistic from this late pickup?",
       "opts": [
         "Lift deep through the middle and find balance",
-        "Try a tiny angle while stretched"
+        "Place a short angled reply"
       ],
       "correct": 0,
       "lines": {

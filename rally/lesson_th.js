@@ -3,6 +3,7 @@ const LESSON={
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
   "liveIntro": "Your approach moves them wide. This backhand volley is above the net, with the opposite side open.",
+  "specificFeedback": true,
   "livePoint": true,
   "family": "first-volley",
   "edition": "ten-live-v1",
@@ -93,7 +94,7 @@ const LESSON={
       "sit": "Your approach moves them wide. This backhand volley is above the net, with the opposite side open.",
       "q": "What does the higher contact offer?",
       "opts": [
-        "Send it back toward the waiting passer",
+        "Place the volley back through the middle",
         "Place the volley into the open side"
       ],
       "correct": 1,

@@ -3,6 +3,7 @@ const LESSON={
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
   "liveIntro": "This ball is shorter. You have time to set on the backhand, and they are recovering toward the crosscourt side.",
+  "specificFeedback": true,
   "livePoint": true,
   "family": "direction-change",
   "edition": "ten-live-v1",

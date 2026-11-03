@@ -35,9 +35,10 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  ok((await p.textContent('.appblk')).includes('1 day'),'streak line says 1 day: '+(await p.textContent('.appblk .strk')));
  await p.screenshot({path:out+'app_wrap.png',fullPage:true});
  await p.click('[data-u=yes]'); await p.fill('.fbtx','Loved seeing the reply'); await p.click('#fbsend');
- ok((await p.textContent('.appblk')).includes('Thanks'),'feedback sent');
+ await p.waitForFunction(()=>document.querySelector('#fbstatus')?.textContent.includes('Preview:'));
+ ok((await p.textContent('#fbstatus')).includes('not sent'),'preview does not falsely acknowledge feedback');
  const ev=await p.evaluate(()=>GSApp.log().map(e=>e[1]));
- for(const e of ['app_open','auto_start','welcome_seen','lesson_start','read','lesson_complete','feedback','feedback_comment']) ok(ev.includes(e),'event '+e);
+ for(const e of ['app_open','auto_start','welcome_seen','lesson_start','read','lesson_complete','feedback']) ok(ev.includes(e),'event '+e);
  ok(ev.filter(e=>e==='read').length===3,'three reads logged');
  ok((await p.getAttribute('a.home','href'))==='./?home=1','Back to home never auto-starts');
  await p.click('a.home'); await p.waitForSelector('#main .today');

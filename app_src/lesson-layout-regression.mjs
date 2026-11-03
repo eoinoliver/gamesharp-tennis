@@ -6,12 +6,12 @@ const base=process.argv[2]||'http://127.0.0.1:8765/';const results=[];
 function check(name,pass,details){results.push({name,pass,details});if(!pass)throw Error(name+': '+JSON.stringify(details));}
 try{
 await p.goto(base+'play.html?l=serve-plus-one');await p.waitForFunction(()=>window.__test);
-await p.evaluate(()=>{window.__speed=12;startStep(0)});
+await p.evaluate(()=>{window.__speed=1;startStep(0)});
 await p.waitForTimeout(250);
-check('options wait for situation text',await p.$eval('#ask',e=>!e.classList.contains('on')));
+check('choices wait for incoming play',await p.$eval('#ask',e=>!e.classList.contains('on')));
 await p.click('#again');await p.waitForTimeout(250);
-check('Replay restarts both readiness gates',await p.$eval('#ask',e=>!e.classList.contains('on')));
-await p.waitForSelector('#ask.on');
+check('Replay restarts incoming play before choices',await p.$eval('#ask',e=>!e.classList.contains('on')));
+await p.evaluate(()=>window.__speed=12);await p.waitForSelector('#ask.on');
 const frame=await p.evaluate(()=>{render();return {height:document.querySelector('#stage').getBoundingClientRect().height,words:[...document.querySelectorAll('#sitTx .w')].every(x=>x.classList.contains('on')),stopped:!playing};});
 check('tall stage and both readiness gates complete',frame.height>390&&frame.words&&frame.stopped,frame);
 await p.evaluate(()=>{camI=0;render()});

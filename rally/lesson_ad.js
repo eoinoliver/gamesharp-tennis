@@ -1,13 +1,13 @@
 const LESSON={
  "title": "Answer the Drop",
- "hook": "They drop-shot you. You get there. Now where they go decides your answer, and the counter-drop is usually the trap.",
- "memHTML": "Get there, look up, <span>then go deep.</span>",
+ "hook": "They drop-shot you. Your contact, balance and their position decide the reply.",
+ "memHTML": "Get there. <span>Look up before choosing.</span>",
  "tomorrow": "Next time you're drop-shotted, look up as you reach it: are they coming in, holding, or backing off?",
  "drill": {
   "name": "Drop and read",
-  "how": "Your partner feeds a drop, then either holds mid-court, follows it in or backs off. Sprint in, look up, and answer: deep behind them if they stay or come in, deep through the middle if they back off."
+  "how": "Your partner varies the drop shot and their position. Arrive, look up and read your contact. Low or stretched? Give the reply height and margin. Early, balanced and higher, with them deep? Compare shorter placement into space with depth. Recover for the reply rather than judging only whether your first ball lands in."
  },
- "cue": "Get there, look up, go deep.",
+ "cue": "Get there. Look up before choosing.",
  "callbackTags": [
   "answer_drop"
  ],
