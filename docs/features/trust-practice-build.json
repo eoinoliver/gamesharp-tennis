@@ -20,6 +20,10 @@
       "baseline": "596299ec19168ce9c253fabcd8f94d276b068906626616cb08f1fcdee881d301",
       "candidate": "311b72ce0429d7862f1a7e41b9e5b956ccbdee5ace374ab23ed61ee434364f5c"
     },
+    "app_src/lesson-layout-regression.mjs": {
+      "baseline": "19b16f0b3158384cd189b8fe265b1bfe38f625aa144b016a3ace63c9d6172be3",
+      "candidate": "6e1047e3842be4ae4158db820a8a44b056c92e83da91c27d449ffae6ee79ca2d"
+    },
     "app_src/play_host.html": {
       "baseline": "3383cf82d174c4f4205a2c85b844af09f4410f690d7db935db49bbcd5814d10f",
       "candidate": "ded279e44d0d127e3ec7e6d7c2b5b4a56faaa17cb5a8c0f7b24ba4ea5bedaebd"
