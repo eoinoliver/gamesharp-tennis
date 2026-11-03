@@ -1,0 +1,223 @@
+{
+  "date": "2026-11-03",
+  "verifiedAtUtc": "2026-11-03T02:25:49.197181+00:00",
+  "status": "live",
+  "project": "gamesharp-tennis",
+  "appVersion": "5273867b9d",
+  "pullRequest": "https://github.com/eoinoliver/gamesharp-tennis/pull/73",
+  "reviewedCommit": "612b66a3b68c9e86ec74eb8c58be3d1f900dfb71",
+  "mergeCommit": "516c238f22c34f8b855fb8e3016d3a65d6f4b352",
+  "gitTree": "d600d911bc1da181dbbb6e15a624219136a9fcbd",
+  "identicalReviewedAndMergeTrees": true,
+  "preview": {
+    "id": "dpl_Bjdk4BmTZ6xMWVEtPB7hC1Mvrm1i",
+    "url": "https://gamesharp-tennis-5execbg4x-eoinlynn-5978s-projects.vercel.app"
+  },
+  "production": {
+    "id": "dpl_AJAmfCmh3dBbAGqyiDat2Kk6Knuk",
+    "url": "https://gamesharp-tennis-j5igobuni-eoinlynn-5978s-projects.vercel.app",
+    "source": "git",
+    "target": "production",
+    "promotedWithoutRebuild": true
+  },
+  "liveUrl": "https://www.gamesharptennis.com",
+  "rollback": {
+    "deploymentId": "dpl_GWEsvNFXm7QUrUYahmruLCDzLCbr",
+    "url": "https://gamesharp-tennis-dbi5j32cc-eoinlynn-5978s-projects.vercel.app",
+    "appVersion": "c2fd381df3",
+    "mergeCommit": "18ef19f93c41a1bb4e951ac87fc4163b8045e4eb"
+  },
+  "releaseAuthority": "Standing full-autonomy/deploy-live direction recorded in PROJECT_ALIGNMENT.md; current user instruction to proceed with the audit recommendations. Git, CI, staged Production and live gates retained.",
+  "autoAssignCustomDomains": false,
+  "catalogue": {
+    "eligible": 57,
+    "added": 0,
+    "withheld": 0,
+    "daily": 32,
+    "livePoints": 16,
+    "predict": 2,
+    "longerPlay": 7
+  },
+  "checks": {
+    "github": {
+      "run": 41563754733,
+      "url": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/41563754733",
+      "headSha": "612b66a3b68c9e86ec74eb8c58be3d1f900dfb71",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "build-contracts",
+          "conclusion": "success",
+          "url": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/41563754733/job/125680204002"
+        },
+        {
+          "name": "browser (sound)",
+          "conclusion": "success",
+          "url": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/41563754733/job/125680389698"
+        },
+        {
+          "name": "browser (shell)",
+          "conclusion": "success",
+          "url": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/41563754733/job/125680389706"
+        },
+        {
+          "name": "browser (routes)",
+          "conclusion": "success",
+          "url": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/41563754733/job/125680389732"
+        },
+        {
+          "name": "browser (learning)",
+          "conclusion": "success",
+          "url": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/41563754733/job/125680389770"
+        },
+        {
+          "name": "contracts",
+          "conclusion": "success",
+          "url": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/41563754733/job/125685552545"
+        }
+      ]
+    },
+    "build": {
+      "releaseFiles": 188,
+      "publicAssets": 187,
+      "sourceAndTestInputs": 273,
+      "passed": true
+    },
+    "unitTests": 68,
+    "targetedBrowserChecks": {
+      "chromium": 58,
+      "webkit": 58,
+      "widths": [
+        320,
+        390,
+        1280
+      ]
+    },
+    "http": {
+      "final-preview": {
+        "total": 329,
+        "passed": 329
+      },
+      "stage": {
+        "total": 329,
+        "passed": 329
+      },
+      "live": {
+        "total": 329,
+        "passed": 329
+      }
+    },
+    "coachingVoiceJourneys": {
+      "preview": {
+        "passed": 3,
+        "lessons": [
+          "answer-the-drop",
+          "forehand-bill",
+          "live-point-volley-build"
+        ],
+        "version": "5273867b9d",
+        "errors": []
+      },
+      "stage": {
+        "passed": 3,
+        "lessons": [
+          "answer-the-drop",
+          "forehand-bill",
+          "live-point-volley-build"
+        ],
+        "version": "5273867b9d",
+        "errors": []
+      },
+      "live": {
+        "passed": 3,
+        "lessons": [
+          "answer-the-drop",
+          "forehand-bill",
+          "live-point-volley-build"
+        ],
+        "version": "5273867b9d",
+        "errors": []
+      }
+    },
+    "livePracticeJourney": {
+      "base": "https://www.gamesharptennis.com/",
+      "phase": "live-practice",
+      "version": "5273867b9d",
+      "checks": [
+        "Sharpen \u2192 Net \u2192 low-volley Live Point",
+        "Two committed choices; specific consequence",
+        "One comparison entry",
+        "Cue saved with browser-local acknowledgement",
+        "My Game retrieves cue and drill",
+        "Replay opens original point and returns to My Game"
+      ],
+      "analyticsIntercepted": 15,
+      "errors": []
+    },
+    "apex": {
+      "status": 307,
+      "location": "https://www.gamesharptennis.com/?all=1",
+      "routePreserved": true
+    }
+  },
+  "configurationEquivalence": {
+    "preview": "dpl_Bjdk4BmTZ6xMWVEtPB7hC1Mvrm1i",
+    "production": "dpl_AJAmfCmh3dBbAGqyiDat2Kk6Knuk",
+    "rawMatches": {
+      "config": true,
+      "resourceConfig": true,
+      "regions": true,
+      "originCacheRegion": true,
+      "nodeVersion": true,
+      "crons": true,
+      "functions": true,
+      "projectSettings": true,
+      "routes": true,
+      "env": true,
+      "build": true,
+      "buildConfig": true
+    },
+    "matchesAfterExplainedDifferences": {
+      "config": true,
+      "resourceConfig": true,
+      "regions": true,
+      "originCacheRegion": true,
+      "nodeVersion": true,
+      "crons": true,
+      "functions": true,
+      "projectSettings": true,
+      "routes": true,
+      "env": true,
+      "build": true,
+      "buildConfig": true
+    },
+    "configuredEnvironmentVariables": 0,
+    "rootDirectory": null,
+    "autoAssignCustomDomains": false,
+    "staticAssets": {
+      "preview": 187,
+      "production": 187
+    },
+    "functions": {
+      "preview": 0,
+      "production": 0
+    },
+    "inventoryProof": "Authenticated Vercel Resources reports 187 static assets only on each deployment. Every path and byte is independently checked by the complete HTTP manifest.",
+    "explainedDifferences": [
+      "Preview branch versus main merge: Git trees identical",
+      "Environment target, deployment identity and standard Vercel identity",
+      "Expected Preview Feedback suffix normalised by exact deployment ID"
+    ]
+  },
+  "teachingReference": {
+    "url": "https://www.lta.org.uk/play/tennis-tips-and-techniques/improve-your-tennis-footwork-on-court-with-these-simple-tips/",
+    "scope": "General footwork fundamentals; applying them to the run-around scenario is GameSharp teaching judgment, not LTA endorsement."
+  },
+  "limits": [
+    "Saves remain local to this browser; no account or cross-device sync.",
+    "No independent coaching certification or physical-device testing.",
+    "No measured learning or on-court improvement is claimed.",
+    "Previously inconclusive ATP link checks remain unresolved, not labelled broken.",
+    "Feedback acknowledgement confirms an accepted HTTP response, not an independently audited downstream analytics record."
+  ]
+}
