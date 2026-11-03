@@ -72,7 +72,7 @@ async function journey(row,index){
   if(evidence.pro)assert.ok(await p.locator('#wrapup details.pay[data-k="pro"]').count(),'professional payoff remains');
   if(evidence.drill)assert.ok(await p.locator('#wrapup details.pay[data-k="drill"]').count(),'drill remains');
   if(evidence.predict)assert.equal(await p.locator('#wrapup .review').count(),3,'all reads reviewed');
-  if(evidence.cue){await openCompletionPanels(p);await p.locator('#saveCue').tap();assert.equal(await p.locator('#saveCue').innerText(),'Saved to My Game ✓');}
+  if(evidence.cue){await openCompletionPanels(p);await p.locator('#saveCue').tap();assert.equal(await p.locator('#saveCue').innerText(),'Saved in this browser ✓');}
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   // A short cue can finish during the preceding hosted assertions. If the tap
   // starts it again, stop that manual playback before testing silent replay.

@@ -3,6 +3,7 @@ const LESSON={
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
   "liveIntro": "You spot the drop early. You arrive higher and more balanced, while they remain deep near the middle.",
+  "specificFeedback": true,
   "livePoint": true,
   "family": "drop-arrival",
   "edition": "ten-live-v1",

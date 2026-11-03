@@ -10,8 +10,8 @@ DAILY = [
     ('forehand-bill', 'fb', 'A run-around forehand has to pay for the way back.'),
     ('the-lead', 'pp', 'Ahead? Keep the depth that built the lead.'),
     ('split-step', 'ss', 'Land for their hit, not before it.'),
-    ('approach-volley', 'av', 'A deep approach builds an easy volley.'),
-    ('middle-return', 'mr', 'Deep through the middle takes the server’s weapon away.'),
+    ('approach-volley', 'av', 'A deep approach can earn a more manageable first volley.'),
+    ('middle-return', 'mr', 'Depth through the middle can reduce the server’s angles.'),
     ('high-ball', 'hb', 'Find the contact, not the height.'),
     ('second-serve', 'sq', 'In is only the beginning.'),
     ('contact-clue', 'cp', 'Check the space at contact first.'),
@@ -57,11 +57,11 @@ PLAY = [
     ('live-point-over-head', 'tb', 'Their net position changes the space. Recover while the lob travels.'),
     ('live-point-reach-drop', 'td', 'Reaching a drop shot is only the first job. Your balance shapes the reply.'),
     ('live-point-arrive-options', 'te', 'Earlier arrival creates options. Placement still depends on their position.'),
-    ('saturday-point-1', 'sa', 'One point, built from five of your lessons. Each shot: the one you want to hit, or the one that wins.'),   # weekend point (6 Oct)
-    ('saturday-point-2', 'sb', 'A return game at 5-2, built from five more of your lessons. Each shot: the tempting one, or the one that wins.'),
-    ('saturday-point-3', 'sc', 'Your serve at 30-40, built from five more of your lessons. Each shot: the tempting one, or the one that wins.'),
-    ('saturday-point-4', 'sd', 'One point against a pusher, built from five more of your lessons. Each shot: the tempting one, or the one that wins.'),
-    ('saturday-point-5', 'se', 'Break point against a big hitter, built from five more of your lessons. Each shot: the tempting one, or the one that wins.'),
+    ('saturday-point-1', 'sa', 'One point, built from five of your lessons. Read each contact and choose the margin it offers.'),   # weekend point (6 Oct)
+    ('saturday-point-2', 'sb', 'A return game at 5-2, built from five more of your lessons. Read each contact and choose the margin it offers.'),
+    ('saturday-point-3', 'sc', 'Your serve at 30-40, built from five more of your lessons. Read each contact and choose the margin it offers.'),
+    ('saturday-point-4', 'sd', 'One point against a pusher, built from five more of your lessons. Read each contact and choose the margin it offers.'),
+    ('saturday-point-5', 'se', 'Break point against a big hitter, built from five more of your lessons. Read each contact and choose the margin it offers.'),
     ('midweek-point-1', 'ma', 'Three shots from three of your lessons. A quick top-up between Saturdays.'),   # 8 Oct: little and often
     ('play-the-point', 'bp', 'Three shots, your calls. Each choice decides what happens next.'),
 ]

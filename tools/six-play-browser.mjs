@@ -86,7 +86,7 @@ try{
    check(!ending.includes('bought time'),label+': own family feedback');
    check(await p.locator('details.pay[data-k="pro"] a').count()>0,label+': sourced professional payoff');
    for(const other of [false,true]){
-    await p.locator(other?'#compareRecovery':'#replayTurningPoint').click();await p.waitForFunction(()=>!playing&&document.querySelector('#recoveryComparison').textContent.length>0);
+    await p.locator(other?'#compareOther':'#replayTurningPoint').click();await p.waitForFunction(()=>!playing&&document.querySelector('#recoveryComparison').textContent.length>0);
     check(await p.evaluate(()=>!silentPlayback&&!GSSfx.voiceState().playing),label+': comparison permits court events without narration');
     const snap=await p.evaluate(()=>({t,ball:ballAt(SC[scene],t),camera:JSON.stringify(window.__camOverride),x:actorAt(SC[scene],'you',t).pose[I.hips],frame:SC[scene].info.comparison.end}));
     if(!other)state.comparison=snap;else{

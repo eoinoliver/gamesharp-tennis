@@ -50,7 +50,7 @@ try{
   await p.locator('[data-gs-sound]').tap();assert.equal(await p.evaluate(()=>GSSfx.voiceState().playing),false);
   assert.equal(await p.evaluate(()=>GSSfx.enabled()),false);await p.locator('[data-gs-sound]').tap();await p.waitForFunction(()=>GSSfx.ready());
   assert.equal(await voiceCount(),2,'unmuting does not replay speech');
-  await openCompletionPanels(p);await p.locator('#saveCue').tap();assert.equal(await p.locator('#saveCue').innerText(),'Saved to My Game ✓');
+  await openCompletionPanels(p);await p.locator('#saveCue').tap();assert.equal(await p.locator('#saveCue').innerText(),'Saved in this browser ✓');
   const n=await p.evaluate(slug=>GSApp.S.done[slug].n,slug);assert.equal(n,index===2?2:3);
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   await p.screenshot({path:`${out}/${slug}-complete.png`,fullPage:true});
@@ -85,7 +85,7 @@ try{
  assert.ok((await p.locator('#main').textContent()).includes('Live Point'),'daily exhaustion offers the unplayed Live Point');
  await p.evaluate(()=>GSApp.CAT.play.filter(l=>l.livePoint).forEach(l=>GSApp.complete(l.slug,2,2)));
  await p.goto(base);await p.waitForSelector('#main .today');
- assert.ok((await p.locator('#main').textContent()).includes("You've played every lesson"),'completed catalogue never silently resets');
+ assert.ok((await p.locator('#main').textContent()).includes("Your daily sequence is complete"),'completed daily sequence never silently resets or claims whole-app completion');
  assert.equal(errors.length,0,errors.join('\n'));
  writeFileSync(out+'/report.json',JSON.stringify({base,version,engine,results,errors,intercepted,freshEntries:fresh},null,2));console.log(JSON.stringify({version,engine,results,errors,intercepted,freshEntries:fresh}));
 }catch(e){await p.screenshot({path:out+'/failure.png',fullPage:true}).catch(()=>{});throw e;}finally{await b.close();}

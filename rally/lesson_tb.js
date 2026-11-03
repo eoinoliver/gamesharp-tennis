@@ -3,6 +3,7 @@ const LESSON={
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
   "liveIntro": "They have closed much nearer the net and cover the passing angles. You have room to lift the ball.",
+  "specificFeedback": true,
   "livePoint": true,
   "family": "passing-read",
   "edition": "ten-live-v1",
@@ -93,7 +94,7 @@ const LESSON={
       "sit": "They have closed much nearer the net and cover the passing angles. You have room to lift the ball.",
       "q": "Where is the larger space now?",
       "opts": [
-        "Drive through the angle they are covering",
+        "Drive the pass crosscourt",
         "Lift a deep lob over their reach"
       ],
       "correct": 1,

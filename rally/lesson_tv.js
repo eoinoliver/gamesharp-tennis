@@ -3,6 +3,7 @@ const LESSON={
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
   "liveIntro": "Your approach brings you in. Their passing shot dips below net height on your forehand side.",
+  "specificFeedback": true,
   "livePoint": true,
   "family": "first-volley",
   "edition": "ten-live-v1",
@@ -17,7 +18,7 @@ const LESSON={
       "q": "How do you handle this next volley?",
       "opts": [
         "Keep the action compact and place it deep",
-        "Force a very short angle"
+        "Place a short angled volley"
       ],
       "correct": 0,
       "lines": {
@@ -54,7 +55,7 @@ const LESSON={
       "q": "How do you handle this next volley?",
       "opts": [
         "Keep the action compact and place it deep",
-        "Force a very short angle"
+        "Place a short angled volley"
       ],
       "correct": 0,
       "lines": {
@@ -148,7 +149,7 @@ const LESSON={
   "pro": {
     "player": "Coaching fundamentals",
     "label": "Read the contact and court",
-    "moment": "Tennis Australia’s volley fundamentals emphasise preparation, balance and contact in front. The low volley here uses the repaired shared leg-loading and forward-action motion.",
+    "moment": "Tennis Australia’s volley fundamentals emphasise preparation, balance and contact in front. For a low volley, bend through the legs and use a compact forward action to give the ball clearance and depth.",
     "read": "Split around their hit, lower with the legs and use a compact forward action. A low contact needs clearance. A short floating volley gives the passer time and space; a deep volley can restrict those options without guaranteeing an easy finish.",
     "src": "Tennis Australia · Technical and tactical fundamentals",
     "url": "https://www.tennis.com.au/wp-content/uploads/2014/11/Technical-and-Tactical-fundamentals-guidelines_low-res.pdf"

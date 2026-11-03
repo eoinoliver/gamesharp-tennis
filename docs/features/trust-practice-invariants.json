@@ -1,0 +1,220 @@
+{
+  "baselineCommit": "18ef19f93c41a1bb4e951ac87fc4163b8045e4eb",
+  "normalisation": "Remove only scene.info.comparison.label; all motion, ball, timing and other scene information stays exact.",
+  "points": {
+    "tp": {
+      "geometry": "5160c1bba206dbc4a92eb085d03d4ad8848dfd9ae35a1f74a3f5394f32f023e8",
+      "grading": {
+        "tp1A": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        },
+        "tp1B": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        },
+        "tp1": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        }
+      }
+    },
+    "tt": {
+      "geometry": "950025ea282114703b5ae7787fc5b81baf4d8c6c4f581c5bd00b90493d5dbad3",
+      "grading": {
+        "tt1A": {
+          "correct": 1,
+          "alsoOk": [],
+          "options": 2
+        },
+        "tt1B": {
+          "correct": 0,
+          "alsoOk": [
+            1
+          ],
+          "options": 2
+        },
+        "tt1": {
+          "correct": 1,
+          "alsoOk": [],
+          "options": 2
+        }
+      }
+    },
+    "tl": {
+      "geometry": "056186c10722185fd108330bb5c5e83188fae2e5841d2d49e04d351fd91c5a03",
+      "grading": {
+        "tl1A": {
+          "correct": 0,
+          "alsoOk": [
+            1
+          ],
+          "options": 2
+        },
+        "tl1B": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        },
+        "tl1": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        }
+      }
+    },
+    "to": {
+      "geometry": "26e2bc716cf338ab0e83c99b1c72b9935bea706a36bdd0d35faab5ee2aca526f",
+      "grading": {
+        "to1A": {
+          "correct": 0,
+          "alsoOk": [
+            1
+          ],
+          "options": 2
+        },
+        "to1B": {
+          "correct": 1,
+          "alsoOk": [],
+          "options": 2
+        },
+        "to1": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        }
+      }
+    },
+    "tv": {
+      "geometry": "d0085bafcdfaa7a5af1607d1ca6e805cf0385e0ce804c05a75fc8e79322d1ce8",
+      "grading": {
+        "tv1A": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        },
+        "tv1B": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        },
+        "tv1": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        }
+      }
+    },
+    "th": {
+      "geometry": "97113c5faee68176dc3646e15848abc630cfaf98a309247b5b7438c881be10e9",
+      "grading": {
+        "th1A": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        },
+        "th1B": {
+          "correct": 1,
+          "alsoOk": [
+            0
+          ],
+          "options": 2
+        },
+        "th1": {
+          "correct": 1,
+          "alsoOk": [],
+          "options": 2
+        }
+      }
+    },
+    "tf": {
+      "geometry": "aca83fec824546fe894fb1fb182c374b99c263c5515fd1bc6b4ca7f3eb4158d5",
+      "grading": {
+        "tf1A": {
+          "correct": 0,
+          "alsoOk": [
+            1
+          ],
+          "options": 2
+        },
+        "tf1B": {
+          "correct": 1,
+          "alsoOk": [],
+          "options": 2
+        },
+        "tf1": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        }
+      }
+    },
+    "tb": {
+      "geometry": "d0352161d52e83a412f1e7d0c11d2922d53fca8068d6a7aeabf7436c8f6e6890",
+      "grading": {
+        "tb1A": {
+          "correct": 1,
+          "alsoOk": [],
+          "options": 2
+        },
+        "tb1B": {
+          "correct": 0,
+          "alsoOk": [
+            1
+          ],
+          "options": 2
+        },
+        "tb1": {
+          "correct": 1,
+          "alsoOk": [],
+          "options": 2
+        }
+      }
+    },
+    "td": {
+      "geometry": "4be2944b364f35d05bf993365ad0b669aa09e82543928a04ecd82e2dfa882519",
+      "grading": {
+        "td1A": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        },
+        "td1B": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        },
+        "td1": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        }
+      }
+    },
+    "te": {
+      "geometry": "fe04237d5db55f6f5b2e87909171530ccc1c00c801c421d7c947ad467825a24f",
+      "grading": {
+        "te1A": {
+          "correct": 1,
+          "alsoOk": [
+            0
+          ],
+          "options": 2
+        },
+        "te1B": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        },
+        "te1": {
+          "correct": 0,
+          "alsoOk": [],
+          "options": 2
+        }
+      }
+    }
+  }
+}

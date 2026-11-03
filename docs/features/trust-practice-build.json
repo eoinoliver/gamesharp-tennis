@@ -1,0 +1,222 @@
+{
+  "source": {
+    "app_src/analytics.test.mjs": {
+      "baseline": "602d984d67bdcf6a81504e4584d5afdfb016135102fc28e1a8165863c7a2eb8b",
+      "candidate": "afbd635c39b92ae50cf5f8913c6fe498626d64a5f089b664c8fbf53e4e7c5c08"
+    },
+    "app_src/app.js": {
+      "baseline": "7ae36d5d45477a50242d431d6441ab6da6020f169ec9425ac284cc23a2fef38a",
+      "candidate": "c24d6f76fdb5bb4033da66cff917db22f4f86864ec36b4ae9944c637b39f4999"
+    },
+    "app_src/build.py": {
+      "baseline": "89b0325f9a3fdb347a53ac9674dff1509935505b47c668ca06bc5ecccff950bb",
+      "candidate": "a9d069d01cc327c74dd5bc886b794337f88ab24a2cf24ae8a0f9ba350881ac24"
+    },
+    "app_src/catalog.py": {
+      "baseline": "6c33026486b1e15e354a26b367569d7b7558bfe7c6ebbcb1b1eecae1de711a99",
+      "candidate": "9a610088190b51433d853969c081f119541e6687c6812a4761136fb4d95925bc"
+    },
+    "app_src/index.html": {
+      "baseline": "596299ec19168ce9c253fabcd8f94d276b068906626616cb08f1fcdee881d301",
+      "candidate": "311b72ce0429d7862f1a7e41b9e5b956ccbdee5ace374ab23ed61ee434364f5c"
+    },
+    "app_src/play_host.html": {
+      "baseline": "3383cf82d174c4f4205a2c85b844af09f4410f690d7db935db49bbcd5814d10f",
+      "candidate": "ded279e44d0d127e3ec7e6d7c2b5b4a56faaa17cb5a8c0f7b24ba4ea5bedaebd"
+    },
+    "app_src/sharpen.js": {
+      "baseline": "f467af44c53e623b888d4109430f1a25ff721e71b9008e1dbdf2f382af969b52",
+      "candidate": "c32c07edd34d70b07dd195f96f0006b868e514c2e4168fae78c7a57e19d3d2f6"
+    },
+    "docs/features/trust-practice-invariants.json": {
+      "baseline": null,
+      "candidate": "efb1bdaa486c7e439b6ff33539f4c42f1c16ebfd7378cd5a7075ea053d1453da"
+    },
+    "docs/features/trust-practice.md": {
+      "baseline": null,
+      "candidate": "c8f39c4426b35d74fee912c59c743e664852bc90f6923b3f70660f513af9d245"
+    },
+    "gs/app_flow.mjs": {
+      "baseline": "55d479fb1498b50acf7a88293a3cd24e03330ed7aeb125380749663520a3440c",
+      "candidate": "0ef6a52726f53e16c6945a059fb554950b00fcd12e219b79f88221691fef8e7d"
+    },
+    "rally/build_live_ten.py": {
+      "baseline": "f009207969551adcbe1bc0f5b6f1c285abe9bc5bc5f3323044a9cf47d8e03dc6",
+      "candidate": "ae6aa86c740afd189e60ab660fb377918dd38b72cdbb36ae9c2d9e029eb248b8"
+    },
+    "rally/lesson_ad.js": {
+      "baseline": null,
+      "candidate": "ea6936f86012dbaecc0224b524dd337d108ac7ea74ae9bbca5555f136b2f1f24"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "56c73a40332306ed77a7779ec0ef7ca0d985be48bd5f88ef6a789e66a0a4f3d3",
+      "candidate": "16feae3eb2855fccbfc2a0f1c3cc44c8791a82859f9a24cd40d8d67ccb25ce88"
+    },
+    "rally/lesson_fb.js": {
+      "baseline": "06ac6f5f1ad1351cb641a6ce3cabb5f2eebf572316368f17917dc661c4ed4b5b",
+      "candidate": "cbe08620341ebd370d9e20fd15366cb2f17f0c13f62c59c24fc12395736ad92a"
+    },
+    "rally/lesson_tb.js": {
+      "baseline": "77433eb220b879494e78fab0ff473e905f2068a9110a52261860dfb0afecef5f",
+      "candidate": "7be7fb9ea98c2a1ff2f2be3c471aacc398eb27f1d49c8e82075bc0b3efd7500d"
+    },
+    "rally/lesson_td.js": {
+      "baseline": "795f19ceea313ed03f55452198713f2bc1d3ae99ea77cdb51fb9008fd30bd6bc",
+      "candidate": "fc8fe88cd40de2b7d2874d1c1546462b721364d4e5bc9bd6f782e6aeff05f71d"
+    },
+    "rally/lesson_te.js": {
+      "baseline": "f8e05b426b9af431025948a3b48965ff71f8af3d890058be192e661cf49a73f5",
+      "candidate": "a7ad91f0ba1925e346f08570ea2c68268c03dbc3fceafac95504432cb2cbf45c"
+    },
+    "rally/lesson_tf.js": {
+      "baseline": "5d41ec68a188af5380fa8583ef40193dbfe2d9470fa4f8a278e7559fdefebabe",
+      "candidate": "cb91064bd7832adbdea69b44c37b81caf884eab6a5c0631153b0c0c45800a45a"
+    },
+    "rally/lesson_th.js": {
+      "baseline": "26e9a3a8715e2a5e2d614725ed712f9248fad1af77a316c7505cff694b712d81",
+      "candidate": "7986022403ebdc78c34ab8b43041093a22fed74b68156f2fa240a8afb2207e15"
+    },
+    "rally/lesson_tl.js": {
+      "baseline": "ed8e24a96b10b64d037de5936b504610a679102ae0d3b4ef5e7bceaf7ab8464a",
+      "candidate": "83cca44272999b2237dc3101522e504ed6f0bb640df89d8dfba0cc83f5532f3c"
+    },
+    "rally/lesson_to.js": {
+      "baseline": "1bcd05c7de122ce1be7c8ced7277995162232117ac84583a4cb549d00fff374a",
+      "candidate": "a4f979907f5b5ff631c9c1bbde644221e0555ebc63d04bcbba38e380f3bf70dc"
+    },
+    "rally/lesson_tp.js": {
+      "baseline": "eb53588b84302e1f426498562a9749a80fb952aa58e235564d9c3e11e52bb7ed",
+      "candidate": "dedbae32e8606411a24c06594886c70fbef9b45297c333298a8fad45d6d6016a"
+    },
+    "rally/lesson_tt.js": {
+      "baseline": "4d7f972264041f847e0e633cb57ca815488e9179baed01f0353a62cd4278a83f",
+      "candidate": "4c5a7ee9c1a2e82c3b4e82f4fcdc5abd9da606fdab12c48c912e28c95b1bf7b2"
+    },
+    "rally/lesson_tv.js": {
+      "baseline": "b39e8a3ec5d80798d8f781f3fde948287f96c8a75ad0824e96bd3729ab0bfe9a",
+      "candidate": "271f808db58ac671631bf8873338225fe5e9a23c70c76c8f33d90ddca5a43963"
+    },
+    "rally/tb_data.json": {
+      "baseline": "4a5430dbb28d8d6a8d86439e747ebb7ef674314ce348b5094e979c6f36f2241f",
+      "candidate": "f83f88b01d45c4e5373d554ee46067c9354b3bc31eb13e3c4fcd6f3388598a89"
+    },
+    "rally/td_data.json": {
+      "baseline": "8a1d35fb19caf9d6dc13951d2e70f3fdef03ca16d08ec328525272370202dfe9",
+      "candidate": "7ec5cde263378b118615127992ae73ccb52c66bed66357fbc81601fb97a5eeb2"
+    },
+    "rally/tf_data.json": {
+      "baseline": "c6ef1c6a9f31b68a35ef55f23fe8d25f92566c171a42cf91d8f14405247a8705",
+      "candidate": "b5bea41ffdd3ec1ecce4cd12b70be022264ff289a6c3b0513b7a86bdb35aa593"
+    },
+    "rally/th_data.json": {
+      "baseline": "08491ed6d6980347a87053099774a027b6497625c9240aeecfd48434dab59bd5",
+      "candidate": "966adae997befc96c2996f58040fd3d51a0087f23cc3fda498afaf320ccc758c"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "65ee33bbbd65949cf84a68a00025dd55934613d74af3f4f485b2c115a9958b0b",
+      "candidate": "2255b418c2d19bbd243459fcaeb9f8979bc7f12d81fc0efff6f4a1119b8d01ac"
+    },
+    "tools/live-point-browser.mjs": {
+      "baseline": "d0f1281b264935d040ae9b3458a913536750f86dd5e2e6024ef2644ba5915e12",
+      "candidate": "dec25db8e8b0f2214b2f975f408d31246ecb7d93d87cfd28fa1d2b737bd92d37"
+    },
+    "tools/six-play-browser.mjs": {
+      "baseline": "eb9c00980bdfa53970c0c19866bead0a04008145ca7d32a8536e35831e44956e",
+      "candidate": "eb39287c93248996fbd8983300f0cdfe6d96190cdfed73857a8c918543d0b9c9"
+    },
+    "tools/ten-live-browser.mjs": {
+      "baseline": "c2ce95a2a67545d8c9315aa85569720d0e0f8c9d9bc7c90465c3b38b73f8506c",
+      "candidate": "a366bb46aa1598b8a327c09879cda1c78d92a108bc01cde76e41ca49adf09f7a"
+    },
+    "tools/trust-practice-browser.mjs": {
+      "baseline": null,
+      "candidate": "d7138310ae1ee8d28d81815a05d5ad550c973b0aad3cb7d839f7ba45a30006eb"
+    },
+    "tools/trust-practice-source.py": {
+      "baseline": null,
+      "candidate": "1da4384c4ae987930c8888f9e19f5e4e5d70d14e5ebc31ddcaac3480335b4e1b"
+    },
+    "tools/voice-browser.mjs": {
+      "baseline": "b62ef2807d81e3d7d72a1f6d1105403407b4e453984853010464893635b1fee9",
+      "candidate": "974ae11f29473561223cdeecf31ea90a75762bbb7226c8912a722ec92dfa2799"
+    },
+    "tools/voice-catalogue-browser.mjs": {
+      "baseline": "31def0adfa997fb09c0ae76322b3d9c4b37ab68a856170133f12f5768b55664f",
+      "candidate": "84b91676a9463aaa6a3c8fddbaf064b2651813f8b4de97a7a0d600c893b1c3cc"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "7ae36d5d45477a50242d431d6441ab6da6020f169ec9425ac284cc23a2fef38a",
+      "candidate": "c24d6f76fdb5bb4033da66cff917db22f4f86864ec36b4ae9944c637b39f4999"
+    },
+    "app/catalog.js": {
+      "baseline": "c65a4f0d5dd5b08a2bd6274f29fb8fca6839bf8db68edd30c7bb18a8374dca09",
+      "candidate": "49a50fbc157d16fe38c1e1923848547cba0574751ce19d04efb147e61d606ecc"
+    },
+    "app/engine/engine.js": {
+      "baseline": "c04d80410e6c1a0e0f7a0e01e3f7c9ba925fc4655f1002eea09798ed8008c84c",
+      "candidate": "b2ecde387b759302642bf82ba9051c1a4cad41b9b65c6d034b75b8710c605d40"
+    },
+    "app/index.html": {
+      "baseline": "83a8b3baf939ecd81c749b7be37d3c32fd124a3a48905d2e883af4ddf69f23e9",
+      "candidate": "cb5758356379a4edff5c7a672f9843ff359caeab91cac344e295fe5e79624fc5"
+    },
+    "app/lessons/answer-the-drop.json": {
+      "baseline": "7ebc717ac4ef698b17071bdc216ead475a9f8b1e01c06c102d22a5bd46732e4d",
+      "candidate": "f29e262610c5b6184c0fdb30c257b8d24f14ef2a6c575b54a89d83cc54f2c548"
+    },
+    "app/lessons/forehand-bill.json": {
+      "baseline": "fbf92cec07572ef903951b14f6ea4e173a399081d89256d9889b81f4032f504f",
+      "candidate": "b21c855dd8f6f1f8194decf943835fea5e55624401980f435bc8c5e837f17f42"
+    },
+    "app/lessons/live-point-arrive-options.json": {
+      "baseline": "eb56ade5da57db2ed73cde887970ba1fa874b0679f526d926ce063756d6308d7",
+      "candidate": "b3b1383b4b984645c41bd760b345825460d3a3d7cf17804700dea939cf68d3e2"
+    },
+    "app/lessons/live-point-line-opens.json": {
+      "baseline": "25eec624bf23ecc7f905a6427370c3eaa79e5da881f7b05fe8b2d90be2956d1f",
+      "candidate": "87afa81e1bc39a0e5da8e209c177f030155ea510de510eed2a0286cf6d06b785"
+    },
+    "app/lessons/live-point-line-tempting.json": {
+      "baseline": "dd489b256ada63b56b20ac9e90a91dd62c6091974af157670b6c1a604ac9f775",
+      "candidate": "4979d1288b2f1c61d08f51d6b82f062bceb8f792ef2d9f06f521303f3ed55261"
+    },
+    "app/lessons/live-point-over-head.json": {
+      "baseline": "f8f66e380f6664654209618ae3eeb1f9a4c099118e565e3c8a11b6849a6acf49",
+      "candidate": "932f947c087f29138c13c9174bfd3b17029d37686011c0fd1816aca274864e22"
+    },
+    "app/lessons/live-point-pass-two.json": {
+      "baseline": "03148e4251ce6e037c994f21a2b3394e748cadea88a0dad8ef63573603ea2a4a",
+      "candidate": "cd8691b05c039730c8430c75eb60f7015edded5618f712eb193e160181bf806c"
+    },
+    "app/lessons/live-point-reach-drop.json": {
+      "baseline": "18d75ff7dba1286d86a2a81e79c5a8cdc2d260fb52657757110e6fcaa565583b",
+      "candidate": "858242b2fda9da8922cac31c1c8d5a97b41779cebe9fe041e8b5be12d7862ce9"
+    },
+    "app/lessons/live-point-return-pressure.json": {
+      "baseline": "b56a400eb8ddb71b1416757e2ef40232ec487426d7a6581c7237484c76c37635",
+      "candidate": "df5ef5a90f5771c02a4ee6efee34ab578689682d640964770ea80f341da4a54a"
+    },
+    "app/lessons/live-point-return-time.json": {
+      "baseline": "f4ae2903f7f8514b1b175d0a2702433a5e3fdf9fd12dee9f0035981817d1417c",
+      "candidate": "a065e552c72b32885049c3b70ac3775c2a1b2ce9a269c052474245c9a08eb9f2"
+    },
+    "app/lessons/live-point-volley-build.json": {
+      "baseline": "3775cec76b6fb46bde0c96e9f976812f5398ca54ac3bdd519d76d8b72ce05a83",
+      "candidate": "83025dd2ce2f54e8489c8d772fe83bcd38adc1ccaf977a7304540c4fb169a161"
+    },
+    "app/lessons/live-point-volley-opening.json": {
+      "baseline": "215f44f33bec9e184c84a301683311fb9050d933223018b03292f004d8b6aace",
+      "candidate": "63f2d4874364c267c6928a975ba462b766b6dc0810329534d1cff420a01c9218"
+    },
+    "app/play.html": {
+      "baseline": "3a37eb744e05fd2e15c0a64c35ca2f241f17c0c651e1fff9e8b6af277a465a57",
+      "candidate": "ade53b6e77809bdfe0ebcda65ff03d8b61d80e318ad23eabf41872427f933057"
+    },
+    "app/sharpen.js": {
+      "baseline": "f467af44c53e623b888d4109430f1a25ff721e71b9008e1dbdf2f382af969b52",
+      "candidate": "c32c07edd34d70b07dd195f96f0006b868e514c2e4168fae78c7a57e19d3d2f6"
+    }
+  }
+}

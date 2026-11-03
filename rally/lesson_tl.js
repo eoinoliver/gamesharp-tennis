@@ -3,6 +3,7 @@ const LESSON={
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
   "liveIntro": "You are pulled wide and behind the baseline on your backhand. The opposite sideline looks inviting.",
+  "specificFeedback": true,
   "livePoint": true,
   "family": "direction-change",
   "edition": "ten-live-v1",

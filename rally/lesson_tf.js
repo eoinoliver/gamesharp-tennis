@@ -3,6 +3,7 @@ const LESSON={
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
   "liveIntro": "They are coming in and covering the obvious passing lane. Your contact is low behind the baseline.",
+  "specificFeedback": true,
   "livePoint": true,
   "family": "passing-read",
   "edition": "ten-live-v1",
@@ -94,7 +95,7 @@ const LESSON={
       "q": "Can you make their first volley difficult?",
       "opts": [
         "Dip the ball toward their feet",
-        "Force the visible sideline pass"
+        "Pass down the sideline"
       ],
       "correct": 0,
       "lines": {

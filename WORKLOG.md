@@ -671,3 +671,20 @@ Implementation and normal-use review are recorded in PR #69. Build parity passes
 ## 2 November 2026 — ten Live Points in gated batches
 
 Own codex/ten-live-points. User requests all ten proposed Live Points, built and verified in batches of 3, 3, 3 and 1 before continuing. Batch 1: Return Under Pressure, Return With Time, The Line Is Tempting. Batch 2: Now the Line Opens, First Volley: Build the Point, First Volley: Use the Opening. Batch 3: Pass in Two, Over Their Head, Reach the Drop. Batch 4: Arrive With Options. Preserve existing renderer, recorded sound, all 47 journeys and first-attempt semantics. Every batch requires full-route continuity/meaning review, normal-speed visual inspection, mobile/desktop and sound verification before the next. No Blender or new rendering stack. Baseline live app ad1e5b4d36 / main 84b4cf8945e962c39451cc03a00d2244ab0e065f / Production dpl_EDDRVTwViUsCvZTd8sRtrcVJEqnQ. Existing documentation PR #70 remains separate.
+# Trust and connected practice — 3 November 2026
+
+Owner: Codex. Branch: `codex/trust-and-practice`, based on main `18ef19f`.
+Eoin said “proceed” on the live-build trust/delight audit. Scope: reconcile
+coaching and saved-state claims; connect all existing Live Points/readiness
+lessons to Sharpen; make saved cues, drills and feedback reachable; neutralise
+leading option copy; correct catalogue labels and specific comparison feedback.
+Keep existing scenes, stroke clips, audio and all 57 journeys. Baseline live
+`c2fd381df3` / `dpl_GWEsvNFXm7QUrUYahmruLCDzLCbr`. Use the standing autonomy
+agreement in PROJECT_ALIGNMENT, retaining Git-built preview/staged/live checks.
+Separate documentation PRs 70 and 72 remain outside this feature branch.
+
+### Candidate implementation
+
+- App `8c7ac8e941`: truthful cue/progress writes, acknowledged feedback, corrected recovery/drop teaching, grouped Explore, all Daily/Live content in Sharpen, and complete saved cue/drill/replay navigation.
+- Local checks so far: 67 isolated tests, 58 trust/practice browser checks, 73 experience checks, 445 readiness checks, 148 checks across the first 12 newer-point routes, and exact 40-route geometry/grading invariants. Full existing route/shell suites continue; hosted CI will run every release suite. No independent coaching or physical-device certification.
+- Baseline project confirmed: production `dpl_GWEsvNFXm7QUrUYahmruLCDzLCbr`, automatic domain assignment off, Git main, Node 24, no custom environment variables. Live traffic remains unchanged until staged verification.

@@ -70,7 +70,7 @@ try{
     });check(!geometry.fail.length,label+' geometry '+geometry.fail.join('; '));data.geometry=geometry;
    }
    for(const other of [false,true]){
-    await p.locator(other?'#compareRecovery':'#replayTurningPoint').click();await p.waitForFunction(()=>!playing&&document.querySelector('#recoveryComparison').textContent);
+    await p.locator(other?'#compareOther':'#replayTurningPoint').click();await p.waitForFunction(()=>!playing&&document.querySelector('#recoveryComparison').textContent);
     const v=await p.evaluate(()=>({scene,first:SC[scene].info.authoredPoint.firstHit,ball:SC[scene].ball.slice(0,SC[scene].info.authoredPoint.firstHit+1),camera:JSON.stringify(window.__camOverride)}));
     if(!other)data.compare=v;else check(v.scene!==data.compare.scene&&v.camera===data.compare.camera&&JSON.stringify(v.ball)===JSON.stringify(data.compare.ball),label+' same incoming controlled comparison');
    }

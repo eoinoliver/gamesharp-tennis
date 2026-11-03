@@ -181,6 +181,14 @@ for records, expected in [(ten['source'], source), (ten['release'], manifest)]:
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Ten-point baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Trust and connected practice: explicit scope, with earlier release hashes frozen.
+trust = json.loads((ROOT/'docs/features/trust-practice-build.json').read_text())
+assert set(trust['source']) == set(['app_src/analytics.test.mjs', 'app_src/app.js', 'app_src/build.py', 'app_src/catalog.py', 'app_src/index.html', 'app_src/play_host.html', 'app_src/sharpen.js', 'docs/features/trust-practice-invariants.json', 'docs/features/trust-practice.md', 'gs/app_flow.mjs', 'rally/build_live_ten.py', 'rally/lesson_ad.js', 'rally/lesson_body.html', 'rally/lesson_fb.js', 'rally/lesson_tb.js', 'rally/lesson_td.js', 'rally/lesson_te.js', 'rally/lesson_tf.js', 'rally/lesson_th.js', 'rally/lesson_tl.js', 'rally/lesson_to.js', 'rally/lesson_tp.js', 'rally/lesson_tt.js', 'rally/lesson_tv.js', 'rally/tb_data.json', 'rally/td_data.json', 'rally/tf_data.json', 'rally/th_data.json', 'tools/browser-checks.mjs', 'tools/live-point-browser.mjs', 'tools/six-play-browser.mjs', 'tools/ten-live-browser.mjs', 'tools/trust-practice-browser.mjs', 'tools/trust-practice-source.py', 'tools/voice-browser.mjs', 'tools/voice-catalogue-browser.mjs'])
+assert set(trust['release']) == set(['app/app.js', 'app/catalog.js', 'app/engine/engine.js', 'app/index.html', 'app/lessons/answer-the-drop.json', 'app/lessons/forehand-bill.json', 'app/lessons/live-point-arrive-options.json', 'app/lessons/live-point-line-opens.json', 'app/lessons/live-point-line-tempting.json', 'app/lessons/live-point-over-head.json', 'app/lessons/live-point-pass-two.json', 'app/lessons/live-point-reach-drop.json', 'app/lessons/live-point-return-pressure.json', 'app/lessons/live-point-return-time.json', 'app/lessons/live-point-volley-build.json', 'app/lessons/live-point-volley-opening.json', 'app/play.html', 'app/sharpen.js'])
+for records, expected in [(trust['source'], source), (trust['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Trust/practice baseline drift: {name}'
+        expected[name] = hashes['candidate']
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)
@@ -189,6 +197,7 @@ for name, expected in source.items():
     assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected, f'Imported source changed: {name}'
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)
 subprocess.run(['python3','tools/sharpen-stroke-source.py'],cwd=ROOT,check=True)
+subprocess.run(['python3','tools/trust-practice-source.py'],cwd=ROOT,check=True)
 actual = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
           for p in sorted((ROOT/'app').rglob('*')) if p.is_file()}
 assert actual == manifest, 'Build differs from the approved live source artifact'

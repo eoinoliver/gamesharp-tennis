@@ -849,9 +849,10 @@ function celebrate(key,audible=false){
   if(audible&&window.GSSfx)GSSfx.applause(.6);
 }
 const CUE_KEY="gs_my_game";   // saved cues: [{lesson, cue, saved_at, callback_tags}] for a later callback
-function myGame(){try{return JSON.parse(localStorage.getItem(CUE_KEY)||"[]");}catch(e){return [];}}
-function cueSaved(){return myGame().some(c=>c.cue===LESSON.cue);}
-function saveCue(){try{const g=myGame(); g.push({lesson:LESSON.title,cue:LESSON.cue,saved_at:Date.now(),callback_tags:LESSON.callbackTags||[]}); localStorage.setItem(CUE_KEY,JSON.stringify(g));}catch(e){}}
+function myGame(){try{const g=JSON.parse(localStorage.getItem(CUE_KEY)||"[]");return Array.isArray(g)?g:[];}catch(e){return [];}}
+const cueSlug=()=>window.GSApp?.CAT&&[...GSApp.CAT.daily,...GSApp.CAT.predict,...(GSApp.CAT.play||[])].find(l=>l.title===LESSON.title)?.slug;
+function cueSaved(){return window.GSApp?GSApp.cueSaved(cueSlug()):myGame().some(c=>c?.cue===LESSON.cue);}
+function saveCue(){if(window.GSApp)return GSApp.saveCue(cueSlug());try{const raw=localStorage.getItem(CUE_KEY),g=raw?JSON.parse(raw):[];if(!Array.isArray(g))return false;g.push({lesson:LESSON.title,cue:LESSON.cue,drill:LESSON.drill,saved_at:Date.now()});const value=JSON.stringify(g);localStorage.setItem(CUE_KEY,value);return localStorage.getItem(CUE_KEY)===value;}catch(e){return false;}}
 const emit=(n,d)=>{try{window.GSApp&&GSApp.emit(n,d);}catch(e){}};   // the app shell listens; standalone pages ignore it
 // Question openings must contain observable setup, never a tiny static interval.
 // Examples replay an authored situation; choosing then starts a new attempt.
@@ -1026,22 +1027,22 @@ function finishLesson(){
   sitT.forEach(clearTimeout); $("count").textContent="Done"; $("sitTx").innerHTML=LESSON.hook;
   zone.hidden=true; paintRail([]); setInk(LESSON.branch?(SC[LESSON.finaleScene].info.outcome==="won"?"You built the winner":`${n} of ${A.length} read right`):`${n} of ${NS()} read right`,false);
   const w=$("wrapup"), p=LESSON.pro, voice=window.GSSfx?.voiceInfo();
-  const liveTake=LESSON.liveFeedback?.summaries[`${+okA(A[0],0)}${+okA(A[1],1)}`]||(LESSON.livePoint?(okA(A[0],0)?(okA(A[1],1)?'You bought time—and used it to recover.':'You bought time, then stayed wide watching your shot.'):(okA(A[1],1)?'Your recovery helped. A higher reply could have bought more time.':'The quicker reply and delayed recovery left you less prepared.')):'');
+  const specificTake=LESSON.specificFeedback?A.map((a,i)=>LESSON.steps[i].lines?.[a]).filter(Boolean).join(' '):'';
+  const liveTake=specificTake||LESSON.liveFeedback?.summaries[`${+okA(A[0],0)}${+okA(A[1],1)}`]||(LESSON.livePoint?(okA(A[0],0)?(okA(A[1],1)?'You bought time—and used it to recover.':'You bought time, then stayed wide watching your shot.'):(okA(A[1],1)?'Your recovery helped. A higher reply could have bought more time.':'The quicker reply and delayed recovery left you less prepared.')):'');
   const finalOutcome=SC[LESSON.finaleScene]?.info.outcome;
   const liveEnding=finalOutcome==='net'?'This illustrated attempt hit the net.':finalOutcome==='out'?'This illustrated attempt went wide.':'The point is still in play.';
   w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Take this to court</div><div class="mem">${voice?voice.text:LESSON.memHTML}</div>
       ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
+      ${LESSON.cue?`<div class="cue-actions"><button class="savecue" id="saveCue">${cueSaved()?"Saved in this browser ✓":"Save cue to My Game"}</button><a class="alt" href="./?review=1&z=my-game">My Game →</a><p id="cueSaveStatus" role="status">Cues stay in this browser.</p></div>`:""}
       <div class="score3">${A.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
-    ${LESSON.livePoint?`<div class="blk live-evidence" id="liveEvidence"><div class="k">Where the point turned</div><p><b>${liveTake}</b></p>${LESSON.decisionCount===4&&A.length===4?`<p>${okA(A[2],2)?'Your first move followed the actual reply.':'Your first move went away from the ball; the correction cost time.'} ${SC[LESSON.finaleScene].info.secondReply?.kind==='higher'?'Your higher reply buys another recovery window.':'Your firmer reply puts the next recovery on a shorter clock.'}</p>`:''}<p>${liveEnding} ${LESSON.decisionCount===4?(A.length===4?'You read the reply and chose again from the next contact.':'Your route left no preparation window for the planned reply.'):LESSON.comparison?(LESSON.comparison.summary||'Compare the preparation, then read the shot.'):'Watch your position as they hit.'}</p><p>${LESSON.comparison?.intro||'Watch the same ball twice. Change only when you recover.'}</p><button class="alt" id="replayTurningPoint">Compare the decision</button><button class="alt" id="compareRecovery">${LESSON.comparison?.other||'Change only recovery'}</button><p id="recoveryComparison" role="status"></p></div>`:''}
+    ${LESSON.livePoint?`<div class="blk live-evidence" id="liveEvidence"><div class="k">Where the point turned</div><p><b>${liveTake}</b></p>${LESSON.decisionCount===4&&A.length===4?`<p>${okA(A[2],2)?'Your first move followed the actual reply.':'Your first move went away from the ball; the correction cost time.'} ${SC[LESSON.finaleScene].info.secondReply?.kind==='higher'?'Your higher reply buys another recovery window.':'Your firmer reply puts the next recovery on a shorter clock.'}</p>`:''}<p>${liveEnding} ${LESSON.decisionCount===4?(A.length===4?'You read the reply and chose again from the next contact.':'Your route left no preparation window for the planned reply.'):LESSON.comparison?(LESSON.comparison.summary||'Compare the preparation, then read the shot.'):'Watch your position as they hit.'}</p><p>${LESSON.comparison?.intro||'Watch the same ball twice. Change only when you recover.'}</p><button class="alt" id="replayTurningPoint">Compare the decision</button><p id="recoveryComparison" role="status"></p></div>`:''}
     <details class="completion-more"><summary>Replays, context &amp; practice</summary>
     ${hasLessonRecap()?'<button class="alt" id="replayRecap">Replay the three reads</button>':''}
     ${payoffHTML(p)}
-    ${LESSON.cue?`<div class="cuebox"><div class="k">Your cue</div><div class="cue">${LESSON.cue}</div>
-      <button class="savecue" id="saveCue">${cueSaved()?"Saved to My Game ✓":"Save to My Game"}</button></div>`:""}
     <button class="alt" id="redo">${LESSON.redoLabel||"Start the lesson again"}</button></details>`;
   w.hidden=false; w.querySelectorAll("details.pay").forEach(d=>{let first=d.open; d.addEventListener("toggle",()=>{if(first){first=false;return;} if(d.open)emit('payoff_open',{k:d.dataset.k});});});   // only opens the player makes: Pro Lens starts open
   const sc=$("saveCue"); if(sc){if(cueSaved())sc.classList.add("on");
-    sc.onclick=()=>{if(cueSaved())return; saveCue(); sc.textContent="Saved to My Game ✓"; sc.classList.add("on"); emit('cue_save',{lesson:LESSON.title,cue:LESSON.cue});};}
+    sc.onclick=()=>{if(cueSaved())return; if(saveCue()){sc.textContent="Saved in this browser ✓";sc.classList.add("on");$("cueSaveStatus").textContent="Saved. Open My Game for the cue and practice drill.";emit('cue_save',{lesson:LESSON.title,cue:LESSON.cue});}else{$("cueSaveStatus").textContent="Could not save: browser storage is unavailable or full. You can retry, or keep a copy of the cue.";sc.textContent="Retry saving cue";}};}
   $("redo").onclick=()=>{ans=[];celebrated.clear();if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
   wireCompletionVoice();
   const turning=$('replayTurningPoint');if(turning){
@@ -1066,7 +1067,7 @@ function finishLesson(){
       },false);
       stageInView();emit('payoff_open',{k:other?'recovery_comparison':'turning_point'});
     };
-    turning.onclick=()=>inspect(false);$('compareRecovery').onclick=()=>inspect(true);
+    turning.onclick=()=>inspect(false);
     $('compareOwn').onclick=e=>{e.stopPropagation();inspect(false);};$('compareOther').onclick=e=>{e.stopPropagation();inspect(true);};
     $('compareDone').onclick=e=>{e.stopPropagation();clearLiveComparison();const k=LESSON.finaleScene;run(k,SC[k].frames-1,SC[k].frames-1,null,true);questionCaption('Your court cue');$('wrapup').scrollIntoView({block:'start',behavior:CALM_MOTION?'auto':'smooth'});};
   }

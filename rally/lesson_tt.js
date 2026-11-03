@@ -3,6 +3,7 @@ const LESSON={
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
   "liveIntro": "This serve arrives more slowly. You can meet it inside the baseline with space to swing.",
+  "specificFeedback": true,
   "livePoint": true,
   "family": "return-pressure",
   "edition": "ten-live-v1",

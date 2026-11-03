@@ -8,7 +8,7 @@ process.env.TZ="Australia/Sydney";
 const source=readFileSync(new URL("./app.js",import.meta.url),"utf8");
 const configSource=readFileSync(new URL("./config.js",import.meta.url),"utf8");
 
-function boot({origin="https://gamesharptennis.com",now="2026-09-28T00:00:00Z",storage=new Map(),hidden=false,config={},fetchError=false,catalog={daily:[],predict:[]}}={}){
+function boot({origin="https://gamesharptennis.com",now="2026-09-28T00:00:00Z",storage=new Map(),hidden=false,config={},fetchError=false,fetchOK=true,writeError=()=>false,catalog={daily:[],predict:[]}}={}){
   let time=Date.parse(now),ids=0;
   const requests=[],beacons=[],handlers={window:new Map(),document:new Map()};
   const on=surface=>(name,fn)=>{
@@ -24,11 +24,11 @@ function boot({origin="https://gamesharptennis.com",now="2026-09-28T00:00:00Z",s
   const context=vm.createContext({
     window,document,location:new URL(origin),Date:Clock,
     crypto:{randomUUID:()=>"test-anonymous-id-"+(ids++)},
-    localStorage:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,String(value))},
+    localStorage:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>{if(writeError(key))throw Error("Storage unavailable");storage.set(key,String(value));}},
     navigator:{sendBeacon:(url,body)=>{beacons.push({url,payload:JSON.parse(body)});return true;}},
     fetch:(url,options)=>{
       requests.push({url,...options,payload:JSON.parse(options.body)});
-      return fetchError?Promise.reject(new Error("simulated offline")):Promise.resolve({ok:true});
+      return fetchError?Promise.reject(new Error("simulated offline")):Promise.resolve({ok:fetchOK});
     }
   });
   vm.runInContext(configSource,context);
@@ -278,4 +278,38 @@ test('changed-context feedback uses each family and both decisions',()=>{
   assert.equal(f.app.transferEvidence('deep').kind,'first_later_day');assert.equal(f.app.transferEvidence('deep').text,summaries[`${+a}${+b}`]);
   assert.deepEqual(Array.from(f.app.S.liveReads.deep,r=>r.signal),['serve-recovery','return-read']);
  }
+});
+
+
+test('failed progress writes remain honest and never clobber a later tab',()=>{
+ const storage=new Map();let fail=false;
+ const catalog={daily:[{slug:'one'},{slug:'two'}],predict:[]};
+ const a=boot({storage,catalog,writeError:()=>fail});fail=true;a.app.complete('one',2,3);
+ assert.equal(a.app.progressSaved(),false);assert.ok(a.app.S.done.one);
+ const b=boot({storage,catalog});b.app.complete('two',3,3);
+ fail=false;a.app.nextDaily();a.app.complete('one',3,3);
+ assert.ok(a.app.S.done.one);assert.ok(JSON.parse(storage.get('gs6')).done.two);
+ assert.equal(JSON.parse(storage.get('gs6')).done.one,undefined);
+});
+test('cue writes verify persistence, retry safely and preserve malformed storage',()=>{
+ let fail=true;const storage=new Map(),catalog={daily:[{slug:'one',title:'One',cue:'Read first',drill:{name:'Read',how:'Play five'}}],predict:[]};
+ const b=boot({storage,catalog,writeError:k=>fail&&k==='gs_my_game'});
+ assert.equal(b.app.saveCue('one'),false);assert.equal(b.app.cueSaved('one'),false);
+ fail=false;assert.equal(b.app.saveCue('one'),true);assert.equal(b.app.cueSaved('one'),true);
+ assert.equal(b.app.saveCue('one'),true);assert.equal(b.app.savedCues().length,1);
+ storage.set('gs_my_game','broken');assert.equal(b.app.saveCue('one'),false);assert.equal(storage.get('gs_my_game'),'broken');
+});
+test('all saved cues survive, resolve legacy titles and use corrected teaching',()=>{
+ const catalog={daily:Array.from({length:14},(_,i)=>({slug:'l'+i,title:'Lesson '+i,cue:'Current '+i,drill:{name:'Practice',how:'Read '+i}})),predict:[]};
+ const storage=new Map([['gs_my_game',JSON.stringify(catalog.daily.map(l=>({lesson:l.title,cue:'Old '+l.slug,saved_at:1})))]]);
+ const b=boot({catalog,storage}),cues=b.app.savedCues();assert.equal(cues.length,14);
+ assert.equal(cues[13].slug,'l0');assert.equal(cues[13].cue,'Current 0');assert.equal(cues[13].updated,true);assert.equal(cues[13].drill.how,'Read 0');
+ assert.equal(b.app.remaining().length,14);b.app.complete('l0',2,3);assert.equal(b.app.remaining().length,13);
+});
+test('feedback is acknowledged only after a successful production response',async()=>{
+ for(const options of [{fetchError:true},{fetchOK:false},{origin:'http://localhost:8765'}]){
+  const b=boot(options);assert.equal(await b.app.feedback('one','no','Keep this comment'),false);assert.equal(b.app.S.fb.one,undefined);
+ }
+ const b=boot();assert.equal(await b.app.feedback('one','yes','Useful'),true);assert.equal(b.app.S.fb.one.useful,'yes');
+ assert.equal(b.requests.at(-1).payload.properties.comment,'Useful');
 });
