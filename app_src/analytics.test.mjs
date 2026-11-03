@@ -8,7 +8,7 @@ process.env.TZ="Australia/Sydney";
 const source=readFileSync(new URL("./app.js",import.meta.url),"utf8");
 const configSource=readFileSync(new URL("./config.js",import.meta.url),"utf8");
 
-function boot({origin="https://gamesharptennis.com",now="2026-09-28T00:00:00Z",storage=new Map(),hidden=false,config={},fetchError=false,fetchOK=true,writeError=()=>false,catalog={daily:[],predict:[]}}={}){
+function boot({origin="https://gamesharptennis.com",now="2026-09-28T00:00:00Z",storage=new Map(),hidden=false,config={},fetchError=false,fetchOK=true,writeError=()=>false,abortSignal=undefined,catalog={daily:[],predict:[]}}={}){
   let time=Date.parse(now),ids=0;
   const requests=[],beacons=[],handlers={window:new Map(),document:new Map()};
   const on=surface=>(name,fn)=>{
@@ -22,7 +22,7 @@ function boot({origin="https://gamesharptennis.com",now="2026-09-28T00:00:00Z",s
     static now(){return time;}
   }
   const context=vm.createContext({
-    window,document,location:new URL(origin),Date:Clock,
+    window,document,location:new URL(origin),Date:Clock,AbortSignal:abortSignal,
     crypto:{randomUUID:()=>"test-anonymous-id-"+(ids++)},
     localStorage:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>{if(writeError(key))throw Error("Storage unavailable");storage.set(key,String(value));}},
     navigator:{sendBeacon:(url,body)=>{beacons.push({url,payload:JSON.parse(body)});return true;}},
@@ -312,4 +312,10 @@ test('feedback is acknowledged only after a successful production response',asyn
  }
  const b=boot();assert.equal(await b.app.feedback('one','yes','Useful'),true);assert.equal(b.app.S.fb.one.useful,'yes');
  assert.equal(b.requests.at(-1).payload.properties.comment,'Useful');
+});
+
+
+test('feedback still works when an older browser lacks AbortSignal.timeout',async()=>{
+ const b=boot({abortSignal:{}});assert.equal(await b.app.feedback('one','yes',null),true);
+ assert.equal(b.requests.length,1);assert.equal(b.app.S.fb.one.useful,'yes');
 });

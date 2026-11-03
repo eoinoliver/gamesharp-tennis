@@ -688,3 +688,9 @@ Separate documentation PRs 70 and 72 remain outside this feature branch.
 - App `8c7ac8e941`: truthful cue/progress writes, acknowledged feedback, corrected recovery/drop teaching, grouped Explore, all Daily/Live content in Sharpen, and complete saved cue/drill/replay navigation.
 - Local checks so far: 67 isolated tests, 58 trust/practice browser checks, 73 experience checks, 445 readiness checks, 148 checks across the first 12 newer-point routes, and exact 40-route geometry/grading invariants. Full existing route/shell suites continue; hosted CI will run every release suite. No independent coaching or physical-device certification.
 - Baseline project confirmed: production `dpl_GWEsvNFXm7QUrUYahmruLCDzLCbr`, automatic domain assignment off, Git main, Node 24, no custom environment variables. Live traffic remains unchanged until staged verification.
+
+### Final compatibility and test isolation
+
+- Candidate app `5273867b9d` adds feature detection for older browsers without `AbortSignal.timeout`; production feedback still works there. All 68 isolated tests pass.
+- Audio loading/retry tests now pause the opening rally without consuming the first audio gesture. Five isolated loading/cancel/failure/retry assertions pass; recorded sounds and audio implementation are unchanged.
+- Earlier candidate's exact preview passed 329/329 HTTP checks and complete Answer the Drop, Forehand Bill and low-volley journeys. Final-head preview and staged/live checks remain required. Chromium and WebKit both passed the 58 trust/practice journey checks; all 57 scene gates and 1,165 Live Point checks passed locally.

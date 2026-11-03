@@ -2,11 +2,11 @@
   "source": {
     "app_src/analytics.test.mjs": {
       "baseline": "602d984d67bdcf6a81504e4584d5afdfb016135102fc28e1a8165863c7a2eb8b",
-      "candidate": "afbd635c39b92ae50cf5f8913c6fe498626d64a5f089b664c8fbf53e4e7c5c08"
+      "candidate": "ba0f55c6b4f7534e0673f857bad4bea6667b79e3d0ae0f7766ae2771467446ba"
     },
     "app_src/app.js": {
       "baseline": "7ae36d5d45477a50242d431d6441ab6da6020f169ec9425ac284cc23a2fef38a",
-      "candidate": "c24d6f76fdb5bb4033da66cff917db22f4f86864ec36b4ae9944c637b39f4999"
+      "candidate": "de8d32e2440a981395c4a278e16d83d4a79b35c06a3b6abdcac309338ba5858d"
     },
     "app_src/build.py": {
       "baseline": "89b0325f9a3fdb347a53ac9674dff1509935505b47c668ca06bc5ecccff950bb",
@@ -126,7 +126,7 @@
     },
     "tools/sensory-browser.mjs": {
       "baseline": "2365a68949167424509f9a2843e5f9640650ab5d4ad1709a799d1001d00db667",
-      "candidate": "9d9481918d0df00667ad81b50148fd7452873f7b70c9c70407cf3fffac7a2285"
+      "candidate": "e4efc57ffb20092f0e3b625f960dd10f357ec63f61b7429d8d0c2a0c50e20cbb"
     },
     "tools/six-play-browser.mjs": {
       "baseline": "eb9c00980bdfa53970c0c19866bead0a04008145ca7d32a8536e35831e44956e",
@@ -156,11 +156,11 @@
   "release": {
     "app/app.js": {
       "baseline": "7ae36d5d45477a50242d431d6441ab6da6020f169ec9425ac284cc23a2fef38a",
-      "candidate": "c24d6f76fdb5bb4033da66cff917db22f4f86864ec36b4ae9944c637b39f4999"
+      "candidate": "de8d32e2440a981395c4a278e16d83d4a79b35c06a3b6abdcac309338ba5858d"
     },
     "app/catalog.js": {
       "baseline": "c65a4f0d5dd5b08a2bd6274f29fb8fca6839bf8db68edd30c7bb18a8374dca09",
-      "candidate": "49a50fbc157d16fe38c1e1923848547cba0574751ce19d04efb147e61d606ecc"
+      "candidate": "5616590558efdeb37c2e829cd2ef1d5a9add15ac4098499b8b136803e2842d8f"
     },
     "app/engine/engine.js": {
       "baseline": "c04d80410e6c1a0e0f7a0e01e3f7c9ba925fc4655f1002eea09798ed8008c84c",
@@ -168,7 +168,7 @@
     },
     "app/index.html": {
       "baseline": "83a8b3baf939ecd81c749b7be37d3c32fd124a3a48905d2e883af4ddf69f23e9",
-      "candidate": "cb5758356379a4edff5c7a672f9843ff359caeab91cac344e295fe5e79624fc5"
+      "candidate": "5b1ca49fdee4f75541295304a5c9895ebe00ab50123e33ef29446d835721dce0"
     },
     "app/lessons/answer-the-drop.json": {
       "baseline": "7ebc717ac4ef698b17071bdc216ead475a9f8b1e01c06c102d22a5bd46732e4d",
@@ -220,7 +220,7 @@
     },
     "app/play.html": {
       "baseline": "3a37eb744e05fd2e15c0a64c35ca2f241f17c0c651e1fff9e8b6af277a465a57",
-      "candidate": "ade53b6e77809bdfe0ebcda65ff03d8b61d80e318ad23eabf41872427f933057"
+      "candidate": "f3108fa34ede93f9cd497dec7c30abc2513ee135ff9e163cfbf5eb345ed2d881"
     },
     "app/sharpen.js": {
       "baseline": "f467af44c53e623b888d4109430f1a25ff721e71b9008e1dbdf2f382af969b52",

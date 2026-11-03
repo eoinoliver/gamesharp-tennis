@@ -127,7 +127,7 @@ try{
  await cold.route('**/audio/**',async r=>{await held;await r.continue();});
  await cold.goto(base+'play.html?l=contact-clue');await cold.waitForFunction(()=>window.__test);
  // Isolate retry/loading audio from genuine contacts in the opening rally.
- if(await cold.locator('#playBtn').getAttribute('aria-label')==='Pause')await cold.locator('#playBtn').click();await cold.waitForFunction(()=>!playing);
+ await cold.evaluate(()=>setPlaying(false)); // preserve the first audio-unlock gesture
  await cold.locator('[data-gs-sound]').tap();await cold.waitForFunction(()=>document.querySelector('[data-gs-sound]').dataset.soundState==='loading');
  check(await cold.evaluate(()=>!GSSfx.ready()&&__recorded.length===0),'cold assets do not claim readiness or play');
  await cold.evaluate(()=>GSSfx.hit());await cold.locator('[data-gs-sound]').tap();release();
@@ -138,7 +138,8 @@ try{
  const failed=await c.newPage();await failed.route('**/audio/**',r=>r.fulfill({status:404,body:''}));
  await failed.goto(base+'play.html?l=contact-clue');await failed.waitForFunction(()=>window.__test);
  // Isolate retry/loading audio from genuine contacts in the opening rally.
- if(await failed.locator('#playBtn').getAttribute('aria-label')==='Pause')await failed.locator('#playBtn').click();await failed.waitForFunction(()=>!playing);await failed.locator('[data-gs-sound]').tap();
+ await failed.evaluate(()=>setPlaying(false)); // preserve the first audio-unlock gesture
+ await failed.locator('[data-gs-sound]').tap();
  await failed.waitForFunction(()=>document.querySelector('[data-gs-sound]').dataset.soundState==='error');
  check(await failed.evaluate(()=>!GSSfx.ready()&&__recorded.length===0),'missing audio stays silent and offers retry');
  await failed.unroute('**/audio/**');await failed.locator('[data-gs-sound]').tap();await failed.waitForFunction(()=>GSSfx.ready());

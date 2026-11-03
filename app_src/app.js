@@ -45,7 +45,7 @@ function capture(event,props){
   const p=Object.assign({app:VER,day_n:daysBetween(S.first,today()),level:S.level||"unset",streak:S.streak,$process_person_profile:false},props||{},{$host:host,environment:"production"});
   const body=JSON.stringify({api_key:CFG.posthogKey,event,distinct_id:S.id,properties:p,timestamp:new Date().toISOString()});
   const url=(CFG.posthogHost||"https://us.i.posthog.com")+"/capture/";
-  try{return fetch(url,{method:"POST",body,keepalive:true,...(typeof AbortSignal!=="undefined"?{signal:AbortSignal.timeout(8000)}:{}),headers:{"Content-Type":"application/json"}}).then(r=>r.ok).catch(()=>false);}
+  try{return fetch(url,{method:"POST",body,keepalive:true,...(typeof AbortSignal!=="undefined"&&typeof AbortSignal.timeout==="function"?{signal:AbortSignal.timeout(8000)}:{}),headers:{"Content-Type":"application/json"}}).then(r=>r.ok).catch(()=>false);}
   catch(e){return Promise.resolve(false);}
 }
 function track(event,props){log(event,props);return capture(event,props);}
