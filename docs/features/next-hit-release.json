@@ -1,0 +1,100 @@
+{
+  "reviewedHead": "60cfe54a637bd67ad92d2bf32d4728e34cd187fc",
+  "reviewedVersion": "2e79fbd576",
+  "mergeCommit": "7d512d6e5494719bd1225d784e867e6d02608629",
+  "rollbackDeployment": "dpl_AJAmfCmh3dBbAGqyiDat2Kk6Knuk",
+  "rollbackVersion": "5273867b9d",
+  "autoAssignCustomDomains": false,
+  "approval": "User requested: depoly live and then conduct extensive user experience audit",
+  "approvalDate": "2026-11-04",
+  "productionDeployment": "dpl_BHZMuoaphzC1Jkr7uPCyoRpP2QmN",
+  "productionUrl": "https://gamesharp-tennis-4optirzyt-eoinlynn-5978s-projects.vercel.app",
+  "mergeTree": "de627345a11b2587534a67498034a23fc36c5041",
+  "reviewTree": "de627345a11b2587534a67498034a23fc36c5041",
+  "stageHTTP": {
+    "passed": 329,
+    "total": 329
+  },
+  "stageBrowser": {
+    "passed": 90,
+    "method": "Origin-scoped browser requests fulfilled through authenticated Vercel CLI curl; no source substitution"
+  },
+  "configurationMatches": {
+    "config": true,
+    "resourceConfig": true,
+    "regions": true,
+    "originCacheRegion": true,
+    "nodeVersion": true,
+    "crons": true,
+    "functions": true,
+    "projectSettings": true,
+    "routes": true,
+    "env": true,
+    "build": true,
+    "buildConfig": true
+  },
+  "outputInventory": {
+    "status": "verified",
+    "previewStaticAssets": 187,
+    "productionStaticAssets": 187,
+    "unexpectedFunctions": 0,
+    "method": "Authenticated Vercel Resources UI total and resource types, corroborated by every public file hash in the 187-file manifest; static table virtualizes rows",
+    "evidence": [
+      "stage-resources.txt",
+      "preview-resources.txt",
+      "stage-http.json"
+    ],
+    "verifiedAt": "2026-11-04T10:31:39.404897+00:00"
+  },
+  "promoted": true,
+  "mergeCI": {
+    "url": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/41810138687",
+    "status": "success"
+  },
+  "stageVoice": {
+    "journeys": 3,
+    "errors": 0,
+    "matchingTranscripts": true,
+    "muteAndReplay": true
+  },
+  "publicUrl": "https://www.gamesharptennis.com",
+  "publicVersion": "2e79fbd576",
+  "verifiedAt": "2026-11-04T10:34:14.564588+00:00",
+  "liveHTTP": {
+    "passed": 329,
+    "total": 329
+  },
+  "liveBrowser": {
+    "passed": 90,
+    "errors": 0,
+    "analyticsIntercepted": true,
+    "viewports": [
+      320,
+      390,
+      1440
+    ],
+    "scope": "Focus, persistence, neutral reflection, failure handling, and all nine existing Sharpen path destinations; accelerated lesson playback"
+  },
+  "apexRedirect": {
+    "status": 307,
+    "location": "https://www.gamesharptennis.com/"
+  },
+  "rollbackPerformed": false,
+  "automaticDomainAssignmentAfterPromotion": false,
+  "eligibility": {
+    "activities": 57,
+    "added": 0,
+    "withheld": 0
+  },
+  "limitations": [
+    "Browser tests do not establish physical-device compatibility or independent coaching approval.",
+    "Reflection is self-report; no measured on-court efficacy or retention claim.",
+    "The product audit records eight representative journeys across the staged candidate and the prior live build; it is not manual certification of every branch."
+  ],
+  "evidenceSha256": {
+    "live-http.json": "0adc2122e2c6b832431bd7e38785aa108d1288e0f07ef7021a98997e0bc3ef9f",
+    "live-browser.json": "3b76d632e4394185e2b903171d6601a1bbd0c39f7da73d8fd8b3c5b59adbb421",
+    "stage-resources.txt": "b8eea64f8522930bff383b406f6aa6b5d27a24f54b698d784ed687ad10ac568c",
+    "preview-resources.txt": "f1dac2ea29c22785efc890104638417fb82e99bb2321d00c47d3f35e47d88e8a"
+  }
+}
