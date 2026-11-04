@@ -36,7 +36,7 @@ try{
  for(const path of definitions){
   await paths.goto(base+`?review=1&z=${path.zone}#path-${path.id}`);const container=paths.locator('#path-'+path.id);check(await container.locator('ol>li').count()===3,path.id+': three purpose-labelled steps');
   check(await container.getByText('Try the variation now as practice',{exact:true}).isVisible(),path.id+': early variation honestly labelled');
-  await container.locator('.sh-path-next').click();await finish(paths);check(await paths.locator('#practiceReturn').isVisible(),path.id+': completion has return path');
+  await container.locator('.sh-path-next').click();await finish(paths);check(await paths.locator('#practiceReturn').isVisible(),path.id+': completion has return path');check(!await paths.locator('.gs-continue').isVisible(),path.id+': unrelated continuation stays in optional details');
   await paths.locator('#practiceReturn').click();await paths.waitForURL(new RegExp('z='+path.zone));check(new URL(paths.url()).hash==='#path-'+path.id,path.id+': return preserves symptom position');
   await paths.locator('#path-'+path.id+' .sh-path-next').click();await finish(paths);await paths.locator('#practiceReturn').click();
   check(!await paths.locator('#path-'+path.id+' .sh-path-next').count(),path.id+': no forced early variation');
@@ -48,6 +48,7 @@ try{
  }
  await paths.goto(base+'?review=1&z=net');check(await paths.getByRole('link',{name:/^A Net Position/}).count()===1||await paths.locator('a[href="play.html?l=earned-net"]').count()===1,'extra existing net activity remains reachable');
  await paths.goto(base+'play.html?l=the-line&path=serve');await paths.waitForFunction(()=>window.__test);check((await paths.locator('#close').getAttribute('href'))!=='./?review=1&z=serve#path-serve','unrelated path parameter cannot misroute close');
+ await paths.goto(base+'play.html?l=the-line&path=direction');await paths.waitForFunction(()=>window.__test);await paths.locator('#back').click();await paths.waitForURL(/z=forehand/);check(new URL(paths.url()).hash==='#path-direction','first-step Back preserves the chosen path');
  await paths.close();check(!errors.length,'no browser page errors');
 }finally{await browser.close();writeFileSync(out+'/report.json',JSON.stringify({checks,errors},null,2));}
 console.log(`PASS ${checks.length} next-hit and Sharpen path checks (${engine})`);

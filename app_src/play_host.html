@@ -101,6 +101,7 @@ window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you co
 const QS=new URLSearchParams(location.search);
 const practicePath=A.practicePath(QS.get('path'));
 const practiceReturn=practicePath?.slugs.includes(slug)?`./?review=1&z=${practicePath.zone}#path-${practicePath.id}`:QS.get('from')==='my-game'?'./?review=1&z=my-game':null;
+if(practiceReturn)window.GS_HOME_URL=practiceReturn; // The first-step Back button returns to the chosen practice context.
 window.GS_BLIND_CHALLENGE=!!(L.livePoint&&QS.get('challenge')==='point');
 if(window.GS_BLIND_CHALLENGE)A.track('challenge_open',{lesson:slug,previously_played:!!A.S.done[slug]});
 // Bookmarked automatic entries advance too; explicit lesson/replay links stay exact.
@@ -201,10 +202,10 @@ function wrap(n){
     ${flav&&flav.key==="opponents"?`<div class="gsop" hidden><p class="fbq">Which opponent gives you the most trouble?</p><div class="fbrow fbwrap">${["Moonballer","Pusher","Big hitter","Net rusher","Lefty","Other"].map(o=>`<button data-op="${o}">${o}</button>`).join("")}</div></div>`:""}
     <a class="next home" href="./?home=1">Back to home</a>`;
   w.append(b);
-  if(practiceReturn){const back=document.createElement('a');back.className='alt';back.id='practiceReturn';back.href=practiceReturn;back.textContent=practicePath?.slugs.includes(slug)?'Continue my Sharpen path →':'Back to My Game →';const anchor=w.querySelector('#liveEvidence')||w.firstElementChild;anchor.after(back);}
+  if(practiceReturn){const back=document.createElement('a');back.className='next';back.id='practiceReturn';back.href=practiceReturn;back.textContent=practicePath?.slugs.includes(slug)?'Continue my Sharpen path →':'Back to My Game →';const anchor=w.querySelector('#liveEvidence')||w.firstElementChild;anchor.after(back);}
   const more=b.querySelector('#nextDaily');if(more)more.onclick=()=>A.track('asked_more',{next:nx.slug,from:slug});
   const continuation=b.querySelector('.gs-continue')||b.querySelector('a.next:not(.home)');
-  if(continuation)(w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
+  if(continuation&&!practiceReturn)(w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
   if(L.livePoint)wireChallenge(w);
   const pendingText='Sending…';
   const deliveryError=()=>location.hostname==='www.gamesharptennis.com'||location.hostname==='gamesharptennis.com'?'Could not send. Check your connection and try again.':'Preview: feedback is not sent. Use the live app to send it.';

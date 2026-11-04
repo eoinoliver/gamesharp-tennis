@@ -16,7 +16,7 @@
     },
     "app_src/play_host.html": {
       "baseline": "ded279e44d0d127e3ec7e6d7c2b5b4a56faaa17cb5a8c0f7b24ba4ea5bedaebd",
-      "candidate": "ff463ecd591956fdde69a857540d0fb3b0fd000e84d90357a9a6ee3dcc6d419b"
+      "candidate": "a82a1e323c52b94dba0e56f2e908b995cb64041c55fc6076e906711190eced06"
     },
     "app_src/sharpen.js": {
       "baseline": "c32c07edd34d70b07dd195f96f0006b868e514c2e4168fae78c7a57e19d3d2f6",
@@ -28,7 +28,7 @@
     },
     "tools/next-hit-browser.mjs": {
       "baseline": null,
-      "candidate": "51f3f171daf5a6e5688d06142da7b9486000d5513fd43954ce599d0348be7921"
+      "candidate": "9447cfc6206791fbf9a6cd1ed805deddcb482dd95e01b062993cda2053ab52e0"
     },
     "docs/features/next-hit.md": {
       "baseline": null,
@@ -42,15 +42,15 @@
     },
     "app/catalog.js": {
       "baseline": "5616590558efdeb37c2e829cd2ef1d5a9add15ac4098499b8b136803e2842d8f",
-      "candidate": "798b05076f2386e9ffe9e513a2dcb26369239e9fe09aa702a13c9622b4c0b335"
+      "candidate": "936f656904be42579eaa8bb6335408da0e738b27dbd8ca1d0cb8fea8c7be8974"
     },
     "app/index.html": {
       "baseline": "5b1ca49fdee4f75541295304a5c9895ebe00ab50123e33ef29446d835721dce0",
-      "candidate": "5b98073fdb0affb5d7d4d875a1f4c377032b206909ca6ecfbe05e8fc77b74945"
+      "candidate": "e9c4bd842efc2f93a92c3a3fb2f831ce284f35a4d881646fd827b4d2dc04050a"
     },
     "app/play.html": {
       "baseline": "f3108fa34ede93f9cd497dec7c30abc2513ee135ff9e163cfbf5eb345ed2d881",
-      "candidate": "ef1926f982c3597dfc73da2a0ec5ca2f1f3af8819d7cae5256977f03fe6b73e7"
+      "candidate": "ca7f885221846dd15cb45e10bdac83b36a464ee6005ac518153c5502a3586d96"
     },
     "app/sharpen.js": {
       "baseline": "c32c07edd34d70b07dd195f96f0006b868e514c2e4168fae78c7a57e19d3d2f6",
