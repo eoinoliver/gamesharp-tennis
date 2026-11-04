@@ -375,17 +375,20 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=5273867b9d"></script>
-<script src="catalog.js?v=5273867b9d"></script>
-<script src="app.js?v=5273867b9d"></script>
-<script src="sfx.js?v=5273867b9d"></script>
+<script src="config.js?v=2e79fbd576"></script>
+<script src="catalog.js?v=2e79fbd576"></script>
+<script src="app.js?v=2e79fbd576"></script>
+<script src="sfx.js?v=2e79fbd576"></script>
 <script>
 (function(){
-const A=GSApp, V="5273867b9d", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="2e79fbd576", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
 const QS=new URLSearchParams(location.search);
+const practicePath=A.practicePath(QS.get('path'));
+const practiceReturn=practicePath?.slugs.includes(slug)?`./?review=1&z=${practicePath.zone}#path-${practicePath.id}`:QS.get('from')==='my-game'?'./?review=1&z=my-game':null;
+if(practiceReturn)window.GS_HOME_URL=practiceReturn; // The first-step Back button returns to the chosen practice context.
 window.GS_BLIND_CHALLENGE=!!(L.livePoint&&QS.get('challenge')==='point');
 if(window.GS_BLIND_CHALLENGE)A.track('challenge_open',{lesson:slug,previously_played:!!A.S.done[slug]});
 // Bookmarked automatic entries advance too; explicit lesson/replay links stay exact.
@@ -486,9 +489,10 @@ function wrap(n){
     ${flav&&flav.key==="opponents"?`<div class="gsop" hidden><p class="fbq">Which opponent gives you the most trouble?</p><div class="fbrow fbwrap">${["Moonballer","Pusher","Big hitter","Net rusher","Lefty","Other"].map(o=>`<button data-op="${o}">${o}</button>`).join("")}</div></div>`:""}
     <a class="next home" href="./?home=1">Back to home</a>`;
   w.append(b);
+  if(practiceReturn){const back=document.createElement('a');back.className='next';back.id='practiceReturn';back.href=practiceReturn;back.textContent=practicePath?.slugs.includes(slug)?'Continue my Sharpen path →':'Back to My Game →';const anchor=w.querySelector('#liveEvidence')||w.firstElementChild;anchor.after(back);}
   const more=b.querySelector('#nextDaily');if(more)more.onclick=()=>A.track('asked_more',{next:nx.slug,from:slug});
   const continuation=b.querySelector('.gs-continue')||b.querySelector('a.next:not(.home)');
-  if(continuation)(w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
+  if(continuation&&!practiceReturn)(w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
   if(L.livePoint)wireChallenge(w);
   const pendingText='Sending…';
   const deliveryError=()=>location.hostname==='www.gamesharptennis.com'||location.hostname==='gamesharptennis.com'?'Could not send. Check your connection and try again.':'Preview: feedback is not sent. Use the live app to send it.';
@@ -527,7 +531,7 @@ function afterEngine(){
   /* close returns to the Home you came from (so the browser's back doesn't reopen the lesson) */
   const cl=document.getElementById('close');
   if(cl){
-    const destination=(()=>{try{const u=new URL(document.referrer);if(u.origin===location.origin&&(u.pathname==='/'||u.pathname==='/index.html')&&(u.searchParams.has('all')||u.searchParams.has('review')))return u.pathname+u.search;}catch(e){}return './?home=1';})();
+    const destination=practiceReturn||(()=>{try{const u=new URL(document.referrer);if(u.origin===location.origin&&(u.pathname==='/'||u.pathname==='/index.html')&&(u.searchParams.has('all')||u.searchParams.has('review')))return u.pathname+u.search+u.hash;}catch(e){}return './?home=1';})();
     cl.href=destination;
   }
   const st=document.getElementById("stage");

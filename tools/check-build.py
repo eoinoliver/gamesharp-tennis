@@ -189,6 +189,14 @@ for records, expected in [(trust['source'], source), (trust['release'], manifest
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Trust/practice baseline drift: {name}'
         expected[name] = hashes['candidate']
+# Optional next-hit focus and three existing Sharpen paths; prior hashes stay frozen.
+focus = json.loads((ROOT/'docs/features/next-hit-build.json').read_text())
+assert set(focus['source']) == {'app_src/analytics.test.mjs','app_src/app.js','app_src/index.html','app_src/play_host.html','app_src/sharpen.js','tools/browser-checks.mjs','tools/next-hit-browser.mjs','docs/features/next-hit.md'}
+assert set(focus['release']) == {'app/app.js','app/catalog.js','app/index.html','app/play.html','app/sharpen.js'}
+for records, expected in [(focus['source'], source), (focus['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Next-hit baseline drift: {name}'
+        expected[name] = hashes['candidate']
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

@@ -51,7 +51,8 @@ const ATH=["fh","bh","slice","serve","fv","bv","drop"];
 Object.assign(STROKES.fh,{label:"Forehand"});Object.assign(STROKES.bh,{label:"Backhand"});Object.assign(STROKES.slice,{label:"Slice"});
 Object.assign(STROKES.serve,{label:"Serve"});Object.assign(STROKES.fv,{label:"Forehand volley"});Object.assign(STROKES.bv,{label:"Backhand volley"});Object.assign(STROKES.drop,{label:"Drop shot"});
 let ath=null, trackFn=null;
-function mount(){
+function mount(A=window.GSApp,redraw=()=>{}){
+  wireFocus(A,redraw);
   ath?.stop();ath=null;
   const st=document.getElementById("shAth");if(!st)return;
   const chips=[...document.querySelectorAll("[data-ath]")],card=document.getElementById("shAthCard");
@@ -99,12 +100,44 @@ function gripsCard(){return `<section class="supplement sh-sec"><div class="k">G
 function zoneView(z,A,S,href,dots3,esc){
   const L=s=>A.bySlug(s); const row=s=>{const l=L(s);if(!l)return "";const d=S.done[s];return `<a class="card" href="${href(l)}"><div><div class="t">${esc(l.title)}</div><div class="d">${esc(l.line)}</div><div class="d">${esc(A.activityLabel(l))}</div></div><div class="go">${d?`Played${dots3(d)}`:"Play →"}</div></a>`;};
   return `<section class="supplement sh-sec"><a class="sh-back" href="?review=1">← Your game</a><div class="k">${z.name}</div><h1>What happens to you?</h1>
-   ${z.items.map(([sym,ls])=>`<div class="sh-sym"><div class="sh-symt">${esc(sym)}</div><div class="lib">${ls.map(row).join("")}</div></div>`).join("")}
+   ${z.items.map(([sym,ls])=>{const p=A.PRACTICE_PATHS.find(p=>p.zone===z.k&&p.slugs[0]===ls[0]);return `<div class="sh-sym"${p?` id="path-${p.id}"`:''}><h2 class="sh-symt">${esc(sym)}</h2>${p?pathView(A,p,href,esc)+`<div class="lib">${ls.filter(s=>!p.slugs.includes(s)).map(row).join('')}</div>`:`<div class="lib">${ls.map(row).join("")}</div>`}</div>`;}).join("")}
    ${z.strokes.length?`<div class="k" style="margin-top:22px">The strokes</div>${z.strokes.map(strokeCard).join("")}`:""}
    ${z.spin?`<p class="sh-more"><a href="?review=1&z=spin">Topspin vs slice →</a> · <a href="?review=1&z=grips">Grips →</a></p>`:""}</section>`;}
-function myGame(A,href,esc){const g=A.savedCues();
+function pathView(A,p,href,esc){const progress=A.pathProgress(p.id);if(!progress)return '';
+  const link=l=>`${href(l)}&path=${p.id}`,n=progress.next;
+  return `<div class="sh-path"><p>Learn the decision, use it in a point, then return to a changed situation. Start wherever helps.</p>
+  ${n?`<a class="sh-path-next" href="${link(n.lesson)}">${n.seen?'Return to':'Next'}: ${esc(n.lesson.title)} →</a>`:progress.waiting?'<p class="sh-note">The changed situation will be ready here on a later day. You can take a saved cue onto court meanwhile.</p>':'<p class="sh-note">All three activities played. Revisit one whenever useful.</p>'}
+  <ol class="sh-path-steps">${progress.steps.map((s,i)=>`<li><div class="k">${i+1} · ${esc(s.purpose)}</div>${s.early?`<p class="sh-note">Return after playing the first Live Point on an earlier day.</p><details><summary>Try the variation now as practice</summary><a class="card" href="${link(s.lesson)}"><div class="t">${esc(s.lesson.title)}</div><span class="go">Practice →</span></a><p class="sh-note">An early look is practice, not a fresh later-day read.</p></details>`:`<a class="card" href="${link(s.lesson)}"><div><div class="t">${esc(s.lesson.title)}</div><div class="d">${esc(A.activityLabel(s.lesson))}</div></div><span class="go">${s.done?'Played · replay':s.seen?'Return →':'Play →'}</span></a>`}</li>`).join('')}</ol></div>`;
+}
+function focusView(A,href,esc){const {active:a,available,changed,current}=A.nextHit();
+  if(!available)return '<p class="storage-warning" role="status">Your focus cannot be read from this browser. Existing data has not been replaced. You can still use your saved cues below.</p>';
+  if(!a)return '<p class="sh-note">Choose one saved cue for your next hit. You can change it whenever you need.</p>';
+  const button=(action,label,value='')=>`<button type="button" data-focus-action="${action}" data-value="${value}" data-focus-id="${esc(a.id)}">${label}</button>`;
+  const f=a.reflection||{},yesNo=(action)=>button(action,'Yes','yes')+button(action,'No','no');
+  let content='';
+  if(a.phase==='ready')content=`<p>${a.reminderHidden?'Kept here until you are ready.':'Take this cue to your next match or practice.'}</p><div class="sh-focus-actions">${button('played','I’ve played since choosing this')}${!a.reminderHidden?button('defer','Not yet · remind me here only'):''}</div>`;
+  if(a.phase==='reflecting'){
+    const question=f.occurred==null?'Did this situation come up?':f.tried==null?'Did you try the cue?':'Was the cue useful?';
+    const options=f.occurred==null?yesNo('occurred')+button('occurred','Not sure','unsure'):f.tried==null?yesNo('tried'):button('useful','Yes','yes')+button('useful','Partly','partly')+button('useful','Not really','no')+button('useful','Not sure','unsure');
+    content=`<h3 id="focusQuestion" tabindex="-1">${question}</h3><div class="sh-focus-actions" role="group" aria-labelledby="focusQuestion">${options}</div>${button('cancel','Back to my focus')}`;
+  }
+  if(a.phase==='reflected'){
+    const summary=f.occurred==='no'?'The situation did not come up.':f.occurred==='unsure'?'You were not sure whether the situation came up.':f.tried==='no'?'The situation came up; you did not try the cue.':`You tried the cue. ${f.useful==='yes'?'You found it useful.':f.useful==='partly'?'You found it partly useful.':f.useful==='no'?'You did not find it useful.':'You were not sure whether it helped.'}`;
+    content=`<h3>Your reflection</h3><p>${summary}</p><p class="sh-note">Saved in this browser as your own report, not a score or a measure of improvement.</p><div class="sh-focus-actions">${!changed?button('keep','Keep for my next hit'):''}<a href="#saved-cues">Choose another cue</a>${button('finish','Finish this focus')}</div>`;
+  }
+  return `<article class="sh-focus" id="next-hit" aria-labelledby="focusTitle"><div class="k">Your next-hit focus</div><h2 id="focusTitle" tabindex="-1">${esc(a.cue)}</h2><p class="sh-note">From ${esc(a.lesson)}</p>${changed?`<p class="storage-warning">${current?'This lesson’s guidance has changed. This is the cue you chose earlier. Review the current lesson before using it again.':'This lesson is no longer available. This is the cue you saved earlier.'}</p>${current?`<a href="${href(current)}&from=my-game">Review the current lesson →</a>${A.cueSaved(a.slug)?`<button data-focus-select="${esc(a.slug)}" data-focus-id="${esc(a.id)}">Use the current cue instead</button>`:''}`:''}`:a.drill?`<details><summary>Take it to court · ${esc(a.drill.name||'Practice drill')}</summary><p>${esc(a.drill.how||'')}</p></details>`:''}${content}${a.phase!=='reflected'?`<div class="sh-focus-links"><a href="#saved-cues">Choose another cue</a>${button('finish','Finish this focus')}</div>`:''}</article>`;
+}
+function wireFocus(A,redraw){
+  document.querySelectorAll('[data-focus-select],[data-focus-action]').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.focusId||null,r=b.hasAttribute('data-focus-select')?A.selectFocus(b.dataset.focusSelect,id):A.focusAction(id,b.dataset.focusAction,b.dataset.value);
+    if(r.ok){redraw();const target=document.getElementById('focusQuestion')||document.getElementById('focusTitle')||document.getElementById('saved-cues');target?.focus({preventScroll:true});target?.scrollIntoView({block:'nearest'});}
+    const status=document.getElementById('focusStatus');if(status){status.textContent=r.ok?'Saved in this browser.':r.reason==='changed'?'Your focus changed in another tab. Reload to see it before making another change.':r.reason==='invalid'?'This action is no longer available. Reload to see your current focus.':'Could not verify that your focus was saved. Reload to check before continuing.';if(!r.ok)status.scrollIntoView({block:'nearest'});}
+  });
+}
+function myGame(A,href,esc){const g=A.savedCues(),focus=A.nextHit();
   return `<section class="supplement sh-sec"><a class="sh-back" href="?review=1">← Sharpen</a><div class="k">Your practice</div><h1>My Game</h1><p>${g.length} saved cue${g.length===1?'':'s'}. Saved in this browser; clearing its data removes them.</p>
-  ${g.length?g.map(c=>{const l=A.bySlug(c.slug);return `<article class="sh-practice"><div class="k">${esc(c.lesson||'Saved cue')}</div><h2>${esc(c.cue)}</h2>${c.updated?'<p class="sh-note">Updated coaching cue from your saved lesson.</p>':''}${c.drill?`<details><summary>Take it to court · ${esc(c.drill.name||'Practice drill')}</summary><p>${esc(c.drill.how||'')}</p></details>`:'<p>Bring this cue to your next hit. Notice when the situation calls for it.</p>'}${l?`<a class="sh-back" href="${href(l)}">Replay the point →</a>`:''}</article>`;}).join(''):'<p>After a lesson, save its court cue here. You can return to the point and take its drill to your next hit.</p><a class="btn" href="?review=1">Find a part of your game →</a>'}</section>`;
+  ${focusView(A,href,esc)}<p id="focusStatus" role="status" aria-live="polite"></p><h2 id="saved-cues" tabindex="-1">Saved cues</h2>
+  ${g.length?g.map(c=>{const l=A.bySlug(c.slug);return `<article class="sh-practice"><div class="k">${esc(c.lesson||'Saved cue')}</div><h2>${esc(c.cue)}</h2>${c.updated?'<p class="sh-note">Updated coaching cue from your saved lesson.</p>':''}${c.drill?`<details><summary>Take it to court · ${esc(c.drill.name||'Practice drill')}</summary><p>${esc(c.drill.how||'')}</p></details>`:'<p>Bring this cue to your next hit. Notice when the situation calls for it.</p>'}${l?`<a class="sh-back" href="${href(l)}&from=my-game">Replay the point →</a>${focus.available?focus.active?.slug===c.slug?'<p class="sh-note">Your selected focus</p>':`<button type="button" data-focus-select="${esc(c.slug)}" data-focus-id="${esc(focus.active?.id||'')}">${focus.active?'Switch my focus to this':'Make this my next-hit focus'}</button>`:''}`:''}</article>`;}).join(''):'<p>After a lesson, save its court cue here. You can return to the point and take its drill to your next hit.</p><a class="btn" href="?review=1">Find a part of your game →</a>'}</section>`;
 }
 function mapView(A,S){
   const slugs=z=>[...new Set(z.items.flatMap(([,ls])=>ls))],n=z=>slugs(z).length,done=z=>slugs(z).filter(s=>S.done[s]).length;

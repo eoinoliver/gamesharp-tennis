@@ -1,0 +1,60 @@
+{
+  "baseline_commit": "516c238f22c34f8b855fb8e3016d3a65d6f4b352",
+  "scope": "One optional next-hit focus; purpose and continuation for three existing Sharpen paths. No lesson/audio/motion edits.",
+  "source": {
+    "app_src/analytics.test.mjs": {
+      "baseline": "ba0f55c6b4f7534e0673f857bad4bea6667b79e3d0ae0f7766ae2771467446ba",
+      "candidate": "d0e51426ff67448be436d64577a4e19f9dd7fc8e701d68522b259bf40bd81482"
+    },
+    "app_src/app.js": {
+      "baseline": "de8d32e2440a981395c4a278e16d83d4a79b35c06a3b6abdcac309338ba5858d",
+      "candidate": "4a487449cb88d6fe82a40aa7017ef5c7d9f8878febbfbcf8bf0795e96a589d1f"
+    },
+    "app_src/index.html": {
+      "baseline": "311b72ce0429d7862f1a7e41b9e5b956ccbdee5ace374ab23ed61ee434364f5c",
+      "candidate": "8c777f16fc7608d0e50e1cecddfe1348d6e9fa18fc0668aab514b55b19fbe198"
+    },
+    "app_src/play_host.html": {
+      "baseline": "ded279e44d0d127e3ec7e6d7c2b5b4a56faaa17cb5a8c0f7b24ba4ea5bedaebd",
+      "candidate": "a82a1e323c52b94dba0e56f2e908b995cb64041c55fc6076e906711190eced06"
+    },
+    "app_src/sharpen.js": {
+      "baseline": "c32c07edd34d70b07dd195f96f0006b868e514c2e4168fae78c7a57e19d3d2f6",
+      "candidate": "f22cdfcbf412e488a5182662bf6732c0bb46df21fe644e0fb832e0b14d5378e4"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "2255b418c2d19bbd243459fcaeb9f8979bc7f12d81fc0efff6f4a1119b8d01ac",
+      "candidate": "1c180d3473a050f5ef5a8334227d3085f550a903ea6ff013629713c3af65704b"
+    },
+    "tools/next-hit-browser.mjs": {
+      "baseline": null,
+      "candidate": "9447cfc6206791fbf9a6cd1ed805deddcb482dd95e01b062993cda2053ab52e0"
+    },
+    "docs/features/next-hit.md": {
+      "baseline": null,
+      "candidate": "db7a17a731d4e5daf5da2a5d1f94eafa864757db8143b3a32abb03d20ba8c529"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "de8d32e2440a981395c4a278e16d83d4a79b35c06a3b6abdcac309338ba5858d",
+      "candidate": "4a487449cb88d6fe82a40aa7017ef5c7d9f8878febbfbcf8bf0795e96a589d1f"
+    },
+    "app/catalog.js": {
+      "baseline": "5616590558efdeb37c2e829cd2ef1d5a9add15ac4098499b8b136803e2842d8f",
+      "candidate": "936f656904be42579eaa8bb6335408da0e738b27dbd8ca1d0cb8fea8c7be8974"
+    },
+    "app/index.html": {
+      "baseline": "5b1ca49fdee4f75541295304a5c9895ebe00ab50123e33ef29446d835721dce0",
+      "candidate": "e9c4bd842efc2f93a92c3a3fb2f831ce284f35a4d881646fd827b4d2dc04050a"
+    },
+    "app/play.html": {
+      "baseline": "f3108fa34ede93f9cd497dec7c30abc2513ee135ff9e163cfbf5eb345ed2d881",
+      "candidate": "ca7f885221846dd15cb45e10bdac83b36a464ee6005ac518153c5502a3586d96"
+    },
+    "app/sharpen.js": {
+      "baseline": "c32c07edd34d70b07dd195f96f0006b868e514c2e4168fae78c7a57e19d3d2f6",
+      "candidate": "f22cdfcbf412e488a5182662bf6732c0bb46df21fe644e0fb832e0b14d5378e4"
+    }
+  }
+}

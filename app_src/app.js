@@ -95,6 +95,63 @@ function saveCue(slug){
     return ls.set(CUES,JSON.stringify(next));
   }catch(e){return false;}
 }
+/* A court focus is a player intention and self-report, never a learning score.
+   Read before every write; an old tab cannot replace a newer focus silently. */
+const FOCUS='gs_next_hit_v1';
+function focusStore(){
+  try{const raw=localStorage.getItem(FOCUS);if(!raw)return {v:1,active:null,history:[]};
+    const s=JSON.parse(raw),a=s?.active;
+    if(s?.v!==1||!Array.isArray(s.history)||!(a===null||(a&&typeof a.id==='string'&&typeof a.slug==='string'&&typeof a.cue==='string'&&['ready','reflecting','reflected'].includes(a.phase))))return null;
+    return s;
+  }catch(e){return null;}
+}
+function nextHit(){const s=focusStore(),a=s?.active,l=a&&bySlug(a.slug);
+  return {available:!!s,active:a||null,changed:!!a&&(!l||l.cue!==a.cue||(l.edition||'original')!==a.edition||JSON.stringify(l.drill||null)!==JSON.stringify(a.drill||null)),current:l||null};
+}
+function editFocus(expectedId,edit){
+  const s=focusStore();if(!s)return {ok:false,reason:'storage'};
+  if((s.active?.id||null)!==expectedId)return {ok:false,reason:'changed'};
+  if(!edit(s))return {ok:false,reason:'invalid'};
+  s.history=s.history.slice(-30);
+  return ls.set(FOCUS,JSON.stringify(s))?{ok:true}:{ok:false,reason:'storage'};
+}
+function archiveFocus(s,reason){if(s.active)s.history.push({...s.active,endedAt:Date.now(),endReason:reason});}
+function selectFocus(slug,expectedId){
+  const l=bySlug(slug);if(!l?.cue||!cueSaved(slug))return {ok:false,reason:'invalid'};
+  const r=editFocus(expectedId,s=>{archiveFocus(s,'changed');s.active={id:rid(),slug,lesson:l.title,cue:l.cue,drill:l.drill||null,edition:l.edition||'original',selectedAt:Date.now(),phase:'ready',reflection:null,reminderHidden:false};return true;});
+  if(r.ok)track('court_focus_selected',{lesson:slug,edition:l.edition||'original'});return r;
+}
+function focusAction(id,action,value){
+  let reported=null;
+  const r=editFocus(id,s=>{const a=s.active;if(!a)return false;
+    if(action==='finish'){archiveFocus(s,'finished');s.active=null;return true;}
+    if(action==='keep'&&a.phase==='reflected'&&!nextHit().changed){archiveFocus(s,'kept');s.active={...a,id:rid(),selectedAt:Date.now(),phase:'ready',reflection:null,reminderHidden:false};return true;}
+    if(action==='defer'&&a.phase==='ready'){a.reminderHidden=true;return true;}
+    if(action==='played'&&a.phase==='ready'){a.phase='reflecting';a.reflection={sessionConfirmedAt:Date.now(),occurred:null,tried:null,useful:null};return true;}
+    if(action==='cancel'&&a.phase==='reflecting'){a.phase='ready';a.reflection=null;return true;}
+    if(a.phase!=='reflecting'||!a.reflection)return false;
+    const f=a.reflection;
+    if(action==='occurred'&&f.occurred===null&&['yes','no','unsure'].includes(value))f.occurred=value;
+    else if(action==='tried'&&f.occurred==='yes'&&f.tried===null&&['yes','no'].includes(value))f.tried=value;
+    else if(action==='useful'&&f.tried==='yes'&&f.useful===null&&['yes','partly','no','unsure'].includes(value))f.useful=value;
+    else return false;
+    if(f.occurred!=='yes'||f.tried==='no'||f.useful!==null){a.phase='reflected';a.reminderHidden=true;f.recordedAt=Date.now();reported={lesson:a.slug,edition:a.edition,evidence:'self_report',occurred:f.occurred,tried:f.tried,useful:f.useful};}
+    return true;
+  });
+  if(r.ok&&reported)track('court_focus_reflection',reported);return r;
+}
+/* Authored purposes reuse the existing catalogue. They do not grade mastery. */
+const PRACTICE_PATHS=[
+  {id:'direction',zone:'forehand',slugs:['the-line','live-point-line-tempting','live-point-line-opens'],purposes:['Learn the decision','Use it in a point','Read a changed situation']},
+  {id:'serve',zone:'serve',slugs:['serve-plus-one','live-point-serve-see','live-point-return-deep'],purposes:['Learn the decision','Use it in a point','Read a changed situation']},
+  {id:'volley',zone:'net',slugs:['approach-volley','live-point-volley-build','live-point-volley-opening'],purposes:['Learn the decision','Use it in a point','Read a changed situation']}
+];
+function practicePath(id){const p=PRACTICE_PATHS.find(p=>p.id===id);return p&&p.slugs.every(bySlug)&&new Set(p.slugs).size===p.slugs.length?p:null;}
+function pathProgress(id){const p=practicePath(id);if(!p)return null;syncProgress();
+  const steps=p.slugs.map((slug,i)=>{const l=bySlug(slug),done=!!S.done[slug],early=!!(l.transferOf&&!S.done[slug]&&!(S.done[l.transferOf]?.first<today()));
+    return {lesson:l,purpose:p.purposes[i],done,early,seen:!!S.seen?.[slug]};});
+  return {path:p,steps,next:steps.find(s=>!s.done&&!s.early)||null,waiting:steps.some(s=>!s.done&&s.early)};
+}
 function streakNow(){ if(!S.last) return 0; const g=daysBetween(S.last,today()); return g<=1?S.streak:0; }
 function doneToday(){ return S.days.includes(today()); }
 // Reload before choosing or saving so another tab's progress is not overwritten.
@@ -217,6 +274,6 @@ function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
 window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,startLesson,complete,setLevel,feedback,emit,on,
-  activityLabel,remaining,savedCues,cueSaved,saveCue,progressSaved:()=>progressSaved,
+  activityLabel,remaining,savedCues,cueSaved,saveCue,nextHit,selectFocus,focusAction,practicePath,pathProgress,PRACTICE_PATHS,progressSaved:()=>progressSaved,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();
