@@ -694,3 +694,13 @@ Separate documentation PRs 70 and 72 remain outside this feature branch.
 - Candidate app `5273867b9d` adds feature detection for older browsers without `AbortSignal.timeout`; production feedback still works there. All 68 isolated tests pass.
 - Audio loading/retry tests now pause the opening rally without consuming the first audio gesture. Five isolated loading/cancel/failure/retry assertions pass; recorded sounds and audio implementation are unchanged.
 - Earlier candidate's exact preview passed 329/329 HTTP checks and complete Answer the Drop, Forehand Bill and low-volley journeys. Final-head preview and staged/live checks remain required. Chromium and WebKit both passed the 58 trust/practice journey checks; all 57 scene gates and 1,165 Live Point checks passed locally.
+
+## 4 November — next-hit focus and purposeful Sharpen paths
+
+Own `codex/next-hit-focus`, based on production source `516c238`. Eoin said
+“proceed” on the legacy review's two recommendations. Build one optional active
+court focus in My Game, explicit player-confirmed practice/reflection, and
+purpose/continuation labels for the existing direction, serve and volley paths.
+Preserve all 57 activities, scenes, audio, first attempts and later-day evidence.
+No legacy question bank, diagnosis engine or mastery metric is imported. Prepare
+and verify a Git-built review candidate; no production change during implementation.

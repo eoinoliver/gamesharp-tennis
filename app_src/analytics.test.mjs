@@ -319,3 +319,55 @@ test('feedback still works when an older browser lacks AbortSignal.timeout',asyn
  const b=boot({abortSignal:{}});assert.equal(await b.app.feedback('one','yes',null),true);
  assert.equal(b.requests.length,1);assert.equal(b.app.S.fb.one.useful,'yes');
 });
+
+const focusCatalog=()=>({daily:[{slug:'cue-one',title:'First cue',cue:'Read the return.',drill:{name:'Read',how:'Alternate returns.'}},{slug:'cue-two',title:'Second cue',cue:'Stay ready.',edition:'v2'}],predict:[]});
+function withFocus(options={}){const b=boot({catalog:focusCatalog(),...options});b.app.saveCue('cue-one');b.app.saveCue('cue-two');return b;}
+test('next-hit focus requires a saved cue and persists separately from scores',()=>{
+ const b=boot({catalog:focusCatalog()});assert.equal(b.app.selectFocus('cue-one',null).ok,false);b.app.saveCue('cue-one');const before=JSON.stringify(b.app.S);
+ assert.equal(b.app.selectFocus('cue-one',null).ok,true);const a=b.app.nextHit().active;assert.equal(a.cue,'Read the return.');assert.equal(a.phase,'ready');assert.equal(a.edition,'original');assert.equal(JSON.stringify(b.app.S),before);
+ const again=boot({storage:b.storage,catalog:focusCatalog()});assert.equal(again.app.nextHit().active.id,a.id);assert.equal(again.app.nextHit().active.phase,'ready');
+});
+test('opening and deferring a focus never assert that a session happened',()=>{
+ const b=withFocus();b.app.selectFocus('cue-one',null);const id=b.app.nextHit().active.id;b.app.opened('home');b.time('2026-10-02T00:00:00Z');b.app.opened('home');
+ assert.equal(b.app.nextHit().active.phase,'ready');assert.equal(b.app.focusAction(id,'defer').ok,true);assert.equal(b.app.nextHit().active.reminderHidden,true);assert.equal(b.app.nextHit().active.reflection,null);
+});
+test('reflection requires an explicit session and records self-report without changing scores',()=>{
+ const b=withFocus();b.app.selectFocus('cue-one',null);const id=b.app.nextHit().active.id,before=JSON.stringify(b.app.S);
+ assert.equal(b.app.focusAction(id,'useful','yes').ok,false);assert.equal(b.app.focusAction(id,'played').ok,true);assert.equal(b.app.focusAction(id,'useful','yes').ok,false);
+ b.app.focusAction(id,'occurred','yes');b.app.focusAction(id,'tried','yes');b.app.focusAction(id,'useful','partly');
+ const a=b.app.nextHit().active;assert.equal(a.phase,'reflected');assert.equal(a.reflection.useful,'partly');assert.equal(JSON.stringify(b.app.S),before);
+ const event=b.app.log().find(x=>x[1]==='court_focus_reflection');assert.equal(event[2].evidence,'self_report');assert.equal(event[2].useful,'partly');
+ assert.equal(b.app.focusAction(id,'keep').ok,true);assert.notEqual(b.app.nextHit().active.id,id);assert.equal(b.app.nextHit().active.phase,'ready');assert.equal(JSON.parse(b.storage.get('gs_next_hit_v1')).history.length,1);
+});
+test('no opportunity, uncertainty and not trying are neutral complete reflections',()=>{
+ for(const response of ['no','unsure','not-tried']){const b=withFocus();b.app.selectFocus('cue-one',null);const id=b.app.nextHit().active.id;b.app.focusAction(id,'played');b.app.focusAction(id,'occurred',response==='not-tried'?'yes':response);if(response==='not-tried')b.app.focusAction(id,'tried','no');
+ assert.equal(b.app.nextHit().active.phase,'reflected');assert.equal(b.app.nextHit().active.reflection.useful,null);assert.equal(b.app.nextHit().active.reminderHidden,true);}
+});
+test('failed focus writes do not acknowledge success or emit reflection events',()=>{
+ let fail=false;const b=withFocus({writeError:k=>fail&&k==='gs_next_hit_v1'});b.app.selectFocus('cue-one',null);const id=b.app.nextHit().active.id,raw=b.storage.get('gs_next_hit_v1');fail=true;
+ assert.equal(b.app.focusAction(id,'played').ok,false);assert.equal(b.app.selectFocus('cue-two',id).ok,false);assert.equal(b.storage.get('gs_next_hit_v1'),raw);assert.equal(b.app.log().filter(x=>x[1]==='court_focus_reflection').length,0);
+});
+test('corrupt focus data is preserved rather than replaced',()=>{
+ for(const raw of ['{broken','[]','{"v":2,"active":null,"history":[]}']){const b=withFocus();b.storage.set('gs_next_hit_v1',raw);assert.equal(b.app.nextHit().available,false);assert.equal(b.app.selectFocus('cue-one',null).ok,false);assert.equal(b.storage.get('gs_next_hit_v1'),raw);}
+});
+test('another tab cannot apply an old action or replace a newer focus',()=>{
+ const b=withFocus();b.app.selectFocus('cue-one',null);const id=b.app.nextHit().active.id;const other=boot({storage:b.storage,catalog:focusCatalog()});other.app.selectFocus('cue-two',id);
+ assert.equal(b.app.focusAction(id,'played').reason,'changed');assert.equal(b.app.selectFocus('cue-one',id).reason,'changed');assert.equal(b.app.nextHit().active.slug,'cue-two');
+});
+test('updated or missing lesson keeps the chosen cue snapshot and flags it',()=>{
+ const b=withFocus();b.app.selectFocus('cue-one',null);const id=b.app.nextHit().active.id;const c=focusCatalog();c.daily[0].cue='Updated guidance.';
+ const updated=boot({storage:b.storage,catalog:c});assert.equal(updated.app.nextHit().changed,true);assert.equal(updated.app.nextHit().active.cue,'Read the return.');
+ assert.equal(updated.app.selectFocus('cue-one',id).ok,true);assert.equal(updated.app.nextHit().active.cue,'Updated guidance.');assert.equal(updated.app.nextHit().changed,false);
+ const removed=boot({storage:b.storage,catalog:{daily:[],predict:[]}});assert.equal(removed.app.nextHit().changed,true);assert.equal(removed.app.focusAction(removed.app.nextHit().active.id,'finish').ok,true);assert.equal(removed.app.nextHit().active,null);
+});
+test('three Sharpen paths use existing unique activities and preserve later-day eligibility',()=>{
+ const catalog={daily:[{slug:'the-line'}],predict:[],play:[{slug:'live-point-line-tempting',livePoint:true,edition:'one'},{slug:'live-point-line-opens',livePoint:true,edition:'one',transferOf:'live-point-line-tempting'}]};
+ const b=boot({catalog});assert.equal(b.app.practicePath('serve'),null);assert.equal(b.app.practicePath('https://bad.example'),null);let p=b.app.pathProgress('direction');assert.equal(p.next.lesson.slug,'the-line');assert.equal(p.steps[2].early,true);
+ b.app.complete('the-line',1,1);b.app.complete('live-point-line-tempting',2,2);p=b.app.pathProgress('direction');assert.equal(p.next,null);assert.equal(p.waiting,true);assert.equal(b.app.S.seen?.['live-point-line-opens'],undefined);
+ b.time('2026-09-29T00:00:00Z');p=b.app.pathProgress('direction');assert.equal(p.next.lesson.slug,'live-point-line-opens');assert.equal(p.steps[2].early,false);
+});
+
+test('changed guidance cannot be kept for another hit without explicitly adopting it',()=>{
+ const b=withFocus();b.app.selectFocus('cue-one',null);const id=b.app.nextHit().active.id;b.app.focusAction(id,'played');b.app.focusAction(id,'occurred','no');
+ const c=focusCatalog();c.daily[0].cue='New advice.';const changed=boot({storage:b.storage,catalog:c});assert.equal(changed.app.focusAction(id,'keep').ok,false);assert.equal(changed.app.nextHit().active.cue,'Read the return.');
+});
