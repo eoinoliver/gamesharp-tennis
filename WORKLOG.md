@@ -704,3 +704,35 @@ purpose/continuation labels for the existing direction, serve and volley paths.
 Preserve all 57 activities, scenes, audio, first attempts and later-day evidence.
 No legacy question bank, diagnosis engine or mastery metric is imported. Prepare
 and verify a Git-built review candidate; no production change during implementation.
+
+
+## 4 November 2026 — verified next-hit production release (Codex)
+
+Own `codex/next-hit-release-record`, based on the released merge `7d512d6`.
+Eoin explicitly requested deployment of reviewed head
+`60cfe54a637bd67ad92d2bf32d4728e34cd187fc` / app `2e79fbd576`. PR #75
+merged as `7d512d6e5494719bd1225d784e867e6d02608629`; its Git tree exactly
+matches the reviewed tree `de627345a11b2587534a67498034a23fc36c5041`.
+
+Promoted the Git-triggered staged Production
+`dpl_BHZMuoaphzC1Jkr7uPCyoRpP2QmN` without rebuilding. Public www now serves
+`2e79fbd576`. Preview and Production each have 187 static assets and no
+Functions in authenticated Resources inventory; the full public file manifest,
+routing/runtime configuration and build/environment inputs agree. No custom
+project environment variables. Automatic domain assignment stayed disabled.
+
+Validation: complete final-head and merge CI passed; staged 329/329 HTTP,
+90 focused browser checks and three voice journeys passed. After promotion,
+329/329 public HTTP checks and 90 Chromium focus/path checks passed, including
+320/390/1440 widths and all nine path destinations, with zero page errors and
+QA analytics intercepted. Apex redirects to www (307). The rollback deployment
+`dpl_AJAmfCmh3dBbAGqyiDat2Kk6Knuk` / `5273867b9d` remains available; no rollback
+was required. Full safe release identity and limits: `docs/features/next-hit-release.json`.
+
+All 57 activities remain eligible; zero added or withheld. Extensive UX audit
+covered all 57 structurally, 193 decision nodes and eight representative
+completed journeys. Follow-up priorities are cue-wording continuity and a small
+Match Rehearsal experiment using existing points. Neither was implemented in
+this release. No physical-device, independent coaching, efficacy or retention
+validation is claimed. This branch records evidence only; do not promote its
+documentation-only Preview or merge it into main without authorization.
