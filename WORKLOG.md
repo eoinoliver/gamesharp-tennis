@@ -793,3 +793,17 @@ recording provenance, browser/asset validation and the updated Git preview.
   authentication latency had left the correct changed-route cue cold; the app
   correctly declined to play it late. This changes only verification transport,
   not application behavior. Local all-journey coverage already passed.
+
+## 6 November 2026 — UX release audit (Codex)
+
+Branch: `codex/ux-release-audit-2026-11-06`, based on production merge
+`208f28b71c7ec9b74b5dfe7971d4dd9fbc8505eb`. Auditing all product surfaces,
+with complete six-point doubles coverage and deeper partner-recipient, Reset,
+and coach-choice checks. Live baseline is app `48b9820608`.
+
+Confirmed repairs in scope: coach choice before lesson completion; Reset
+return context/label, immediate reminder removal, and ambiguous return
+intention. Preserve authored animations, sound preferences, audio assets and
+browser-local progress. Audit report will distinguish verified defects,
+product judgments, and untested human/device outcomes. No production promotion
+is included in this claim.

@@ -1,0 +1,38 @@
+{
+  "source": {
+    "app_src/play_host.html": {
+      "baseline": "e3ec23c6df77a20102161a07650f86408764cb7f8830436c5b495c019b8ec69a",
+      "candidate": "a7c12389f4895398c28a56668dfa4e1b80d33c2d30dd1bec7d829216a0db3aea"
+    },
+    "app_src/reset.js": {
+      "baseline": "13df8c1059232f0eb5877c9ba9d38af876deac7c0c2e7082323be88720eddb5e",
+      "candidate": "0154e5d8cbc0cb119a67b679339b4bc368aac3d4e84d2a3189d419d4e2ec09f1"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "f05dc12081aad1d631f93b770c1c96bf1b7233067c552d6ff814ac85031166e5",
+      "candidate": "40d4c1128553cd1b7478b7eb0d0ecae18250178d7cf6d1c83f49c1fe09291e66"
+    },
+    "tools/ux-audit-browser.mjs": {
+      "baseline": null,
+      "candidate": "f2b6bc761f5ffe61f15e066156936cf255d6d30ec4dd5346b35c77ede6cac393"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "fb78f6393aefd92ec55542260cc5bf70aec9db2aa06c8d388d2c03356ee43331",
+      "candidate": "46a1373c8389f84fa0a347b07c411aa471b10fa14dae3a7241d83f277c09f352"
+    },
+    "app/index.html": {
+      "baseline": "85ad52d64b4ace0039060e914a89b027c3ac45a2274c7daeb96b7d4325d32700",
+      "candidate": "31e7746730bf72bc3daa3d414980e3f09a0a9398e0c634b6c6a9ff8af35a4594"
+    },
+    "app/play.html": {
+      "baseline": "e3f4e8c1ee1864b07b9da3bc427dccc78f002a32110bc487fcb6795dd4b4a9fc",
+      "candidate": "74019507511859386bd70b0da5344d776a0c1b84d7f47de29c845c665f10ca46"
+    },
+    "app/reset.js": {
+      "baseline": "13df8c1059232f0eb5877c9ba9d38af876deac7c0c2e7082323be88720eddb5e",
+      "candidate": "0154e5d8cbc0cb119a67b679339b4bc368aac3d4e84d2a3189d419d4e2ec09f1"
+    }
+  }
+}
