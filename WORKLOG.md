@@ -716,3 +716,29 @@ motivational quotations or invented efficacy claims. Preserve existing journeys,
 saved cues, first attempts, sound opt-outs and the established renderer.
 Produce three identical-script female voice auditions; Eoin chooses the voice
 before any catalogue-wide recording. No Blender or replacement rendering stack.
+
+### Review candidate and verification
+
+- Project `eoinoliver/gamesharp-tennis`, branch `codex/doubles-reset`, PR #77.
+  Implementation and audio-test corrections are committed through
+  `dbc66623c659898caff1267264f3e43a0fa6cb81`; this log update changes no app asset.
+- App `9f1ff22bc5`: six eligible doubles points (24 authored routes), three Reset
+  routines, nine new Frank recordings. No new point is withheld. The existing
+  57 activities remain available. Three female auditions are in the task outputs;
+  Eoin has not selected a voice and no catalogue replacement has been made.
+- Git preview of that artifact:
+  https://gamesharp-tennis-e0cirg553-eoinlynn-5978s-projects.vercel.app
+  (`dpl_C2PpLZuAep3SdBpykkJRbonXHNUV`, Preview, READY). Protected access uses the
+  current Vercel identity; no protection or environment setting was changed.
+- Passed: exact build parity (204 release files, 302 source/test inputs), 78 unit
+  tests; 48 complete doubles routes in Chromium (390/1280), 24 in WebKit (390);
+  87 Reset checks in Chromium and WebKit; all 63 completion-voice journeys;
+  hosted 345/345 file/routing/exclusion checks, all six doubles journeys with
+  matching voice, and 87 Reset checks including real timed audio.
+- Full legacy regression suites and the final documentation-commit CI run are
+  tracked on PR #77. A local welcome timing check was affected while suites ran
+  concurrently; isolated verification must be recorded there before handoff.
+- Codex owns remaining verification and review handoff. Production remains app
+  `2e79fbd576`, deployment `dpl_BHZMuoaphzC1Jkr7uPCyoRpP2QmN`. No merge or
+  production promotion is included. Independent coaching judgment, physical
+  phone listening, and actual partner-sharing/retention remain external checks.
