@@ -793,3 +793,39 @@ recording provenance, browser/asset validation and the updated Git preview.
   authentication latency had left the correct changed-route cue cold; the app
   correctly declined to play it late. This changes only verification transport,
   not application behavior. Local all-journey coverage already passed.
+
+## 6 November 2026 — UX release audit (Codex)
+
+Branch: `codex/ux-release-audit-2026-11-06`, based on production merge
+`208f28b71c7ec9b74b5dfe7971d4dd9fbc8505eb`. Auditing all product surfaces,
+with complete six-point doubles coverage and deeper partner-recipient, Reset,
+and coach-choice checks. Live baseline is app `48b9820608`.
+
+Confirmed repairs in scope: coach choice before lesson completion; Reset
+return context/label, immediate reminder removal, and ambiguous return
+intention. Preserve authored animations, sound preferences, audio assets and
+browser-local progress. Audit report will distinguish verified defects,
+product judgments, and untested human/device outcomes. No production promotion
+is included in this claim.
+
+Repair commit `262e9e8` / app `4cc354b800`: build parity and 86 unit tests pass;
+78 focused Chromium regression checks pass. Live baseline doubles: 48 complete
+routes pass. Source/audio/animation assets are unchanged. Added the new journey
+regressions to the mandatory shell suite. The final PR will hold exact remote
+SHA, unique preview and complete CI/hosted evidence; no production change has
+been made. See `docs/features/ux-audit-2026-11-06.md` for findings and limits.
+
+Final audit follow-up: centralized return labels/destinations also correct a
+doubles cue opened from My Game. Existing pressure reminders display the
+corrected return intention without overwriting stored data during reads.
+Final repair app: `4cb5b9d09c`; focused regression scope extends to 83 checks.
+The audit also measured all 148 voice files: Lara's lesson-only loudness range
+is 10.4 LU. Level calibration and cue wording consistency remain identified
+follow-up work, not hidden claims of polish. Exact final checks/preview on PR79.
+
+Required CI caught a regression introduced by the first coach selector: its
+extra row reduced the phone stage and pushed a contact-focus Next button below
+the viewport. Moved the disclosure into the existing header with an overlaid
+selector, preserving court height. Original layout assertions remain intact.
+Corrected app `a3ea033eb6`; rerunning layout, contact-focus, both-engine UX,
+hosted verification and complete CI before handoff.

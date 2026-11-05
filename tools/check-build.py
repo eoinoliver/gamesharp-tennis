@@ -218,6 +218,15 @@ for records, expected in [(lara['source'], source), (lara['release'], manifest)]
         expected[name] = hashes['candidate']
 subprocess.run(['python3','tools/lara-source.py'],cwd=ROOT,check=True)
 
+# UX audit repairs: direct-entry coach choice and coherent Reset return/removal.
+ux = json.loads((ROOT/'docs/features/ux-audit-build.json').read_text())
+assert set(ux['source']) == {'app_src/play_host.html','app_src/reset.js','tools/browser-checks.mjs','tools/ux-audit-browser.mjs'}
+assert set(ux['release']) == {'app/catalog.js','app/index.html','app/play.html','app/reset.js'}
+for records, expected in [(ux['source'], source), (ux['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'UX audit baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)
