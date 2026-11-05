@@ -807,3 +807,10 @@ intention. Preserve authored animations, sound preferences, audio assets and
 browser-local progress. Audit report will distinguish verified defects,
 product judgments, and untested human/device outcomes. No production promotion
 is included in this claim.
+
+Repair commit `262e9e8` / app `4cc354b800`: build parity and 86 unit tests pass;
+78 focused Chromium regression checks pass. Live baseline doubles: 48 complete
+routes pass. Source/audio/animation assets are unchanged. Added the new journey
+regressions to the mandatory shell suite. The final PR will hold exact remote
+SHA, unique preview and complete CI/hosted evidence; no production change has
+been made. See `docs/features/ux-audit-2026-11-06.md` for findings and limits.
