@@ -37,6 +37,14 @@ try{
   check(await p.locator('[data-reset-id]').getAttribute('data-reset-id')===id,id+': return restores exact routine');
  }
  await p.goto(base+'?review=1&z=reset&r=pressure');check(!(await p.locator('#resetIntention').innerText()).includes('read the return'),'pressure intention keeps returner role coherent');
+ await p.evaluate(()=>localStorage.setItem('gs_reset_v1',JSON.stringify({v:1,saved:{id:'pressure',intention:'Split for the serve, then read the return',savedAt:123}})));await p.reload();
+ check(await p.locator('#resetIntention').inputValue()==='Read the serve, then return with margin','existing pressure reminder keeps the corrected return intention');
+ check(await p.evaluate(()=>JSON.parse(localStorage.getItem('gs_reset_v1')).saved.savedAt)===123,'reading updated wording preserves the saved record');
+ await p.goto(base+'?review=1&z=my-game');check((await p.locator('.reset-reminder').innerText()).includes('Read the serve, then return with margin'),'My Game shows corrected reminder too');
+ await p.goto(base+'play.html?l=doubles-cross-cover&from=my-game');await ready(p);await finish(p);
+ check(await p.locator('#practiceReturn').innerText()==='Back to My Game →','saved doubles cue names My Game as return destination');
+ await p.locator('#practiceReturn').click();check(new URL(p.url()).searchParams.get('z')==='my-game','saved doubles cue returns to My Game');
+
  await p.goto(base+'play.html?l=doubles-lob-switch&from=reset&routine=invalid');await ready(p);check(await p.locator('#close').getAttribute('href')==='./?review=1&z=reset','invalid routine safely returns to hub');
  for(const width of [320,390,1280]){await p.setViewportSize({width,height:844});await p.locator('.lesson-coach summary').click();check(await p.locator('.lesson-coach [data-gs-coach]').isVisible(),'early choice visible '+width);check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'early coach fits '+width);await p.screenshot({path:`${out}/early-coach-${width}.png`,fullPage:true});await p.locator('.lesson-coach summary').click();}
  await c.close();check(!errors.length,'no page errors');

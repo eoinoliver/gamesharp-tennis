@@ -814,3 +814,11 @@ routes pass. Source/audio/animation assets are unchanged. Added the new journey
 regressions to the mandatory shell suite. The final PR will hold exact remote
 SHA, unique preview and complete CI/hosted evidence; no production change has
 been made. See `docs/features/ux-audit-2026-11-06.md` for findings and limits.
+
+Final audit follow-up: centralized return labels/destinations also correct a
+doubles cue opened from My Game. Existing pressure reminders display the
+corrected return intention without overwriting stored data during reads.
+Final repair app: `4cb5b9d09c`; focused regression scope extends to 83 checks.
+The audit also measured all 148 voice files: Lara's lesson-only loudness range
+is 10.4 LU. Level calibration and cue wording consistency remain identified
+follow-up work, not hidden claims of polish. Exact final checks/preview on PR79.

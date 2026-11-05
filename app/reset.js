@@ -16,7 +16,7 @@ const routines=[
   intentions:['Agree the serve target and who covers','Call the lob early: mine or yours','Hold or cross: agree the next job'],rehearse:'With your partner, imagine a ball neither of you took. Say the next plan out loud, listen to their answer, then take your positions.',related:'doubles-lob-switch'}
 ];
 const phases=['Release','Choose','Commit'];let timer=null,audio=null,cleanup=null;
-function state(){try{const raw=localStorage.getItem(KEY);if(!raw)return {ok:true,data:{v:1}};const d=JSON.parse(raw);if(d.v!==1||d.saved&&(!routines.some(r=>r.id===d.saved.id)||typeof d.saved.intention!=='string'))return {ok:false};return {ok:true,data:d};}catch{return {ok:false};}}
+function state(){try{const raw=localStorage.getItem(KEY);if(!raw)return {ok:true,data:{v:1}};const d=JSON.parse(raw);if(d.v!==1||d.saved&&(!routines.some(r=>r.id===d.saved.id)||typeof d.saved.intention!=='string'))return {ok:false};if(d.saved?.id==='pressure'&&d.saved.intention==='Split for the serve, then read the return')d.saved.intention=routines.find(r=>r.id==='pressure').intentions[1];return {ok:true,data:d};}catch{return {ok:false};}}
 function save(data){const s=state();if(!s.ok)return false;try{const next=JSON.stringify({...s.data,...data,v:1});localStorage.setItem(KEY,next);return localStorage.getItem(KEY)===next;}catch{return false;}}
 function stop(){clearInterval(timer);timer=null;if(audio){audio.pause();audio.src='';audio=null;}cleanup?.();cleanup=null;}
 function reminder(){const s=state(),v=s.data?.saved;if(!v)return '';const r=routines.find(r=>r.id===v.id);return `<a class="sh-my-entry reset-reminder" href="?review=1&z=reset&r=${r.id}"><b>Your Reset reminder</b><span>${escape(v.intention)} · Release → Choose → Commit</span></a>`;}
