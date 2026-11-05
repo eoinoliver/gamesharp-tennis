@@ -8,7 +8,8 @@
     "taskId": "c8d7c112-34b0-403d-8172-8ec80cf71754",
     "duration": 2.972154,
     "asset": "app_src/audio/voice-doubles-cross-cover.mp3",
-    "generatedAt": "2026-11-05"
+    "generatedAt": "2026-11-05",
+    "neutral": true
   },
   {
     "lesson": "doubles-return-space",
@@ -19,7 +20,8 @@
     "taskId": "ecfd59eb-e120-43bc-b73c-ecfc6aae2b29",
     "duration": 3.993832,
     "asset": "app_src/audio/voice-doubles-return-space.mp3",
-    "generatedAt": "2026-11-05"
+    "generatedAt": "2026-11-05",
+    "neutral": true
   },
   {
     "lesson": "doubles-lob-switch",
@@ -30,7 +32,8 @@
     "taskId": "bcdb0dcc-bfa8-4d43-92d8-79279dd362e2",
     "duration": 3.204354,
     "asset": "app_src/audio/voice-doubles-lob-switch.mp3",
-    "generatedAt": "2026-11-05"
+    "generatedAt": "2026-11-05",
+    "neutral": true
   },
   {
     "lesson": "doubles-hold-cover",
@@ -41,7 +44,8 @@
     "taskId": "6aa6e965-d9ee-4bee-bc77-169d8a9a5617",
     "duration": 2.739955,
     "asset": "app_src/audio/voice-doubles-hold-cover.mp3",
-    "generatedAt": "2026-11-05"
+    "generatedAt": "2026-11-05",
+    "neutral": true
   },
   {
     "lesson": "doubles-return-line",
@@ -52,7 +56,8 @@
     "taskId": "94f97644-3a3a-4bb2-aac2-b11576c3f30b",
     "duration": 2.739955,
     "asset": "app_src/audio/voice-doubles-return-line.mp3",
-    "generatedAt": "2026-11-05"
+    "generatedAt": "2026-11-05",
+    "neutral": true
   },
   {
     "lesson": "doubles-lob-overhead",
@@ -63,7 +68,8 @@
     "taskId": "4fd873eb-f123-4fe7-ad31-f498a44b73d3",
     "duration": 3.529433,
     "asset": "app_src/audio/voice-doubles-lob-overhead.mp3",
-    "generatedAt": "2026-11-05"
+    "generatedAt": "2026-11-05",
+    "neutral": true
   },
   {
     "lesson": "reset-release",

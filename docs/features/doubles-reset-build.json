@@ -76,7 +76,7 @@
     },
     "docs/features/doubles-reset-voice.json": {
       "baseline": null,
-      "candidate": "fa2127ee3c4a37186633a20cbc1d632d58645a679657a326c03ba799f29bc1bf"
+      "candidate": "e8c271b54e572a84ebd62d0fe91b94013052ca1fabe63e9759593ef4bfca19e5"
     },
     "docs/features/doubles-reset.md": {
       "baseline": null,
@@ -168,7 +168,7 @@
     },
     "tools/voice-catalogue-browser.mjs": {
       "baseline": "84b91676a9463aaa6a3c8fddbaf064b2651813f8b4de97a7a0d600c893b1c3cc",
-      "candidate": "6b26129a16ddfc8698d474c225f17921c48b7c4b2cf2c4d2d110d6feba588fd2"
+      "candidate": "fb8a65728102db3410c509c16d9214498ae8abd5456a700a411032da06b4e2e2"
     }
   },
   "release": {
