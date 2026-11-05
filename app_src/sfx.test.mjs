@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 const code=readFileSync(new URL('./sfx.js',import.meta.url),'utf8');
-function fixture({stored="1",blocked=false,unsupported=false,audioSession,storage={},durations={},blockedFiles=[],heldFiles={}}={}){
+function fixture({stored="1",blocked=false,unsupported=false,audioSession,storage={},durations={},blockedFiles=[],heldFiles={},coach='frank'}={}){
  const events={},sources=[],contexts=[],buttons=[];let reject=false,failFetch=false,hold=null;const requests=[];
  const param=()=>({value:0,setValueAtTime(v){this.value=v;},exponentialRampToValueAtTime(v){this.value=v;},cancelScheduledValues(){}});
  const node=()=>({gain:param(),frequency:param(),Q:param(),pan:param(),connect(){},disconnect(){this.disconnected=true;},start(){this.started=true;},stop(){this.stopped=true;},onended:null});
@@ -20,9 +20,33 @@ function fixture({stored="1",blocked=false,unsupported=false,audioSession,storag
  }
  const document={hidden:false,querySelectorAll:()=>buttons,addEventListener:(n,f)=>events[n]=f};
  const window={navigator:{audioSession},AudioContext:unsupported?undefined:AC,addEventListener:(n,f)=>events[n]=f};
+ let onCoach=()=>{};
+ window.GSCoach={asset:slug=>'voice-'+(coach==='lara'?'lara-':'')+slug,onChange(fn){onCoach=fn;},wire(){}};
  vm.runInNewContext(code,{window,document,localStorage:{getItem(k){if(blocked)throw Error();return k==="gs_sound"?stored:storage[k]??null;},setItem(k,v){if(blocked)throw Error();if(k==="gs_sound")stored=v;else storage[k]=v;}},fetch:async url=>{requests.push(url);const key=url.split('?')[0];if(blockedFiles.includes(key))throw Error('file unavailable');if(heldFiles[key])await heldFiles[key];if(hold)await hold;if(failFetch)throw Error('network');return{ok:true,arrayBuffer:async()=>url};},AbortController,setTimeout,clearTimeout,performance:{now:()=>0},Math,Promise});
- return{api:window.GSSfx,requests,failFetch:()=>failFetch=true,recoverFetch:()=>failFetch=false,holdFetch:p=>hold=p,events,contexts,sources,document,buttons,reject:()=>reject=true,stored:()=>stored};
+ return{api:window.GSSfx,requests,chooseCoach(value){coach=value;onCoach(value);},failFetch:()=>failFetch=true,recoverFetch:()=>failFetch=false,holdFetch:p=>hold=p,events,contexts,sources,document,buttons,reject:()=>reject=true,stored:()=>stored};
 }
+test('changing coach stops the old voice, fetches the matching cue and stays silent until requested',async()=>{
+ const f=fixture();f.api.configureVoice('short-ball');await f.api.hearVoice();assert.match(f.sources.at(-1).buffer.url,/voice-short-ball/);
+ const previous=f.sources.at(-1),count=f.sources.length;f.chooseCoach('lara');assert.equal(previous.stopped,true);assert.equal(f.api.voiceState().playing,false);
+ await f.api.unlock();assert.equal(f.sources.length,count);await f.api.hearVoice();assert.match(f.sources.at(-1).buffer.url,/voice-lara-short-ball/);
+ f.chooseCoach('frank');await f.api.hearVoice();assert.match(f.sources.at(-1).buffer.url,/audio\/voice-short-ball/);
+});
+test('changing coach cannot unmute, override voice opt-out, or play a pending old request',async()=>{
+ let release;const held=new Promise(resolve=>release=resolve);
+ const f=fixture({heldFiles:{'audio/voice-short-ball.mp3':held}});f.api.configureVoice('short-ball');const pending=f.api.hearVoice();
+ await Promise.resolve();f.chooseCoach('lara');release();await pending;assert.equal(f.sources.length,0);
+ await f.api.set(false);f.api.setVoice(false);f.chooseCoach('frank');assert.equal(f.api.enabled(),false);assert.equal(f.api.voiceState().enabled,false);assert.equal(f.api.completeVoice(),false);
+});
+test('a failed Lara cue stays unavailable instead of substituting Frank',async()=>{
+ const f=fixture({coach:'lara',blockedFiles:['audio/voice-lara-short-ball.mp3']});f.api.configureVoice('short-ball');
+ assert.equal(await f.api.hearVoice(),false);assert.equal(f.api.voiceState().error,true);assert.equal(f.sources.length,0);
+ assert.ok(!f.requests.some(url=>url.includes('/voice-short-ball.mp3')));
+});
+test('Reset subscribers are notified of same-page and cross-tab sound opt-outs',async()=>{
+ const f=fixture(),seen=[];const off=f.api.onSettingsChange(s=>seen.push(s));
+ f.api.setVoice(false);assert.equal(seen.at(-1).voice,false);await f.api.set(false);assert.equal(seen.at(-1).sound,false);
+ f.events.storage({key:'gs_voice',newValue:'1'});assert.equal(seen.at(-1).voice,true);const n=seen.length;off();f.api.setVoice(false);assert.equal(seen.length,n);
+});
 test('no autoplay/context at load; end of touch unlocks; one contact has sources',async()=>{
  const f=fixture();assert.equal(f.contexts.length,0);assert.equal(f.api.ready(),false);
  f.events.touchend({target:{}});await f.api.unlock();assert.equal(f.api.ready(),true);

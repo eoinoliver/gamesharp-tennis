@@ -115,3 +115,12 @@ short paraphrases with source links; see `docs/features/doubles-reset.md`.
 Nine new generated Frank recordings and their exact scripts are recorded in
 `docs/features/doubles-reset-voice.json`. Female audition samples are separate
 review artifacts pending the user's selection.
+
+## Lara coach catalogue — 5 November 2026
+
+Eoin selected Runway's stock Lara voice from the energetic second audition round.
+The 74 additional application assets (73 unique recordings and one identical-text
+reuse) are recorded in `docs/features/lara-voice-sources.json`, including exact
+scripts, delivery settings, task IDs, durations and source/output fingerprints.
+No person's voice was cloned or imitated. Frank's original recordings remain
+available. Neither generated voice implies a named coach's endorsement.

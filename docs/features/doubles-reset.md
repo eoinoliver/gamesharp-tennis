@@ -75,11 +75,12 @@ library, universal “percentage mental” claim or clinical/therapy promise.
 
 ## Voice decision
 
-Three identical-script auditions (Paula, Niki and Kylie) were generated through
-Runway and delivered separately for Eoin's choice. The existing Frank remains
-the application voice pending that choice. New completed-journey cues and Reset
-prompts are recorded with Frank; see `doubles-reset-voice.json` for exact text,
-asset IDs and durations. No final female voice has been chosen on Eoin's behalf.
+Eoin rejected Paula, Niki and Kylie as lacking energy, then selected Lara's
+expressive second-round audition and authorised integration. Lara is available
+as a complete alternative to Frank, including all six doubles cues and the three
+Reset prompts. The shared selector and saved preference are described in
+`lara-coach.md`; exact recording provenance is in `lara-voice-sources.json`.
+Frank's original doubles and Reset assets remain unchanged.
 
 ## Verification
 

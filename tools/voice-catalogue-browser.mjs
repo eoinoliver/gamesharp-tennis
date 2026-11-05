@@ -6,11 +6,12 @@ import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';import {join} from 'node:path';
 import {execFile} from 'node:child_process';import {promisify} from 'node:util';
 const base=process.argv[2],engine=process.env.GS_READINESS_BROWSER||'chromium';assert(base?.endsWith('/'));
+const coach=process.env.GS_COACH||'frank';assert(['frank','lara'].includes(coach));const voicePrefix=coach==='lara'?'voice-lara-':'voice-';
 const catalogue=JSON.parse(readFileSync('docs/features/completion-voice-catalogue.json')).lessons.concat(JSON.parse(readFileSync('docs/features/live-point-voice.json')),JSON.parse(readFileSync('docs/features/six-play-voice.json')),JSON.parse(readFileSync('docs/features/ten-live-voice.json')),JSON.parse(readFileSync('docs/features/doubles-reset-voice.json')).filter(r=>r.lesson.startsWith('doubles-')).map(r=>({...r,asset:r.lesson})));
 const cat=JSON.parse(readFileSync('app/catalog.js','utf8').match(/GS_CATALOG=(.*);\n/)[1]);
 assert.deepEqual(catalogue.map(r=>r.lesson).sort(),[...cat.daily,...cat.predict,...cat.play].map(r=>r.slug).sort());
 const selected=process.env.GS_VOICE_SLUGS?.split(',');const rows=catalogue.filter(r=>!selected||selected.includes(r.lesson));
-const out=`app_src/evidence/voice-catalogue-${process.env.GS_STAGE||'local'}-${engine}`;mkdirSync(out,{recursive:true});
+const out=`app_src/evidence/voice-catalogue-${process.env.GS_STAGE||'local'}-${engine}${coach==='lara'?'-lara':''}`;mkdirSync(out,{recursive:true});
 const version=readFileSync('app/catalog.js','utf8').match(/GS_VERSION="([^"]+)"/)[1];
 const browser=await ({chromium,webkit}[engine]).launch(),results=[],errors=[];
 const cache=new Map(),run=promisify(execFile),origin=new URL(base).origin;
@@ -23,11 +24,12 @@ async function journey(row,index){
  await c.route(/posthog\.com\//,r=>r.fulfill({status:200,body:'{}'}));
  if(process.env.GS_AUTH_TRANSPORT){
   // Warm audio before the first gesture: CLI authentication latency is not app network latency.
-  for(const name of ['contact-1.wav','contact-2.wav','bounce.wav','applause-1.mp3','applause-2.mp3','applause-3.mp3','voice-'+(row.asset||row.lesson)+'.mp3',...['time-used','time-watched','early-recovery','recover-sooner'].map(k=>'voice-live-'+k+'.mp3')])await fetchPath('/audio/'+name+'?v='+version);
+  for(const name of ['contact-1.wav','contact-2.wav','bounce.wav','applause-1.mp3','applause-2.mp3','applause-3.mp3',voicePrefix+(row.asset||row.lesson)+'.mp3',...['time-used','time-watched','early-recovery','recover-sooner'].map(k=>voicePrefix+'live-'+k+'.mp3')])await fetchPath('/audio/'+name+'?v='+version);
   await c.route(origin+'/**',async r=>{const u=new URL(r.request().url());await r.fulfill(await fetchPath(u.pathname+u.search));});
   await c.route('https://vercel.live/**',r=>r.abort());
  }
- await c.addInitScript(()=>{
+ await c.addInitScript(coach=>{
+  localStorage.setItem('gs_coach',coach);
   const sources=new WeakMap(),fetch=window.fetch.bind(window);window.__audio=[];
   window.fetch=async(...args)=>{const r=await fetch(...args),read=r.arrayBuffer.bind(r);r.arrayBuffer=async()=>{const bytes=await read();sources.set(bytes,String(args[0]));return bytes;};return r;};
   const AC=window.AudioContext||window.webkitAudioContext;
@@ -35,7 +37,7 @@ async function journey(row,index){
    async decodeAudioData(bytes){const b=await super.decodeAudioData(bytes);b.__asset=sources.get(bytes);return b;}
    createBufferSource(){const s=super.createBufferSource(),start=s.start.bind(s);s.start=(...args)=>{__audio.push({asset:s.buffer.__asset,duration:s.buffer.duration,moving:window.__test?.state().playing});return start(...args);};return s;}
   };
- });
+ },coach);
  const p=await c.newPage();p.setDefaultTimeout(process.env.GS_AUTH_TRANSPORT?90000:30000);p.on('pageerror',e=>errors.push(row.lesson+': '+e));
  const voiceCount=()=>p.evaluate(()=>__audio.filter(a=>a.asset?.includes('/voice-')).length);
  try{
@@ -64,7 +66,7 @@ async function journey(row,index){
   assert.equal(await p.locator('#wrapup .mem').innerText(),expectedText);
   assert.equal(await p.locator('#voicePreference').getAttribute('aria-pressed'),'true');
   const audio=await p.evaluate(()=>__audio.filter(a=>a.asset?.includes('/voice-')));
-  assert.ok(audio[0].asset.startsWith('audio/voice-'+expectedAsset+'.mp3?'),'lesson-specific asset');
+  assert.ok(audio[0].asset.startsWith('audio/'+voicePrefix+expectedAsset+'.mp3?'),'lesson-specific asset');
   assert.equal(audio[0].moving,false,'voice follows completed motion');
   assert.equal(await p.evaluate(()=>__audio.some(a=>a.asset?.includes('/applause-'))),false,'no applause overlap');
   const evidence=await p.evaluate(()=>({score:GSApp.S.done[new URL(location).searchParams.get('l')]?.n,expected:ans.filter((a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)))).length,predict:!!LESSON.predict,pro:!!LESSON.pro,drill:!!LESSON.drill,cue:!!LESSON.cue}));
@@ -96,5 +98,5 @@ try{
  // Two isolated browsers' contexts bound CPU use while retaining actual DOM clicks and RAF playback.
  let index=0;await Promise.all(Array.from({length:2},async()=>{while(index<rows.length){const i=index++;await journey(rows[i],i);}}));
  assert.equal(errors.length,0,errors.join('\n'));assert.equal(results.length,rows.length);
- writeFileSync(out+'/report.json',JSON.stringify({base,version,engine,results,errors},null,2));console.log('PASS',results.length,'complete journeys');
+ writeFileSync(out+'/report.json',JSON.stringify({base,version,engine,coach,results,errors},null,2));console.log('PASS',results.length,'complete journeys');
 }finally{await browser.close();}

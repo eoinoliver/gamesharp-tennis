@@ -85,11 +85,14 @@
 };
   const voiceAliases={'live-point-make-room':'live-space-00','live-point-short-low':'live-space-00','live-point-serve-see':'live-serve-00','live-point-return-deep':'live-serve-00'};
   const voiceLoads={};let liveVoiceFamily=false;
+  const settingsListeners=new Set();
+  const notifySettings=()=>settingsListeners.forEach(fn=>fn({sound:enabled,voice:voiceEnabled}));
   let voiceSlug=null, voiceEnabled=true, voiceError=false,
       voicePending=false, voiceGeneration=0, voiceListener=null;
   try{voiceEnabled=localStorage.getItem(VOICE_KEY)!=='0';}catch(e){}
   const speaking=()=>[...voices].some(v=>v.kind==='voice');
   const paintVoice=()=>voiceListener?.();
+  const voiceKey=()=>window.GSCoach?.asset(voiceSlug)||'voice-'+voiceSlug;
   function stopVoice(){
     voiceGeneration++;voicePending=false;
     for(const v of [...voices])if(v.kind==='voice')v.cancel();
@@ -97,7 +100,7 @@
   }
   function loadVoice(c,manual=false){
     if(!c||!voiceSlug||(!voiceEnabled&&!manual)||!enabled)return Promise.resolve(false);
-    const key='voice-'+voiceSlug;
+    const key=voiceKey();
     if(buffers[key])return Promise.resolve(true);
     if(voiceLoads[key])return voiceLoads[key];
     voiceError=false;
@@ -109,7 +112,7 @@
         const b=await c.decodeAudioData(await r.arrayBuffer());
         if(!b.length||!Number.isFinite(b.duration)||b.duration>5)throw Error('Invalid voice');
         buffers[key]=b;return true;
-      }catch(e){if(key==='voice-'+voiceSlug)voiceError=true;return false;}
+      }catch(e){if(key===voiceKey())voiceError=true;return false;}
       finally{clearTimeout(timer);}
     })().finally(()=>{delete voiceLoads[key];paintVoice();});
     return voiceLoads[key];
@@ -120,6 +123,7 @@
   const version=encodeURIComponent(window.GS_VERSION||'local');
   try { enabled=localStorage.getItem(KEY)!=="0"; } catch(e) {}
   const contextReady=()=>!!(enabled&&!document.hidden&&ctx&&ctx.state==='running');
+  window.GSCoach?.onChange(()=>{stopVoice();voiceError=false;if(contextReady())loadVoice(ctx);paintVoice();});
   const ready=()=>contextReady()&&core.some(k=>buffers[k]);
   // Load after a permitted gesture; respect saved mute. Never queue missed contacts.
   function load(c){
@@ -208,8 +212,8 @@
   document.addEventListener('visibilitychange',()=>{if(document.hidden)deactivate();else if(ctx)unlock();paint();});
   window.addEventListener('pagehide',()=>{deactivate();paint();});
   window.addEventListener('pageshow',()=>{if(ctx)unlock();});
-  window.addEventListener('storage',e=>{if(e.key===KEY){enabled=e.newValue==='1';if(!enabled)deactivate();paint();paintVoice();}
-    if(e.key===VOICE_KEY){voiceEnabled=e.newValue==='1';if(!voiceEnabled)stopVoice();paintVoice();}});
+  window.addEventListener('storage',e=>{if(e.key===KEY){enabled=e.newValue==='1';if(!enabled)deactivate();paint();paintVoice();notifySettings();}
+    if(e.key===VOICE_KEY){voiceEnabled=e.newValue==='1';if(!voiceEnabled)stopVoice();paintVoice();notifySettings();}});
   const vol=v=>Math.max(0,Math.min(1,v==null?1:v));
   // The recording contains its own transient and fade; preserve both.
   function play(key,level,pan=0,depth=0){
@@ -243,12 +247,13 @@
     voiceInfo:()=>voiceSlug?{text:courtVoices[voiceSlug],asset:voiceSlug}:null,
     voiceState:()=>({enabled:voiceEnabled,playing:speaking(),pending:voicePending,error:voiceError,available:!!AC,generation:voiceGeneration}),
     onVoiceChange(fn){voiceListener=fn;paintVoice();},
-    setVoice(value){voiceEnabled=!!value;try{localStorage.setItem(VOICE_KEY,voiceEnabled?'1':'0');}catch(e){}if(!voiceEnabled)stopVoice();paintVoice();},
+    onSettingsChange(fn){settingsListeners.add(fn);return()=>settingsListeners.delete(fn);},
+    setVoice(value){voiceEnabled=!!value;try{localStorage.setItem(VOICE_KEY,voiceEnabled?'1':'0');}catch(e){}if(!voiceEnabled)stopVoice();paintVoice();notifySettings();},
     stopVoice,
     // Automatic completions never wait for a download or resume and never play late.
     completeVoice(manual=false){
-      if(!voiceSlug||(!voiceEnabled&&!manual)||!contextReady()||voicePending||!buffers['voice-'+voiceSlug])return false;
-      stop();master.gain.setValueAtTime(.65,ctx.currentTime);play('voice-'+voiceSlug,1);paintVoice();return true;
+      if(!voiceSlug||(!voiceEnabled&&!manual)||!contextReady()||voicePending||!buffers[voiceKey()])return false;
+      stop();master.gain.setValueAtTime(.65,ctx.currentTime);play(voiceKey(),1);paintVoice();return true;
     },
     async hearVoice(){
       if(!voiceSlug||!AC)return false;
@@ -262,7 +267,7 @@
       paintVoice();return false;
     },
     stopContacts(){for(const v of [...voices])if(v.kind==='contact')v.cancel();},
-    set(value){enabled=!!value;try{localStorage.setItem(KEY,enabled?'1':'0');}catch(e){}if(!enabled)deactivate();paint();return enabled?unlock():Promise.resolve(false);},
+    set(value){enabled=!!value;try{localStorage.setItem(KEY,enabled?'1':'0');}catch(e){}if(!enabled)deactivate();paint();notifySettings();return enabled?unlock():Promise.resolve(false);},
     hit(v,pan,depth){const choices=['contact-1','contact-2'].filter(k=>buffers[k]);if(!choices.length||!vol(v)||!allow('hit',.12))return;play(choices[contact++%choices.length],vol(v),pan,depth);},
     bounce(v,pan,depth){if(!vol(v)||!allow('bounce',.22))return;play('bounce',vol(v)*.65,pan,depth);},
     // No authentic net sample yet. Silence is preferable to the old electronic buzz.
@@ -279,6 +284,7 @@
       try{localStorage.setItem(REWARD_KEY,key);}catch(e){}
     },
     wire(root){
+      window.GSCoach?.wire(root||document);
       (root||document).querySelectorAll('[data-gs-sound]').forEach(b=>{b.onclick=e=>{
         e.stopPropagation();const enable=!(ready()||(enabled&&loading));
         api.set(enable); // Only visible court events make ball sounds; toggling is silent.

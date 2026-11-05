@@ -1,0 +1,9 @@
+.gs-coach-bar{display:flex;justify-content:flex-end;padding:8px 20px 0;position:relative;z-index:2}
+[data-gs-coach-control]{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;max-width:100%}
+.gs-coach-choice{display:inline-flex;align-items:center;gap:9px;color:#c8d0c4;font:500 13px/1.4 "DM Sans",system-ui,sans-serif}
+.gs-coach-choice select{appearance:none;-webkit-appearance:none;max-width:100%;height:44px;min-height:44px;border:1px solid #52644c;border-radius:10px;background:#17251b;color:#f0ece3;padding:8px 28px 8px 10px;font:600 16px/1.4 "DM Sans",system-ui,sans-serif;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23d5decf' stroke-width='1.8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.gs-coach-choice select:focus-visible{outline:3px solid #d3e267;outline-offset:3px}
+.gs-coach-status{font:400 12px/1.4 "DM Sans",system-ui,sans-serif;color:#d9d1ad;flex-basis:100%}
+.gs-coach-status:empty{display:none}
+.voice-controls [data-gs-coach-control]{flex-basis:100%;margin-top:4px}
+@media(max-width:400px){.gs-coach-bar{padding-left:12px;padding-right:12px}}

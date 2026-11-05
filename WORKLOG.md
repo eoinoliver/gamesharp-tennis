@@ -742,3 +742,16 @@ before any catalogue-wide recording. No Blender or replacement rendering stack.
   `2e79fbd576`, deployment `dpl_BHZMuoaphzC1Jkr7uPCyoRpP2QmN`. No merge or
   production promotion is included. Independent coaching judgment, physical
   phone listening, and actual partner-sharing/retention remain external checks.
+
+## 5 November — Lara coach integration
+
+Continue ownership of `codex/doubles-reset` / PR #77 from reviewed commit
+`24a750511806f3738cdd716d33884fa39b63c164`. Eoin rejected the first three
+female auditions, requested more energy, selected Lara's second-round audition,
+and explicitly said to proceed with integration. Preserve that expressive
+Lara / eleven_v3 / 1.05 direction. Add a complete female alternative alongside
+Frank with a saved coach choice across the shell, lesson endings and Reset.
+All 74 existing spoken cues require matching recordings; retain lesson scripts,
+voice opt-outs, master mute and no repeated automatic narration. No production
+release is included in this integration step. Codex owns implementation,
+recording provenance, browser/asset validation and the updated Git preview.
