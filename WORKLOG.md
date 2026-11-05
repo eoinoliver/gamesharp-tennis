@@ -793,3 +793,39 @@ recording provenance, browser/asset validation and the updated Git preview.
   authentication latency had left the correct changed-route cue cold; the app
   correctly declined to play it late. This changes only verification transport,
   not application behavior. Local all-journey coverage already passed.
+
+## 5 November — doubles, Reset and Lara released
+
+Own `codex/doubles-reset-release-record`, a documentation-only follow-up from
+merged PR #77. Eoin authorised the exact reviewed candidate with “if happy
+proceed to deploy”. Reviewed head `164853c8ffe35bb663e03cab118eb9009653280c`
+and merge `208f28b71c7ec9b74b5dfe7971d4dd9fbc8505eb` have identical Git trees.
+
+Production now serves app `48b9820608` from Git-built deployment
+`dpl_8tWrKrZ3R8yauQQ8PxQTJbFR1YY1`, promoted after verification without rebuilding:
+https://gamesharp-tennis-hqchzd4r3-eoinlynn-5978s-projects.vercel.app
+Public domain: https://www.gamesharptennis.com
+
+All six doubles points are eligible (63 activities total, zero withheld), with
+blind sharing and editable partner plans. Sharpen includes three Reset routines.
+Lara and Frank cover all 74 spoken cues with a saved browser-local coach choice.
+
+Passed on the staged production build and again on the public domain: 421 hosted
+file/routing/exclusion checks, nine complete Lara journeys including all six
+doubles points, 87 Reset checks, and 37 coach checks with 74 decoded Lara assets.
+The public coach checks also passed in WebKit. The exact merge's full GitHub
+regression run 41993406564 passed. Preview/production configuration matched;
+each Resources inventory showed 279 static assets and no functions. The apex
+redirects to www with HTTP 307. The deployment error scan returned no records.
+Test analytics were intercepted. User progress was preserved; Lara was selected
+through the live UI in the user's existing review tab.
+
+Automatic custom-domain assignment remains off. Rollback target is
+`dpl_BHZMuoaphzC1Jkr7uPCyoRpP2QmN`, app `2e79fbd576`; no rollback was needed.
+Release evidence, counts, limitations and fingerprints are recorded in
+`docs/features/doubles-reset-lara-release.json`. Independent coaching judgment,
+physical-phone listening and perceptual review of each generated cue remain
+unverified; automated checks do not establish retention or on-court improvement.
+
+The review outputs now link to the public release. Codex completed the release;
+this follow-up records evidence only and must not trigger another promotion.

@@ -1,0 +1,145 @@
+{
+  "reviewedHead": "164853c8ffe35bb663e03cab118eb9009653280c",
+  "mergeCommit": "208f28b71c7ec9b74b5dfe7971d4dd9fbc8505eb",
+  "appVersion": "48b9820608",
+  "productionDeployment": "dpl_8tWrKrZ3R8yauQQ8PxQTJbFR1YY1",
+  "productionUrl": "https://gamesharp-tennis-hqchzd4r3-eoinlynn-5978s-projects.vercel.app",
+  "rollbackDeployment": "dpl_BHZMuoaphzC1Jkr7uPCyoRpP2QmN",
+  "rollbackVersion": "2e79fbd576",
+  "autoAssignCustomDomains": false,
+  "approval": "if happy proceed to deploy",
+  "approvalDate": "2026-11-05",
+  "mergeTree": "2ee84f80d4aaa7962f18a58d250d000d2e8bd70d",
+  "reviewTree": "2ee84f80d4aaa7962f18a58d250d000d2e8bd70d",
+  "stageHTTP": {
+    "passed": 421,
+    "total": 421
+  },
+  "stageLaraJourneys": {
+    "passed": 9,
+    "errors": 0,
+    "allSixDoublesIncluded": true
+  },
+  "stageReset": {
+    "passed": 87,
+    "errors": 0
+  },
+  "configurationEquivalence": {
+    "preview": "dpl_BMu7Y97WVB32zaEKr6SBWC8enT6G",
+    "production": "dpl_8tWrKrZ3R8yauQQ8PxQTJbFR1YY1",
+    "matches": {
+      "config": true,
+      "resourceConfig": true,
+      "regions": true,
+      "originCacheRegion": true,
+      "nodeVersion": true,
+      "crons": true,
+      "functions": true,
+      "projectSettings": true,
+      "routes": true,
+      "env": true,
+      "build": true,
+      "buildConfig": true
+    },
+    "configuredEnvironmentVariables": 0,
+    "rootDirectory": null,
+    "autoAssignCustomDomains": false,
+    "staticAssets": {
+      "preview": 279,
+      "production": 279
+    },
+    "functions": {
+      "preview": 0,
+      "production": 0
+    },
+    "inventoryProof": "Authenticated Vercel Resources pages show 279 Static Assets only for each deployment; exact public path and byte verification is recorded separately.",
+    "expectedDifferences": [
+      "Git branch and merge commit identity; reviewed and merge Git trees are identical.",
+      "Production versus Preview deployment identity and target.",
+      "Preview HTML has the exact deployment-specific Vercel Feedback suffix; Production does not."
+    ]
+  },
+  "eligibility": {
+    "activities": 63,
+    "newDoubles": 6,
+    "resetRoutines": 3,
+    "withheld": 0
+  },
+  "limitations": [
+    "Browser checks do not establish physical-device compatibility or independent coaching approval.",
+    "Individual perceptual listening to all newly generated cues remains unverified.",
+    "Partner sharing and Reset rehearsal are implemented; real-world retention and on-court improvement are not established."
+  ],
+  "stageCoach": {
+    "passed": 37,
+    "decodedLaraRecordings": 74,
+    "errors": 0
+  },
+  "promoted": true,
+  "promotedAt": "2026-11-05T08:39:52.351370+00:00",
+  "publicUrl": "https://www.gamesharptennis.com",
+  "publicVersion": "48b9820608",
+  "automaticDomainAssignmentAfterPromotion": false,
+  "mergeCI": {
+    "url": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/41993406564",
+    "status": "success"
+  },
+  "liveHTTP": {
+    "passed": 421,
+    "total": 421
+  },
+  "liveCoach": {
+    "chromium": {
+      "passed": 37,
+      "decodedRecordings": 74,
+      "errors": 0
+    },
+    "webkit": {
+      "passed": 37,
+      "decodedRecordings": 74,
+      "errors": 0
+    }
+  },
+  "liveReset": {
+    "passed": 87,
+    "errors": 0
+  },
+  "liveJourneys": {
+    "passed": 9,
+    "errors": 0,
+    "allSixDoublesIncluded": true
+  },
+  "evidenceSha256": {
+    "live-http.json": "31bf25c0dc7ac9d7d3deef9bf3a080fd429df310a870518bca1278d94de2baaa",
+    "live-coach-chromium.json": "7d87dc5518de1ccc09ce289e3893f02ca52d8d8833e9491e7af20f726a37a13c",
+    "live-coach-webkit.json": "487b5b522932925ccab7a1f81197a69118e9952b377486fb5489edb35eb3716e",
+    "live-reset.json": "7849838d41350d37d48a4fba624a4a6b26417adf96ad9a24f62eea1c3c81a529",
+    "live-journeys.json": "c4e9f342fad8fd9cd9886bb679113f1afe9c7392182e26c6789723b40931e703",
+    "stage-http.json": "64b8815b8f4290ad0b2cb7e93d139f291640bc9ddb994cc99ead850a16ec9605",
+    "stage-resources.txt": "00e01b8246b3cb19fe428a22b2186cc0ccc1567851564b60aa6bc99f16920470",
+    "preview-resources.txt": "78d35436bbc175689fa4b14363adf01f6e80f2fc497905fb29b0c40808a1f60f",
+    "configuration-equivalence.json": "8ad193846cd9ae29c3e0ce84d6f269bf86378b4272b2f88509172d12292c3c9a"
+  },
+  "verifiedAt": "2026-11-05T08:42:06.602140+00:00",
+  "rollbackPerformed": false,
+  "analyticsIntercepted": true,
+  "apexRedirect": {
+    "status": 307,
+    "location": "https://www.gamesharptennis.com/"
+  },
+  "observability": {
+    "drains": {
+      "status": "verified",
+      "count": 0
+    },
+    "browserPageErrors": 0,
+    "errorScan": {
+      "status": "completed",
+      "level": "error",
+      "window": "30m",
+      "deployment": "dpl_8tWrKrZ3R8yauQQ8PxQTJbFR1YY1",
+      "returnedRecords": 0,
+      "limitation": "Deployment log scan and browser checks are a point-in-time result, not ongoing client-error monitoring."
+    }
+  }
+}

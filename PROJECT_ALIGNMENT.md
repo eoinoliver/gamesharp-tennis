@@ -51,3 +51,15 @@ PR 53 is live: app 61678680f2, Production dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX, merg
 ## Movement-led Live Point — 27 October 2026
 
 PR 55 is live: app bcaab23b1a, merge e80d1adc9b44ea41a63d8356fec3e578d099d4cb, Production dpl_9rfGigZibdqHUfpTW24UMLgsHUCt. Two new journeys (43 total) connect a reply choice to recovery timing, with eight authored routes that stop with the point still in play. Returning players can find the unplayed original on Home; the changed-wing variation becomes eligible from the next local calendar day after completing it. First responses survive retries; history remains browser-local. Both share the short Frank cue “Buy yourself time. Use it to recover.” The next product gate is later-day recognition and beta feedback before catalogue expansion. Release evidence and limits are in docs/features/live-point-release.json. Rollback remains 61678680f2 / dpl_3E59DLbVYCHzGhaoZc3YhzMz5qqX. Automatic domain assignment remains off.
+
+## Current production — 5 November 2026
+
+PR #77 is live: app `48b9820608`, merge
+`208f28b71c7ec9b74b5dfe7971d4dd9fbc8505eb`, Production
+`dpl_8tWrKrZ3R8yauQQ8PxQTJbFR1YY1`. The app has 63 activities including six
+doubles points, three Reset routines in Sharpen, partner scenario/plan sharing,
+and a saved Lara/Frank choice across all 74 spoken cues. Full merge CI, exact
+staged and live artifacts, nine complete journeys, Reset and coach controls
+passed; see `docs/features/doubles-reset-lara-release.json` for precise evidence
+and remaining external validation. Automatic domain assignment remains off.
+Rollback is app `2e79fbd576` / `dpl_BHZMuoaphzC1Jkr7uPCyoRpP2QmN`.
