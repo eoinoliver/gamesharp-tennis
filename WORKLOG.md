@@ -704,3 +704,15 @@ purpose/continuation labels for the existing direction, serve and volley paths.
 Preserve all 57 activities, scenes, audio, first attempts and later-day evidence.
 No legacy question bank, diagnosis engine or mastery metric is imported. Prepare
 and verify a Git-built review candidate; no production change during implementation.
+
+## 5 November — doubles, Reset and female coach auditions
+
+Own `codex/doubles-reset`, based on main `7d512d6`. Eoin authorises the full
+six-point doubles set in verified batches, followed by three practical Reset
+routines in Sharpen. Four-player coverage, meaningful changed-context decisions,
+blind scenario sharing and a proposed partner plan must work as complete journeys.
+Use recognisable match emotions and attributed professional/coach evidence, not
+motivational quotations or invented efficacy claims. Preserve existing journeys,
+saved cues, first attempts, sound opt-outs and the established renderer.
+Produce three identical-script female voice auditions; Eoin chooses the voice
+before any catalogue-wide recording. No Blender or replacement rendering stack.

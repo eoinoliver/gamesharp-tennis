@@ -100,7 +100,7 @@ GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
 const QS=new URLSearchParams(location.search);
 const practicePath=A.practicePath(QS.get('path'));
-const practiceReturn=practicePath?.slugs.includes(slug)?`./?review=1&z=${practicePath.zone}#path-${practicePath.id}`:QS.get('from')==='my-game'?'./?review=1&z=my-game':null;
+const practiceReturn=practicePath?.slugs.includes(slug)?`./?review=1&z=${practicePath.zone}#path-${practicePath.id}`:QS.get('from')==='my-game'?'./?review=1&z=my-game':QS.get('from')==='reset'?'./?review=1&z=reset':L.doubles?'./?review=1&z=doubles':null;
 if(practiceReturn)window.GS_HOME_URL=practiceReturn; // The first-step Back button returns to the chosen practice context.
 window.GS_BLIND_CHALLENGE=!!(L.livePoint&&QS.get('challenge')==='point');
 if(window.GS_BLIND_CHALLENGE)A.track('challenge_open',{lesson:slug,previously_played:!!A.S.done[slug]});
@@ -202,7 +202,7 @@ function wrap(n){
     ${flav&&flav.key==="opponents"?`<div class="gsop" hidden><p class="fbq">Which opponent gives you the most trouble?</p><div class="fbrow fbwrap">${["Moonballer","Pusher","Big hitter","Net rusher","Lefty","Other"].map(o=>`<button data-op="${o}">${o}</button>`).join("")}</div></div>`:""}
     <a class="next home" href="./?home=1">Back to home</a>`;
   w.append(b);
-  if(practiceReturn){const back=document.createElement('a');back.className='next';back.id='practiceReturn';back.href=practiceReturn;back.textContent=practicePath?.slugs.includes(slug)?'Continue my Sharpen path →':'Back to My Game →';const anchor=w.querySelector('#liveEvidence')||w.firstElementChild;anchor.after(back);}
+  if(practiceReturn){const back=document.createElement('a');back.className='next';back.id='practiceReturn';back.href=practiceReturn;back.textContent=practicePath?.slugs.includes(slug)?'Continue my Sharpen path →':L.doubles?'Back to doubles →':QS.get('from')==='reset'?'Back to Reset →':'Back to My Game →';const anchor=w.querySelector('#liveEvidence')||w.firstElementChild;anchor.after(back);}
   const more=b.querySelector('#nextDaily');if(more)more.onclick=()=>A.track('asked_more',{next:nx.slug,from:slug});
   const continuation=b.querySelector('.gs-continue')||b.querySelector('a.next:not(.home)');
   if(continuation&&!practiceReturn)(w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
@@ -258,7 +258,7 @@ function afterEngine(){
 function wireChallenge(w){
   const link=A.challengeUrl(slug),box=document.createElement('div');box.className='blk';box.id='sharePoint';
   box.innerHTML=`<div class="k">Let someone else make the call</div><p>Same point. Their decisions. Your answers stay private.</p><button class="alt" id="sharePointButton">Challenge a tennis friend</button><div id="shareFallback" hidden><label for="challengeLink">Challenge link</label><input id="challengeLink" readonly aria-label="Challenge link"><button class="alt" id="copyChallenge">Copy link</button></div><p id="shareStatus" role="status"></p>`;
-  w.querySelector('.completion-extras').append(box);box.querySelector('input').value=link;
+  if(L.doubles)(w.querySelector('#liveEvidence')||w.firstElementChild).after(box);else w.querySelector('.completion-extras').append(box);box.querySelector('input').value=link;
   const status=box.querySelector('#shareStatus'),fallback=box.querySelector('#shareFallback');
   const reveal=()=>{fallback.hidden=false;box.querySelector('input').select();status.textContent='Copy this link. It contains no answers or scores.';};
   box.querySelector('#sharePointButton').onclick=async()=>{
@@ -268,6 +268,14 @@ function wireChallenge(w){
     catch(e){if(e.name==='AbortError'){status.textContent='Share cancelled.';return;}reveal();}
   };
   box.querySelector('#copyChallenge').onclick=async()=>{try{await navigator.clipboard.writeText(link);status.textContent='Link copied. Their choices come first.';A.track('challenge_shared',{lesson:slug,method:'copy'});}catch(e){box.querySelector('input').select();status.textContent='Select and copy the link above.';}};
+  if(L.doubles){
+    box.querySelector('.k').textContent='Play this with your doubles partner';box.querySelector('p').textContent='Send the point first. Let your partner make their own calls, then discuss your plan.';box.querySelector('#sharePointButton').textContent='Send the point to my partner';
+    const plan=document.createElement('details');plan.className='pay';plan.id='pairPlan';plan.innerHTML=`<summary>Then agree a plan for your next match</summary><p>This is a suggested starting plan. Edit it together; GameSharp does not know whether your partner agrees.</p><label for="pairPlanText">My proposed plan</label><textarea id="pairPlanText" maxlength="420" rows="4" style="display:block;width:100%;box-sizing:border-box;margin:12px 0;padding:14px;background:#14221b;color:#f0ece3;border:1px solid #68795c;border-radius:10px;font:inherit">${esc(L.pairPlan)}</textarea><button class="alt" id="sharePairPlan">Share proposed plan</button><button class="alt" id="copyPairPlan">Copy proposed plan</button><p id="pairPlanStatus" role="status"></p><a class="alt" href="./?review=1&z=reset&r=partner">When the partnership feels tense · Reset →</a>`;box.append(plan);
+    const msg=()=>`GameSharp · Proposed plan for our next doubles match\n${plan.querySelector('textarea').value.trim()}\nDiscuss after playing: ${link}`,out=plan.querySelector('#pairPlanStatus');
+    const copy=async()=>{if(!plan.querySelector('textarea').value.trim()){out.textContent='Add a plan before sharing.';return;}try{await navigator.clipboard.writeText(msg());out.textContent='Proposed plan copied. Paste it into your conversation when ready.';}catch{plan.querySelector('textarea').select();out.textContent='Select and copy your plan above.';}};
+    plan.querySelector('#copyPairPlan').onclick=copy;
+    plan.querySelector('#sharePairPlan').onclick=async()=>{if(!plan.querySelector('textarea').value.trim()){out.textContent='Add a plan before sharing.';return;}if(!navigator.share){await copy();return;}try{await navigator.share({title:'Our doubles plan',text:msg()});out.textContent='Proposed plan shared. Agree it together before playing.';}catch(e){out.textContent=e.name==='AbortError'?'Share cancelled.':'Sharing unavailable. Use Copy proposed plan.';}};
+  }
 }
 function fail(){if(W)W.drop();ld.className="err";ld.innerHTML=`Couldn't load this lesson. Check your connection and <a href="">try again</a>, or go <a href="./?home=1">home</a>.`;}
 const get=u=>fetch(u).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();});

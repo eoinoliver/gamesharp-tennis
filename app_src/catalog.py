@@ -57,6 +57,12 @@ PLAY = [
     ('live-point-over-head', 'tb', 'Their net position changes the space. Recover while the lob travels.'),
     ('live-point-reach-drop', 'td', 'Reaching a drop shot is only the first job. Your balance shapes the reply.'),
     ('live-point-arrive-options', 'te', 'Earlier arrival creates options. Placement still depends on their position.'),
+    ('doubles-cross-cover', 'dc', 'Your partner crosses. Cover the space they leave.'),
+    ('doubles-return-space', 'dr', 'Read the net player and the return lane.'),
+    ('doubles-lob-switch', 'dlb', 'Call early. Retrieve and cover as a pair.'),
+    ('doubles-hold-cover', 'dh', 'A partner who holds changes your coverage job.'),
+    ('doubles-return-line', 'drl', 'Their early crossing move opens a different lane.'),
+    ('doubles-lob-overhead', 'dlo', 'A shorter lob changes who should take it.'),
     ('saturday-point-1', 'sa', 'One point, built from five of your lessons. Read each contact and choose the margin it offers.'),   # weekend point (6 Oct)
     ('saturday-point-2', 'sb', 'A return game at 5-2, built from five more of your lessons. Read each contact and choose the margin it offers.'),
     ('saturday-point-3', 'sc', 'Your serve at 30-40, built from five more of your lessons. Read each contact and choose the margin it offers.'),
@@ -68,6 +74,7 @@ PLAY = [
 
 # Flavours: one per lesson, for the taster row on Home and the "more / fewer like this" feedback (30 Sep 2026).
 FLAVOURS = [
+    ('doubles', 'Doubles', ['doubles-cross-cover','doubles-return-space','doubles-lob-switch','doubles-hold-cover','doubles-return-line','doubles-lob-overhead']),
     ('tactics', 'Court tactics', ['serve-plus-one', 'short-ball', 'the-line', 'the-winner', 'recovery', 'open-court', 'forehand-bill',
                                   'the-lead', 'middle-return', 'high-ball', 'second-serve', 'running-around', 'pulled-wide',
                                   'serve-away-from-the-lean', 'find-your-return-spot', 'attack-the-backhand', 'down-the-line', 'rushed-out-wide', 'earned-attack', 'earned-defence', 'earned-net']),

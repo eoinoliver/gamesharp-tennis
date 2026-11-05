@@ -3,6 +3,10 @@
    Guardrail: Sharpen organises decision lessons by symptom; stroke cards show mainstream positions, not swing coaching. */
 (function(){
 const ZONES=[
+ {k:'doubles',name:'Doubles',line:'Read four players. Agree the next job.',strokes:[],items:[
+  ['We leave the same space open',['doubles-cross-cover','doubles-hold-cover']],
+  ['Their net player gets in my head',['doubles-return-space','doubles-return-line']],
+  ['Neither of us owns the lob',['doubles-lob-switch','doubles-lob-overhead']]]},
  {k:"forehand",name:"Forehand",line:"Misses, rushed contact, the line, the run-around.",strokes:["fh","drop"],spin:1,items:[
   ["My forehand misses when I'm rushed",["contact-clue","late-is-the-culprit"]],
   ["I go for the line too early",["the-line","live-point-line-tempting","live-point-line-opens"]],
@@ -52,6 +56,7 @@ Object.assign(STROKES.fh,{label:"Forehand"});Object.assign(STROKES.bh,{label:"Ba
 Object.assign(STROKES.serve,{label:"Serve"});Object.assign(STROKES.fv,{label:"Forehand volley"});Object.assign(STROKES.bv,{label:"Backhand volley"});Object.assign(STROKES.drop,{label:"Drop shot"});
 let ath=null, trackFn=null;
 function mount(A=window.GSApp,redraw=()=>{}){
+  window.GS_RESET?.mount(A);
   wireFocus(A,redraw);
   ath?.stop();ath=null;
   const st=document.getElementById("shAth");if(!st)return;
@@ -136,12 +141,13 @@ function wireFocus(A,redraw){
 }
 function myGame(A,href,esc){const g=A.savedCues(),focus=A.nextHit();
   return `<section class="supplement sh-sec"><a class="sh-back" href="?review=1">← Sharpen</a><div class="k">Your practice</div><h1>My Game</h1><p>${g.length} saved cue${g.length===1?'':'s'}. Saved in this browser; clearing its data removes them.</p>
-  ${focusView(A,href,esc)}<p id="focusStatus" role="status" aria-live="polite"></p><h2 id="saved-cues" tabindex="-1">Saved cues</h2>
+  ${window.GS_RESET?.reminder()||''}${focusView(A,href,esc)}<p id="focusStatus" role="status" aria-live="polite"></p><h2 id="saved-cues" tabindex="-1">Saved cues</h2>
   ${g.length?g.map(c=>{const l=A.bySlug(c.slug);return `<article class="sh-practice"><div class="k">${esc(c.lesson||'Saved cue')}</div><h2>${esc(c.cue)}</h2>${c.updated?'<p class="sh-note">Updated coaching cue from your saved lesson.</p>':''}${c.drill?`<details><summary>Take it to court · ${esc(c.drill.name||'Practice drill')}</summary><p>${esc(c.drill.how||'')}</p></details>`:'<p>Bring this cue to your next hit. Notice when the situation calls for it.</p>'}${l?`<a class="sh-back" href="${href(l)}&from=my-game">Replay the point →</a>${focus.available?focus.active?.slug===c.slug?'<p class="sh-note">Your selected focus</p>':`<button type="button" data-focus-select="${esc(c.slug)}" data-focus-id="${esc(focus.active?.id||'')}">${focus.active?'Switch my focus to this':'Make this my next-hit focus'}</button>`:''}`:''}</article>`;}).join(''):'<p>After a lesson, save its court cue here. You can return to the point and take its drill to your next hit.</p><a class="btn" href="?review=1">Find a part of your game →</a>'}</section>`;
 }
 function mapView(A,S){
   const slugs=z=>[...new Set(z.items.flatMap(([,ls])=>ls))],n=z=>slugs(z).length,done=z=>slugs(z).filter(s=>S.done[s]).length;
   return `<section class="supplement sh-sec sh-map"><div class="k">Your game</div><h1>What needs work?</h1><p>Find the decision behind the shot. Counts show activities played, not mastery.</p><a class="sh-my-entry" href="?review=1&z=my-game"><b>My Game</b><span>${A.savedCues().length} saved cues · your next on-court practice →</span></a>
+   <a class="sh-my-entry reset-entry" href="?review=1&z=reset"><b>Reset</b><span>After a miss. Before a big point. When it gets tense between you. →</span></a>
    <div class="sh-zones">${ZONES.map(z=>`<a class="sh-zone" href="?review=1&z=${z.k}"><b>${z.name}</b><span>${z.line}</span><i>${done(z)}/${n(z)} played</i></a>`).join('')}</div>
    <section class="sh-reference" aria-label="Stroke reference"><div class="k">Stroke reference</div><h2 id="shStrokeName">Forehand drive</h2>
    <div class="sh-labels" role="group" aria-label="Strokes">${ATH.map(k=>`<button type="button" data-ath="${k}" aria-pressed="${k==='fh'}">${STROKES[k].label}</button>`).join('')}</div>
@@ -151,6 +157,7 @@ function mapView(A,S){
    <div class="sh-tools"><a href="?review=1&z=spin">Topspin vs slice</a><a href="?review=1&z=grips">Grips</a></div></section>`;
 }
 window.GS_SHARPEN={mount,render(A,S,href,dots3,esc){trackFn=A.track; const k=new URLSearchParams(location.search).get("z");
+  if(k==='reset'&&window.GS_RESET)return GS_RESET.render();
   if(!window.__shTracked&&(k==="spin"||k==="grips")){window.__shTracked=1; A.track&&A.track("sharpen_open",{zone:k});}
   if(k==="my-game")return myGame(A,href,esc);
   if(k==="spin")return `<a class="sh-back sh-top" href="?review=1">← Your game</a>`+spinCard();

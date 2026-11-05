@@ -104,3 +104,14 @@ the original shared clip files are unchanged. The drop-shot fallback remains
 illustrative. Coaching links provide context; no reference video is copied.
 Ten short generated Frank completion cues have source/output fingerprints and
 processing records in `docs/features/ten-live-voice-sources.json`.
+
+## Doubles and Reset — 5 November 2026
+
+`rally/build_doubles.py` uses the same attributed Tennis-MoCap clips to author
+four-player placement and illustrative ball continuations. Derived scene data
+retains the existing CC BY-SA 3.0 attribution and license. No professional video,
+image, voice imitation or endorsement is included. Coaching insights are original
+short paraphrases with source links; see `docs/features/doubles-reset.md`.
+Nine new generated Frank recordings and their exact scripts are recorded in
+`docs/features/doubles-reset-voice.json`. Female audition samples are separate
+review artifacts pending the user's selection.

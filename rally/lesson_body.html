@@ -498,8 +498,10 @@ function blendWorld(A,B,u,away){
     centre:lerp3(rotAbout(A.centre,ca,ra),rotAbout(B.centre,cb,rb),u),fwd:lerp3(rotV(A.fwd,ra),rotV(B.fwd,rb),u)};
 }
 function actorAt(sc,name,g){
+  const parent=sc.info.doublesParent;
+  if(parent&&g<=parent.through)return actorAt(SC[parent.scene],name,g);
   const W=prep(sc)[name]; if(!W) return null;
-  const away=name==="you"?-Math.PI/2:Math.PI/2;
+  const away=name==="you"||name==="partner"?-Math.PI/2:Math.PI/2;
   let Wd=null;
   if(g<=W[0].a) Wd=worldOf(localAt(W[0],W[0].a));
   else if(g>=W[W.length-1].b) Wd=worldOf(localAt(W[W.length-1],W[W.length-1].b));
@@ -562,10 +564,16 @@ function actorAt(sc,name,g){
     else Wd=worldOf(localAt(actual,g));
   }
   // split step: a small two-footed hop that lands at a chosen moment, then a brief load
-  if(name==="you"&&sc.info.splits) for(const [L,air] of sc.info.splits){
+  for(const [L,air] of (sc.info.splitsByActor?.[name]||(name==="you"?sc.info.splits:[])||[])){
     let dz=0; if(g>L-air&&g<L) dz=0.11*(air/26)*Math.sin(Math.PI*(g-(L-air))/air);
     else if(g>=L&&g<L+10) dz=-0.035*Math.sin(Math.PI*(g-L)/10);
     if(dz){Wd={...Wd,pose:Wd.pose.map((p,k)=>dz<0&&(k===I.ankleL||k===I.ankleR)?p:[p[0],p[1],p[2]+dz]),centre:[Wd.centre[0],Wd.centre[1],Wd.centre[2]+dz]};}}
+  // A changed route can use another player's stroke preparation. Blend out of
+  // the common decision pose, ending before that actor's first real contact.
+  if(parent&&sc.info.doublesBlend?.includes(name)&&g>parent.through){
+    const next=contactsOf(sc,name).find(f=>f>parent.through),end=Math.min(parent.through+70,next==null?Infinity:next-1);
+    if(g<end){const a=actorAt(SC[parent.scene],name,g),base={pose:a.pose,feet:a.feet,axis:a.rq.axis,lateral:a.rq.lateral,centre:a.rq.centre,fwd:a.fwd};Wd=blendWorld(base,Wd,smooth(parent.through,end,g),away);}
+  }
   const axis=norm(Wd.axis), lateral=norm(sub(Wd.lateral,mul(axis,dot(Wd.lateral,axis))));
   return {pose:Wd.pose,feet:Wd.feet,rq:{w:Wd.pose[W.some(w=>w.s.mirror)?I.wristL:I.wristR],axis,lateral,centre:Wd.centre},fwd:norm(Wd.fwd)};   // a lefty holds it in the left hand
 }
@@ -643,7 +651,7 @@ function endsOnYou(sc){
 function serveToss(sc){
   if(sc._serveToss!==undefined)return sc._serveToss;
   let who=null,serve=null;
-  for(const w of ["you","opp"]){const s=sc.actors[w]?.find(s=>!s.hold);
+  for(const w of Object.keys(sc.actors)){const s=sc.actors[w]?.find(s=>!s.hold);
     if(s?.clip.startsWith("serve")&&(!serve||s.start<serve.start)){who=w;serve=s;}}
   if(!serve)return sc._serveToss=null;
   const start=serve.start-(serve.poseFrameOffset||0),c=CL[serve.clip];
@@ -682,7 +690,7 @@ const NARROW=matchMedia("(max-width:600px)"), PHONE_VH=540, PHONE_CYF=0.489, PHO
 // Full screen on a phone: the stage takes the screen's shape, and fixed cameras zoom so the court fills it
 function fitFull(){window.__pc=null; const tall=!isFull()&&TALL;
   if(contactCameraOn()&&contactMix()>.98){fitContactDetail();return;}
-  if(!isFull()&&!tall) return; const C=camI===0&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];
+  if(!isFull()&&!tall&&!LESSON.doubles) return; const C=camI===0&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];
   if(contactCameraOn()){FOCAL*=Math.min(VH/PHONE_VH,1.6);window.__pc=[VW/2,VH/2];return;}
   if(window.__camOverride&&!tall) return;
   const choosing=C.follow&&showTargets&&!answered;   // the lifted choosing view (and a lesson's own ask camera) fit the whole court instead
@@ -700,7 +708,7 @@ function fitChoosing(you,opp){
   const C=camI===0&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];
   if(!C.follow) return;
   const points=[];
-  for(const a of [you,opp]) if(a){points.push(...a.pose,a.rq.centre,add(a.pose[I.head],[0,0,0.42]));}
+  for(const a of [you,opp,actorAt(SC[scene],'partner',t),actorAt(SC[scene],'oppPartner',t)]) if(a){points.push(...a.pose,a.rq.centre,add(a.pose[I.head],[0,0,0.42]));}
   const nt=nT(showTargets), lands=[...LETTERS].slice(0,nt).map(X=>SC[showTargets+X].info.shot.land), dx=[0,0,0,0];
   for(let a=0;a<nt;a++) for(let b=a+1;b<nt;b++) if(Math.hypot(lands[a][0]-lands[b][0],lands[a][1]-lands[b][1])<1.0){const s=lands[a][0]<=lands[b][0]?1:-1;dx[a]-=0.45*s;dx[b]+=0.45*s;}
   lands.forEach((p,i)=>points.push([p[0],p[1],0.006],[p[0]+dx[i],p[1],0]));
@@ -874,7 +882,7 @@ const PAUSE_I='<path d="M9 5.5v13M15 5.5v13"/>', PLAY_I='<path d="M8 5.5l11 6.5-
 function rate(){return 1;}
 /* All events still drive visual bounce marks. Audio selects only decision context. */
 function sfxEvents(sc){if(sc._sfx)return sc._sfx;const ev=[];
-  for(const f of contactsOf(sc,"you"))ev.push([f,"hit",1]); for(const f of contactsOf(sc,"opp"))ev.push([f,"hit",0.5]);
+  for(const who of Object.keys(sc.actors))for(const f of contactsOf(sc,who))ev.push([f,"hit",who.startsWith('opp')?.5:1]);
   const B=sc.ball;for(let i=1;i+1<B.length;i++){const a=B[i-1],b=B[i],c=B[i+1];if(a&&b&&c&&b[2]<0.08&&b[2]<=a[2]&&b[2]<c[2])ev.push([i,"bounce",b[1]<0?0.9:0.45]);}
   for(const m of sc.marks||[])if(m.kind==="net")ev.push([m.frame,"net",0.8]);
   return sc._sfx=ev;}
@@ -1203,6 +1211,7 @@ function finishLesson(){
 /* ---------- render ---------- */
 function render(){
   const sc=SC[scene], g=t, you=actorAt(sc,"you",g), opp=actorAt(sc,"opp",g);
+  const partner=actorAt(sc,'partner',g),oppPartner=actorAt(sc,'oppPartner',g);
   setCamera(you); buildBasis(); fitFull(); fitChoosing(you,opp);
   const detail=contactCameraOn()&&contactMix()>.98;
   const frag=document.createDocumentFragment();
@@ -1261,10 +1270,12 @@ function render(){
   const shadow=(a,op)=>{if(!a)return;const x=(a.pose[I.ankleL][0]+a.pose[I.ankleR][0])/2,y=(a.pose[I.ankleL][1]+a.pose[I.ankleR][1])/2;
     ring(frag,[x,y,0.004],0.38,0.3,"none",0,op,"rgba(0,0,0,.35)");};
   if(PREM()){   // the whole body's shadow on the grass, along the light
-    for(const a of (detail?[you]:[opp,you])) if(a){const sh=[], g=el_("g",{opacity:a===you?.3:.24});
+    for(const a of (detail?[you]:[opp,oppPartner,you,partner])) if(a){const sh=[], g=el_("g",{opacity:a===you?.3:.24});
       drawFigure(sh,shadowPose(a.pose),null,{ghost:true,col:"#04100a",op:1,fwd:a.fwd,feet:a.feet}); for(const {n} of sh) g.appendChild(n); frag.appendChild(g);}}
-  else {shadow(you,1);shadow(opp,.8);}
+  else {shadow(you,1);shadow(opp,.8);shadow(partner,1);shadow(oppPartner,.8);}
   if(opp&&!detail) drawFigure(parts,opp.pose,opp.rq,{kit:PREM()?OPP_PREM:OPPKIT,op:.95,fwd:opp.fwd,feet:opp.feet});
+  if(oppPartner&&!detail)drawFigure(parts,oppPartner.pose,oppPartner.rq,{kit:PREM()?OPP_PREM:OPPKIT,op:.95,fwd:oppPartner.fwd,feet:oppPartner.feet});
+  if(partner&&!detail)drawFigure(parts,partner.pose,partner.rq,{kit:KIT_PREM,fwd:partner.fwd,feet:partner.feet,band:'#d9b24a',bandDk:'#8f7632'});
   if(you){drawFigure(parts,you.pose,you.rq,PREM()?{kit:KIT_PREM,fwd:you.fwd,feet:you.feet,band:"#d9b24a",bandDk:"#8f7632"}:{fwd:you.fwd,feet:you.feet,band:"#e2bd4f",bandDk:"#8f7632"});
     for(const c of contactsOf(sc,"you")) if(Math.abs(g-c)<16){const W=prep(sc).you.find(w=>w.cG===c);
       for(let f=Math.max(c-14,Math.floor(g)-12);f<=Math.floor(g);f++){const a=actorAt(sc,"you",f-1),b=actorAt(sc,"you",f);
@@ -1288,9 +1299,13 @@ function render(){
   if(!detail&&(cueOn||!playing||g<160)){const hp=a=>a&&add(a.pose[I.head],[0,0,0.42]);
     if(you) label(frag,hp(you),cueOn?"YOU \u00b7 "+St.cues.you:"YOU","#c8a84b",15,.95,0);
     if(opp) label(frag,hp(opp),cueOn?"THEM \u00b7 "+St.cues.opp:"THEM","#9fb8d6",15,.95,0);}
+  if(sc.info.doubles&&!detail&&(!playing||g<180)){
+    if(partner)label(frag,add(partner.pose[I.head],[0,0,.42]),'PARTNER','#c8a84b',14,.95,0);
+    if(oppPartner)label(frag,add(oppPartner.pose[I.head],[0,0,.42]),'THEIR PARTNER','#9fb8d6',14,.95,0);
+  }
   // timing flashes: THEIR HIT / LAND / GO
-  if(sc.info.flashes) for(const [f,who,txt] of sc.info.flashes){if(g<f||g>f+45)continue;const a=who==="you"?you:opp;if(!a)continue;
-    label(frag,add(a.pose[I.head],[0,0,1.25]),txt,who==="you"?"#e8f27a":"#c9d8ea",18,1-smooth(30,45,g-f),0);}
+  if(sc.info.flashes) for(const [f,who,txt] of sc.info.flashes){if(g<f||g>f+45)continue;const a=who==='partner'?partner:who==='oppPartner'?oppPartner:who==="you"?you:opp;if(!a)continue;
+    label(frag,add(a.pose[I.head],[0,0,1.25]),txt,who==="you"||who==='partner'?"#e8f27a":"#c9d8ea",18,1-smooth(30,45,g-f),0);}
   // net fault
   for(const m of sc.marks) if(m.kind==="net"&&g>=m.frame){const bp=sc.ball[m.frame]||b;if(bp){const q=P(bp);
     if(q)frag.appendChild(el_("circle",{cx:q.s[0].toFixed(1),cy:q.s[1].toFixed(1),r:(8+10*smooth(0,20,g-m.frame)).toFixed(1),fill:"none",stroke:"#e05252","stroke-width":2.2,opacity:1-0.5*smooth(0,30,g-m.frame)}));}}

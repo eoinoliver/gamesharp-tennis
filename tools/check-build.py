@@ -197,6 +197,17 @@ for records, expected in [(focus['source'], source), (focus['release'], manifest
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Next-hit baseline drift: {name}'
         expected[name] = hashes['candidate']
+
+# Six doubles journeys and three Reset rehearsals; historical hashes stay frozen.
+doubles = json.loads((ROOT/'docs/features/doubles-reset-build.json').read_text())
+assert set(doubles['source']) == set(['THIRD_PARTY_NOTICES.md', 'app_src/app.js', 'app_src/audio/voice-doubles-cross-cover.mp3', 'app_src/audio/voice-doubles-hold-cover.mp3', 'app_src/audio/voice-doubles-lob-overhead.mp3', 'app_src/audio/voice-doubles-lob-switch.mp3', 'app_src/audio/voice-doubles-return-line.mp3', 'app_src/audio/voice-doubles-return-space.mp3', 'app_src/audio/voice-reset-choose.mp3', 'app_src/audio/voice-reset-commit.mp3', 'app_src/audio/voice-reset-release.mp3', 'app_src/build.py', 'app_src/catalog.py', 'app_src/index.html', 'app_src/play_host.html', 'app_src/reset.js', 'app_src/sfx.js', 'app_src/sharpen.js', 'docs/features/doubles-reset-voice.json', 'docs/features/doubles-reset.md', 'gs/gate.mjs', 'rally/build_doubles.py', 'rally/dc_data.json', 'rally/dh_data.json', 'rally/dlb_data.json', 'rally/dlo_data.json', 'rally/dr_data.json', 'rally/drl_data.json', 'rally/lesson_body.html', 'rally/lesson_dc.js', 'rally/lesson_dh.js', 'rally/lesson_dlb.js', 'rally/lesson_dlo.js', 'rally/lesson_dr.js', 'rally/lesson_drl.js', 'tools/browser-checks.mjs', 'tools/doubles-browser.mjs', 'tools/experience-browser.mjs', 'tools/reset-browser.mjs', 'tools/trust-practice-browser.mjs', 'tools/voice-catalogue-browser.mjs'])
+assert set(doubles['release']) == set(['app/app.js', 'app/audio/voice-doubles-cross-cover.mp3', 'app/audio/voice-doubles-hold-cover.mp3', 'app/audio/voice-doubles-lob-overhead.mp3', 'app/audio/voice-doubles-lob-switch.mp3', 'app/audio/voice-doubles-return-line.mp3', 'app/audio/voice-doubles-return-space.mp3', 'app/audio/voice-reset-choose.mp3', 'app/audio/voice-reset-commit.mp3', 'app/audio/voice-reset-release.mp3', 'app/catalog.js', 'app/engine/engine.js', 'app/index.html', 'app/lessons/doubles-cross-cover.json', 'app/lessons/doubles-hold-cover.json', 'app/lessons/doubles-lob-overhead.json', 'app/lessons/doubles-lob-switch.json', 'app/lessons/doubles-return-line.json', 'app/lessons/doubles-return-space.json', 'app/play.html', 'app/reset.js', 'app/sfx.js', 'app/sharpen.js'])
+for records, expected in [(doubles['source'], source), (doubles['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Doubles/Reset baseline drift: {name}'
+        expected[name] = hashes['candidate']
+subprocess.run(['python3','rally/build_doubles.py','2'],cwd=ROOT,check=True)
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)
