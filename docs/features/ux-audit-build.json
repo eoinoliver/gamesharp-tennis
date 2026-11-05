@@ -2,7 +2,7 @@
   "source": {
     "app_src/play_host.html": {
       "baseline": "e3ec23c6df77a20102161a07650f86408764cb7f8830436c5b495c019b8ec69a",
-      "candidate": "66450fcde665ee81a1b31bc17865399e2b4b4e5bff5d86c72bfe9b1d772f5424"
+      "candidate": "cbb62901fa5c9bd9e73cf3c669f5c61561958cf15c57ce229bd1036967f50016"
     },
     "app_src/reset.js": {
       "baseline": "13df8c1059232f0eb5877c9ba9d38af876deac7c0c2e7082323be88720eddb5e",
@@ -20,15 +20,15 @@
   "release": {
     "app/catalog.js": {
       "baseline": "fb78f6393aefd92ec55542260cc5bf70aec9db2aa06c8d388d2c03356ee43331",
-      "candidate": "ecfce863703c67585180f90c5c1133b725662356436fec3ccc5eb326aa263ad4"
+      "candidate": "d5910e5a7e507f8f1b759c366c73680321b826e7c6d54384dbfcac08a2781686"
     },
     "app/index.html": {
       "baseline": "85ad52d64b4ace0039060e914a89b027c3ac45a2274c7daeb96b7d4325d32700",
-      "candidate": "126448c1ad9029ef52db1b2920dd934de3805fbd757e92fc9681e8ad5fc7a9f6"
+      "candidate": "b5a4be0087a29a5587ec7ad40f93ce2268efe43061a76622ea0fc20fb308c3f4"
     },
     "app/play.html": {
       "baseline": "e3f4e8c1ee1864b07b9da3bc427dccc78f002a32110bc487fcb6795dd4b4a9fc",
-      "candidate": "7d0efb5ad3e35ecd15bdb43d0bd488a517427cedc98b4d880873a4da3e6a6aac"
+      "candidate": "52ddb917571832cddf87ad6bb888a477ae427f99c433d726ce328847ae7d993b"
     },
     "app/reset.js": {
       "baseline": "13df8c1059232f0eb5877c9ba9d38af876deac7c0c2e7082323be88720eddb5e",

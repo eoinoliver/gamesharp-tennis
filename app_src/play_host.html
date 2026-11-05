@@ -14,7 +14,8 @@
 .fbthanks{margin-top:8px;font-size:14px;color:rgba(255,255,255,.72)}
 .wrapup a.next{display:flex;align-items:center;justify-content:center;text-decoration:none;margin-top:14px;color:#16130a}
 #challengeLink{display:block;width:100%;box-sizing:border-box;min-height:44px;margin:8px 0;padding:10px;border:1px solid #758477;border-radius:8px;background:#10231e;color:#f0ece3;font-size:14px}
-.lesson-coach{margin:0 0 8px;color:#c8d0c4;font-size:13px}.lesson-coach summary{min-height:44px;display:list-item;align-content:center;cursor:pointer;width:fit-content}.lesson-coach[open]{padding-bottom:8px}.lesson-coach p{font-size:12px;line-height:1.5;margin:8px 0}.lesson-coach summary:focus-visible{outline:3px solid #d3e267;outline-offset:3px}
+.head{position:relative;grid-template-columns:44px minmax(0,1fr) auto 44px;column-gap:4px}
+.lesson-coach{color:#c8d0c4;font-size:12px}.lesson-coach summary{min-height:44px;display:list-item;align-content:center;cursor:pointer;white-space:nowrap}.lesson-coach-panel{position:absolute;right:0;top:calc(100% + 6px);z-index:20;width:min(320px,calc(100vw - 32px));padding:16px;border:1px solid #637363;border-radius:12px;background:#10231e;box-shadow:0 8px 28px #0008}.lesson-coach p{font-size:12px;line-height:1.5;margin:8px 0 0}.lesson-coach summary:focus-visible{outline:3px solid #d3e267;outline-offset:3px}
 #sharePoint .alt,#returnRead .alt{display:inline-flex;align-items:center;min-height:44px}
 .gs-continue{margin:16px 0;padding:14px;border:1px solid rgba(200,168,75,.4);border-radius:14px}
 .wrapup .fbwrap{flex-wrap:wrap}
@@ -251,8 +252,9 @@ function wrap(n){
 }
 function afterEngine(){
   const coach=document.createElement('details');coach.className='lesson-coach';
-  coach.innerHTML='<summary>Coach: <span data-coach-name></span></summary><div data-gs-coach-control></div><p>Your choice is used for spoken cues and Reset. Sound controls stay separate.</p>';
-  document.getElementById('lessonView').prepend(coach);
+  coach.innerHTML='<summary>Coach: <span data-coach-name></span></summary><div class="lesson-coach-panel"><div data-gs-coach-control></div><p>Your choice is used for spoken cues and Reset. Sound controls stay separate.</p></div>';
+  document.querySelector('.head').insertBefore(coach,document.getElementById('close'));
+  coach.addEventListener('keydown',e=>{if(e.key==='Escape'){coach.open=false;coach.querySelector('summary').focus();}});
   const paintCoach=()=>{coach.querySelector('[data-coach-name]').textContent=GSCoach.name();};
   GSCoach.wire(coach);paintCoach();GSCoach.onChange(paintCoach);
 

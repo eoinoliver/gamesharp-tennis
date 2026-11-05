@@ -822,3 +822,10 @@ Final repair app: `4cb5b9d09c`; focused regression scope extends to 83 checks.
 The audit also measured all 148 voice files: Lara's lesson-only loudness range
 is 10.4 LU. Level calibration and cue wording consistency remain identified
 follow-up work, not hidden claims of polish. Exact final checks/preview on PR79.
+
+Required CI caught a regression introduced by the first coach selector: its
+extra row reduced the phone stage and pushed a contact-focus Next button below
+the viewport. Moved the disclosure into the existing header with an overlaid
+selector, preserving court height. Original layout assertions remain intact.
+Corrected app `a3ea033eb6`; rerunning layout, contact-focus, both-engine UX,
+hosted verification and complete CI before handoff.
