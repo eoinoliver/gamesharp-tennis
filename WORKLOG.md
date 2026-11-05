@@ -788,3 +788,8 @@ recording provenance, browser/asset validation and the updated Git preview.
 - Production is unchanged. This is an integration review candidate, not a merge
   or production promotion. Codex remains the owner of the review and any later
   authorised release.
+- Hosted harness correction: warm all four authored space/serve outcome assets
+  before the accelerated authenticated journey. The CLI transport's per-request
+  authentication latency had left the correct changed-route cue cold; the app
+  correctly declined to play it late. This changes only verification transport,
+  not application behavior. Local all-journey coverage already passed.

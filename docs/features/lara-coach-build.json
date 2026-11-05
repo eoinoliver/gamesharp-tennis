@@ -375,7 +375,7 @@
     },
     "tools/voice-catalogue-browser.mjs": {
       "baseline": "fb8a65728102db3410c509c16d9214498ae8abd5456a700a411032da06b4e2e2",
-      "candidate": "08dc678c6d288ec71c6de59077f781239bfadf266f8224423815fd82cb55f082"
+      "candidate": "433c5f275e4612c58a363ae7c42f678d8fe52e6dc31df29e03802b2dde911511"
     }
   },
   "release": {

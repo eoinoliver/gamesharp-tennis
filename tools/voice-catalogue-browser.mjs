@@ -24,7 +24,7 @@ async function journey(row,index){
  await c.route(/posthog\.com\//,r=>r.fulfill({status:200,body:'{}'}));
  if(process.env.GS_AUTH_TRANSPORT){
   // Warm audio before the first gesture: CLI authentication latency is not app network latency.
-  for(const name of ['contact-1.wav','contact-2.wav','bounce.wav','applause-1.mp3','applause-2.mp3','applause-3.mp3',voicePrefix+(row.asset||row.lesson)+'.mp3',...['time-used','time-watched','early-recovery','recover-sooner'].map(k=>voicePrefix+'live-'+k+'.mp3')])await fetchPath('/audio/'+name+'?v='+version);
+  for(const name of ['contact-1.wav','contact-2.wav','bounce.wav','applause-1.mp3','applause-2.mp3','applause-3.mp3',voicePrefix+(row.asset||row.lesson)+'.mp3',...['time-used','time-watched','early-recovery','recover-sooner'].map(k=>voicePrefix+'live-'+k+'.mp3'),...(row.family?['00','01','10','11'].map(k=>voicePrefix+'live-'+(row.family==='contact-space'?'space':'serve')+'-'+k+'.mp3'):[])])await fetchPath('/audio/'+name+'?v='+version);
   await c.route(origin+'/**',async r=>{const u=new URL(r.request().url());await r.fulfill(await fetchPath(u.pathname+u.search));});
   await c.route('https://vercel.live/**',r=>r.abort());
  }
