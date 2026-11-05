@@ -160,7 +160,11 @@
     },
     "tools/trust-practice-browser.mjs": {
       "baseline": "d7138310ae1ee8d28d81815a05d5ad550c973b0aad3cb7d839f7ba45a30006eb",
-      "candidate": "4bf08d0794380f95caaa231df943b921f0f7b076e1b4bcb6d29baceb0f378f70"
+      "candidate": "d8a075babb483f8fa5a1dcdb301d6f7391ab70f85de3b683c34b344348f88026"
+    },
+    "tools/trust-practice-source.py": {
+      "baseline": "1da4384c4ae987930c8888f9e19f5e4e5d70d14e5ebc31ddcaac3480335b4e1b",
+      "candidate": "4ac31015eb3294ffd05f85d0d96706f4d715787af9602fe6795d4ae3c4deff88"
     },
     "tools/voice-catalogue-browser.mjs": {
       "baseline": "84b91676a9463aaa6a3c8fddbaf064b2651813f8b4de97a7a0d600c893b1c3cc",
