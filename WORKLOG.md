@@ -755,3 +755,36 @@ All 74 existing spoken cues require matching recordings; retain lesson scripts,
 voice opt-outs, master mute and no repeated automatic narration. No production
 release is included in this integration step. Codex owns implementation,
 recording provenance, browser/asset validation and the updated Git preview.
+
+### Lara candidate and review evidence
+
+- Project `eoinoliver/gamesharp-tennis`, branch `codex/doubles-reset`, PR #77.
+  Implementation commit `245fcf4cef65f81f9e5931407a3a842869876d9e`, app
+  `48b9820608`. This subsequent record changes no application or test asset.
+- All 74 existing spoken cues have Lara assets (73 recordings; one exact-text
+  reuse), with 2.00–4.80 second durations. No cue is withheld and no missing
+  female cue silently substitutes Frank. Frank remains the default until a
+  player selects Lara. Choice, mute, cross-tab cancellation and honest storage
+  failure are covered by tests. Reset master mute now stops narration immediately.
+- Passed locally: 86 unit tests; 74 exact text/asset fingerprints; build parity
+  (280 release files, 385 checked inputs); 37 coach integration checks and all
+  74 real browser decodes in each of Chromium and WebKit; all 63 complete Lara
+  journeys in Chromium; five representative complete Lara journeys in WebKit;
+  87 WebKit Reset checks. Inspected Home and Reset layouts at small mobile and
+  desktop sizes, and the lesson completion selector. Repaired a clipped header
+  control and WebKit's undersized native select before the final checks.
+- Exact implementation preview:
+  https://gamesharp-tennis-pkusxrvqy-eoinlynn-5978s-projects.vercel.app
+  (`dpl_AHnhnn4PY8yKPotkMkx7BLch6Bzp`, Preview, READY). Hosted artifact verification
+  passed 421/421 file, route and exclusion checks. Authenticated hosted journey
+  checks and the complete GitHub regression suites are tracked on PR #77; Codex
+  owns resolving failures and recording the final status there before handoff.
+- The initial local full-catalogue attempt hit a 404 while the parity rebuild
+  replaced app/. The stable-build rerun passed all 63 journeys; this was test
+  orchestration, not a source change. No production analytics were sent by QA.
+- Original Runway files and the complete 74-cue listening page are preserved in
+  the task workspace. Eoin approved Lara's audition; independent listening to
+  every generated cue, physical phones and coaching judgment remain unverified.
+- Production is unchanged. This is an integration review candidate, not a merge
+  or production promotion. Codex remains the owner of the review and any later
+  authorised release.
