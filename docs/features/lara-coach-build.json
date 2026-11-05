@@ -1,0 +1,711 @@
+{
+  "purpose": "Complete optional Lara coach catalogue and shared persistent selector; prior release fingerprints remain frozen.",
+  "source": {
+    "THIRD_PARTY_NOTICES.md": {
+      "baseline": "cbdc03ab27759c0ef9b7e3e8db0b374ce78b3faaacd9bcf595887e1acb4871d9",
+      "candidate": "24487f7300c469aa44aac446a8e37847a7b841b3631ed1e8a1bcaab9499cebf3"
+    },
+    "app_src/audio/voice-lara-answer-the-drop.mp3": {
+      "baseline": null,
+      "candidate": "7fd43330d8af25bb4b37f31c83cd24ea86691994a0422d9cd1d15c23bcdd13b3"
+    },
+    "app_src/audio/voice-lara-approach-volley.mp3": {
+      "baseline": null,
+      "candidate": "b5b09d470f7916767f9d9dd8afc4dea7c05bd25883be13efb4c57f79e5aadfe0"
+    },
+    "app_src/audio/voice-lara-attack-the-backhand.mp3": {
+      "baseline": null,
+      "candidate": "4c38cf145d22b13c50fe2e071c7a8927b2de65ebaecc1b54acf6d8d315692bb0"
+    },
+    "app_src/audio/voice-lara-contact-clue.mp3": {
+      "baseline": null,
+      "candidate": "100201d4b9077314b6f887f569caea48cc5b6d63e1a451b8931f98013bd17613"
+    },
+    "app_src/audio/voice-lara-doubles-cross-cover.mp3": {
+      "baseline": null,
+      "candidate": "2801839b15c0dc7fb3f0ac2b2bbf5c05ffd65b888588691f34952434039c3b0d"
+    },
+    "app_src/audio/voice-lara-doubles-hold-cover.mp3": {
+      "baseline": null,
+      "candidate": "a1c43d95f715f3775adfb28211f2370200e5aae91934e5e8bb5114f0f4a37212"
+    },
+    "app_src/audio/voice-lara-doubles-lob-overhead.mp3": {
+      "baseline": null,
+      "candidate": "91351df5b96e2303d566bef6acc4e0ba603360127693b7c6240c6bc166e92b8d"
+    },
+    "app_src/audio/voice-lara-doubles-lob-switch.mp3": {
+      "baseline": null,
+      "candidate": "d0d6d623b43c2565bfe2d6bd8499bcd9b4783c6423a8fdb7a6c74ccfcd41ea03"
+    },
+    "app_src/audio/voice-lara-doubles-return-line.mp3": {
+      "baseline": null,
+      "candidate": "c86ea2bb41c128b5661a0a0e998f143a321baab47053ce3a3016c788093afdcc"
+    },
+    "app_src/audio/voice-lara-doubles-return-space.mp3": {
+      "baseline": null,
+      "candidate": "a09f697e1b953f64ae48f8d62e458bc396aa861e8667aecee64ff50e20314111"
+    },
+    "app_src/audio/voice-lara-down-the-line.mp3": {
+      "baseline": null,
+      "candidate": "2966f8b2d3ab0a8f450b41fb4d110d81c8362bc4f88e352613e7572c77ff2f1b"
+    },
+    "app_src/audio/voice-lara-earned-attack.mp3": {
+      "baseline": null,
+      "candidate": "10c074348b631b527e05cb103c9aae7372c0dc48f99cd49642ca76aa042d10ce"
+    },
+    "app_src/audio/voice-lara-earned-defence.mp3": {
+      "baseline": null,
+      "candidate": "6a0bb60133439a1a5c36bb5092c464e80fd006d4bf15334ac31e844e90ea346d"
+    },
+    "app_src/audio/voice-lara-earned-net.mp3": {
+      "baseline": null,
+      "candidate": "de3f52ea60614b6cf42d2665758078664403c4af5131527186f1405b3520eae9"
+    },
+    "app_src/audio/voice-lara-find-your-return-spot.mp3": {
+      "baseline": null,
+      "candidate": "5fa30d356c1e27940add119f273e116b315c940375a4137f1945c996531c3d8a"
+    },
+    "app_src/audio/voice-lara-forehand-bill.mp3": {
+      "baseline": null,
+      "candidate": "7f9285650f85503631ffc27411242dba88f3b19340e74d4fbcdbc137def12983"
+    },
+    "app_src/audio/voice-lara-high-ball.mp3": {
+      "baseline": null,
+      "candidate": "8ca790dd281acc3712b742e18501ce6528144b1f7360f20ca374794b5d08c169"
+    },
+    "app_src/audio/voice-lara-late-is-the-culprit.mp3": {
+      "baseline": null,
+      "candidate": "c35fde68e47238bdacb2498c669f65a872e24c42fce1e8a56bfbdcf8d2963bef"
+    },
+    "app_src/audio/voice-lara-live-early-recovery.mp3": {
+      "baseline": null,
+      "candidate": "022b98c7fb07a8351c3140e70ee3a4143ccb948c7f03e9d392169d5764bdd23e"
+    },
+    "app_src/audio/voice-lara-live-point-arrive-options.mp3": {
+      "baseline": null,
+      "candidate": "b0189bc20f2ea563758b6a4d5244cc37b18596c5a0ed40ac158fc2c31c7bec24"
+    },
+    "app_src/audio/voice-lara-live-point-buy-time.mp3": {
+      "baseline": null,
+      "candidate": "1b573ca44d2de388462d3ef8a8b9efd9ba1fa758311d1be2dc143018450e82ca"
+    },
+    "app_src/audio/voice-lara-live-point-line-opens.mp3": {
+      "baseline": null,
+      "candidate": "92ffaa841c8377d475f8ef4cb40f695e91b20dc8fd08596a663b913e4656c1ac"
+    },
+    "app_src/audio/voice-lara-live-point-line-tempting.mp3": {
+      "baseline": null,
+      "candidate": "37d752dca3eac66da4fa5a4ffa59eb0b3e49203942f5e5500ad390e145434f77"
+    },
+    "app_src/audio/voice-lara-live-point-other-wing.mp3": {
+      "baseline": null,
+      "candidate": "1b573ca44d2de388462d3ef8a8b9efd9ba1fa758311d1be2dc143018450e82ca"
+    },
+    "app_src/audio/voice-lara-live-point-over-head.mp3": {
+      "baseline": null,
+      "candidate": "255c6723f113d143dea05934190fbfa7cc288e69adcf759cb9bc238ad9489ef8"
+    },
+    "app_src/audio/voice-lara-live-point-pass-two.mp3": {
+      "baseline": null,
+      "candidate": "b389ceb14ab4cd69675a3ccf7c3d3af24e0f14905d603539eef94efa3f7facbc"
+    },
+    "app_src/audio/voice-lara-live-point-reach-drop.mp3": {
+      "baseline": null,
+      "candidate": "0587637e6cb48a182d2d616a1cdb2d0cae91b4cb260f1edcf6b9178166751417"
+    },
+    "app_src/audio/voice-lara-live-point-return-pressure.mp3": {
+      "baseline": null,
+      "candidate": "73ae8a7551e1fdadafee7646f4fb23a2619129bc5c366fecf9ee7a5b71459802"
+    },
+    "app_src/audio/voice-lara-live-point-return-time.mp3": {
+      "baseline": null,
+      "candidate": "5ce97ef3dc4493eaec5c3bd0eb89e727fcff9bc0102e723bd9dd4e0c610c11e7"
+    },
+    "app_src/audio/voice-lara-live-point-volley-build.mp3": {
+      "baseline": null,
+      "candidate": "744a770f03f595775f5096bed7ad74879703e777421de00e74be9fcf9effb998"
+    },
+    "app_src/audio/voice-lara-live-point-volley-opening.mp3": {
+      "baseline": null,
+      "candidate": "6c89ad6bfd62ba37e5f65cc48f31f77e2cc9a49c389ffd33f3d8c39e17950693"
+    },
+    "app_src/audio/voice-lara-live-recover-sooner.mp3": {
+      "baseline": null,
+      "candidate": "b194ec5d90fe014eaacb003a3e2d9c1a337b2951dd7d3a10b79f3c1760436297"
+    },
+    "app_src/audio/voice-lara-live-serve-00.mp3": {
+      "baseline": null,
+      "candidate": "ab21b87341e02e50539c2b99368c1dd0eff3a3fadfec3bc18ef475eee34126fb"
+    },
+    "app_src/audio/voice-lara-live-serve-01.mp3": {
+      "baseline": null,
+      "candidate": "5ff4dcacc72928041279092da115d3aef620652e8b06ba6da4a66a8c81864b69"
+    },
+    "app_src/audio/voice-lara-live-serve-10.mp3": {
+      "baseline": null,
+      "candidate": "fea7af69dd66a19ff60f72bc9bf3f7752cd6a34b23e3c56a6fa3b981bcfcc2f3"
+    },
+    "app_src/audio/voice-lara-live-serve-11.mp3": {
+      "baseline": null,
+      "candidate": "843cef453966a5e6c57fd33efc82d004d0f2383539ac0c6378426f2f3bc5f1ce"
+    },
+    "app_src/audio/voice-lara-live-space-00.mp3": {
+      "baseline": null,
+      "candidate": "bb2f1d723646416a4ccc1e6835581a31b83f7eae0069cb4f7eba55448b17d1b6"
+    },
+    "app_src/audio/voice-lara-live-space-01.mp3": {
+      "baseline": null,
+      "candidate": "fd73b24f85fca5f127add9f7113ff4029b33add2a6301e230868e5d9fcd832a4"
+    },
+    "app_src/audio/voice-lara-live-space-10.mp3": {
+      "baseline": null,
+      "candidate": "a115155c93b324ea20e3879f39a5ca338a0e308587a0f405c040bb157afea3a2"
+    },
+    "app_src/audio/voice-lara-live-space-11.mp3": {
+      "baseline": null,
+      "candidate": "1f5814aefbc10401a8434d24b017d6e3a43c5af732612fd4c9a0afd8f0530c32"
+    },
+    "app_src/audio/voice-lara-live-time-used.mp3": {
+      "baseline": null,
+      "candidate": "d8ccd0ebf502304eee564bad6e50dd4065736f4933a918db354e631c22579e14"
+    },
+    "app_src/audio/voice-lara-live-time-watched.mp3": {
+      "baseline": null,
+      "candidate": "7faac8c27662dfb81cb08f538d3ecdad2e820cd7422b87b042d66d6b8d00bf26"
+    },
+    "app_src/audio/voice-lara-middle-return.mp3": {
+      "baseline": null,
+      "candidate": "0ef66528761e3261f335d335adacee0e0bd52b40b65dbe22ba9e31eda8667c33"
+    },
+    "app_src/audio/voice-lara-midweek-point-1.mp3": {
+      "baseline": null,
+      "candidate": "e35df805f24a78315bbbd657681b7c7646b7de403a396d474aabe736c3fed3c0"
+    },
+    "app_src/audio/voice-lara-net-rusher.mp3": {
+      "baseline": null,
+      "candidate": "d1a42c020b10be3cf019f37b2090df8e12db7972afd2d8de8d00d029d548f50e"
+    },
+    "app_src/audio/voice-lara-open-court.mp3": {
+      "baseline": null,
+      "candidate": "fdc6023d09deb9112f97bbd70a7a997a3d54fbcaf840a5aa62b3df17fd0bc38d"
+    },
+    "app_src/audio/voice-lara-pass-where-they-arent.mp3": {
+      "baseline": null,
+      "candidate": "28080f93d93ee3e92753d004672397ffafa7a4fd8fac0d7b7fefbff153292917"
+    },
+    "app_src/audio/voice-lara-play-the-point.mp3": {
+      "baseline": null,
+      "candidate": "1ec50a86d3e67302ed113171d6d17f59d088f5e4c968d3fa7ab48259b61eddc8"
+    },
+    "app_src/audio/voice-lara-predict-second-serve.mp3": {
+      "baseline": null,
+      "candidate": "3348dc159a53b959c780bdbb62e4ef750c351d4baf860c005663d73a11bea13c"
+    },
+    "app_src/audio/voice-lara-predict-the-point.mp3": {
+      "baseline": null,
+      "candidate": "1d1e4ff3d6c6e50be7d49cdddd74f511dc4bfb3171762cd7c7a13a6232df3561"
+    },
+    "app_src/audio/voice-lara-pulled-wide.mp3": {
+      "baseline": null,
+      "candidate": "0e8b9d21fe7158707db596d2b3b835c1bdc57b41394aad5e92d4a65a4fa14748"
+    },
+    "app_src/audio/voice-lara-recovery.mp3": {
+      "baseline": null,
+      "candidate": "933381186e71b695cb80793989f359466d0aff994ebb5fc0201a82a6a81cec98"
+    },
+    "app_src/audio/voice-lara-reset-choose.mp3": {
+      "baseline": null,
+      "candidate": "f71034145481994c2f4b1bb865f4d8b4b2f6def2acc798148e6b1e52f631f2db"
+    },
+    "app_src/audio/voice-lara-reset-commit.mp3": {
+      "baseline": null,
+      "candidate": "d2c00be923b8450c4b3979420de05785a2f28367299854a3c6b76b9ad35aec03"
+    },
+    "app_src/audio/voice-lara-reset-release.mp3": {
+      "baseline": null,
+      "candidate": "0c3d6faace8916236e6c43da2cf317499605de2c6e863f40354629fa930cd07c"
+    },
+    "app_src/audio/voice-lara-running-around.mp3": {
+      "baseline": null,
+      "candidate": "b2e85bed12f047a0499f4b9c5b96801395f8c4fe4d860cd8bbcb971b523fb29b"
+    },
+    "app_src/audio/voice-lara-rushed-out-wide.mp3": {
+      "baseline": null,
+      "candidate": "a43e991f0c559970b4a70103f36076445f76545ff24609c469ce2a961a1b52ad"
+    },
+    "app_src/audio/voice-lara-saturday-point-1.mp3": {
+      "baseline": null,
+      "candidate": "8756d2eb0605d862b8f6a9d3662b580f909ce3c0f0249711661e01204140595a"
+    },
+    "app_src/audio/voice-lara-saturday-point-2.mp3": {
+      "baseline": null,
+      "candidate": "b9c7737a15868c88cfb390cd111bf2293e5dbe9b649a7b5b1ed8c5eaafa2437d"
+    },
+    "app_src/audio/voice-lara-saturday-point-3.mp3": {
+      "baseline": null,
+      "candidate": "f4eb9b93bca192393eae6abc963a3dbd439aa48658926ea85bd6bb55cf1bb5b4"
+    },
+    "app_src/audio/voice-lara-saturday-point-4.mp3": {
+      "baseline": null,
+      "candidate": "5cdbecf03e424201c1d0d8d60f2a82ff8a6d1834820f0ba369ccb128c143a886"
+    },
+    "app_src/audio/voice-lara-saturday-point-5.mp3": {
+      "baseline": null,
+      "candidate": "ce3e545491b054b4ded4a648fe0bc2a251af83da3ff8641170663c2e861db5a0"
+    },
+    "app_src/audio/voice-lara-second-serve.mp3": {
+      "baseline": null,
+      "candidate": "3378199a3d8d85ecad5cd98b7e3dd7fe192bd48c15a62c0f8b9e003faa38df5d"
+    },
+    "app_src/audio/voice-lara-serve-away-from-the-lean.mp3": {
+      "baseline": null,
+      "candidate": "e6b4c4dd80060e687dd7a206076f79493f56db4d37098e3f425351585a93436f"
+    },
+    "app_src/audio/voice-lara-serve-plus-one.mp3": {
+      "baseline": null,
+      "candidate": "56bf4330aec4cd89bce58a6e3e439e1ea67561bc39431d1a00bbb7a8c1492b5e"
+    },
+    "app_src/audio/voice-lara-short-ball.mp3": {
+      "baseline": null,
+      "candidate": "5589038817d9e8d9ba44bde8301e6f53ea26193347064a98ce4d2b18be81a433"
+    },
+    "app_src/audio/voice-lara-split-step.mp3": {
+      "baseline": null,
+      "candidate": "1379530e7852215349be4a371d4f12c203f67bc8191bf7f026ec7df35d4ae6a4"
+    },
+    "app_src/audio/voice-lara-the-big-hitter.mp3": {
+      "baseline": null,
+      "candidate": "fc9b5af5a790495937f0ed94e18e883bef0908521fccfabd54ee75d6db6be347"
+    },
+    "app_src/audio/voice-lara-the-lead.mp3": {
+      "baseline": null,
+      "candidate": "236d5aa3570dd7124fe0546f62ad6d63aaee30be9967b75f0dce9a3d431fe5bb"
+    },
+    "app_src/audio/voice-lara-the-lefty.mp3": {
+      "baseline": null,
+      "candidate": "0f18bd63d35221de8cc2dfde79e627a28438423544cdf7d693e0d7a4df4a9224"
+    },
+    "app_src/audio/voice-lara-the-line.mp3": {
+      "baseline": null,
+      "candidate": "207c32651358f85f19d54f8f6464702c5f5a4007ece3755b43ce41563b3baae1"
+    },
+    "app_src/audio/voice-lara-the-moonballer.mp3": {
+      "baseline": null,
+      "candidate": "e8fcaf0b3dd6b6449d2aa66b69d6b150c00c7c0a705bd7cebf8eb338ce40cb49"
+    },
+    "app_src/audio/voice-lara-the-pusher.mp3": {
+      "baseline": null,
+      "candidate": "20756a6abfca53d88d8d26a82cd0f16f5a1cf5fb1a08894c06510f0d0a379c88"
+    },
+    "app_src/audio/voice-lara-the-winner.mp3": {
+      "baseline": null,
+      "candidate": "ab569822dda1a24afffa173ed7c3c70c2d0839b824231e4198d80e6353836b10"
+    },
+    "app_src/build.py": {
+      "baseline": "dfa3130b5df05004c030ffe7da5b27ded2265721388731d72eec71aa7ebe1c39",
+      "candidate": "04271afd569efceadb4362bb2dec6ac53c99522b580c3d0b76bf435d32f785b9"
+    },
+    "app_src/coach.css": {
+      "baseline": null,
+      "candidate": "481821d666800d972c0bf5e2a142c73e989f9cdbd283713b33fc977f2e23a286"
+    },
+    "app_src/coach.js": {
+      "baseline": null,
+      "candidate": "c63314c26cefd4b67b233552eda14e4e29de9a34dc953db9d7ac2efcf6dc32ec"
+    },
+    "app_src/coach.test.mjs": {
+      "baseline": null,
+      "candidate": "81e138386ad35f4e956ba69827e99a1892a78fc4dbba0114bdc76fdfbc80e6bb"
+    },
+    "app_src/index.html": {
+      "baseline": "2872a6f849c61ed09a854b5940abdab51fe3083e02b01b3fc3e7acc9235fe358",
+      "candidate": "221fb91056d4f86a49596591742bd2af06451539f48fee5e95e09fd9f2eaaa78"
+    },
+    "app_src/play_host.html": {
+      "baseline": "5975f979ff5cded7138ebe9216cadae85ec84565e3016964a0eb291db5ff8303",
+      "candidate": "e3ec23c6df77a20102161a07650f86408764cb7f8830436c5b495c019b8ec69a"
+    },
+    "app_src/reset.js": {
+      "baseline": "1d1d0ed666f2a5f335f2fcc0268209158ddade4622717440e0e79f9d9cfcf503",
+      "candidate": "13df8c1059232f0eb5877c9ba9d38af876deac7c0c2e7082323be88720eddb5e"
+    },
+    "app_src/sfx.js": {
+      "baseline": "8015ab926614e7513eed14b60a2c6ec0ccffc7c23f0db79bfe802f8602b02b81",
+      "candidate": "9fb98f0be5f99e258d1d90c2355b7385374aaee00d53da2905e7da13738f7389"
+    },
+    "app_src/sfx.test.mjs": {
+      "baseline": "88cb6b8bc5ab356214e1da778c539655b5c3afdc23ea75a8a54264e6309df37a",
+      "candidate": "ee074c01b34d9143edf624ebebbfd7b2024dc7b68303a7fcfebf5515565e765b"
+    },
+    "docs/features/doubles-reset.md": {
+      "baseline": "be0581115a61ba6ff32d5c13990ae00843751dfaa7d204aad9d172276dc91139",
+      "candidate": "a5cfb9b3d97ba458519e99b524eb8f8670cd71d072e2bbab62e8bd14854204c8"
+    },
+    "docs/features/lara-coach.md": {
+      "baseline": null,
+      "candidate": "f14d7b8b9f32dd9e3f31fe621749e446bc3e3941939f04b19c71e2523d8c7400"
+    },
+    "docs/features/lara-voice-sources.json": {
+      "baseline": null,
+      "candidate": "7922f81725ea12c1f817ad00d7c871d7b34faf8dc665be579446fe8ec07c17f2"
+    },
+    "package.json": {
+      "baseline": null,
+      "candidate": "033e891a2dd5b1d3699c157da1968c4e37f3fec8f82256f6f7c571e2643bc452"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "a6212747d58ce3af92d2e7878295d07e10c265241e7825b8346b42dc629b70db",
+      "candidate": "d066f5487cac40698b6cf9ef89c658f95d8e603ab47bb4c0a1cc7736d52e087b"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "f88dcb893d2071c44d3c3385692db8db2c8e2e52ff2a6e05b3c1cc1cdedd2e0a",
+      "candidate": "f05dc12081aad1d631f93b770c1c96bf1b7233067c552d6ff814ac85031166e5"
+    },
+    "tools/coach-browser.mjs": {
+      "baseline": null,
+      "candidate": "30444a993e173d980cf87aab6dcfe50204549f1d45b3a937b37764d6c8904d43"
+    },
+    "tools/lara-catalogue-browser.mjs": {
+      "baseline": null,
+      "candidate": "db5faabd4fe3c7cae08e49baf151ded1475a700dad75a013b471e2ff79cb76b0"
+    },
+    "tools/lara-source.py": {
+      "baseline": null,
+      "candidate": "bee7b968b9f57ccd1a4e561d4b4c92a317914bcbf661d14b617491e19afadc21"
+    },
+    "tools/voice-catalogue-browser.mjs": {
+      "baseline": "fb8a65728102db3410c509c16d9214498ae8abd5456a700a411032da06b4e2e2",
+      "candidate": "433c5f275e4612c58a363ae7c42f678d8fe52e6dc31df29e03802b2dde911511"
+    }
+  },
+  "release": {
+    "app/audio/voice-lara-answer-the-drop.mp3": {
+      "baseline": null,
+      "candidate": "7fd43330d8af25bb4b37f31c83cd24ea86691994a0422d9cd1d15c23bcdd13b3"
+    },
+    "app/audio/voice-lara-approach-volley.mp3": {
+      "baseline": null,
+      "candidate": "b5b09d470f7916767f9d9dd8afc4dea7c05bd25883be13efb4c57f79e5aadfe0"
+    },
+    "app/audio/voice-lara-attack-the-backhand.mp3": {
+      "baseline": null,
+      "candidate": "4c38cf145d22b13c50fe2e071c7a8927b2de65ebaecc1b54acf6d8d315692bb0"
+    },
+    "app/audio/voice-lara-contact-clue.mp3": {
+      "baseline": null,
+      "candidate": "100201d4b9077314b6f887f569caea48cc5b6d63e1a451b8931f98013bd17613"
+    },
+    "app/audio/voice-lara-doubles-cross-cover.mp3": {
+      "baseline": null,
+      "candidate": "2801839b15c0dc7fb3f0ac2b2bbf5c05ffd65b888588691f34952434039c3b0d"
+    },
+    "app/audio/voice-lara-doubles-hold-cover.mp3": {
+      "baseline": null,
+      "candidate": "a1c43d95f715f3775adfb28211f2370200e5aae91934e5e8bb5114f0f4a37212"
+    },
+    "app/audio/voice-lara-doubles-lob-overhead.mp3": {
+      "baseline": null,
+      "candidate": "91351df5b96e2303d566bef6acc4e0ba603360127693b7c6240c6bc166e92b8d"
+    },
+    "app/audio/voice-lara-doubles-lob-switch.mp3": {
+      "baseline": null,
+      "candidate": "d0d6d623b43c2565bfe2d6bd8499bcd9b4783c6423a8fdb7a6c74ccfcd41ea03"
+    },
+    "app/audio/voice-lara-doubles-return-line.mp3": {
+      "baseline": null,
+      "candidate": "c86ea2bb41c128b5661a0a0e998f143a321baab47053ce3a3016c788093afdcc"
+    },
+    "app/audio/voice-lara-doubles-return-space.mp3": {
+      "baseline": null,
+      "candidate": "a09f697e1b953f64ae48f8d62e458bc396aa861e8667aecee64ff50e20314111"
+    },
+    "app/audio/voice-lara-down-the-line.mp3": {
+      "baseline": null,
+      "candidate": "2966f8b2d3ab0a8f450b41fb4d110d81c8362bc4f88e352613e7572c77ff2f1b"
+    },
+    "app/audio/voice-lara-earned-attack.mp3": {
+      "baseline": null,
+      "candidate": "10c074348b631b527e05cb103c9aae7372c0dc48f99cd49642ca76aa042d10ce"
+    },
+    "app/audio/voice-lara-earned-defence.mp3": {
+      "baseline": null,
+      "candidate": "6a0bb60133439a1a5c36bb5092c464e80fd006d4bf15334ac31e844e90ea346d"
+    },
+    "app/audio/voice-lara-earned-net.mp3": {
+      "baseline": null,
+      "candidate": "de3f52ea60614b6cf42d2665758078664403c4af5131527186f1405b3520eae9"
+    },
+    "app/audio/voice-lara-find-your-return-spot.mp3": {
+      "baseline": null,
+      "candidate": "5fa30d356c1e27940add119f273e116b315c940375a4137f1945c996531c3d8a"
+    },
+    "app/audio/voice-lara-forehand-bill.mp3": {
+      "baseline": null,
+      "candidate": "7f9285650f85503631ffc27411242dba88f3b19340e74d4fbcdbc137def12983"
+    },
+    "app/audio/voice-lara-high-ball.mp3": {
+      "baseline": null,
+      "candidate": "8ca790dd281acc3712b742e18501ce6528144b1f7360f20ca374794b5d08c169"
+    },
+    "app/audio/voice-lara-late-is-the-culprit.mp3": {
+      "baseline": null,
+      "candidate": "c35fde68e47238bdacb2498c669f65a872e24c42fce1e8a56bfbdcf8d2963bef"
+    },
+    "app/audio/voice-lara-live-early-recovery.mp3": {
+      "baseline": null,
+      "candidate": "022b98c7fb07a8351c3140e70ee3a4143ccb948c7f03e9d392169d5764bdd23e"
+    },
+    "app/audio/voice-lara-live-point-arrive-options.mp3": {
+      "baseline": null,
+      "candidate": "b0189bc20f2ea563758b6a4d5244cc37b18596c5a0ed40ac158fc2c31c7bec24"
+    },
+    "app/audio/voice-lara-live-point-buy-time.mp3": {
+      "baseline": null,
+      "candidate": "1b573ca44d2de388462d3ef8a8b9efd9ba1fa758311d1be2dc143018450e82ca"
+    },
+    "app/audio/voice-lara-live-point-line-opens.mp3": {
+      "baseline": null,
+      "candidate": "92ffaa841c8377d475f8ef4cb40f695e91b20dc8fd08596a663b913e4656c1ac"
+    },
+    "app/audio/voice-lara-live-point-line-tempting.mp3": {
+      "baseline": null,
+      "candidate": "37d752dca3eac66da4fa5a4ffa59eb0b3e49203942f5e5500ad390e145434f77"
+    },
+    "app/audio/voice-lara-live-point-other-wing.mp3": {
+      "baseline": null,
+      "candidate": "1b573ca44d2de388462d3ef8a8b9efd9ba1fa758311d1be2dc143018450e82ca"
+    },
+    "app/audio/voice-lara-live-point-over-head.mp3": {
+      "baseline": null,
+      "candidate": "255c6723f113d143dea05934190fbfa7cc288e69adcf759cb9bc238ad9489ef8"
+    },
+    "app/audio/voice-lara-live-point-pass-two.mp3": {
+      "baseline": null,
+      "candidate": "b389ceb14ab4cd69675a3ccf7c3d3af24e0f14905d603539eef94efa3f7facbc"
+    },
+    "app/audio/voice-lara-live-point-reach-drop.mp3": {
+      "baseline": null,
+      "candidate": "0587637e6cb48a182d2d616a1cdb2d0cae91b4cb260f1edcf6b9178166751417"
+    },
+    "app/audio/voice-lara-live-point-return-pressure.mp3": {
+      "baseline": null,
+      "candidate": "73ae8a7551e1fdadafee7646f4fb23a2619129bc5c366fecf9ee7a5b71459802"
+    },
+    "app/audio/voice-lara-live-point-return-time.mp3": {
+      "baseline": null,
+      "candidate": "5ce97ef3dc4493eaec5c3bd0eb89e727fcff9bc0102e723bd9dd4e0c610c11e7"
+    },
+    "app/audio/voice-lara-live-point-volley-build.mp3": {
+      "baseline": null,
+      "candidate": "744a770f03f595775f5096bed7ad74879703e777421de00e74be9fcf9effb998"
+    },
+    "app/audio/voice-lara-live-point-volley-opening.mp3": {
+      "baseline": null,
+      "candidate": "6c89ad6bfd62ba37e5f65cc48f31f77e2cc9a49c389ffd33f3d8c39e17950693"
+    },
+    "app/audio/voice-lara-live-recover-sooner.mp3": {
+      "baseline": null,
+      "candidate": "b194ec5d90fe014eaacb003a3e2d9c1a337b2951dd7d3a10b79f3c1760436297"
+    },
+    "app/audio/voice-lara-live-serve-00.mp3": {
+      "baseline": null,
+      "candidate": "ab21b87341e02e50539c2b99368c1dd0eff3a3fadfec3bc18ef475eee34126fb"
+    },
+    "app/audio/voice-lara-live-serve-01.mp3": {
+      "baseline": null,
+      "candidate": "5ff4dcacc72928041279092da115d3aef620652e8b06ba6da4a66a8c81864b69"
+    },
+    "app/audio/voice-lara-live-serve-10.mp3": {
+      "baseline": null,
+      "candidate": "fea7af69dd66a19ff60f72bc9bf3f7752cd6a34b23e3c56a6fa3b981bcfcc2f3"
+    },
+    "app/audio/voice-lara-live-serve-11.mp3": {
+      "baseline": null,
+      "candidate": "843cef453966a5e6c57fd33efc82d004d0f2383539ac0c6378426f2f3bc5f1ce"
+    },
+    "app/audio/voice-lara-live-space-00.mp3": {
+      "baseline": null,
+      "candidate": "bb2f1d723646416a4ccc1e6835581a31b83f7eae0069cb4f7eba55448b17d1b6"
+    },
+    "app/audio/voice-lara-live-space-01.mp3": {
+      "baseline": null,
+      "candidate": "fd73b24f85fca5f127add9f7113ff4029b33add2a6301e230868e5d9fcd832a4"
+    },
+    "app/audio/voice-lara-live-space-10.mp3": {
+      "baseline": null,
+      "candidate": "a115155c93b324ea20e3879f39a5ca338a0e308587a0f405c040bb157afea3a2"
+    },
+    "app/audio/voice-lara-live-space-11.mp3": {
+      "baseline": null,
+      "candidate": "1f5814aefbc10401a8434d24b017d6e3a43c5af732612fd4c9a0afd8f0530c32"
+    },
+    "app/audio/voice-lara-live-time-used.mp3": {
+      "baseline": null,
+      "candidate": "d8ccd0ebf502304eee564bad6e50dd4065736f4933a918db354e631c22579e14"
+    },
+    "app/audio/voice-lara-live-time-watched.mp3": {
+      "baseline": null,
+      "candidate": "7faac8c27662dfb81cb08f538d3ecdad2e820cd7422b87b042d66d6b8d00bf26"
+    },
+    "app/audio/voice-lara-middle-return.mp3": {
+      "baseline": null,
+      "candidate": "0ef66528761e3261f335d335adacee0e0bd52b40b65dbe22ba9e31eda8667c33"
+    },
+    "app/audio/voice-lara-midweek-point-1.mp3": {
+      "baseline": null,
+      "candidate": "e35df805f24a78315bbbd657681b7c7646b7de403a396d474aabe736c3fed3c0"
+    },
+    "app/audio/voice-lara-net-rusher.mp3": {
+      "baseline": null,
+      "candidate": "d1a42c020b10be3cf019f37b2090df8e12db7972afd2d8de8d00d029d548f50e"
+    },
+    "app/audio/voice-lara-open-court.mp3": {
+      "baseline": null,
+      "candidate": "fdc6023d09deb9112f97bbd70a7a997a3d54fbcaf840a5aa62b3df17fd0bc38d"
+    },
+    "app/audio/voice-lara-pass-where-they-arent.mp3": {
+      "baseline": null,
+      "candidate": "28080f93d93ee3e92753d004672397ffafa7a4fd8fac0d7b7fefbff153292917"
+    },
+    "app/audio/voice-lara-play-the-point.mp3": {
+      "baseline": null,
+      "candidate": "1ec50a86d3e67302ed113171d6d17f59d088f5e4c968d3fa7ab48259b61eddc8"
+    },
+    "app/audio/voice-lara-predict-second-serve.mp3": {
+      "baseline": null,
+      "candidate": "3348dc159a53b959c780bdbb62e4ef750c351d4baf860c005663d73a11bea13c"
+    },
+    "app/audio/voice-lara-predict-the-point.mp3": {
+      "baseline": null,
+      "candidate": "1d1e4ff3d6c6e50be7d49cdddd74f511dc4bfb3171762cd7c7a13a6232df3561"
+    },
+    "app/audio/voice-lara-pulled-wide.mp3": {
+      "baseline": null,
+      "candidate": "0e8b9d21fe7158707db596d2b3b835c1bdc57b41394aad5e92d4a65a4fa14748"
+    },
+    "app/audio/voice-lara-recovery.mp3": {
+      "baseline": null,
+      "candidate": "933381186e71b695cb80793989f359466d0aff994ebb5fc0201a82a6a81cec98"
+    },
+    "app/audio/voice-lara-reset-choose.mp3": {
+      "baseline": null,
+      "candidate": "f71034145481994c2f4b1bb865f4d8b4b2f6def2acc798148e6b1e52f631f2db"
+    },
+    "app/audio/voice-lara-reset-commit.mp3": {
+      "baseline": null,
+      "candidate": "d2c00be923b8450c4b3979420de05785a2f28367299854a3c6b76b9ad35aec03"
+    },
+    "app/audio/voice-lara-reset-release.mp3": {
+      "baseline": null,
+      "candidate": "0c3d6faace8916236e6c43da2cf317499605de2c6e863f40354629fa930cd07c"
+    },
+    "app/audio/voice-lara-running-around.mp3": {
+      "baseline": null,
+      "candidate": "b2e85bed12f047a0499f4b9c5b96801395f8c4fe4d860cd8bbcb971b523fb29b"
+    },
+    "app/audio/voice-lara-rushed-out-wide.mp3": {
+      "baseline": null,
+      "candidate": "a43e991f0c559970b4a70103f36076445f76545ff24609c469ce2a961a1b52ad"
+    },
+    "app/audio/voice-lara-saturday-point-1.mp3": {
+      "baseline": null,
+      "candidate": "8756d2eb0605d862b8f6a9d3662b580f909ce3c0f0249711661e01204140595a"
+    },
+    "app/audio/voice-lara-saturday-point-2.mp3": {
+      "baseline": null,
+      "candidate": "b9c7737a15868c88cfb390cd111bf2293e5dbe9b649a7b5b1ed8c5eaafa2437d"
+    },
+    "app/audio/voice-lara-saturday-point-3.mp3": {
+      "baseline": null,
+      "candidate": "f4eb9b93bca192393eae6abc963a3dbd439aa48658926ea85bd6bb55cf1bb5b4"
+    },
+    "app/audio/voice-lara-saturday-point-4.mp3": {
+      "baseline": null,
+      "candidate": "5cdbecf03e424201c1d0d8d60f2a82ff8a6d1834820f0ba369ccb128c143a886"
+    },
+    "app/audio/voice-lara-saturday-point-5.mp3": {
+      "baseline": null,
+      "candidate": "ce3e545491b054b4ded4a648fe0bc2a251af83da3ff8641170663c2e861db5a0"
+    },
+    "app/audio/voice-lara-second-serve.mp3": {
+      "baseline": null,
+      "candidate": "3378199a3d8d85ecad5cd98b7e3dd7fe192bd48c15a62c0f8b9e003faa38df5d"
+    },
+    "app/audio/voice-lara-serve-away-from-the-lean.mp3": {
+      "baseline": null,
+      "candidate": "e6b4c4dd80060e687dd7a206076f79493f56db4d37098e3f425351585a93436f"
+    },
+    "app/audio/voice-lara-serve-plus-one.mp3": {
+      "baseline": null,
+      "candidate": "56bf4330aec4cd89bce58a6e3e439e1ea67561bc39431d1a00bbb7a8c1492b5e"
+    },
+    "app/audio/voice-lara-short-ball.mp3": {
+      "baseline": null,
+      "candidate": "5589038817d9e8d9ba44bde8301e6f53ea26193347064a98ce4d2b18be81a433"
+    },
+    "app/audio/voice-lara-split-step.mp3": {
+      "baseline": null,
+      "candidate": "1379530e7852215349be4a371d4f12c203f67bc8191bf7f026ec7df35d4ae6a4"
+    },
+    "app/audio/voice-lara-the-big-hitter.mp3": {
+      "baseline": null,
+      "candidate": "fc9b5af5a790495937f0ed94e18e883bef0908521fccfabd54ee75d6db6be347"
+    },
+    "app/audio/voice-lara-the-lead.mp3": {
+      "baseline": null,
+      "candidate": "236d5aa3570dd7124fe0546f62ad6d63aaee30be9967b75f0dce9a3d431fe5bb"
+    },
+    "app/audio/voice-lara-the-lefty.mp3": {
+      "baseline": null,
+      "candidate": "0f18bd63d35221de8cc2dfde79e627a28438423544cdf7d693e0d7a4df4a9224"
+    },
+    "app/audio/voice-lara-the-line.mp3": {
+      "baseline": null,
+      "candidate": "207c32651358f85f19d54f8f6464702c5f5a4007ece3755b43ce41563b3baae1"
+    },
+    "app/audio/voice-lara-the-moonballer.mp3": {
+      "baseline": null,
+      "candidate": "e8fcaf0b3dd6b6449d2aa66b69d6b150c00c7c0a705bd7cebf8eb338ce40cb49"
+    },
+    "app/audio/voice-lara-the-pusher.mp3": {
+      "baseline": null,
+      "candidate": "20756a6abfca53d88d8d26a82cd0f16f5a1cf5fb1a08894c06510f0d0a379c88"
+    },
+    "app/audio/voice-lara-the-winner.mp3": {
+      "baseline": null,
+      "candidate": "ab569822dda1a24afffa173ed7c3c70c2d0839b824231e4198d80e6353836b10"
+    },
+    "app/catalog.js": {
+      "baseline": "08479f0a09f560a8853a84b9f164043386b88948c2d90b8833b444dcb1ddc0ca",
+      "candidate": "fb78f6393aefd92ec55542260cc5bf70aec9db2aa06c8d388d2c03356ee43331"
+    },
+    "app/coach.css": {
+      "baseline": null,
+      "candidate": "481821d666800d972c0bf5e2a142c73e989f9cdbd283713b33fc977f2e23a286"
+    },
+    "app/coach.js": {
+      "baseline": null,
+      "candidate": "c63314c26cefd4b67b233552eda14e4e29de9a34dc953db9d7ac2efcf6dc32ec"
+    },
+    "app/engine/engine.js": {
+      "baseline": "84edec4013c37d16dadad579b04b7708aaf053821514630e47a86cafb15380b7",
+      "candidate": "ffc3712e1c81ddc4434c14e33261993e7840d4e8e89ba9c0f5fdf31ae881cbff"
+    },
+    "app/index.html": {
+      "baseline": "c81e21d5862c81a3685dae93674ecaa186d22204512f5b89649c00a33d254b83",
+      "candidate": "85ad52d64b4ace0039060e914a89b027c3ac45a2274c7daeb96b7d4325d32700"
+    },
+    "app/play.html": {
+      "baseline": "54f6d096483dde1b267ea885edc0c4c68b8354a9093ee09f9741ed924729a24b",
+      "candidate": "e3f4e8c1ee1864b07b9da3bc427dccc78f002a32110bc487fcb6795dd4b4a9fc"
+    },
+    "app/reset.js": {
+      "baseline": "1d1d0ed666f2a5f335f2fcc0268209158ddade4622717440e0e79f9d9cfcf503",
+      "candidate": "13df8c1059232f0eb5877c9ba9d38af876deac7c0c2e7082323be88720eddb5e"
+    },
+    "app/sfx.js": {
+      "baseline": "8015ab926614e7513eed14b60a2c6ec0ccffc7c23f0db79bfe802f8602b02b81",
+      "candidate": "9fb98f0be5f99e258d1d90c2355b7385374aaee00d53da2905e7da13738f7389"
+    }
+  }
+}

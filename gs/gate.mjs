@@ -28,10 +28,10 @@ const r=await p.evaluate(()=>{
   camI=0;answered=true;showTargets=null;window.__pc=null;
   cam=(typeof LESSON!=='undefined'&&LESSON.cam0&&LESSON.cam0.c)?{...LESSON.cam0.c}:{az:-90,el:24,d:31,fov:31,tgt:[0,-1.7,0]}; buildBasis();
   for(const k of Object.keys(SC)){const sc=SC[k];
-    for(const who of ['you','opp']){let prev=null,mx=0,mxg=0,away=999,awg=0,off=0;
+    for(const who of Object.keys(sc.actors)){let prev=null,mx=0,mxg=0,away=999,awg=0,off=0;
       for(let g=0;g<sc.frames;g++){const a=actorAt(sc,who,g); if(!a) continue; const h=a.pose[I.hips];
         if(prev){const v=Math.hypot(h[0]-prev[0],h[1]-prev[1])*100; if(v>mx){mx=v;mxg=g;}} prev=h;
-        const f=facingOf(a.pose)*180/Math.PI, aw=who==='you'?-90:90, o=Math.abs(((f-aw+540)%360)-180); if(g>90&&o<away){away=o;awg=g;}
+        const f=facingOf(a.pose)*180/Math.PI, aw=who==='you'||who==='partner'?-90:90, o=Math.abs(((f-aw+540)%360)-180); if(g>90&&o<away){away=o;awg=g;}
         if(who==='you'){scene=k;t=g;setCamera(a);buildBasis();fitFull();const q=P(a.pose[I.hips]); if(!q||q.s[0]<0||q.s[0]>VW||q.s[1]<0||q.s[1]>VH) off++;}}
       if(mx>12.5) fails.push(`${k} ${who}: glides at ${mx.toFixed(1)} m/s (frame ${mxg})`);
       if(away<15) fails.push(`${k} ${who}: faces away from the court (${away.toFixed(0)}° at frame ${awg})`);
@@ -42,7 +42,8 @@ const r=await p.evaluate(()=>{
  const pf=await q.evaluate(()=>{const out=[]; camI=window.__camDefault??0; window.__camOverride=null; showTargets=null; answered=true;   // check the playback camera, not a question-time view
   for(const k of Object.keys(SC)){const sc=SC[k]; let worst=1e9,wg=0;
     for(let g=0;g<sc.frames;g+=3){const y=actorAt(sc,'you',g); if(!y) continue; scene=k; t=g; setCamera(y); buildBasis();
-      for(const who of (LESSON.closeUp?['you']:['you','opp'])){const a=actorAt(sc,who,g); if(!a) continue;   // a close-up lesson frames you, not them
+      if(LESSON.doubles)fitFull();
+      for(const who of (LESSON.closeUp?['you']:Object.keys(sc.actors))){const a=actorAt(sc,who,g); if(!a) continue;   // a close-up lesson frames you, not them
         for(const pt of [a.pose[I.hips],add(a.pose[I.head],[0,0,0.42])]){const s=P(pt); if(!s) continue;
           const m=Math.min(s.s[0],VW-s.s[0],s.s[1],VH-s.s[1]); if(m<worst){worst=m;wg=g;}}}}
     if(worst<20) out.push(`${k}: a player is cut off on a phone (frame ${wg})`);}

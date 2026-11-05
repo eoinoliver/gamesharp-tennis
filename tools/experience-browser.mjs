@@ -20,7 +20,7 @@ try{
   check(await p.evaluate(()=>{const court=document.querySelector('#cineCourt').getBoundingClientRect(),card=document.querySelector('.cine-card').getBoundingClientRect();return court.bottom<=card.top||court.right<=card.left;}),`${size.width}: challenge never hides the ball flight`);
   await p.screenshot({path:`${out}/home-${size.width}.png`,fullPage:true});
   await p.goto(base+'?review=1');await p.locator('#shAth.ready svg').waitFor();
-  check(await p.locator('.sh-zones a').count()===7,`${size.width}: all seven concern areas retained`);
+  check(await p.locator('.sh-zones a').count()===8,`${size.width}: seven original concerns plus doubles retained`);
   check(await p.evaluate(()=>[...document.querySelectorAll('.court-bg,.gs-real-home-court')].every(e=>getComputedStyle(e).display==='none')),`${size.width}: no background court behind Sharpen`);
   await p.locator('[data-ath="serve"]').click();await p.locator('#shAthCard').scrollIntoViewIfNeeded();
   for(let i=0;i<3;i++){await p.locator('#shAthCard [data-phase]').nth(i).click();await p.waitForFunction(()=>{const img=document.querySelector('#shAthCard figure:not([hidden]) img');return img?.complete&&img.naturalWidth>0;});

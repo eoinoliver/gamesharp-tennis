@@ -1,0 +1,268 @@
+{
+  "feature": "Doubles and Reset",
+  "baselineCommit": "7d512d6e5494719bd1225d784e867e6d02608629",
+  "source": {
+    "THIRD_PARTY_NOTICES.md": {
+      "baseline": "0b452d5b7cc5d83e1d4dc7187548e5dd817a1a4a8eaa083bade3d7459701c3bd",
+      "candidate": "cbdc03ab27759c0ef9b7e3e8db0b374ce78b3faaacd9bcf595887e1acb4871d9"
+    },
+    "app_src/app.js": {
+      "baseline": "4a487449cb88d6fe82a40aa7017ef5c7d9f8878febbfbcf8bf0795e96a589d1f",
+      "candidate": "ef93b2f281dd03edea04176faa62c07bca29c20ebeea099e57b4e38361683ff5"
+    },
+    "app_src/audio/voice-doubles-cross-cover.mp3": {
+      "baseline": null,
+      "candidate": "e25b0f983710619e19ca33c39c5c09140f47e37f98a58e18ee491f1502b7d3fb"
+    },
+    "app_src/audio/voice-doubles-hold-cover.mp3": {
+      "baseline": null,
+      "candidate": "c79c0d3a3154ac2cfb62cfcbc109dd25e0abaa1a405b456adc64c85afa92215e"
+    },
+    "app_src/audio/voice-doubles-lob-overhead.mp3": {
+      "baseline": null,
+      "candidate": "25bebb73ab1b19324f838fa5e30f779a0c2b3d6b6039dbc47b653c1b568d06a3"
+    },
+    "app_src/audio/voice-doubles-lob-switch.mp3": {
+      "baseline": null,
+      "candidate": "7b176168d4126fc0f238a08ba65f7ffe74e92aeaac8e108ccf916c94119dfeed"
+    },
+    "app_src/audio/voice-doubles-return-line.mp3": {
+      "baseline": null,
+      "candidate": "abc4acaaf9e6bc3725ad9fdf1229062b6c8f009819b5a9105323b042dfa92578"
+    },
+    "app_src/audio/voice-doubles-return-space.mp3": {
+      "baseline": null,
+      "candidate": "1f461b06d53826fdfaffb69c6adc422d8e5e455e43f34cc4a583ef4eb4bd77e8"
+    },
+    "app_src/audio/voice-reset-choose.mp3": {
+      "baseline": null,
+      "candidate": "871b7165f3646fd4e64442dff01588b21f12f3c1fe1c9f34da778cabff20b996"
+    },
+    "app_src/audio/voice-reset-commit.mp3": {
+      "baseline": null,
+      "candidate": "349218d8a55817a0b2dcdfd47434092c2c3c44a94708964e16b866f7139869e1"
+    },
+    "app_src/audio/voice-reset-release.mp3": {
+      "baseline": null,
+      "candidate": "113e95d641bd667f3fe243f80dbd4a502c71a798edfb9ab1b7023a6fd170365f"
+    },
+    "app_src/build.py": {
+      "baseline": "a9d069d01cc327c74dd5bc886b794337f88ab24a2cf24ae8a0f9ba350881ac24",
+      "candidate": "dfa3130b5df05004c030ffe7da5b27ded2265721388731d72eec71aa7ebe1c39"
+    },
+    "app_src/catalog.py": {
+      "baseline": "9a610088190b51433d853969c081f119541e6687c6812a4761136fb4d95925bc",
+      "candidate": "73c1e37d8d386bfc49449208e56f21b2fa0b4ca28c5e9166987196ff82a8069a"
+    },
+    "app_src/index.html": {
+      "baseline": "8c777f16fc7608d0e50e1cecddfe1348d6e9fa18fc0668aab514b55b19fbe198",
+      "candidate": "2872a6f849c61ed09a854b5940abdab51fe3083e02b01b3fc3e7acc9235fe358"
+    },
+    "app_src/play_host.html": {
+      "baseline": "a82a1e323c52b94dba0e56f2e908b995cb64041c55fc6076e906711190eced06",
+      "candidate": "5975f979ff5cded7138ebe9216cadae85ec84565e3016964a0eb291db5ff8303"
+    },
+    "app_src/reset.js": {
+      "baseline": null,
+      "candidate": "1d1d0ed666f2a5f335f2fcc0268209158ddade4622717440e0e79f9d9cfcf503"
+    },
+    "app_src/sfx.js": {
+      "baseline": "f4a01d7cddc2c9b5cc7f2fd3ca409273e4a6bfb8a792f010c479a8e8be651862",
+      "candidate": "8015ab926614e7513eed14b60a2c6ec0ccffc7c23f0db79bfe802f8602b02b81"
+    },
+    "app_src/sharpen.js": {
+      "baseline": "f22cdfcbf412e488a5182662bf6732c0bb46df21fe644e0fb832e0b14d5378e4",
+      "candidate": "8cb723201c1b453e358360ba1060ca26276dbe0794f4a68a350e68619ff08ef1"
+    },
+    "docs/features/doubles-reset-voice.json": {
+      "baseline": null,
+      "candidate": "e8c271b54e572a84ebd62d0fe91b94013052ca1fabe63e9759593ef4bfca19e5"
+    },
+    "docs/features/doubles-reset.md": {
+      "baseline": null,
+      "candidate": "be0581115a61ba6ff32d5c13990ae00843751dfaa7d204aad9d172276dc91139"
+    },
+    "gs/gate.mjs": {
+      "baseline": "abb6d1d131a3b684d203120062cdc918042142f83773a46ba7f1d569fa375f79",
+      "candidate": "d026667587b5686d3ec7e0f673450767f36264062c8bdae1d3180cd469f68be3"
+    },
+    "rally/build_doubles.py": {
+      "baseline": null,
+      "candidate": "78e03a8bcb9cd171567024b60b6ed18ac3f1f58113ea279fa14ca046b2cc1263"
+    },
+    "rally/dc_data.json": {
+      "baseline": null,
+      "candidate": "a6f6847948ee10ecabc86b8de8efb953990cdef36cde299f5bce95a1672c79bb"
+    },
+    "rally/dh_data.json": {
+      "baseline": null,
+      "candidate": "5d7795919cb0919bf31ecb4cb9be37215ec685fbf0c17e0f53451a2e94414977"
+    },
+    "rally/dlb_data.json": {
+      "baseline": null,
+      "candidate": "8667b0d80224e993439678999b856c2fe0cd20b325ea00173e2f69496622e47e"
+    },
+    "rally/dlo_data.json": {
+      "baseline": null,
+      "candidate": "1021b4d6b1a60288bb2801becf7041aa025a72ef6160f6f40880ed31ee9ec9bd"
+    },
+    "rally/dr_data.json": {
+      "baseline": null,
+      "candidate": "4e3eb662b9da715cee9f83582253ffc7a9a797a63a6526001a4d6d76593daaa1"
+    },
+    "rally/drl_data.json": {
+      "baseline": null,
+      "candidate": "59bd156d63457e96c7a3c5f0928e669b7d52a2e8f7ac734d8156ae27abeb2220"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "16feae3eb2855fccbfc2a0f1c3cc44c8791a82859f9a24cd40d8d67ccb25ce88",
+      "candidate": "a6212747d58ce3af92d2e7878295d07e10c265241e7825b8346b42dc629b70db"
+    },
+    "rally/lesson_dc.js": {
+      "baseline": null,
+      "candidate": "90cc4525085d1e2491003f1b5deac4a1dc78b330e1342ca0d96a14f250065d8d"
+    },
+    "rally/lesson_dh.js": {
+      "baseline": null,
+      "candidate": "9ac3ee3e024b7e560743a7bd8a4a18f5aa7470c088611f6dbf808c5197bfdf58"
+    },
+    "rally/lesson_dlb.js": {
+      "baseline": null,
+      "candidate": "1a106b81ceca7fd1b5dac5b4da139d6eac33b2910e042d71cac5dce4e18ca530"
+    },
+    "rally/lesson_dlo.js": {
+      "baseline": null,
+      "candidate": "169c94c97b4c55ffeba9084e4f928835983b8510200ddf157f55403f316905e0"
+    },
+    "rally/lesson_dr.js": {
+      "baseline": null,
+      "candidate": "1d9d189370664bcb341f78aac8ae7396552255b5ffd125fe523c86a41c1ac934"
+    },
+    "rally/lesson_drl.js": {
+      "baseline": null,
+      "candidate": "1e86470ffa9f3aa34ea07c81001093f76ca4cbe3a1ec3091b669fbe25fed5690"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "1c180d3473a050f5ef5a8334227d3085f550a903ea6ff013629713c3af65704b",
+      "candidate": "f88dcb893d2071c44d3c3385692db8db2c8e2e52ff2a6e05b3c1cc1cdedd2e0a"
+    },
+    "tools/doubles-browser.mjs": {
+      "baseline": null,
+      "candidate": "7cf6151c858d28e9a00afee1584ae14707b6f6a264d5ea8e9c551a46b2dda99f"
+    },
+    "tools/experience-browser.mjs": {
+      "baseline": "bae1fe219dba11aeee4d0799d715cde83e9fcb6e441534c02e1e67e0a885a718",
+      "candidate": "d2bc754459f2facaf33b3e9f759160c422293f81780982f63523776d27a5ebc3"
+    },
+    "tools/reset-browser.mjs": {
+      "baseline": null,
+      "candidate": "8d7969daa60a60ca8f320e5a0d23197c42348c8ab82f036ef2998438bc493d40"
+    },
+    "tools/trust-practice-browser.mjs": {
+      "baseline": "d7138310ae1ee8d28d81815a05d5ad550c973b0aad3cb7d839f7ba45a30006eb",
+      "candidate": "d8a075babb483f8fa5a1dcdb301d6f7391ab70f85de3b683c34b344348f88026"
+    },
+    "tools/trust-practice-source.py": {
+      "baseline": "1da4384c4ae987930c8888f9e19f5e4e5d70d14e5ebc31ddcaac3480335b4e1b",
+      "candidate": "4ac31015eb3294ffd05f85d0d96706f4d715787af9602fe6795d4ae3c4deff88"
+    },
+    "tools/voice-catalogue-browser.mjs": {
+      "baseline": "84b91676a9463aaa6a3c8fddbaf064b2651813f8b4de97a7a0d600c893b1c3cc",
+      "candidate": "fb8a65728102db3410c509c16d9214498ae8abd5456a700a411032da06b4e2e2"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "4a487449cb88d6fe82a40aa7017ef5c7d9f8878febbfbcf8bf0795e96a589d1f",
+      "candidate": "ef93b2f281dd03edea04176faa62c07bca29c20ebeea099e57b4e38361683ff5"
+    },
+    "app/audio/voice-doubles-cross-cover.mp3": {
+      "baseline": null,
+      "candidate": "e25b0f983710619e19ca33c39c5c09140f47e37f98a58e18ee491f1502b7d3fb"
+    },
+    "app/audio/voice-doubles-hold-cover.mp3": {
+      "baseline": null,
+      "candidate": "c79c0d3a3154ac2cfb62cfcbc109dd25e0abaa1a405b456adc64c85afa92215e"
+    },
+    "app/audio/voice-doubles-lob-overhead.mp3": {
+      "baseline": null,
+      "candidate": "25bebb73ab1b19324f838fa5e30f779a0c2b3d6b6039dbc47b653c1b568d06a3"
+    },
+    "app/audio/voice-doubles-lob-switch.mp3": {
+      "baseline": null,
+      "candidate": "7b176168d4126fc0f238a08ba65f7ffe74e92aeaac8e108ccf916c94119dfeed"
+    },
+    "app/audio/voice-doubles-return-line.mp3": {
+      "baseline": null,
+      "candidate": "abc4acaaf9e6bc3725ad9fdf1229062b6c8f009819b5a9105323b042dfa92578"
+    },
+    "app/audio/voice-doubles-return-space.mp3": {
+      "baseline": null,
+      "candidate": "1f461b06d53826fdfaffb69c6adc422d8e5e455e43f34cc4a583ef4eb4bd77e8"
+    },
+    "app/audio/voice-reset-choose.mp3": {
+      "baseline": null,
+      "candidate": "871b7165f3646fd4e64442dff01588b21f12f3c1fe1c9f34da778cabff20b996"
+    },
+    "app/audio/voice-reset-commit.mp3": {
+      "baseline": null,
+      "candidate": "349218d8a55817a0b2dcdfd47434092c2c3c44a94708964e16b866f7139869e1"
+    },
+    "app/audio/voice-reset-release.mp3": {
+      "baseline": null,
+      "candidate": "113e95d641bd667f3fe243f80dbd4a502c71a798edfb9ab1b7023a6fd170365f"
+    },
+    "app/catalog.js": {
+      "baseline": "936f656904be42579eaa8bb6335408da0e738b27dbd8ca1d0cb8fea8c7be8974",
+      "candidate": "08479f0a09f560a8853a84b9f164043386b88948c2d90b8833b444dcb1ddc0ca"
+    },
+    "app/engine/engine.js": {
+      "baseline": "b2ecde387b759302642bf82ba9051c1a4cad41b9b65c6d034b75b8710c605d40",
+      "candidate": "84edec4013c37d16dadad579b04b7708aaf053821514630e47a86cafb15380b7"
+    },
+    "app/index.html": {
+      "baseline": "e9c4bd842efc2f93a92c3a3fb2f831ce284f35a4d881646fd827b4d2dc04050a",
+      "candidate": "c81e21d5862c81a3685dae93674ecaa186d22204512f5b89649c00a33d254b83"
+    },
+    "app/lessons/doubles-cross-cover.json": {
+      "baseline": null,
+      "candidate": "33bd00e3c79a23fbe153e52362ec663bacfd1580d8e7f41cad2a1a1e81c9272e"
+    },
+    "app/lessons/doubles-hold-cover.json": {
+      "baseline": null,
+      "candidate": "5e23465d32c6d3185dd8b70061606ae4be836f3f39b0d8c11b4880c46901013a"
+    },
+    "app/lessons/doubles-lob-overhead.json": {
+      "baseline": null,
+      "candidate": "81b92a05477371273416540e336d6c15baf661d90b9c0e2572e052acd96834bf"
+    },
+    "app/lessons/doubles-lob-switch.json": {
+      "baseline": null,
+      "candidate": "01d37e83f86cc7dbba8c24ad2fdba948230c53426bd7e7e680e6831316567935"
+    },
+    "app/lessons/doubles-return-line.json": {
+      "baseline": null,
+      "candidate": "b358e74fac36426da2b1495b6ec5e3dbfd887f2993234d0ccd148ada0afc9789"
+    },
+    "app/lessons/doubles-return-space.json": {
+      "baseline": null,
+      "candidate": "a8098b7b3e3e2ffa76063576faf050d4a9ac989e40861a2fd003646f6d48fb5f"
+    },
+    "app/play.html": {
+      "baseline": "ca7f885221846dd15cb45e10bdac83b36a464ee6005ac518153c5502a3586d96",
+      "candidate": "54f6d096483dde1b267ea885edc0c4c68b8354a9093ee09f9741ed924729a24b"
+    },
+    "app/reset.js": {
+      "baseline": null,
+      "candidate": "1d1d0ed666f2a5f335f2fcc0268209158ddade4622717440e0e79f9d9cfcf503"
+    },
+    "app/sfx.js": {
+      "baseline": "f4a01d7cddc2c9b5cc7f2fd3ca409273e4a6bfb8a792f010c479a8e8be651862",
+      "candidate": "8015ab926614e7513eed14b60a2c6ec0ccffc7c23f0db79bfe802f8602b02b81"
+    },
+    "app/sharpen.js": {
+      "baseline": "f22cdfcbf412e488a5182662bf6732c0bb46df21fe644e0fb832e0b14d5378e4",
+      "candidate": "8cb723201c1b453e358360ba1060ca26276dbe0794f4a68a350e68619ff08ef1"
+    }
+  }
+}

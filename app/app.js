@@ -74,7 +74,7 @@ window.addEventListener("pageshow",e=>{if(e.persisted) resume();});
 const all=()=>CAT.daily.concat(CAT.predict,CAT.play||[]);
 const bySlug=s=>all().find(l=>l.slug===s);
 const isDaily=s=>CAT.daily.some(l=>l.slug===s);
-const activityLabel=l=>`${l.livePoint?'Live Point':isDaily(l.slug)?'Daily challenge':CAT.predict.some(p=>p.slug===l.slug)?'Predict the Point':'Play the Point'}${l.decisionCount?` · ${l.decisionCount>2&&l.livePoint?'Up to ':''}${l.decisionCount} decisions`:''}`;
+const activityLabel=l=>`${l.doubles?'Doubles · Live Point':l.livePoint?'Live Point':isDaily(l.slug)?'Daily challenge':CAT.predict.some(p=>p.slug===l.slug)?'Predict the Point':'Play the Point'}${l.decisionCount?` · ${l.decisionCount>2&&l.livePoint?'Up to ':''}${l.decisionCount} decisions`:''}`;
 const remaining=()=>all().filter(l=>!S.done[l.slug]);
 const CUES='gs_my_game';
 function savedCues(){

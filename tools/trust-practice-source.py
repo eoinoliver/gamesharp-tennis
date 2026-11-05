@@ -15,8 +15,10 @@ for prefix,expected in baseline['points'].items():
  for node in lesson['nodes'].values():
   assert all(not any(t in o.lower() for t in ['force ','waiting passer','tiny angle','they are covering']) for o in node['opts']),node['opts']
 cat=json.loads((R/'app/catalog.js').read_text().split('window.GS_CATALOG=',1)[1].split(';\n',1)[0])
-assert [len(cat[k]) for k in ['daily','predict','play']]==[32,2,23]
+assert [len(cat[k]) for k in ['daily','predict']]==[32,2]
+assert len([l for l in cat['play'] if not l.get('doubles')])==23
+assert len([l for l in cat['play'] if l.get('doubles')])==6
 for lesson in cat['daily']+cat['predict']+cat['play']:
  if lesson.get('cue'):assert isinstance(lesson['cue'],str)
  assert 'the one that wins' not in lesson['line']
-print('PASS: 40 routes retain exact geometry and grading; 57 activities and corrected cue data retained')
+print('PASS: 40 routes retain exact geometry and grading; 57 original activities and corrected cue data retained; six doubles added')

@@ -704,3 +704,92 @@ purpose/continuation labels for the existing direction, serve and volley paths.
 Preserve all 57 activities, scenes, audio, first attempts and later-day evidence.
 No legacy question bank, diagnosis engine or mastery metric is imported. Prepare
 and verify a Git-built review candidate; no production change during implementation.
+
+## 5 November — doubles, Reset and female coach auditions
+
+Own `codex/doubles-reset`, based on main `7d512d6`. Eoin authorises the full
+six-point doubles set in verified batches, followed by three practical Reset
+routines in Sharpen. Four-player coverage, meaningful changed-context decisions,
+blind scenario sharing and a proposed partner plan must work as complete journeys.
+Use recognisable match emotions and attributed professional/coach evidence, not
+motivational quotations or invented efficacy claims. Preserve existing journeys,
+saved cues, first attempts, sound opt-outs and the established renderer.
+Produce three identical-script female voice auditions; Eoin chooses the voice
+before any catalogue-wide recording. No Blender or replacement rendering stack.
+
+### Review candidate and verification
+
+- Project `eoinoliver/gamesharp-tennis`, branch `codex/doubles-reset`, PR #77.
+  Implementation and audio-test corrections are committed through
+  `dbc66623c659898caff1267264f3e43a0fa6cb81`; this log update changes no app asset.
+- App `9f1ff22bc5`: six eligible doubles points (24 authored routes), three Reset
+  routines, nine new Frank recordings. No new point is withheld. The existing
+  57 activities remain available. Three female auditions are in the task outputs;
+  Eoin has not selected a voice and no catalogue replacement has been made.
+- Git preview of that artifact:
+  https://gamesharp-tennis-e0cirg553-eoinlynn-5978s-projects.vercel.app
+  (`dpl_C2PpLZuAep3SdBpykkJRbonXHNUV`, Preview, READY). Protected access uses the
+  current Vercel identity; no protection or environment setting was changed.
+- Passed: exact build parity (204 release files, 302 source/test inputs), 78 unit
+  tests; 48 complete doubles routes in Chromium (390/1280), 24 in WebKit (390);
+  87 Reset checks in Chromium and WebKit; all 63 completion-voice journeys;
+  hosted 345/345 file/routing/exclusion checks, all six doubles journeys with
+  matching voice, and 87 Reset checks including real timed audio.
+- Full legacy regression suites and the final documentation-commit CI run are
+  tracked on PR #77. A local welcome timing check was affected while suites ran
+  concurrently; isolated verification must be recorded there before handoff.
+- Codex owns remaining verification and review handoff. Production remains app
+  `2e79fbd576`, deployment `dpl_BHZMuoaphzC1Jkr7uPCyoRpP2QmN`. No merge or
+  production promotion is included. Independent coaching judgment, physical
+  phone listening, and actual partner-sharing/retention remain external checks.
+
+## 5 November — Lara coach integration
+
+Continue ownership of `codex/doubles-reset` / PR #77 from reviewed commit
+`24a750511806f3738cdd716d33884fa39b63c164`. Eoin rejected the first three
+female auditions, requested more energy, selected Lara's second-round audition,
+and explicitly said to proceed with integration. Preserve that expressive
+Lara / eleven_v3 / 1.05 direction. Add a complete female alternative alongside
+Frank with a saved coach choice across the shell, lesson endings and Reset.
+All 74 existing spoken cues require matching recordings; retain lesson scripts,
+voice opt-outs, master mute and no repeated automatic narration. No production
+release is included in this integration step. Codex owns implementation,
+recording provenance, browser/asset validation and the updated Git preview.
+
+### Lara candidate and review evidence
+
+- Project `eoinoliver/gamesharp-tennis`, branch `codex/doubles-reset`, PR #77.
+  Implementation commit `245fcf4cef65f81f9e5931407a3a842869876d9e`, app
+  `48b9820608`. This subsequent record changes no application or test asset.
+- All 74 existing spoken cues have Lara assets (73 recordings; one exact-text
+  reuse), with 2.00–4.80 second durations. No cue is withheld and no missing
+  female cue silently substitutes Frank. Frank remains the default until a
+  player selects Lara. Choice, mute, cross-tab cancellation and honest storage
+  failure are covered by tests. Reset master mute now stops narration immediately.
+- Passed locally: 86 unit tests; 74 exact text/asset fingerprints; build parity
+  (280 release files, 385 checked inputs); 37 coach integration checks and all
+  74 real browser decodes in each of Chromium and WebKit; all 63 complete Lara
+  journeys in Chromium; five representative complete Lara journeys in WebKit;
+  87 WebKit Reset checks. Inspected Home and Reset layouts at small mobile and
+  desktop sizes, and the lesson completion selector. Repaired a clipped header
+  control and WebKit's undersized native select before the final checks.
+- Exact implementation preview:
+  https://gamesharp-tennis-pkusxrvqy-eoinlynn-5978s-projects.vercel.app
+  (`dpl_AHnhnn4PY8yKPotkMkx7BLch6Bzp`, Preview, READY). Hosted artifact verification
+  passed 421/421 file, route and exclusion checks. Authenticated hosted journey
+  checks and the complete GitHub regression suites are tracked on PR #77; Codex
+  owns resolving failures and recording the final status there before handoff.
+- The initial local full-catalogue attempt hit a 404 while the parity rebuild
+  replaced app/. The stable-build rerun passed all 63 journeys; this was test
+  orchestration, not a source change. No production analytics were sent by QA.
+- Original Runway files and the complete 74-cue listening page are preserved in
+  the task workspace. Eoin approved Lara's audition; independent listening to
+  every generated cue, physical phones and coaching judgment remain unverified.
+- Production is unchanged. This is an integration review candidate, not a merge
+  or production promotion. Codex remains the owner of the review and any later
+  authorised release.
+- Hosted harness correction: warm all four authored space/serve outcome assets
+  before the accelerated authenticated journey. The CLI transport's per-request
+  authentication latency had left the correct changed-route cue cold; the app
+  correctly declined to play it late. This changes only verification transport,
+  not application behavior. Local all-journey coverage already passed.

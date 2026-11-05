@@ -9,10 +9,10 @@ async function page(width=390){const p=await browser.newPage({viewport:{width,he
 async function finish(p,slug){await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);await p.evaluate(()=>window.__speed=20);for(let i=0;i<6&&!await p.evaluate(()=>done);i++){await p.waitForSelector('#askOpts button:not(:disabled)');const correct=await p.evaluate(()=>LESSON.steps[step].correct);await p.locator('#askOpts button').nth(correct).click();await p.locator('#verdict:not([hidden]) #next').waitFor();await p.locator('#next').click();}await p.locator('#progressStorage').waitFor();}
 try{
  for(const width of [320,390,1280]){
-  const p=await page(width);await p.goto(base+'?all=1');check(await p.locator('.activity-group .card').count()===57,width+': all 57 activities appear once');
+  const p=await page(width);await p.goto(base+'?all=1');check(await p.locator('.activity-group .card').count()===63,width+': 57 original activities plus six doubles points appear once');
   await p.getByRole('link',{name:'Live Points',exact:true}).click();await p.waitForURL(/kind=live/);await p.waitForFunction(()=>document.querySelectorAll('.activity-group .card').length===16);check(await p.locator('.activity-group .card').count()===16,width+': Live Point filter has all 16');
-  await p.goto(base+'?review=1');check(await p.locator('.sh-my-entry').isVisible(),width+': My Game is prominent');
-  const coverage=await p.evaluate(()=>new Set(GS_SHARPEN.ZONES.flatMap(z=>z.items.flatMap(([,ls])=>ls))).size);check(coverage===48,width+': every Daily and Live Point is mapped');
+  await p.goto(base+'?review=1');check(await p.locator('.sh-my-entry[href="?review=1&z=my-game"]').isVisible(),width+': My Game is prominent');
+  const coverage=await p.evaluate(()=>{const mapped=new Set(GS_SHARPEN.ZONES.flatMap(z=>z.items.flatMap(([,ls])=>ls)));const expected=GSApp.CAT.daily.concat(GSApp.CAT.play.filter(l=>l.livePoint)).map(l=>l.slug);return {size:mapped.size,missing:expected.filter(s=>!mapped.has(s)),extra:[...mapped].filter(s=>!expected.includes(s))};});check(coverage.size===54&&!coverage.missing.length&&!coverage.extra.length,width+': all 32 Daily, 16 singles and six doubles points are mapped exactly');
   check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+': Sharpen fits');
   await p.screenshot({path:`${out}/sharpen-${width}.png`,fullPage:true});
   await p.getByRole('link',{name:/^Net Approaching/}).click();await p.waitForURL(/z=net/);await p.getByRole('link',{name:/^First Volley: Build/}).click();await p.waitForURL(/l=live-point-volley-build/);await p.waitForFunction(()=>window.__test);
@@ -30,7 +30,7 @@ try{
   await p.screenshot({path:`${out}/my-game-${width}.png`,fullPage:true});await p.close();
  }
  const p=await page();await p.goto(base+'?home=1');await p.evaluate(()=>{for(const l of GSApp.CAT.daily.concat(GSApp.CAT.play.filter(l=>l.livePoint&&!l.transferOf)))GSApp.complete(l.slug,2,2);});await p.reload();
- check((await p.locator('#main').innerText()).includes('17 activities remain'),'daily exhaustion names the seventeen remaining activities');check(!(await p.locator('#main').innerText()).includes("played every lesson"),'no whole-app completion claim');await p.close();
+ check((await p.locator('#main').innerText()).includes('20 activities remain'),'daily exhaustion names the twenty remaining activities');check(!(await p.locator('#main').innerText()).includes("played every lesson"),'no whole-app completion claim');await p.close();
  const fail=await page();await fail.addInitScript(()=>{Storage.prototype.setItem=function(){throw new DOMException('Full','QuotaExceededError');};});await finish(fail,'live-point-volley-build');
  check((await fail.locator('#progressStorage').innerText()).includes('could not be saved'),'failed progress write is disclosed');await fail.locator('#saveCue').click();check((await fail.locator('#cueSaveStatus').innerText()).includes('Could not save'),'failed cue write is disclosed');check(!(await fail.locator('#saveCue').innerText()).includes('Saved'),'failed cue does not claim success');
  await fail.locator('[data-u="no"]').click();await fail.locator('textarea').fill('The volley could be clearer.');await fail.locator('#fbsend').click();await fail.waitForFunction(()=>document.querySelector('#fbstatus')?.textContent.includes('Preview:'));check(await fail.locator('textarea').inputValue()==='The volley could be clearer.','preview feedback keeps comment and explains non-delivery');await fail.close();

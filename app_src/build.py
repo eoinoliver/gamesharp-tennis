@@ -33,7 +33,7 @@ for group, rows in (('daily', DAILY), ('predict', PREDICT), ('play', PLAY)):
         open(os.path.join(OUT, 'lessons', slug + '.json'), 'w').write(dump({'lesson': L, 'scenes': D['scenes']}))
         _sit = re.sub(r'<[^>]+>', '', (L.get('steps') or [{}])[0].get('sit', '') or '')   # Home teaser: the first situation line
         cat[group].append({'slug': slug, 'title': L['title'], 'line': line, 'sit': _sit, 'clips': sorted(D['clips']), 'flavour': FLAV[slug]})
-        for field in ('livePoint','followup','transferOf','decisionCount','edition','family','learningSignals','liveIntro','liveFeedback','returnPrompt','cue','drill'):
+        for field in ('livePoint','doubles','pairPlan','followup','transferOf','decisionCount','edition','family','learningSignals','liveIntro','liveFeedback','returnPrompt','cue','drill'):
             if L.get(field): cat[group][-1][field] = L[field]
         if not L.get('branch'): cat[group][-1]['decisionCount'] = len(L.get('steps', []))
         if L.get('uses'): cat[group][-1]['uses'] = list(dict.fromkeys(u['lesson'] for u in L['uses']))   # weekend point: the lessons it is built from
@@ -75,7 +75,7 @@ shutil.copytree(os.path.join(SRC, 'audio'), os.path.join(OUT, 'audio'))
 h = hashlib.sha256()
 for dp, _, fs in sorted(os.walk(OUT)):
     for f in sorted(fs): h.update(open(os.path.join(dp, f), 'rb').read())
-for f in ('app.js', 'index.html', 'play_host.html', 'sharpen.js', 'sfx.js', 'cine.js', 'athlete.js'): h.update(open(os.path.join(SRC, f), 'rb').read())
+for f in ('app.js', 'index.html', 'play_host.html', 'sharpen.js', 'reset.js', 'coach.js', 'coach.css', 'sfx.js', 'cine.js', 'athlete.js'): h.update(open(os.path.join(SRC, f), 'rb').read())
 for f in sorted(os.listdir(os.path.join(SRC, 'sharpen'))): h.update(open(os.path.join(SRC, 'sharpen', f), 'rb').read())
 VER = h.hexdigest()[:10]
 open(os.path.join(OUT, 'catalog.js'), 'w').write('window.GS_CATALOG=%s;\nwindow.GS_VERSION="%s";\n' % (dump(cat), VER))
@@ -90,10 +90,14 @@ open(os.path.join(OUT, 'play.html'), 'w').write(play)
 
 # ---------- shell ----------
 idx = open(os.path.join(SRC, 'index.html')).read()
-for f in ('config.js', 'catalog.js', 'app.js', 'sharpen.js', 'sfx.js', 'cine.js'): idx = idx.replace('src="%s"' % f, 'src="%s?v=%s"' % (f, VER))
+for f in ('config.js', 'catalog.js', 'app.js', 'sharpen.js', 'reset.js', 'coach.js', 'sfx.js', 'cine.js'): idx = idx.replace('src="%s"' % f, 'src="%s?v=%s"' % (f, VER))
+idx = idx.replace('href="coach.css"', 'href="coach.css?v=%s"' % VER)
 open(os.path.join(OUT, 'index.html'), 'w').write(idx)
 shutil.copy(os.path.join(SRC, 'app.js'), OUT)
 shutil.copy(os.path.join(SRC, 'sharpen.js'), OUT)
+shutil.copy(os.path.join(SRC, 'reset.js'), OUT)
+shutil.copy(os.path.join(SRC, 'coach.js'), OUT)
+shutil.copy(os.path.join(SRC, 'coach.css'), OUT)
 shutil.copy(os.path.join(SRC, 'sfx.js'), OUT)
 shutil.copy(os.path.join(SRC, 'cine.js'), OUT)
 os.makedirs(os.path.join(OUT, 'sharpen'), exist_ok=True)

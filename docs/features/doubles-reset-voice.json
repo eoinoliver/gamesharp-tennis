@@ -1,0 +1,107 @@
+[
+  {
+    "lesson": "doubles-cross-cover",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "text": "Partner crosses. Cover the space they leave.",
+    "taskId": "c8d7c112-34b0-403d-8172-8ec80cf71754",
+    "duration": 2.972154,
+    "asset": "app_src/audio/voice-doubles-cross-cover.mp3",
+    "generatedAt": "2026-11-05",
+    "neutral": true
+  },
+  {
+    "lesson": "doubles-return-space",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "text": "Read the net player. Return through the available space.",
+    "taskId": "ecfd59eb-e120-43bc-b73c-ecfc6aae2b29",
+    "duration": 3.993832,
+    "asset": "app_src/audio/voice-doubles-return-space.mp3",
+    "generatedAt": "2026-11-05",
+    "neutral": true
+  },
+  {
+    "lesson": "doubles-lob-switch",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "text": "Call early. Cover while your partner retrieves.",
+    "taskId": "bcdb0dcc-bfa8-4d43-92d8-79279dd362e2",
+    "duration": 3.204354,
+    "asset": "app_src/audio/voice-doubles-lob-switch.mp3",
+    "generatedAt": "2026-11-05",
+    "neutral": true
+  },
+  {
+    "lesson": "doubles-hold-cover",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "text": "Partner holds. Keep covering your half.",
+    "taskId": "6aa6e965-d9ee-4bee-bc77-169d8a9a5617",
+    "duration": 2.739955,
+    "asset": "app_src/audio/voice-doubles-hold-cover.mp3",
+    "generatedAt": "2026-11-05",
+    "neutral": true
+  },
+  {
+    "lesson": "doubles-return-line",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "text": "When they leave the line, read the opening.",
+    "taskId": "94f97644-3a3a-4bb2-aac2-b11576c3f30b",
+    "duration": 2.739955,
+    "asset": "app_src/audio/voice-doubles-return-line.mp3",
+    "generatedAt": "2026-11-05",
+    "neutral": true
+  },
+  {
+    "lesson": "doubles-lob-overhead",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "text": "Reachable overhead? Call it. Your partner covers.",
+    "taskId": "4fd873eb-f123-4fe7-ad31-f498a44b73d3",
+    "duration": 3.529433,
+    "asset": "app_src/audio/voice-doubles-lob-overhead.mp3",
+    "generatedAt": "2026-11-05",
+    "neutral": true
+  },
+  {
+    "lesson": "reset-release",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "text": "Let that point finish. Breathe out. Loosen your grip.",
+    "taskId": "f09eb6f1-df14-44c4-ad46-7bee0d2e3c50",
+    "duration": 3.993832,
+    "asset": "app_src/audio/voice-reset-release.mp3",
+    "generatedAt": "2026-11-05"
+  },
+  {
+    "lesson": "reset-choose",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "text": "Choose one clear intention for the next point.",
+    "taskId": "6d24d831-d959-4a2d-a725-600710b30b30",
+    "duration": 3.157914,
+    "asset": "app_src/audio/voice-reset-choose.mp3",
+    "generatedAt": "2026-11-05"
+  },
+  {
+    "lesson": "reset-commit",
+    "voice": "Frank",
+    "model": "eleven_multilingual_v2",
+    "speed": 0.95,
+    "text": "Look up. Set your feet. Ready for this one.",
+    "taskId": "d3519ed2-eb65-4029-85d8-7e0e2b77b0b3",
+    "duration": 3.065034,
+    "asset": "app_src/audio/voice-reset-commit.mp3",
+    "generatedAt": "2026-11-05"
+  }
+]
