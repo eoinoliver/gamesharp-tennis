@@ -1,0 +1,107 @@
+{
+  "date": "2026-11-06",
+  "status": "live_verified",
+  "project": "gamesharp-tennis",
+  "projectId": "prj_SHIw7K0JxhCtoQQgh1zVHlR3r2Pe",
+  "appVersion": "a3ea033eb6",
+  "pullRequest": "https://github.com/eoinoliver/gamesharp-tennis/pull/79",
+  "reviewedHead": "eddaf63705faf4863258acc0eab7b7ce6de99a72",
+  "mergeSha": "f9eb6e45ee07f8cdf16696d38ee4e4bf56deaecc",
+  "reviewedAndMergedTree": "668e0fc3e9c70e7116ee1f43f21a695dbab6883c",
+  "productionDeploymentId": "dpl_BFtyoqStSyHJD9TQxrre7k3s6r2o",
+  "productionUniqueUrl": "https://gamesharp-tennis-od3z60218-eoinlynn-5978s-projects.vercel.app",
+  "publicUrl": "https://www.gamesharptennis.com/",
+  "rollbackDeploymentId": "dpl_8tWrKrZ3R8yauQQ8PxQTJbFR1YY1",
+  "rollbackAppVersion": "48b9820608",
+  "approval": {
+    "answer": "Approve this exact build",
+    "recordedAt": "2026-11-06T08:05:29.967955+00:00",
+    "appVersion": "a3ea033eb6",
+    "deploymentId": "dpl_BFtyoqStSyHJD9TQxrre7k3s6r2o",
+    "url": "https://gamesharp-tennis-od3z60218-eoinlynn-5978s-projects.vercel.app",
+    "limitation": "Complete deployment output inventory unavailable; direct artifact approval is not proof of inventory equivalence. All executed release checks passed."
+  },
+  "releaseBasis": "Exact staged Production artifact approved explicitly with incomplete output inventory disclosed; no rebuild or Preview promotion. This is not proof of complete Preview/Production output equivalence.",
+  "verification": {
+    "mergeCI": {
+      "url": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/42124576174",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "staged": {
+      "http": {
+        "passed": 421,
+        "total": 421
+      },
+      "ux": {
+        "passed": 83,
+        "errors": 0
+      },
+      "coach": {
+        "passed": 37,
+        "decodedRecordings": 74,
+        "errors": 0
+      },
+      "outputInventory": "unavailable; exact staged-artifact approval obtained before promotion"
+    },
+    "live": {
+      "http": {
+        "passed": 421,
+        "total": 421,
+        "publicAssetHashes": 279
+      },
+      "ux": {
+        "passed": 83,
+        "errors": 0
+      },
+      "coach": {
+        "passed": 37,
+        "decodedLaraRecordings": 74,
+        "errors": 0
+      },
+      "apexRedirect": 307,
+      "catalogueVersion": "a3ea033eb6",
+      "aliasDeployment": "dpl_BFtyoqStSyHJD9TQxrre7k3s6r2o",
+      "autoAssignCustomDomains": false,
+      "rebuild": false,
+      "rollbackPerformed": false
+    },
+    "matchingConfigurationFields": 12,
+    "freshCriticalStageHashChecks": 6,
+    "testAnalyticsIntercepted": true,
+    "visualReview": [
+      "mobile Home",
+      "mobile Reset",
+      "lesson coach control at 320, 390 and 1280 CSS pixels"
+    ]
+  },
+  "scope": [
+    "Frank/Lara choice available before answering, including direct/shared lesson arrivals",
+    "Exact Reset routine and My Game return labels/destinations",
+    "Immediate Reset reminder removal after saving",
+    "Correct returner intention, including existing reminders without rewriting saved data"
+  ],
+  "retainedFeatures": {
+    "doublesScenarios": 6,
+    "resetRoutines": 3,
+    "partnerSharing": "scenario link and proposed plan; no synchronized answers or delivery receipts",
+    "coaches": [
+      "Frank",
+      "Lara"
+    ],
+    "defaultCoach": "Frank until preference selected"
+  },
+  "limitations": [
+    "Complete deployment output inventory unavailable and explicitly approved as an exception.",
+    "28 standard spoken/saved cue wording differences remain an editorial follow-up.",
+    "148 coach recordings unchanged; Lara loudness calibration remains follow-up work.",
+    "Physical-device listening, independent coaching judgment and player learning outcomes are not certified."
+  ],
+  "localEvidenceSha256": {
+    "live-http.json": "7bca869e5c320e69cb34096d77564d6b13c7c950acb985959aeef45a63155533",
+    "live-ux/report.json": "1c485699634315ede50cd18d52b3b4a839717dea20a4351fe0b8acc56eb823c5",
+    "live-coach/report.json": "7d87dc5518de1ccc09ce289e3893f02ca52d8d8833e9491e7af20f726a37a13c",
+    "apex-after.json": "5a7e9e6da1b4416bd3a0d0553bb86179114afcd01285f379cd99ab518e400b2a"
+  },
+  "verifiedAt": "2026-11-06T08:08:19.989304+00:00"
+}
