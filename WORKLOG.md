@@ -829,3 +829,32 @@ the viewport. Moved the disclosure into the existing header with an overlaid
 selector, preserving court height. Original layout assertions remain intact.
 Corrected app `a3ea033eb6`; rerunning layout, contact-focus, both-engine UX,
 hosted verification and complete CI before handoff.
+
+## 6 November 2026 — UX repair production release record (Codex)
+
+Branch `codex/ux-release-record-2026-11-06` records the completed release of
+PR #79. This branch changes documentation only; it does not change or replace
+the approved live application. Codex owns the release evidence and log PR.
+
+Eoin explicitly approved the exact staged app `a3ea033eb6` despite the disclosed
+unavailable complete deployment output inventory. Reviewed commit
+`eddaf63705faf4863258acc0eab7b7ce6de99a72` and merge
+`f9eb6e45ee07f8cdf16696d38ee4e4bf56deaecc` share tree
+`668e0fc3e9c70e7116ee1f43f21a695dbab6883c`; exact-head and merge CI passed.
+Promoted existing Git-built Production `dpl_BFtyoqStSyHJD9TQxrre7k3s6r2o`
+without rebuilding. It now serves https://www.gamesharptennis.com/.
+
+Staged and live verification each passed 421 file/routing/header/exclusion
+checks, 83 UX regressions, 37 coach checks and 74 Lara browser audio decodes.
+The live catalogue and all 279 public asset hashes match the approved artifact;
+the apex redirects to www. Inspected mobile Home, Reset and coach-choice
+layouts. Test analytics were intercepted; no real partner messages were sent.
+Automatic domain assignment remains off. Rollback is retained as Production
+`dpl_8tWrKrZ3R8yauQQ8PxQTJbFR1YY1`, app `48b9820608`; no rollback was needed.
+
+The full Vercel output inventory remains unavailable. This release uses direct
+artifact approval under release protocol step 5, not a claim of complete
+Preview/Production inventory equivalence. Cue wording consistency, recording
+level calibration, physical-device listening and independent player/coach
+validation remain follow-ups. See `docs/features/ux-audit-release.json` and
+the updated PR #79 for the exact evidence. Do not promote documentation builds.
