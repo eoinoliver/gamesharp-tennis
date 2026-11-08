@@ -12,10 +12,10 @@ const LESSON={
   "url": "https://lida.sport-iat.de/twm/Record/4017156?lng=en"
  },
  "drill": {
-  "name": "Land on \"hit\"",
-  "how": "Your partner feeds from both sides. Say \"hit\" out loud as they strike the ball, and land your split on the word. Twenty balls, then rally."
+  "name": "Time the landing",
+  "how": "Your partner feeds from both sides. Watch their strike, then land ready to push as the direction becomes readable. Notice any pause between landing and moving. Try twenty balls, then rally."
  },
- "cue": "Land as they hit.",
+ "cue": "Watch their hit. Time your landing.",
  "callbackTags": [
   "split_step"
  ],
@@ -104,7 +104,7 @@ const LESSON={
    "correct": 3,
    "payoff": "A quicker swing needs an earlier split, not a harder push.",
    "principle": "Match your split to their swing, whatever its speed.",
-   "why": "Their shorter swing brings the hit forward. Starting the same split sooner puts your landing back on their contact; pushing harder or splitting smaller can't win back the time.",
+   "why": "Their shorter swing brings the hit forward. Starting the same split sooner puts your landing back around their contact; pushing harder or splitting smaller can't win back the time.",
    "rail": [
     "1 Shorter swing",
     "2 You land late",

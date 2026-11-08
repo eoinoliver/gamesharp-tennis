@@ -829,3 +829,11 @@ the viewport. Moved the disclosure into the existing header with an overlaid
 selector, preserving court height. Original layout assertions remain intact.
 Corrected app `a3ea033eb6`; rerunning layout, contact-focus, both-engine UX,
 hosted verification and complete CI before handoff.
+
+## 8 November 2026 — professional insight upgrade (Codex)
+
+- Branch: `codex/pro-insight-upgrade-2026-11-08`, based on origin/main `f9eb6e4`. One builder owns source corrections, stronger lesson/Reset insights, validation and review preview.
+- User authorised implementation of the full 8 November audit in batches and revisions to affected promotional films. Existing Barty film and approved Lara brand cadence are retained.
+- Batch 1: source-scope corrections, six doubles insights and partner Reset. Batch 2: remaining lesson attribution/story improvements, exact source coverage, build and journey checks. Batch 3: revised Ferrero singles films and Bryan-led doubles film, source credits, captions and share files.
+- Professional examples are attributed paraphrases or labelled analysis; the illustrated decisions and practice routines remain GameSharp applications. No new celebrity endorsement or efficacy claim.
+- Source gaps remain explicitly withheld from professional attribution; no generic substitute will be presented as a firsthand insight. Production release is not part of this implementation checkpoint.

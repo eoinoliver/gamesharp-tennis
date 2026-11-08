@@ -1,0 +1,318 @@
+{
+  "source": {
+    "app_src/build.py": {
+      "baseline": "04271afd569efceadb4362bb2dec6ac53c99522b580c3d0b76bf435d32f785b9",
+      "candidate": "f218499122f17b914b6e2e462f6be5a0e1a044ab2a0e350c50766e15a381e864"
+    },
+    "app_src/pro_insights.json": {
+      "baseline": null,
+      "candidate": "46f3ba06e0321787285d7f20335cb58a4911510691f9bc06d2d066b2b914c823"
+    },
+    "app_src/reset.js": {
+      "baseline": "fcbcbb0086510f3695fffcb85d2aa0b05d3013602e1e12a1a674bb8fe323ab20",
+      "candidate": "9eb8ee8a6dc3fe2ec576312d555cb0a9f05feb37f87dba237f9a7898a917f51b"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "d066f5487cac40698b6cf9ef89c658f95d8e603ab47bb4c0a1cc7736d52e087b",
+      "candidate": "dd4cb339eee910c0d564549c183e9e0ef7d3dbed14d7307b1485b96edc598ef7"
+    },
+    "rally/lesson_ss.js": {
+      "baseline": "3c7bc58db4fa380b603caebedc33df3a52e86d0b2de0ce7df10e95f9dd9321f7",
+      "candidate": "afb4a53cb2c9b0bf9e03211831259ce79ecb0d704075b4720c769244518ef320"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "40d4c1128553cd1b7478b7eb0d0ecae18250178d7cf6d1c83f49c1fe09291e66",
+      "candidate": "6a05d00f53634f14ebed78d5051da36b5c6b876070e517d96d93a08d6ef11bfb"
+    },
+    "tools/pro-insight-source.py": {
+      "baseline": null,
+      "candidate": "cafb96d228d1f255625f89e6ce55321de99235451f50ec3b11f4ce0f27af5c22"
+    },
+    "tools/pro-insight-browser.mjs": {
+      "baseline": null,
+      "candidate": "85928db6632ed5e425a6d2df20e385578407b7e5ba5f22261567ddee6a316778"
+    },
+    "docs/features/pro-insights.md": {
+      "baseline": null,
+      "candidate": "fadd0b0222807263a0a7e6c09ed8e3eaf1cf59e156f7ac3ae9c8267ff9a32754"
+    },
+    "docs/features/pro-insight-scope.json": {
+      "baseline": null,
+      "candidate": "ffd7eca9fe1be6e9a020dd84ea4248fda7b96612e52de0fdbd7872624e6cef11"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "d5910e5a7e507f8f1b759c366c73680321b826e7c6d54384dbfcac08a2781686",
+      "candidate": "88e5a04026ed28402207021484c58ed13312804e0149510c9b90f1a056aaab71"
+    },
+    "app/engine/engine.js": {
+      "baseline": "ffc3712e1c81ddc4434c14e33261993e7840d4e8e89ba9c0f5fdf31ae881cbff",
+      "candidate": "a5297e0289aea24cd01dcc128c8a5ea93c92a70c7132079068bd8357bba59c5b"
+    },
+    "app/index.html": {
+      "baseline": "b5a4be0087a29a5587ec7ad40f93ce2268efe43061a76622ea0fc20fb308c3f4",
+      "candidate": "02940e0fd1360e30e640799c70cd463ca204ce09709a1cecc40b22bd59eb3afc"
+    },
+    "app/lessons/answer-the-drop.json": {
+      "baseline": "f29e262610c5b6184c0fdb30c257b8d24f14ef2a6c575b54a89d83cc54f2c548",
+      "candidate": "bf1757f24976653a55cb0e31abc3bf946024e373e53fc044dc7a2bd02b5c2416"
+    },
+    "app/lessons/approach-volley.json": {
+      "baseline": "b991bac1d30fb03513f039f263566e141e62b8e027a575c13f1d34821098d000",
+      "candidate": "8befc20ff7a5e01ae7013c0a176abc7496f151f03c1679796782d39fe881a3aa"
+    },
+    "app/lessons/attack-the-backhand.json": {
+      "baseline": "d73aa9f5b132eb7aafe21a52f30154654ecfb3563ac40a133619e6e872a27375",
+      "candidate": "9704a8ebdaf68e537888df4516e558a43cd99ad50008fd783a8fac0101a0e0ef"
+    },
+    "app/lessons/contact-clue.json": {
+      "baseline": "c934c145706a509fa37edfcdc477cc75938bfe32931b0076fe3e1f74d642997b",
+      "candidate": "e36c0007d95b0a0a57c769547512eec843b79db93213fb45d272f193268ec918"
+    },
+    "app/lessons/doubles-cross-cover.json": {
+      "baseline": "33bd00e3c79a23fbe153e52362ec663bacfd1580d8e7f41cad2a1a1e81c9272e",
+      "candidate": "52a096428e4790c1a6ed25bf5215178e36663b6692c69e36c998869668d41b4c"
+    },
+    "app/lessons/doubles-hold-cover.json": {
+      "baseline": "5e23465d32c6d3185dd8b70061606ae4be836f3f39b0d8c11b4880c46901013a",
+      "candidate": "897c26e02c3d09664da431dcddca409389b5f7eaf1b02a50f22c168d429a881f"
+    },
+    "app/lessons/doubles-lob-overhead.json": {
+      "baseline": "81b92a05477371273416540e336d6c15baf661d90b9c0e2572e052acd96834bf",
+      "candidate": "2391f1286b82a6980d2a78e8488bd2319faf349c8934fe6f986cc331b2c6040a"
+    },
+    "app/lessons/doubles-lob-switch.json": {
+      "baseline": "01d37e83f86cc7dbba8c24ad2fdba948230c53426bd7e7e680e6831316567935",
+      "candidate": "da198b129c48028a14cd3cda3185c842bd1c21e37271ec4ecb14e77c85b94e78"
+    },
+    "app/lessons/doubles-return-line.json": {
+      "baseline": "b358e74fac36426da2b1495b6ec5e3dbfd887f2993234d0ccd148ada0afc9789",
+      "candidate": "2a1fecc07a8ded3bab70e8b97cb3be82e13999c66052eed7f3c184d4a8089492"
+    },
+    "app/lessons/doubles-return-space.json": {
+      "baseline": "a8098b7b3e3e2ffa76063576faf050d4a9ac989e40861a2fd003646f6d48fb5f",
+      "candidate": "68133b1938b1f41150e6f567ae2371663109c7ce885648d6f3baa00ae02bd7ba"
+    },
+    "app/lessons/down-the-line.json": {
+      "baseline": "3155c15d78680eb41282bdcafd7e2d637a4aebb8808a24ba5d0b645da9e4ea00",
+      "candidate": "0d84f03408296012fe98f4ca091564dac5b2df23b347ae8eaacc2765fbaa538b"
+    },
+    "app/lessons/earned-attack.json": {
+      "baseline": "4b8d4b7c3cbd3658d1074c4a752d6f6dd4009dbe0ce9fdd28c4e2c4fbeea1840",
+      "candidate": "8bb4070f2ea8135a6f70f2b92dd3be68e4e1e5f9f4da019310dc73e5acde15e6"
+    },
+    "app/lessons/earned-defence.json": {
+      "baseline": "0303823a7bbcfcdb649f03c86bf8e0057ad7098ec7b61b561ea019b1766272b1",
+      "candidate": "ff5ff1879771e8527a2bdc987beb5aae90ca16c3f9566f53d407525c70be1de9"
+    },
+    "app/lessons/earned-net.json": {
+      "baseline": "9f34e8d6dda3e4c87e624ddb6248afe92e937178455b5876a58c9cffb828f950",
+      "candidate": "d94b65bc3827672fbb1860124c032985799417e85f6cdf77fc2f2a5b3b59c178"
+    },
+    "app/lessons/find-your-return-spot.json": {
+      "baseline": "b3825b608918cdfde72a6c79f2c50b976db67bb00f3370894b6de02bce88958b",
+      "candidate": "83cfb29b7ff63cd5555e0f28280cf9aed809855ffbe55cc8b02fb186660aa86a"
+    },
+    "app/lessons/forehand-bill.json": {
+      "baseline": "b21c855dd8f6f1f8194decf943835fea5e55624401980f435bc8c5e837f17f42",
+      "candidate": "3b23b2034574df0da34e9a9884d5eb26492d376480d5f0b9f84563d2e01fe822"
+    },
+    "app/lessons/high-ball.json": {
+      "baseline": "4be7fab6f5c9e09341f40d96718f4b384f58a977b4762084894fd3ab8c7491c6",
+      "candidate": "f29b6bc3aa8467cb14d8d7e8c3073e79ba1b27d4aed47f7a0f42ee7838023129"
+    },
+    "app/lessons/late-is-the-culprit.json": {
+      "baseline": "b35dd5ae1782231dcfae88c514b4cca579df1ef0a512509ec684971673e33658",
+      "candidate": "0c8bfdf8654568a8a0a0400301236950f66a68c65371393950e84350dab2198a"
+    },
+    "app/lessons/live-point-arrive-options.json": {
+      "baseline": "b3b1383b4b984645c41bd760b345825460d3a3d7cf17804700dea939cf68d3e2",
+      "candidate": "a1078467b4458ee4fb0827926076a12a809982b3cebce7e9fb17bdcf56e8b335"
+    },
+    "app/lessons/live-point-buy-time.json": {
+      "baseline": "440539ce73a9e00e4b8793e994d5b4b2cde3df648f54655e7cd187e45faebf2d",
+      "candidate": "18a42b9f9e421bb69c35c81d0ee6f26c997190e90c89174b30359ff788efd6d2"
+    },
+    "app/lessons/live-point-line-opens.json": {
+      "baseline": "87afa81e1bc39a0e5da8e209c177f030155ea510de510eed2a0286cf6d06b785",
+      "candidate": "9994b4d7e62476f32f4d5ea7e27f5b26e76062ab4cdde44b1054f0c7368a0293"
+    },
+    "app/lessons/live-point-line-tempting.json": {
+      "baseline": "4979d1288b2f1c61d08f51d6b82f062bceb8f792ef2d9f06f521303f3ed55261",
+      "candidate": "8d63a2c811a058809168b9b0700aa1666f21cdd5df68b4accd943ab445433835"
+    },
+    "app/lessons/live-point-make-room.json": {
+      "baseline": "4374e7f6bf1770bb6e9a6eaf2fabe6a7c940352d89cf83e43636b3f72e2c0c66",
+      "candidate": "0a603749387ed3ccd2da2b2e84a688552f7b4c8614765a52c91d923192b2ee4e"
+    },
+    "app/lessons/live-point-other-wing.json": {
+      "baseline": "79f1a9a402ae615d21343657f08f9d89da10937209d40417f4bcfee77b324a95",
+      "candidate": "2a62cf3c69849ff749ecc4b5960e485aa4f003d01ba0ede9448f6209bd824e57"
+    },
+    "app/lessons/live-point-over-head.json": {
+      "baseline": "932f947c087f29138c13c9174bfd3b17029d37686011c0fd1816aca274864e22",
+      "candidate": "ed349d20b62252df4b500172a059e01ce03a08e415f4825e474c16869c5b7fc5"
+    },
+    "app/lessons/live-point-pass-two.json": {
+      "baseline": "cd8691b05c039730c8430c75eb60f7015edded5618f712eb193e160181bf806c",
+      "candidate": "6741d8b811b37b396d66f1c7058141b9d78d6b57bb1be2c60f6afd3af802e21c"
+    },
+    "app/lessons/live-point-reach-drop.json": {
+      "baseline": "858242b2fda9da8922cac31c1c8d5a97b41779cebe9fe041e8b5be12d7862ce9",
+      "candidate": "754d6811900a5c290b68df3ce1abb985b2884efdfaf768213fe008b30dbae452"
+    },
+    "app/lessons/live-point-return-deep.json": {
+      "baseline": "45b29ebb7aa7f55ada4526ded863ce5056c1ad2858b60b64287fa8347398f72e",
+      "candidate": "aa5091e0b9483e8f474bb03d8a45a8e10f0980022325f06f8468fb839b79a729"
+    },
+    "app/lessons/live-point-return-pressure.json": {
+      "baseline": "df5ef5a90f5771c02a4ee6efee34ab578689682d640964770ea80f341da4a54a",
+      "candidate": "3ec9efb781eb3f666791fe80dbf6f0c335e2d3923ea0f18a9cf2da7212387d41"
+    },
+    "app/lessons/live-point-return-time.json": {
+      "baseline": "a065e552c72b32885049c3b70ac3775c2a1b2ce9a269c052474245c9a08eb9f2",
+      "candidate": "5ae70e12112caeee303ab6461bcf8cd0e5d028c75248ec55c224026d8cbe3bc7"
+    },
+    "app/lessons/live-point-serve-see.json": {
+      "baseline": "8ce64e25a4604a1cc8ad78363017017b1aad8e607c1da4308d6d720f38f04b32",
+      "candidate": "e6587640774b5d4b929bab68fb1684b97063ea5d874709dd7f2c5fc059a02322"
+    },
+    "app/lessons/live-point-short-low.json": {
+      "baseline": "4c9f09e5afc55a3418b0bd3920b52a590ae98b1f7c601cf1a1f5f9c56acc5a4f",
+      "candidate": "5e8763f752ed16849ee959e4b7ab3f139a7efb0d8a48ca2fb01b7352e001c7db"
+    },
+    "app/lessons/live-point-volley-build.json": {
+      "baseline": "83025dd2ce2f54e8489c8d772fe83bcd38adc1ccaf977a7304540c4fb169a161",
+      "candidate": "e3137f679332204ded1c402548e4180c08a75994f39f3e56c2f44c7ab5056679"
+    },
+    "app/lessons/live-point-volley-opening.json": {
+      "baseline": "63f2d4874364c267c6928a975ba462b766b6dc0810329534d1cff420a01c9218",
+      "candidate": "8630a55270259367dc29d3d24f2816eddc7af73c5e7d1962fc9d0e566b72f572"
+    },
+    "app/lessons/middle-return.json": {
+      "baseline": "4b623cde57955c4d4f415f446aa8f123a6b9b89ff65813d069b2128c146ea27c",
+      "candidate": "d75217eb16f1d15d112536b8063b97a43c07d1214eee92bb42ae47382126d4f3"
+    },
+    "app/lessons/midweek-point-1.json": {
+      "baseline": "ed03d9e81928541c31569a18a90ad7c453d4063bb118c5578130d9ec61e47728",
+      "candidate": "12a6c253bba8919fc4593f1465f7d8317987842f0fcbe163faa43bd533548b56"
+    },
+    "app/lessons/net-rusher.json": {
+      "baseline": "2a363309705eda6e4c46c17f3790d96ca78846cc51058ff27b32b44f66f274f9",
+      "candidate": "7e44a8805ea757cad9639a712bc031e243c7b2b42176a21535c0dd9975cced14"
+    },
+    "app/lessons/open-court.json": {
+      "baseline": "e4c1bac3763c9bdea5ac97422eabb18ed94822552264f7c035d416e9ed3dd02f",
+      "candidate": "42374398ebda05f4c88a4ebcb7ebe9a2255b49b89c652a18a99ef010ab76c3ff"
+    },
+    "app/lessons/pass-where-they-arent.json": {
+      "baseline": "098e66f70375ae6f60fc276e3a5e0d4050a70b6ce567b9ddfcf5c19b7677bf70",
+      "candidate": "09122ed9fba2144b16b1b69eb02494d34814ae743253d212d0be17063a9f5497"
+    },
+    "app/lessons/play-the-point.json": {
+      "baseline": "89e9ef58b9fea7e91a11a164d24d25add85d1e300980ba9c460d4af142f7dc31",
+      "candidate": "1721494f2dd0e004e23312938cc03443b2e6ed5084672f9ca82f7a3603bdddcf"
+    },
+    "app/lessons/predict-second-serve.json": {
+      "baseline": "8c4dfd20a60846c478150ad2cf4c117568d856344e29995c5da72345aa4f5316",
+      "candidate": "3cb0a2162b7fa73fd9e2a35e0de93d2e8ad5a3d96f16d221e58d6ecf0449605d"
+    },
+    "app/lessons/predict-the-point.json": {
+      "baseline": "5161f8c7183277794cfb130d2ff75a6cd3366930976fcc01d201e17360fec697",
+      "candidate": "4b3eec83d5de22bb5e7bd4a43b5bed7e48d11f95f3123e15f4da151d2668c62b"
+    },
+    "app/lessons/pulled-wide.json": {
+      "baseline": "69addda386f933353efdc4bb6fc21a6d7aaebce3502a6cef33cbda7313896cc7",
+      "candidate": "7c8e3066bfe3907518a914366016618533d2f63f9198873c5bf8d92926cad5d1"
+    },
+    "app/lessons/recovery.json": {
+      "baseline": "24ea063c08a80ee1d554db9f94f65f9890f68afc9699065f596000aa56679166",
+      "candidate": "c11de174d70d8277231e9884ffd6d15546c9c2fa7373e2dcdd5dab4186b684c4"
+    },
+    "app/lessons/running-around.json": {
+      "baseline": "e17bab246177c1bc26c2c520eaea1aa28f246e75fc0e4fd2a434a0688ba4c1af",
+      "candidate": "617c0e6f33124f2e8329fbc99e3476f9f43407e8353d53364925f0ac88d24c97"
+    },
+    "app/lessons/rushed-out-wide.json": {
+      "baseline": "e03be7cf1fbbcd6475aae4e222c76550b9fd19f94d2ca6558d2490732bc6cc91",
+      "candidate": "44665dee66b9fe380f995f7bf75f80aff4d9ecb8b559b771dc48c6121f122fbd"
+    },
+    "app/lessons/saturday-point-1.json": {
+      "baseline": "078aadd6904e6e34f93d5ff229ce45b2fd82fd4ea6c93ec6ed7d603490abfe2c",
+      "candidate": "dd26ca16ace54fe6720e0de71d8ce329b3702eda83fd26ab4b3772921d3f9ec8"
+    },
+    "app/lessons/saturday-point-2.json": {
+      "baseline": "7f711a5a33ca9299c4d6a089b3793b1ddadd6a4e5d1e308d3a614798ce97347d",
+      "candidate": "0eee69a41695d5f79bf6412e23cc99f43d36343a5f05fc6013c0cd1803741972"
+    },
+    "app/lessons/saturday-point-3.json": {
+      "baseline": "41721f3260a5be7de9ced35ba04d89c41d4a0d4e8fa25249d38e61394abcb372",
+      "candidate": "ed0dbbfb36a1141ee83a1047ec09666b188ff3805190368f7a6852bfce56bd5a"
+    },
+    "app/lessons/saturday-point-4.json": {
+      "baseline": "29503f3e8d739396c5bf4bdd90050c6c1e9d8b161411df805830b95cf1e9743e",
+      "candidate": "bf3d8491451b5182ce039ea1f396a7a289bffa069bb87e10e9b347dde8a7354e"
+    },
+    "app/lessons/saturday-point-5.json": {
+      "baseline": "e9f5910d2656ad20434815fb6ab9312ed8d8e9967f5eab6330bbf8d094bed4a6",
+      "candidate": "224dbc8d44c22c5cd0f8ebe551c6d90eac9edd8bee479ae7de31513ee966d9dd"
+    },
+    "app/lessons/second-serve.json": {
+      "baseline": "0284d4c06a56ba3f5ead4e9b61b36f0d741ed53a67c9bb9f6afc5956cc6aaa28",
+      "candidate": "ea0dcddad61a81ca176252364798119483b002e6b9721b4e4483f12d8db0b19d"
+    },
+    "app/lessons/serve-away-from-the-lean.json": {
+      "baseline": "0a365a191c383d812fb06ec01f40849023f6d8b61ebe3944139c502569abd6b3",
+      "candidate": "7859c0bccfa0b268d9a1f54109df1e71ec94b95fbbb7635e450e991486b8654a"
+    },
+    "app/lessons/serve-plus-one.json": {
+      "baseline": "0c3267bd4b2747592b87fa2ee606fee046a596b3efeadafc2d32aed55d067cad",
+      "candidate": "ec66c4bd2edbbabb0b20991f91427b0a170c6763a1261d03f1d38fc197d91da8"
+    },
+    "app/lessons/short-ball.json": {
+      "baseline": "b19e8a0f4edf8d467b55727c4c83b6c4f7c833ce6d157fe300fbe19adc56265b",
+      "candidate": "c6bb20afa66428ff596b353963d00906a810c52db6790622c50d0d90657d3c2d"
+    },
+    "app/lessons/split-step.json": {
+      "baseline": "b4f5f13c9c097e0c905e66b8b9ac5cb7ac41af34a73040a27b0ddbd24eb38023",
+      "candidate": "a0d7b0fa107490382b0f72253be1219bba7132c5fd5198896443eba60ae53535"
+    },
+    "app/lessons/the-big-hitter.json": {
+      "baseline": "b53c7fb4f25a41b5fcfbabdf86532d66ee27955aa1ba13374fb6bb7f7fc415c3",
+      "candidate": "2ca6c605cb506b9156b32cc0f0e37f22759195e16ee124cd0c88499892a89fbc"
+    },
+    "app/lessons/the-lead.json": {
+      "baseline": "bbdf205b7f30a3cc57bf9b55b1d40b02e6d27cc9c62a907506b5620e04dd7642",
+      "candidate": "40e8f1996af7e90cae30912e79f50da480b88c276101955af30e24f6856b7097"
+    },
+    "app/lessons/the-lefty.json": {
+      "baseline": "6812f0f53185f7761a6de0d35d986a508fa9aa4ba20f32bf37dc66b9f2e8f880",
+      "candidate": "14e104f0fd9340170b8a6900b59991d8b52b36f2f7846cd468d02309f443b654"
+    },
+    "app/lessons/the-line.json": {
+      "baseline": "5dc78b798ab504370a4306e9538ff140d70ef17fe2ff8755d69d02e0d4ff45d9",
+      "candidate": "b9ad6464982e20821cffda0d92843a440e0a76710d693548b41d8dfc5e1a6f3e"
+    },
+    "app/lessons/the-moonballer.json": {
+      "baseline": "9e85b29b04dd996e4f91352bb02a1c2ede8e10948ee017e79176715b4840b239",
+      "candidate": "e9a53e662acb31366509195c7ae6f98b6c79d1ce7db880ea1feae304dd1f30aa"
+    },
+    "app/lessons/the-pusher.json": {
+      "baseline": "890502d9eb31ce9e2f2a1346787a1600bae91d3ac60e27e12c81f8dd5375a41f",
+      "candidate": "3313e7fb502c667b0cc8ba7f27a39217c4727f4975aeef2cae9290df77ce9835"
+    },
+    "app/lessons/the-winner.json": {
+      "baseline": "970bb89718bdfe28cb83828b838673a7b05699ca12e2c52beb8aa4a8e0e7c4fa",
+      "candidate": "3b1785f90a3c800a86ad9b87dd1084c6107d0ac350781c23e1334da25d4b738d"
+    },
+    "app/play.html": {
+      "baseline": "52ddb917571832cddf87ad6bb888a477ae427f99c433d726ce328847ae7d993b",
+      "candidate": "58de82b8316e6cebbe9f495f74cfc1132ad7bd0e6ee4e3b70df1c2d8aa57c507"
+    },
+    "app/reset.js": {
+      "baseline": "fcbcbb0086510f3695fffcb85d2aa0b05d3013602e1e12a1a674bb8fe323ab20",
+      "candidate": "9eb8ee8a6dc3fe2ec576312d555cb0a9f05feb37f87dba237f9a7898a917f51b"
+    }
+  }
+}

@@ -1074,7 +1074,7 @@ function payoffHTML(p){   // Pro Lens shows open; the stroke and the drill sit i
   let h="";
   const take=`<div class="blk"><div class="k">Take it to court</div><p><b>${LESSON.tomorrow}</b></p></div>`;
   if(!p) h+=take;   // no credible story: the take-home stays readable
-  if(p) h+=T("pro",`Pro Lens · ${p.label||p.player}`,`<p>${p.moment}</p><p><b>${p.read}</b></p><p class="src">Source: <a href="${p.url}" target="_blank" rel="noopener">${p.src}</a></p>`);
+  if(p) h+=T("pro",`${p.kind||'Coaching insight'} · ${p.label||p.player}`,`<p>${p.moment}</p><p><b>${p.read}</b></p>${p.note?`<p class="src">${p.note}</p>`:''}<p class="src">Source: <a href="${p.url}" target="_blank" rel="noopener">${p.src}</a></p>`);
   const st=LESSON.stroke;
   if(st) h+=T("stroke",`The stroke · ${st.title}`,`<div class="strip"><span></span>${st.cols.map(c=>`<span class="ch">${c}</span>`).join("")}
       ${st.rows.map(r=>`<span class="rh">${r.name}</span>${r.imgs.map((u,n)=>`<img src="${u}" alt="${r.name}: ${st.cols[n]}">`).join("")}`).join("")}</div>
