@@ -31,7 +31,9 @@ try{
     assert.equal(await card.count(),0);assert((await p.locator('.completion-more').textContent()).includes('Take it to court'),slug+' take-home fallback');
    }
    assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),slug+' fits '+width);
-   assert(await p.locator('#saveCue').isVisible(),slug+' retains saved cue');
+   const hasCue=await p.evaluate(()=>Boolean(LESSON.cue));
+   assert.equal(await p.locator('#saveCue').count(),hasCue?1:0,slug+' preserves existing cue eligibility');
+   if(hasCue)assert(await p.locator('#saveCue').isVisible(),slug+' retains saved cue');
    checks.push({slug,width,kind:expected?.kind||'Take it to court',source:expected?.url||null});
   }
   await c.close();

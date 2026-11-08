@@ -30,7 +30,7 @@
     },
     "tools/pro-insight-browser.mjs": {
       "baseline": null,
-      "candidate": "85928db6632ed5e425a6d2df20e385578407b7e5ba5f22261567ddee6a316778"
+      "candidate": "79dd9e80077decb7fccc9b77c1ae96a2e2947db9b99fcb308621faecab1b7a14"
     },
     "docs/features/pro-insights.md": {
       "baseline": null,

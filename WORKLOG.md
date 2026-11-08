@@ -837,3 +837,10 @@ hosted verification and complete CI before handoff.
 - Batch 1: source-scope corrections, six doubles insights and partner Reset. Batch 2: remaining lesson attribution/story improvements, exact source coverage, build and journey checks. Batch 3: revised Ferrero singles films and Bryan-led doubles film, source credits, captions and share files.
 - Professional examples are attributed paraphrases or labelled analysis; the illustrated decisions and practice routines remain GameSharp applications. No new celebrity endorsement or efficacy claim.
 - Source gaps remain explicitly withheld from professional attribution; no generic substitute will be presented as a firsthand insight. Production release is not part of this implementation checkpoint.
+
+### Professional insight candidate validation
+
+- App `33653e9efc`, PR #81. Batch 1: 48 complete doubles routes and 87 Reset checks passed. Batch 2: 126 mobile/desktop completion-render checks, 63 protected lesson/scene contracts and 86 unit tests passed. Exact build parity: 280 local release files / 279 hosted public files.
+- Renderer tests respect existing cue eligibility: Predict activities do not acquire a saved cue merely because they now have sourced context. The screenshot fixture is distinct from full journey tests.
+- Batch 3: fresh normal-speed recordings of The Winner and Doubles Cross/Cover. Three revised Lara films, approximately 27 / 55 / 28 seconds; approved Barty film retained. New narration uses existing Runway Lara stock voice; the user-approved Game / Sharp / Tennis cadence is reused locally.
+- Hosted preview and full CI are being verified against the final branch head. Production remains app `a3ea033eb6`; no merge or promotion in this task.
