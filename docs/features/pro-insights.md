@@ -42,8 +42,8 @@ The 8 November audit checked publisher text, source PDFs and live/local lesson
 identity. Some ATP and Tennisplayer pages were verified from publisher-indexed
 text after direct automated retrieval failed. Public summaries of paid courses
 and webinars are labelled as summaries; the complete videos were not reviewed.
-Source URLs, dates and actual speakers are carried in each card. All new prose
-is an attributed paraphrase, not a newly manufactured quotation.
+Source URLs, dates and actual speakers are carried in each card. Narrative is original attributed paraphrase. Short verbatim excerpts are checked
+against their named speaker and source; no quotations are manufactured.
 
 `tools/pro-insight-source.py` checks all 63 protected scene/decision contracts,
 registry coverage and explicit fallbacks. `tools/pro-insight-browser.mjs` checks
@@ -55,10 +55,50 @@ remain required. These checks do not constitute external coaching validation.
 
 ## Promotional media
 
-The two Ferrero singles films and the doubles partner film are revised outside
-the app deployment, using recorded app footage and Lara narration. The approved
-brand cadence is reused. The Barty film remains the approved version. The share
-pack includes captions, source credits and smaller MP4s. Professional stories are
+The two Ferrero singles films, the doubles partner film and the Barty film are
+being refreshed outside the app deployment with the stronger editorial context.
+Compatible approved Lara recordings and the approved brand cadence are reused.
+The share pack includes captions, source credits and smaller MP4s. Professional stories are
 editorial references; there is no professional footage, voice cloning or endorsement.
 
 This branch prepares a review candidate. It does not promote production.
+
+## Editorial pass: stories that stick
+
+Eoin clarified the editorial bar on 8 November: choose the quote, example or
+reported anecdote a strong tennis editor would use to make the decision stick.
+Journalism, interviews and podcasts are welcome; this is not a research journal.
+A professional name must help explain the actual lesson, not decorate it.
+
+All 53 sourced cards and all three Reset stories were revisited in 19 batches
+of at most three items, with a fresh build and mobile/desktop rendering check
+before moving to the next batch. The ten explicit fallbacks remain unchanged.
+The word count of each lesson card remains below 110 words for story plus action.
+
+Highlights of the new selection:
+
+- Roddick describing the preparation tell Federer exploited on his return;
+  Serena attacking a soft second serve while facing match point in 2022.
+- Rafter explaining Chang's difficult low first pass; Murray's 2015 Davis Cup
+  winning lob; Tommy Paul staying alive after a net-cord volley in 2025.
+- Federer on the unfamiliarity of Nadal's left-handed game; Mayotte explaining
+  the split step and movement as part of the shot, replacing research abstracts.
+- Keys' shoelaces description of Barty's slice, Ferrero's specific contrast
+  between a dazzling Alcaraz win and the errors the same aggression can bring.
+- Six distinct doubles applications from the Bryans, Wayne Bryan and Cayer:
+  signals, holding the line, the fake poach, middle coverage and two lob decisions.
+- Mattek-Sands on Murray's visible disappointment; Abramowicz's personal story
+  about repeating Shiffrin's low-expectations/high-standards idea to Świątek.
+
+Good existing connections are retained and edited rather than replaced for
+novelty: de Minaur through the middle, Medvedev returning deep from deep,
+Djokovic disrupting Ruud's pattern, Janković's reported on-court coaching,
+Sampras building the next shot, and Nadal changing the space against Medvedev.
+Public summaries remain identified in source credits where relevant. The cards
+separate the reported moment from GameSharp's own practical application.
+
+The `pro-insight-build.json` candidate hashes track this unmerged PR revision.
+Its baseline hashes and protected lesson/scene fingerprints remain frozen.
+No additional lesson, scene, choice, voice recording, progress or sharing change
+is introduced by this editorial pass. Broader PR 81 still includes its earlier
+Predict payoff and split-step wording corrections.

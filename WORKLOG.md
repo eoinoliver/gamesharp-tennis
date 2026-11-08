@@ -852,3 +852,30 @@ separate real completion renderer. Added the same sourced payoff below its
 existing take-home without changing reads, replay, scores or narration. The
 insight checker now completes both Predict journeys at both viewport sizes,
 instead of forcing them through the ordinary lesson renderer.
+
+## Stories that stick — 8 November 2026
+
+Owner: Codex. User approved the editorial pass in the app and relevant promotional films.
+Work in batches of three: choose vivid reported quotes, match moments and personal
+stories for the exact lesson. Journalism, podcasts and reported anecdotes are welcome;
+brief attribution and proportionate checking support the story. Reduce repeated
+generic introductions. Retain the approved voice identity and brand cadence.
+This task builds on the unmerged PR 81 candidate c161863 and will update that
+review candidate after validation; no production release is implied.
+
+
+### Editorial pass validation and media follow-through
+
+- All 53 sourced lesson cards and all three Reset stories revised across 19
+  batches of at most three items; 114 batch mobile/desktop checks passed.
+- 21 source-link changes, including new Serena, Rafter/Chang, Murray, Tommy Paul,
+  Federer and Mayotte connections. Research abstracts become directly useful
+  player/coach stories. Retained stories gain concrete details and clearer actions.
+- All 63 protected lesson/scene contracts and 86 unit tests passed. The final
+  126-view insight checker passed, including four real Predict completions;
+  its other 122 views are renderer fixtures. Ten explicit fallbacks remain.
+- Four promotional films are being refreshed from this exact local candidate,
+  using compatible approved Lara recordings and the approved brand cadence.
+  Media and hosted verification are recorded with the final SHA on PR 81.
+- No source/scene/decision change beyond the editorial registry and Reset copy
+  in this pass. Production remains separate from this review candidate.
