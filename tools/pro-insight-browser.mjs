@@ -1,4 +1,4 @@
-// Exercise every professional card/fallback in the shared completion renderer.
+// Exercise every professional card/fallback; Predict uses its real, separate completion flow.
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {mkdirSync,writeFileSync} from 'node:fs';
@@ -16,8 +16,21 @@ try{
   const p=await c.newPage();p.on('pageerror',e=>errors.push(String(e)));
   for(const {slug} of all){
    await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);await p.waitForSelector('#loading',{state:'hidden'});
-   // Renderer fixture, not a claim that this fast-forward is a completed user journey.
-   await p.evaluate(()=>{ans=LESSON.steps.map(()=> 'A');finishLesson();if(recapActive)document.getElementById('skipRecap').click();});
+   const predict=await p.evaluate(()=>Boolean(LESSON.predict));
+   if(predict){
+    // Predict has a separate ending. Reach it with actual choices and playback.
+    await p.evaluate(()=>{window.__speed=24;const timer=window.setTimeout;window.setTimeout=(fn,ms,...a)=>timer(fn,ms/8,...a);});
+    for(let i=0;i<3;i++){
+     await p.waitForFunction(i=>step===i&&document.querySelector('#askOpts button:not(:disabled)'),i);
+     const choice=await p.evaluate(()=>LESSON.steps[step].correct);
+     await p.locator('#askOpts button').nth(choice).click();
+    }
+    await p.waitForFunction(()=>done&&document.querySelector('#wrapup:not([hidden]) #redo'));
+    assert.equal(await p.locator('#wrapup .review').count(),3,slug+' preserves all three read reviews');
+   }else{
+    // Renderer fixture, not a claim that this fast-forward is a completed user journey.
+    await p.evaluate(()=>{ans=LESSON.steps.map(()=> 'A');finishLesson();if(recapActive)document.getElementById('skipRecap').click();});
+   }
    await p.locator('.completion-more>summary').click();
    const expected=await p.evaluate(()=>LESSON.pro),card=p.locator('[data-k=pro]');
    if(expected){
@@ -34,7 +47,7 @@ try{
    const hasCue=await p.evaluate(()=>Boolean(LESSON.cue));
    assert.equal(await p.locator('#saveCue').count(),hasCue?1:0,slug+' preserves existing cue eligibility');
    if(hasCue)assert(await p.locator('#saveCue').isVisible(),slug+' retains saved cue');
-   checks.push({slug,width,kind:expected?.kind||'Take it to court',source:expected?.url||null});
+   checks.push({slug,width,realPredictJourney:predict,kind:expected?.kind||'Take it to court',source:expected?.url||null});
   }
   await c.close();
  }

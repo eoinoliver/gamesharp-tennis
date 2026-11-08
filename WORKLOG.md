@@ -844,3 +844,11 @@ hosted verification and complete CI before handoff.
 - Renderer tests respect existing cue eligibility: Predict activities do not acquire a saved cue merely because they now have sourced context. The screenshot fixture is distinct from full journey tests.
 - Batch 3: fresh normal-speed recordings of The Winner and Doubles Cross/Cover. Three revised Lara films, approximately 27 / 55 / 28 seconds; approved Barty film retained. New narration uses existing Runway Lara stock voice; the user-approved Game / Sharp / Tennis cadence is reused locally.
 - Hosted preview and full CI are being verified against the final branch head. Production remains app `a3ea033eb6`; no merge or promotion in this task.
+
+### Pro-insight final regression correction
+
+The sound CI suite caught that newly sourced Predict cards were absent from its
+separate real completion renderer. Added the same sourced payoff below its
+existing take-home without changing reads, replay, scores or narration. The
+insight checker now completes both Predict journeys at both viewport sizes,
+instead of forcing them through the ordinary lesson renderer.

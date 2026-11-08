@@ -1307,8 +1307,10 @@ function setupPredict(){
         <p class="ra ${ok?"ok":"no"}">${ok?"✓":"✗"} You: ${S.opts[LETTERS.indexOf(X)]}</p><p>${S.lines[X]}</p>
         ${ok?"":`<p><b>Best: ${S.opts[S.correct]}.</b> ${S.payoff}</p><button class="alt" data-watch="${i}">Watch your choice play out</button>`}</div>`;}).join("")}
       <div class="blk"><div class="k">Take it to court</div><p><b>${LESSON.tomorrow}</b></p></div>
+      ${LESSON.pro?`<details class="completion-more"><summary>Professional context</summary>${payoffHTML(LESSON.pro)}</details>`:''}
       <button class="next" id="redo">${LESSON.redoLabel||"Play again"}</button>`;
     w.hidden=false;wireCompletionVoice();
+    w.querySelectorAll("details.pay").forEach(d=>{let first=d.open;d.addEventListener("toggle",()=>{if(first){first=false;return;}if(d.open)emit('payoff_open',{k:d.dataset.k});});});
     w.querySelectorAll("[data-watch]").forEach(bt=>bt.onclick=()=>{const i=+bt.dataset.watch,key=LESSON.steps[i].scene+ans[i],fr=SC[key].info.freeze;
       stageInView(); setInk(`Read ${i+1}: your choice`,true); run(key,Math.max(0,(SC[key].info.from||fr-60)),SC[key].frames-1,null);});
     $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();window.__trail=[];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};

@@ -48,8 +48,9 @@ is an attributed paraphrase, not a newly manufactured quotation.
 `tools/pro-insight-source.py` checks all 63 protected scene/decision contracts,
 registry coverage and explicit fallbacks. `tools/pro-insight-browser.mjs` checks
 all 63 completion views at phone and desktop sizes, including attribution, source
-links, fallback teaching and saved-cue controls. This renderer fixture does not
-claim to be 126 complete user journeys. The existing journey and release suites
+links, fallback teaching and saved-cue controls. The two Predict lessons use their own completion renderer, reached by actual
+choices and playback at both widths; the other 122 checks are renderer fixtures,
+not complete user journeys. Predict retains its three read reviews and court cue. The existing journey and release suites
 remain required. These checks do not constitute external coaching validation.
 
 ## Promotional media

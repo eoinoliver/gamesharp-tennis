@@ -14,7 +14,7 @@
     },
     "rally/lesson_body.html": {
       "baseline": "d066f5487cac40698b6cf9ef89c658f95d8e603ab47bb4c0a1cc7736d52e087b",
-      "candidate": "dd4cb339eee910c0d564549c183e9e0ef7d3dbed14d7307b1485b96edc598ef7"
+      "candidate": "7a71687f9b7eb202efabc5fd0ab4d0e831efd66b7cefbc46368dd5c9f3153c23"
     },
     "rally/lesson_ss.js": {
       "baseline": "3c7bc58db4fa380b603caebedc33df3a52e86d0b2de0ce7df10e95f9dd9321f7",
@@ -30,11 +30,11 @@
     },
     "tools/pro-insight-browser.mjs": {
       "baseline": null,
-      "candidate": "79dd9e80077decb7fccc9b77c1ae96a2e2947db9b99fcb308621faecab1b7a14"
+      "candidate": "97ee630bbdf692079d0ed735792952dd40b3c00052415987348ac62f5036b506"
     },
     "docs/features/pro-insights.md": {
       "baseline": null,
-      "candidate": "fadd0b0222807263a0a7e6c09ed8e3eaf1cf59e156f7ac3ae9c8267ff9a32754"
+      "candidate": "e88dd4d7d5867f163c1542976bf583473f888841959baf5417f90098d9d975cf"
     },
     "docs/features/pro-insight-scope.json": {
       "baseline": null,
@@ -44,15 +44,15 @@
   "release": {
     "app/catalog.js": {
       "baseline": "d5910e5a7e507f8f1b759c366c73680321b826e7c6d54384dbfcac08a2781686",
-      "candidate": "88e5a04026ed28402207021484c58ed13312804e0149510c9b90f1a056aaab71"
+      "candidate": "a73d7750154f77014211c8314f60ceee387e9c72b1ab8798339c4815a9c0cba6"
     },
     "app/engine/engine.js": {
       "baseline": "ffc3712e1c81ddc4434c14e33261993e7840d4e8e89ba9c0f5fdf31ae881cbff",
-      "candidate": "a5297e0289aea24cd01dcc128c8a5ea93c92a70c7132079068bd8357bba59c5b"
+      "candidate": "bcc6e6c74bd14f7c6f85ef4e2debcdd020f8e8c4105ca6f78fe76a61a9dff156"
     },
     "app/index.html": {
       "baseline": "b5a4be0087a29a5587ec7ad40f93ce2268efe43061a76622ea0fc20fb308c3f4",
-      "candidate": "02940e0fd1360e30e640799c70cd463ca204ce09709a1cecc40b22bd59eb3afc"
+      "candidate": "c76d75d958243bfd2093bfb72e9aac0f2c2e80cf5e7ceddd933330e8d6cd65b6"
     },
     "app/lessons/answer-the-drop.json": {
       "baseline": "f29e262610c5b6184c0fdb30c257b8d24f14ef2a6c575b54a89d83cc54f2c548",
@@ -308,7 +308,7 @@
     },
     "app/play.html": {
       "baseline": "52ddb917571832cddf87ad6bb888a477ae427f99c433d726ce328847ae7d993b",
-      "candidate": "58de82b8316e6cebbe9f495f74cfc1132ad7bd0e6ee4e3b70df1c2d8aa57c507"
+      "candidate": "7321e25740df22ca0a11ceec509e7c491b0f71c18e47ab49e4790030bbc7b401"
     },
     "app/reset.js": {
       "baseline": "fcbcbb0086510f3695fffcb85d2aa0b05d3013602e1e12a1a674bb8fe323ab20",
