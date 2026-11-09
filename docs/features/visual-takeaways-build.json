@@ -1,0 +1,67 @@
+{
+  "description": "32 authored Daily visual takeaways; existing lesson, scene and media fingerprints unchanged.",
+  "source": {
+    "app_src/build.py": {
+      "baseline": "3b419b0f65e7fc0d0a453d1b0f9a63179725379cd0726c6978caa0278184036e",
+      "candidate": "dcff6a07a3ea88ac567654fb6db5c2f975c80b4e24ebf2a05773f9f652cf3731"
+    },
+    "app_src/index.html": {
+      "baseline": "a47ff622236c5ba739c90e1e2e30673429cbc3ee8f12637d44f259f57decfc5f",
+      "candidate": "d7a89f3cf5f63c4960190e13542f081b4966d534a2e201d5760cf22a5813da2a"
+    },
+    "app_src/play_host.html": {
+      "baseline": "c825f3bb957636994b7b49621bfb180564eafee5ca0145d653b6d1e471fad713",
+      "candidate": "9d860fe2ec1931072735a29fa0b040a1b0bb42ac693bbea5916842da3ac2d734"
+    },
+    "app_src/takeaways.css": {
+      "baseline": null,
+      "candidate": "1d14329c36bfee7f3499825b02b80111a0457893c5d2fe5935dac521eb00cb5a"
+    },
+    "app_src/takeaways.js": {
+      "baseline": null,
+      "candidate": "cdecdedee0e6ac16c863d1d6bafea2af801b09ac4bf790b3129dc917fb0fd9b0"
+    },
+    "app_src/takeaways.json": {
+      "baseline": null,
+      "candidate": "154d6a663191bb04faae2c577de9535af962320d1e96c160406d34a2e7b6183f"
+    },
+    "app_src/takeaways.py": {
+      "baseline": null,
+      "candidate": "0d6c876da1a135d15c0ca17ca656fe2c8324c39073a4f177766144ac113d83b6"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "5f5d2cd129dbd5895ccd43a3f70c07fc23996feafdd5d69c9bfb2e7ba01e2d37",
+      "candidate": "c9b569d288ac2c1d1bd6cf8b4b457980fc2d99ba0147e08e29cb2a27b8854a5f"
+    },
+    "tools/takeaway-browser.mjs": {
+      "baseline": null,
+      "candidate": "e9897434919ad2159b32524f27fa2b0c45997fb7e5a1274a3e83b93ca5b5c0cf"
+    },
+    "docs/features/visual-takeaways.md": {
+      "baseline": null,
+      "candidate": "715a30b4dad6045ad8faa0bfeee38127d54a5ddcdece077a9139ee98031a8b5b"
+    }
+  },
+  "release": {
+    "app/play.html": {
+      "baseline": "8a3565342c771080bd078ab2fd4ecebcbd6f41b3b8e5643e214d9bc1f6409bd1",
+      "candidate": "91b82301c809fb2427f258cde2b677883739f43240ddf2ce30ff9f56ad2f448a"
+    },
+    "app/index.html": {
+      "baseline": "9b48a6f02e1f2acd7f040c7ba91162b3f72d983b49f705bf354639da820c19fa",
+      "candidate": "c3dfa80ae4e92476f848a10845215bdeb5aa491a29a1543445678dd3f235ce02"
+    },
+    "app/takeaways.css": {
+      "baseline": null,
+      "candidate": "1d14329c36bfee7f3499825b02b80111a0457893c5d2fe5935dac521eb00cb5a"
+    },
+    "app/catalog.js": {
+      "baseline": "d0f27356628315f7095ca4413ede478afc6c837d7b7b201a5f469a55e7599f47",
+      "candidate": "33138c73caa1ffb27b69bc76c040f394166f1f479731234dc483fc6dbd0c6c5c"
+    },
+    "app/takeaways.js": {
+      "baseline": null,
+      "candidate": "60e250def6b15836117d49666d34b169f2b4536f58d6c26f8487d0eb423ec5d3"
+    }
+  }
+}

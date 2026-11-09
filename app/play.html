@@ -285,7 +285,7 @@ details.note a{color:var(--gold)}
 
 </div>
 
-<link rel="stylesheet" href="coach.css?v=e4cf57314d">
+<link rel="stylesheet" href="coach.css?v=3ffb52ef97">
 <style>
 .daily-completion .daily-complete-message{font-size:15px;color:#dce8d7;line-height:1.5}.daily-completion .daily-related{margin-top:22px;padding-top:20px;border-top:1px solid #c8a84b30}.daily-related h2{font-size:22px;margin:8px 0}.daily-related p{font-size:14px;line-height:1.55;color:#b8c7b6}.daily-related .alt{min-height:44px;display:inline-flex;align-items:center}.daily-completion .k{display:block!important}
 
@@ -380,16 +380,18 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<link rel="stylesheet" href="practice.css?v=e4cf57314d">
-<script src="config.js?v=e4cf57314d"></script>
-<script src="catalog.js?v=e4cf57314d"></script>
-<script src="app.js?v=e4cf57314d"></script>
-<script src="share.js?v=e4cf57314d"></script>
-<script src="coach.js?v=e4cf57314d"></script>
-<script src="sfx.js?v=e4cf57314d"></script>
+<link rel="stylesheet" href="practice.css?v=3ffb52ef97">
+<link rel="stylesheet" href="takeaways.css?v=3ffb52ef97">
+<script src="config.js?v=3ffb52ef97"></script>
+<script src="catalog.js?v=3ffb52ef97"></script>
+<script src="app.js?v=3ffb52ef97"></script>
+<script src="share.js?v=3ffb52ef97"></script>
+<script src="takeaways.js?v=3ffb52ef97"></script>
+<script src="coach.js?v=3ffb52ef97"></script>
+<script src="sfx.js?v=3ffb52ef97"></script>
 <script>
 (function(){
-const A=GSApp, V="e4cf57314d", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="3ffb52ef97", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
@@ -486,6 +488,8 @@ A.on((n,d)=>{
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function wrap(n){
   const w=document.getElementById("wrapup"); if(!w||w.querySelector(".appblk")) return;
+  const takeaway=window.GSTakeaways?.render(slug);
+  if(takeaway)w.firstElementChild?.querySelector('.mem')?.insertAdjacentHTML('afterend',takeaway);
   const s=A.streakNow(), nx=A.nextDaily(), nextPoint=L.livePoint&&A.nextLivePoint(), asked=A.S.fb[slug];
   const isChallenge=A.isDaily(slug)||A.CAT.predict.some(l=>l.slug===slug),featured=A.featuredDaily(),related=isChallenge&&A.relatedPoint(slug);
   const dailyEnd=isChallenge?`<div class="gs-continue daily-completion"><p class="daily-complete-message">${featured?.lesson.slug===slug?"Today's challenge complete.":'Challenge complete.'} One useful read is enough.</p><a class="next" id="dailyDone" href="./?home=1">${featured?.lesson.slug===slug?'Done for today':'Back to home'} →</a>${related?`<div class="daily-related"><div class="k">Optional · go a little further</div><h2>Now try it in a point.</h2><p>${esc(related.bridge)}</p><a class="alt" id="relatedLivePoint" href="play.html?l=${related.lesson.slug}&from=daily&lesson=${encodeURIComponent(slug)}">${esc(A.displayTitle(related.lesson))} →</a></div>`:''}${nx?`<a class="alt" id="nextDaily" href="play.html?l=${nx.slug}">Continue your personal practice →</a>`:'<a class="alt" href="./?all=1">Explore challenges →</a>'}</div>`:'';

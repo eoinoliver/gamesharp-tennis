@@ -1066,3 +1066,10 @@ for review. Local checks pass: 420 sharing/practice checks in each engine,
 The first-click regression now asserts zero native calls until the explicit
 second action. Copy, native cancellation/failure and panel dismissal were checked
 at 320/390/1440px. Codex owns the fresh Git preview, full CI and hosted checks.
+
+
+## 10 November 2026 — Visual lesson takeaways
+
+Codex owns `codex/visual-takeaways-2026-11-10`, based on live PR85 merge `0525c0c`. Eoin requested visual lesson summaries first; Singles/Doubles labels and competition with the Daily stay outside this change. Build a concise, authored visual takeaway for the 32 Daily lessons, using the representation that clarifies each lesson. Keep existing coaching, sound, lesson decisions, saved cues and progress semantics intact; do not claim app practice is more effective than court practice. No imported decorative asset or generic diagram may substitute for a lesson-specific decision. Validate mobile first, each authored takeaway, real completion, revisit/rollover and accessible fallback.
+
+Implemented 32 explicit Daily takeaways on completed Home and lesson endings, with seven schematic formats and unchanged endings for the other 31 activities. All 32 figures were visually checked against the existing teaching; the build ties each card to its lesson content hash. Existing lesson JSON, scenes, engine and audio remain byte-identical. Isolated Chromium and WebKit runs each pass 222 checks, including five actual completions, imperfect scores, daily rollover, saving/sharing, voice cue coherence, small-screen layout and module fallback. Current candidate ownership remains Codex through exact Git Preview/CI validation; the PR and local review artifact will record full SHA and hosted evidence. Production is unchanged; this branch needs exact-version review before release under AGENTS.md.

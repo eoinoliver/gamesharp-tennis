@@ -90,6 +90,9 @@ shutil.copytree(os.path.join(SRC, 'home'), os.path.join(OUT, 'home'))
 shutil.copytree(os.path.join(SRC, 'share'), os.path.join(OUT, 'share'))
 from share_pages import build_share_pages
 build_share_pages(SRC, OUT, cat)
+from takeaways import build_takeaways
+build_takeaways(SRC, OUT, cat)
+shutil.copy(os.path.join(SRC, 'takeaways.css'), OUT)
 
 # ---------- version (content hash) ----------
 h = hashlib.sha256()
@@ -111,7 +114,8 @@ open(os.path.join(OUT, 'play.html'), 'w').write(play)
 
 # ---------- shell ----------
 idx = open(os.path.join(SRC, 'index.html')).read()
-for f in ('config.js', 'catalog.js', 'app.js', 'share.js', 'practice.js', 'sharpen.js', 'reset.js', 'coach.js', 'sfx.js', 'home-preview.js', 'cine.js'): idx = idx.replace('src="%s"' % f, 'src="%s?v=%s"' % (f, VER))
+for f in ('config.js', 'catalog.js', 'app.js', 'share.js', 'takeaways.js', 'practice.js', 'sharpen.js', 'reset.js', 'coach.js', 'sfx.js', 'home-preview.js', 'cine.js'): idx = idx.replace('src="%s"' % f, 'src="%s?v=%s"' % (f, VER))
+idx = idx.replace('href="takeaways.css"', 'href="takeaways.css?v=%s"' % VER)
 idx = idx.replace('href="practice.css"', 'href="practice.css?v=%s"' % VER)
 idx = idx.replace('href="coach.css"', 'href="coach.css?v=%s"' % VER)
 open(os.path.join(OUT, 'index.html'), 'w').write(idx)
