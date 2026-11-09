@@ -7,13 +7,13 @@
 .practice-week li.practised b{background:#d0b65b;color:#071810;border-color:#d0b65b}
 .practice-week li.today span{color:#e5cf82;font-weight:700}
 .practice-next{padding:27px 0 24px;border-bottom:1px solid #ffffff20}
-.practice-next p,.practice-entry p{max-width:55ch;line-height:1.55}
+.practice-next p,.practice-record p{max-width:55ch;line-height:1.55}
 .practice-link{display:inline-flex;align-items:center;min-height:44px;color:#e4ce83;background:none;border:0;border-bottom:1px solid #c9ad5b66;border-radius:0;font-family:inherit;font-size:15px;font-weight:600;line-height:1.4;text-align:left;text-decoration:none;padding:8px 0;cursor:pointer}
-.practice-link:hover{color:#fff2c3}.practice-link:focus-visible,.practice-entry a:focus-visible{outline:2px solid #e4ce83;outline-offset:5px}
-.practice-history{margin:30px 0}.practice-entry{padding:22px 0;border-bottom:1px solid #ffffff20}
-.practice-entry-meta,.practice-evidence{color:#b5c6bb;font-size:13px;line-height:1.65}
-.practice-entry h3{font-size:20px;line-height:1.25;margin:7px 0 10px}.practice-entry a{color:#f4f1e8;text-decoration:none}
-.practice-entry .practice-evidence{margin:10px 0 0}.practice-entry .practice-link{font-size:14px;margin-top:6px}
+.practice-link:hover{color:#fff2c3}.practice-link:focus-visible,.practice-record a:focus-visible{outline:2px solid #e4ce83;outline-offset:5px}
+.practice-history{margin:30px 0}.practice-record{padding:22px 0;border-bottom:1px solid #ffffff20}
+.practice-record-meta,.practice-evidence{color:#b5c6bb;font-size:13px;line-height:1.65}
+.practice-record h3{font-size:20px;line-height:1.25;margin:7px 0 10px}.practice-record a{color:#f4f1e8;text-decoration:none}
+.practice-record .practice-evidence{margin:10px 0 0}.practice-record .practice-link{font-size:14px;margin-top:6px}
 .practice-history details>summary,.practice-settings>summary,.practice-reminder>summary{min-height:48px;cursor:pointer;align-content:center;color:#e4ce83}
 .practice-settings{border-top:1px solid #ffffff20;margin:30px 0 16px;padding-top:12px}
 .practice-settings>label,.practice-reminder>label{display:block;margin-top:15px}
@@ -28,3 +28,5 @@
 @media(max-width:360px){.practice-week li b{width:32px;height:32px}.practice-week ol{gap:4px}}
 
 #quickShareStatus:empty{display:none}#quickShareStatus{font-size:13px;text-align:left;color:#b5c6bb}
+
+.practice-record>p:not(.practice-evidence){font-size:16px;color:#dde6de;line-height:1.55}

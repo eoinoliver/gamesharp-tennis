@@ -1014,3 +1014,9 @@ two older HTML pages. Extend that same strict suffix rule to the new share HTML
 paths; production hashes remain untouched. Final copy specifies challenges or
 points for the weekly goal (Reset sessions are not counted) and removes doubled
 punctuation in variation titles. No functional learning/share changes.
+
+Final visual inspection caught a class-name collision with the old Home practice
+card. Scope the new history rows as practice-record, removing the inherited
+boxed/flex presentation and keeping their takeaways readable at 16px. This is a
+local presentation fix; Home cards and all stored practice semantics stay intact.
+Codex owns final parity, fresh Git preview verification and CI for this correction.

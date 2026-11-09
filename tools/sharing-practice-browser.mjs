@@ -39,7 +39,7 @@ try{
   if(slug==='serve-plus-one')await p.screenshot({path:dir+'/completed-daily.png',fullPage:true});
  }
  await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:undefined}));await p.locator('#quickShare').click();await p.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw Error('Denied');}}}));await p.locator('#quickShareCopy').click();check((await p.locator('#quickShareStatus').innerText()).includes('Select and copy'),'in-play clipboard denial has a manual fallback');
- await p.goto(base+'?review=1&z=my-game');check(await p.locator('.practice-entry').count()===7,'all completed formats appear automatically with no saved cues');check(await p.locator('.sh-practice').count()===0,'automatic history does not pretend cues were intentionally saved');
+ await p.goto(base+'?review=1&z=my-game');check(await p.locator('.practice-record').count()===7,'all completed formats appear automatically with no saved cues');check(await p.locator('.sh-practice').count()===0,'automatic history does not pretend cues were intentionally saved');
  check((await p.locator('#practiceWeekTitle').innerText()).includes('1 practice day'),'seven completions on one date count as one practice day');
  check((await p.locator('.practice-next').innerText()).includes('Tomorrow'),'authored variation waits until another calendar day');
  await p.locator('.practice-settings>summary').click();await p.locator('#practiceGoal').selectOption('3');check((await p.locator('#practiceWeekTitle').innerText()).includes('1 practice day of 3'),'optional goal updates without losing history');
@@ -55,7 +55,7 @@ try{
  const download=p.waitForEvent('download');await p.locator('#practiceCalendar').click();const d=await download;await d.saveAs(dir+'/practice.ics');const ics=readFileSync(dir+'/practice.ics','utf8');check(ics.includes('RRULE:FREQ=WEEKLY;BYDAY=MO,WE,FR')&&ics.includes('BEGIN:VALARM'),'calendar reminder is an actual importable recurrence');check((await p.locator('#practiceCalendarStatus').innerText()).includes('save the event'),'calendar creation does not claim notifications are already enabled');
  for(const width of [320,390,1440]){await p.setViewportSize({width,height:width<500?844:960});await p.reload();await p.locator('#practiceOverview').waitFor();check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+': personal practice fits without overflow');await p.screenshot({path:dir+'/my-game-'+width+'.png',fullPage:true});}
  await p.context().close();
- const fresh=await page(320);await fresh.goto(base+'?review=1&z=my-game');check(await fresh.locator('.practice-entry').count()===0&&(await fresh.locator('#practiceWeekTitle').innerText()).includes('0 practice days'),'fresh browser shows a truthful empty state');await fresh.screenshot({path:dir+'/empty-320.png',fullPage:true});await fresh.context().close();
+ const fresh=await page(320);await fresh.goto(base+'?review=1&z=my-game');check(await fresh.locator('.practice-record').count()===0&&(await fresh.locator('#practiceWeekTitle').innerText()).includes('0 practice days'),'fresh browser shows a truthful empty state');await fresh.screenshot({path:dir+'/empty-320.png',fullPage:true});await fresh.context().close();
  check(errors.length===0,'no browser runtime errors');
 }finally{writeFileSync(dir+'/report.json',JSON.stringify({engine,checks,errors},null,2));await browser.close();}
 console.log('PASS',checks.length,'sharing and practice checks',engine);

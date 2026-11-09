@@ -23,11 +23,11 @@
     },
     "app_src/practice.css": {
       "baseline": null,
-      "candidate": "d3a22cc57dd60ed3b626618608b1a932b8d130139f27bee130663ae4d23fe096"
+      "candidate": "791f722ba3c5b5b921597cd4ef1e43628b083395c0768b4ebf047e26b58425be"
     },
     "app_src/practice.js": {
       "baseline": null,
-      "candidate": "7ff6d12ac5c72182693e951188fb48c7a04d5d51c7235cd1867186bd42c4489e"
+      "candidate": "dfe7a97b24dd7873dcaa3d94893769973cbe92dfea0f92bf15b251cfb912e6c2"
     },
     "app_src/share/answer-the-drop.jpg": {
       "baseline": null,
@@ -319,7 +319,7 @@
     },
     "tools/sharing-practice-browser.mjs": {
       "baseline": null,
-      "candidate": "2b900790a1cd796f957ce72f9297531908b3a455d012be0f4a3adac3ca7a7af6"
+      "candidate": "0f1c994575f1602329882ab430d561b157064f1a0cbf7ac44295105f3094193c"
     },
     "tools/ux-audit-browser.mjs": {
       "baseline": "0c75775f02fc447581fcdea7e86fb0429c91b17d0c2c0eff73f13482eb7b6bc0",
@@ -337,23 +337,23 @@
     },
     "app/catalog.js": {
       "baseline": "feb4ea3c184a83b196b9d9f82f94fdc6eefcd51464943785a846d27802b49c56",
-      "candidate": "2a8a74d9b5c5fb5aae898b0600b3be5dbda4d5c2a74581a83f3cb8877c925798"
+      "candidate": "7b383be9fc95af7f5b8d8db5631152e7b7be8da228f402f9c4a1664dc28b5db0"
     },
     "app/index.html": {
       "baseline": "e6c74aefdc75bf1fda47d8585ee9889a281d512238b038f8269f24c1f036a2cd",
-      "candidate": "16e01b2674b082412d9b4aac6522fd4e68651cec8f217e36a3617b5d3631b087"
+      "candidate": "34dc6e6aac904627dd29c0e03ebc38597cf24e09db4f909bd8b47a3f9aab66dd"
     },
     "app/play.html": {
       "baseline": "0c57e7da58dbb59e7837eda5a400be4c900ea48e2e666c9a59edc187cf2cc072",
-      "candidate": "1c14a4df9e573edb3a459727844f88b5badca7c17b49c79662f13f8dc40d0a57"
+      "candidate": "2db8d3b24a6b3a0953ff34410fc4360509bc59770640f3795e026998f6adcf1a"
     },
     "app/practice.css": {
       "baseline": null,
-      "candidate": "d3a22cc57dd60ed3b626618608b1a932b8d130139f27bee130663ae4d23fe096"
+      "candidate": "791f722ba3c5b5b921597cd4ef1e43628b083395c0768b4ebf047e26b58425be"
     },
     "app/practice.js": {
       "baseline": null,
-      "candidate": "7ff6d12ac5c72182693e951188fb48c7a04d5d51c7235cd1867186bd42c4489e"
+      "candidate": "dfe7a97b24dd7873dcaa3d94893769973cbe92dfea0f92bf15b251cfb912e6c2"
     },
     "app/s/answer-the-drop.html": {
       "baseline": null,
