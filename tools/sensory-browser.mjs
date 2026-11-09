@@ -25,7 +25,9 @@ try{
  const sound=p.locator('[data-gs-sound]');
  check(await sound.getAttribute('aria-label')==='Enable sound','first sound control is honest about activation');
  await p.locator('#again').tap();
- await p.waitForFunction(()=>GSSfx.ready());
+ // One decoded contact makes audio usable before the remaining samples finish.
+ // Wait for the visible loading state to settle before asserting its final label.
+ await p.waitForFunction(()=>GSSfx.ready()&&document.querySelector('[data-gs-sound]').dataset.soundState==='on');
  check(await p.evaluate(()=>GSSfx.enabled()&&!!window.__audio),'first gesture unlocks default-on audio');
  check(await sound.getAttribute('aria-label')==='Mute sound','first touch enables, does not mute');
  await sound.tap();check(await p.evaluate(()=>!GSSfx.enabled()),'second touch mutes');

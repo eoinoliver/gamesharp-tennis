@@ -23,7 +23,7 @@
     },
     "app_src/play_host.html": {
       "baseline": "cbb62901fa5c9bd9e73cf3c669f5c61561958cf15c57ce229bd1036967f50016",
-      "candidate": "98284294a6bbe7897e1468ec0bc45c60a88e12b36a0f6c67c5ea9bae30210723"
+      "candidate": "15c7cce3e7357b6bb00f5a32ae66380eee4eb5b8aa7607e46d1c8695394a0c00"
     },
     "app_src/sfx.js": {
       "baseline": "9fb98f0be5f99e258d1d90c2355b7385374aaee00d53da2905e7da13738f7389",
@@ -68,6 +68,10 @@
     "docs/features/daily-led-home.md": {
       "baseline": null,
       "candidate": "f6dbf5280a3a27c8f7a71dd40adb824b7241d155b0c09dc79c7d6f11dbbbdbc4"
+    },
+    "tools/sensory-browser.mjs": {
+      "baseline": "e4efc57ffb20092f0e3b625f960dd10f357ec63f61b7429d8d0c2a0c50e20cbb",
+      "candidate": "ceacc501b709bc8416f78b3b580609330b251a1d53ffe67d3477523c8876cebd"
     }
   },
   "release": {
@@ -77,7 +81,7 @@
     },
     "app/catalog.js": {
       "baseline": "7c63a0a6b22676238c16dfbb725095fe17243635dddd43ed200763260639204f",
-      "candidate": "a6fe32628f2601c99dc19091b1e3ccab2cbeeaf7c539aae7c3ba2599b7f117ed"
+      "candidate": "308e602057b78a76ddb7f1a9ce707ac73d6761c982fcd2ce13eba236d43bc437"
     },
     "app/engine/engine.js": {
       "baseline": "bcc6e6c74bd14f7c6f85ef4e2debcdd020f8e8c4105ca6f78fe76a61a9dff156",
@@ -85,11 +89,11 @@
     },
     "app/index.html": {
       "baseline": "578c74e97d8b1adb4bf1f5ebd7be337ecc1bf1f8c699d272368d0cd475b9033f",
-      "candidate": "b1e2b587d2be12857a9934a75bdc449c395c2e10a146b384f0ac4d2d700e9a50"
+      "candidate": "799c7510a9092a19b4f43bfc0bc10bcdcc5a2978a97b428bf2532d2fb62e5902"
     },
     "app/play.html": {
       "baseline": "68304c03316adba0dbebc22887ff37aec51bc92ee914b23f42c38c035f65e68a",
-      "candidate": "9d7265fd09571dbaa95715ece3eabcf97cb33f0b5601a886d3c0e8ffd2721536"
+      "candidate": "77a9abe7fac49ea49883bc4631c13a02e5c082802144a5b491081bf1682cbea0"
     },
     "app/sfx.js": {
       "baseline": "9fb98f0be5f99e258d1d90c2355b7385374aaee00d53da2905e7da13738f7389",
