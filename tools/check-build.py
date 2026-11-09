@@ -227,6 +227,15 @@ for records, expected in [(ux['source'], source), (ux['release'], manifest)]:
         assert expected.get(name) == hashes['baseline'], f'UX audit baseline drift: {name}'
         expected[name] = hashes['candidate']
 
+# Professional context: reviewed editorial registry; earlier fingerprints stay frozen.
+insight = json.loads((ROOT/'docs/features/pro-insight-build.json').read_text())
+assert set(insight['source']) == {'tools/pro-insight-browser.mjs', 'docs/features/pro-insights.md', 'rally/lesson_ss.js', 'app_src/build.py', 'app_src/reset.js', 'tools/pro-insight-source.py', 'tools/browser-checks.mjs', 'app_src/pro_insights.json', 'rally/lesson_body.html', 'docs/features/pro-insight-scope.json'}
+assert set(insight['release']) == {'app/lessons/find-your-return-spot.json', 'app/index.html', 'app/lessons/doubles-return-space.json', 'app/lessons/recovery.json', 'app/lessons/earned-attack.json', 'app/lessons/rushed-out-wide.json', 'app/lessons/serve-away-from-the-lean.json', 'app/lessons/live-point-return-time.json', 'app/lessons/net-rusher.json', 'app/lessons/live-point-make-room.json', 'app/lessons/split-step.json', 'app/lessons/saturday-point-2.json', 'app/lessons/the-moonballer.json', 'app/lessons/attack-the-backhand.json', 'app/lessons/doubles-cross-cover.json', 'app/lessons/live-point-over-head.json', 'app/lessons/doubles-lob-switch.json', 'app/lessons/midweek-point-1.json', 'app/lessons/short-ball.json', 'app/lessons/running-around.json', 'app/lessons/live-point-arrive-options.json', 'app/lessons/contact-clue.json', 'app/lessons/the-lefty.json', 'app/lessons/play-the-point.json', 'app/lessons/earned-defence.json', 'app/lessons/saturday-point-1.json', 'app/lessons/pass-where-they-arent.json', 'app/lessons/second-serve.json', 'app/lessons/live-point-line-tempting.json', 'app/lessons/open-court.json', 'app/lessons/forehand-bill.json', 'app/lessons/live-point-short-low.json', 'app/lessons/live-point-serve-see.json', 'app/lessons/saturday-point-5.json', 'app/lessons/serve-plus-one.json', 'app/lessons/down-the-line.json', 'app/lessons/the-big-hitter.json', 'app/lessons/live-point-reach-drop.json', 'app/lessons/late-is-the-culprit.json', 'app/lessons/pulled-wide.json', 'app/lessons/high-ball.json', 'app/catalog.js', 'app/lessons/live-point-other-wing.json', 'app/lessons/predict-the-point.json', 'app/lessons/the-line.json', 'app/play.html', 'app/lessons/live-point-buy-time.json', 'app/lessons/middle-return.json', 'app/lessons/live-point-volley-opening.json', 'app/lessons/approach-volley.json', 'app/lessons/the-lead.json', 'app/lessons/the-winner.json', 'app/lessons/live-point-volley-build.json', 'app/lessons/live-point-return-deep.json', 'app/lessons/earned-net.json', 'app/lessons/saturday-point-4.json', 'app/lessons/predict-second-serve.json', 'app/engine/engine.js', 'app/lessons/doubles-return-line.json', 'app/lessons/doubles-hold-cover.json', 'app/lessons/answer-the-drop.json', 'app/lessons/saturday-point-3.json', 'app/reset.js', 'app/lessons/the-pusher.json', 'app/lessons/live-point-pass-two.json', 'app/lessons/live-point-line-opens.json', 'app/lessons/doubles-lob-overhead.json', 'app/lessons/live-point-return-pressure.json'}
+for records, expected in [(insight['source'], source), (insight['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Professional insight baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)
@@ -236,6 +245,7 @@ for name, expected in source.items():
 subprocess.run(['python3','app_src/build.py'], cwd=ROOT, check=True)
 subprocess.run(['python3','tools/sharpen-stroke-source.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/trust-practice-source.py'],cwd=ROOT,check=True)
+subprocess.run(['python3','tools/pro-insight-source.py'],cwd=ROOT,check=True)
 actual = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
           for p in sorted((ROOT/'app').rglob('*')) if p.is_file()}
 assert actual == manifest, 'Build differs from the approved live source artifact'

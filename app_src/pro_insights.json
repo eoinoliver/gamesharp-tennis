@@ -1,0 +1,489 @@
+{
+  "answer-the-drop": null,
+  "approach-volley": {
+    "kind": "From the coach",
+    "player": "Paul Annacone",
+    "label": "Annacone · The volley starts before the volley",
+    "moment": "Paul Annacone, who coached Sampras and Federer, starts his volley lesson with the shot before it: recognise a short ball, hit a purposeful approach and make the first volley easier. The tidy finish at the net is often the reward for the decision made several metres behind it.",
+    "read": "Your next point: ask what volley your approach is likely to create. Follow with balance, then read the reply rather than charging to a fixed spot.",
+    "src": "Paul Annacone · Tennis.com · Volley strategy, 2019",
+    "url": "https://www.tennis.com/news/articles/watch-annacone-s-winning-volley-strategy"
+  },
+  "attack-the-backhand": {
+    "kind": "Match analysis",
+    "player": "Novak Djokovic",
+    "label": "Djokovic · Turn their favourite pattern around",
+    "moment": "Ruud wanted the 2022 Turin final played through the backhand corner. Djokovic answered with 51 run-around forehands, using the same part of the court to hunt Ruud’s backhand. A player famous for his backhand changed the pattern with his forehand.",
+    "read": "Your next point: move this opponent before changing direction. You are trying to create an awkward contact, not assuming that every backhand is a weakness.",
+    "src": "ATP Brain Game · Djokovic–Ruud, Turin final 2022",
+    "url": "https://www.atptour.com/en/news/djokovic-ruud-turin-2022-final-brain-game"
+  },
+  "contact-clue": {
+    "kind": "Coaching insight",
+    "player": "Andy Zodin analysing Andre Agassi",
+    "label": "Agassi · Watch the arm without the racket",
+    "moment": "When coach Andy Zodin explains Agassi’s forehand, he points to the arm that is not holding the racket. Its reach helps organise the distance to the ball, the balance and the alignment. The part worth copying is easy to miss if you only watch the swing.",
+    "read": "Your next point: check the space around your contact before rebuilding the stroke. A repeated miss gives you something to investigate.",
+    "src": "Andy Zodin · Essential Tennis podcast 106 · Transcript",
+    "url": "https://www.essentialtennis.com/podcast-106-should-you-really-be-copying-what-the-pros-do-on-tv/"
+  },
+  "doubles-cross-cover": {
+    "kind": "From the players",
+    "player": "Bob and Mike Bryan",
+    "label": "The Bryans · A few words before the serve",
+    "moment": "The Bryan brothers made their teamwork look instinctive. Asked how they planned points, they described quick signals and short code words: “we don’t need a long conversation”. Knowing the intended serve gave the net player an early picture of the return.",
+    "read": "Your next point: agree the serve and the move. When your partner crosses, cover the space they leave. A few words beforehand can prevent two players doing the same job.",
+    "src": "Bob & Mike Bryan · Interview with Mark Hodgkinson · Tennisplayer",
+    "url": "https://old.tennisplayer.net/public/strategy/mark_hodgkinson/bryan_bros"
+  },
+  "doubles-hold-cover": {
+    "kind": "From the players",
+    "player": "Bob and Mike Bryan",
+    "label": "The Bryans · The wide serve has a cost",
+    "moment": "In their interview with Mark Hodgkinson, the Bryan brothers gave a concrete example: when a partner serves wide, the net player needs to cover the line. The serve creates space for both teams. Their plan accounted for the reply, not just the delivery.",
+    "read": "Your next point: your partner holds here. Keep your own side covered and read the return; a switch needs a reason, not a habit.",
+    "src": "Bob & Mike Bryan · Interview with Mark Hodgkinson · Tennisplayer",
+    "url": "https://old.tennisplayer.net/public/strategy/mark_hodgkinson/bryan_bros"
+  },
+  "doubles-lob-overhead": {
+    "kind": "From the coach",
+    "player": "Louis Cayer",
+    "label": "Cayer · Leave yourself a way back",
+    "moment": "Cayer gives a practical picture: from the middle of the service box, a player may only need to move back across the service line to intercept a lob. Net play includes the space behind you.",
+    "read": "Your next point: this shorter lob is within controlled reach. Call it, prepare your overhead and give your partner a clear covering job.",
+    "src": "Louis Cayer · LTA doubles Q&A",
+    "url": "https://www.lta.org.uk/advantage-home/content/how-to-improve-your-doubles-skills-your-questions-answered-by-expert-lta-coach-louis-cayer/"
+  },
+  "doubles-lob-switch": {
+    "kind": "From the coach",
+    "player": "Louis Cayer",
+    "label": "Cayer · Even the pros get lobbed",
+    "moment": "Louis Cayer warns that crowding the net invites lobs—even for professionals. Being closer feels aggressive, but it can leave the next ball behind you before you have room to turn.",
+    "read": "Your next point: this lob has already beaten the net player. Call early, let the partner with room retrieve it, and cover the court together.",
+    "src": "Louis Cayer · LTA doubles Q&A",
+    "url": "https://www.lta.org.uk/advantage-home/content/how-to-improve-your-doubles-skills-your-questions-answered-by-expert-lta-coach-louis-cayer/"
+  },
+  "doubles-return-line": {
+    "kind": "From the coach",
+    "player": "Wayne Bryan",
+    "label": "Wayne Bryan · The line can be bait",
+    "moment": "Wayne Bryan’s fake-poach lesson starts with a temptation: show the returner a gap down the line. Move early, encourage that return, then recover to intercept it. The opening the returner sees can be the very shot the net player wants.",
+    "read": "Your next point: watch whether the player commits. Here they really cross, so the line opens. Against a feint, the same tempting target could be a trap.",
+    "src": "Wayne Bryan · Tennis.com · Fake-poach lesson, 2019",
+    "url": "https://www.tennis.com/news/articles/learn-to-fake-a-poach-like-the-bryan-brothers"
+  },
+  "doubles-return-space": {
+    "kind": "From the coach",
+    "player": "Louis Cayer",
+    "label": "Cayer · Fear can open the middle",
+    "moment": "Cayer sees club players protecting the tramlines even when the opponent is struggling. That fear of being passed gives the hitter more space. His advice to the net player is to squeeze the middle when the opponent is under pressure.",
+    "read": "Your next point: read that squeeze from the returner’s side. Find the lane this net player leaves; your usual cross-court target may already be covered.",
+    "src": "Louis Cayer · LTA doubles Q&A",
+    "url": "https://www.lta.org.uk/advantage-home/content/how-to-improve-your-doubles-skills-your-questions-answered-by-expert-lta-coach-louis-cayer/"
+  },
+  "down-the-line": {
+    "kind": "Match analysis",
+    "player": "Novak Djokovic",
+    "label": "Djokovic · The patient backhand had teeth",
+    "moment": "Late in the Turin final against Ruud, Djokovic made just one error in his last 25 backhands. ATP’s analysis describes him finding more freedom and pace down the line as the match developed. Keeping the ball solid had not meant giving up the attack.",
+    "read": "Your next point: keep building until your contact and the opening agree. Change direction when you can use it, rather than because the rally feels long.",
+    "src": "ATP Brain Game · Djokovic–Ruud, Turin final 2022",
+    "url": "https://www.atptour.com/en/news/djokovic-ruud-turin-2022-final-brain-game"
+  },
+  "earned-attack": {
+    "kind": "From the coach",
+    "player": "Paul Annacone",
+    "label": "Annacone · Spot the invitation",
+    "moment": "In Annacone’s attacking lesson, the invitation is a short ball. His player uses the approach to create a volley they can finish. That sequence matters: first recognise the opportunity, then build the easier shot. Wanting to attack does not create the invitation.",
+    "read": "Your next point: an empty corner is useful when you can reach the ball in control. Check your arrival and contact before choosing the attack.",
+    "src": "Paul Annacone · Tennis.com · Volley strategy, 2019",
+    "url": "https://www.tennis.com/news/articles/watch-annacone-s-winning-volley-strategy"
+  },
+  "earned-defence": {
+    "kind": "From the player",
+    "player": "Roger Federer",
+    "label": "Federer · Scramble first, decide again",
+    "moment": "At Indian Wells in 2006, Federer described his plan in surprisingly ordinary terms: scramble, keep balls in, use the short ball, then decide on the shot. Even his attacking game had a survival phase. Getting out of trouble gave him a new decision; it did not lock him into defending.",
+    "read": "Your next point: still stretched? Height and depth can buy recovery time. Arrived with control? Reassess what pressure you can apply.",
+    "src": "Roger Federer · Indian Wells press conference · 18 March 2006",
+    "url": "https://www.asapsports.com/show_interview.php?id=35683"
+  },
+  "earned-net": {
+    "kind": "From the player",
+    "player": "Nuno Borges",
+    "label": "Borges · The secret was when, not just how",
+    "moment": "Asked about his successful net play, Nuno Borges put the emphasis on selection: “I just chose really wisely when to come in.” He had been working on the approach and the moment to use it. His net game began with choosing which balls deserved the trip forward.",
+    "read": "Your next point: read your arrival and the ball. A purposeful approach can earn a manageable volley; chasing a low ball gives you a different job.",
+    "src": "Nuno Borges · ATP interview on his 2025 net play · January 2026",
+    "url": "https://www.atptour.com/en/news/scorecards-borges-net-points-2025"
+  },
+  "find-your-return-spot": {
+    "kind": "Match analysis",
+    "player": "Daniil Medvedev",
+    "label": "Medvedev · Standing back is only half the picture",
+    "moment": "Medvedev can look as though he is returning from the back fence. Yet ATP’s 2023 analysis found that his deep starting position could still produce unusually deep returns. The useful question is not just where he stands. It is where the server has to hit the next ball.",
+    "read": "Your next point: choose a position that gives you time and a playable contact. Then judge the return’s depth; adjust again for the wide or kicking serve.",
+    "src": "ATP · Craig O’Shannessy · August 2023",
+    "url": "https://www.atptour.com/en/news/medvedev-infosys-beyond-the-numbers-august-2023"
+  },
+  "forehand-bill": {
+    "kind": "Match analysis",
+    "player": "Rafael Nadal and Roger Federer",
+    "label": "Nadal · Even a great forehand has a travel cost",
+    "moment": "In the 2017 Australian Open final, Nadal tried to run around one of Federer’s deep returns and ran out of time. The shot he wanted was his forehand. The problem was getting his body to the place where he could use it.",
+    "read": "Your next point: include the journey in the decision. Run around only when you can create room for contact and still cover the reply.",
+    "src": "ATP match report · Australian Open final, 2017",
+    "url": "https://www.atptour.com/en/news/federer-nadal-australian-open-2017-final"
+  },
+  "high-ball": null,
+  "late-is-the-culprit": null,
+  "live-point-arrive-options": {
+    "kind": "From the coach",
+    "player": "Tim Mayotte",
+    "label": "Mayotte · Get organised before you need the shot",
+    "moment": "Mayotte describes elite players arriving in their ready position with the racket already organised and room between it and the body. That preparation flows into the next movement. Their readiness is part of the shot, rather than a separate pose before the action starts.",
+    "read": "Your next point: your better arrival gives you options. Read the opponent’s position before choosing which one to use.",
+    "src": "Tim Mayotte · Tennisplayer · The Split Step / Ready Position",
+    "url": "https://old.tennisplayer.net/members/famouscoach/tim_mayotte/the_split_step_ready_position/"
+  },
+  "live-point-buy-time": {
+    "kind": "Coaching insight",
+    "player": "Craig O’Shannessy",
+    "label": "O’Shannessy · Give your feet some help",
+    "moment": "Craig O’Shannessy, who worked on strategy with Djokovic, teaches defence through changes in speed, spin and height. It is a useful correction to the idea that great defending is just running faster. You can also change the ball that your legs have to recover behind.",
+    "read": "Your next point: choose the higher reply when you need time. Start recovering while it travels so the extra time becomes a better position.",
+    "src": "Craig O’Shannessy · Winning on Defense · Public overview",
+    "url": "https://braingametennis.com/webinar-73-winning-on-defense/"
+  },
+  "live-point-line-opens": {
+    "kind": "Match analysis",
+    "player": "Novak Djokovic",
+    "label": "Djokovic · Change what the rally allows",
+    "moment": "Djokovic’s 51 run-around forehands disrupted Ruud’s preferred backhand-court pattern in the 2022 Turin final. His backhand changes down the line then became part of a broader attack. The opening grew out of the exchange.",
+    "read": "Your next point: here you have time, balance and an opponent across the court. Use that opening—and compare it with the earlier rushed ball.",
+    "src": "ATP Brain Game · Djokovic–Ruud, Turin final 2022",
+    "url": "https://www.atptour.com/en/news/djokovic-ruud-turin-2022-final-brain-game"
+  },
+  "live-point-line-tempting": {
+    "kind": "Match analysis",
+    "player": "Roger Federer and Rafael Nadal",
+    "label": "Federer · The opening after their attack",
+    "moment": "The 2017 Australian Open final offered a neat warning about changing direction: after Nadal went down the line, Federer found the open court with his reply. The first attack did not settle who owned the next opening.",
+    "read": "Your next point: you are still moving at contact. Weigh the empty line against the space you would leave before you could recover.",
+    "src": "ATP match report · Australian Open final, 2017",
+    "url": "https://www.atptour.com/en/news/federer-nadal-australian-open-2017-final"
+  },
+  "live-point-make-room": {
+    "kind": "From the coach",
+    "player": "Tim Mayotte",
+    "label": "Mayotte · A stroke is only part of a shot",
+    "moment": "Tim Mayotte objects to teaching the racket swing separately from movement. In his coaching model, each stage of a shot has both a movement job and a racket job. A beautiful swing is not the whole answer if the body has arrived in the wrong place.",
+    "read": "Your next point: move early enough to make the final adjustment. Then choose from the contact you have created.",
+    "src": "Tim Mayotte · Tennisplayer · The Split Step / Ready Position",
+    "url": "https://old.tennisplayer.net/members/famouscoach/tim_mayotte/the_split_step_ready_position/"
+  },
+  "live-point-other-wing": {
+    "kind": "From an opponent",
+    "player": "Holger Rune on Novak Djokovic",
+    "label": "Djokovic · Make them start the attack again",
+    "moment": "Rune’s complaint after facing Djokovic was revealing: he could hit a great shot and still receive a deep ball. Djokovic’s defence made him build the attack again. Getting a racket on the ball was only part of the escape; the reply’s quality changed the next exchange.",
+    "read": "Your next point: the ball is on the other wing, but the job is the same. Buy the time this contact needs and recover while your reply travels.",
+    "src": "Holger Rune · ATP movement feature · November 2023",
+    "url": "https://www.nittoatpfinals.com/en/news/djokovic-nitto-atp-finals-2023-movement-feature"
+  },
+  "live-point-over-head": {
+    "kind": "Match analysis",
+    "player": "Andy Murray",
+    "label": "Murray · One lob, a Davis Cup",
+    "moment": "Murray spent much of the final rally of the 2015 Davis Cup dealing with Goffin’s forehands. His escape became the finish: a backhand lob over the advancing Goffin. The famous shot is a reminder to look above an opponent as well as to either side.",
+    "read": "Your next point: read how close they are before choosing the lob. Give yourself room over their reach and recover while the ball travels.",
+    "src": "Jonathan Scott · Tennis.com · Davis Cup final, 2015",
+    "url": "https://www.tennis.com/news/articles/watch-murray-s-lob-winner-on-davis-cup-championship-point"
+  },
+  "live-point-pass-two": {
+    "kind": "From an opponent",
+    "player": "Pat Rafter on Michael Chang",
+    "label": "Chang · The first pass is a question",
+    "moment": "Rafter was asked whether his net play made him almost impossible to pass at the 1997 US Open. He immediately rejected the idea. Chang, he explained, often made him play “a tough and low volley” instead of trying for a winner on the first pass.",
+    "read": "Your next point: make the first volley difficult. Then read the ball that comes back before choosing your second pass.",
+    "src": "Pat Rafter · US Open press conference · 6 September 1997",
+    "url": "https://www.asapsports.com/show_interview.php?id=17065"
+  },
+  "live-point-reach-drop": {
+    "kind": "Match analysis",
+    "player": "Tommy Paul",
+    "label": "Paul · Reaching it kept the story alive",
+    "moment": "On the last point of his 2025 US Open match against Borges, Tommy Paul chased a volley that had dribbled over the net cord. Then he had to retreat before hitting the forehand that wrong-footed Borges. The desperate first retrieval kept the chance to play that next shot alive.",
+    "read": "Your next point: you arrive low and late. Make a manageable reply, then recover for the next ball instead of treating the retrieval as the finish.",
+    "src": "US Open match report · Paul v Borges · 29 August 2025",
+    "url": "https://www.usopen.org/en_US/news/articles/2025-08-29/tommy_paul_survives_at_us_open_2_hours_after_first_match_points.html"
+  },
+  "live-point-return-deep": {
+    "kind": "Match analysis",
+    "player": "Daniil Medvedev",
+    "label": "Medvedev · Far back, still pushing you back",
+    "moment": "Medvedev can look as though he has surrendered the court by returning from so far behind the baseline. Yet ATP’s return-depth analysis found him sending the ball deep from there. The server’s apparent opportunity could come back as an awkward first groundstroke.",
+    "read": "Your next point: this return lands deep. Change the plan to fit the contact; the attack you wanted after serving is not the ball you received.",
+    "src": "Craig O’Shannessy · ATP return-depth analysis · August 2023",
+    "url": "https://www.atptour.com/en/news/medvedev-infosys-beyond-the-numbers-august-2023"
+  },
+  "live-point-return-pressure": {
+    "kind": "Coaching insight",
+    "player": "Andy Zodin on Roger Federer",
+    "label": "Federer · Make the big server play",
+    "moment": "Coach Andy Zodin used Federer against Roddick to explain a deceptively simple return plan: block the big serve back, regain position and make the server win the rally. Federer did not have to beat Roddick’s greatest weapon with a spectacular return. He could make him play another shot.",
+    "read": "Your next point: this serve leaves little time. A compact return can keep the ball playable; prepare for the next shot rather than trying to win on the first.",
+    "src": "Andy Zodin · Essential Tennis podcast 114 · April 2010",
+    "url": "https://essentialtennis.com/transcripts/wp-content/uploads/2010/04/114.pdf"
+  },
+  "live-point-return-time": {
+    "kind": "Match analysis",
+    "player": "Serena Williams",
+    "label": "Serena · Still looking for her chance",
+    "moment": "Facing a fifth match point against Ajla Tomljanović at the 2022 US Open, Serena found an opportunity inside the pressure: a soft second serve. She stepped into an inside-out forehand return winner. Even with the match on the line, she recognised a ball she could attack.",
+    "read": "Your next point: this slower serve gives you time to prepare. Use that time for a purposeful return, then read the reply; you do not need Serena’s winner.",
+    "src": "Sean Gregory · TIME · US Open, September 2022",
+    "url": "https://time.com/6210793/serena-williams-us-open-retirement-ajla-tomljanovic/"
+  },
+  "live-point-serve-see": {
+    "kind": "From an opponent",
+    "player": "Andy Roddick on Roger Federer",
+    "label": "Roddick · The serve kept coming back",
+    "moment": "Roddick recalled how frustrating it was that Federer could absorb his pace and keep making returns. A big serve was not enough to make the next ball disappear. The server still had another decision to make.",
+    "read": "Your next point: recover as the serve travels. See the height and depth of the actual return before deciding to attack.",
+    "src": "Andy Roddick · Tennis Channel Live / Tennis.com · April 2020",
+    "url": "https://www.tennis.com/news/articles/roddick-s-return-tell-federer-pulled-the-string-on-me-for-12-years"
+  },
+  "live-point-short-low": {
+    "kind": "From the player",
+    "player": "Nuno Borges",
+    "label": "Borges · Sometimes the ball brings you in",
+    "moment": "Borges admits there were points when he was pushed to the net without wanting to go. What helped was the approach: a deep ball could leave the opponent attempting a lob. The important work was making their reply difficult, even when the trip forward was not his original plan.",
+    "read": "Your next point: arriving early gives you choices, but this ball is still low. Give it clearance before deciding how far to follow.",
+    "src": "Nuno Borges · ATP interview on his 2025 net play · January 2026",
+    "url": "https://www.atptour.com/en/news/scorecards-borges-net-points-2025"
+  },
+  "live-point-volley-build": {
+    "kind": "From an opponent",
+    "player": "Pat Rafter on Michael Chang",
+    "label": "Rafter · The volley they want you to rush",
+    "moment": "After facing Michael Chang at the 1997 US Open, Rafter explained the problem Chang created: he would not always try to pass him straight away. Instead he made Rafter play a difficult low volley. Even an outstanding volleyer had another piece of work to do before finishing.",
+    "read": "Your next point: this first volley is below net height. Give it clearance and useful depth, then look for a better finishing ball.",
+    "src": "Pat Rafter · US Open press conference · 6 September 1997",
+    "url": "https://www.asapsports.com/show_interview.php?id=17065"
+  },
+  "live-point-volley-opening": {
+    "kind": "From the coach",
+    "player": "Paul Annacone",
+    "label": "Annacone · Now comes the easy part",
+    "moment": "Annacone’s volley lesson builds towards the satisfying finish: a short ball, a strong approach, then a volley the player can knock away. The approach has already done much of the work. The volley is the reward for creating that opening.",
+    "read": "Your next point: here the volley is above the net and the opponent is displaced. Use the opening, then prepare for the next reply.",
+    "src": "Paul Annacone · Tennis.com · Volley strategy, 2019",
+    "url": "https://www.tennis.com/news/articles/watch-annacone-s-winning-volley-strategy"
+  },
+  "middle-return": {
+    "kind": "Match analysis",
+    "player": "Alex de Minaur",
+    "label": "De Minaur · The boring target that bites",
+    "moment": "When de Minaur returned first serves in 2024, ATP’s analysis found more than half went through the middle. It looks unambitious until you stand in the server’s shoes: the ball is coming back at you, with less angle available for your next shot.",
+    "read": "Your next point: a deep middle return can take an angle away. Judge the next ball it creates, not how close your return went to a sideline.",
+    "src": "ATP · Craig O’Shannessy · 2024 first-serve-return directions",
+    "url": "https://www.atptour.com/en/news/de-minaur-infosys-atp-beyond-the-numbers-december-2024"
+  },
+  "midweek-point-1": null,
+  "net-rusher": {
+    "kind": "Match analysis",
+    "player": "Andy Murray",
+    "label": "Murray · The court above the net player",
+    "moment": "The point that won Britain the 2015 Davis Cup did not end with Murray blasting past Goffin. After surviving his attacks, Murray sent a backhand lob over him. Goffin had come forward; Murray found the space that move had left behind.",
+    "read": "Your next point: read how far they have closed. A low pass and a lob ask different questions; choose the space your contact lets you reach.",
+    "src": "Jonathan Scott · Tennis.com · Davis Cup final, 2015",
+    "url": "https://www.tennis.com/news/articles/watch-murray-s-lob-winner-on-davis-cup-championship-point"
+  },
+  "open-court": {
+    "kind": "Reported coaching",
+    "player": "Chip Brooks with Jelena Janković",
+    "label": "Janković · Stop helping her run onto it",
+    "moment": "At Indian Wells in 2010, Janković complained to coach Chip Brooks about Kleybanova’s awkward ball. His reply was practical: hitting behind her was working; sending her towards the open court was letting her hit winners. The empty space was not necessarily the difficult space.",
+    "read": "Your next point: watch which way the opponent is moving. Sometimes the best space is the one they are already leaving.",
+    "src": "Vince Barr · Tennis Server · Reported on-court coaching, 2010",
+    "url": "https://www.tennisserver.com/photofeed/2010/100318-bnp_paribas_open.shtml"
+  },
+  "pass-where-they-arent": {
+    "kind": "Coaching insight",
+    "player": "Craig O’Shannessy",
+    "label": "O’Shannessy · Freeze the picture before the pass",
+    "moment": "In his passing-shot teaching, O’Shannessy stops professional footage just before contact and asks the viewer to choose. The answer depends on the passer’s position and what the net player is giving away. Picking your favourite passing shot first skips the most useful information.",
+    "read": "Your next point: look at the net player and the contact you have. Aim for the available space, not the corner you decided on before they moved.",
+    "src": "Craig O’Shannessy · Passing Shots · Public overview",
+    "url": "https://braingametennis.com/webinar-39-passing-shots/"
+  },
+  "play-the-point": {
+    "kind": "Match analysis",
+    "player": "Rafael Nadal and Daniil Medvedev",
+    "label": "Nadal–Medvedev · The plan kept changing",
+    "moment": "In the 2019 US Open final, Nadal moved forward to exploit Medvedev’s deep position. Medvedev then stepped in, attacked and began finishing points at net as he fought back from two sets down. Each player’s new answer changed the problem for the other.",
+    "read": "Your next point: begin with a plan, then update it. Each reply can change whether you should build, attack or recover.",
+    "src": "Steve Tignor · Tennis.com · 2019 US Open final",
+    "url": "https://www.tennis.com/news/articles/2019-top-matches-no-3-nadal-d-medvedev-us-open-final"
+  },
+  "predict-second-serve": {
+    "kind": "Match analysis",
+    "player": "Jannik Sinner and Carlos Alcaraz",
+    "label": "Second serves · Same label, different problem",
+    "moment": "A Sinner second serve and an Alcaraz second serve can ask opposite questions. ATP’s comparison found Sinner often jamming the body; Alcaraz frequently made the backhand cope with a high kick. Knowing it is a second serve is not yet knowing what is coming.",
+    "read": "Your next point: learn the server’s pattern, then test your prediction against the ball. Use the actual contact to choose what comes next.",
+    "src": "ATP · Multi-season second-serve analysis · August 2024",
+    "url": "https://www.atptour.com/en/news/alcaraz-sinner-infosys-atp-beyond-the-numbers-july-2024"
+  },
+  "predict-the-point": {
+    "kind": "Match analysis",
+    "player": "Pete Sampras",
+    "label": "Sampras–Agassi · A serve, then another problem",
+    "moment": "In the second set of the 1999 Wimbledon final, Sampras served wide and volleyed into the space. Agassi still found a passing reply; Sampras had to dive for the next volley. Even that brilliant point needed another answer after the first attacking shot.",
+    "read": "Your next point: predict the likely reply, then check it. The point in front of you has its own three reads; the first good choice does not finish the job.",
+    "src": "Pete Sampras · ATP account and interview · Wimbledon 1999",
+    "url": "https://www.atptour.com/en/news/sampras-1999-wimbledon-atp-heritage-feature"
+  },
+  "pulled-wide": {
+    "kind": "Coaching insight",
+    "player": "Craig O’Shannessy",
+    "label": "O’Shannessy · More than a desperate swing",
+    "moment": "O’Shannessy’s defensive teaching gives the stretched player several tools: change the speed, the spin or the height. The point is not over because the opponent has made you run. Your reply can change how quickly they get the next attack.",
+    "read": "Your next point: compare how much recovery time each reply buys. If you reach the ball with more control, reassess the chance to apply pressure.",
+    "src": "Craig O’Shannessy · Winning on Defense · Public overview",
+    "url": "https://braingametennis.com/webinar-73-winning-on-defense/"
+  },
+  "recovery": {
+    "kind": "From an opponent",
+    "player": "Holger Rune on Novak Djokovic",
+    "label": "Rune · Your great shot comes back deep",
+    "moment": "After losing to Djokovic in Turin in 2023, Rune described the frustrating difference: against most players, a great shot leaves you in a good position. Against Djokovic, it can come straight back deep. Rune credited his reading of the game as well as the quality of the reply.",
+    "read": "Your next point: recover for what your shot allows them to do. A good strike is not permission to admire it.",
+    "src": "Holger Rune · ATP movement feature · November 2023",
+    "url": "https://www.nittoatpfinals.com/en/news/djokovic-nitto-atp-finals-2023-movement-feature"
+  },
+  "running-around": {
+    "kind": "From an opponent",
+    "player": "Madison Keys and Craig Tyzzer on Ash Barty",
+    "label": "Barty · Trouble at your shoelaces",
+    "moment": "After facing Barty in Melbourne, Madison Keys described the backhand slice arriving “at your shoelaces on the baseline”. Barty’s coach Craig Tyzzer explained the next part of the problem: that slice helped set up her forehand. The uncomfortable ball did the preparation for the bigger shot.",
+    "read": "Your next point: let the backhand build the opportunity. Run around only when the reply gives you time to make room for your forehand.",
+    "src": "Madison Keys & Craig Tyzzer · WTA Coaches’ Corner · January 2022",
+    "url": "https://www.wtatennis.com/news/2465400/coaches-corner-bartys-best-is-yet-to-come-tyzzer"
+  },
+  "rushed-out-wide": {
+    "kind": "Coaching insight",
+    "player": "Craig O’Shannessy",
+    "label": "O’Shannessy · Close some doors",
+    "moment": "O’Shannessy’s work with professional tracking highlights a useful pattern: balls sent through the middle often come back through the middle. That can matter enormously when you are stretched. A reply without a sharp angle gives the opponent fewer immediate angles to use against you.",
+    "read": "Your next point: when rushed wide, compare the middle’s margin and recovery time with the sharper target. Give yourself a chance to rebuild.",
+    "src": "Craig O’Shannessy · Playing the Middle of the Court · Public overview",
+    "url": "https://braingametennis.com/webinar-83-playing-the-middle-of-the-court/"
+  },
+  "saturday-point-1": null,
+  "saturday-point-2": null,
+  "saturday-point-3": null,
+  "saturday-point-4": null,
+  "saturday-point-5": null,
+  "second-serve": {
+    "kind": "Match analysis",
+    "player": "Jannik Sinner and Carlos Alcaraz",
+    "label": "Sinner and Alcaraz · Two ways to make you uncomfortable",
+    "moment": "Sinner makes the returner get out of the way. Alcaraz makes them reach up. ATP’s 2024 comparison found Sinner favouring second serves into the body, while Alcaraz often kicked the ball high to the backhand. Both were doing more than avoiding a double fault.",
+    "read": "Your next point: give your second serve a job. Choose a reliable target that makes this returner deal with a difficult contact.",
+    "src": "ATP · Multi-season second-serve analysis · August 2024",
+    "url": "https://www.atptour.com/en/news/alcaraz-sinner-infosys-atp-beyond-the-numbers-july-2024"
+  },
+  "serve-away-from-the-lean": {
+    "kind": "From an opponent",
+    "player": "Andy Roddick on Roger Federer",
+    "label": "Federer · Roddick gave the plan away",
+    "moment": "Roddick thought he kept choosing the wrong moment to run around Federer’s second serve. Later he learned that his preparation was giving the plan away. “He pulled the string on me for 12 years,” Roddick recalled. Federer had been reading the returner before serving.",
+    "read": "Your next point: watch the returner’s lean. Serve into the space it leaves, using a target you can reliably hit.",
+    "src": "Andy Roddick · Tennis Channel Live / Tennis.com · April 2020",
+    "url": "https://www.tennis.com/news/articles/roddick-s-return-tell-federer-pulled-the-string-on-me-for-12-years"
+  },
+  "serve-plus-one": {
+    "kind": "From the player",
+    "player": "Pete Sampras",
+    "label": "Sampras · Take away Agassi’s angles",
+    "moment": "Asked about his best match, Sampras chose the 1999 Wimbledon final against Agassi. One detail mattered: body serves reduced the return angles available to an exceptional returner. The serve was doing more than trying to beat Agassi outright; it was shaping the next ball.",
+    "read": "Your next point: choose the serve with the next contact in mind. Then look at the return you actually get before committing to the follow-up.",
+    "src": "Pete Sampras · ATP account and interview · Wimbledon 1999",
+    "url": "https://www.atptour.com/en/news/sampras-1999-wimbledon-atp-heritage-feature"
+  },
+  "short-ball": {
+    "kind": "Match analysis",
+    "player": "Rafael Nadal",
+    "label": "Nadal · The short ball had a history",
+    "moment": "In the 2017 Monte Carlo final, Nadal’s heavy forehands created space and shorter replies against Ramos-Viñolas. He was quick to move forward when those balls arrived. The chance to attack came from the pressure he had already applied.",
+    "read": "Your next point: recognise the shorter reply, then check its height and your balance. The ball before it may have earned an opening; this contact tells you how to use it.",
+    "src": "ATP match report · Monte Carlo final, 2017",
+    "url": "https://www.atptour.com/en/news/nadal-ramos-vinolas-monte-carlo-2017-final"
+  },
+  "split-step": {
+    "kind": "From the coach",
+    "player": "Tim Mayotte",
+    "label": "Mayotte · One shot ends, the next begins",
+    "moment": "Former tour player Tim Mayotte describes the great players’ split step as the end of one movement and the beginning of the next. The racket is already organised as they land. What looks like a little bounce is their chance to reset for a new ball.",
+    "read": "Your next point: watch their strike and time your landing for the first move. A split followed by a settled pause loses its purpose.",
+    "src": "Tim Mayotte · Tennisplayer · The Split Step / Ready Position",
+    "url": "https://old.tennisplayer.net/members/famouscoach/tim_mayotte/the_split_step_ready_position/"
+  },
+  "the-big-hitter": {
+    "kind": "From the player",
+    "player": "Corentin Moutet",
+    "label": "Moutet · Make the big hitter bend",
+    "moment": "Moutet’s slice lesson is about giving a bigger hitter a different ball: low, skidding and moving away. The published TopCourt introduction presents it as a way to neutralise power. You do not always have to win the harder-hitting contest; you can change the contact they must hit from.",
+    "read": "Your next point: compare the low slice with the higher reply. Choose the strike zone and recovery time that suit this contact.",
+    "src": "Corentin Moutet · ATP TopCourt teaching summary · December 2022",
+    "url": "https://www.atptour.com/en/news/topcourt-corentin-moutet-december-2022"
+  },
+  "the-lead": {
+    "kind": "From the player",
+    "player": "Roger Federer",
+    "label": "Federer · Keep a plan when the score gets loud",
+    "moment": "Federer won the first set against Nadal at Wimbledon in 2019, then lost the second 6–1. His account of getting back on course was about sticking to his plan: “stay aggressive, stay offensive.” The score had swung; he still needed a clear way to play.",
+    "read": "Your next point: when a lead makes you cautious, return to your intention. Keep useful depth and margin instead of letting the score choose the shot.",
+    "src": "Roger Federer · ATP post-match report · Wimbledon 2019",
+    "url": "https://www.atptour.com/en/news/federer-nadal-semifinal-wimbledon-2019-friday"
+  },
+  "the-lefty": {
+    "kind": "From the player",
+    "player": "Roger Federer on Rafael Nadal",
+    "label": "Federer · Even he found the lefty uncomfortable",
+    "moment": "Asked about Nadal in 2006, Federer pointed to two problems: there were few top left-handers to get used to, and Nadal added an unusually spin-heavy game. He also valued having a left-handed coach to practise with. The unfamiliar pattern mattered, even to Federer.",
+    "read": "Your next point: notice where your usual patterns land against this left-hander. Learn their actual strengths and weaker wing instead of simply reversing your normal plan.",
+    "src": "Roger Federer · Indian Wells press conference · 18 March 2006",
+    "url": "https://www.asapsports.com/show_interview.php?id=35683"
+  },
+  "the-line": {
+    "kind": "Match analysis",
+    "player": "Roger Federer and Rafael Nadal",
+    "label": "Nadal and Federer · The line is a two-way street",
+    "moment": "Nadal drove a forehand down the line in the 2017 Australian Open final. Federer answered into the court Nadal had opened. The attacking-looking shot had changed the geometry for both players. A tempting line can also give your opponent a tempting reply.",
+    "read": "Your next point: look at the court you will leave, as well as the target you see. Change direction when your contact and recovery can support it.",
+    "src": "ATP match report · Australian Open final, 2017",
+    "url": "https://www.atptour.com/en/news/federer-nadal-australian-open-2017-final"
+  },
+  "the-moonballer": null,
+  "the-pusher": {
+    "kind": "Match analysis",
+    "player": "Nadal v Medvedev",
+    "label": "Nadal · Make the baseline feel less safe",
+    "moment": "Two sets down and facing 0–40 at 2–3 in the 2022 Australian Open final, Nadal used a drop shot during his escape. Jack Edward’s analysis shows why that option mattered: the deep-standing Medvedev had ground to cover forwards, while Nadal’s forehand also threatened the space behind him.",
+    "read": "Your next point: make the opponent defend more than side to side. Use the space in front when their position and your contact give you the chance.",
+    "src": "Jack Edward · On the Line · Australian Open 2022 analysis",
+    "url": "https://onthelinetennis.substack.com/p/issue59"
+  },
+  "the-winner": {
+    "kind": "From the coach",
+    "player": "Juan Carlos Ferrero on Carlos Alcaraz",
+    "label": "Ferrero · The day everything went in",
+    "moment": "After Alcaraz swept past Tommy Paul at Roland Garros in 2025, Ferrero said: “Yesterday he went at practically everything and everything went in”. Another day, he explained, the same hard hitting could bring 30 unforced errors. Even a dazzling win left his coach thinking about repeatability.",
+    "read": "Your next point: enjoy the winner, then judge the choice. Did your contact give you room for that target—and would you choose it again?",
+    "src": "Juan Carlos Ferrero · ATP interview · Roland Garros 2025",
+    "url": "https://www.atptour.com/en/news/alcaraz-ferrero-focus-roland-garros-2025"
+  }
+}

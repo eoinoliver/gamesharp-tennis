@@ -829,3 +829,66 @@ the viewport. Moved the disclosure into the existing header with an overlaid
 selector, preserving court height. Original layout assertions remain intact.
 Corrected app `a3ea033eb6`; rerunning layout, contact-focus, both-engine UX,
 hosted verification and complete CI before handoff.
+
+## 8 November 2026 — professional insight upgrade (Codex)
+
+- Branch: `codex/pro-insight-upgrade-2026-11-08`, based on origin/main `f9eb6e4`. One builder owns source corrections, stronger lesson/Reset insights, validation and review preview.
+- User authorised implementation of the full 8 November audit in batches and revisions to affected promotional films. Existing Barty film and approved Lara brand cadence are retained.
+- Batch 1: source-scope corrections, six doubles insights and partner Reset. Batch 2: remaining lesson attribution/story improvements, exact source coverage, build and journey checks. Batch 3: revised Ferrero singles films and Bryan-led doubles film, source credits, captions and share files.
+- Professional examples are attributed paraphrases or labelled analysis; the illustrated decisions and practice routines remain GameSharp applications. No new celebrity endorsement or efficacy claim.
+- Source gaps remain explicitly withheld from professional attribution; no generic substitute will be presented as a firsthand insight. Production release is not part of this implementation checkpoint.
+
+### Professional insight candidate validation
+
+- App `33653e9efc`, PR #81. Batch 1: 48 complete doubles routes and 87 Reset checks passed. Batch 2: 126 mobile/desktop completion-render checks, 63 protected lesson/scene contracts and 86 unit tests passed. Exact build parity: 280 local release files / 279 hosted public files.
+- Renderer tests respect existing cue eligibility: Predict activities do not acquire a saved cue merely because they now have sourced context. The screenshot fixture is distinct from full journey tests.
+- Batch 3: fresh normal-speed recordings of The Winner and Doubles Cross/Cover. Three revised Lara films, approximately 27 / 55 / 28 seconds; approved Barty film retained. New narration uses existing Runway Lara stock voice; the user-approved Game / Sharp / Tennis cadence is reused locally.
+- Hosted preview and full CI are being verified against the final branch head. Production remains app `a3ea033eb6`; no merge or promotion in this task.
+
+### Pro-insight final regression correction
+
+The sound CI suite caught that newly sourced Predict cards were absent from its
+separate real completion renderer. Added the same sourced payoff below its
+existing take-home without changing reads, replay, scores or narration. The
+insight checker now completes both Predict journeys at both viewport sizes,
+instead of forcing them through the ordinary lesson renderer.
+
+## Stories that stick — 8 November 2026
+
+Owner: Codex. User approved the editorial pass in the app and relevant promotional films.
+Work in batches of three: choose vivid reported quotes, match moments and personal
+stories for the exact lesson. Journalism, podcasts and reported anecdotes are welcome;
+brief attribution and proportionate checking support the story. Reduce repeated
+generic introductions. Retain the approved voice identity and brand cadence.
+This task builds on the unmerged PR 81 candidate c161863 and will update that
+review candidate after validation; no production release is implied.
+
+
+### Editorial pass validation and media follow-through
+
+- All 53 sourced lesson cards and all three Reset stories revised across 19
+  batches of at most three items; 114 batch mobile/desktop checks passed.
+- 21 source-link changes, including new Serena, Rafter/Chang, Murray, Tommy Paul,
+  Federer and Mayotte connections. Research abstracts become directly useful
+  player/coach stories. Retained stories gain concrete details and clearer actions.
+- All 63 protected lesson/scene contracts and 86 unit tests passed. The final
+  126-view insight checker passed, including four real Predict completions;
+  its other 122 views are renderer fixtures. Ten explicit fallbacks remain.
+- Four promotional films are being refreshed from this exact local candidate,
+  using compatible approved Lara recordings and the approved brand cadence.
+  Media and hosted verification are recorded with the final SHA on PR 81.
+- No source/scene/decision change beyond the editorial registry and Reset copy
+  in this pass. Production remains separate from this review candidate.
+
+## 9 November 2026 — pro-insight production release (Codex)
+
+Continuing PR 81 on codex/pro-insight-upgrade-2026-11-08. Eoin replied
+“proceed” to correcting the known Sampras chronology, rerunning required checks,
+verifying staged production and deploying the reviewed editorial update. This
+current scope authorises the contained correction and release; no new feature
+or the six subsequently proposed replacement cards is included.
+
+The correction separates the second-set diving volley from the first-set 0–40
+escape. All lesson decisions, scenes, coach assets and eligibility are preserved.
+The exact reviewed/merge/deployment identities, checks and production outcome
+will be recorded on PR 81 and in the follow-up release record.

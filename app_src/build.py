@@ -23,9 +23,14 @@ dump = lambda o: json.dumps(o, separators=(',', ':'), ensure_ascii=False)
 
 # ---------- lessons + shared clips ----------
 clips, cat = {}, {'daily': [], 'predict': [], 'play': []}
+# Professional context has one editorial source, independent of scene generators.
+# Explicit null entries retain the useful take-home when no specific source fits.
+insights = json.load(open(os.path.join(SRC, 'pro_insights.json')))
+assert set(insights) == {row[0] for row in DAILY + PREDICT + PLAY}, 'Insight coverage must match the catalogue'
 for group, rows in (('daily', DAILY), ('predict', PREDICT), ('play', PLAY)):
     for slug, p, line in rows:
         L = lesson_obj(p)
+        L['pro'] = insights[slug]
         D = apply_order(json.load(open(os.path.join(R, p + '_data.json'))))
         for k, v in D['clips'].items():
             s = dump(v)

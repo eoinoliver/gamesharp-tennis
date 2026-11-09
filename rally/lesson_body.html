@@ -1074,7 +1074,7 @@ function payoffHTML(p){   // Pro Lens shows open; the stroke and the drill sit i
   let h="";
   const take=`<div class="blk"><div class="k">Take it to court</div><p><b>${LESSON.tomorrow}</b></p></div>`;
   if(!p) h+=take;   // no credible story: the take-home stays readable
-  if(p) h+=T("pro",`Pro Lens · ${p.label||p.player}`,`<p>${p.moment}</p><p><b>${p.read}</b></p><p class="src">Source: <a href="${p.url}" target="_blank" rel="noopener">${p.src}</a></p>`);
+  if(p) h+=T("pro",`${p.kind||'Coaching insight'} · ${p.label||p.player}`,`<p>${p.moment}</p><p><b>${p.read}</b></p>${p.note?`<p class="src">${p.note}</p>`:''}<p class="src">Source: <a href="${p.url}" target="_blank" rel="noopener">${p.src}</a></p>`);
   const st=LESSON.stroke;
   if(st) h+=T("stroke",`The stroke · ${st.title}`,`<div class="strip"><span></span>${st.cols.map(c=>`<span class="ch">${c}</span>`).join("")}
       ${st.rows.map(r=>`<span class="rh">${r.name}</span>${r.imgs.map((u,n)=>`<img src="${u}" alt="${r.name}: ${st.cols[n]}">`).join("")}`).join("")}</div>
@@ -1423,8 +1423,10 @@ function setupPredict(){
         <p class="ra ${ok?"ok":"no"}">${ok?"✓":"✗"} You: ${S.opts[LETTERS.indexOf(X)]}</p><p>${S.lines[X]}</p>
         ${ok?"":`<p><b>Best: ${S.opts[S.correct]}.</b> ${S.payoff}</p><button class="alt" data-watch="${i}">Watch your choice play out</button>`}</div>`;}).join("")}
       <div class="blk"><div class="k">Take it to court</div><p><b>${LESSON.tomorrow}</b></p></div>
+      ${LESSON.pro?`<details class="completion-more"><summary>Professional context</summary>${payoffHTML(LESSON.pro)}</details>`:''}
       <button class="next" id="redo">${LESSON.redoLabel||"Play again"}</button>`;
     w.hidden=false;wireCompletionVoice();
+    w.querySelectorAll("details.pay").forEach(d=>{let first=d.open;d.addEventListener("toggle",()=>{if(first){first=false;return;}if(d.open)emit('payoff_open',{k:d.dataset.k});});});
     w.querySelectorAll("[data-watch]").forEach(bt=>bt.onclick=()=>{const i=+bt.dataset.watch,key=LESSON.steps[i].scene+ans[i],fr=SC[key].info.freeze;
       stageInView(); setInk(`Read ${i+1}: your choice`,true); run(key,Math.max(0,(SC[key].info.from||fr-60)),SC[key].frames-1,null);});
     $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();window.__trail=[];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
