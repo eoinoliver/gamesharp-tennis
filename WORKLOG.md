@@ -892,3 +892,14 @@ The correction separates the second-set diving volley from the first-set 0–40
 escape. All lesson decisions, scenes, coach assets and eligibility are preserved.
 The exact reviewed/merge/deployment identities, checks and production outcome
 will be recorded on PR 81 and in the follow-up release record.
+
+### Professional insight production release verified
+
+App `0f30efc78f` is live through `dpl_FvVGYEukCzkCUYthmD6zWKEaCe1V`, merge
+`3f2ea1cb835eccce492f3df21dc0f21b95c75faa`. All required CI, preview/stage/live
+421-file/routing checks, 83 UX checks and real Predict completions passed.
+Full inventory/configuration equivalence was verified, and the exact Git production
+build was promoted without rebuilding. See
+`docs/features/pro-insight-release-2026-11-09.md` for identities, evidence and limits.
+
+This documentation follow-up records the completed release and needs no production promotion.
