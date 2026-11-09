@@ -58,6 +58,12 @@ for k, s in clips.items():
     open(os.path.join(OUT, 'clips', k + '.json'), 'w').write(dump(c))
 cat['flavours'] = [{'key': k, 'name': n, 'lessons': sl} for k, n, sl in FLAVOURS]
 assert set(FLAV) == {r[0] for r in DAILY + PREDICT + PLAY}, 'every lesson needs one flavour'
+cat['dailyPlan'] = json.load(open(os.path.join(SRC, 'daily_plan.json')))
+assert len(cat['dailyPlan']['rotation']) == len(set(cat['dailyPlan']['rotation'])) == len(DAILY)
+assert set(cat['dailyPlan']['rotation']) == {row[0] for row in DAILY}
+by_slug = {l['slug']: l for group in ('daily', 'predict', 'play') for l in cat[group]}
+for slug, pair in cat['dailyPlan']['related'].items():
+    assert slug in by_slug and by_slug[pair['slug']].get('livePoint') and not by_slug[pair['slug']].get('transferOf')
 
 # ---------- engine (core + figure + the lesson runtime, data and lesson supplied by the page) ----------
 body = open(os.path.join(R, 'lesson_body.html')).read()
@@ -81,6 +87,7 @@ h = hashlib.sha256()
 for dp, _, fs in sorted(os.walk(OUT)):
     for f in sorted(fs): h.update(open(os.path.join(dp, f), 'rb').read())
 for f in ('app.js', 'index.html', 'play_host.html', 'sharpen.js', 'reset.js', 'coach.js', 'coach.css', 'sfx.js', 'cine.js', 'athlete.js'): h.update(open(os.path.join(SRC, f), 'rb').read())
+h.update(open(os.path.join(SRC, 'daily_plan.json'), 'rb').read())
 for f in sorted(os.listdir(os.path.join(SRC, 'sharpen'))): h.update(open(os.path.join(SRC, 'sharpen', f), 'rb').read())
 VER = h.hexdigest()[:10]
 open(os.path.join(OUT, 'catalog.js'), 'w').write('window.GS_CATALOG=%s;\nwindow.GS_VERSION="%s";\n' % (dump(cat), VER))

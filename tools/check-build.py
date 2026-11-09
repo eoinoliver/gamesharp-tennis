@@ -236,6 +236,15 @@ for records, expected in [(insight['source'], source), (insight['release'], mani
         assert expected.get(name) == hashes['baseline'], f'Professional insight baseline drift: {name}'
         expected[name] = hashes['candidate']
 
+# Daily-led Home: explicit presentation/state scope; all earlier fingerprints stay frozen.
+daily_home = json.loads((ROOT/'docs/features/daily-home-build.json').read_text())
+assert set(daily_home['source']) == set(['app_src/analytics.test.mjs', 'app_src/app.js', 'app_src/build.py', 'app_src/daily_plan.json', 'app_src/index.html', 'app_src/play_host.html', 'app_src/sfx.js', 'app_src/sharpen.js', 'gs/app_flow.mjs', 'rally/lesson_body.html', 'tools/browser-checks.mjs', 'tools/daily-home-browser.mjs', 'tools/experience-browser.mjs', 'tools/mobile-learning-browser.mjs', 'tools/trust-practice-browser.mjs', 'tools/voice-browser.mjs', 'docs/features/daily-led-home.md'])
+assert set(daily_home['release']) == set(['app/app.js', 'app/catalog.js', 'app/engine/engine.js', 'app/index.html', 'app/play.html', 'app/sfx.js', 'app/sharpen.js'])
+for records, expected in [(daily_home['source'], source), (daily_home['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Daily Home baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

@@ -54,7 +54,7 @@ try{
  await p.waitForFunction(()=>!document.fullscreenElement&&!document.getElementById('viewer').classList.contains('full'));
  await p.locator('#skipRecap').tap();
  check(await p.evaluate(()=>!playing&&!recapActive),'Skip cannot restart motion through the stage click handler');
- check(await p.evaluate(()=>document.querySelector('#wrapup').firstElementChild.nextElementSibling.classList.contains('gs-continue')),'Next challenge sits immediately after the court cue');
+ check(await p.evaluate(()=>document.querySelector('#wrapup').firstElementChild.nextElementSibling.matches('[data-k=pro]')&&document.querySelector('#wrapup [data-k=pro]').nextElementSibling.classList.contains('gs-continue')),'Professional story follows the cue before the optional continuation');
  await p.screenshot({path:out+'/daily-ending.png',fullPage:true});
  await p.locator('#nextDaily').tap();await p.waitForFunction(()=>window.__test);await p.locator('#close').tap();await p.waitForURL(/\?home=1/);
  check(!p.url().includes('play.html'),'Closing the next challenge returns Home, not the previous lesson');

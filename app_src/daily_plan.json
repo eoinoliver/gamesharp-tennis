@@ -1,0 +1,116 @@
+{
+  "edition": "daily-2026-11",
+  "startDate": "2026-11-09",
+  "rotation": [
+    "serve-plus-one",
+    "short-ball",
+    "the-line",
+    "the-winner",
+    "recovery",
+    "open-court",
+    "forehand-bill",
+    "the-lead",
+    "split-step",
+    "approach-volley",
+    "middle-return",
+    "high-ball",
+    "second-serve",
+    "contact-clue",
+    "running-around",
+    "net-rusher",
+    "pass-where-they-arent",
+    "late-is-the-culprit",
+    "the-moonballer",
+    "the-pusher",
+    "pulled-wide",
+    "serve-away-from-the-lean",
+    "the-big-hitter",
+    "the-lefty",
+    "find-your-return-spot",
+    "answer-the-drop",
+    "attack-the-backhand",
+    "down-the-line",
+    "rushed-out-wide",
+    "earned-attack",
+    "earned-defence",
+    "earned-net"
+  ],
+  "related": {
+    "serve-plus-one": {
+      "slug": "live-point-serve-see",
+      "bridge": "Use the serve to set up the next ball, then read the return you actually get."
+    },
+    "short-ball": {
+      "slug": "live-point-make-room",
+      "bridge": "Read the ball and create space before deciding how to attack."
+    },
+    "the-line": {
+      "slug": "live-point-line-tempting",
+      "bridge": "Test whether the line is available while the point keeps moving."
+    },
+    "recovery": {
+      "slug": "live-point-buy-time",
+      "bridge": "Choose a reply, then decide when to recover."
+    },
+    "open-court": {
+      "slug": "live-point-line-tempting",
+      "bridge": "Check the opening and your own position before changing direction."
+    },
+    "approach-volley": {
+      "slug": "live-point-volley-build",
+      "bridge": "Choose the first volley and prepare for the next reply."
+    },
+    "middle-return": {
+      "slug": "live-point-return-pressure",
+      "bridge": "Choose a return that gives you a workable next ball."
+    },
+    "net-rusher": {
+      "slug": "live-point-pass-two",
+      "bridge": "Use the first pass to shape the next opening."
+    },
+    "pass-where-they-arent": {
+      "slug": "live-point-pass-two",
+      "bridge": "Read the net player, then make the next passing decision."
+    },
+    "pulled-wide": {
+      "slug": "live-point-buy-time",
+      "bridge": "Buy time with the reply and use it to recover."
+    },
+    "find-your-return-spot": {
+      "slug": "live-point-return-pressure",
+      "bridge": "Read the serve and make the return decision under pressure."
+    },
+    "answer-the-drop": {
+      "slug": "live-point-reach-drop",
+      "bridge": "Read how you arrive before choosing your reply."
+    },
+    "down-the-line": {
+      "slug": "live-point-line-tempting",
+      "bridge": "Make the direction decision in a changing point."
+    },
+    "rushed-out-wide": {
+      "slug": "live-point-buy-time",
+      "bridge": "Read the reply and recovery as two connected decisions."
+    },
+    "earned-attack": {
+      "slug": "live-point-make-room",
+      "bridge": "See how your preparation changes the attacking options."
+    },
+    "earned-defence": {
+      "slug": "live-point-buy-time",
+      "bridge": "Choose enough time to get back into the point."
+    },
+    "earned-net": {
+      "slug": "live-point-volley-build",
+      "bridge": "Build from the first volley instead of rushing the finish."
+    },
+    "predict-the-point": {
+      "slug": "live-point-serve-see",
+      "bridge": "Anticipate the return, then respond to the ball you actually receive."
+    },
+    "predict-second-serve": {
+      "slug": "live-point-return-pressure",
+      "bridge": "Take the return read into a point with consequences."
+    }
+  }
+}

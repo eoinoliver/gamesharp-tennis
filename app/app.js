@@ -74,7 +74,8 @@ window.addEventListener("pageshow",e=>{if(e.persisted) resume();});
 const all=()=>CAT.daily.concat(CAT.predict,CAT.play||[]);
 const bySlug=s=>all().find(l=>l.slug===s);
 const isDaily=s=>CAT.daily.some(l=>l.slug===s);
-const activityLabel=l=>`${l.doubles?'Doubles · Live Point':l.livePoint?'Live Point':isDaily(l.slug)?'Daily challenge':CAT.predict.some(p=>p.slug===l.slug)?'Predict the Point':'Play the Point'}${l.decisionCount?` · ${l.decisionCount>2&&l.livePoint?'Up to ':''}${l.decisionCount} decisions`:''}`;
+const displayTitle=l=>l?.title?.replace(/^Predict the Point: /,'')||'';
+const activityLabel=l=>`${l.doubles?'Doubles · Live Point':l.livePoint?'Live Point':isDaily(l.slug)?'Challenge':CAT.predict.some(p=>p.slug===l.slug)?'Anticipation challenge':'Live Point'}${l.decisionCount?` · ${l.decisionCount>2&&l.livePoint?'Up to ':''}${l.decisionCount} decisions`:''}`;
 const remaining=()=>all().filter(l=>!S.done[l.slug]);
 const CUES='gs_my_game';
 function savedCues(){
@@ -179,6 +180,22 @@ function nextDaily(){
   syncProgress();const pending=CAT.daily.filter(l=>!S.done[l.slug]),seen=S.seen||{};
   return pending.find(l=>!seen[l.slug])||pending.sort((a,b)=>(seen[a.slug]||0)-(seen[b.slug]||0))[0]||null;
 }
+// Calendar-date selection is independent of personal progress. Keep old nextDaily
+// as the personal practice queue; never silently replace an unfinished daily pick.
+function featuredDaily(date=today()){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||addDays(date,0)!==date)return null;
+  syncProgress();const plan=CAT.dailyPlan;
+  const rotation=plan?.rotation||CAT.daily.map(l=>l.slug);if(!rotation.length)return null;
+  const day=plan?Math.max(0,daysBetween(plan.startDate,date)):0;
+  const lesson=bySlug(rotation[day%rotation.length]);if(!lesson)return null;
+  const d=S.done[lesson.slug];
+  return {lesson,date,edition:plan?.edition||'collection',done:d?.last===date,previouslyPlayed:!!d,seen:!!S.seen?.[lesson.slug]};
+}
+function relatedPoint(slug){
+  const pair=CAT.dailyPlan?.related?.[slug],lesson=pair&&bySlug(pair.slug);
+  return lesson?.livePoint&&!lesson.transferOf?{lesson,bridge:pair.bridge}:null;
+}
+function dailyShareUrl(slug){return isDaily(slug)?'https://www.gamesharptennis.com/play.html?l='+encodeURIComponent(slug)+'&challenge=daily':null;}
 function nextLivePoint(){
   syncProgress();
   const points=(CAT.play||[]).filter(l=>l.livePoint),seen=S.seen||{};
@@ -251,6 +268,8 @@ function complete(slug,n,total=3){
   save(S);
   const transfer=firstCompletion&&transferEvidence(slug);if(transfer)track('live_point_transfer',{lesson:slug,attempt:attempt.id,...transfer,text:undefined});
   track("lesson_complete",{lesson:slug,edition:bySlug(slug)?.edition||'original',daily:isDaily(slug),first_time:firstTime,score:n,total,times:S.done[slug].times});
+  const featured=featuredDaily();
+  if(featured?.lesson.slug===slug)track('featured_daily_complete',{lesson:slug,date:t,edition:featured.edition,revisit:!firstTime});
   if(isDaily(slug)&&firstTime&&!nextDaily()) track("content_exhausted",{});
 }
 function setLevel(v){syncProgress();S.level=v;save(S);track("level_set",{level:v});}
@@ -273,7 +292,7 @@ const listeners=[];
 function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
-window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,startLesson,complete,setLevel,feedback,emit,on,
+window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,featuredDaily,relatedPoint,dailyShareUrl,displayTitle,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,startLesson,complete,setLevel,feedback,emit,on,
   activityLabel,remaining,savedCues,cueSaved,saveCue,nextHit,selectFocus,focusAction,practicePath,pathProgress,PRACTICE_PATHS,progressSaved:()=>progressSaved,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();

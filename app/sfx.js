@@ -245,6 +245,7 @@
       if(contextReady())loadVoice(ctx);
     },
     voiceInfo:()=>voiceSlug?{text:courtVoices[voiceSlug],asset:voiceSlug}:null,
+    courtCue:slug=>courtVoices[slug]||null,
     voiceState:()=>({enabled:voiceEnabled,playing:speaking(),pending:voicePending,error:voiceError,available:!!AC,generation:voiceGeneration}),
     onVoiceChange(fn){voiceListener=fn;paintVoice();},
     onSettingsChange(fn){settingsListeners.add(fn);return()=>settingsListeners.delete(fn);},
