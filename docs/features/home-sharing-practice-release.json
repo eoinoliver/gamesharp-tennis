@@ -1,0 +1,164 @@
+{
+  "feature": "Simplified Home, stroke-first Sharpen, branded sharing and personal practice",
+  "releasedAtUTC": "2026-11-09T10:49:50.570190+00:00",
+  "appVersion": "e4cf57314d",
+  "candidateCommit": "4feb2869a775471f9c6f2fc98e25552ae828a5ec",
+  "mergeCommit": "0525c0c7847dc563d289be3a9303e8ca2569ab61",
+  "gitTree": "b62a17bfa1b7658943bc94b602062c4142a5c314",
+  "pullRequest": 85,
+  "approval": {
+    "date": "2026-11-09",
+    "text": "Ok if happy deploy everything live",
+    "scope": "Exact reviewed PR85 candidate, including all Home, Sharpen, sharing and practice changes"
+  },
+  "production": {
+    "id": "dpl_E2cV5QAmYdUx42QpTsv71tfdVqhw",
+    "url": "https://gamesharp-tennis-k90euz4x9-eoinlynn-5978s-projects.vercel.app",
+    "domain": "https://www.gamesharptennis.com",
+    "target": "production",
+    "status": "PROMOTED",
+    "promotedWithoutRebuild": true
+  },
+  "rollback": {
+    "id": "dpl_7iNz3ctaYbKfVVXUcBkBjCXv61s7",
+    "appVersion": "9a939878ec",
+    "url": "https://gamesharp-tennis-3jpolhgtj-eoinlynn-5978s-projects.vercel.app"
+  },
+  "scope": {
+    "activities": 63,
+    "publicInvitationPages": 63,
+    "actualSceneSocialCards": 63,
+    "brandedSharePanelFirst": true,
+    "browserLocalPracticeHistory": true,
+    "optionalWeeklyGoalsAndCalendarEvents": true,
+    "newLessons": 0,
+    "withheldActivities": 0
+  },
+  "verification": {
+    "releaseFiles": 475,
+    "publicFiles": 474,
+    "sourceTestInputs": 539,
+    "unitChecks": 102,
+    "previewSharingPerEngine": 420,
+    "previewEngines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "previewHTTP": 616,
+    "stageAndLive": {
+      "stage": {
+        "http": 616,
+        "sharingPractice": 420,
+        "homeCompletion": 67
+      },
+      "live": {
+        "http": 616,
+        "sharingPractice": 420,
+        "homeCompletion": 67
+      }
+    },
+    "liveVisual": [
+      {
+        "engine": "chromium",
+        "width": 352,
+        "firstClickNativeCalls": 0,
+        "height": 626.734375,
+        "overflow": false
+      },
+      {
+        "engine": "chromium",
+        "width": 282,
+        "firstClickNativeCalls": 0,
+        "height": 536,
+        "overflow": false
+      },
+      {
+        "engine": "chromium",
+        "width": 420,
+        "firstClickNativeCalls": 0,
+        "height": 662.4375,
+        "overflow": false
+      },
+      {
+        "engine": "webkit",
+        "width": 352,
+        "firstClickNativeCalls": 0,
+        "height": 626.734375,
+        "overflow": false
+      },
+      {
+        "engine": "webkit",
+        "width": 282,
+        "firstClickNativeCalls": 0,
+        "height": 536,
+        "overflow": false
+      },
+      {
+        "engine": "webkit",
+        "width": 420,
+        "firstClickNativeCalls": 0,
+        "height": 662.4375,
+        "overflow": false
+      }
+    ],
+    "candidateCI": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/42596835935",
+    "mergedCI": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/42601021203",
+    "mergedCIStatus": "success",
+    "productionAliasVerified": true,
+    "apexRedirect": {
+      "status": 307,
+      "location": "https://www.gamesharptennis.com/"
+    },
+    "autoAssignCustomDomains": false,
+    "configurationEquivalence": {
+      "observedAt": "2026-11-09T10:29:53.338645+00:00",
+      "preview": "dpl_Epr6zdWxKVZhSBh4qJafzSWVzYzY",
+      "production": "dpl_E2cV5QAmYdUx42QpTsv71tfdVqhw",
+      "matches": {
+        "config": true,
+        "resourceConfig": true,
+        "regions": true,
+        "originCacheRegion": true,
+        "nodeVersion": true,
+        "crons": true,
+        "functions": true,
+        "projectSettings": true,
+        "routes": true,
+        "env": true,
+        "build": true
+      },
+      "configuredEnvironmentVariables": 0,
+      "rootDirectory": null,
+      "autoAssignCustomDomains": false,
+      "staticAssets": {
+        "preview": 474,
+        "production": 474
+      },
+      "functions": {
+        "preview": 0,
+        "production": 0
+      },
+      "inventoryProof": "Authenticated Vercel Resources pages show only 474 Static Assets for each deployment. Exact public paths and hashes checked separately.",
+      "expectedDifferences": [
+        "Git branch and commit identity; merge tree exactly equals reviewed tree b62a17bfa1b7658943bc94b602062c4142a5c314.",
+        "Deployment environment, URL, ID and creation timestamps.",
+        "Empty lambda build metadata has different build IDs and timestamps; both output arrays empty.",
+        "Platform-provided variables identify preview/production URLs and Git commits; no custom environment variables.",
+        "Preview HTML permits only exact deployment-specific Feedback suffix; Production unchanged."
+      ]
+    },
+    "liveErrorScan": {
+      "window": "30m after promotion request",
+      "returnedErrors": 0
+    },
+    "actualStagedChromeShareFirstClick": "Visually verified green/gold panel before native sharing",
+    "analytics": "Intercepted PostHog in live browser checks; no messages sent"
+  },
+  "limits": [
+    "Progress remains browser-local; no account or cloud sync.",
+    "Native share menus retain their system appearance after the explicit second action.",
+    "Social clients control preview appearance and caching.",
+    "Browser automation does not establish physical-phone, WhatsApp/iMessage presentation or calendar-import behaviour."
+  ],
+  "documentationOnlyFollowup": "Do not promote the release-record branch build."
+}
