@@ -925,3 +925,9 @@ Full shell checks and Git CI/hosted verification are in progress. The first loca
 shell run overlapped a rebuild that temporarily removed served assets; rerun
 against the stable generated output. This is a preview task; production remains
 9a939878ec. Codex owns completing checks, PR and presenting the review build.
+
+CI caught one remaining pre-redesign expectation in the flagship journey check:
+an unfinished point on Home. The check now taps Play singles, finds Continue
+your point, and verifies the original unfinished lesson opens. Only this test
+and its explicit fingerprint coverage changed; app 97243b2214 is byte-identical.
+The previous CI build/routes/shell/sound jobs passed; learning is being rerun.

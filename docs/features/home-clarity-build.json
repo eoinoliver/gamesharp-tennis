@@ -172,6 +172,10 @@
       "baseline": "e8036abb22f30698facc28cd6aabc20219225c78a4221fded8d1d7c5abbd6a56",
       "candidate": "ff0da7b13c7c7853ed35d93301ed0d8dd8a14c202e1a0523383c17db9af53841"
     },
+    "tools/flagship-browser.mjs": {
+      "baseline": "eebe7b419897411c3d3e31aa78695d0e7e239ea65de25cbdc509625cbc10e1b1",
+      "candidate": "4bea71790965b6b21998e5bd1df0ce83a3f320f933380dc8dcbfa75db7d9c22b"
+    },
     "tools/home-clarity-browser.mjs": {
       "baseline": null,
       "candidate": "6223afa99734206cb16267dc6ccc7ad302100532ceb8d34dc15a2522307d626c"
