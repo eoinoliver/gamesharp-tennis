@@ -47,7 +47,7 @@
     },
     "tools/daily-home-browser.mjs": {
       "baseline": null,
-      "candidate": "787e3dc27a32c823cf31047cc25ba376d9ee51b1662bd310379a0cb7e6338bc9"
+      "candidate": "c28a8421a5aa25e6f5b81ceedd0f1b88133abfe1a1f0df89fa8cb125a7a4208b"
     },
     "tools/experience-browser.mjs": {
       "baseline": "d2bc754459f2facaf33b3e9f759160c422293f81780982f63523776d27a5ebc3",
