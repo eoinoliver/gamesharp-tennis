@@ -905,3 +905,14 @@ The feature intentionally replaces bare-entry auto-start with a clear playable
 Home invitation; existing explicit automatic-entry links remain supported.
 No new tennis lesson or learning-efficacy claim is added. Full build, browser,
 Git preview/staged/live verification remains required for release.
+
+## 9 November 2026 — Daily Home production release (Codex)
+
+PR 83 is live: app 9a939878ec, merge 559ef8e648509c0ec581ffe44bd119904aebd0f5,
+production dpl_7iNz3ctaYbKfVVXUcBkBjCXv61s7. Eoin instructed deploy live.
+The signed-in preview and production Resources inventories each show 279 static
+assets and no Functions group; all known paths/hashes match. Live verification:
+421 HTTP/file/routing, 65 daily-journey and 83 UX checks passed.
+Auto-assignment remains disabled. Rollback: dpl_FvVGYEukCzkCUYthmD6zWKEaCe1V.
+See docs/features/daily-home-release.json and PR 83. This log-only branch is not
+a new app release and its deployment must not be promoted.

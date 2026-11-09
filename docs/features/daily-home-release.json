@@ -1,0 +1,63 @@
+{
+  "project": "gamesharp-tennis",
+  "pr": "https://github.com/eoinoliver/gamesharp-tennis/pull/83",
+  "reviewedCommit": "96cb7ccdf8e0fccf5d25d36d9deab4b307e5757a",
+  "appVersion": "9a939878ec",
+  "preview": {
+    "id": "dpl_J2MpkNRivyw8oQ7YHm3fr5KzFST5",
+    "url": "https://gamesharp-tennis-n0ghe45g3-eoinlynn-5978s-projects.vercel.app",
+    "httpPassed": 421,
+    "dailyJourneyChecks": 65,
+    "uxChecks": 83
+  },
+  "local": {
+    "unitTests": 93,
+    "proCardCases": 126,
+    "sensoryAssertions": 113,
+    "unchangedLessonPayloads": 63,
+    "relatedConnectionsExercised": 19,
+    "releaseFiles": 280,
+    "publicFiles": 279
+  },
+  "ciRun": 42548827582,
+  "ciStatus": "success",
+  "productionPromoted": true,
+  "liveBaseline": {
+    "appVersion": "0f30efc78f",
+    "deployment": "dpl_FvVGYEukCzkCUYthmD6zWKEaCe1V",
+    "merge": "3f2ea1cb835eccce492f3df21dc0f21b95c75faa"
+  },
+  "pending": [],
+  "notes": [
+    "Automatic production-domain assignment remains off.",
+    "No new lesson or voice asset; changed Home, navigation, completion hierarchy and calendar selection.",
+    "Prior documentation-only PR 82 remains separate and must not be promoted."
+  ],
+  "merge": {
+    "mergeSha": "559ef8e648509c0ec581ffe44bd119904aebd0f5",
+    "reviewedCommit": "96cb7ccdf8e0fccf5d25d36d9deab4b307e5757a",
+    "reviewedTree": "4e596e2deb232294f4aaefceb28e1d31cc70f90a",
+    "mergeTree": "4e596e2deb232294f4aaefceb28e1d31cc70f90a"
+  },
+  "stage": {
+    "id": "dpl_7iNz3ctaYbKfVVXUcBkBjCXv61s7",
+    "url": "https://gamesharp-tennis-3jpolhgtj-eoinlynn-5978s-projects.vercel.app",
+    "target": "production",
+    "readyState": "READY",
+    "httpPassed": 421,
+    "dailyJourneyChecks": 65,
+    "uxChecks": 83
+  },
+  "configurationMetadataMatches": true,
+  "inventoryVerified": true,
+  "status": "live-verified",
+  "verifiedAt": "2026-11-09T02:46:43.158449+00:00",
+  "live": {
+    "url": "https://www.gamesharptennis.com",
+    "deployment": "dpl_7iNz3ctaYbKfVVXUcBkBjCXv61s7",
+    "appVersion": "9a939878ec",
+    "httpPassed": 421,
+    "dailyJourneyChecks": 65,
+    "uxChecks": 83
+  }
+}
