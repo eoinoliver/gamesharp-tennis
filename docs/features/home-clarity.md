@@ -7,7 +7,7 @@ pale panel in the first preview. The revised design uses a larger question, a
 real court scene and one gold action; singles/doubles are quiet text links.
 
 - All 32 daily invitations have short situation-led headlines and an actual
-  still from their own first decision or lead-in. `home-preview-frames.json`
+  still and silent motion preview from their own first decision or lead-in. `home-preview-frames.json`
   records the source scene/frame; `tools/render-home-stills.mjs` regenerates them
   using the existing renderer. Instructional text labels are omitted from the Home
 images only; players, ball, court and the actual lessons remain unchanged.
@@ -40,3 +40,13 @@ independent user research. This revision does not claim measured retention gains
 The remaining product question is whether new players start the challenge without
 hesitating and returning players can find saved cues and Reset. A short observed
 trial with club players should test that before further Home expansion.
+
+Home motion autoplays once on arrival, at the lesson's real 100-frame/second
+timing, then holds the decision frame. `home-motion-frames.json` records the
+32 exact source ranges. MP4s contain no audio track, use inline playback and
+are loaded only for the current Daily. A 44px pause/replay control remains
+available. Reduced-motion and Save-Data preferences keep the still and explicit
+Play; browser autoplay rejection also falls back to Play. Hidden/offscreen
+previews pause; deliberate pause and completion are never overridden by scroll.
+Failed media leaves the existing still and primary challenge action usable.
+Today's completed cue stays compact, without reintroducing the court preview.

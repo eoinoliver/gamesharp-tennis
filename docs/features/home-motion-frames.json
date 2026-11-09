@@ -1,0 +1,293 @@
+{
+  "source": "Actual first decision lead-in; silent; instructional text omitted; holds on the existing Home poster frame",
+  "captures": [
+    {
+      "slug": "serve-plus-one",
+      "scene": "daily1",
+      "from": 0,
+      "to": 431,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 130
+    },
+    {
+      "slug": "short-ball",
+      "scene": "sb3A",
+      "from": 0,
+      "to": 189,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 57
+    },
+    {
+      "slug": "the-line",
+      "scene": "ln1A",
+      "from": 0,
+      "to": 177,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 54
+    },
+    {
+      "slug": "the-winner",
+      "scene": "wn1",
+      "from": 0,
+      "to": 343,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 103
+    },
+    {
+      "slug": "recovery",
+      "scene": "rc1A",
+      "from": 0,
+      "to": 238,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 72
+    },
+    {
+      "slug": "open-court",
+      "scene": "fs1A",
+      "from": 0,
+      "to": 202,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 61
+    },
+    {
+      "slug": "forehand-bill",
+      "scene": "fb1A",
+      "from": 0,
+      "to": 197,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 60
+    },
+    {
+      "slug": "the-lead",
+      "scene": "pp1A",
+      "from": 0,
+      "to": 188,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 57
+    },
+    {
+      "slug": "split-step",
+      "scene": "ss1",
+      "from": 0,
+      "to": 307,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 93
+    },
+    {
+      "slug": "approach-volley",
+      "scene": "av1A",
+      "from": 0,
+      "to": 199,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 60
+    },
+    {
+      "slug": "middle-return",
+      "scene": "mr1A",
+      "from": 0,
+      "to": 255,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 77
+    },
+    {
+      "slug": "high-ball",
+      "scene": "hb1A",
+      "from": 0,
+      "to": 90,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 27
+    },
+    {
+      "slug": "second-serve",
+      "scene": "sq1",
+      "from": 242,
+      "to": 742,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 150
+    },
+    {
+      "slug": "contact-clue",
+      "scene": "cp1A",
+      "from": 0,
+      "to": 200,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 60
+    },
+    {
+      "slug": "running-around",
+      "scene": "ra1A",
+      "from": 0,
+      "to": 428,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 129
+    },
+    {
+      "slug": "net-rusher",
+      "scene": "nr1A",
+      "from": 0,
+      "to": 176,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 53
+    },
+    {
+      "slug": "pass-where-they-arent",
+      "scene": "pa1A",
+      "from": 0,
+      "to": 168,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 51
+    },
+    {
+      "slug": "late-is-the-culprit",
+      "scene": "lc1A",
+      "from": 83,
+      "to": 583,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 150
+    },
+    {
+      "slug": "the-moonballer",
+      "scene": "mb1A",
+      "from": 0,
+      "to": 90,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 27
+    },
+    {
+      "slug": "the-pusher",
+      "scene": "pu1A",
+      "from": 0,
+      "to": 188,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 57
+    },
+    {
+      "slug": "pulled-wide",
+      "scene": "pw1A",
+      "from": 0,
+      "to": 164,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 50
+    },
+    {
+      "slug": "serve-away-from-the-lean",
+      "scene": "le1A",
+      "from": 0,
+      "to": 165,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 50
+    },
+    {
+      "slug": "the-big-hitter",
+      "scene": "bg1B",
+      "from": 0,
+      "to": 145,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 44
+    },
+    {
+      "slug": "the-lefty",
+      "scene": "lf1A",
+      "from": 0,
+      "to": 180,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 54
+    },
+    {
+      "slug": "find-your-return-spot",
+      "scene": "rs1A",
+      "from": 0,
+      "to": 252,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 76
+    },
+    {
+      "slug": "answer-the-drop",
+      "scene": "ad1A",
+      "from": 0,
+      "to": 175,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 53
+    },
+    {
+      "slug": "attack-the-backhand",
+      "scene": "ab1A",
+      "from": 0,
+      "to": 180,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 54
+    },
+    {
+      "slug": "down-the-line",
+      "scene": "dl1A",
+      "from": 0,
+      "to": 159,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 48
+    },
+    {
+      "slug": "rushed-out-wide",
+      "scene": "dm1A",
+      "from": 0,
+      "to": 158,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 48
+    },
+    {
+      "slug": "earned-attack",
+      "scene": "ea1",
+      "from": 0,
+      "to": 199,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 60
+    },
+    {
+      "slug": "earned-defence",
+      "scene": "ed1",
+      "from": 0,
+      "to": 192,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 58
+    },
+    {
+      "slug": "earned-net",
+      "scene": "en1",
+      "from": 0,
+      "to": 199,
+      "sourceFps": 100,
+      "outputFps": 30,
+      "frames": 60
+    }
+  ]
+}

@@ -949,3 +949,19 @@ Chromium/WebKit, 65 real Daily completion/share checks pass, and all 93 unit
 checks pass. Build parity remains 313 files / 312 public and 431 source/test
 inputs. Visually reviewed small/large mobile, desktop and completion. No lesson,
 voice, animation, progress or routing changes; Home stills omit text labels only.
+
+Eoin requested motion as soon as Home opens. Codex owns the PR 85 follow-up:
+render silent previews from each of the 32 actual Daily scenes, autoplay once
+and hold at the decision, with reduced-motion and browser-policy fallbacks,
+pause/replay, and no change to lesson behaviour or saved completion. Verify
+mobile Chromium/WebKit and all rotation assets before updating the preview.
+
+Home motion candidate ddbeaee68a: all 32 actual scenes rendered and visually
+reviewed at opening/midpoint/decision; H.264 assets have no audio streams, range
+0.9–5 seconds, max 454 KiB. 47 playback checks pass in each of Chromium/WebKit,
+including real autoplay, pause/replay, offscreen suspension, reduced motion,
+autoplay rejection and unavailable media. Existing 114 Home checks pass in both
+engines, 65 real Daily completion/share checks pass, and all 93 unit tests pass.
+Build parity: 346 release / 345 public files; 467 source/test inputs. All 63
+lesson files, engine and audio are byte-identical to the previous preview.
+Codex owns Git preview/hosted verification and full CI; production unchanged.
