@@ -274,11 +274,15 @@
     },
     "app_src/index.html": {
       "baseline": "5a969d20a835229ef47d4a19b6bad7a55554f0b06ceac3ecf9bbc9867a887724",
-      "candidate": "7d1dd79da8b31ff2f78ea07a58145b8e85ed3027bd2901139d5db0755eee4156"
+      "candidate": "00163393d40147a179823abd1fddfc8dc6f9474fcd2cffc173cb2eac0e4c4fef"
+    },
+    "app_src/sharpen.js": {
+      "baseline": "0a062d06274c8999d55ef902acfe38b6292585e60e508a7f3b9e3014ec98fe71",
+      "candidate": "2efeb2f4bb6d7a76920f8833984f90210b651881bd2b89c3d42ae0226ec0e049"
     },
     "docs/features/home-clarity.md": {
       "baseline": null,
-      "candidate": "243f2a250c390cb946b607800c346eb219eb9fc168eaf25b421f78b0db9f1ecb"
+      "candidate": "df2ba8b4125f7d7030595620c7bf68802b8baa65e5f10a8231b0916f2f148539"
     },
     "docs/features/home-motion-frames.json": {
       "baseline": null,
@@ -344,7 +348,7 @@
   "release": {
     "app/catalog.js": {
       "baseline": "bccba2d143738004489a87ca6deb8289bc7d44275de1a36a54ab2ce81f85f5b8",
-      "candidate": "99f5c60d6bd89822008208773c103282136505b4c88a2d382d64e15a1cf3b734"
+      "candidate": "6e317250e3cd69f6c66806eaef9d44d10912f8e4ce5a469feaa2396543acea02"
     },
     "app/home-preview.js": {
       "baseline": null,
@@ -612,11 +616,15 @@
     },
     "app/index.html": {
       "baseline": "1752b0e4753352be62adca7c3d2fbedac540447aa9dee158ef8224ae1e7cea01",
-      "candidate": "f31e784de9ba7a8c5523ddd4c844f797aa592b1d7338f2c326b2b8c318bd4c2d"
+      "candidate": "cb60eff04b1080032b8103ff5c5b7837dc7b46152e7fa700672418318bd1b5e8"
     },
     "app/play.html": {
       "baseline": "d015cd9a7923e83b26462450f4238e24f834dd7e0ff7b916df0b7735b020aefc",
-      "candidate": "6337c39b5f65e5750d1f3ceecf442594036ed535b5e468fc85412fe5264717ab"
+      "candidate": "3265836c96370526d851caa7b5d08b6da72ef180cd7d5528f2689581caa8542c"
+    },
+    "app/sharpen.js": {
+      "baseline": "0a062d06274c8999d55ef902acfe38b6292585e60e508a7f3b9e3014ec98fe71",
+      "candidate": "2efeb2f4bb6d7a76920f8833984f90210b651881bd2b89c3d42ae0226ec0e049"
     }
   }
 }

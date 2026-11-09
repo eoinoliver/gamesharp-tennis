@@ -965,3 +965,16 @@ engines, 65 real Daily completion/share checks pass, and all 93 unit tests pass.
 Build parity: 346 release / 345 public files; 467 source/test inputs. All 63
 lesson files, engine and audio are byte-identical to the previous preview.
 Codex owns Git preview/hosted verification and full CI; production unchanged.
+
+Eoin approved the look and asked to lead Sharpen with the Forehand drive
+animation, followed by What needs work. Codex owns this PR 85 layout follow-up:
+swap the two sections, preserve their controls/content/routes, keep Home's three
+current routes, and verify mobile/desktop reading order and stroke controls.
+
+Sharpen flow candidate bf5a821bf0: animation/reference first, What needs work
+second; all eight practice areas, Reset and My Game retained. Visually inspected
+320/390/1440px and confirmed no overflow. 73 complete experience checks pass
+in each of Chromium and WebKit; 47 Home playback checks pass. Build parity:
+346 release / 345 public files and 467 checked inputs. No engine, athlete,
+lesson, audio or Home preview media changes. Codex owns hosted preview and CI;
+this remains review-only, with production unchanged.

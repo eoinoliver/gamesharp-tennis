@@ -146,15 +146,15 @@ function myGame(A,href,esc){const g=A.savedCues(),focus=A.nextHit();
 }
 function mapView(A,S){
   const slugs=z=>[...new Set(z.items.flatMap(([,ls])=>ls))],n=z=>slugs(z).length,done=z=>slugs(z).filter(s=>S.done[s]).length;
-  return `<section class="supplement sh-sec sh-map"><div class="k">Your game</div><h1>What needs work?</h1><p>Find the decision behind the shot. Counts show activities played, not mastery.</p><a class="sh-my-entry" href="?review=1&z=my-game"><b>My Game</b><span>${A.savedCues().length} saved cues · your next on-court practice →</span></a>
-   <a class="sh-my-entry reset-entry" href="?review=1&z=reset"><b>Reset</b><span>After a miss. Before a big point. When it gets tense between you. →</span></a>
-   <div class="sh-zones">${ZONES.map(z=>`<a class="sh-zone" href="?review=1&z=${z.k}"><b>${z.name}</b><span>${z.line}</span><i>${done(z)}/${n(z)} played</i></a>`).join('')}</div>
-   <section class="sh-reference" aria-label="Stroke reference"><div class="k">Stroke reference</div><h2 id="shStrokeName">Forehand drive</h2>
+  return `<section class="supplement sh-sec sh-map"><section class="sh-reference" aria-label="Stroke reference"><div class="k">Sharpen · Stroke reference</div><h1 id="shStrokeName">Forehand drive</h1>
    <div class="sh-labels" role="group" aria-label="Strokes">${ATH.map(k=>`<button type="button" data-ath="${k}" aria-pressed="${k==='fh'}">${STROKES[k].label}</button>`).join('')}</div>
    <div class="sh-hero sh-ath" id="shAth"><img src="sharpen/hero.jpg?v=${window.GS_VERSION||''}" alt="A GameSharp player hitting a forehand"></div>
    <div class="sh-controls"><button type="button" id="shReplay">Replay</button><button type="button" id="shSlow" aria-pressed="false">Slow view</button><button type="button" id="shPause">Pause</button></div>
    <p id="shStatus" role="status"></p><div id="shAthCard">${strokeCard('fh').replace('<details','<details open')}</div></section>
-   <div class="sh-tools"><a href="?review=1&z=spin">Topspin vs slice</a><a href="?review=1&z=grips">Grips</a></div></section>`;
+   <div class="sh-tools"><a href="?review=1&z=spin">Topspin vs slice</a><a href="?review=1&z=grips">Grips</a></div>
+   <section class="sh-work" aria-labelledby="shWorkTitle"><div class="k">Your game</div><h2 id="shWorkTitle">What needs work?</h2><p>Find the decision behind the shot. Counts show activities played, not mastery.</p><a class="sh-my-entry" href="?review=1&z=my-game"><b>My Game</b><span>${A.savedCues().length} saved cues · your next on-court practice →</span></a>
+   <a class="sh-my-entry reset-entry" href="?review=1&z=reset"><b>Reset</b><span>After a miss. Before a big point. When it gets tense between you. →</span></a>
+   <div class="sh-zones">${ZONES.map(z=>`<a class="sh-zone" href="?review=1&z=${z.k}"><b>${z.name}</b><span>${z.line}</span><i>${done(z)}/${n(z)} played</i></a>`).join('')}</div></section></section>`;
 }
 window.GS_SHARPEN={mount,render(A,S,href,dots3,esc){trackFn=A.track; const k=new URLSearchParams(location.search).get("z");
   if(k==='reset'&&window.GS_RESET)return GS_RESET.render();

@@ -50,3 +50,8 @@ Play; browser autoplay rejection also falls back to Play. Hidden/offscreen
 previews pause; deliberate pause and completion are never overridden by scroll.
 Failed media leaves the existing still and primary challenge action usable.
 Today's completed cue stays compact, without reintroducing the court preview.
+
+Sharpen now opens with the stroke animation and its existing controls/reference
+frames. What needs work, My Game, Reset and the eight practice areas follow.
+Only their reading order and section hierarchy change; no destination or
+technique content is removed. Home retains its daily invitation and two routes.
