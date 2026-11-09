@@ -3,7 +3,7 @@ window.GSTakeaways=(()=>{
   const cards={"serve-plus-one":{"title":"Read the return you get.","rule":"Your serve creates a chance. The return decides whether you attack or rebuild.","panels":[{"label":"Short return","caption":"Use the open court","kind":"court","you":[91,135],"them":[145,28],"target":[55,38]},{"label":"Deep return","caption":"Reset with height & depth","kind":"court","you":[84,170],"them":[126,28],"target":[80,32]}]},"short-ball":{"title":"Height changes the attack.","rule":"Low and balanced, with them deep: lift the approach. Higher contact and open court let you attack with margin.","panels":[{"label":"Low contact","caption":"Lift the approach","kind":"height","low":true},{"label":"Higher + set","caption":"Attack with margin","kind":"height","low":false}]},"the-line":{"title":"Earn the change of direction.","rule":"Low and late: play crosscourt and recover. Take the line when you are balanced at a comfortable contact height.","panels":[{"label":"Low + late","caption":"Crosscourt first","kind":"court","you":[133,170],"them":[62,28],"target":[53,36]},{"label":"Balanced + set","caption":"The line is available","kind":"court","you":[112,132],"them":[54,28],"target":[110,38]}]},"the-winner":{"title":"Would you choose it again?","rule":"One winner does not settle the choice. Pick a target you would trust repeatedly from that position.","panels":[{"label":"One winner","caption":"A result, not a verdict","kind":"court","you":[111,155],"them":[80,27],"target":[111,20],"tight":true},{"label":"Same low ball","caption":"Leave room for error","kind":"court","you":[111,155],"them":[80,27],"target":[62,40],"area":true}]},"recovery":{"title":"Cover their next options.","rule":"Recover for the angles your shot leaves them. A shorter ball or a strong pattern can change your spot.","panels":[{"label":"You pull them wide","caption":"Shade towards their angles","kind":"court","you":[68,165],"them":[139,28],"target":null,"move":[96,165],"fan":true},{"label":"They are balanced","caption":"Recover deeper, nearer centre","kind":"court","you":[101,151],"them":[80,34],"target":null,"move":[80,173],"fan":true}]},"open-court":{"title":"Read the run before the space.","rule":"With a comfortable ball, make a running opponent turn. If they stop and set, use the space they have left.","panels":[{"label":"They are running","caption":"Play behind the run","kind":"court","you":[99,134],"them":[86,29],"target":[49,37],"opMove":[121,29]},{"label":"They have stopped","caption":"Use the open court","kind":"court","you":[99,134],"them":[50,29],"target":[109,37]}]},"forehand-bill":{"title":"Include the recovery cost.","rule":"A runaround needs time and a useful opening. Against a deep ball and a ready opponent, keep the backhand.","panels":[{"label":"Deep + ready opponent","caption":"Hold the backhand","kind":"court","you":[51,170],"them":[80,28],"target":[80,37]},{"label":"Shorter + stranded","caption":"Use the forehand","kind":"court","you":[45,136],"them":[45,28],"target":[108,37]}]},"the-lead":{"title":"Keep the depth that got you ahead.","rule":"Let the ball and their position change your plan. Leading on the scoreboard is not a reason to land shorter.","panels":[{"label":"5–2 ahead","caption":"Keep depth and margin","kind":"court","you":[106,157],"them":[55,28],"target":[55,39],"area":true},{"label":"Pushed back at 5–4","caption":"Lift deep and rebuild","kind":"court","you":[86,174],"them":[80,28],"target":[80,36]}]},"split-step":{"title":"Time your landing to their hit.","rule":"Watch their strike. Land ready to push as the direction becomes readable; adjust to a quicker swing.","panels":[{"label":"Watch their strike","caption":"Begin the split","kind":"timing","phase":0},{"label":"Read the direction","caption":"Land, then push","kind":"timing","phase":1}]},"approach-volley":{"title":"The approach shapes the volley.","rule":"Use depth to push their contact back, then follow your approach. Read their position before choosing the direction.","panels":[{"label":"Deep approach","caption":"Push their contact back","kind":"court","you":[101,128],"them":[106,20],"target":[107,30],"move":[100,110]},{"label":"Short approach","caption":"They can contact further in","kind":"court","you":[101,128],"them":[102,56],"target":[105,64],"move":[100,110]}]},"middle-return":{"title":"Through the middle—and deep.","rule":"Under pressure from a first serve, block deep through the middle. A soft second serve can offer more.","panels":[{"label":"Under pressure","caption":"Block deep middle","kind":"court","you":[141,166],"them":[82,24],"target":[80,33],"area":true},{"label":"Middle but short","caption":"The server can step in","kind":"court","you":[141,166],"them":[82,54],"target":[80,64],"tight":true}]},"high-ball":{"title":"Find a playable contact.","rule":"Read depth and your starting position. Step in when you have time; retreat when rushed; hold if you are already deep.","panels":[{"label":"Short + time","caption":"Step in","kind":"position","position":"in"},{"label":"Deep + rushed","caption":"Create space","kind":"position","position":"back"}]},"second-serve":{"title":"Watch their contact, not just “in”.","rule":"Depth and kick can make the return harder. If they handle the high ball comfortably, change the location.","panels":[{"label":"They step in","caption":"Add depth & kick","kind":"height","low":false,"kick":true},{"label":"They like it high","caption":"Change the location","kind":"court","you":[66,162],"them":[85,23],"target":[107,65]}]},"contact-clue":{"title":"Check the space before the swing.","rule":"A cramped contact is a useful clue. If the spacing is already clear, leave it alone and check the target.","panels":[{"label":"Cramped at contact","caption":"Create space","kind":"contact","space":false},{"label":"Space is clear","caption":"Check another cause","kind":"contact","space":true}]},"running-around":{"title":"The forehand needs time.","rule":"Use a reply that buys time to get around the ball. If the next ball skids deep, keep the backhand.","panels":[{"label":"Time to get around","caption":"Use the forehand","kind":"court","you":[48,141],"them":[50,28],"target":[107,37]},{"label":"Deep + still moving","caption":"Backhand deep across","kind":"court","you":[48,170],"them":[50,28],"target":[106,37]}]},"net-rusher":{"title":"How close did they get?","rule":"Read their distance from the net on either wing: dip to the feet near the service line; lob when they crowd the net.","panels":[{"label":"Near the service line","caption":"Dip to their feet","kind":"court","you":[98,159],"them":[81,55],"target":[81,61]},{"label":"Crowding the net","caption":"Lob over them","kind":"height","high":true}]},"pass-where-they-arent":{"title":"Pass the side they leave.","rule":"Look at the net player before you swing. Their coverage decides which passing lane is available.","panels":[{"label":"They cover the line","caption":"Pass crosscourt","kind":"court","you":[108,157],"them":[108,76],"target":[51,34]},{"label":"They shade crosscourt","caption":"Pass down the line","kind":"court","you":[108,157],"them":[59,76],"target":[110,34]}]},"late-is-the-culprit":{"title":"Prepare to meet it in front.","rule":"Use the held contact to check timing. Against more pace, turn early and shorten the preparation.","panels":[{"label":"Beside the hip","caption":"Late in this example","kind":"contact","space":true,"late":true},{"label":"Prepared earlier","caption":"Meet it in front","kind":"contact","space":true,"front":true}]},"the-moonballer":{"title":"Take time away when you can.","rule":"Step in early on the rising ball. Use the short reply to come forward; let a deep lob bounce rather than forcing the overhead.","panels":[{"label":"High rally ball","caption":"Step in early","kind":"position","position":"in"},{"label":"The reply is short","caption":"Approach and follow","kind":"court","you":[104,127],"them":[80,25],"target":[107,34],"move":[101,107]}]},"the-pusher":{"title":"Make them change position.","rule":"On a short, workable ball, use where they stand: draw a deep defender forward, or approach against one on the baseline.","panels":[{"label":"They stay deep","caption":"Draw them forward","kind":"court","you":[103,132],"them":[80,5],"target":[53,75]},{"label":"They hold the baseline","caption":"Approach deep","kind":"court","you":[103,132],"them":[80,20],"target":[109,33],"move":[100,108]}]},"pulled-wide":{"title":"Buy time—and use it.","rule":"Low, late and wide: lift deep to give yourself time to recover. An earlier arrival can create a different choice.","panels":[{"label":"Low + late + wide","caption":"Lift high and deep","kind":"court","you":[142,171],"them":[80,29],"target":[53,35]},{"label":"While the ball travels","caption":"Recover into the court","kind":"court","you":[142,171],"them":[80,29],"target":null,"move":[83,164]}]},"serve-away-from-the-lean":{"title":"Notice what they leave open.","rule":"Check the returner before the toss. When they move to protect one serve, reconsider the space they have left.","panels":[{"label":"They guard the T","caption":"Serve wide","kind":"court","you":[66,163],"them":[85,20],"target":[110,66]},{"label":"They move out wide","caption":"Use the T","kind":"court","you":[66,163],"them":[135,20],"target":[83,66]}]},"the-big-hitter":{"title":"Change their contact zone.","rule":"Start a step back to give yourself time. Use low slice or height to move the ball out of their comfortable hitting zone.","panels":[{"label":"Below their strike zone","caption":"Low slice","kind":"height","low":true,"slice":true},{"label":"Above their strike zone","caption":"Height and depth","kind":"height","low":false,"high":true}]},"the-lefty":{"title":"Locate the backhand again.","rule":"From your side of the net, a left-hander’s backhand is on your left. Familiar right-hander patterns need checking.","panels":[{"label":"Left-handed opponent","caption":"Backhand on your left","kind":"court","you":[80,162],"them":[80,26],"target":[57,35],"lefty":true},{"label":"Inside-out forehand","caption":"May feed their forehand","kind":"court","you":[48,147],"them":[80,26],"target":[108,35],"lefty":true}]},"find-your-return-spot":{"title":"Let the serve set your position.","rule":"Move back for the big first serve; step in on the slower kick. A repeated big-point pattern can justify a small adjustment.","panels":[{"label":"Big first serve","caption":"Start further back","kind":"position","position":"back"},{"label":"Slower kick","caption":"Step in","kind":"position","position":"in"}]},"answer-the-drop":{"title":"Arrive, then look up.","rule":"Reach the drop under control and read where they went. In these situations, a deep reply gives you a way back into the point.","panels":[{"label":"Get there","caption":"Arrive under control","kind":"sequence","symbol":"feet"},{"label":"Look up","caption":"Read them before replying","kind":"sequence","symbol":"eye"}]},"attack-the-backhand":{"title":"Move the guard before the target.","rule":"If they lean to protect the backhand, go to the other side first. Use the backhand space when they leave it.","panels":[{"label":"They guard the backhand","caption":"Move them the other way","kind":"court","you":[104,148],"them":[57,27],"target":[110,36]},{"label":"They have moved across","caption":"Now use the backhand","kind":"court","you":[104,148],"them":[133,27],"target":[52,36]}]},"down-the-line":{"title":"Check who is covering the line.","rule":"From a short ball and a balanced position, use the line while they recover. If they cover it early, go behind them crosscourt.","panels":[{"label":"They are still recovering","caption":"Use the line","kind":"court","you":[109,131],"them":[66,29],"target":[109,34],"opMove":[83,29]},{"label":"They cover the line","caption":"Go behind, crosscourt","kind":"court","you":[109,131],"them":[109,29],"target":[53,34]}]},"rushed-out-wide":{"title":"Give the reply a bigger target.","rule":"When pulled wide in these points, play deep through the middle. Get back before looking for a sharper angle.","panels":[{"label":"Forehand side","caption":"Deep middle","kind":"court","you":[143,169],"them":[80,27],"target":[80,34],"area":true},{"label":"Backhand side","caption":"Deep middle","kind":"court","you":[17,169],"them":[80,27],"target":[80,34],"area":true}]},"earned-attack":{"title":"An opening needs a ready player.","rule":"Check your arrival before attacking the space. If you are still chasing, leave margin and give yourself time to recover.","panels":[{"label":"Arrived with room","caption":"Use the opening","kind":"arrival","ready":true},{"label":"Still chasing","caption":"Margin, then recover","kind":"arrival","ready":false}]},"earned-defence":{"title":"How much time do you need?","rule":"If you are still travelling out, buy recovery time with height and depth. Earlier arrival can make another reply available.","panels":[{"label":"Still travelling out","caption":"Buy recovery time","kind":"court","you":[142,172],"them":[80,27],"target":[56,35],"move":[93,168]},{"label":"Earlier arrival","caption":"Read the opening again","kind":"court","you":[119,150],"them":[119,27],"target":[55,35]}]},"earned-net":{"title":"Reaching it does not earn the net.","rule":"A controlled arrival and a deep opponent can support an approach. If you are still chasing, make the reply manageable first.","panels":[{"label":"Controlled arrival","caption":"Consider the approach","kind":"arrival","ready":true},{"label":"Still reaching","caption":"Manage the reply first","kind":"arrival","ready":false}]}};
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const dot=(p,cls,r=5)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${r}" class="${cls}"/>`;
-  function drawing(p,id){
+  function drawing(p,id,motion){
     const arrow=(from,to,cls='tk-ball-path')=>`<path class="${cls}" d="M${from} L${to}" marker-end="url(#${id}-${cls==='tk-move'?'move':'ball'})"/>`;
     let body='';
     if(p.kind==='court'){
@@ -14,9 +14,10 @@ window.GSTakeaways=(()=>{
         body+=arrow(p.you,p.target,'tk-ball-path')+dot(p.target,'tk-ball',3.5);
       }
       if(p.opMove)body+=arrow(p.them,p.opMove,'tk-move');
-      if(p.move)body+=arrow(p.you,p.move,'tk-move')+`<circle cx="${p.move[0]}" cy="${p.move[1]}" r="6" class="tk-future"/>`;
-      body+=dot(p.them,'tk-opponent')+dot(p.you,'tk-you');
-      body+=`<text x="${Math.min(132,Math.max(28,p.them[0]))}" y="${p.them[1]<20?p.them[1]+17:p.them[1]-11}" class="tk-person-label">THEM</text><text x="${Math.min(132,Math.max(28,p.you[0]))}" y="${Math.min(184,p.you[1]+16)}" class="tk-person-label">YOU</text>`;
+      if(p.move){const origin=motion==='recovery'?p.you:p.move;body+=arrow(p.you,p.move,'tk-move')+`<circle cx="${origin[0]}" cy="${origin[1]}" r="6" class="tk-future"/>`;}
+      const you=motion==='recovery'?p.move:p.you;
+      body+=dot(p.them,'tk-opponent')+dot(you,'tk-you');
+      body+=`<text x="${Math.min(132,Math.max(28,p.them[0]))}" y="${p.them[1]<20?p.them[1]+17:p.them[1]-11}" class="tk-person-label">THEM</text><text x="${Math.min(132,Math.max(28,you[0]))}" y="${Math.min(184,you[1]+16)}" class="tk-person-label">YOU</text>`;
       if(p.lefty)body+='<text x="52" y="9" class="tk-side-label">BH</text><text x="108" y="9" class="tk-side-label">FH</text>';
     }else if(p.kind==='height'){
       body='<path class="tk-ground" d="M12 153H148"/><path class="tk-net" d="M95 92V153 M91 92H100"/><path class="tk-net-mesh" d="M97 96V153"/>';
@@ -52,8 +53,87 @@ window.GSTakeaways=(()=>{
   }
   function render(slug,{home=false}={}){
     const c=cards[slug];if(!c)return '';
+    const motion=slug==='short-ball'?'height':slug==='recovery'?'recovery':'';
     const prefix=`tk-${home?'home':'lesson'}-${slug}`;
-    return `<figure class="lesson-takeaway${home?' takeaway-home':''}" data-takeaway="${esc(slug)}" aria-label="Visual takeaway: ${esc(c.title)}">${home?`<div class="takeaway-eyebrow">Take this onto court</div><h1 class="takeaway-title">${esc(c.title)}</h1>`:''}<div class="takeaway-pair">${c.panels.map((p,i)=>`<div class="takeaway-panel"><p class="takeaway-condition">${esc(p.label)}</p>${drawing(p,prefix+'-'+i)}<p class="takeaway-action">${esc(p.caption)}</p></div>`).join('')}</div><figcaption class="takeaway-rule${home?' daily-cue':''}">${esc(c.rule)}</figcaption></figure>`;
+    return `<figure class="lesson-takeaway${home?' takeaway-home':''}" data-takeaway="${esc(slug)}"${motion?` data-takeaway-motion="${motion}"`: ""} aria-label="Visual takeaway: ${esc(c.title)}">${home?`<div class="takeaway-eyebrow">Take this onto court</div><h1 class="takeaway-title">${esc(c.title)}</h1>`:''}<div class="takeaway-pair">${c.panels.map((p,i)=>`<div class="takeaway-panel"><p class="takeaway-condition">${esc(p.label)}</p>${drawing(p,prefix+'-'+i,motion)}<p class="takeaway-action">${esc(p.caption)}</p></div>`).join('')}</div><figcaption class="takeaway-rule${home?' daily-cue':''}">${esc(c.rule)}</figcaption></figure>`;
   }
-  return {render};
+  // Motion is a progressive enhancement. The rendered SVG is always the complete
+  // readable takeaway, including the recovery destination, without this controller.
+  const seen=new Set(),reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  let dispose=()=>{};
+  function mount(root){
+    dispose();
+    const figures=[...root.querySelectorAll('[data-takeaway-motion]')];
+    if(!figures.length)return;
+    let frame=0,observer,active=null;
+    const pending=new Set();
+    const key=f=>(f.classList.contains('takeaway-home')?'home:':'lesson:')+f.dataset.takeaway;
+    function settle(f){
+      if(active?.figure===f){cancelAnimationFrame(frame);active=null;}
+      f.querySelectorAll('.tk-travel-path,.tk-travel-ball').forEach(e=>e.remove());
+      f.querySelectorAll('.tk-ball-path,.tk-ball,.tk-you').forEach(e=>{e.style.removeProperty('opacity');e.removeAttribute('transform');});
+      f.dataset.motionState='settled';pending.delete(f);
+      observer?.unobserve(f.querySelector('.takeaway-pair'));
+    }
+    function stop(){for(const f of pending)settle(f);observer?.disconnect();}
+    function visible(){
+      if(document.hidden){if(active)settle(active.figure);}
+      else for(const f of pending){const pair=f.querySelector('.takeaway-pair');observer?.unobserve(pair);observer?.observe(pair);}
+    }
+    function preference(){if(reduce.matches){for(const f of pending)seen.add(key(f));stop();}}
+    function start(f){
+      if(document.hidden)return;
+      if(document.fonts?.status==='loading'){
+        document.fonts.ready.then(()=>{if(f.isConnected&&pending.has(f)){const pair=f.querySelector('.takeaway-pair');observer?.unobserve(pair);observer?.observe(pair);}});return;
+      }
+      if(reduce.matches||seen.has(key(f))){settle(f);return;}
+      if(active)settle(active.figure);
+      seen.add(key(f));f.dataset.motionState='playing';
+      const panels=cards[f.dataset.takeaway].panels;
+      const parts=[...f.querySelectorAll('.tk-drawing')].map((svg,i)=>{
+        if(f.dataset.takeawayMotion==='recovery'){
+          const actor=svg.querySelector('.tk-you'),from=panels[i].you,to=panels[i].move;
+          return {paint(t){const q=t*t*(3-2*t);actor.setAttribute('transform',`translate(${(from[0]-to[0])*(1-q)} ${(from[1]-to[1])*(1-q)})`);}};
+        }
+        const path=svg.querySelector('.tk-ball-path'),origin=svg.querySelector('.tk-ball');
+        const trace=path.cloneNode(false),ball=origin.cloneNode(false),length=path.getTotalLength();
+        trace.classList.add('tk-travel-path');trace.removeAttribute('marker-end');
+        trace.style.strokeDasharray=String(length);trace.style.strokeDashoffset=String(length);
+        ball.classList.add('tk-travel-ball');ball.setAttribute('r','4.5');
+        svg.append(trace,ball);path.style.opacity='.22';origin.style.opacity='.45';
+        return {paint(t){
+          const pt=path.getPointAtLength(length*t);trace.style.strokeDashoffset=String(length*(1-t));
+          ball.setAttribute('cx',pt.x);ball.setAttribute('cy',pt.y);ball.style.opacity=t===0||t===1?'0':'1';
+          if(t===1){path.style.removeProperty('opacity');origin.style.removeProperty('opacity');trace.style.opacity='0';}
+        }};
+      });
+      parts.forEach(p=>p.paint(0));active={figure:f};
+      const began=performance.now();
+      function tick(now){
+        if(!f.isConnected||document.hidden||reduce.matches){settle(f);return;}
+        const elapsed=now-began;
+        parts.forEach((p,i)=>p.paint(Math.max(0,Math.min(1,(elapsed-180-i*1200)/900))));
+        if(elapsed>=2600){settle(f);return;}
+        frame=requestAnimationFrame(tick);
+      }
+      frame=requestAnimationFrame(tick);
+    }
+    if(!reduce.matches&&typeof window.IntersectionObserver==='function'){
+      observer=new IntersectionObserver(entries=>{
+        for(const e of entries){const f=e.target.closest('.lesson-takeaway');
+          if(e.isIntersecting&&e.intersectionRatio>=.85&&f.dataset.motionState==='waiting')start(f);
+          else if(!e.isIntersecting&&f.dataset.motionState==='playing')settle(f);
+        }
+      },{threshold:[0,.85],rootMargin:'0px 0px -80px 0px'});
+    }
+    for(const f of figures){
+      if(!observer||seen.has(key(f))){f.dataset.motionState='settled';continue;}
+      f.dataset.motionState='waiting';pending.add(f);observer.observe(f.querySelector('.takeaway-pair'));
+    }
+    document.addEventListener('visibilitychange',visible);
+    window.addEventListener('pagehide',stop);
+    reduce.addEventListener('change',preference);
+    dispose=()=>{stop();document.removeEventListener('visibilitychange',visible);window.removeEventListener('pagehide',stop);reduce.removeEventListener('change',preference);};
+  }
+  return {render,mount};
 })();

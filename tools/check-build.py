@@ -271,6 +271,15 @@ for records, expected in [(takeaways['source'], source), (takeaways['release'], 
         assert expected.get(name) == hashes['baseline'], f'Visual takeaway baseline drift: {name}'
         expected[name] = hashes['candidate']
 
+# One-time motion in two reviewed figures; static-summary fingerprints stay frozen.
+takeaway_motion = json.loads((ROOT/'docs/features/visual-takeaway-motion-build.json').read_text())
+assert set(takeaway_motion['source']) == set(['app_src/index.html', 'app_src/play_host.html', 'app_src/takeaways.css', 'app_src/takeaways.js', 'docs/features/visual-takeaway-motion.md', 'tools/browser-checks.mjs', 'tools/takeaway-motion-browser.mjs'])
+assert set(takeaway_motion['release']) == set(['app/catalog.js', 'app/index.html', 'app/play.html', 'app/takeaways.css', 'app/takeaways.js'])
+for records, expected in [(takeaway_motion['source'], source), (takeaway_motion['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Takeaway motion baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

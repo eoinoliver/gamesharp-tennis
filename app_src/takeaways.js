@@ -3,7 +3,7 @@ window.GSTakeaways=(()=>{
   const cards=__TAKEAWAYS__;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const dot=(p,cls,r=5)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${r}" class="${cls}"/>`;
-  function drawing(p,id){
+  function drawing(p,id,motion){
     const arrow=(from,to,cls='tk-ball-path')=>`<path class="${cls}" d="M${from} L${to}" marker-end="url(#${id}-${cls==='tk-move'?'move':'ball'})"/>`;
     let body='';
     if(p.kind==='court'){
@@ -14,9 +14,10 @@ window.GSTakeaways=(()=>{
         body+=arrow(p.you,p.target,'tk-ball-path')+dot(p.target,'tk-ball',3.5);
       }
       if(p.opMove)body+=arrow(p.them,p.opMove,'tk-move');
-      if(p.move)body+=arrow(p.you,p.move,'tk-move')+`<circle cx="${p.move[0]}" cy="${p.move[1]}" r="6" class="tk-future"/>`;
-      body+=dot(p.them,'tk-opponent')+dot(p.you,'tk-you');
-      body+=`<text x="${Math.min(132,Math.max(28,p.them[0]))}" y="${p.them[1]<20?p.them[1]+17:p.them[1]-11}" class="tk-person-label">THEM</text><text x="${Math.min(132,Math.max(28,p.you[0]))}" y="${Math.min(184,p.you[1]+16)}" class="tk-person-label">YOU</text>`;
+      if(p.move){const origin=motion==='recovery'?p.you:p.move;body+=arrow(p.you,p.move,'tk-move')+`<circle cx="${origin[0]}" cy="${origin[1]}" r="6" class="tk-future"/>`;}
+      const you=motion==='recovery'?p.move:p.you;
+      body+=dot(p.them,'tk-opponent')+dot(you,'tk-you');
+      body+=`<text x="${Math.min(132,Math.max(28,p.them[0]))}" y="${p.them[1]<20?p.them[1]+17:p.them[1]-11}" class="tk-person-label">THEM</text><text x="${Math.min(132,Math.max(28,you[0]))}" y="${Math.min(184,you[1]+16)}" class="tk-person-label">YOU</text>`;
       if(p.lefty)body+='<text x="52" y="9" class="tk-side-label">BH</text><text x="108" y="9" class="tk-side-label">FH</text>';
     }else if(p.kind==='height'){
       body='<path class="tk-ground" d="M12 153H148"/><path class="tk-net" d="M95 92V153 M91 92H100"/><path class="tk-net-mesh" d="M97 96V153"/>';
@@ -52,8 +53,87 @@ window.GSTakeaways=(()=>{
   }
   function render(slug,{home=false}={}){
     const c=cards[slug];if(!c)return '';
+    const motion=slug==='short-ball'?'height':slug==='recovery'?'recovery':'';
     const prefix=`tk-${home?'home':'lesson'}-${slug}`;
-    return `<figure class="lesson-takeaway${home?' takeaway-home':''}" data-takeaway="${esc(slug)}" aria-label="Visual takeaway: ${esc(c.title)}">${home?`<div class="takeaway-eyebrow">Take this onto court</div><h1 class="takeaway-title">${esc(c.title)}</h1>`:''}<div class="takeaway-pair">${c.panels.map((p,i)=>`<div class="takeaway-panel"><p class="takeaway-condition">${esc(p.label)}</p>${drawing(p,prefix+'-'+i)}<p class="takeaway-action">${esc(p.caption)}</p></div>`).join('')}</div><figcaption class="takeaway-rule${home?' daily-cue':''}">${esc(c.rule)}</figcaption></figure>`;
+    return `<figure class="lesson-takeaway${home?' takeaway-home':''}" data-takeaway="${esc(slug)}"${motion?` data-takeaway-motion="${motion}"`: ""} aria-label="Visual takeaway: ${esc(c.title)}">${home?`<div class="takeaway-eyebrow">Take this onto court</div><h1 class="takeaway-title">${esc(c.title)}</h1>`:''}<div class="takeaway-pair">${c.panels.map((p,i)=>`<div class="takeaway-panel"><p class="takeaway-condition">${esc(p.label)}</p>${drawing(p,prefix+'-'+i,motion)}<p class="takeaway-action">${esc(p.caption)}</p></div>`).join('')}</div><figcaption class="takeaway-rule${home?' daily-cue':''}">${esc(c.rule)}</figcaption></figure>`;
   }
-  return {render};
+  // Motion is a progressive enhancement. The rendered SVG is always the complete
+  // readable takeaway, including the recovery destination, without this controller.
+  const seen=new Set(),reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  let dispose=()=>{};
+  function mount(root){
+    dispose();
+    const figures=[...root.querySelectorAll('[data-takeaway-motion]')];
+    if(!figures.length)return;
+    let frame=0,observer,active=null;
+    const pending=new Set();
+    const key=f=>(f.classList.contains('takeaway-home')?'home:':'lesson:')+f.dataset.takeaway;
+    function settle(f){
+      if(active?.figure===f){cancelAnimationFrame(frame);active=null;}
+      f.querySelectorAll('.tk-travel-path,.tk-travel-ball').forEach(e=>e.remove());
+      f.querySelectorAll('.tk-ball-path,.tk-ball,.tk-you').forEach(e=>{e.style.removeProperty('opacity');e.removeAttribute('transform');});
+      f.dataset.motionState='settled';pending.delete(f);
+      observer?.unobserve(f.querySelector('.takeaway-pair'));
+    }
+    function stop(){for(const f of pending)settle(f);observer?.disconnect();}
+    function visible(){
+      if(document.hidden){if(active)settle(active.figure);}
+      else for(const f of pending){const pair=f.querySelector('.takeaway-pair');observer?.unobserve(pair);observer?.observe(pair);}
+    }
+    function preference(){if(reduce.matches){for(const f of pending)seen.add(key(f));stop();}}
+    function start(f){
+      if(document.hidden)return;
+      if(document.fonts?.status==='loading'){
+        document.fonts.ready.then(()=>{if(f.isConnected&&pending.has(f)){const pair=f.querySelector('.takeaway-pair');observer?.unobserve(pair);observer?.observe(pair);}});return;
+      }
+      if(reduce.matches||seen.has(key(f))){settle(f);return;}
+      if(active)settle(active.figure);
+      seen.add(key(f));f.dataset.motionState='playing';
+      const panels=cards[f.dataset.takeaway].panels;
+      const parts=[...f.querySelectorAll('.tk-drawing')].map((svg,i)=>{
+        if(f.dataset.takeawayMotion==='recovery'){
+          const actor=svg.querySelector('.tk-you'),from=panels[i].you,to=panels[i].move;
+          return {paint(t){const q=t*t*(3-2*t);actor.setAttribute('transform',`translate(${(from[0]-to[0])*(1-q)} ${(from[1]-to[1])*(1-q)})`);}};
+        }
+        const path=svg.querySelector('.tk-ball-path'),origin=svg.querySelector('.tk-ball');
+        const trace=path.cloneNode(false),ball=origin.cloneNode(false),length=path.getTotalLength();
+        trace.classList.add('tk-travel-path');trace.removeAttribute('marker-end');
+        trace.style.strokeDasharray=String(length);trace.style.strokeDashoffset=String(length);
+        ball.classList.add('tk-travel-ball');ball.setAttribute('r','4.5');
+        svg.append(trace,ball);path.style.opacity='.22';origin.style.opacity='.45';
+        return {paint(t){
+          const pt=path.getPointAtLength(length*t);trace.style.strokeDashoffset=String(length*(1-t));
+          ball.setAttribute('cx',pt.x);ball.setAttribute('cy',pt.y);ball.style.opacity=t===0||t===1?'0':'1';
+          if(t===1){path.style.removeProperty('opacity');origin.style.removeProperty('opacity');trace.style.opacity='0';}
+        }};
+      });
+      parts.forEach(p=>p.paint(0));active={figure:f};
+      const began=performance.now();
+      function tick(now){
+        if(!f.isConnected||document.hidden||reduce.matches){settle(f);return;}
+        const elapsed=now-began;
+        parts.forEach((p,i)=>p.paint(Math.max(0,Math.min(1,(elapsed-180-i*1200)/900))));
+        if(elapsed>=2600){settle(f);return;}
+        frame=requestAnimationFrame(tick);
+      }
+      frame=requestAnimationFrame(tick);
+    }
+    if(!reduce.matches&&typeof window.IntersectionObserver==='function'){
+      observer=new IntersectionObserver(entries=>{
+        for(const e of entries){const f=e.target.closest('.lesson-takeaway');
+          if(e.isIntersecting&&e.intersectionRatio>=.85&&f.dataset.motionState==='waiting')start(f);
+          else if(!e.isIntersecting&&f.dataset.motionState==='playing')settle(f);
+        }
+      },{threshold:[0,.85],rootMargin:'0px 0px -80px 0px'});
+    }
+    for(const f of figures){
+      if(!observer||seen.has(key(f))){f.dataset.motionState='settled';continue;}
+      f.dataset.motionState='waiting';pending.add(f);observer.observe(f.querySelector('.takeaway-pair'));
+    }
+    document.addEventListener('visibilitychange',visible);
+    window.addEventListener('pagehide',stop);
+    reduce.addEventListener('change',preference);
+    dispose=()=>{stop();document.removeEventListener('visibilitychange',visible);window.removeEventListener('pagehide',stop);reduce.removeEventListener('change',preference);};
+  }
+  return {render,mount};
 })();

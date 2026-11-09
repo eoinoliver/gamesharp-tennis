@@ -272,6 +272,7 @@ function wrap(n){
   const storage=document.createElement('p');storage.className='strk';storage.id='progressStorage';storage.setAttribute('role','status');
   storage.textContent=A.progressSaved()?'Progress saved in this browser.':'Progress could not be saved. It is only kept on this page; leaving or reloading can lose it.';
   w.firstElementChild.append(storage);
+  window.GSTakeaways?.mount(w);
 
 }
 function afterEngine(){

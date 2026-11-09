@@ -1,0 +1,55 @@
+{
+  "description": "One-time height/recovery motion in two authored Daily summaries; 30 remain static.",
+  "source": {
+    "app_src/index.html": {
+      "baseline": "d7a89f3cf5f63c4960190e13542f081b4966d534a2e201d5760cf22a5813da2a",
+      "candidate": "7c6f4527f874abd5ecdc64c89f37c75f1eaf1319bae0d0ea92dc8d86d49c5f26"
+    },
+    "app_src/play_host.html": {
+      "baseline": "9d860fe2ec1931072735a29fa0b040a1b0bb42ac693bbea5916842da3ac2d734",
+      "candidate": "c4d61aef762bd16237c90e20db7eda1f9d64fb592cf7b2de083ef34762094f6e"
+    },
+    "app_src/takeaways.js": {
+      "baseline": "cdecdedee0e6ac16c863d1d6bafea2af801b09ac4bf790b3129dc917fb0fd9b0",
+      "candidate": "4b847c1e40e8b404c97212d9098433bf5b381691f74f6e3a62cebefe9863cb75"
+    },
+    "app_src/takeaways.css": {
+      "baseline": "1d14329c36bfee7f3499825b02b80111a0457893c5d2fe5935dac521eb00cb5a",
+      "candidate": "a94d791e7c4afc7ad62a71faddb26e9fc32ed9bff4f78b0a3a7f4f74bfd49f24"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "c9b569d288ac2c1d1bd6cf8b4b457980fc2d99ba0147e08e29cb2a27b8854a5f",
+      "candidate": "26f1428348776002df9702b1444dbf55d6d8dc9ef8a7311f48b21e3ba376d6df"
+    },
+    "tools/takeaway-motion-browser.mjs": {
+      "baseline": null,
+      "candidate": "218b27d3e2204d7ad41b3570ec1934a3cf28446072101a160bc765c933d89153"
+    },
+    "docs/features/visual-takeaway-motion.md": {
+      "baseline": null,
+      "candidate": "88c3f5f9651369cdba92df608ac136c9d023a5718fc5fbe8bd9958e0ceb62407"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "33138c73caa1ffb27b69bc76c040f394166f1f479731234dc483fc6dbd0c6c5c",
+      "candidate": "e87e677747935d50c8fb0da06be36bce33a1caba71747adce3d3342f0efe0fcf"
+    },
+    "app/index.html": {
+      "baseline": "c3dfa80ae4e92476f848a10845215bdeb5aa491a29a1543445678dd3f235ce02",
+      "candidate": "b6c46c3479a0625af18ec420e85f79ea1572aaf5e572929ea8bf77b49c719b0c"
+    },
+    "app/play.html": {
+      "baseline": "91b82301c809fb2427f258cde2b677883739f43240ddf2ce30ff9f56ad2f448a",
+      "candidate": "52e50f820ded44b2a3d11ab14f9cd12f74ee0654a337498dd4040b611ce82bff"
+    },
+    "app/takeaways.js": {
+      "baseline": "60e250def6b15836117d49666d34b169f2b4536f58d6c26f8487d0eb423ec5d3",
+      "candidate": "d2333838458a347abfcad7eb361b956cca547c3132431e640a424240e0bf6c73"
+    },
+    "app/takeaways.css": {
+      "baseline": "1d14329c36bfee7f3499825b02b80111a0457893c5d2fe5935dac521eb00cb5a",
+      "candidate": "a94d791e7c4afc7ad62a71faddb26e9fc32ed9bff4f78b0a3a7f4f74bfd49f24"
+    }
+  }
+}
