@@ -986,3 +986,23 @@ experience checks pass again in both engines; 93 unit checks pass. Final build
 parity and all source/release fingerprints match. The hosted failure-retry test
 now falls through to the authenticated transport instead of bypassing it; this
 is a test-harness correction, with no application retry behaviour change.
+
+## Mobile sharing and personal practice — 9 November 2026
+
+Codex owns the authorized PR 85 follow-up: visible sharing across all 63
+activities with direct, spoiler-free social previews; automatic My Game practice
+history, an optional weekly practice goal and calendar reminder, and authored
+later-day revisits. Preserve first-attempt learning evidence, intentional saved
+cues, next-hit reflections, the simple Home and all lesson content. Fix the
+stale promise that return reads appear on Home. Build, mobile/desktop review,
+full checks and a Git-built preview remain the delivery scope; production is
+unchanged.
+
+Candidate bae716998f: 474 release files / 473 public, 537 checked source/test
+inputs; parity and 102 unit checks pass. All 63 raw social metadata pages and
+fresh-recipient routes pass in Chromium and WebKit. Seven actual completion
+formats expose sharing; all 63 existing lessons, engine, audio and Home media
+retain their pre-feature hashes. Existing 90 next-hit/path, 59 trust/practice,
+65 Daily and 73 experience checks pass. Codex is completing the personal-view
+calendar/reflection browser checks and owns full CI plus exact hosted verification.
+Production remains unchanged; PR 85 continues as the review candidate.

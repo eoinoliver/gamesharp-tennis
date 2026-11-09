@@ -48,7 +48,7 @@ try{
    if(route==='AA'){
     await p.evaluate(()=>{window.__shares=[];Object.defineProperty(navigator,'share',{configurable:true,value:async x=>{__shares.push(x);throw new DOMException('Cancelled','AbortError');}});});
     await p.locator('#sharePointButton').click();assert((await p.locator('#shareStatus').innerText()).includes('cancelled'));
-    const shared=await p.evaluate(()=>__shares[0]);assert.equal(new URL(shared.url).search,'?l='+slug+'&challenge=point');assert(!/score|correct|cover|switch/i.test(shared.text),'blind share has no answers');
+    const shared=await p.evaluate(()=>__shares[0]);assert.equal(new URL(shared.url).pathname,'/s/'+slug+'.html');assert.equal(new URL(shared.url).search,'');assert(!/score|correct|cover|switch/i.test(shared.text),'blind share has no answers');
     await p.locator('#pairPlan summary').click();await p.locator('#pairPlanText').fill('I cover behind you when you cross. Agree before we serve.');await p.locator('#sharePairPlan').click();assert((await p.locator('#pairPlanStatus').innerText()).includes('cancelled'));
     assert((await p.evaluate(()=>__shares[1].text)).includes('Proposed plan'));assert((await p.locator('#practiceReturn').innerText()).includes('doubles'));
    }

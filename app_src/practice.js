@@ -1,0 +1,45 @@
+/* Personal practice view. Stored completions are evidence of practice, not mastery. */
+(function(){
+'use strict';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const date=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString(undefined,{day:'numeric',month:'short'});};
+const href=l=>'play.html?l='+encodeURIComponent(l.slug)+'&from=my-game';
+function overview(A){const p=A.practiceSummary(),n=p.next;
+ const next=n?`<section class="practice-next" aria-labelledby="practiceNext"><div class="k">${n.kind==='tomorrow'?'Let it settle':'Your next read'}</div><h2 id="practiceNext">${n.kind==='related'?'Take the idea into a point.':n.kind==='tomorrow'?'A different situation. Tomorrow.':'Can you spot it in a different situation?'}</h2><p>${esc(n.kind==='related'?n.bridge:'A variation on '+A.displayTitle(n.source)+'. Make your decisions before seeing the cue.')}</p>${n.kind==='tomorrow'?'<p class="sh-note">Find it here from tomorrow. A gap gives you a chance to recall the idea.</p>':`<a class="practice-link" id="practiceNextLink" href="${href(n.lesson)}">${n.kind==='related'?'Play the related point':'Try the variation'} →</a>`}</section>`:'';
+ return `<div id="practiceOverview"><section class="practice-week" aria-labelledby="practiceWeekTitle"><div class="k">Your week · Monday to Sunday</div><h2 id="practiceWeekTitle">${p.count} practice day${p.count===1?'':'s'}${p.goal?' of '+p.goal:''} this week.</h2><ol aria-label="Practice days this week">${p.days.map((d,i)=>`<li class="${d.done?'practised':''}${d.date===A.today()?' today':''}" aria-label="${date(d.date)}: ${d.done?'practice completed':d.future?'upcoming':'no completed practice'}"><span aria-hidden="true">${['M','T','W','T','F','S','S'][i]}</span><b aria-hidden="true">${d.done?'✓':'·'}</b></li>`).join('')}</ol><p class="sh-note">${p.goal&&p.count>=p.goal?'Your weekly goal is met. Take one cue onto court.':p.goal?'Any completed activity counts. Wrong answers are part of practice.':'A useful few minutes count. Choose a weekly rhythm below if it helps.'}</p></section>${!p.saved?'<p class="storage-warning" role="status">This visit’s progress could not be saved. Keep this page open; reloading may lose it.</p>':''}${next}</div>`;
+}
+function history(A){const p=A.practiceSummary();
+ const row=r=>`<article class="practice-entry"><div class="practice-entry-meta">${esc(A.activityLabel(r.lesson))} · ${date(r.last)}</div><h3><a href="${href(r.lesson)}">${esc(A.displayTitle(r.lesson))} →</a></h3>${r.lesson.cue?`<p>${esc(r.lesson.cue)}</p>`:''}<p class="practice-evidence">Practised${r.times>1?' · '+r.times+' completions since '+date(r.first):''}${r.later?`<br>Later-day variation · ${r.later.n}/${r.later.total} decisions read right on ${date(r.later.day)}`:''}${r.tried?'<br>Tried on court · your own report':''}</p>${r.lesson.cue&&!A.cueSaved(r.lesson.slug)?`<button class="practice-link" data-practice-save="${esc(r.lesson.slug)}">Save this court cue</button>`:''}</article>`;
+ return `<section class="practice-history" aria-labelledby="practiceHistoryTitle"><div class="k">Your completed practice</div><h2 id="practiceHistoryTitle">What you’ve worked on</h2>${p.rows.length?`<p class="sh-note">${p.rows.length} activit${p.rows.length===1?'y':'ies'}. Saved automatically when you finish. These are practice records, not a tennis rating.</p>${p.rows.slice(0,5).map(row).join('')}${p.rows.length>5?`<details><summary>See all ${p.rows.length} activities</summary>${p.rows.slice(5).map(row).join('')}</details>`:''}`:'<p>Your completed challenges and points will appear here, along with the cue to take onto court.</p><a class="practice-link" href="./?home=1">Play today’s challenge →</a>'}${p.archived.length?`<details class="practice-archive"><summary>Earlier editions · ${p.archived.length} practice records</summary><p class="sh-note">These activities have changed since you played them. Your earlier work stays recorded separately.</p>${p.archived.map(r=>`<article class="practice-entry"><h3>${esc(A.displayTitle(r.lesson))}</h3><p class="practice-evidence">Earlier edition · last practised ${date(r.last)} · ${r.times} completion${r.times===1?'':'s'}</p><a class="practice-link" href="${href(r.lesson)}">Play the current edition →</a></article>`).join('')}</details>`:''}<p id="practiceSaveStatus" role="status"></p></section>`;
+}
+function settings(A){const p=A.practiceSummary();
+ return `<details class="practice-settings"><summary>My practice rhythm</summary><label for="practiceGoal">Optional weekly goal</label><select id="practiceGoal">${[[0,'No goal'],[2,'2 days a week'],[3,'3 days a week'],[5,'5 days a week'],[7,'7 days a week']].map(([v,t])=>`<option value="${v}"${p.goal===v?' selected':''}>${t}</option>`).join('')}</select><p class="sh-note">A practice day counts once, however many points you play. Missing a day leaves your learning history intact.</p><p id="practiceGoalStatus" role="status"></p><details class="practice-reminder"><summary>Add a calendar reminder</summary><p>Choose a moment that already fits your week — after breakfast, or before club night.</p><fieldset><legend>Remind me on</legend><div class="practice-reminder-days">${['MO','TU','WE','TH','FR','SA','SU'].map((d,i)=>`<label><input type="checkbox" name="practiceDay" value="${d}"${['MO','WE','FR'].includes(d)?' checked':''}>${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]}</label>`).join('')}</div></fieldset><label for="practiceTime">Time in your calendar’s local time</label><input type="time" id="practiceTime" value="08:00" required><button id="practiceCalendar" class="practice-link">Create calendar reminder</button><p class="sh-note">Opens a calendar file to import. Reminders are managed by your calendar; GameSharp does not send notifications.</p><p id="practiceCalendarStatus" role="status"></p></details></details>`;
+}
+// Floating local dates intentionally follow the calendar's timezone, including DST.
+function calendarFile(days,time,now=new Date()){
+ const order=['MO','TU','WE','TH','FR','SA','SU'];
+ if(!Array.isArray(days)||!days.length||days.some(d=>!order.includes(d))||!/^([01]\d|2[0-3]):[0-5]\d$/.test(time))return null;
+ days=order.filter(d=>days.includes(d));const [h,m]=time.split(':').map(Number),start=new Date(now);start.setHours(h,m,0,0);
+ for(let i=0;i<8;i++){if(start>now&&days.includes(order[(start.getDay()+6)%7]))break;start.setDate(start.getDate()+1);}
+ const pad=n=>String(n).padStart(2,'0'),stamp=d=>`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+ const utc=now.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
+ return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//GameSharp Tennis//Practice//EN','CALSCALE:GREGORIAN','BEGIN:VEVENT',`UID:practice-${now.getTime()}@gamesharptennis.com`,`DTSTAMP:${utc}`,`DTSTART:${stamp(start)}`,'DURATION:PT5M',`RRULE:FREQ=WEEKLY;BYDAY=${days.join(',')}`,'SUMMARY:A few minutes for my tennis','DESCRIPTION:Play a GameSharp challenge. Take one cue onto court.','URL:https://www.gamesharptennis.com/?home=1','BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY','DESCRIPTION:Time for a GameSharp challenge','END:VALARM','END:VEVENT','END:VCALENDAR',''].join('\r\n');
+}
+function mount(A,redraw){
+ const goal=document.getElementById('practiceGoal');if(goal)goal.onchange=()=>{
+  const value=Number(goal.value),ok=A.setPracticeGoal(value);if(ok){redraw();document.querySelector('.practice-settings').open=true;document.getElementById('practiceGoal').focus({preventScroll:true});}
+  document.getElementById('practiceGoalStatus').textContent=ok?(value?`Goal saved: ${value} practice days a week.`:'Weekly goal removed. Your history stays saved.'):'Could not save your goal in this browser.';
+ };
+ document.querySelectorAll('[data-practice-save]').forEach(b=>b.onclick=()=>{
+  const ok=A.saveCue(b.dataset.practiceSave);if(ok){redraw();document.getElementById('saved-cues')?.focus({preventScroll:true});}
+  document.getElementById('practiceSaveStatus').textContent=ok?'Cue saved below. You can choose it for your next hit.':'Could not save this cue. Your existing cues have not been replaced.';
+ });
+ const calendar=document.getElementById('practiceCalendar');if(calendar)calendar.onclick=()=>{
+  const file=calendarFile([...document.querySelectorAll('[name=practiceDay]:checked')].map(e=>e.value),document.getElementById('practiceTime').value),status=document.getElementById('practiceCalendarStatus');
+  if(!file){status.textContent='Choose at least one day and a valid time.';return;}
+  const url=URL.createObjectURL(new Blob([file],{type:'text/calendar;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='GameSharp-practice.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);
+  status.textContent='Calendar file created. Open it and save the event in your calendar to enable reminders.';A.track('practice_calendar_created',{});
+ };
+}
+window.GSPractice={overview,history,settings,mount,calendarFile};
+})();

@@ -1,0 +1,30 @@
+/* My Game stays a readable practice record, not another grid of destinations. */
+#practiceOverview h2,.practice-history h2{font-size:clamp(23px,5.6vw,30px);line-height:1.15;letter-spacing:-.02em}
+.practice-week{padding:24px 0 18px;border-bottom:1px solid #ffffff20}
+.practice-week ol{display:flex;justify-content:space-between;max-width:400px;list-style:none;margin:22px 0 14px;padding:0;gap:6px}
+.practice-week li{display:grid;text-align:center;gap:9px;color:#b6c4ba;font-size:12px}
+.practice-week li b{display:grid;place-items:center;width:36px;height:36px;border:1px solid #ffffff30;border-radius:50%;font-size:17px;font-weight:500}
+.practice-week li.practised b{background:#d0b65b;color:#071810;border-color:#d0b65b}
+.practice-week li.today span{color:#e5cf82;font-weight:700}
+.practice-next{padding:27px 0 24px;border-bottom:1px solid #ffffff20}
+.practice-next p,.practice-entry p{max-width:55ch;line-height:1.55}
+.practice-link{display:inline-flex;align-items:center;min-height:44px;color:#e4ce83;background:none;border:0;border-bottom:1px solid #c9ad5b66;border-radius:0;font-family:inherit;font-size:15px;font-weight:600;line-height:1.4;text-align:left;text-decoration:none;padding:8px 0;cursor:pointer}
+.practice-link:hover{color:#fff2c3}.practice-link:focus-visible,.practice-entry a:focus-visible{outline:2px solid #e4ce83;outline-offset:5px}
+.practice-history{margin:30px 0}.practice-entry{padding:22px 0;border-bottom:1px solid #ffffff20}
+.practice-entry-meta,.practice-evidence{color:#b5c6bb;font-size:13px;line-height:1.65}
+.practice-entry h3{font-size:20px;line-height:1.25;margin:7px 0 10px}.practice-entry a{color:#f4f1e8;text-decoration:none}
+.practice-entry .practice-evidence{margin:10px 0 0}.practice-entry .practice-link{font-size:14px;margin-top:6px}
+.practice-history details>summary,.practice-settings>summary,.practice-reminder>summary{min-height:48px;cursor:pointer;align-content:center;color:#e4ce83}
+.practice-settings{border-top:1px solid #ffffff20;margin:30px 0 16px;padding-top:12px}
+.practice-settings>label,.practice-reminder>label{display:block;margin-top:15px}
+.practice-settings select,.practice-settings input[type=time]{display:block;max-width:100%;min-height:48px;margin:10px 0;padding:10px 14px;background:#14261c;border:1px solid #7e907f;border-radius:8px;font:inherit;color:#f4f1e8;color-scheme:dark}
+.practice-settings fieldset{padding:0;margin:16px 0;border:0}.practice-settings legend{margin-bottom:8px}
+.practice-reminder-days{display:flex;flex-wrap:wrap;gap:6px 14px}.practice-reminder-days label{display:flex;align-items:center;gap:7px;min-height:44px;font-size:15px}.practice-reminder-days input{width:19px;height:19px;accent-color:#d0b65b}
+.practice-settings [role=status]:empty,.practice-history [role=status]:empty{display:none}
+#quickShare{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:8px 0;margin:0;color:#c8d5cc;background:none;border:0;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer}
+#quickShare svg{width:18px;height:18px}#quickShareRow{padding:0 18px;max-width:760px;margin:auto;text-align:right}
+#quickSharePanel{padding:10px 0 16px;text-align:left}#quickSharePanel label{display:block}#quickSharePanel input{box-sizing:border-box;width:100%;padding:12px;background:#14261c;border:1px solid #819688;border-radius:6px;color:#fff;font:inherit;margin:8px 0}
+#sharePoint{border-top:1px solid #ffffff25;padding-top:24px}#sharePointButton{min-height:48px}#shareStatus:empty{display:none}
+@media(max-width:360px){.practice-week li b{width:32px;height:32px}.practice-week ol{gap:4px}}
+
+#quickShareStatus:empty{display:none}#quickShareStatus{font-size:13px;text-align:left;color:#b5c6bb}

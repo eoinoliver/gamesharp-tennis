@@ -1,0 +1,446 @@
+{
+  "source": "Actual lesson renderer at first decision; text overlays removed from scene only. The first authored question is the invitation.",
+  "captures": [
+    {
+      "slug": "serve-plus-one",
+      "scene": "daily1",
+      "frame": 431,
+      "question": "Which return should you expect next?",
+      "situation": "Your wide serves have pulled this returner off the court twice. Watch both returns."
+    },
+    {
+      "slug": "short-ball",
+      "scene": "sb3A",
+      "frame": 189,
+      "question": "How hard do you go at this one?",
+      "situation": "Their slice lands short and stays low. You come forward to it; they're still deep."
+    },
+    {
+      "slug": "the-line",
+      "scene": "ln1A",
+      "frame": 177,
+      "question": "Is this the ball to go down the line?",
+      "situation": "The line is open, but their low crosscourt pulls you wide, and you're late."
+    },
+    {
+      "slug": "the-winner",
+      "scene": "wn1",
+      "frame": 343,
+      "question": "What does that one winner tell you?",
+      "situation": "Off a low, neutral ball, you go down the line and clip the paint. Winner."
+    },
+    {
+      "slug": "recovery",
+      "scene": "rc1A",
+      "frame": 238,
+      "question": "Where do you recover to?",
+      "situation": "Your deep crosscourt pushes them outside the sideline. You finish balanced."
+    },
+    {
+      "slug": "open-court",
+      "scene": "fs1A",
+      "frame": 202,
+      "question": "Which target makes them stop and turn?",
+      "situation": "You have a comfortable short forehand. Watch where the defender is running before you choose."
+    },
+    {
+      "slug": "forehand-bill",
+      "scene": "fb1A",
+      "frame": 197,
+      "question": "Which shot leaves you less to cover?",
+      "situation": "A deep ball to your backhand. They're balanced and could go either way."
+    },
+    {
+      "slug": "the-lead",
+      "scene": "pp1A",
+      "frame": 188,
+      "question": "What keeps the lead working for you?",
+      "situation": "You lead 5–2. Your rally ball has started landing shorter."
+    },
+    {
+      "slug": "split-step",
+      "scene": "ss1",
+      "frame": 307,
+      "question": "Where does the rhythm break?",
+      "situation": "You reach your spot. Watch the split step and your first move."
+    },
+    {
+      "slug": "approach-volley",
+      "scene": "av1A",
+      "frame": 199,
+      "question": "Which approach sets up your volley?",
+      "situation": "You're balanced on a short forehand. Their recovery leaves the line open."
+    },
+    {
+      "slug": "middle-return",
+      "scene": "mr1A",
+      "frame": 255,
+      "question": "Where does your return go?",
+      "situation": "A big first serve pulls you wide. The server stays back for their next ball."
+    },
+    {
+      "slug": "high-ball",
+      "scene": "hb1A",
+      "frame": 90,
+      "question": "Where do you meet this ball?",
+      "situation": "A slower, high ball lands short. You're balanced, with time to move."
+    },
+    {
+      "slug": "second-serve",
+      "scene": "sq1",
+      "frame": 742,
+      "question": "What's different about the two returns?",
+      "situation": "Both second serves go in. Watch where the receiver meets each one."
+    },
+    {
+      "slug": "contact-clue",
+      "scene": "cp1A",
+      "frame": 200,
+      "question": "What do you change on the next ball?",
+      "situation": "Your forehand goes into the net. Watch it again, held at the moment you hit it."
+    },
+    {
+      "slug": "running-around",
+      "scene": "ra1A",
+      "frame": 428,
+      "question": "How do you use the extra time?",
+      "situation": "Your slice has bought time. Your forehand is your stronger shot."
+    },
+    {
+      "slug": "net-rusher",
+      "scene": "nr1A",
+      "frame": 176,
+      "question": "Where do you send this one?",
+      "situation": "They approach and come in. They stop just inside the service line as you hit."
+    },
+    {
+      "slug": "pass-where-they-arent",
+      "scene": "pa1A",
+      "frame": 168,
+      "question": "Where does your pass go?",
+      "situation": "They approach and close in, shading toward your down-the-line side."
+    },
+    {
+      "slug": "late-is-the-culprit",
+      "scene": "lc1A",
+      "frame": 583,
+      "question": "What do you change on the next ball?",
+      "situation": "You aim crosscourt, but your forehand flies wide to the right. Watch it again, held at contact."
+    },
+    {
+      "slug": "the-moonballer",
+      "scene": "mb1A",
+      "frame": 90,
+      "question": "Where do you take it?",
+      "situation": "Another high, heavy ball comes to your forehand. At the baseline it will kick above your shoulder."
+    },
+    {
+      "slug": "the-pusher",
+      "scene": "pu1A",
+      "frame": 188,
+      "question": "How do you break the pattern?",
+      "situation": "They're 2 m behind their baseline, looping everything back. This one lands short enough to step in on."
+    },
+    {
+      "slug": "pulled-wide",
+      "scene": "pw1A",
+      "frame": 164,
+      "question": "What do you do with it?",
+      "situation": "Their angle pulls you off the court. You reach it low and late; they're in the middle."
+    },
+    {
+      "slug": "serve-away-from-the-lean",
+      "scene": "le1A",
+      "frame": 165,
+      "question": "Which first serve makes their return hardest?",
+      "situation": "First serve from the deuce side. The returner has moved toward the T to protect their backhand."
+    },
+    {
+      "slug": "the-big-hitter",
+      "scene": "bg1B",
+      "frame": 145,
+      "question": "Next ball like this: where do you wait?",
+      "situation": "They hit big. Their crosscourt forehand is coming into your backhand corner at 125 km/h."
+    },
+    {
+      "slug": "the-lefty",
+      "scene": "lf1A",
+      "frame": 180,
+      "question": "Where does your forehand go?",
+      "situation": "They're left-handed. You've run around your backhand to hit a forehand."
+    },
+    {
+      "slug": "find-your-return-spot",
+      "scene": "rs1A",
+      "frame": 252,
+      "question": "Same serve again. Where do you start?",
+      "situation": "They hit a big first serve, around 185 km/h, down the T."
+    },
+    {
+      "slug": "answer-the-drop",
+      "scene": "ad1A",
+      "frame": 175,
+      "question": "What's your answer?",
+      "situation": "They drop-shot you and stay mid-court, where they hit it. You get there in time."
+    },
+    {
+      "slug": "attack-the-backhand",
+      "scene": "ab1A",
+      "frame": 180,
+      "question": "How do you use that lean?",
+      "situation": "Their backhand is the weak side, and they've started leaning toward it before you hit."
+    },
+    {
+      "slug": "down-the-line",
+      "scene": "dl1A",
+      "frame": 159,
+      "question": "Where does it go?",
+      "situation": "Their crosscourt lands short. You step in, set, and they're still getting back to the middle."
+    },
+    {
+      "slug": "rushed-out-wide",
+      "scene": "dm1A",
+      "frame": 158,
+      "question": "What do you hit?",
+      "situation": "Their crosscourt pulls you off the court on your forehand side, and you only just get there."
+    },
+    {
+      "slug": "earned-attack",
+      "scene": "ea1",
+      "frame": 199,
+      "question": "Which plan fits this point?",
+      "situation": "Their reply comes to your forehand. The far side is open."
+    },
+    {
+      "slug": "earned-defence",
+      "scene": "ed1",
+      "frame": 192,
+      "question": "Which plan fits this point?",
+      "situation": "Their ball takes you towards the sideline. Watch both players."
+    },
+    {
+      "slug": "earned-net",
+      "scene": "en1",
+      "frame": 199,
+      "question": "Which plan fits this point?",
+      "situation": "Their reply lands inside the service line. They remain deep."
+    },
+    {
+      "slug": "predict-the-point",
+      "scene": "pt1A",
+      "frame": 165,
+      "question": "Where do you serve to set up the point?",
+      "situation": "30-30, deuce court. They crowd the middle to protect their backhand."
+    },
+    {
+      "slug": "predict-second-serve",
+      "scene": "ps1A",
+      "frame": 266,
+      "question": "Where does your return go?",
+      "situation": "15-40. A slow second serve sits up on your forehand. The server stays back."
+    },
+    {
+      "slug": "live-point-buy-time",
+      "scene": "lp1A",
+      "frame": 164,
+      "question": "Which reply fits your position?",
+      "situation": "Their ball pulls you wide on the forehand side."
+    },
+    {
+      "slug": "live-point-other-wing",
+      "scene": "lt1A",
+      "frame": 164,
+      "question": "Which reply fits your position?",
+      "situation": "Their ball pulls you wide on the backhand side."
+    },
+    {
+      "slug": "live-point-make-room",
+      "scene": "ls1A",
+      "frame": 90,
+      "question": "When do you make room for the forehand?",
+      "situation": "Their ball is coming to your backhand side. You have time to move around it."
+    },
+    {
+      "slug": "live-point-short-low",
+      "scene": "ll1A",
+      "frame": 90,
+      "question": "How do you prepare for the short ball?",
+      "situation": "A short ball is coming to your backhand. There is space ahead of you."
+    },
+    {
+      "slug": "live-point-serve-see",
+      "scene": "sv1A",
+      "frame": 230,
+      "question": "Where do you get ready for the return?",
+      "situation": "Your wide serve is on its way. The returner has not struck it yet."
+    },
+    {
+      "slug": "live-point-return-deep",
+      "scene": "sr1A",
+      "frame": 230,
+      "question": "What do you do after serving?",
+      "situation": "Your wide serve is travelling. The returner can still change the next ball."
+    },
+    {
+      "slug": "live-point-return-pressure",
+      "scene": "tp1A",
+      "frame": 248,
+      "question": "What does this serve give you time for?",
+      "situation": "A fast serve is coming into your backhand. Your preparation window is small."
+    },
+    {
+      "slug": "live-point-return-time",
+      "scene": "tt1A",
+      "frame": 266,
+      "question": "What can you do with the time available?",
+      "situation": "This serve arrives more slowly. You can meet it inside the baseline with space to swing."
+    },
+    {
+      "slug": "live-point-line-tempting",
+      "scene": "tl1A",
+      "frame": 175,
+      "question": "Does this contact support changing direction?",
+      "situation": "You are pulled wide and behind the baseline on your backhand. The opposite sideline looks inviting."
+    },
+    {
+      "slug": "live-point-line-opens",
+      "scene": "to1A",
+      "frame": 167,
+      "question": "What has changed from the stretched wide ball?",
+      "situation": "This ball is shorter. You have time to set on the backhand, and they are recovering toward the crosscourt side."
+    },
+    {
+      "slug": "live-point-volley-build",
+      "scene": "tv1A",
+      "frame": 402,
+      "question": "What does this low first volley need?",
+      "situation": "Your approach brings you in. Their passing shot dips below net height on your forehand side."
+    },
+    {
+      "slug": "live-point-volley-opening",
+      "scene": "th1A",
+      "frame": 420,
+      "question": "What does the higher contact offer?",
+      "situation": "Your approach moves them wide. This backhand volley is above the net, with the opposite side open."
+    },
+    {
+      "slug": "live-point-pass-two",
+      "scene": "tf1A",
+      "frame": 174,
+      "question": "Can you make their first volley difficult?",
+      "situation": "They are coming in and covering the obvious passing lane. Your contact is low behind the baseline."
+    },
+    {
+      "slug": "live-point-over-head",
+      "scene": "tb1A",
+      "frame": 152,
+      "question": "Where is the larger space now?",
+      "situation": "They have closed much nearer the net and cover the passing angles. You have room to lift the ball."
+    },
+    {
+      "slug": "live-point-reach-drop",
+      "scene": "td1A",
+      "frame": 198,
+      "question": "What is realistic from this late pickup?",
+      "situation": "You read the drop late from behind the baseline. You reach it low, still moving forward."
+    },
+    {
+      "slug": "live-point-arrive-options",
+      "scene": "te1A",
+      "frame": 172,
+      "question": "What has arriving early made available?",
+      "situation": "You spot the drop early. You arrive higher and more balanced, while they remain deep near the middle."
+    },
+    {
+      "slug": "doubles-cross-cover",
+      "scene": "dcA",
+      "frame": 304,
+      "question": "Your partner is crossing. Where do you move?",
+      "situation": "You serve. Your partner crosses for the return. For a moment, their old side looks painfully open."
+    },
+    {
+      "slug": "doubles-return-space",
+      "scene": "drA",
+      "frame": 290,
+      "question": "Which return uses the space they are giving you?",
+      "situation": "The net player looks ready to pounce. You still have a crosscourt lane to the server. Don’t let their presence choose your return."
+    },
+    {
+      "slug": "doubles-lob-switch",
+      "scene": "dlbA",
+      "frame": 175,
+      "question": "Who takes this deep lob?",
+      "situation": "A deep lob goes over you. Your partner is already deeper. Both of you chasing it would leave nobody organising the next ball."
+    },
+    {
+      "slug": "doubles-hold-cover",
+      "scene": "dhA",
+      "frame": 304,
+      "question": "Your partner holds their side. Where do you recover?",
+      "situation": "Same serving pair. This time your partner holds position and the return comes to your half. The crossing plan no longer fits."
+    },
+    {
+      "slug": "doubles-return-line",
+      "scene": "drlA",
+      "frame": 290,
+      "question": "Their net player moves across early. What changes?",
+      "situation": "The net player moves early toward the middle. This serve gives you enough time to see the lane they have left."
+    },
+    {
+      "slug": "doubles-lob-overhead",
+      "scene": "dloA",
+      "frame": 175,
+      "question": "You can reach this lob in balance. Who takes it?",
+      "situation": "This lob is shorter. You have time to turn and get under it. Calling your partner through would give away that comfortable overhead."
+    },
+    {
+      "slug": "saturday-point-1",
+      "scene": "sa1A",
+      "frame": 165,
+      "question": "Where do you serve?",
+      "situation": "30-30, deuce court. The returner stands close to the middle to protect their backhand."
+    },
+    {
+      "slug": "saturday-point-2",
+      "scene": "sb1A",
+      "frame": 255,
+      "question": "Where does your return go?",
+      "situation": "You lead 5–2. Their serve: a big first serve, wide to your forehand."
+    },
+    {
+      "slug": "saturday-point-3",
+      "scene": "sc1A",
+      "frame": 165,
+      "question": "Where does your second serve go?",
+      "situation": "30–40. You missed your first serve."
+    },
+    {
+      "slug": "saturday-point-4",
+      "scene": "sd1A",
+      "frame": 165,
+      "question": "Where does your first serve go?",
+      "situation": "30–15. The returner has shaded wide to cover your wide serve."
+    },
+    {
+      "slug": "saturday-point-5",
+      "scene": "se1A",
+      "frame": 252,
+      "question": "Where do you stand to return it?",
+      "situation": "30–40, break point. Their big first serve is coming down the T."
+    },
+    {
+      "slug": "midweek-point-1",
+      "scene": "ma1B",
+      "frame": 275,
+      "question": "Where do you stand to return it?",
+      "situation": "15–30. Their second serve is a high, heavy kick."
+    },
+    {
+      "slug": "play-the-point",
+      "scene": "bp1A",
+      "frame": 165,
+      "question": "Where do you serve?",
+      "situation": "Your serve. They're standing guard in the middle, ready for it."
+    }
+  ]
+}

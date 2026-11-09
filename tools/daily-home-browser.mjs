@@ -32,7 +32,7 @@ try{
  check((await p.locator('#livePoint').getAttribute('href')).includes('l=live-point-serve-see'),'related Live Point follows completed daily on Home');
  await p.evaluate(()=>{Object.defineProperty(navigator,'share',{configurable:true,value:undefined});Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async t=>{window.__copied=t;}}});});
  await p.locator('#shareDaily').click();await p.locator('#copyDaily').click();const shared=await p.locator('#dailyShareLink').inputValue();
- check(shared==='https://www.gamesharptennis.com/play.html?l=serve-plus-one&challenge=daily','shared link fixes the activity and excludes answers');
+ check(shared==='https://www.gamesharptennis.com/s/serve-plus-one.html','shared link fixes the activity and excludes answers');
  check((await p.locator('#dailyShareStatus').innerText()).includes('Link copied'),'successful copy acknowledged');
  await p.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw Error('Denied');}}}));await p.locator('#copyDaily').click();check((await p.locator('#dailyShareStatus').innerText()).includes('Select and copy'),'clipboard failure offers an honest fallback');
  await p.screenshot({path:out+'/done-home.png',fullPage:true});

@@ -22,7 +22,7 @@ try{
   check(await p.locator('#sharePointButton').isVisible(),slug+': partner sharing is outside disclosures');
   await p.evaluate(()=>{window.__shares=[];Object.defineProperty(navigator,'share',{configurable:true,value:async payload=>{__shares.push(payload);throw new DOMException('Cancelled','AbortError')}});});
   await p.locator('#sharePointButton').click();const payload=await p.evaluate(()=>__shares[0]);
-  check(new URL(payload.url).search==='?l='+slug+'&challenge=point',slug+': share has no scores or chosen answers');
+  check(new URL(payload.url).pathname==='/s/'+slug+'.html'&&new URL(payload.url).search==='',slug+': share has no scores or chosen answers');
   check((await p.locator('#shareStatus').innerText()).includes('cancelled'),slug+': cancellation is not claimed as delivery');
   await p.locator('#pairPlan summary').click();await p.locator('#pairPlanText').fill('');await p.locator('#sharePairPlan').click();check((await p.locator('#pairPlanStatus').innerText()).includes('Add a plan'),slug+': empty plan rejected');
   await p.locator('#pairPlanText').fill('Agree who covers before the serve.');await p.locator('#sharePairPlan').click();check((await p.evaluate(()=>__shares.at(-1).text)).includes('Proposed plan'),slug+': draft is not claimed as agreement');

@@ -58,6 +58,7 @@ let ath=null, trackFn=null;
 function mount(A=window.GSApp,redraw=()=>{}){
   window.GS_RESET?.mount(A);
   wireFocus(A,redraw);
+  window.GSPractice?.mount(A,redraw);
   ath?.stop();ath=null;
   const st=document.getElementById("shAth");if(!st)return;
   const chips=[...document.querySelectorAll("[data-ath]")],card=document.getElementById("shAthCard");
@@ -140,9 +141,9 @@ function wireFocus(A,redraw){
   });
 }
 function myGame(A,href,esc){const g=A.savedCues(),focus=A.nextHit();
-  return `<section class="supplement sh-sec"><a class="sh-back" href="?review=1">← Sharpen</a><div class="k">Your practice</div><h1>My Game</h1><p>${g.length} saved cue${g.length===1?'':'s'}. Saved in this browser; clearing its data removes them.</p>
-  ${window.GS_RESET?.reminder()||''}${focusView(A,href,esc)}<p id="focusStatus" role="status" aria-live="polite"></p><h2 id="saved-cues" tabindex="-1">Saved cues</h2>
-  ${g.length?g.map(c=>{const l=A.bySlug(c.slug);return `<article class="sh-practice"><div class="k">${esc(c.lesson||'Saved cue')}</div><h2>${esc(c.cue)}</h2>${c.updated?'<p class="sh-note">Updated coaching cue from your saved lesson.</p>':''}${c.drill?`<details><summary>Take it to court · ${esc(c.drill.name||'Practice drill')}</summary><p>${esc(c.drill.how||'')}</p></details>`:'<p>Bring this cue to your next hit. Notice when the situation calls for it.</p>'}${l?`<a class="sh-back" href="${href(l)}&from=my-game">Replay the point →</a>${focus.available?focus.active?.slug===c.slug?'<p class="sh-note">Your selected focus</p>':`<button type="button" data-focus-select="${esc(c.slug)}" data-focus-id="${esc(focus.active?.id||'')}">${focus.active?'Switch my focus to this':'Make this my next-hit focus'}</button>`:''}`:''}</article>`;}).join(''):'<p>After a lesson, save its court cue here. You can return to the point and take its drill to your next hit.</p><a class="btn" href="?review=1">Find a part of your game →</a>'}</section>`;
+  return `<section class="supplement sh-sec"><a class="sh-back" href="?review=1">← Sharpen</a><div class="k">Your practice</div><h1>My Game</h1><p class="sh-note">Your practice, your next read, and one cue for court. Saved on this browser, not synced between devices.</p>${window.GSPractice?.overview(A)||''}
+  ${window.GS_RESET?.reminder()||''}${focusView(A,href,esc)}<p id="focusStatus" role="status" aria-live="polite"></p>${window.GSPractice?.history(A)||''}<h2 id="saved-cues" tabindex="-1">Saved cues</h2>
+  ${g.length?g.map(c=>{const l=A.bySlug(c.slug);return `<article class="sh-practice"><div class="k">${esc(c.lesson||'Saved cue')}</div><h2>${esc(c.cue)}</h2>${c.updated?'<p class="sh-note">Updated coaching cue from your saved lesson.</p>':''}${c.drill?`<details><summary>Take it to court · ${esc(c.drill.name||'Practice drill')}</summary><p>${esc(c.drill.how||'')}</p></details>`:'<p>Bring this cue to your next hit. Notice when the situation calls for it.</p>'}${l?`<a class="sh-back" href="${href(l)}&from=my-game">Replay the point →</a>${focus.available?focus.active?.slug===c.slug?'<p class="sh-note">Your selected focus</p>':`<button type="button" data-focus-select="${esc(c.slug)}" data-focus-id="${esc(focus.active?.id||'')}">${focus.active?'Switch my focus to this':'Make this my next-hit focus'}</button>`:''}`:''}</article>`;}).join(''):'<p>After a lesson, save its court cue here. You can return to the point and take its drill to your next hit.</p><a class="btn" href="?review=1">Find a part of your game →</a>'}${window.GSPractice?.settings(A)||''}<p class="sh-note">Clearing this browser’s data removes practice history, goals and saved cues.</p></section>`;
 }
 function mapView(A,S){
   const slugs=z=>[...new Set(z.items.flatMap(([,ls])=>ls))],n=z=>slugs(z).length,done=z=>slugs(z).filter(s=>S.done[s]).length;
@@ -152,7 +153,7 @@ function mapView(A,S){
    <div class="sh-controls"><button type="button" id="shReplay">Replay</button><button type="button" id="shSlow" aria-pressed="false">Slow view</button><button type="button" id="shPause">Pause</button></div>
    <p id="shStatus" role="status"></p><div id="shAthCard">${strokeCard('fh')}</div></section>
    <div class="sh-tools"><a href="?review=1&z=spin">Topspin vs slice</a><a href="?review=1&z=grips">Grips</a></div>
-   <section class="sh-work" aria-labelledby="shWorkTitle"><div class="k">Your game</div><h2 id="shWorkTitle">What needs work?</h2><p>Find the decision behind the shot. Counts show activities played, not mastery.</p><a class="sh-my-entry" href="?review=1&z=my-game"><b>My Game</b><span>${A.savedCues().length} saved cues · your next on-court practice →</span></a>
+   <section class="sh-work" aria-labelledby="shWorkTitle"><div class="k">Your game</div><h2 id="shWorkTitle">What needs work?</h2><p>Find the decision behind the shot. Counts show activities played, not mastery.</p><a class="sh-my-entry" href="?review=1&z=my-game"><b>My Game</b><span>Your practice history · your next on-court cue →</span></a>
    <a class="sh-my-entry reset-entry" href="?review=1&z=reset"><b>Reset</b><span>After a miss. Before a big point. When it gets tense between you. →</span></a>
    <div class="sh-zones">${ZONES.map(z=>`<a class="sh-zone" href="?review=1&z=${z.k}"><b>${z.name}</b><span>${z.line}</span><i>${done(z)}/${n(z)} played</i></a>`).join('')}</div></section></section>`;
 }
