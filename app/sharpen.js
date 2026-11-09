@@ -150,7 +150,7 @@ function mapView(A,S){
    <div class="sh-labels" role="group" aria-label="Strokes">${ATH.map(k=>`<button type="button" data-ath="${k}" aria-pressed="${k==='fh'}">${STROKES[k].label}</button>`).join('')}</div>
    <div class="sh-hero sh-ath" id="shAth"><img src="sharpen/hero.jpg?v=${window.GS_VERSION||''}" alt="A GameSharp player hitting a forehand"></div>
    <div class="sh-controls"><button type="button" id="shReplay">Replay</button><button type="button" id="shSlow" aria-pressed="false">Slow view</button><button type="button" id="shPause">Pause</button></div>
-   <p id="shStatus" role="status"></p><div id="shAthCard">${strokeCard('fh').replace('<details','<details open')}</div></section>
+   <p id="shStatus" role="status"></p><div id="shAthCard">${strokeCard('fh')}</div></section>
    <div class="sh-tools"><a href="?review=1&z=spin">Topspin vs slice</a><a href="?review=1&z=grips">Grips</a></div>
    <section class="sh-work" aria-labelledby="shWorkTitle"><div class="k">Your game</div><h2 id="shWorkTitle">What needs work?</h2><p>Find the decision behind the shot. Counts show activities played, not mastery.</p><a class="sh-my-entry" href="?review=1&z=my-game"><b>My Game</b><span>${A.savedCues().length} saved cues · your next on-court practice →</span></a>
    <a class="sh-my-entry reset-entry" href="?review=1&z=reset"><b>Reset</b><span>After a miss. Before a big point. When it gets tense between you. →</span></a>

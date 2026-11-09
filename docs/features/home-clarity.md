@@ -55,3 +55,6 @@ Sharpen now opens with the stroke animation and its existing controls/reference
 frames. What needs work, My Game, Reset and the eight practice areas follow.
 Only their reading order and section hierarchy change; no destination or
 technique content is removed. Home retains its daily invitation and two routes.
+The initial frame-by-frame breakdown is collapsed beneath the animation, so
+practice choices follow sooner; opening the card or choosing a stroke still
+reveals the same reference frames and cues.

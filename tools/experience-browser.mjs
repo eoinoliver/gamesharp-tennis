@@ -59,7 +59,7 @@ try{
  }
  await p.close();
  const cold=await page({width:390,height:844},'reduce');let failedOnce=false;
- await cold.route('**/clips/fh.json?*',route=>{if(!failedOnce){failedOnce=true;return route.fulfill({status:503,body:'Unavailable'});}return route.continue();});
+ await cold.route('**/clips/fh.json?*',route=>{if(!failedOnce){failedOnce=true;return route.fulfill({status:503,body:'Unavailable'});}return route.fallback();});
  await cold.goto(base+'?review=1');await cold.locator('#shAth.load-error').waitFor();
  check((await cold.locator('#shStatus').innerText()).includes('reference frames'),'Unavailable animation retains an honest reference fallback');
  await cold.locator('#shReplay').click();await cold.locator('#shAth.ready:not(.load-error)').waitFor();

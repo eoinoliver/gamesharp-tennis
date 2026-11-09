@@ -978,3 +978,11 @@ in each of Chromium and WebKit; 47 Home playback checks pass. Build parity:
 346 release / 345 public files and 467 checked inputs. No engine, athlete,
 lesson, audio or Home preview media changes. Codex owns hosted preview and CI;
 this remains review-only, with production unchanged.
+
+Final flow refinement 613334a79f: keep the initial stroke breakdown collapsed,
+so What needs work begins around 745px on a 390px phone (previously 1245px).
+Reference phases remain available on expansion and stroke selection. 73 complete
+experience checks pass again in both engines; 93 unit checks pass. Final build
+parity and all source/release fingerprints match. The hosted failure-retry test
+now falls through to the authenticated transport instead of bypassing it; this
+is a test-harness correction, with no application retry behaviour change.

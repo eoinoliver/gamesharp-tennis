@@ -278,11 +278,11 @@
     },
     "app_src/sharpen.js": {
       "baseline": "0a062d06274c8999d55ef902acfe38b6292585e60e508a7f3b9e3014ec98fe71",
-      "candidate": "2efeb2f4bb6d7a76920f8833984f90210b651881bd2b89c3d42ae0226ec0e049"
+      "candidate": "7be74425c34ed9c6e66113c943a1b99ee8c2748a379f7a6a3408849b632f5342"
     },
     "docs/features/home-clarity.md": {
       "baseline": null,
-      "candidate": "df2ba8b4125f7d7030595620c7bf68802b8baa65e5f10a8231b0916f2f148539"
+      "candidate": "265ad8a98a4cbeb850848840a067334613a6376bcbbd2afdbf844174e4170568"
     },
     "docs/features/home-motion-frames.json": {
       "baseline": null,
@@ -310,7 +310,7 @@
     },
     "tools/experience-browser.mjs": {
       "baseline": "e8036abb22f30698facc28cd6aabc20219225c78a4221fded8d1d7c5abbd6a56",
-      "candidate": "ff0da7b13c7c7853ed35d93301ed0d8dd8a14c202e1a0523383c17db9af53841"
+      "candidate": "0574d2df7bc2fa66b1b4d625cb934e38262ab1f60bdf8148cdda4d56604049de"
     },
     "tools/flagship-browser.mjs": {
       "baseline": "eebe7b419897411c3d3e31aa78695d0e7e239ea65de25cbdc509625cbc10e1b1",
@@ -348,7 +348,7 @@
   "release": {
     "app/catalog.js": {
       "baseline": "bccba2d143738004489a87ca6deb8289bc7d44275de1a36a54ab2ce81f85f5b8",
-      "candidate": "6e317250e3cd69f6c66806eaef9d44d10912f8e4ce5a469feaa2396543acea02"
+      "candidate": "feb4ea3c184a83b196b9d9f82f94fdc6eefcd51464943785a846d27802b49c56"
     },
     "app/home-preview.js": {
       "baseline": null,
@@ -616,15 +616,15 @@
     },
     "app/index.html": {
       "baseline": "1752b0e4753352be62adca7c3d2fbedac540447aa9dee158ef8224ae1e7cea01",
-      "candidate": "cb60eff04b1080032b8103ff5c5b7837dc7b46152e7fa700672418318bd1b5e8"
+      "candidate": "e6c74aefdc75bf1fda47d8585ee9889a281d512238b038f8269f24c1f036a2cd"
     },
     "app/play.html": {
       "baseline": "d015cd9a7923e83b26462450f4238e24f834dd7e0ff7b916df0b7735b020aefc",
-      "candidate": "3265836c96370526d851caa7b5d08b6da72ef180cd7d5528f2689581caa8542c"
+      "candidate": "0c57e7da58dbb59e7837eda5a400be4c900ea48e2e666c9a59edc187cf2cc072"
     },
     "app/sharpen.js": {
       "baseline": "0a062d06274c8999d55ef902acfe38b6292585e60e508a7f3b9e3014ec98fe71",
-      "candidate": "2efeb2f4bb6d7a76920f8833984f90210b651881bd2b89c3d42ae0226ec0e049"
+      "candidate": "7be74425c34ed9c6e66113c943a1b99ee8c2748a379f7a6a3408849b632f5342"
     }
   }
 }
