@@ -264,7 +264,7 @@ for records, expected in [(sharing_practice['source'], source), (sharing_practic
 
 # Authored Daily recall figures; historical fingerprints stay frozen.
 takeaways = json.loads((ROOT/'docs/features/visual-takeaways-build.json').read_text())
-assert set(takeaways['source']) == set(['app_src/build.py', 'app_src/index.html', 'app_src/play_host.html', 'app_src/takeaways.css', 'app_src/takeaways.js', 'app_src/takeaways.json', 'app_src/takeaways.py', 'docs/features/visual-takeaways.md', 'tools/browser-checks.mjs', 'tools/takeaway-browser.mjs'])
+assert set(takeaways['source']) == set(['app_src/build.py', 'app_src/index.html', 'app_src/play_host.html', 'app_src/takeaways.css', 'app_src/takeaways.js', 'app_src/takeaways.json', 'app_src/takeaways.py', 'docs/features/visual-takeaways.md', 'tools/browser-checks.mjs', 'tools/daily-home-browser.mjs', 'tools/takeaway-browser.mjs'])
 assert set(takeaways['release']) == set(['app/catalog.js', 'app/index.html', 'app/play.html', 'app/takeaways.css', 'app/takeaways.js'])
 for records, expected in [(takeaways['source'], source), (takeaways['release'], manifest)]:
     for name, hashes in records.items():

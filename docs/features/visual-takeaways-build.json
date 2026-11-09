@@ -40,6 +40,10 @@
     "docs/features/visual-takeaways.md": {
       "baseline": null,
       "candidate": "715a30b4dad6045ad8faa0bfeee38127d54a5ddcdece077a9139ee98031a8b5b"
+    },
+    "tools/daily-home-browser.mjs": {
+      "baseline": "c722150c6ed262961b3bd5d132ccdbfe7ee249e2284b8334ded776f5957f0c15",
+      "candidate": "4205eb778db11bf45b4f36e10f89d22f27bf2e4fbe12553b16d62b15eda0724e"
     }
   },
   "release": {
