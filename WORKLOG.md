@@ -1020,3 +1020,12 @@ card. Scope the new history rows as practice-record, removing the inherited
 boxed/flex presentation and keeping their takeaways readable at 16px. This is a
 local presentation fix; Home cards and all stored practice semantics stay intact.
 Codex owns final parity, fresh Git preview verification and CI for this correction.
+
+Full CI found two height regressions from the extra in-play Share row and an
+interrupted cue/professional-story/continuation sequence. Move in-play sharing
+into the existing court toolbar; its copy fallback is a dismissible dialog.
+Place completion sharing after the existing teaching/continuation sequence.
+The 325 Contact Clue, 9 layout/navigation and 28 mobile-learning regressions
+pass locally. Both engines passed the 349 sharing/practice checks after the
+toolbar change; Codex owns final exact-candidate verification and fresh full CI.
+Production remains unchanged.

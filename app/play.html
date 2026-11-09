@@ -285,7 +285,7 @@ details.note a{color:var(--gold)}
 
 </div>
 
-<link rel="stylesheet" href="coach.css?v=4bf995ff55">
+<link rel="stylesheet" href="coach.css?v=026b506e50">
 <style>
 .daily-completion .daily-complete-message{font-size:15px;color:#dce8d7;line-height:1.5}.daily-completion .daily-related{margin-top:22px;padding-top:20px;border-top:1px solid #c8a84b30}.daily-related h2{font-size:22px;margin:8px 0}.daily-related p{font-size:14px;line-height:1.55;color:#b8c7b6}.daily-related .alt{min-height:44px;display:inline-flex;align-items:center}.daily-completion .k{display:block!important}
 
@@ -380,15 +380,15 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<link rel="stylesheet" href="practice.css?v=4bf995ff55">
-<script src="config.js?v=4bf995ff55"></script>
-<script src="catalog.js?v=4bf995ff55"></script>
-<script src="app.js?v=4bf995ff55"></script>
-<script src="coach.js?v=4bf995ff55"></script>
-<script src="sfx.js?v=4bf995ff55"></script>
+<link rel="stylesheet" href="practice.css?v=026b506e50">
+<script src="config.js?v=026b506e50"></script>
+<script src="catalog.js?v=026b506e50"></script>
+<script src="app.js?v=026b506e50"></script>
+<script src="coach.js?v=026b506e50"></script>
+<script src="sfx.js?v=026b506e50"></script>
 <script>
 (function(){
-const A=GSApp, V="4bf995ff55", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="026b506e50", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
@@ -580,23 +580,28 @@ function afterEngine(){
     st.appendChild(c);const go=()=>{c.classList.add("out");setTimeout(()=>c.remove(),500);};setTimeout(go,4200);c.addEventListener("click",go);});}
 }
 function wireQuickShare(){
-  const row=document.createElement('div');row.id='quickShareRow';
-  row.innerHTML='<button type="button" id="quickShare" aria-label="Share this activity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 16V3m-4 4 4-4 4 4M5 11v10h14V11"/></svg>Share</button><div id="quickSharePanel" hidden><label for="quickShareLink">Link to this exact activity</label><input id="quickShareLink" readonly><button type="button" class="alt" id="quickShareCopy">Copy link</button></div><p id="quickShareStatus" role="status"></p>';
-  document.querySelector('.head').after(row);
-  const link=A.shareUrl(slug),input=row.querySelector('input'),status=row.querySelector('[role=status]'),panel=row.querySelector('#quickSharePanel');input.value=link;
-  const fallback=()=>{panel.hidden=false;input.select();status.textContent='Copy this link. Your answers and scores stay private.';};
-  row.querySelector('#quickShare').onclick=async()=>{
+  const button=document.createElement('button');button.id='quickShare';button.className='tbtn';button.type='button';button.title='Share this activity';button.setAttribute('aria-label','Share this activity');
+  button.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 16V3m-4 4 4-4 4 4M5 11v10h14V11"/></svg>';
+  document.getElementById('tools').append(button);
+  const panel=document.createElement('dialog');panel.id='quickSharePanel';panel.setAttribute('aria-labelledby','quickShareTitle');
+  panel.innerHTML='<h2 id="quickShareTitle">Share this activity</h2><label for="quickShareLink">Link to this exact activity</label><input id="quickShareLink" readonly><div class="quick-share-actions"><button type="button" class="alt" id="quickShareCopy">Copy link</button><button type="button" class="alt" id="quickShareClose">Close</button></div><p id="quickShareStatus" role="status"></p>';
+  document.body.append(panel);
+  const link=A.shareUrl(slug),input=panel.querySelector('input'),status=panel.querySelector('[role=status]');input.value=link;
+  const fallback=()=>{if(!panel.open)panel.showModal();input.select();status.textContent='Copy this link. Your answers and scores stay private.';};
+  button.onclick=async()=>{
     A.track('activity_share_intent',{lesson:slug,where:'playing'});
     if(!navigator.share){fallback();return;}
-    try{await navigator.share({title:'What would you play?',text:L.doubles?'Make your own calls. Then talk it through with your partner.':'A tennis decision for you. What would you play?',url:link});status.textContent='Activity shared.';A.track('activity_shared',{lesson:slug,where:'playing',method:'native'});}
-    catch(e){if(e.name==='AbortError')status.textContent='Share cancelled.';else fallback();}
+    try{await navigator.share({title:'What would you play?',text:L.doubles?'Make your own calls. Then talk it through with your partner.':'A tennis decision for you. What would you play?',url:link});A.track('activity_shared',{lesson:slug,where:'playing',method:'native'});}
+    catch(e){if(e.name!=='AbortError')fallback();}
   };
-  row.querySelector('#quickShareCopy').onclick=async()=>{try{await navigator.clipboard.writeText(link);status.textContent='Link copied.';A.track('activity_shared',{lesson:slug,where:'playing',method:'copy'});}catch(e){input.select();status.textContent='Select and copy the link above.';}};
+  panel.querySelector('#quickShareClose').onclick=()=>panel.close();
+  panel.querySelector('#quickShareCopy').onclick=async()=>{try{await navigator.clipboard.writeText(link);status.textContent='Link copied.';A.track('activity_shared',{lesson:slug,where:'playing',method:'copy'});}catch(e){input.select();status.textContent='Select and copy the link above.';}};
 }
 function wireChallenge(w){
   const daily=A.isDaily(slug),link=A.shareUrl(slug),box=document.createElement('div');box.className='blk';box.id='sharePoint';
   box.innerHTML=`<div class="k">Let someone else make the call</div><p>Same point. Their decisions. Your answers stay private.</p><button class="alt" id="sharePointButton">Challenge a tennis friend</button><div id="shareFallback" hidden><label for="challengeLink">Challenge link</label><input id="challengeLink" readonly aria-label="Challenge link"><button class="alt" id="copyChallenge">Copy link</button></div><p id="shareStatus" role="status"></p>`;
-  (w.querySelector('#liveEvidence')||w.firstElementChild).after(box);box.querySelector('input').value=link;
+  // Keep the cue, professional story and continuation together before sharing.
+  (w.querySelector(':scope > .gs-continue, :scope > #practiceReturn')||w.querySelector(':scope > [data-k=pro]')||w.querySelector('#liveEvidence')||w.firstElementChild).after(box);box.querySelector('input').value=link;
   if(daily){box.querySelector('.k').textContent='Compare decisions with a friend';box.querySelector('p').textContent='Same challenge. Their decision. Your answers stay private.';box.querySelector('#sharePointButton').textContent='Send this challenge to a friend';}
   const status=box.querySelector('#shareStatus'),fallback=box.querySelector('#shareFallback');
   const reveal=()=>{fallback.hidden=false;box.querySelector('input').select();status.textContent='Copy this link. It contains no answers or scores.';};

@@ -21,9 +21,11 @@
 .practice-settings fieldset{padding:0;margin:16px 0;border:0}.practice-settings legend{margin-bottom:8px}
 .practice-reminder-days{display:flex;flex-wrap:wrap;gap:6px 14px}.practice-reminder-days label{display:flex;align-items:center;gap:7px;min-height:44px;font-size:15px}.practice-reminder-days input{width:19px;height:19px;accent-color:#d0b65b}
 .practice-settings [role=status]:empty,.practice-history [role=status]:empty{display:none}
-#quickShare{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:8px 0;margin:0;color:#c8d5cc;background:none;border:0;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer}
-#quickShare svg{width:18px;height:18px}#quickShareRow{padding:0 18px;max-width:760px;margin:auto;text-align:right}
-#quickSharePanel{padding:10px 0 16px;text-align:left}#quickSharePanel label{display:block}#quickSharePanel input{box-sizing:border-box;width:100%;padding:12px;background:#14261c;border:1px solid #819688;border-radius:6px;color:#fff;font:inherit;margin:8px 0}
+#tools{grid-template-columns:minmax(0,1fr) repeat(5,44px)}
+#quickSharePanel{width:min(420px,calc(100vw - 36px));box-sizing:border-box;padding:24px;margin:auto;background:#10231b;color:#f4f1e8;border:1px solid #7c947f;border-radius:14px;font:inherit}
+#quickSharePanel::backdrop{background:#0009}#quickSharePanel h2{margin:0 0 20px;font-size:23px}
+#quickSharePanel label{display:block;font-size:14px}#quickSharePanel input{box-sizing:border-box;width:100%;padding:12px;background:#14261c;border:1px solid #819688;border-radius:6px;color:#fff;font:inherit;margin:8px 0}
+.quick-share-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px}.quick-share-actions button{min-height:44px}
 #sharePoint{border-top:1px solid #ffffff25;padding-top:24px}#sharePointButton{min-height:48px}#shareStatus:empty{display:none}
 @media(max-width:360px){.practice-week li b{width:32px;height:32px}.practice-week ol{gap:4px}}
 

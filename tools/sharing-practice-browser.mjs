@@ -6,9 +6,10 @@ const cat=JSON.parse(readFileSync('app/catalog.js','utf8').match(/GS_CATALOG=(.*
 const cards=JSON.parse(readFileSync('docs/features/share-preview-frames.json','utf8')).captures;
 const dir=process.env.GS_PRACTICE_EVIDENCE||'app_src/evidence/sharing-practice/'+engine;mkdirSync(dir,{recursive:true});
 const browser=await ({chromium,webkit}[engine]).launch(),checks=[],errors=[];
+const visit=(p,url)=>p.goto(url,{waitUntil:'domcontentloaded'});
 const check=(v,label)=>{assert(v,label);checks.push(label);};
 async function page(width=390){const c=await browser.newContext({viewport:{width,height:width<500?844:960},reducedMotion:'reduce',acceptDownloads:true,timezoneId:'Australia/Sydney'});await c.route(/posthog\.com/,r=>r.fulfill({status:200,body:'{}'}));await c.addInitScript(()=>{localStorage.setItem('gs_voice','0');localStorage.setItem('gs_sound','0');});const p=await c.newPage();p.on('pageerror',e=>errors.push(String(e)));await p.clock.setFixedTime('2026-11-09T01:00:00Z');return p;}
-async function finish(p,slug){await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);await p.evaluate(()=>{window.__speed=24;const old=setTimeout;window.setTimeout=(f,t,...a)=>old(f,t/8,...a);});
+async function finish(p,slug){await visit(p,base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);await p.evaluate(()=>{window.__speed=24;const old=setTimeout;window.setTimeout=(f,t,...a)=>old(f,t/8,...a);});
  for(let i=0;i<8;i++){
   await p.waitForFunction(()=>!!document.querySelector('#askOpts button:not(:disabled)')||!document.querySelector('#wrapup').hidden);
   if(await p.locator('#wrapup').isVisible())break;
@@ -16,7 +17,7 @@ async function finish(p,slug){await p.goto(base+'play.html?l='+slug);await p.wai
  }
  await p.locator('#sharePointButton').waitFor();if(await p.locator('#skipRecap').isVisible())await p.locator('#skipRecap').click();}
 try{
- const p=await page();await p.goto(base+'?home=1');
+ const p=await page();await visit(p,base+'?home=1');
  for(const l of all){
   // Fetch raw HTML: social metadata must be present before JavaScript executes.
   const html=await p.evaluate(async slug=>(await fetch('s/'+slug+'.html')).text(),l.slug);
@@ -27,19 +28,19 @@ try{
  }
  // A recipient with no progress follows every invitation, including the nine older formats.
  for(const l of all){
-  await p.goto(base+'s/'+l.slug+'.html');await p.waitForFunction(()=>window.__test);await p.locator('#quickShare').waitFor();
+  await visit(p,base+'s/'+l.slug+'.html');await p.waitForFunction(()=>window.__test);await p.locator('#tools #quickShare').waitFor();
   check(new URL(p.url()).searchParams.get('l')===l.slug&&await p.evaluate(()=>Object.keys(GSApp.S.done).length===0),l.slug+': fresh recipient lands directly without inherited progress');
   await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:async x=>{window.__shared=x;}}));await p.locator('#quickShare').click();
   const payload=await p.evaluate(()=>__shared);check(payload.url==='https://www.gamesharptennis.com/s/'+l.slug+'.html',l.slug+': in-play share targets exact activity');
-  await p.goto(base+'?home=1');
+  await visit(p,base+'?home=1');
  }
  for(const slug of ['serve-plus-one','live-point-buy-time','doubles-cross-cover','predict-the-point','saturday-point-1','midweek-point-1','play-the-point']){
   console.log('COMPLETE',slug);await finish(p,slug);check(await p.locator('#sharePointButton').isVisible()&&!await p.locator('#sharePointButton').evaluate(e=>!!e.closest('details')),slug+': visible completion sharing without disclosure');
   await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:async()=>{throw new DOMException('Cancel','AbortError');}}));await p.locator('#sharePointButton').click();check((await p.locator('#shareStatus').innerText())==='Share cancelled.'&&await p.locator('#shareFallback').isHidden(),slug+': cancellation never claims success');
   if(slug==='serve-plus-one')await p.screenshot({path:dir+'/completed-daily.png',fullPage:true});
  }
- await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:undefined}));await p.locator('#quickShare').click();await p.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw Error('Denied');}}}));await p.locator('#quickShareCopy').click();check((await p.locator('#quickShareStatus').innerText()).includes('Select and copy'),'in-play clipboard denial has a manual fallback');
- await p.goto(base+'?review=1&z=my-game');check(await p.locator('.practice-record').count()===7,'all completed formats appear automatically with no saved cues');check(await p.locator('.sh-practice').count()===0,'automatic history does not pretend cues were intentionally saved');
+ await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:undefined}));await p.locator('#quickShare').click();await p.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw Error('Denied');}}}));await p.locator('#quickShareCopy').click();check((await p.locator('#quickShareStatus').innerText()).includes('Select and copy'),'in-play clipboard denial has a manual fallback');await p.keyboard.press('Escape');check(!await p.locator('#quickSharePanel').isVisible(),'sharing dialog dismisses without moving the lesson');
+ await visit(p,base+'?review=1&z=my-game');check(await p.locator('.practice-record').count()===7,'all completed formats appear automatically with no saved cues');check(await p.locator('.sh-practice').count()===0,'automatic history does not pretend cues were intentionally saved');
  check((await p.locator('#practiceWeekTitle').innerText()).includes('1 practice day'),'seven completions on one date count as one practice day');
  check((await p.locator('.practice-next').innerText()).includes('Tomorrow'),'authored variation waits until another calendar day');
  await p.locator('.practice-settings>summary').click();await p.locator('#practiceGoal').selectOption('3');check((await p.locator('#practiceWeekTitle').innerText()).includes('1 practice day of 3'),'optional goal updates without losing history');
@@ -51,11 +52,11 @@ try{
  check((await p.locator('.practice-history').innerText()).includes('Tried on court · your own report'),'court reflection is distinguished from quiz evidence');
  await p.clock.setFixedTime('2026-11-10T01:00:00Z');await p.reload();check(await p.locator('#practiceNextLink').isVisible(),'authored changed situation becomes available on a later local date');
  await p.locator('#practiceNextLink').click();check(new URL(p.url()).searchParams.get('from')==='my-game','next read returns to the personal practice context');
- await p.goto(base+'?review=1&z=my-game');await p.locator('.practice-settings>summary').click();await p.locator('.practice-reminder>summary').click();
+ await visit(p,base+'?review=1&z=my-game');await p.locator('.practice-settings>summary').click();await p.locator('.practice-reminder>summary').click();
  const download=p.waitForEvent('download');await p.locator('#practiceCalendar').click();const d=await download;await d.saveAs(dir+'/practice.ics');const ics=readFileSync(dir+'/practice.ics','utf8');check(ics.includes('RRULE:FREQ=WEEKLY;BYDAY=MO,WE,FR')&&ics.includes('BEGIN:VALARM'),'calendar reminder is an actual importable recurrence');check((await p.locator('#practiceCalendarStatus').innerText()).includes('save the event'),'calendar creation does not claim notifications are already enabled');
  for(const width of [320,390,1440]){await p.setViewportSize({width,height:width<500?844:960});await p.reload();await p.locator('#practiceOverview').waitFor();check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+': personal practice fits without overflow');await p.screenshot({path:dir+'/my-game-'+width+'.png',fullPage:true});}
  await p.context().close();
- const fresh=await page(320);await fresh.goto(base+'?review=1&z=my-game');check(await fresh.locator('.practice-record').count()===0&&(await fresh.locator('#practiceWeekTitle').innerText()).includes('0 practice days'),'fresh browser shows a truthful empty state');await fresh.screenshot({path:dir+'/empty-320.png',fullPage:true});await fresh.context().close();
+ const fresh=await page(320);await visit(fresh,base+'?review=1&z=my-game');check(await fresh.locator('.practice-record').count()===0&&(await fresh.locator('#practiceWeekTitle').innerText()).includes('0 practice days'),'fresh browser shows a truthful empty state');await fresh.screenshot({path:dir+'/empty-320.png',fullPage:true});await fresh.context().close();
  check(errors.length===0,'no browser runtime errors');
 }finally{writeFileSync(dir+'/report.json',JSON.stringify({engine,checks,errors},null,2));await browser.close();}
 console.log('PASS',checks.length,'sharing and practice checks',engine);

@@ -19,11 +19,11 @@
     },
     "app_src/play_host.html": {
       "baseline": "c1db12fd0d142ace07be667d8d7a0a3a2d965fcf7f0f6aaf784a97c336cf97ac",
-      "candidate": "2b3a8a1b9b497bc2a27a7cd6ccc102748252dae6ab99157d8feeb7104eb732d8"
+      "candidate": "c8359865cdd0c7d9c4f54440f910259e56beb98c20e39b8a654a8712dd649c67"
     },
     "app_src/practice.css": {
       "baseline": null,
-      "candidate": "791f722ba3c5b5b921597cd4ef1e43628b083395c0768b4ebf047e26b58425be"
+      "candidate": "56541a407850d38f5171ce9d6222be3775ace6de4d818ba24c241ee87e3a1124"
     },
     "app_src/practice.js": {
       "baseline": null,
@@ -319,7 +319,7 @@
     },
     "tools/sharing-practice-browser.mjs": {
       "baseline": null,
-      "candidate": "0f1c994575f1602329882ab430d561b157064f1a0cbf7ac44295105f3094193c"
+      "candidate": "60022863f08de9bf56fbfb08eff6554a80a00a4fde0944a77fd594b314e2c100"
     },
     "tools/ux-audit-browser.mjs": {
       "baseline": "0c75775f02fc447581fcdea7e86fb0429c91b17d0c2c0eff73f13482eb7b6bc0",
@@ -337,19 +337,19 @@
     },
     "app/catalog.js": {
       "baseline": "feb4ea3c184a83b196b9d9f82f94fdc6eefcd51464943785a846d27802b49c56",
-      "candidate": "7b383be9fc95af7f5b8d8db5631152e7b7be8da228f402f9c4a1664dc28b5db0"
+      "candidate": "2560525167259075dd2b6bacd3aa4de667cb388c2611429c9137ce39016847fc"
     },
     "app/index.html": {
       "baseline": "e6c74aefdc75bf1fda47d8585ee9889a281d512238b038f8269f24c1f036a2cd",
-      "candidate": "34dc6e6aac904627dd29c0e03ebc38597cf24e09db4f909bd8b47a3f9aab66dd"
+      "candidate": "c6ba7bdf3a0dd4b9aae16f554eb8a6b34d9362c6f582c8faca2654c031a004d3"
     },
     "app/play.html": {
       "baseline": "0c57e7da58dbb59e7837eda5a400be4c900ea48e2e666c9a59edc187cf2cc072",
-      "candidate": "2db8d3b24a6b3a0953ff34410fc4360509bc59770640f3795e026998f6adcf1a"
+      "candidate": "775d165f788ffb1dc714ffd1af9cd57ae1ab51c75cee59f5ca05734d837c5f58"
     },
     "app/practice.css": {
       "baseline": null,
-      "candidate": "791f722ba3c5b5b921597cd4ef1e43628b083395c0768b4ebf047e26b58425be"
+      "candidate": "56541a407850d38f5171ce9d6222be3775ace6de4d818ba24c241ee87e3a1124"
     },
     "app/practice.js": {
       "baseline": null,
