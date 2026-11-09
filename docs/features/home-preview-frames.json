@@ -1,0 +1,165 @@
+{
+  "source": "Live lesson renderer, first decision or lead-in; images contain no selected answer",
+  "captures": [
+    {
+      "slug": "serve-plus-one",
+      "scene": "daily1",
+      "frame": 431
+    },
+    {
+      "slug": "short-ball",
+      "scene": "sb3A",
+      "frame": 189
+    },
+    {
+      "slug": "the-line",
+      "scene": "ln1A",
+      "frame": 177
+    },
+    {
+      "slug": "the-winner",
+      "scene": "wn1",
+      "frame": 343
+    },
+    {
+      "slug": "recovery",
+      "scene": "rc1A",
+      "frame": 238
+    },
+    {
+      "slug": "open-court",
+      "scene": "fs1A",
+      "frame": 202
+    },
+    {
+      "slug": "forehand-bill",
+      "scene": "fb1A",
+      "frame": 197
+    },
+    {
+      "slug": "the-lead",
+      "scene": "pp1A",
+      "frame": 188
+    },
+    {
+      "slug": "split-step",
+      "scene": "ss1",
+      "frame": 307
+    },
+    {
+      "slug": "approach-volley",
+      "scene": "av1A",
+      "frame": 199
+    },
+    {
+      "slug": "middle-return",
+      "scene": "mr1A",
+      "frame": 255
+    },
+    {
+      "slug": "high-ball",
+      "scene": "hb1A",
+      "frame": 90
+    },
+    {
+      "slug": "second-serve",
+      "scene": "sq1",
+      "frame": 742
+    },
+    {
+      "slug": "contact-clue",
+      "scene": "cp1A",
+      "frame": 200
+    },
+    {
+      "slug": "running-around",
+      "scene": "ra1A",
+      "frame": 428
+    },
+    {
+      "slug": "net-rusher",
+      "scene": "nr1A",
+      "frame": 176
+    },
+    {
+      "slug": "pass-where-they-arent",
+      "scene": "pa1A",
+      "frame": 168
+    },
+    {
+      "slug": "late-is-the-culprit",
+      "scene": "lc1A",
+      "frame": 583
+    },
+    {
+      "slug": "the-moonballer",
+      "scene": "mb1A",
+      "frame": 90
+    },
+    {
+      "slug": "the-pusher",
+      "scene": "pu1A",
+      "frame": 188
+    },
+    {
+      "slug": "pulled-wide",
+      "scene": "pw1A",
+      "frame": 164
+    },
+    {
+      "slug": "serve-away-from-the-lean",
+      "scene": "le1A",
+      "frame": 165
+    },
+    {
+      "slug": "the-big-hitter",
+      "scene": "bg1B",
+      "frame": 145
+    },
+    {
+      "slug": "the-lefty",
+      "scene": "lf1A",
+      "frame": 180
+    },
+    {
+      "slug": "find-your-return-spot",
+      "scene": "rs1A",
+      "frame": 252
+    },
+    {
+      "slug": "answer-the-drop",
+      "scene": "ad1A",
+      "frame": 175
+    },
+    {
+      "slug": "attack-the-backhand",
+      "scene": "ab1A",
+      "frame": 180
+    },
+    {
+      "slug": "down-the-line",
+      "scene": "dl1A",
+      "frame": 159
+    },
+    {
+      "slug": "rushed-out-wide",
+      "scene": "dm1A",
+      "frame": 158
+    },
+    {
+      "slug": "earned-attack",
+      "scene": "ea1",
+      "frame": 199
+    },
+    {
+      "slug": "earned-defence",
+      "scene": "ed1",
+      "frame": 192
+    },
+    {
+      "slug": "earned-net",
+      "scene": "en1",
+      "frame": 199
+    }
+  ]
+}

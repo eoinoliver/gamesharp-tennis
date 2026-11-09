@@ -1,0 +1,106 @@
+/* Home has one daily invitation and two quieter routes into the catalogue. */
+#homeScreen .gs-hero-header{min-height:68px;padding:12px 0!important}
+#homeScreen .gs-hero-botrow{gap:6px}
+.audio-menu{position:relative;z-index:30}
+.header-audio,#homeScreen .gs-home-profile{display:grid!important;place-items:center;width:44px;height:44px;min-width:44px;border:0;background:transparent;color:#dce7df;border-radius:12px;cursor:pointer;list-style:none;position:relative!important;inset:auto!important}
+.header-audio::-webkit-details-marker{display:none}
+.header-audio svg,#profile svg{width:22px;height:22px}
+.header-audio:hover,#profile:hover,.audio-menu[open] .header-audio{background:#17372a}
+.profile-dot{display:none;position:absolute;right:6px;top:5px;width:6px;height:6px;border-radius:50%;background:#e5c967}
+#profile.sh-focus-reminder{padding:0;line-height:1;margin:0}
+#profile.sh-focus-reminder .profile-dot{display:block}
+.audio-panel{position:absolute;right:-50px;top:52px;width:290px;max-width:calc(100vw - 32px);padding:20px;background:#163326;border:1px solid #526a59;border-radius:16px;box-shadow:0 12px 40px #0008}
+.audio-master{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.audio-master b,.audio-master span{display:block}.audio-master span{font-size:13px;color:#bfd0c3;margin-top:3px}
+.audio-panel .gs-coach-choice{display:flex;width:100%;justify-content:space-between}
+.audio-panel [data-gs-coach-control]{width:100%}.audio-panel .gs-coach-choice select{max-width:210px}
+.audio-voice{display:flex;align-items:center;gap:10px;min-height:44px;font-size:14px;margin-top:12px}
+.audio-voice input{width:19px;height:19px;accent-color:#d4b65a}
+.audio-hint{margin:10px 0 0;font-size:12px;line-height:1.5;color:#c0d0c5}
+.player-settings{max-width:920px;margin:24px auto}
+.player-settings button{min-height:44px;padding:10px 16px;border:1px solid #7c947f;border-radius:10px;background:transparent;color:#dde8de}
+.privacy-note{max-width:1040px;margin:10px auto 0;padding:0;opacity:1!important}
+.privacy-note summary{display:flex;align-items:center;min-height:44px;width:fit-content;color:#a9c0b2;font-size:12px;cursor:pointer;list-style:none}
+.privacy-note summary::-webkit-details-marker{display:none}.privacy-note summary:after{content:'+';margin-left:8px}.privacy-note[open] summary:after{content:'−'}
+.privacy-note p{max-width:560px;margin:0 0 12px;color:#b5c5b8;line-height:1.6;font-size:12px}
+#homeScreen .gs-bottom-nav{padding-bottom:env(safe-area-inset-bottom);min-height:68px}
+#homeScreen .gs-bnav-item{color:#a8bdae;opacity:1}
+#homeScreen .gs-bnav-active{color:#86d6a0}
+
+body.daily-led #homeScreen .gs-main{max-width:1100px;padding:0 24px calc(76px + env(safe-area-inset-bottom));min-height:100dvh}
+body.daily-led #main{display:flex;flex-direction:column;gap:16px;max-width:1040px;min-height:0;padding:8px 0 0;margin:0 auto}
+body.daily-led #main>.today{margin:0;width:100%;padding:24px;background:#f1f0e5;color:#112c20;border:0;border-radius:20px;box-shadow:none;backdrop-filter:none;overflow:hidden}
+.daily-kicker{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#416047;text-transform:uppercase;letter-spacing:.1em;font-size:10px;font-weight:800}
+.daily-kicker time{font-weight:500;letter-spacing:0;white-space:nowrap;color:#506553}
+.daily-feature-grid{display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:30px;margin-top:18px}
+.daily-picture{margin:0;min-width:0;border-radius:12px;overflow:hidden;background:#133322;aspect-ratio:820/470;line-height:0}
+.daily-picture img{display:block;width:100%;height:100%;object-fit:contain;filter:none;opacity:1}
+.daily-picture[hidden]{display:none}
+.daily-copy{min-width:0}
+body.daily-led .cine-title{color:#102c1e;font:750 clamp(26px,3.3vw,37px)/1.09 "DM Sans",system-ui,sans-serif;letter-spacing:-.9px;margin:0 0 12px}
+body.daily-led .cine-sit{color:#46604c;font-size:15px;line-height:1.45;margin:0 0 14px}
+.daily-meta{display:flex;flex-wrap:wrap;gap:5px 14px;font-size:11px;line-height:1.5;color:#536752;margin:0 0 14px}
+.daily-revisit{font-weight:600}
+body.daily-led a.btn.cine-cta{min-height:52px;background:#d4b65a;color:#132619;border:1px solid #806c28;border-radius:11px;font-size:15px;box-shadow:none;padding:10px 12px;text-align:center}
+body.daily-led a.btn.cine-cta:hover{background:#e0c46e}
+.home-play{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.home-play>a{display:flex;align-items:center;gap:16px;min-width:0;min-height:104px;border-radius:14px;border:1px solid #355341;background:#10291d;padding:17px 22px}
+.home-play>a:hover{background:#17382a;border-color:#779579}
+.home-play svg{width:78px;height:52px;flex:0 0 78px;stroke:#74947b;stroke-width:1.1}
+.home-play circle{stroke:#071810;stroke-width:1.2}.home-play .court-you{fill:#e0c46e}.home-play .court-them{fill:#c2d6cb}
+.home-play b{display:block;font-size:18px;color:#f0f2e6;line-height:1.3}
+.home-play small{display:block;font-size:12px;color:#b4c8ba;margin-top:4px;line-height:1.35}
+.home-play i{font-style:normal;color:#e0c46e;margin-left:auto;font-size:20px}
+body.daily-led #main>.today.is-done{padding:24px;max-width:none}
+.daily-complete{max-width:700px;margin:20px 0 0}
+body.daily-led .is-done .cine-title{font-size:29px;margin-bottom:12px}
+.daily-cue{font-size:21px;line-height:1.4;margin:0 0 8px;color:#294b34}
+.daily-actions{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;margin:0 0 14px}
+.daily-replay,.daily-share button{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;border:0;background:none;color:#31533a;font-size:13px;font-weight:650;cursor:pointer}
+.daily-share{min-width:0}.daily-share p{font-size:12px;line-height:1.5;margin:4px 0;color:#36513a}
+.daily-share [role=status]:empty{display:none}
+.daily-share [hidden]{display:none!important}
+.daily-share input{display:block;max-width:100%;width:100%;min-width:0;background:white;border:1px solid #7e937b;border-radius:8px;padding:10px;color:#163423;font-size:12px}
+.daily-share label{font-size:12px;display:block;margin:8px 0}
+.daily-next{font-size:12px;line-height:1.5;color:#526950;margin:12px 0 0}
+body.daily-led .today .note{color:#3b5a40;font-size:12px;line-height:1.5}
+.practice-entry{display:flex;flex-direction:column;gap:10px;border:1px solid #8d9b784d;border-radius:14px;background:#183728;padding:20px;margin:20px 0 28px}
+.practice-entry>b{font-size:21px;line-height:1.25}.practice-entry>span:last-child{font-size:13px;color:#c5d4c6;line-height:1.5}
+
+@media(max-width:700px){
+ body.daily-led #homeScreen .gs-main{padding:0 18px calc(76px + env(safe-area-inset-bottom))}
+ body.daily-led #main{gap:12px;padding-top:0}
+ body.daily-led #main>.today{padding:18px;border-radius:17px}
+ .daily-feature-grid{grid-template-columns:1fr;gap:18px;margin-top:14px}
+ .daily-picture{width:100%;aspect-ratio:820/470}
+ body.daily-led .cine-title{font-size:28px;line-height:1.1;letter-spacing:-.7px;margin-bottom:10px}
+ body.daily-led .cine-sit{font-size:14px;line-height:1.4;margin-bottom:10px}
+ .daily-meta{font-size:10px;margin-bottom:12px}
+ .daily-kicker{font-size:9px;letter-spacing:.09em}
+ .home-play{gap:10px}
+ .home-play>a{position:relative;padding:14px;gap:0;min-height:89px;align-items:flex-start;flex-direction:column}
+ .home-play svg{width:43px;height:29px;position:absolute;right:10px;top:11px;opacity:.9;flex:none}
+ .home-play b{font-size:15px;margin-top:30px}
+ .home-play small{font-size:10px;margin-top:4px}
+ .home-play i{position:absolute;left:14px;top:13px;font-size:17px}
+ body.daily-led #main>.today.is-done{padding:20px}
+ .daily-complete{margin-top:20px}.daily-cue{font-size:20px}
+ body.daily-led .is-done .cine-title{font-size:26px}
+ .daily-actions{gap:18px}.daily-share{max-width:100%}
+}
+@media(max-height:720px) and (max-width:700px){
+ #homeScreen .gs-hero-header{min-height:56px;padding:6px 0!important}
+ body.daily-led #main>.today{padding:14px}
+ .daily-picture{max-height:132px}
+ .daily-feature-grid{gap:12px;margin-top:10px}
+ body.daily-led .cine-title{font-size:25px}
+ body.daily-led .cine-sit{font-size:13px;line-height:1.35;margin-bottom:8px}
+ .daily-meta{margin-bottom:10px}
+ body.daily-led a.btn.cine-cta{min-height:46px;font-size:14px}
+}
+@media(max-width:360px){
+ body.daily-led #homeScreen .gs-main{padding-left:14px;padding-right:14px}
+ .daily-picture{max-height:112px}
+ body.daily-led .cine-title{font-size:24px}
+ .home-play>a{padding:12px}.home-play b{font-size:14px}
+}

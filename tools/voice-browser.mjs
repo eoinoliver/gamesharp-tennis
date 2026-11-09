@@ -82,7 +82,7 @@ try{
  assert.ok(await p.locator('#todayChallenge').count()===1,'an unfinished featured challenge remains an explicit invitation');
  await p.evaluate(()=>GSApp.CAT.daily.forEach(l=>GSApp.complete(l.slug,2)));
  await p.goto(base);await p.waitForSelector('#main .today');
- assert.ok((await p.locator('#main').textContent()).includes('Live Point'),'daily exhaustion offers the unplayed Live Point');
+ assert.ok(await p.locator('#homeSingles').isVisible(),'daily exhaustion retains singles practice');
  await p.evaluate(()=>GSApp.CAT.play.filter(l=>l.livePoint).forEach(l=>GSApp.complete(l.slug,2,2)));
  await p.goto(base);await p.waitForSelector('#main .today');
  assert.ok(/complete/i.test(await p.locator('.today').textContent()),'completed featured challenge stays complete without claiming whole-app completion');

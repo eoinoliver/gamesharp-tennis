@@ -112,5 +112,135 @@
       "slug": "live-point-return-pressure",
       "bridge": "Take the return read into a point with consequences."
     }
+  },
+  "home": {
+    "serve-plus-one": {
+      "title": "Your wide serve worked. Now what?",
+      "setup": "Watch two returns. Choose your next move."
+    },
+    "short-ball": {
+      "title": "A short ball. An easy winner?",
+      "setup": "Their slice stays low. Decide how much to attack."
+    },
+    "the-line": {
+      "title": "The line is open. Are you ready?",
+      "setup": "You are wide and late. Make your call."
+    },
+    "the-winner": {
+      "title": "A winner. But the right choice?",
+      "setup": "You clip the line. Decide what that really tells you."
+    },
+    "recovery": {
+      "title": "Your shot is good. Where next?",
+      "setup": "You have pulled them wide. Find your recovery spot."
+    },
+    "open-court": {
+      "title": "Open court. Or behind them?",
+      "setup": "Watch the defender move before choosing your target."
+    },
+    "forehand-bill": {
+      "title": "Run around—or hold your ground?",
+      "setup": "A deep ball to your backhand. Weigh the forehand against the recovery."
+    },
+    "the-lead": {
+      "title": "5–2 up. Why change now?",
+      "setup": "Your rally ball is getting shorter. Choose your next intention."
+    },
+    "split-step": {
+      "title": "Ready to move. A moment too late?",
+      "setup": "Watch the split step and the first move."
+    },
+    "approach-volley": {
+      "title": "Which approach earns the volley?",
+      "setup": "A short forehand. Choose how to come forward."
+    },
+    "middle-return": {
+      "title": "Big serve. Where do you return?",
+      "setup": "You are pulled wide. The server is waiting for your reply."
+    },
+    "high-ball": {
+      "title": "Same high ball. Same answer?",
+      "setup": "Read your time and contact before choosing where to meet it."
+    },
+    "second-serve": {
+      "title": "Both serves land in. Equally safe?",
+      "setup": "Watch where the returner meets each second serve."
+    },
+    "contact-clue": {
+      "title": "Into the net. What would you change?",
+      "setup": "Look closely at the moment the ball meets your racket."
+    },
+    "running-around": {
+      "title": "Time for your forehand?",
+      "setup": "Your slice has bought time. Decide how to use it."
+    },
+    "net-rusher": {
+      "title": "At their feet—or over their head?",
+      "setup": "They come to net. Read where they stop."
+    },
+    "pass-where-they-arent": {
+      "title": "They close the net. Where is the gap?",
+      "setup": "Watch which side they cover before choosing your pass."
+    },
+    "late-is-the-culprit": {
+      "title": "Wide again. What is the clue?",
+      "setup": "You aimed crosscourt. Freeze the contact and take a closer look."
+    },
+    "the-moonballer": {
+      "title": "Another high ball. Your move?",
+      "setup": "It will bounce above your shoulder. Choose where to take it."
+    },
+    "the-pusher": {
+      "title": "They get everything back. Now what?",
+      "setup": "A shorter ball gives you a chance to change the pattern."
+    },
+    "pulled-wide": {
+      "title": "Off the court. Still in the point.",
+      "setup": "You reach it low and late. Choose your reply."
+    },
+    "serve-away-from-the-lean": {
+      "title": "They are leaning. Where do you serve?",
+      "setup": "Read the returner before choosing your first-serve target."
+    },
+    "the-big-hitter": {
+      "title": "Their pace. Your starting position.",
+      "setup": "A big forehand is coming. Decide where to wait."
+    },
+    "the-lefty": {
+      "title": "A lefty. Does your pattern still work?",
+      "setup": "You have run around your backhand. Choose your forehand target."
+    },
+    "find-your-return-spot": {
+      "title": "Big serve. Where do you stand?",
+      "setup": "Watch the serve, then choose your starting position."
+    },
+    "answer-the-drop": {
+      "title": "You reach the drop. What next?",
+      "setup": "You arrive in time. Read where your opponent has stopped."
+    },
+    "attack-the-backhand": {
+      "title": "They know you want their backhand.",
+      "setup": "They are leaning to protect it. Choose where to go first."
+    },
+    "down-the-line": {
+      "title": "Is this your ball down the line?",
+      "setup": "You step into a shorter ball. Read their recovery."
+    },
+    "rushed-out-wide": {
+      "title": "Just reached it. What do you play?",
+      "setup": "You are stretched wide. Compare your options."
+    },
+    "earned-attack": {
+      "title": "Open space. Have you earned it?",
+      "setup": "Read your arrival before deciding to attack."
+    },
+    "earned-defence": {
+      "title": "Pulled wide. Is defence the only choice?",
+      "setup": "Watch your arrival and your opponent before choosing."
+    },
+    "earned-net": {
+      "title": "A short reply. Should you follow?",
+      "setup": "Read your contact before committing to the net."
+    }
   }
 }

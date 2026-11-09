@@ -905,3 +905,23 @@ The feature intentionally replaces bare-entry auto-start with a clear playable
 Home invitation; existing explicit automatic-entry links remain supported.
 No new tennis lesson or learning-efficacy claim is added. Full build, browser,
 Git preview/staged/live verification remains required for release.
+
+## 9 November 2026 — Home clarity (Codex)
+
+Branch codex/home-clarity-2026-11-09 from main 559ef8e. Eoin approved the
+mobile Home redesign after reviewing his screenshots: one clear Daily Challenge,
+compact singles/doubles entries, audio preferences in a disclosure, saved cues
+in My Game, and a smaller completed state. Remove the repeated feature directory.
+Use concise, situation-led Home copy and frames from the actual daily lessons.
+Preserve lesson content, progress, day/revisit semantics, coach choice and all
+existing practice destinations. Verify first, returning, revisited and completed
+states at small/large mobile sizes and desktop, plus keyboard and storage failure.
+
+Review candidate app 97243b2214 preserves the exact 63 lesson files, engine and
+all audio. Build parity: 313 release files / 312 public; 431 source/test inputs.
+93 unit checks, 114 Home checks in each of Chromium/WebKit, 65 real Daily
+completion/share checks and 37 coach checks (74 Lara files decoded) passed.
+Full shell checks and Git CI/hosted verification are in progress. The first local
+shell run overlapped a rebuild that temporarily removed served assets; rerun
+against the stable generated output. This is a preview task; production remains
+9a939878ec. Codex owns completing checks, PR and presenting the review build.

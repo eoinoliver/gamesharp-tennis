@@ -13,11 +13,11 @@ async function page(size={width:390,height:844},reducedMotion='no-preference'){
 }
 try{
  for(const size of [{width:320,height:568},{width:390,height:844},{width:430,height:932},{width:1280,height:900},{width:1440,height:900}]){
-  const p=await page(size,'reduce');await p.goto(base+'?home=1');await p.locator('#cineCourt.ready svg').waitFor();
+  const p=await page(size,'reduce');await p.goto(base+'?home=1');await p.waitForFunction(()=>document.querySelector('#cineCourt img')?.naturalWidth>0);
   check(await p.evaluate(()=>{const a=document.querySelector('.gs-hero-wordmark').getBoundingClientRect(),b=document.querySelector('#profile').getBoundingClientRect();return a.right<=b.left&&b.width>=44&&b.height>=44;}),`${size.width}: profile has an unobstructed touch target`);
-  await p.locator('#profile').click();await p.locator('#player-level').waitFor();
+  await p.locator('#profile').click();await p.locator('#levelSettings').click();await p.locator('#player-level').waitFor();
   await p.goto(base+'?home=1');check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${size.width}: Home fits without horizontal scroll`);
-  check(await p.evaluate(()=>{const court=document.querySelector('#cineCourt').getBoundingClientRect(),card=document.querySelector('.daily-copy').getBoundingClientRect();return court.bottom<=card.top||court.right<=card.left||card.right<=court.left;}),`${size.width}: challenge never hides the ball flight`);
+  check(await p.evaluate(()=>{const court=document.querySelector('#cineCourt').getBoundingClientRect(),card=document.querySelector('.daily-copy').getBoundingClientRect();return court.bottom<=card.top||court.right<=card.left||card.right<=court.left;}),`${size.width}: challenge text never overlaps its preview`);
   await p.screenshot({path:`${out}/home-${size.width}.png`,fullPage:true});
   await p.goto(base+'?review=1');await p.locator('#shAth.ready svg').waitFor();
   check(await p.locator('.sh-zones a').count()===8,`${size.width}: seven original concerns plus doubles retained`);

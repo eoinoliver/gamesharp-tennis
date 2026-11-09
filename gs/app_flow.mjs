@@ -44,16 +44,16 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  ok((await p.getAttribute('a.home','href'))==='./?home=1','Back to home never auto-starts');
  await p.click('a.home'); await p.waitForSelector('#main .today');
  const home=await p.textContent('#main'); ok(home.includes('Live Point'),'home offers the unplayed Live Point after a daily completion'); ok(/today.s challenge.*complete/i.test(home),'daily completion stays primary alongside the optional point');
- ok(home.includes("What's your game"),'level picker appears after the first lesson'); await p.click('[data-level=club]'); ok(!(await p.textContent('#main')).includes("What's your game"),'level saved');
+ ok(!home.includes("What's your game"),'completion has no unsolicited level prompt'); await p.click('#profile'); await p.click('#levelSettings'); ok(await p.locator('#player-level').isVisible(),'player level remains available in My Game'); await p.click('[data-level=club]'); ok(!(await p.textContent('#main')).includes("What's your game"),'level saved');
  await p.goto(base+'?home=1'); await p.waitForSelector('#main .today');
  ok((await p.textContent('#streak')).includes('1'),'streak chip 1');
  await p.screenshot({path:out+'app_home_done.png',fullPage:true});
- await p.click('#more'); await p.waitForURL(/short-ball/); ok(true,'play next now opens lesson 2');
+ await p.goto(base+'?all=1&kind=daily'); await p.click('#more'); await p.waitForURL(/short-ball/); ok(true,'play next now opens lesson 2');
  await p.waitForFunction(()=>window.__test);
  const ev2=await p.evaluate(()=>GSApp.log().map(e=>e[1])); ok(ev2.includes('asked_more'),'asked_more logged');
  ok(ev2.filter(e=>e==='app_open').length===1,'one app_open per day');
- await p.goto(base);await p.waitForSelector('#livePoint');ok(!p.url().includes('play.html'),'returning player sees the unplayed Live Point instead of repeating a daily');
- await p.click('#more');await p.waitForFunction(()=>window.__test);ok(!p.url().includes('l=serve-plus-one')&&!p.url().includes('l=short-ball'),'daily continuation still skips completed and encountered lessons');
+ await p.goto(base);await p.waitForSelector('#livePoint');ok(!p.url().includes('play.html'),'returning player sees their daily completion and related Live Point');
+ await p.goto(base+'?all=1&kind=daily'); await p.click('#more');await p.waitForFunction(()=>window.__test);ok(!p.url().includes('l=serve-plus-one')&&!p.url().includes('l=short-ball'),'daily continuation still skips completed and encountered lessons');
  await ctx.close();}
 
 // 2. an old-app streak from yesterday carries over
