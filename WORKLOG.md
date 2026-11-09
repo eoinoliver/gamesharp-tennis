@@ -1029,3 +1029,15 @@ The 325 Contact Clue, 9 layout/navigation and 28 mobile-learning regressions
 pass locally. Both engines passed the 349 sharing/practice checks after the
 toolbar change; Codex owns final exact-candidate verification and fresh full CI.
 Production remains unchanged.
+
+## Share branding — 9 November 2026
+
+Codex owns the authorized PR 85 follow-up: replace generic native share titles
+and messages with GameSharp Tennis branding, preserve one-tap native sharing,
+and style the copy-link dialog and completion share controls in the existing
+green/gold identity. Include the real activity card in the copy dialog; add the
+brand to all 63 social metadata titles. Keep recipient invitations free of the
+teaching answer, including lesson names that could give the decision away.
+Native OS share-sheet colours remain controlled by the phone/browser. Public
+share pages still return 404 until the review release is promoted. Scope is
+implementation, checks and a fresh Git preview; production stays unchanged.

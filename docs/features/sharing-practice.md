@@ -6,7 +6,12 @@ audio, silent Home motion and the three primary Home routes are preserved.
 ## Sharing
 
 Every activity has an in-play Share control and a completion action outside
-collapsed panels. Native share cancellation and clipboard failure are explicit.
+collapsed panels. Native share titles/messages identify GameSharp Tennis and the
+activity type; teaching titles are omitted from outgoing invitations when they
+could reveal the answer. The copy-link dialog uses the green/gold wordmark and
+actual court card. Native share-sheet colours remain OS-controlled. Social
+metadata titles include the brand. Native share cancellation and clipboard
+failure are explicit.
 The existing six editable doubles plans remain proposed plans, not evidence of
 partner agreement. No messages are sent by the app without the user's share tap.
 

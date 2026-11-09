@@ -19,11 +19,11 @@
     },
     "app_src/play_host.html": {
       "baseline": "c1db12fd0d142ace07be667d8d7a0a3a2d965fcf7f0f6aaf784a97c336cf97ac",
-      "candidate": "c8359865cdd0c7d9c4f54440f910259e56beb98c20e39b8a654a8712dd649c67"
+      "candidate": "154c18760f5f33c7903eefd0adf0d25e65cbfe933818d062a49e7d37f61d8967"
     },
     "app_src/practice.css": {
       "baseline": null,
-      "candidate": "56541a407850d38f5171ce9d6222be3775ace6de4d818ba24c241ee87e3a1124"
+      "candidate": "387ce8bb7fbe0213b5b2d20d542344f65e8cbe2e196e96c741de93f02aabcbcb"
     },
     "app_src/practice.js": {
       "baseline": null,
@@ -283,7 +283,7 @@
     },
     "app_src/share_pages.py": {
       "baseline": null,
-      "candidate": "4925c31fb141ce7e40c2de5394830ff734e7343394444e2a5629a59e34fc53c2"
+      "candidate": "465da358e1295787fd0bcf605fb3429772ff3bb08ea5017a5dcd6c6db801472a"
     },
     "app_src/sharpen.js": {
       "baseline": "7be74425c34ed9c6e66113c943a1b99ee8c2748a379f7a6a3408849b632f5342",
@@ -295,7 +295,7 @@
     },
     "docs/features/sharing-practice.md": {
       "baseline": null,
-      "candidate": "6fb83f743b3723df4a1e187f4b97c3d4f14e90f2ba276a0f9ea7d81d123fab64"
+      "candidate": "fb2b7b7930d044b8ab8f55dddcedbe6fe9af7f98379d9adc7bd6eb0304eaf5f3"
     },
     "tools/browser-checks.mjs": {
       "baseline": "ffef79011b46fda985b425a874cccce67d2177f92d7c22dc6c713287ade4f350",
@@ -319,7 +319,7 @@
     },
     "tools/sharing-practice-browser.mjs": {
       "baseline": null,
-      "candidate": "60022863f08de9bf56fbfb08eff6554a80a00a4fde0944a77fd594b314e2c100"
+      "candidate": "dfade346c4648ead67b4ef1cc22749ee77838b28abe1189fe26df7f3925d8b5b"
     },
     "tools/ux-audit-browser.mjs": {
       "baseline": "0c75775f02fc447581fcdea7e86fb0429c91b17d0c2c0eff73f13482eb7b6bc0",
@@ -337,19 +337,19 @@
     },
     "app/catalog.js": {
       "baseline": "feb4ea3c184a83b196b9d9f82f94fdc6eefcd51464943785a846d27802b49c56",
-      "candidate": "2560525167259075dd2b6bacd3aa4de667cb388c2611429c9137ce39016847fc"
+      "candidate": "cc73b3ab9683dba378a3312fe627c953685d0650f4b33e1a8c6cf5fed994d053"
     },
     "app/index.html": {
       "baseline": "e6c74aefdc75bf1fda47d8585ee9889a281d512238b038f8269f24c1f036a2cd",
-      "candidate": "c6ba7bdf3a0dd4b9aae16f554eb8a6b34d9362c6f582c8faca2654c031a004d3"
+      "candidate": "f0ed69ff28331a2b6cc3cff997352a11b44f55ad40c97a780d0cb683d7667f10"
     },
     "app/play.html": {
       "baseline": "0c57e7da58dbb59e7837eda5a400be4c900ea48e2e666c9a59edc187cf2cc072",
-      "candidate": "775d165f788ffb1dc714ffd1af9cd57ae1ab51c75cee59f5ca05734d837c5f58"
+      "candidate": "7ce7472b106d8b2981fe3c5cecd854eae597a248403b94e1914af4ef16c60ea1"
     },
     "app/practice.css": {
       "baseline": null,
-      "candidate": "56541a407850d38f5171ce9d6222be3775ace6de4d818ba24c241ee87e3a1124"
+      "candidate": "387ce8bb7fbe0213b5b2d20d542344f65e8cbe2e196e96c741de93f02aabcbcb"
     },
     "app/practice.js": {
       "baseline": null,
@@ -357,255 +357,255 @@
     },
     "app/s/answer-the-drop.html": {
       "baseline": null,
-      "candidate": "46fdc11b3697dfd32bda1671b265bac19942e231a60f2536b5a60e5290034b8c"
+      "candidate": "4c9e17f3558bbfdce2c08345b7f2b4db10d3b64281c36a8d247216595856dd43"
     },
     "app/s/approach-volley.html": {
       "baseline": null,
-      "candidate": "9101e5a4f0cb826a04bcf1be7f189c7d9071fad214432e098ce5e8170963e473"
+      "candidate": "aa3df5f78184779c1dd077076045665787a4662fc82bbb35dac0915cd32885f5"
     },
     "app/s/attack-the-backhand.html": {
       "baseline": null,
-      "candidate": "6ec4cfb3294f7ef666e7affc94f68882e142487dbb6ee0b0f8840a083d09527d"
+      "candidate": "bdcd087927c7c02f553bcef7bf6cdffe6188d8e3be7e7dbee6988075d883c28a"
     },
     "app/s/contact-clue.html": {
       "baseline": null,
-      "candidate": "195cb96f34a9969dcef54a9ec5f102f55525c73d5c568cadac89334d01699a18"
+      "candidate": "ce5395a9cd5fd7ff5526861da8260eb15cc37b25aa8f2485258daed31196d8c5"
     },
     "app/s/doubles-cross-cover.html": {
       "baseline": null,
-      "candidate": "68fe323d551340d0503989024a17d6847ec3166458d3edd1136d669ec1ac7fd6"
+      "candidate": "02b6f664797bb7099fa9d3713c355785e6f9db332df6e69d9372192842e6a9f8"
     },
     "app/s/doubles-hold-cover.html": {
       "baseline": null,
-      "candidate": "a8205c9f2fa5ab12ee3dc02f335c9a0f20e44994513769d126c10c9ddb1f46f2"
+      "candidate": "01ed5d244feac5f3dd0c043584112f9d61ae8ad795c8e3abdff27e3c491bbac7"
     },
     "app/s/doubles-lob-overhead.html": {
       "baseline": null,
-      "candidate": "80fbb601ad42cf3c4432da88d08131bb2fe8d9e2a4513607c51498a3d9080ac1"
+      "candidate": "a370aaa96f4f2a5edf0f03da7c202f8a9829114e09cc5e4f9e85acd0bda9d202"
     },
     "app/s/doubles-lob-switch.html": {
       "baseline": null,
-      "candidate": "bdd35b36a781d21faf264fed1069701fff8b8debc412f95effe05eacc70979f6"
+      "candidate": "9d577c906b444ef4904b77ffc1097561531bc0d57392856edbca1e10dd5a3bde"
     },
     "app/s/doubles-return-line.html": {
       "baseline": null,
-      "candidate": "00fa0cd5cad4ef64afd100ea4dd88b743ef5f000d18603ba7e078f28caca0b49"
+      "candidate": "07224cbe64a6429615dc79266628d183b8ef03a68f3feb3a5491b8e023ec2d21"
     },
     "app/s/doubles-return-space.html": {
       "baseline": null,
-      "candidate": "cff3a91ff7f49fcb0e714b21cd085dac3b80ca04398ba4ca1cdc428e3794f5da"
+      "candidate": "60c7a7552d8bb74b1c99e68c3f347f408203ec5f37e6cf275ce815966736c88c"
     },
     "app/s/down-the-line.html": {
       "baseline": null,
-      "candidate": "1701992ae9d73a9655a37cb6791e9d8f244fccf308f877d35a5666186e6d5bed"
+      "candidate": "762469fe6290f4de9f828742e0ff80f591105886b941b73e95e138aa79b7ea37"
     },
     "app/s/earned-attack.html": {
       "baseline": null,
-      "candidate": "416419547fb77d586a1221727138cbc77efa7489c4c897c75351feeffb82561c"
+      "candidate": "d27c9802ec600a4a8a44c14bc28d2dcf87325848009af03e78c7b195fa8c4442"
     },
     "app/s/earned-defence.html": {
       "baseline": null,
-      "candidate": "c69e12bd165a7cb1af9b9c17f2386f4dcbd90d7abcbb6f5986f22895b5f2cef2"
+      "candidate": "f800c50a79c93edd5e643efe5291b418975700fa5c1c6d6549c58b7e0d8bd8ef"
     },
     "app/s/earned-net.html": {
       "baseline": null,
-      "candidate": "722598995958129ad8b94afbff8ab05e280dde8d59bf77d02f8a4acc8448d1a8"
+      "candidate": "4b2c1e3cd9c885d50ccff911a8d8b6c3197221aaa280975b46b4c08a7225c573"
     },
     "app/s/find-your-return-spot.html": {
       "baseline": null,
-      "candidate": "df7fa4a6e6640039044afc242ec4594e98ac04b2f757d4abb7105b55f575a58b"
+      "candidate": "73de0df287a6595c22196081c4d4dcb5e250396669dc1c61c2ca235851dac73d"
     },
     "app/s/forehand-bill.html": {
       "baseline": null,
-      "candidate": "9a7d070f4475731523dfad58e740a918f5f3bcd777b5c2485fbe917151d63885"
+      "candidate": "e7c0c627fd3dfb0b86cc6c72fb0e9ee0303c8b9f6b23a83b05a15dc2d4128697"
     },
     "app/s/high-ball.html": {
       "baseline": null,
-      "candidate": "7039c7f9c53ea80a7d9f555e66339f4a2e69c6c4562cc1f9a11256d3a23f3ee9"
+      "candidate": "dcb960d5ca332a02edd36ecd807b2e51adb249c0aa7a65d945961b2c07fa929b"
     },
     "app/s/late-is-the-culprit.html": {
       "baseline": null,
-      "candidate": "16eb50a409c27fc02908fa37c9453b286deb9299a094efc11ece1fbf7bd6a9ef"
+      "candidate": "64ea77453e1f0f856f986406517db164077e1afc2b3110abe48bea4c7a5a18cc"
     },
     "app/s/live-point-arrive-options.html": {
       "baseline": null,
-      "candidate": "fadf56b1757d2a4a59ebaa77d5106aae3d6a47c2e36e7df1dd120a43ca40f503"
+      "candidate": "0e1a3e2a6201f1f6792afbe0f9e029099782dd15c9d64a008e3b8a99f3e888a7"
     },
     "app/s/live-point-buy-time.html": {
       "baseline": null,
-      "candidate": "80ab993eb18bb554ea135d9842cb8d97032d5614cd00a9df6b64434274ba9d44"
+      "candidate": "ce2f0a37a609e04ddd3f8f81a4637c3fd239e6470d0b90dec2e211fa55d840a6"
     },
     "app/s/live-point-line-opens.html": {
       "baseline": null,
-      "candidate": "99493969f7f7d4c3a5fe8ffdb9ea8213b2c4039d00f274c3c0147f0e331d4342"
+      "candidate": "890f417f6df5d4e53ae26c748890c8e9fb792bb480faa96ff1ffb239ee7bca56"
     },
     "app/s/live-point-line-tempting.html": {
       "baseline": null,
-      "candidate": "6d31d671f201d3c2520050621cb885b3c9a50de844c34c80e4a8864d01cee7eb"
+      "candidate": "76310116639e193eeca492f94ac7d2ac218e42bd43c6be4136a59bca5893485e"
     },
     "app/s/live-point-make-room.html": {
       "baseline": null,
-      "candidate": "8c01ec83fd6b9496bebb2a89b0a7b011deb8c10bf28359e55f25bcfa9cb142a7"
+      "candidate": "f1f532bf68f99b33818bbb893d0b53abcbad2457cd38dba937d40d78ad0ead1a"
     },
     "app/s/live-point-other-wing.html": {
       "baseline": null,
-      "candidate": "a7492281b97294513577becf2d81008ad7e278618480d03f61a03ca268b4f1ff"
+      "candidate": "8dcdddbd6e943e3c5aed36d7dfd8ded3118084393f41c336920d88b21aefefa8"
     },
     "app/s/live-point-over-head.html": {
       "baseline": null,
-      "candidate": "3da3c37e59521ff157af9bbf7f19793e957ad173b9a3f2c42bdda8bed9f03c25"
+      "candidate": "eeaa8295fc74bb88fd777b7236688e21074d555939db054c924e5d24acb494dd"
     },
     "app/s/live-point-pass-two.html": {
       "baseline": null,
-      "candidate": "6e50112fa9acc3213419e430319075759628baa4f1c448a672558ad2a443d358"
+      "candidate": "30de8654dcd936d345bd6acba9228811436a3f73e8da93e9abe35b8c3ccc97aa"
     },
     "app/s/live-point-reach-drop.html": {
       "baseline": null,
-      "candidate": "ea69e787c47c7bd544379cd5b74025cec00c09c4aa0482d743ee013e8fbf5311"
+      "candidate": "b152e217904fb9313751c9cb746139200744ae94a025b7350367416e98a7de70"
     },
     "app/s/live-point-return-deep.html": {
       "baseline": null,
-      "candidate": "f1103717dc00b42c85cba6060d9b78d2efca0ff6b1d69c1743bdc39eda727d6b"
+      "candidate": "f2ac77670c6ae31b8cba8a3ec6a104d8dbd7d1784d3ca3999683c8def197ad80"
     },
     "app/s/live-point-return-pressure.html": {
       "baseline": null,
-      "candidate": "76da78e5b593a99f0149e739f32da5a66158a0bb8a9bad590c9b82dad82e5ca6"
+      "candidate": "0ad92bfa7f37a03ab332e2b1bdc95e29a41a0a9656b6b6b450dfefe79bbb7456"
     },
     "app/s/live-point-return-time.html": {
       "baseline": null,
-      "candidate": "2cafa1945e1560341a9c5155d875c8994bd16ce9b3110ac42675b31fa3c8752f"
+      "candidate": "1352a2e87e34fcc1bb84d5b63498678e0cca360e8a02d9cb93057d61a5c65887"
     },
     "app/s/live-point-serve-see.html": {
       "baseline": null,
-      "candidate": "592be8d21fc82f5c92b088b2606cf32b8d0d774edc9a687dd1bc21878a163534"
+      "candidate": "75cb46477074b62618b6b11625785d3e4162df7ceb2c4a5b8021e5c5871b65cf"
     },
     "app/s/live-point-short-low.html": {
       "baseline": null,
-      "candidate": "48665ce9617c6c16ea5cf0963a4988db57668287b0eeb833abe8945cca1db39f"
+      "candidate": "2ee131a38e7ef74254321e82565b882bca0cbf70a87f09c1fad1ae7515155a74"
     },
     "app/s/live-point-volley-build.html": {
       "baseline": null,
-      "candidate": "0942f8cbe5f53644768ede0b7806a9ab848abff32fd7875c49a000a18da777bd"
+      "candidate": "e98bf5471a9a5028e4992f87bfe13e77e1b7eca7edcc0bbd4a3f09731b16b7c3"
     },
     "app/s/live-point-volley-opening.html": {
       "baseline": null,
-      "candidate": "3ec483b8218fa46e0b67cd3b0e65cd417fa45da142cd70119c1a7583605fd5cb"
+      "candidate": "884700e0ebeedb4e6697b64525bebaf2162d666ee41e50c6927c32587a74ae72"
     },
     "app/s/middle-return.html": {
       "baseline": null,
-      "candidate": "db027250614f74b76bc8ccbb7035ffe7bebc439341a8cd87d1622d5fc9b0f0a4"
+      "candidate": "1cb6840c446b257e900ae68c9484beb6e8356cf9b87c3b03f3a079958573cba7"
     },
     "app/s/midweek-point-1.html": {
       "baseline": null,
-      "candidate": "3844b3f66f8b3dbed20cf69632eb79223c226eacd77760af65847fe77b34151f"
+      "candidate": "ca4c84abfbaf0b4f8a537cc4826234d381aac1061729cfae508403f2ae644f2e"
     },
     "app/s/net-rusher.html": {
       "baseline": null,
-      "candidate": "75df149d2025173ef622f6b542de7f301e9a49ef00e2fac91101b72b9a0ee2bb"
+      "candidate": "636bf0335a657c5b5f2709e6886ffcb4c19fcd7979b709664665e0a3e16b1986"
     },
     "app/s/open-court.html": {
       "baseline": null,
-      "candidate": "311aa8e801ec0733dae0b6f780f01dfe7d1b23d614acea715f013e3c2cbcc49c"
+      "candidate": "62494def5d2bbc8dd74ef375c48281e5ca8bdd2ae64f30ba208c454a0e701800"
     },
     "app/s/pass-where-they-arent.html": {
       "baseline": null,
-      "candidate": "93725902deffc5c545852fe95489533f344fe99cb45e7186adb9d4b83a15a026"
+      "candidate": "e6d84c9cfaeb933d04a5c35daed9b00b30f04ac91e1fd082288b99691cc81f6f"
     },
     "app/s/play-the-point.html": {
       "baseline": null,
-      "candidate": "654ed77553d210c59b540a2d7e76c5f0637393a03f7cf7cc7f2b5fa527ea73b1"
+      "candidate": "fed8fda13b39ac818d3c66fd8a000dae817b5c70be6a6b3509c0e9deca217e93"
     },
     "app/s/predict-second-serve.html": {
       "baseline": null,
-      "candidate": "a861bc9a2c6e4bf6fd352d27a44cf150c5e329b79efaf06b46e60d8d2be03530"
+      "candidate": "985146c7682445a4c5bfec4a5ddd728e80e5137b76b5423a6d6d8b7dbfa8671d"
     },
     "app/s/predict-the-point.html": {
       "baseline": null,
-      "candidate": "37e2babd375c82c242f2eaa5d573ff0a9c6ef5adb0a4f821e6d1542fd510106d"
+      "candidate": "9662d7f493893b2578553938bd1fbb733648b9abe728bf3f613bffc6a7bb4f40"
     },
     "app/s/pulled-wide.html": {
       "baseline": null,
-      "candidate": "231eb03d980d8b88075da2ad03743348da4b0bed0e16903097a0548d34aac3f2"
+      "candidate": "f5bf97d33e6f0ad08248ae23edd52c4c64717722544cf8c2693962fb35a032e5"
     },
     "app/s/recovery.html": {
       "baseline": null,
-      "candidate": "5d912017ec44f87fbec07f8f24a6fa64c6b6146b8373dc8863a335127a0e914e"
+      "candidate": "9f4f1b592174abc601e13782cb05f42d72f5410af08bbf3ff79c1932403b2440"
     },
     "app/s/running-around.html": {
       "baseline": null,
-      "candidate": "c8e844c920ae58af9efbae4f9c509b9beb4e64f38daa3212f6c0942ad662e7af"
+      "candidate": "70581582904e170325a59e6c5f04aabfce2d0e60899f158c833f763f6b5fd04a"
     },
     "app/s/rushed-out-wide.html": {
       "baseline": null,
-      "candidate": "e1cc04b4f5a55acf4da9a23b9c4450ecd73694a432d9ac4f84c70f18eed0287b"
+      "candidate": "b3ffd1ceb67907d68379ba759a3bfe759e0a9294ac3e5b92e8f42d4f03139ce0"
     },
     "app/s/saturday-point-1.html": {
       "baseline": null,
-      "candidate": "27d0391f43e20e82b9da1c0cb5dd7c171626f19755ba192048c1765106bd394a"
+      "candidate": "1cae633ebeefe6ac4ad1a304a67c457f257e8f44a54cae234a033e885c1d267f"
     },
     "app/s/saturday-point-2.html": {
       "baseline": null,
-      "candidate": "aafc5efa25bdd64eda2fa3eb00023716c66f8d749d2f932c96ca5ec4383a48a6"
+      "candidate": "7f78b1c19eb4855d90dee21368659ea13a7dbebcaeb61934ba87fdb6977de30f"
     },
     "app/s/saturday-point-3.html": {
       "baseline": null,
-      "candidate": "ab6164cfe92c8558e2faba856ac6eeb74bbcee8165b28d42dc2b9046e65dd5d1"
+      "candidate": "63ab2cd1cf5597ad20715a472474eaffab251f52b3f590507a7a8a2c36e4bc43"
     },
     "app/s/saturday-point-4.html": {
       "baseline": null,
-      "candidate": "18553f8a4092d41f25255232c49c1f12e4b84fb1dbb52d9c8aa8677b62e927c4"
+      "candidate": "319756f518c9e72dfa0c7959194df1f26a3f0a7fa92cc0c270097e3778ef1981"
     },
     "app/s/saturday-point-5.html": {
       "baseline": null,
-      "candidate": "c28360d0fc7cdd4dc0ae9998c8ed276c005347e7bdae07b2dfa35396d8d49fb9"
+      "candidate": "6e2be97a0a735c2bbcc17331ce217d2967d75bab0e151840ce783b3bd0423ec8"
     },
     "app/s/second-serve.html": {
       "baseline": null,
-      "candidate": "393965c34353dc6c7d918b71c954473b0150bdda2c17a1505b6bf6e50479c3ad"
+      "candidate": "14348104c1729277789463ceeafc5aa104a503f8e4a1160729b900771c3d680d"
     },
     "app/s/serve-away-from-the-lean.html": {
       "baseline": null,
-      "candidate": "66e1ab184fbaa5e08a0c252a8b6b27418cbfaedf3df2e19de6e947a0ce43e219"
+      "candidate": "11ccf0efe126a88cd9b9bd05eb32bcc202febb5eed35dd953cb79546144ff962"
     },
     "app/s/serve-plus-one.html": {
       "baseline": null,
-      "candidate": "6add22f79a24285404784912dcb2dc8f07c0500f98095373d0da1973912be084"
+      "candidate": "e60371270710e2a39451c074e871a9a21c0bbecf65bbf177ea44cdf6abae1810"
     },
     "app/s/short-ball.html": {
       "baseline": null,
-      "candidate": "a4a516fea39b5a3bd3072b87ae5172209786238b8ef22b7cf91513a2e995d022"
+      "candidate": "52b41ca2cb3974223707b8112cf7ef2b56be46743b7462860d2636908bb0a3e6"
     },
     "app/s/split-step.html": {
       "baseline": null,
-      "candidate": "ef9877e561a13ba6c4bcb7f970834a460a70bf5fe856ec6b9287cd1b94c80aad"
+      "candidate": "11a7f43a93829bf79dc904a27f43ee1c7c7f0bc1ad2fc65f44ed98128c5f3cc7"
     },
     "app/s/the-big-hitter.html": {
       "baseline": null,
-      "candidate": "fb869750cbe99df66af8ab679448b54f314d4bf4e8e28d954678c67430be3162"
+      "candidate": "a1e205ea8787332f7ac4e968d4fe8d205bfe1e911c1b59b7194707ba67b91781"
     },
     "app/s/the-lead.html": {
       "baseline": null,
-      "candidate": "d0ba74f3b1549e080fa1a109cc9a497b31e0a4f010c4b976e6787b23453150e1"
+      "candidate": "16265ec73a86ea841a2ccf711faec762395bd32ba603e6277bfe33d0c483ce02"
     },
     "app/s/the-lefty.html": {
       "baseline": null,
-      "candidate": "d3f8617204ca7e4d784fa67c563bf7049eee942c016f8b1f6ee60fd7080721bf"
+      "candidate": "78ecc86e49d4dd14cece5e1638f5d4f22ec42fd7e03601903e8bd706a959b294"
     },
     "app/s/the-line.html": {
       "baseline": null,
-      "candidate": "f8941b93a613160367751fb6ec26a538469ae1ef2d29f044c4426688b3961502"
+      "candidate": "c87d11ab4fc91142919ed0a773999c0c0d186bd04455b8a894ce39e33ab07f06"
     },
     "app/s/the-moonballer.html": {
       "baseline": null,
-      "candidate": "e29c1e590140893e3513411f212582df8b049263b12ab3f89b20a9131da06556"
+      "candidate": "b92c8258bd4f84cf211fbed3862724e5131d8c873b3dce3334a0765551fcbcb8"
     },
     "app/s/the-pusher.html": {
       "baseline": null,
-      "candidate": "25fa486c77e81f55bdad6d8dcbb76b2de6a2f7716df6280c749e0bbbdd41b9ef"
+      "candidate": "61b344e1f77be449819b180b0056582d55125fde2c0695da3a3dbfcbb5c7d4fb"
     },
     "app/s/the-winner.html": {
       "baseline": null,
-      "candidate": "a569791a4a220fda6fafe47d3e548df874509bf9ec82faffa6de4c7ba9582d00"
+      "candidate": "78ce979f780af00e1dda4220a266eac19eaaae04e4ca5d9628ba39073fc41cd6"
     },
     "app/share/answer-the-drop.jpg": {
       "baseline": null,

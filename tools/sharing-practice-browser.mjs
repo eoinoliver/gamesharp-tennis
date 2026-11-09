@@ -22,7 +22,7 @@ try{
   // Fetch raw HTML: social metadata must be present before JavaScript executes.
   const html=await p.evaluate(async slug=>(await fetch('s/'+slug+'.html')).text(),l.slug);
   const raw=await p.evaluate(html=>{const d=new DOMParser().parseFromString(html,'text/html');return {title:d.querySelector('[property="og:title"]')?.content,image:d.querySelector('[property="og:image"]')?.content,description:d.querySelector('[property="og:description"]')?.content,twitter:d.querySelector('[name="twitter:card"]')?.content,link:d.querySelector('a')?.getAttribute('href')};},html);
-  check(raw.title===cards.find(c=>c.slug===l.slug).question&&raw.twitter==='summary_large_image',l.slug+': server-visible question and social card');
+  check(raw.title==='GameSharp Tennis · '+cards.find(c=>c.slug===l.slug).question&&raw.twitter==='summary_large_image',l.slug+': branded server-visible question and social card');
   check(raw.image==='https://www.gamesharptennis.com/share/'+l.slug+'.jpg',l.slug+': specific actual-scene image');
   check(new URL(raw.link,base).searchParams.get('l')===l.slug&&!/score|answer=/.test(raw.link),l.slug+': fallback is exact and private');
  }
@@ -31,7 +31,7 @@ try{
   await visit(p,base+'s/'+l.slug+'.html');await p.waitForFunction(()=>window.__test);await p.locator('#tools #quickShare').waitFor();
   check(new URL(p.url()).searchParams.get('l')===l.slug&&await p.evaluate(()=>Object.keys(GSApp.S.done).length===0),l.slug+': fresh recipient lands directly without inherited progress');
   await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:async x=>{window.__shared=x;}}));await p.locator('#quickShare').click();
-  const payload=await p.evaluate(()=>__shared);check(payload.url==='https://www.gamesharptennis.com/s/'+l.slug+'.html',l.slug+': in-play share targets exact activity');
+  const payload=await p.evaluate(()=>__shared);check(payload.url==='https://www.gamesharptennis.com/s/'+l.slug+'.html'&&payload.title.startsWith('GameSharp Tennis · ')&&payload.text.startsWith(payload.title+'\n'),l.slug+': branded in-play share targets exact activity');
   await visit(p,base+'?home=1');
  }
  for(const slug of ['serve-plus-one','live-point-buy-time','doubles-cross-cover','predict-the-point','saturday-point-1','midweek-point-1','play-the-point']){

@@ -292,19 +292,24 @@ function afterEngine(){
     const c=document.createElement("div");c.className="gs-intro";c.innerHTML=`<b>One three-minute tennis decision a day.</b><span>Here's today's. Watch the ball.</span>`;
     st.appendChild(c);const go=()=>{c.classList.add("out");setTimeout(()=>c.remove(),500);};setTimeout(go,4200);c.addEventListener("click",go);});}
 }
+function activityShare(){
+  // Some activity names reveal the lesson; invitations keep the decision blind.
+  const title='GameSharp Tennis · '+A.activityLabel(L).split(' · ')[0];
+  return {title,text:title+'\n'+(L.doubles?'Make your calls, then compare with your partner.':'Watch the point. Make your call.'),url:A.shareUrl(slug)};
+}
 function wireQuickShare(){
   const button=document.createElement('button');button.id='quickShare';button.className='tbtn';button.type='button';button.title='Share this activity';button.setAttribute('aria-label','Share this activity');
   button.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 16V3m-4 4 4-4 4 4M5 11v10h14V11"/></svg>';
   document.getElementById('tools').append(button);
   const panel=document.createElement('dialog');panel.id='quickSharePanel';panel.setAttribute('aria-labelledby','quickShareTitle');
-  panel.innerHTML='<h2 id="quickShareTitle">Share this activity</h2><label for="quickShareLink">Link to this exact activity</label><input id="quickShareLink" readonly><div class="quick-share-actions"><button type="button" class="alt" id="quickShareCopy">Copy link</button><button type="button" class="alt" id="quickShareClose">Close</button></div><p id="quickShareStatus" role="status"></p>';
+  panel.innerHTML=`<div class="share-brand" aria-label="GameSharp Tennis"><span aria-hidden="true">GAME<strong>SHARP</strong></span><small aria-hidden="true">TENNIS</small></div><img class="share-scene" src="share/${slug}.jpg?v=${V}" width="1200" height="630" loading="lazy" alt="The opening situation for ${esc(A.displayTitle(L))}"><h2 id="quickShareTitle">${esc(A.displayTitle(L))}</h2><p class="share-invitation">Let them make their own call.</p><label for="quickShareLink">Link to this activity</label><input id="quickShareLink" readonly><div class="quick-share-actions"><button type="button" class="alt" id="quickShareCopy" autofocus>Copy GameSharp link</button><button type="button" class="alt" id="quickShareClose">Close</button></div><p id="quickShareStatus" role="status"></p>`;
   document.body.append(panel);
   const link=A.shareUrl(slug),input=panel.querySelector('input'),status=panel.querySelector('[role=status]');input.value=link;
-  const fallback=()=>{if(!panel.open)panel.showModal();input.select();status.textContent='Copy this link. Your answers and scores stay private.';};
+  const fallback=()=>{if(!panel.open)panel.showModal();status.textContent='Copy this link. Your answers and scores stay private.';};
   button.onclick=async()=>{
     A.track('activity_share_intent',{lesson:slug,where:'playing'});
     if(!navigator.share){fallback();return;}
-    try{await navigator.share({title:'What would you play?',text:L.doubles?'Make your own calls. Then talk it through with your partner.':'A tennis decision for you. What would you play?',url:link});A.track('activity_shared',{lesson:slug,where:'playing',method:'native'});}
+    try{await navigator.share(activityShare());A.track('activity_shared',{lesson:slug,where:'playing',method:'native'});}
     catch(e){if(e.name!=='AbortError')fallback();}
   };
   panel.querySelector('#quickShareClose').onclick=()=>panel.close();
@@ -321,17 +326,17 @@ function wireChallenge(w){
   box.querySelector('#sharePointButton').onclick=async()=>{
     A.track(daily?'daily_share_intent':'challenge_share_intent',{lesson:slug});
     if(!navigator.share){reveal();return;}
-    try{await navigator.share({title:daily?'What would you play?':'Where does this point turn?',text:daily?'Make your own call on this GameSharp Tennis challenge.':'Make your calls. Then see what they create.',url:link});status.textContent='Challenge shared.';A.track(daily?'daily_shared':'challenge_shared',{lesson:slug,method:'native'});}
+    try{await navigator.share(activityShare());status.textContent='Challenge shared.';A.track(daily?'daily_shared':'challenge_shared',{lesson:slug,method:'native'});}
     catch(e){if(e.name==='AbortError'){status.textContent='Share cancelled.';return;}reveal();}
   };
   box.querySelector('#copyChallenge').onclick=async()=>{try{await navigator.clipboard.writeText(link);status.textContent='Link copied. Their choices come first.';A.track(daily?'daily_shared':'challenge_shared',{lesson:slug,method:'copy'});}catch(e){box.querySelector('input').select();status.textContent='Select and copy the link above.';}};
   if(L.doubles){
     box.querySelector('.k').textContent='Play this with your doubles partner';box.querySelector('p').textContent='Send the point first. Let your partner make their own calls, then discuss your plan.';box.querySelector('#sharePointButton').textContent='Send the point to my partner';
     const plan=document.createElement('details');plan.className='pay';plan.id='pairPlan';plan.innerHTML=`<summary>Then agree a plan for your next match</summary><p>This is a suggested starting plan. Edit it together; GameSharp does not know whether your partner agrees.</p><label for="pairPlanText">My proposed plan</label><textarea id="pairPlanText" maxlength="420" rows="4" style="display:block;width:100%;box-sizing:border-box;margin:12px 0;padding:14px;background:#14221b;color:#f0ece3;border:1px solid #68795c;border-radius:10px;font:inherit">${esc(L.pairPlan)}</textarea><button class="alt" id="sharePairPlan">Share proposed plan</button><button class="alt" id="copyPairPlan">Copy proposed plan</button><p id="pairPlanStatus" role="status"></p><a class="alt" href="./?review=1&z=reset&r=partner">When the partnership feels tense · Reset →</a>`;box.append(plan);
-    const msg=()=>`GameSharp · Proposed plan for our next doubles match\n${plan.querySelector('textarea').value.trim()}\nDiscuss after playing: ${link}`,out=plan.querySelector('#pairPlanStatus');
+    const msg=()=>`GameSharp Tennis · Proposed plan for our next doubles match\n${plan.querySelector('textarea').value.trim()}\nDiscuss after playing: ${link}`,out=plan.querySelector('#pairPlanStatus');
     const copy=async()=>{if(!plan.querySelector('textarea').value.trim()){out.textContent='Add a plan before sharing.';return;}try{await navigator.clipboard.writeText(msg());out.textContent='Proposed plan copied. Paste it into your conversation when ready.';}catch{plan.querySelector('textarea').select();out.textContent='Select and copy your plan above.';}};
     plan.querySelector('#copyPairPlan').onclick=copy;
-    plan.querySelector('#sharePairPlan').onclick=async()=>{if(!plan.querySelector('textarea').value.trim()){out.textContent='Add a plan before sharing.';return;}if(!navigator.share){await copy();return;}try{await navigator.share({title:'Our doubles plan',text:msg()});out.textContent='Proposed plan shared. Agree it together before playing.';}catch(e){out.textContent=e.name==='AbortError'?'Share cancelled.':'Sharing unavailable. Use Copy proposed plan.';}};
+    plan.querySelector('#sharePairPlan').onclick=async()=>{if(!plan.querySelector('textarea').value.trim()){out.textContent='Add a plan before sharing.';return;}if(!navigator.share){await copy();return;}try{await navigator.share({title:'GameSharp Tennis · Our doubles plan',text:msg()});out.textContent='Proposed plan shared. Agree it together before playing.';}catch(e){out.textContent=e.name==='AbortError'?'Share cancelled.':'Sharing unavailable. Use Copy proposed plan.';}};
   }
 }
 function fail(){if(W)W.drop();ld.className="err";ld.innerHTML=`Couldn't load this lesson. Check your connection and <a href="">try again</a>, or go <a href="./?home=1">home</a>.`;}
