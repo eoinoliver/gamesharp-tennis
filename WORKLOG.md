@@ -1066,3 +1066,10 @@ for review. Local checks pass: 420 sharing/practice checks in each engine,
 The first-click regression now asserts zero native calls until the explicit
 second action. Copy, native cancellation/failure and panel dismissal were checked
 at 320/390/1440px. Codex owns the fresh Git preview, full CI and hosted checks.
+
+
+## 9 November 2026 — Home and sharing release record
+
+Codex owns `codex/home-sharing-release-record-2026-11-09`, a documentation-only follow-up to PR #85. Eoin approved the reviewed candidate `4feb2869a775471f9c6f2fc98e25552ae828a5ec` with “Ok if happy deploy everything live”. The merge `0525c0c7847dc563d289be3a9303e8ca2569ab61` has the identical Git tree `b62a17bfa1b7658943bc94b602062c4142a5c314`. No app edits belong in this follow-up.
+
+The Git-triggered Production deployment is `dpl_E2cV5QAmYdUx42QpTsv71tfdVqhw`, app `e4cf57314d`. Automatic custom-domain assignment was verified disabled before merge. Last-good rollback is `dpl_7iNz3ctaYbKfVVXUcBkBjCXv61s7`, app `9a939878ec`. The exact staged Production was promoted without rebuilding. Live verification passed 616 file/routing, 420 sharing/practice and 67 Home/completion checks; mobile/desktop share panels passed in Chromium and WebKit. All merged CI jobs passed. The alias and apex redirect are verified, with automatic assignment still off and no returned runtime errors. Full release evidence is in `docs/features/home-sharing-practice-release.json`. Do not promote documentation-only builds.
