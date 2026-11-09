@@ -285,7 +285,7 @@ details.note a{color:var(--gold)}
 
 </div>
 
-<link rel="stylesheet" href="coach.css?v=813697468d">
+<link rel="stylesheet" href="coach.css?v=49049cf9eb">
 <style>
 .daily-completion .daily-complete-message{font-size:15px;color:#dce8d7;line-height:1.5}.daily-completion .daily-related{margin-top:22px;padding-top:20px;border-top:1px solid #c8a84b30}.daily-related h2{font-size:22px;margin:8px 0}.daily-related p{font-size:14px;line-height:1.55;color:#b8c7b6}.daily-related .alt{min-height:44px;display:inline-flex;align-items:center}.daily-completion .k{display:block!important}
 
@@ -380,14 +380,14 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<script src="config.js?v=813697468d"></script>
-<script src="catalog.js?v=813697468d"></script>
-<script src="app.js?v=813697468d"></script>
-<script src="coach.js?v=813697468d"></script>
-<script src="sfx.js?v=813697468d"></script>
+<script src="config.js?v=49049cf9eb"></script>
+<script src="catalog.js?v=49049cf9eb"></script>
+<script src="app.js?v=49049cf9eb"></script>
+<script src="coach.js?v=49049cf9eb"></script>
+<script src="sfx.js?v=49049cf9eb"></script>
 <script>
 (function(){
-const A=GSApp, V="813697468d", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="49049cf9eb", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
@@ -511,7 +511,13 @@ function wrap(n){
   // Give the professional connection its place in the challenge payoff, before
   // the optional continuation. Authored story/source text stays unchanged.
   const pro=isChallenge&&w.querySelector('[data-k=pro]');
-  if(pro&&!practiceReturn){pro.open=true;w.firstElementChild.after(pro);}
+  if(pro&&!practiceReturn){
+    const previousPanel=pro.closest('.completion-more');
+    pro.open=true;w.firstElementChild.after(pro);
+    // Anticipation endings can contain only the pro story. Moving it out must
+    // not leave an empty "Professional context" disclosure behind.
+    if(previousPanel&&![...previousPanel.children].some(el=>el.tagName!=='SUMMARY'&&el.textContent.trim()))previousPanel.remove();
+  }
   if(continuation&&!practiceReturn)(pro||w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
   w.querySelector('#relatedLivePoint')?.addEventListener('click',()=>A.track('daily_to_live',{from:slug,to:related.lesson.slug}));
   if(L.livePoint||A.isDaily(slug))wireChallenge(w);

@@ -23,7 +23,7 @@
     },
     "app_src/play_host.html": {
       "baseline": "cbb62901fa5c9bd9e73cf3c669f5c61561958cf15c57ce229bd1036967f50016",
-      "candidate": "15c7cce3e7357b6bb00f5a32ae66380eee4eb5b8aa7607e46d1c8695394a0c00"
+      "candidate": "c1db12fd0d142ace07be667d8d7a0a3a2d965fcf7f0f6aaf784a97c336cf97ac"
     },
     "app_src/sfx.js": {
       "baseline": "9fb98f0be5f99e258d1d90c2355b7385374aaee00d53da2905e7da13738f7389",
@@ -72,6 +72,10 @@
     "tools/sensory-browser.mjs": {
       "baseline": "e4efc57ffb20092f0e3b625f960dd10f357ec63f61b7429d8d0c2a0c50e20cbb",
       "candidate": "ceacc501b709bc8416f78b3b580609330b251a1d53ffe67d3477523c8876cebd"
+    },
+    "tools/pro-insight-browser.mjs": {
+      "baseline": "97ee630bbdf692079d0ed735792952dd40b3c00052415987348ac62f5036b506",
+      "candidate": "ebeb269786cf3ad2aacaa440fc8d4fb2212f973d00860340aa08cb7f1d752497"
     }
   },
   "release": {
@@ -81,7 +85,7 @@
     },
     "app/catalog.js": {
       "baseline": "7c63a0a6b22676238c16dfbb725095fe17243635dddd43ed200763260639204f",
-      "candidate": "308e602057b78a76ddb7f1a9ce707ac73d6761c982fcd2ce13eba236d43bc437"
+      "candidate": "9d15ff0a4f9f09d3659e4725fb965cb702055ecb6857c2d56fe412e451b68d36"
     },
     "app/engine/engine.js": {
       "baseline": "bcc6e6c74bd14f7c6f85ef4e2debcdd020f8e8c4105ca6f78fe76a61a9dff156",
@@ -89,11 +93,11 @@
     },
     "app/index.html": {
       "baseline": "578c74e97d8b1adb4bf1f5ebd7be337ecc1bf1f8c699d272368d0cd475b9033f",
-      "candidate": "799c7510a9092a19b4f43bfc0bc10bcdcc5a2978a97b428bf2532d2fb62e5902"
+      "candidate": "91ff8cec9e270991c69febf6da9461ba1eb0b31b6fec7a89628e1e24ca64ed2e"
     },
     "app/play.html": {
       "baseline": "68304c03316adba0dbebc22887ff37aec51bc92ee914b23f42c38c035f65e68a",
-      "candidate": "77a9abe7fac49ea49883bc4631c13a02e5c082802144a5b491081bf1682cbea0"
+      "candidate": "173cb1a57118451671d54b8ec975041560cc01eb6707c95b79188e460f43bd7f"
     },
     "app/sfx.js": {
       "baseline": "9fb98f0be5f99e258d1d90c2355b7385374aaee00d53da2905e7da13738f7389",

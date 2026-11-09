@@ -224,7 +224,13 @@ function wrap(n){
   // Give the professional connection its place in the challenge payoff, before
   // the optional continuation. Authored story/source text stays unchanged.
   const pro=isChallenge&&w.querySelector('[data-k=pro]');
-  if(pro&&!practiceReturn){pro.open=true;w.firstElementChild.after(pro);}
+  if(pro&&!practiceReturn){
+    const previousPanel=pro.closest('.completion-more');
+    pro.open=true;w.firstElementChild.after(pro);
+    // Anticipation endings can contain only the pro story. Moving it out must
+    // not leave an empty "Professional context" disclosure behind.
+    if(previousPanel&&![...previousPanel.children].some(el=>el.tagName!=='SUMMARY'&&el.textContent.trim()))previousPanel.remove();
+  }
   if(continuation&&!practiceReturn)(pro||w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
   w.querySelector('#relatedLivePoint')?.addEventListener('click',()=>A.track('daily_to_live',{from:slug,to:related.lesson.slug}));
   if(L.livePoint||A.isDaily(slug))wireChallenge(w);

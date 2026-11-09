@@ -31,7 +31,8 @@ try{
     // Renderer fixture, not a claim that this fast-forward is a completed user journey.
     await p.evaluate(()=>{ans=LESSON.steps.map(()=> 'A');finishLesson();if(recapActive)document.getElementById('skipRecap').click();});
    }
-   await p.locator('.completion-more>summary').click();
+   if(await p.locator('.completion-more>summary').count())await p.locator('.completion-more>summary').click();
+   assert(await p.evaluate(()=>[...document.querySelectorAll('#wrapup details')].every(d=>[...d.children].some(el=>el.tagName!=='SUMMARY'&&el.textContent.trim()))),slug+' has no empty completion disclosures');
    const expected=await p.evaluate(()=>LESSON.pro),card=p.locator('[data-k=pro]');
    if(expected){
     assert.equal(await card.count(),1);assert.equal(await card.getAttribute('open'),'');
