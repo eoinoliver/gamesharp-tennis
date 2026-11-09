@@ -2,13 +2,16 @@
 
 Eoin found the previous mobile Home a cognitive blur. This revision makes the
 daily invitation dominant and removes the directory of competing practice and
-preparation cards from Home. The green/gold identity remains; a warm, light daily
-panel distinguishes the main task from the two compact singles/doubles routes.
+preparation cards from Home. The green/gold identity runs through one continuous surface. Eoin rejected the
+pale panel in the first preview. The revised design uses a larger question, a
+real court scene and one gold action; singles/doubles are quiet text links.
 
 - All 32 daily invitations have short situation-led headlines and an actual
   still from their own first decision or lead-in. `home-preview-frames.json`
   records the source scene/frame; `tools/render-home-stills.mjs` regenerates them
-  using the existing renderer. Contact Clue uses its opening rally rather than
+  using the existing renderer. Instructional text labels are omitted from the Home
+images only; players, ball, court and the actual lessons remain unchanged.
+Contact Clue uses its opening rally rather than
   its cropped contact inspection. These are previews, not additional evidence
   or replacement lesson animations.
 - Home offers Play / Continue / Replay according to existing saved state. A

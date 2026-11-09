@@ -937,3 +937,15 @@ and 2,149 question-action assertions across all 211 questions. The updated-editi
 check also follows Play singles and preserves the earlier 2/2 score. Every local
 suite now passes when combined with the unchanged-application CI route, doubles,
 ten-point and six-point checks. Full CI is rerunning on the final test revision.
+
+Eoin rejected the pale challenge panel and asked for a more coherent, disciplined
+Home. Continue PR 85: remove the enclosing card, let the actual court scene sit
+within the green surface, use typography/space and one gold action for hierarchy,
+and reduce singles/doubles to quiet text routes. Preserve the completed state,
+all controls and all lesson behaviour. This remains a design-review preview.
+
+Continuous-surface review app 4bbdf03f8c: 114 Home checks pass in each of
+Chromium/WebKit, 65 real Daily completion/share checks pass, and all 93 unit
+checks pass. Build parity remains 313 files / 312 public and 431 source/test
+inputs. Visually reviewed small/large mobile, desktop and completion. No lesson,
+voice, animation, progress or routing changes; Home stills omit text labels only.

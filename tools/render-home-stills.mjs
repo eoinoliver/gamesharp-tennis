@@ -21,11 +21,15 @@ try {
    // rally remains legible without changing the approved lesson camera.
    const frame=LESSON.closeUp&&key==='cp1A'?200:range.to;
    __test.go(key,frame);render();
-   return {scene:key,frame,svg:document.getElementById('svg').outerHTML};
+   const preview=document.getElementById('svg').cloneNode(true);
+   // The invitation shows the scene; readable instructional labels remain in
+   // the lesson itself. Removing only text preserves players, ball and court.
+   preview.querySelectorAll('text').forEach(label=>label.remove());
+   return {scene:key,frame,svg:preview.outerHTML};
   });
   await still.setContent('<style>body{margin:0;background:#071810}svg{display:block;width:820px;height:470px}</style>'+state.svg);
   await still.locator('svg').screenshot({path:'app_src/home/'+lesson.slug+'.jpg',type:'jpeg',quality:86});
   captures.push({slug:lesson.slug,scene:state.scene,frame:state.frame});console.log('CAPTURED',lesson.slug);
  }
- writeFileSync('docs/features/home-preview-frames.json',JSON.stringify({source:'Live lesson renderer, first decision or lead-in; images contain no selected answer',captures},null,2)+'\n');
+ writeFileSync('docs/features/home-preview-frames.json',JSON.stringify({source:'Live lesson renderer, first decision or lead-in; instructional text labels omitted from Home previews only; images contain no selected answer',captures},null,2)+'\n');
 } finally {await browser.close();}

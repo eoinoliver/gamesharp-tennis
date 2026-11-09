@@ -10,147 +10,147 @@
     },
     "app_src/home.css": {
       "baseline": null,
-      "candidate": "87c8ba40f77c267d8ac3aa4711f23d16ac7e8205d13b4f986b867cb58fc02d62"
+      "candidate": "933aca8937ead6287d8926083a7f199d6426e245d792b939b1516da8ffed9469"
     },
     "app_src/home/answer-the-drop.jpg": {
       "baseline": null,
-      "candidate": "79fb7f276aefc470d877399981915c101f807dd0c689948be1dfef1ca0f82b73"
+      "candidate": "fa2af9ab4897223db2ff3683792efcf0836d2d94ca5341b8cd13223b4eb8e697"
     },
     "app_src/home/approach-volley.jpg": {
       "baseline": null,
-      "candidate": "c2966310bd94c8134c03eee499a736ddb4a156539f42f6eebc41972ff3c0722f"
+      "candidate": "6dd6c1260bcd624380878ae87a6c85bff8f86091ace172b61449e1853d2fea7d"
     },
     "app_src/home/attack-the-backhand.jpg": {
       "baseline": null,
-      "candidate": "90bb994f1e61c49dbc01ce0e0d0aafcb8640f3df41fe5a4db9b95ec70d5e98fb"
+      "candidate": "bc1f29463effeb42efd1b4b62b39104070465592c194ed45fbdad21b5e0ae93a"
     },
     "app_src/home/contact-clue.jpg": {
       "baseline": null,
-      "candidate": "a096c196c801188bf3ca3cee8a5f9b5bb9a90e4735b692eccb2ae23d36ebd994"
+      "candidate": "dbb1839a27754305f78ed879bd98515d518f78948149d616c264bff67d998630"
     },
     "app_src/home/down-the-line.jpg": {
       "baseline": null,
-      "candidate": "db331a50f6fe2a8627ac4bea9f9f94d7e7b4ce9bd729286b3c4d2198c360c115"
+      "candidate": "0077c794946583d5b8a58c6bd337c510708b1408c6142d2063349d14ef9c8c32"
     },
     "app_src/home/earned-attack.jpg": {
       "baseline": null,
-      "candidate": "9a795732a5c9d413a3a09121c370f360590f5977ef7edee7e0b5df8e7f20bb61"
+      "candidate": "a1c0713bf92a2cca5d3053ce9293a7a0b38eacec658af96394dfc6c15ee55ad1"
     },
     "app_src/home/earned-defence.jpg": {
       "baseline": null,
-      "candidate": "b4f23d8878dc08b36bc3376ea5b86ebe36dcb137fc737c7939933f30b6ab9972"
+      "candidate": "d279ab35db9ccabd436107e6cc1733d7b66f4b5c48204e45407c3a45cc796e15"
     },
     "app_src/home/earned-net.jpg": {
       "baseline": null,
-      "candidate": "d09f89d048c7f787f2c51fe97c42cea89211b137eba433f303a6d245d0b2667d"
+      "candidate": "6d129f7f76b2912b98dbfdfac82d8d12ae50ba2b64e31d1e618b6ddb233c3081"
     },
     "app_src/home/find-your-return-spot.jpg": {
       "baseline": null,
-      "candidate": "763c52556077d2eb8881ce87ffb0fb1c7c1e49f9ba3728d1be2bc18024bb5784"
+      "candidate": "bb03249bbfc95b720247ed6eb38a385835136aa8429b63070937f7e3c885a457"
     },
     "app_src/home/forehand-bill.jpg": {
       "baseline": null,
-      "candidate": "e0992e36ef0e3c733e696d5fa019bad35c2d35edbdde151be5d6e8dcd3873b0a"
+      "candidate": "301f981049a3583895f0d156af80a4b10a0e688eca515695f75f728511859479"
     },
     "app_src/home/high-ball.jpg": {
       "baseline": null,
-      "candidate": "6488fc4e5d8d5248febaf77ecf18e98e32e7f05364fc74b42d702ec903a45219"
+      "candidate": "73cee4ad122cb8566c99b41fd95120f7ecad7a14d2b4819f49ca7cb8f13d95df"
     },
     "app_src/home/late-is-the-culprit.jpg": {
       "baseline": null,
-      "candidate": "4a1174098f398cdc57c29989780def2f18d5b20fc27cdbfde62c976291373584"
+      "candidate": "2d04b0c3b7903a6fda8a0e3e8fbe3fd102e38f5f291e2a530319503df778ea5e"
     },
     "app_src/home/middle-return.jpg": {
       "baseline": null,
-      "candidate": "6221d8f5b08ccd3c5023fdd188655e2ea9df5dd6fc2cfacc1929ad51556674ac"
+      "candidate": "f2475aaa50fd2705f4f1cd733890ce93c56400b208fc3b1a6b1f21ac60fccb73"
     },
     "app_src/home/net-rusher.jpg": {
       "baseline": null,
-      "candidate": "c4b80bd1430420e1ee325e67b3b4a847919c3e2d73a322ff84b64ded41734e8d"
+      "candidate": "6fedc6e5e535ed0ecb5467f28fc2614c631a9516d70210e9138920dc0311e4bd"
     },
     "app_src/home/open-court.jpg": {
       "baseline": null,
-      "candidate": "a6c6fd7d98e00ae2b2fe14159c4df3cbfa810e3dd682daa7e2e789934c18ea76"
+      "candidate": "e2dc49eed7527bf1b11958abfbdbb84a5807e6b02be93df468695bd1407d54dc"
     },
     "app_src/home/pass-where-they-arent.jpg": {
       "baseline": null,
-      "candidate": "386432362c08af5f7edb51a927413c8ca7db654894190f6fdfa4b2b21b7fdee7"
+      "candidate": "246b5f401cf57d5b63217e65cd0d8171cb6bf906a67a9251c84edf1697435c3e"
     },
     "app_src/home/pulled-wide.jpg": {
       "baseline": null,
-      "candidate": "60aefaf244f65755e320afe67c481cfea3493904b2e9c198721f8abb00686466"
+      "candidate": "3b7942a3c2d392826058071ca5e43b1e5c02db5c02ea7f763a863cf84d480008"
     },
     "app_src/home/recovery.jpg": {
       "baseline": null,
-      "candidate": "c032e6a38e1abd7ccb202c8efa212a2ab7bb559c2e19dd9b317a5f1caa07a56c"
+      "candidate": "e60ee511e2abd77cfd757cd58d1a14555e3747302b0daa5d622b507a64a31b1a"
     },
     "app_src/home/running-around.jpg": {
       "baseline": null,
-      "candidate": "c02208d94e9d0f594dc4460ae913f114c7b66a12b16231230212bcab611f9ca3"
+      "candidate": "c51eff26a9a6d5596f39e4b5605cd1b17485437068ccf6f25d36ededccc6ccdc"
     },
     "app_src/home/rushed-out-wide.jpg": {
       "baseline": null,
-      "candidate": "c6b83af2318635024f71d080dce84196b715a46eb05cf2e88c1be8a2b1411fba"
+      "candidate": "a70235244d4e155d2f40c2cb2d7e4f8f17d2aafe988a39c7cefde1999a13d749"
     },
     "app_src/home/second-serve.jpg": {
       "baseline": null,
-      "candidate": "946626442540e492cce95e359af964487a72d1570f77a16f7b4bde103b447873"
+      "candidate": "080f4b15ec34cd1647bc7d3a3b1400c459c07c18b463f65796d638648b280586"
     },
     "app_src/home/serve-away-from-the-lean.jpg": {
       "baseline": null,
-      "candidate": "35b0920680566e6f1852361e67701fec246b8b549ae045404eaf43d9eaecb9a9"
+      "candidate": "174fbbf1106dcb50bce60c7cece4f0a55e5590dffb1e38b8ca55091ddc801e5f"
     },
     "app_src/home/serve-plus-one.jpg": {
       "baseline": null,
-      "candidate": "fe2c5be083f236bb9c052b06f7280d63fcc18deb4177252d5c1ed3121d2b792c"
+      "candidate": "6cd82159fd28c4260c38f7f13e1d82c822e2acc231599fe0af1d64267871eb84"
     },
     "app_src/home/short-ball.jpg": {
       "baseline": null,
-      "candidate": "55d7816a54621e2a8998b232cc01df075ed3f22b3778b23cf7ec5671f35ba401"
+      "candidate": "f3e3c65f8e38892335030210049760b7cbe50ac7f343f417a1121b031bf1fc61"
     },
     "app_src/home/split-step.jpg": {
       "baseline": null,
-      "candidate": "ca54e6d6961dca170f069f45afe01e7331aaa6fe7431e5aa6475a921b606e4d4"
+      "candidate": "71a8de071550e970bea2221d7072371c93cc386dd5109e30992ae5be06fcbd29"
     },
     "app_src/home/the-big-hitter.jpg": {
       "baseline": null,
-      "candidate": "3ee2822d8ce472354787e180a521e892c8be4a812ec54ddb740d855524224e7a"
+      "candidate": "788c558db0014b1fd255b71080c33db0140cd8ec4f3bfaa2995bb80c9234aeb7"
     },
     "app_src/home/the-lead.jpg": {
       "baseline": null,
-      "candidate": "b8c1e4e109f01bcfd17d02c117eb6fe748ea86b7fd160b8b6259dcff96038b2c"
+      "candidate": "5466d733c328f7a046d0a6cbf6f44dcccdd5dadef701aae7599b80e98f09c4e9"
     },
     "app_src/home/the-lefty.jpg": {
       "baseline": null,
-      "candidate": "7a069f7a069ed09bb2bceda24d15e9f55786dedd1ae38f02d9dd412f270fe6d7"
+      "candidate": "c6a0d2430cad83dfadac69e7591fc318aab1e37b90db914419358dd2fb7777a5"
     },
     "app_src/home/the-line.jpg": {
       "baseline": null,
-      "candidate": "dcf78631a25a0310e04973961589c308a807c9e04aadb7144ad3fca7d79df7ce"
+      "candidate": "9cc8c7b2e458bafdb079e7c821a36cc1d978af75b1bd26746943f4acb8f96212"
     },
     "app_src/home/the-moonballer.jpg": {
       "baseline": null,
-      "candidate": "421abf07410aef50c4d399f6531080d1e08b61a1fb5663e28f6c784dfa7deb14"
+      "candidate": "9bfa93e8ec5ce9e993472979c84a3d262f6c619aa10104254d6d206764a9ce4b"
     },
     "app_src/home/the-pusher.jpg": {
       "baseline": null,
-      "candidate": "6b10790644f4df39acac744bf0027a68aae676e13d4da2c257040f17fcbabb0b"
+      "candidate": "0b21e8b3d638329b28dadfd658cb03a6126534a587d3ae540374ade9b6448059"
     },
     "app_src/home/the-winner.jpg": {
       "baseline": null,
-      "candidate": "464c8c5673c97e4aa4376255cf6310e32eda83c1ad74601b46cdcbe123071263"
+      "candidate": "8cdaecc3fec189db4c9088f684fc55e668c6901a40dd1433f550c01060de65bc"
     },
     "app_src/index.html": {
       "baseline": "5a969d20a835229ef47d4a19b6bad7a55554f0b06ceac3ecf9bbc9867a887724",
-      "candidate": "84d58bb2b0be1629b6edafde08be9f8f659e670eb3a9250aed50eeb86f47a2b0"
+      "candidate": "86b0841c84909a298e63c20491fd1483cac04e6ea1d226fc7efbf817a9ac1e10"
     },
     "docs/features/home-clarity.md": {
       "baseline": null,
-      "candidate": "b22ddd5c13ae22a9d89f654cf76bdae5147e015ca3f09b692ee5ae2909f94696"
+      "candidate": "8c70b7b86b4977fa34ab2825e87c6d547d166efcf72ca54fad0e82d654e28d7d"
     },
     "docs/features/home-preview-frames.json": {
       "baseline": null,
-      "candidate": "48f020c63f483f02841081d08b1d72e7b585671b2bbd837b09f78b8338f8f7e9"
+      "candidate": "4786f763a18ab57b58450619699978aa998543f536b1236075bfc00552aef62c"
     },
     "gs/app_flow.mjs": {
       "baseline": "aca4945aedadb04b06a0fe668dc04f032709416e12efd4bf6af538e97e2056fa",
@@ -186,7 +186,7 @@
     },
     "tools/render-home-stills.mjs": {
       "baseline": null,
-      "candidate": "ab6559d0c8bf631a6d102274741f1211f8a485abdaffe46547a6ece50a68e2fd"
+      "candidate": "bcd4476a71c4fd6939fe3cd2acf1ddb6967cd93a6cb0df5dcbff5225328bfe7b"
     },
     "tools/trust-practice-browser.mjs": {
       "baseline": "3e1fb3756c4e96fd430369b6ae88930216b68aaf316588c15fc90bbdb1206532",
@@ -200,147 +200,147 @@
   "release": {
     "app/catalog.js": {
       "baseline": "bccba2d143738004489a87ca6deb8289bc7d44275de1a36a54ab2ce81f85f5b8",
-      "candidate": "675d2e9c2eb3ed78e2a7e81ab2151c0872cb6f80fad0b82a00a64af9bd21aac2"
+      "candidate": "8c5b5e89a4b35b5d9ad6bfbdcb4504b5ee70a4ef9e289190f453e253a148fa3c"
     },
     "app/home.css": {
       "baseline": null,
-      "candidate": "87c8ba40f77c267d8ac3aa4711f23d16ac7e8205d13b4f986b867cb58fc02d62"
+      "candidate": "933aca8937ead6287d8926083a7f199d6426e245d792b939b1516da8ffed9469"
     },
     "app/home/answer-the-drop.jpg": {
       "baseline": null,
-      "candidate": "79fb7f276aefc470d877399981915c101f807dd0c689948be1dfef1ca0f82b73"
+      "candidate": "fa2af9ab4897223db2ff3683792efcf0836d2d94ca5341b8cd13223b4eb8e697"
     },
     "app/home/approach-volley.jpg": {
       "baseline": null,
-      "candidate": "c2966310bd94c8134c03eee499a736ddb4a156539f42f6eebc41972ff3c0722f"
+      "candidate": "6dd6c1260bcd624380878ae87a6c85bff8f86091ace172b61449e1853d2fea7d"
     },
     "app/home/attack-the-backhand.jpg": {
       "baseline": null,
-      "candidate": "90bb994f1e61c49dbc01ce0e0d0aafcb8640f3df41fe5a4db9b95ec70d5e98fb"
+      "candidate": "bc1f29463effeb42efd1b4b62b39104070465592c194ed45fbdad21b5e0ae93a"
     },
     "app/home/contact-clue.jpg": {
       "baseline": null,
-      "candidate": "a096c196c801188bf3ca3cee8a5f9b5bb9a90e4735b692eccb2ae23d36ebd994"
+      "candidate": "dbb1839a27754305f78ed879bd98515d518f78948149d616c264bff67d998630"
     },
     "app/home/down-the-line.jpg": {
       "baseline": null,
-      "candidate": "db331a50f6fe2a8627ac4bea9f9f94d7e7b4ce9bd729286b3c4d2198c360c115"
+      "candidate": "0077c794946583d5b8a58c6bd337c510708b1408c6142d2063349d14ef9c8c32"
     },
     "app/home/earned-attack.jpg": {
       "baseline": null,
-      "candidate": "9a795732a5c9d413a3a09121c370f360590f5977ef7edee7e0b5df8e7f20bb61"
+      "candidate": "a1c0713bf92a2cca5d3053ce9293a7a0b38eacec658af96394dfc6c15ee55ad1"
     },
     "app/home/earned-defence.jpg": {
       "baseline": null,
-      "candidate": "b4f23d8878dc08b36bc3376ea5b86ebe36dcb137fc737c7939933f30b6ab9972"
+      "candidate": "d279ab35db9ccabd436107e6cc1733d7b66f4b5c48204e45407c3a45cc796e15"
     },
     "app/home/earned-net.jpg": {
       "baseline": null,
-      "candidate": "d09f89d048c7f787f2c51fe97c42cea89211b137eba433f303a6d245d0b2667d"
+      "candidate": "6d129f7f76b2912b98dbfdfac82d8d12ae50ba2b64e31d1e618b6ddb233c3081"
     },
     "app/home/find-your-return-spot.jpg": {
       "baseline": null,
-      "candidate": "763c52556077d2eb8881ce87ffb0fb1c7c1e49f9ba3728d1be2bc18024bb5784"
+      "candidate": "bb03249bbfc95b720247ed6eb38a385835136aa8429b63070937f7e3c885a457"
     },
     "app/home/forehand-bill.jpg": {
       "baseline": null,
-      "candidate": "e0992e36ef0e3c733e696d5fa019bad35c2d35edbdde151be5d6e8dcd3873b0a"
+      "candidate": "301f981049a3583895f0d156af80a4b10a0e688eca515695f75f728511859479"
     },
     "app/home/high-ball.jpg": {
       "baseline": null,
-      "candidate": "6488fc4e5d8d5248febaf77ecf18e98e32e7f05364fc74b42d702ec903a45219"
+      "candidate": "73cee4ad122cb8566c99b41fd95120f7ecad7a14d2b4819f49ca7cb8f13d95df"
     },
     "app/home/late-is-the-culprit.jpg": {
       "baseline": null,
-      "candidate": "4a1174098f398cdc57c29989780def2f18d5b20fc27cdbfde62c976291373584"
+      "candidate": "2d04b0c3b7903a6fda8a0e3e8fbe3fd102e38f5f291e2a530319503df778ea5e"
     },
     "app/home/middle-return.jpg": {
       "baseline": null,
-      "candidate": "6221d8f5b08ccd3c5023fdd188655e2ea9df5dd6fc2cfacc1929ad51556674ac"
+      "candidate": "f2475aaa50fd2705f4f1cd733890ce93c56400b208fc3b1a6b1f21ac60fccb73"
     },
     "app/home/net-rusher.jpg": {
       "baseline": null,
-      "candidate": "c4b80bd1430420e1ee325e67b3b4a847919c3e2d73a322ff84b64ded41734e8d"
+      "candidate": "6fedc6e5e535ed0ecb5467f28fc2614c631a9516d70210e9138920dc0311e4bd"
     },
     "app/home/open-court.jpg": {
       "baseline": null,
-      "candidate": "a6c6fd7d98e00ae2b2fe14159c4df3cbfa810e3dd682daa7e2e789934c18ea76"
+      "candidate": "e2dc49eed7527bf1b11958abfbdbb84a5807e6b02be93df468695bd1407d54dc"
     },
     "app/home/pass-where-they-arent.jpg": {
       "baseline": null,
-      "candidate": "386432362c08af5f7edb51a927413c8ca7db654894190f6fdfa4b2b21b7fdee7"
+      "candidate": "246b5f401cf57d5b63217e65cd0d8171cb6bf906a67a9251c84edf1697435c3e"
     },
     "app/home/pulled-wide.jpg": {
       "baseline": null,
-      "candidate": "60aefaf244f65755e320afe67c481cfea3493904b2e9c198721f8abb00686466"
+      "candidate": "3b7942a3c2d392826058071ca5e43b1e5c02db5c02ea7f763a863cf84d480008"
     },
     "app/home/recovery.jpg": {
       "baseline": null,
-      "candidate": "c032e6a38e1abd7ccb202c8efa212a2ab7bb559c2e19dd9b317a5f1caa07a56c"
+      "candidate": "e60ee511e2abd77cfd757cd58d1a14555e3747302b0daa5d622b507a64a31b1a"
     },
     "app/home/running-around.jpg": {
       "baseline": null,
-      "candidate": "c02208d94e9d0f594dc4460ae913f114c7b66a12b16231230212bcab611f9ca3"
+      "candidate": "c51eff26a9a6d5596f39e4b5605cd1b17485437068ccf6f25d36ededccc6ccdc"
     },
     "app/home/rushed-out-wide.jpg": {
       "baseline": null,
-      "candidate": "c6b83af2318635024f71d080dce84196b715a46eb05cf2e88c1be8a2b1411fba"
+      "candidate": "a70235244d4e155d2f40c2cb2d7e4f8f17d2aafe988a39c7cefde1999a13d749"
     },
     "app/home/second-serve.jpg": {
       "baseline": null,
-      "candidate": "946626442540e492cce95e359af964487a72d1570f77a16f7b4bde103b447873"
+      "candidate": "080f4b15ec34cd1647bc7d3a3b1400c459c07c18b463f65796d638648b280586"
     },
     "app/home/serve-away-from-the-lean.jpg": {
       "baseline": null,
-      "candidate": "35b0920680566e6f1852361e67701fec246b8b549ae045404eaf43d9eaecb9a9"
+      "candidate": "174fbbf1106dcb50bce60c7cece4f0a55e5590dffb1e38b8ca55091ddc801e5f"
     },
     "app/home/serve-plus-one.jpg": {
       "baseline": null,
-      "candidate": "fe2c5be083f236bb9c052b06f7280d63fcc18deb4177252d5c1ed3121d2b792c"
+      "candidate": "6cd82159fd28c4260c38f7f13e1d82c822e2acc231599fe0af1d64267871eb84"
     },
     "app/home/short-ball.jpg": {
       "baseline": null,
-      "candidate": "55d7816a54621e2a8998b232cc01df075ed3f22b3778b23cf7ec5671f35ba401"
+      "candidate": "f3e3c65f8e38892335030210049760b7cbe50ac7f343f417a1121b031bf1fc61"
     },
     "app/home/split-step.jpg": {
       "baseline": null,
-      "candidate": "ca54e6d6961dca170f069f45afe01e7331aaa6fe7431e5aa6475a921b606e4d4"
+      "candidate": "71a8de071550e970bea2221d7072371c93cc386dd5109e30992ae5be06fcbd29"
     },
     "app/home/the-big-hitter.jpg": {
       "baseline": null,
-      "candidate": "3ee2822d8ce472354787e180a521e892c8be4a812ec54ddb740d855524224e7a"
+      "candidate": "788c558db0014b1fd255b71080c33db0140cd8ec4f3bfaa2995bb80c9234aeb7"
     },
     "app/home/the-lead.jpg": {
       "baseline": null,
-      "candidate": "b8c1e4e109f01bcfd17d02c117eb6fe748ea86b7fd160b8b6259dcff96038b2c"
+      "candidate": "5466d733c328f7a046d0a6cbf6f44dcccdd5dadef701aae7599b80e98f09c4e9"
     },
     "app/home/the-lefty.jpg": {
       "baseline": null,
-      "candidate": "7a069f7a069ed09bb2bceda24d15e9f55786dedd1ae38f02d9dd412f270fe6d7"
+      "candidate": "c6a0d2430cad83dfadac69e7591fc318aab1e37b90db914419358dd2fb7777a5"
     },
     "app/home/the-line.jpg": {
       "baseline": null,
-      "candidate": "dcf78631a25a0310e04973961589c308a807c9e04aadb7144ad3fca7d79df7ce"
+      "candidate": "9cc8c7b2e458bafdb079e7c821a36cc1d978af75b1bd26746943f4acb8f96212"
     },
     "app/home/the-moonballer.jpg": {
       "baseline": null,
-      "candidate": "421abf07410aef50c4d399f6531080d1e08b61a1fb5663e28f6c784dfa7deb14"
+      "candidate": "9bfa93e8ec5ce9e993472979c84a3d262f6c619aa10104254d6d206764a9ce4b"
     },
     "app/home/the-pusher.jpg": {
       "baseline": null,
-      "candidate": "6b10790644f4df39acac744bf0027a68aae676e13d4da2c257040f17fcbabb0b"
+      "candidate": "0b21e8b3d638329b28dadfd658cb03a6126534a587d3ae540374ade9b6448059"
     },
     "app/home/the-winner.jpg": {
       "baseline": null,
-      "candidate": "464c8c5673c97e4aa4376255cf6310e32eda83c1ad74601b46cdcbe123071263"
+      "candidate": "8cdaecc3fec189db4c9088f684fc55e668c6901a40dd1433f550c01060de65bc"
     },
     "app/index.html": {
       "baseline": "1752b0e4753352be62adca7c3d2fbedac540447aa9dee158ef8224ae1e7cea01",
-      "candidate": "ffcaf5e2c150bca0e9e78a0ba26e473573862c1f714c0e424669326f5e502f1d"
+      "candidate": "5d5eaa84b53897885d1d0cf294697c3a2ba25b5e5137c4d55981b511b63db217"
     },
     "app/play.html": {
       "baseline": "d015cd9a7923e83b26462450f4238e24f834dd7e0ff7b916df0b7735b020aefc",
-      "candidate": "b52846b9189dbc8aafafb3671d3e09e0f40978ab13d0f39d9636e19980c5f752"
+      "candidate": "4ad00da2c57220081c334295d7a3ea59a8461beb8064e8b0ef40fa2357974999"
     }
   }
 }
