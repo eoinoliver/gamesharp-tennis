@@ -1041,3 +1041,9 @@ teaching answer, including lesson names that could give the decision away.
 Native OS share-sheet colours remain controlled by the phone/browser. Public
 share pages still return 404 until the review release is promoted. Scope is
 implementation, checks and a fresh Git preview; production stays unchanged.
+
+The final sharing sweep also found Home's completed-Daily native action. Give
+it the same branded title/message and extend the real-completion browser check
+to inspect that native payload. All 66 Daily/Home checks pass locally. This
+follow-up supersedes the prior branding preview; Codex owns the fresh exact
+Git preview, required CI and hosted verification.

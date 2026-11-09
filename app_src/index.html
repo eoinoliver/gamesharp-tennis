@@ -1005,7 +1005,7 @@ function wireDaily(){
  document.querySelector('[data-related-from]')?.addEventListener('click',e=>A.track('daily_to_live',{from:e.currentTarget.dataset.relatedFrom,to:A.relatedPoint(F.lesson.slug)?.lesson.slug}));
  if(!button)return;
  const status=$('dailyShareStatus'),link=A.dailyShareUrl(F.lesson.slug),fallback=$('dailyShareFallback');
- button.onclick=async()=>{A.track('daily_share_intent',{lesson:F.lesson.slug,date:F.date});if(!navigator.share){fallback.hidden=false;return;}try{await navigator.share({title:'What would you play?',text:'Make your own call on this GameSharp Tennis challenge.',url:link});status.textContent='Challenge shared.';A.track('daily_shared',{lesson:F.lesson.slug,method:'native'});}catch(e){if(e.name==='AbortError')status.textContent='Share cancelled.';else fallback.hidden=false;}};
+ button.onclick=async()=>{A.track('daily_share_intent',{lesson:F.lesson.slug,date:F.date});if(!navigator.share){fallback.hidden=false;return;}try{await navigator.share({title:'GameSharp Tennis · Challenge',text:'GameSharp Tennis · Challenge\nWatch the point. Make your call.',url:link});status.textContent='Challenge shared.';A.track('daily_shared',{lesson:F.lesson.slug,method:'native'});}catch(e){if(e.name==='AbortError')status.textContent='Share cancelled.';else fallback.hidden=false;}};
  $('copyDaily').onclick=async()=>{try{await navigator.clipboard.writeText(link);status.textContent='Link copied. Your answers are not included.';A.track('daily_shared',{lesson:F.lesson.slug,method:'copy'});}catch(e){$('dailyShareLink').select();status.textContent='Select and copy the link above.';}};
 }
 function taster(){   /* Claude 30 Sep: one lesson from each flavour, so testers can sample the whole app and tell us what they want more of */

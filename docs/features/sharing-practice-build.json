@@ -15,7 +15,7 @@
     },
     "app_src/index.html": {
       "baseline": "00163393d40147a179823abd1fddfc8dc6f9474fcd2cffc173cb2eac0e4c4fef",
-      "candidate": "da2ff50538a3c9ef3855971037e2b220fd4eb6a792938356d6310ee78b7efe99"
+      "candidate": "35e1f410e17f7986fa8e1058265cb138a21dd101df43d0389cc147c2b2d5de96"
     },
     "app_src/play_host.html": {
       "baseline": "c1db12fd0d142ace07be667d8d7a0a3a2d965fcf7f0f6aaf784a97c336cf97ac",
@@ -303,7 +303,7 @@
     },
     "tools/daily-home-browser.mjs": {
       "baseline": "4c2c08ab1b5de7c5c7721e054b880311261cce3b0431ac783ac88e6e618edff8",
-      "candidate": "0770f06a4780c17bbd46852d19ef87c778a93698b8707a44a03bca5c4cf99973"
+      "candidate": "d96a035d110f3d7984b4945167e20ec4663959fc0660310fb6d8c913183ac264"
     },
     "tools/doubles-browser.mjs": {
       "baseline": "7cf6151c858d28e9a00afee1584ae14707b6f6a264d5ea8e9c551a46b2dda99f",
@@ -337,15 +337,15 @@
     },
     "app/catalog.js": {
       "baseline": "feb4ea3c184a83b196b9d9f82f94fdc6eefcd51464943785a846d27802b49c56",
-      "candidate": "cc73b3ab9683dba378a3312fe627c953685d0650f4b33e1a8c6cf5fed994d053"
+      "candidate": "834b60eec106f553459781e7bb866162c7c256156ebd3e091fc281dbfdfb00b2"
     },
     "app/index.html": {
       "baseline": "e6c74aefdc75bf1fda47d8585ee9889a281d512238b038f8269f24c1f036a2cd",
-      "candidate": "f0ed69ff28331a2b6cc3cff997352a11b44f55ad40c97a780d0cb683d7667f10"
+      "candidate": "100baff299b2b95b0a11e25cf7a3987901f53f91a18d20d0690fa5986c4706f7"
     },
     "app/play.html": {
       "baseline": "0c57e7da58dbb59e7837eda5a400be4c900ea48e2e666c9a59edc187cf2cc072",
-      "candidate": "7ce7472b106d8b2981fe3c5cecd854eae597a248403b94e1914af4ef16c60ea1"
+      "candidate": "442974851e1d19232dc5220441c50b108f68a5fb14eb487b65a345f8b02479d7"
     },
     "app/practice.css": {
       "baseline": null,

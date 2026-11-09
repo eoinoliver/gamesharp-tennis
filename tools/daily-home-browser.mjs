@@ -30,6 +30,8 @@ try{
  await p.screenshot({path:out+'/completed-lesson.png',fullPage:true});const spokenCue=await p.evaluate(()=>GSSfx.voiceInfo().text);await p.locator('#dailyDone').click();check((await p.locator('.today').innerText()).includes(spokenCue),'Home repeats the coach’s approved spoken cue');
  check(/complete/i.test(await p.locator('.today').innerText()),'Home retains the completed daily');check(await p.locator('#todayChallenge').count()===0,'a live point does not replace today’s completion');
  check((await p.locator('#livePoint').getAttribute('href')).includes('l=live-point-serve-see'),'related Live Point follows completed daily on Home');
+ await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:async payload=>{window.__homeShare=payload;}}));await p.locator('#shareDaily').click();
+ const nativeShare=await p.evaluate(()=>__homeShare);check(nativeShare.title==='GameSharp Tennis · Challenge'&&nativeShare.text.startsWith('GameSharp Tennis · Challenge\n')&&nativeShare.url==='https://www.gamesharptennis.com/s/serve-plus-one.html','Home native sharing carries the GameSharp brand and exact challenge');
  await p.evaluate(()=>{Object.defineProperty(navigator,'share',{configurable:true,value:undefined});Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async t=>{window.__copied=t;}}});});
  await p.locator('#shareDaily').click();await p.locator('#copyDaily').click();const shared=await p.locator('#dailyShareLink').inputValue();
  check(shared==='https://www.gamesharptennis.com/s/serve-plus-one.html','shared link fixes the activity and excludes answers');
