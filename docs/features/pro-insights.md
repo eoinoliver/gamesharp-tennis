@@ -102,3 +102,17 @@ Its baseline hashes and protected lesson/scene fingerprints remain frozen.
 No additional lesson, scene, choice, voice recording, progress or sharing change
 is introduced by this editorial pass. Broader PR 81 still includes its earlier
 Predict payoff and split-step wording corrections.
+
+## Sampras chronology correction — 9 November 2026
+
+The Predict wide-serve card now places the diving volley in the second set of
+the 1999 Wimbledon final. The first-set 0–40 escape was a separate game.
+The wide serve, first volley and passing reply remain supported by the
+[ATP account](https://www.atptour.com/en/news/sampras-1999-wimbledon-atp-heritage-feature);
+the [contemporary AP report](https://www.cbsnews.com/news/sampras-wins-sixth-wimbledon/)
+corroborates the second-set timing. The lesson still asks players to read the
+reply after serving. No scene, choice, cue, narration or eligibility changes.
+
+Eoin authorised correcting this known error, rerunning release checks and
+deploying the reviewed editorial update on 9 November. The six later proposed
+replacement cards remain editorial candidates and are excluded from this release.

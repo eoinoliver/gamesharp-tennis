@@ -879,3 +879,16 @@ review candidate after validation; no production release is implied.
   Media and hosted verification are recorded with the final SHA on PR 81.
 - No source/scene/decision change beyond the editorial registry and Reset copy
   in this pass. Production remains separate from this review candidate.
+
+## 9 November 2026 — pro-insight production release (Codex)
+
+Continuing PR 81 on codex/pro-insight-upgrade-2026-11-08. Eoin replied
+“proceed” to correcting the known Sampras chronology, rerunning required checks,
+verifying staged production and deploying the reviewed editorial update. This
+current scope authorises the contained correction and release; no new feature
+or the six subsequently proposed replacement cards is included.
+
+The correction separates the second-set diving volley from the first-set 0–40
+escape. All lesson decisions, scenes, coach assets and eligibility are preserved.
+The exact reviewed/merge/deployment identities, checks and production outcome
+will be recorded on PR 81 and in the follow-up release record.

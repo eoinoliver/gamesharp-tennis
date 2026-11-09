@@ -6,7 +6,7 @@
     },
     "app_src/pro_insights.json": {
       "baseline": null,
-      "candidate": "9072c5d5218d39aa784b18ea17e3f0c27423ad6e3cfd25c284b164a98b1916c7"
+      "candidate": "84a0862bba065be1f64c9a863a71dc409ff95094b3bac90d4e8bc658bfd9e5b8"
     },
     "app_src/reset.js": {
       "baseline": "fcbcbb0086510f3695fffcb85d2aa0b05d3013602e1e12a1a674bb8fe323ab20",
@@ -34,7 +34,7 @@
     },
     "docs/features/pro-insights.md": {
       "baseline": null,
-      "candidate": "5b0b6b837b6fa2087894c1b93bb714011592bef8f0602796bee6942587cfe9f9"
+      "candidate": "70aa558a44ff3cab7ff4ccdd4e27fd730a30e73a5d0d6e1565cc3dd50a957345"
     },
     "docs/features/pro-insight-scope.json": {
       "baseline": null,
@@ -44,7 +44,7 @@
   "release": {
     "app/catalog.js": {
       "baseline": "d5910e5a7e507f8f1b759c366c73680321b826e7c6d54384dbfcac08a2781686",
-      "candidate": "b402bace2c4e5a074249704a0b0e149a716c0b021b092d8b44b502a17f7c351e"
+      "candidate": "7c63a0a6b22676238c16dfbb725095fe17243635dddd43ed200763260639204f"
     },
     "app/engine/engine.js": {
       "baseline": "ffc3712e1c81ddc4434c14e33261993e7840d4e8e89ba9c0f5fdf31ae881cbff",
@@ -52,7 +52,7 @@
     },
     "app/index.html": {
       "baseline": "b5a4be0087a29a5587ec7ad40f93ce2268efe43061a76622ea0fc20fb308c3f4",
-      "candidate": "f0698a2ad4902dc8489e785c312e7085a94e25d6ba1120662734f9560ca5d1de"
+      "candidate": "578c74e97d8b1adb4bf1f5ebd7be337ecc1bf1f8c699d272368d0cd475b9033f"
     },
     "app/lessons/answer-the-drop.json": {
       "baseline": "f29e262610c5b6184c0fdb30c257b8d24f14ef2a6c575b54a89d83cc54f2c548",
@@ -220,7 +220,7 @@
     },
     "app/lessons/predict-the-point.json": {
       "baseline": "5161f8c7183277794cfb130d2ff75a6cd3366930976fcc01d201e17360fec697",
-      "candidate": "86ae9f3a8431c514eaaa709c23bbc917f3ac6bc84a593f4c854a49d49d455f80"
+      "candidate": "bfcbf330c6ac5eea5db75b8558eb49ad6b51574ad31ad520c4730f966eac390c"
     },
     "app/lessons/pulled-wide.json": {
       "baseline": "69addda386f933353efdc4bb6fc21a6d7aaebce3502a6cef33cbda7313896cc7",
@@ -308,7 +308,7 @@
     },
     "app/play.html": {
       "baseline": "52ddb917571832cddf87ad6bb888a477ae427f99c433d726ce328847ae7d993b",
-      "candidate": "bc20e90081982e0612094e05ddfa819719936fef72a9ca348277fda38b0e7a41"
+      "candidate": "68304c03316adba0dbebc22887ff37aec51bc92ee914b23f42c38c035f65e68a"
     },
     "app/reset.js": {
       "baseline": "fcbcbb0086510f3695fffcb85d2aa0b05d3013602e1e12a1a674bb8fe323ab20",
