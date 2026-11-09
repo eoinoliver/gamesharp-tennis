@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="coach.css?v=__VER__">
 <style>
+.daily-completion .daily-complete-message{font-size:15px;color:#dce8d7;line-height:1.5}.daily-completion .daily-related{margin-top:22px;padding-top:20px;border-top:1px solid #c8a84b30}.daily-related h2{font-size:22px;margin:8px 0}.daily-related p{font-size:14px;line-height:1.55;color:#b8c7b6}.daily-related .alt{min-height:44px;display:inline-flex;align-items:center}.daily-completion .k{display:block!important}
+
 #loading{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg,#111);color:rgba(240,236,227,.6);font:500 14px "DM Sans",sans-serif;z-index:50}
 #loading.err{color:var(--ink,#f0ece3);padding:24px;text-align:center;line-height:1.5}
 #loading a{color:var(--gold,#c8a84b)}
@@ -113,6 +115,7 @@ const practiceContext=practicePath?.slugs.includes(slug)?{href:`./?review=1&z=${
 const practiceReturn=practiceContext?.href||null;
 if(practiceReturn)window.GS_HOME_URL=practiceReturn; // The first-step Back button returns to the chosen practice context.
 window.GS_BLIND_CHALLENGE=!!(L.livePoint&&QS.get('challenge')==='point');
+if(QS.get('challenge')==='daily'&&A.isDaily(slug))A.track('daily_challenge_open',{lesson:slug,featured_today:A.featuredDaily()?.lesson.slug===slug,previously_played:!!A.S.done[slug]});
 if(window.GS_BLIND_CHALLENGE)A.track('challenge_open',{lesson:slug,previously_played:!!A.S.done[slug]});
 // Bookmarked automatic entries advance too; explicit lesson/replay links stay exact.
 if(QS.has('auto')&&(A.S.seen?.[slug]||A.S.done[slug])){
@@ -123,7 +126,8 @@ if(QS.has('auto')&&(A.S.seen?.[slug]||A.S.done[slug])){
    this page's entry becomes ./?home=1 and the lesson is pushed on top; going back to it loads Home. */
 if(QS.has("auto")&&!(history.state&&history.state.gsLesson)){const here=location.href;history.replaceState({gsHome:1},"","./?home=1");history.pushState({gsLesson:1},"",here);}
 addEventListener("popstate",e=>{if(e.state&&e.state.gsHome)location.replace("./?home=1");});
-document.title=(window.GS_BLIND_CHALLENGE?"Read this point":L.title)+" · GameSharp";
+window.GS_DISPLAY_TITLE=A.displayTitle(L);
+document.title=(window.GS_BLIND_CHALLENGE?"Read this point":A.displayTitle(L))+" · GameSharp";
 /* Welcome timeline (full ~2.0 s): 0.15-1.10 s the ball rolls in from the right (P is the first letter it meets, as in V5) with two small bounces and slows into the P;
    1.10 s impact (P snaps straight, wordmark sharpens, gold glint, ball drops away); 1.10-1.60 s the promise fades up;
    1.60-2.00 s dissolve to the lesson, which has been loading underneath since 0 s. Short: glint, dissolve at 0.2 s.
@@ -193,6 +197,8 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 function wrap(n){
   const w=document.getElementById("wrapup"); if(!w||w.querySelector(".appblk")) return;
   const s=A.streakNow(), nx=A.nextDaily(), nextPoint=L.livePoint&&A.nextLivePoint(), asked=A.S.fb[slug];
+  const isChallenge=A.isDaily(slug)||A.CAT.predict.some(l=>l.slug===slug),featured=A.featuredDaily(),related=isChallenge&&A.relatedPoint(slug);
+  const dailyEnd=isChallenge?`<div class="gs-continue daily-completion"><p class="daily-complete-message">${featured?.lesson.slug===slug?"Today's challenge complete.":'Challenge complete.'} One useful read is enough.</p><a class="next" id="dailyDone" href="./?home=1">${featured?.lesson.slug===slug?'Done for today':'Back to home'} →</a>${related?`<div class="daily-related"><div class="k">Optional · go a little further</div><h2>Now try it in a point.</h2><p>${esc(related.bridge)}</p><a class="alt" id="relatedLivePoint" href="play.html?l=${related.lesson.slug}&from=daily&lesson=${encodeURIComponent(slug)}">${esc(A.displayTitle(related.lesson))} →</a></div>`:''}${nx?`<a class="alt" id="nextDaily" href="play.html?l=${nx.slug}">Continue your personal practice →</a>`:'<a class="alt" href="./?all=1">Explore challenges →</a>'}</div>`:'';
   /* Saturday Point (6 Oct): lessons and the weekend point point at each other */
   const feeds=(A.CAT.play||[]).filter(p=>p.uses&&p.uses.includes(slug));
   const used=(L.uses||[]).map(u=>A.bySlug(u)).filter(Boolean);
@@ -205,7 +211,7 @@ function wrap(n){
   const returnBlk=returnPoint&&!A.S.done[returnPoint.slug]?`<div class="blk" id="returnRead"><div class="k">${due?'Your next read':'Tomorrow’s read'}</div><p class="strk">${esc(L.returnPrompt||'A different point on the other wing. Make both calls before seeing your cue.')}</p><p class="strk">${due?'Ready on Home now.':A.progressSaved()?'It appears on Home tomorrow in this browser.':'Progress could not be saved; use the link below to return to this point.'}</p><a class="alt" href="play.html?l=${returnPoint.slug}">${due?'Read the other point':'Try now as practice'} →</a></div>`:transfer?`<div class="blk" id="returnRead"><div class="k">${transfer.kind==='first_later_day'?'Your return read':'Practice variation'}</div><p class="strk">${esc(transfer.text)}</p><p class="strk">${transfer.kind==='first_later_day'?'Two decisions in a changed situation. Take the cue onto court.':'A repeat or an early look is practice, not a fresh next-day check.'}</p></div>`:'';
   b.innerHTML=`<summary>Progress &amp; more</summary>${returnBlk}${weekBlk}<div class="k">Your streak</div>
     <p class="strk"><b>${s} day${s===1?"":"s"}</b> in a row. Come back tomorrow for another read.</p>
-    ${nx||nextPoint?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nextPoint?nextPoint.title:nx.title)}</p>${nextPoint?`<a class="next" id="nextLivePoint" href="play.html?l=${nextPoint.slug}">Read the next Live Point →</a>`:""}${nx?`<a class="${nextPoint?'alt':'next'}" id="nextDaily" href="play.html?l=${nx.slug}">${nextPoint?'Try a daily challenge':'Play next challenge'} →</a>`:""}</div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
+    ${isChallenge?dailyEnd:nx||nextPoint?`<div class="gs-continue"><div class="k">Keep playing · Beta</div><p class="strk">Next: ${esc(nextPoint?nextPoint.title:nx.title)}</p>${nextPoint?`<a class="next" id="nextLivePoint" href="play.html?l=${nextPoint.slug}">Read the next Live Point →</a>`:""}${nx?`<a class="${nextPoint?'alt':'next'}" id="nextDaily" href="play.html?l=${nx.slug}">${nextPoint?'Try a daily challenge':'Play next challenge'} →</a>`:""}</div>`:`<p class="strk">You've played every daily challenge. Revisit one in Explore or practise a saved cue.</p><a class="next" href="./?all=1">Explore challenges →</a>`}
     ${asked?"":`<div class="gsfb"><p class="fbq">Was this useful for your tennis?</p>
       <div class="fbrow"><button data-u="yes">Yes</button><button data-u="no">Not really</button></div></div>`}
     ${flav?`<div class="gsfv"${asked?"":" hidden"}><p class="fbq">More lessons like this one?</p><div class="fbrow"><button data-fv="more">More</button><button data-fv="fewer">Fewer</button></div></div>`:""}
@@ -215,8 +221,19 @@ function wrap(n){
   if(practiceReturn){const back=document.createElement('a');back.className='next';back.id='practiceReturn';back.href=practiceReturn;back.textContent=practiceContext.label;const anchor=w.querySelector('#liveEvidence')||w.firstElementChild;anchor.after(back);}
   const more=b.querySelector('#nextDaily');if(more)more.onclick=()=>A.track('asked_more',{next:nx.slug,from:slug});
   const continuation=b.querySelector('.gs-continue')||b.querySelector('a.next:not(.home)');
-  if(continuation&&!practiceReturn)(w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
-  if(L.livePoint)wireChallenge(w);
+  // Give the professional connection its place in the challenge payoff, before
+  // the optional continuation. Authored story/source text stays unchanged.
+  const pro=isChallenge&&w.querySelector('[data-k=pro]');
+  if(pro&&!practiceReturn){
+    const previousPanel=pro.closest('.completion-more');
+    pro.open=true;w.firstElementChild.after(pro);
+    // Anticipation endings can contain only the pro story. Moving it out must
+    // not leave an empty "Professional context" disclosure behind.
+    if(previousPanel&&![...previousPanel.children].some(el=>el.tagName!=='SUMMARY'&&el.textContent.trim()))previousPanel.remove();
+  }
+  if(continuation&&!practiceReturn)(pro||w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
+  w.querySelector('#relatedLivePoint')?.addEventListener('click',()=>A.track('daily_to_live',{from:slug,to:related.lesson.slug}));
+  if(L.livePoint||A.isDaily(slug))wireChallenge(w);
   const pendingText='Sending…';
   const deliveryError=()=>location.hostname==='www.gamesharptennis.com'||location.hostname==='gamesharptennis.com'?'Could not send. Check your connection and try again.':'Preview: feedback is not sent. Use the live app to send it.';
   b.querySelectorAll("[data-fv]").forEach(bt=>bt.onclick=async()=>{
@@ -273,18 +290,19 @@ function afterEngine(){
     st.appendChild(c);const go=()=>{c.classList.add("out");setTimeout(()=>c.remove(),500);};setTimeout(go,4200);c.addEventListener("click",go);});}
 }
 function wireChallenge(w){
-  const link=A.challengeUrl(slug),box=document.createElement('div');box.className='blk';box.id='sharePoint';
+  const daily=A.isDaily(slug),link=daily?A.dailyShareUrl(slug):A.challengeUrl(slug),box=document.createElement('div');box.className='blk';box.id='sharePoint';
   box.innerHTML=`<div class="k">Let someone else make the call</div><p>Same point. Their decisions. Your answers stay private.</p><button class="alt" id="sharePointButton">Challenge a tennis friend</button><div id="shareFallback" hidden><label for="challengeLink">Challenge link</label><input id="challengeLink" readonly aria-label="Challenge link"><button class="alt" id="copyChallenge">Copy link</button></div><p id="shareStatus" role="status"></p>`;
   if(L.doubles)(w.querySelector('#liveEvidence')||w.firstElementChild).after(box);else w.querySelector('.completion-extras').append(box);box.querySelector('input').value=link;
+  if(daily){box.querySelector('.k').textContent='Compare decisions with a friend';box.querySelector('p').textContent='Same challenge. Their decision. Your answers stay private.';box.querySelector('#sharePointButton').textContent='Send this challenge to a friend';}
   const status=box.querySelector('#shareStatus'),fallback=box.querySelector('#shareFallback');
   const reveal=()=>{fallback.hidden=false;box.querySelector('input').select();status.textContent='Copy this link. It contains no answers or scores.';};
   box.querySelector('#sharePointButton').onclick=async()=>{
-    A.track('challenge_share_intent',{lesson:slug});
+    A.track(daily?'daily_share_intent':'challenge_share_intent',{lesson:slug});
     if(!navigator.share){reveal();return;}
-    try{await navigator.share({title:'Where does this point turn?',text:'Make your calls. Then see what they create.',url:link});status.textContent='Challenge shared.';A.track('challenge_shared',{lesson:slug,method:'native'});}
+    try{await navigator.share({title:daily?'What would you play?':'Where does this point turn?',text:daily?'Make your own call on this GameSharp Tennis challenge.':'Make your calls. Then see what they create.',url:link});status.textContent='Challenge shared.';A.track(daily?'daily_shared':'challenge_shared',{lesson:slug,method:'native'});}
     catch(e){if(e.name==='AbortError'){status.textContent='Share cancelled.';return;}reveal();}
   };
-  box.querySelector('#copyChallenge').onclick=async()=>{try{await navigator.clipboard.writeText(link);status.textContent='Link copied. Their choices come first.';A.track('challenge_shared',{lesson:slug,method:'copy'});}catch(e){box.querySelector('input').select();status.textContent='Select and copy the link above.';}};
+  box.querySelector('#copyChallenge').onclick=async()=>{try{await navigator.clipboard.writeText(link);status.textContent='Link copied. Their choices come first.';A.track(daily?'daily_shared':'challenge_shared',{lesson:slug,method:'copy'});}catch(e){box.querySelector('input').select();status.textContent='Select and copy the link above.';}};
   if(L.doubles){
     box.querySelector('.k').textContent='Play this with your doubles partner';box.querySelector('p').textContent='Send the point first. Let your partner make their own calls, then discuss your plan.';box.querySelector('#sharePointButton').textContent='Send the point to my partner';
     const plan=document.createElement('details');plan.className='pay';plan.id='pairPlan';plan.innerHTML=`<summary>Then agree a plan for your next match</summary><p>This is a suggested starting plan. Edit it together; GameSharp does not know whether your partner agrees.</p><label for="pairPlanText">My proposed plan</label><textarea id="pairPlanText" maxlength="420" rows="4" style="display:block;width:100%;box-sizing:border-box;margin:12px 0;padding:14px;background:#14221b;color:#f0ece3;border:1px solid #68795c;border-radius:10px;font:inherit">${esc(L.pairPlan)}</textarea><button class="alt" id="sharePairPlan">Share proposed plan</button><button class="alt" id="copyPairPlan">Copy proposed plan</button><p id="pairPlanStatus" role="status"></p><a class="alt" href="./?review=1&z=reset&r=partner">When the partnership feels tense · Reset →</a>`;box.append(plan);

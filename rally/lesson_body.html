@@ -1144,7 +1144,7 @@ function clearLiveComparison(){
   if(!liveComparison)return;liveComparison=false;$('liveCompareDock').hidden=true;
   window.__camOverride=null;if(liveComparisonCamera!=null)camI=liveComparisonCamera;liveComparisonCamera=null;
 }
-function revealLiveCompletion(){if(!done||!LESSON.livePoint)return;$('wrapup').hidden=false;questionCaption('Your court cue');$('lessonName').textContent=LESSON.title;$('sitTx').textContent=LESSON.completionIntro||(LESSON.comparison?'Prepare early. Read the ball you actually get.':'One earlier decision. A different starting position.');}
+function revealLiveCompletion(){if(!done||!LESSON.livePoint)return;$('wrapup').hidden=false;questionCaption('Your court cue');$('lessonName').textContent=window.GS_DISPLAY_TITLE||LESSON.title;$('sitTx').textContent=LESSON.completionIntro||(LESSON.comparison?'Prepare early. Read the ball you actually get.':'One earlier decision. A different starting position.');}
 function finishLesson(){
   clearLiveComparison();clearContactInspection();questionCaption();
   done=true; const okA=(a,i)=>a!=null&&(LETTERS.indexOf(a)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(a)));
@@ -1437,7 +1437,7 @@ if(LESSON.predict) setupPredict();
 
 if(!LESSON.cam0||LESSON.startBehind) camI=1;   // Behind you is the default view; a lesson that needs another sets cam0 (startBehind: cam0 only widens Broadcast)
 window.__camDefault=camI;
-$("lessonName").textContent=window.GS_BLIND_CHALLENGE?"A point for you":LESSON.title;
+$("lessonName").textContent=window.GS_BLIND_CHALLENGE?"A point for you":(window.GS_DISPLAY_TITLE||LESSON.title);
 startStep(0);
 requestAnimationFrame(tick);
 window.__test={SC,go:(k,f)=>{scene=k;t=f;setPlaying(false);},setCam:i=>{camI=i;},state:()=>({mode,step,scene,t,stopAt,playing})};

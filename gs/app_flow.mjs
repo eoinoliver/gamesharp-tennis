@@ -5,10 +5,11 @@ const base=process.argv[2]||'http://localhost:8765/', slug=process.argv[3]||'ser
 const out='/tmp/claude-0/shots/'; const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
 const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m); if(!c) fails.push(m);};
 
-// 1. first visit, a full daily lesson, feedback, back home
+// 1. legacy automatic entry, a full daily lesson, feedback and daily-led Home
 {const ctx=await b.newContext({viewport:{width:390,height:844}}); const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(String(e)));
- await p.goto(base); for(let i=0;i<50&&!p.url().includes('play.html');i++) await p.waitForTimeout(100);
- ok(/play\.html\?l=serve-plus-one&auto=1&intro=1$/.test(p.url()),'first bare visit auto-starts lesson 1 with the intro ('+p.url()+')');
+ await p.clock.setFixedTime('2026-11-09T01:00:00Z');
+ await p.goto(base+'play.html?l=serve-plus-one&auto=1&intro=1'); for(let i=0;i<50&&!p.url().includes('play.html');i++) await p.waitForTimeout(100);
+ ok(/play\.html\?l=serve-plus-one&auto=1&intro=1$/.test(p.url()),'explicit legacy automatic entry retains lesson 1 and intro ('+p.url()+')');
  await p.waitForFunction(()=>window.__test,null,{timeout:20000});
  await p.waitForFunction(()=>!document.getElementById('gsw'),null,{timeout:8000}); ok(true,'welcome overlay gone after the lesson loads');
  const w1=await p.evaluate(()=>GSApp.log().filter(e=>e[1]==='welcome_seen').map(e=>e[2]));
@@ -18,7 +19,7 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  await p.goto(base+'?home=1'); await p.waitForSelector('#main .today');
  ok(!(await p.textContent('#main')).includes("What's your game"),'no level picker before the first lesson');
  await p.screenshot({path:out+'app_home_first.png',fullPage:true});
- const start=await p.getAttribute('.today a.btn','href'); ok(start==='play.html?l=short-ball','unseen lesson 2 replaces the abandoned lesson 1 ('+start+')');
+ const start=await p.getAttribute('.today a.btn','href'); ok(start.startsWith('play.html?l=')&&start.includes('&challenge=daily'),'featured daily invitation stays explicit after an abandoned lesson ('+start+')');
  await p.goto(base+'play.html?l='+slug); await p.waitForFunction(()=>window.__test,null,{timeout:20000}); await p.evaluate(()=>window.__speed=8);
  await p.waitForFunction(()=>!document.getElementById('loading'),null,{timeout:2000}).catch(()=>{}); ok(!(await p.$('#loading')),'loading overlay removed (it fades out over 0.4 s)');
  const t0=Date.now();
@@ -42,7 +43,7 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  ok(ev.filter(e=>e==='read').length===3,'three reads logged');
  ok((await p.getAttribute('a.home','href'))==='./?home=1','Back to home never auto-starts');
  await p.click('a.home'); await p.waitForSelector('#main .today');
- const home=await p.textContent('#main'); ok(home.includes('Live Point'),'home offers the unplayed Live Point after a daily completion'); ok(home.includes('Continue daily challenges'),'daily continuation remains available alongside the point');
+ const home=await p.textContent('#main'); ok(home.includes('Live Point'),'home offers the unplayed Live Point after a daily completion'); ok(/today.s challenge.*complete/i.test(home),'daily completion stays primary alongside the optional point');
  ok(home.includes("What's your game"),'level picker appears after the first lesson'); await p.click('[data-level=club]'); ok(!(await p.textContent('#main')).includes("What's your game"),'level saved');
  await p.goto(base+'?home=1'); await p.waitForSelector('#main .today');
  ok((await p.textContent('#streak')).includes('1'),'streak chip 1');
@@ -75,7 +76,7 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
 // 3b. an auto-started lesson: close and the browser's back both land on Home, and Home stays
 {const ctx=await b.newContext({viewport:{width:390,height:844}}); const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(String(e)));
  for(const how of ['close','back']){
-  await p.goto(base); for(let i=0;i<50&&!p.url().includes('play.html');i++) await p.waitForTimeout(100);
+  await p.goto(base+'play.html?l=serve-plus-one&auto=1&intro=1'); for(let i=0;i<50&&!p.url().includes('play.html');i++) await p.waitForTimeout(100);
   await p.waitForFunction(()=>window.__test,null,{timeout:20000}); await p.waitForFunction(()=>!document.getElementById('gsw'),null,{timeout:8000});
   if(how==='close') await p.click('#close'); else await p.goBack();
   for(let i=0;i<40&&!p.url().includes('home=1');i++) await p.waitForTimeout(100); await p.waitForTimeout(900);
@@ -86,7 +87,7 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
 
 // 3c. the welcome: a tap skips; reduced motion is still; a slow lesson holds the final frame (never blank)
 {const ctx=await b.newContext({viewport:{width:375,height:667}}); const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(String(e)));
- await p.goto(base,{waitUntil:'commit'}); await p.waitForSelector('#gsw.full'); await p.waitForTimeout(300); await p.mouse.click(187,500);
+ await p.goto(base+'play.html?l=serve-plus-one&auto=1',{waitUntil:'commit'}); await p.waitForSelector('#gsw.full'); await p.waitForTimeout(300); await p.mouse.click(187,500);
  const gone=await p.evaluate(()=>{const w=document.getElementById('gsw');return !w||getComputedStyle(w).opacity==='0';});
  await p.waitForFunction(()=>window.__test&&!document.getElementById('gsw'),null,{timeout:20000});
  const ws=await p.evaluate(()=>GSApp.log().filter(e=>e[1]==='welcome_seen').map(e=>e[2]));
@@ -94,14 +95,14 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  await ctx.close();}
 {const ctx=await b.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'}); const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(String(e)));
  await p.route(/engine\.js/,async r=>{await new Promise(f=>setTimeout(f,1200)); r.continue();});
- await p.goto(base,{waitUntil:'commit'}); await p.waitForSelector('#gsw.still'); await p.waitForTimeout(600);
+ await p.goto(base+'play.html?l=serve-plus-one&auto=1',{waitUntil:'commit'}); await p.waitForSelector('#gsw.still'); await p.waitForTimeout(600);
  const st=await p.evaluate(()=>{const w=document.getElementById('gsw');return {ball:getComputedStyle(w.querySelector('.gsw-ball')).opacity,promise:getComputedStyle(w.querySelector('.gsw-promise')).opacity,anim:getComputedStyle(w.querySelector('.gsw-in')).animationName};});
  ok(st.ball==='0'&&st.promise==='1'&&st.anim==='none','reduced motion: static wordmark and promise, no motion ('+JSON.stringify(st)+')');
  await p.waitForFunction(()=>window.__test&&!document.getElementById('gsw'),null,{timeout:20000}); ok(true,'reduced-motion welcome leaves once the lesson is ready');
  await ctx.close();}
 {const ctx=await b.newContext({viewport:{width:390,height:844}}); const p=await ctx.newPage(); p.on('pageerror',e=>errs.push(String(e)));
  await p.route(/engine\.js/,async r=>{await new Promise(f=>setTimeout(f,3500)); r.continue();});
- await p.goto(base,{waitUntil:'commit'}); await p.waitForSelector('#gsw.full'); await p.waitForTimeout(2600);
+ await p.goto(base+'play.html?l=serve-plus-one&auto=1',{waitUntil:'commit'}); await p.waitForSelector('#gsw.full'); await p.waitForTimeout(2600);
  const h=await p.evaluate(()=>{const w=document.getElementById('gsw');return w&&{cls:w.className,op:getComputedStyle(w).opacity};});
  ok(!!h&&h.cls.includes('wait')&&h.cls.includes('hit')&&h.op==='1','slow lesson: the welcome holds its final frame with a pulse ('+JSON.stringify(h)+')');
  await p.waitForFunction(()=>window.__test&&!document.getElementById('gsw'),null,{timeout:20000});

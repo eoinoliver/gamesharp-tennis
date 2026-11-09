@@ -892,3 +892,16 @@ The correction separates the second-set diving volley from the first-set 0–40
 escape. All lesson decisions, scenes, coach assets and eligibility are preserved.
 The exact reviewed/merge/deployment identities, checks and production outcome
 will be recorded on PR 81 and in the follow-up release record.
+
+## 9 November 2026 — daily-led experience (Codex)
+
+Branch: codex/daily-led-home-2026-11-09, based on main 3f2ea1c. Eoin agreed to
+Daily as the consistent front door, related Live Points as optional continuation,
+Predict retained within the challenge collection, and simpler point naming.
+Implement a shared calendar-date featured challenge from the existing collection,
+honest revisit/completion states, exact share links, and personal practice below.
+Preserve all 63 authored lessons, coaching, media, routes, saved cues and progress.
+The feature intentionally replaces bare-entry auto-start with a clear playable
+Home invitation; existing explicit automatic-entry links remain supported.
+No new tennis lesson or learning-efficacy claim is added. Full build, browser,
+Git preview/staged/live verification remains required for release.

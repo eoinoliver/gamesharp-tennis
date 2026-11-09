@@ -70,22 +70,22 @@ try{
  await p.evaluate(()=>localStorage.removeItem('gs6'));
  const fresh=[];
  for(let i=0;i<3;i++){
-  if(i===2)await p.reload();else await p.goto(base);
+  if(i===2)await p.reload();else await p.goto(base+'play.html?l=serve-plus-one&auto=1');
   await p.waitForFunction(()=>window.__test&&GSApp.S.seen?.[new URL(location.href).searchParams.get('l')]);
   fresh.push(new URL(p.url()).searchParams.get('l'));
  }
- assert.equal(new Set(fresh).size,3,'return visits and bookmarked automatic entries choose unseen lessons');
+ assert.equal(new Set(fresh).size,3,'explicit bookmarked automatic entries still choose unseen lessons');
  await p.goto(base+'play.html?l='+fresh[0]);await p.waitForFunction(()=>window.__test);
  assert.equal(new URL(p.url()).searchParams.get('l'),fresh[0],'explicit lesson links retain replay access');
  await p.evaluate(()=>GSApp.CAT.daily.forEach(l=>GSApp.startLesson(l.slug)));
  await p.goto(base);await p.waitForSelector('#main .today');
- assert.ok((await p.locator('#main').textContent()).includes('Unfinished challenge'),'no unseen lessons means an explicit revisit, not automatic repetition');
+ assert.ok(await p.locator('#todayChallenge').count()===1,'an unfinished featured challenge remains an explicit invitation');
  await p.evaluate(()=>GSApp.CAT.daily.forEach(l=>GSApp.complete(l.slug,2)));
  await p.goto(base);await p.waitForSelector('#main .today');
  assert.ok((await p.locator('#main').textContent()).includes('Live Point'),'daily exhaustion offers the unplayed Live Point');
  await p.evaluate(()=>GSApp.CAT.play.filter(l=>l.livePoint).forEach(l=>GSApp.complete(l.slug,2,2)));
  await p.goto(base);await p.waitForSelector('#main .today');
- assert.ok((await p.locator('#main').textContent()).includes("Your daily sequence is complete"),'completed daily sequence never silently resets or claims whole-app completion');
+ assert.ok(/complete/i.test(await p.locator('.today').textContent()),'completed featured challenge stays complete without claiming whole-app completion');
  assert.equal(errors.length,0,errors.join('\n'));
  writeFileSync(out+'/report.json',JSON.stringify({base,version,engine,results,errors,intercepted,freshEntries:fresh},null,2));console.log(JSON.stringify({version,engine,results,errors,intercepted,freshEntries:fresh}));
 }catch(e){await p.screenshot({path:out+'/failure.png',fullPage:true}).catch(()=>{});throw e;}finally{await b.close();}

@@ -371,3 +371,38 @@ test('changed guidance cannot be kept for another hit without explicitly adoptin
  const b=withFocus();b.app.selectFocus('cue-one',null);const id=b.app.nextHit().active.id;b.app.focusAction(id,'played');b.app.focusAction(id,'occurred','no');
  const c=focusCatalog();c.daily[0].cue='New advice.';const changed=boot({storage:b.storage,catalog:c});assert.equal(changed.app.focusAction(id,'keep').ok,false);assert.equal(changed.app.nextHit().active.cue,'Read the return.');
 });
+
+const dailyPlan=JSON.parse(readFileSync(new URL('./daily_plan.json',import.meta.url),'utf8'));
+const dailyCatalog={daily:dailyPlan.rotation.map(slug=>({slug,title:slug,cue:'A saved cue'})),predict:[],play:[{slug:'live-point-serve-see',title:'Serve. Then See.',livePoint:true}],dailyPlan};
+test('featured daily is shared by date, independent of personal progress and level',()=>{
+  const a=boot({now:'2026-11-09T01:00:00Z',catalog:dailyCatalog}),b=boot({now:'2026-11-09T01:00:00Z',catalog:dailyCatalog});
+  b.app.setLevel('competitive');b.app.complete('serve-plus-one',1,3);b.app.startLesson('short-ball');
+  assert.equal(a.app.featuredDaily().lesson.slug,'serve-plus-one');assert.equal(b.app.featuredDaily().lesson.slug,'serve-plus-one');
+  assert.equal(a.app.featuredDaily().done,false);assert.equal(b.app.featuredDaily().done,true);
+  assert.equal(a.app.nextDaily().slug,'serve-plus-one');assert.notEqual(b.app.nextDaily().slug,'serve-plus-one');
+});
+test('featured challenge changes at the local date boundary, not on an arbitrary 24-hour timer',()=>{
+  const b=boot({now:'2026-11-09T12:59:00Z',catalog:dailyCatalog});assert.equal(b.app.featuredDaily().date,'2026-11-09');
+  b.time('2026-11-09T13:01:00Z');assert.equal(b.app.featuredDaily().date,'2026-11-10');assert.equal(b.app.featuredDaily().lesson.slug,'short-ball');
+});
+test('an unfinished daily stays selected; a prior completion is a revisit, not completed today',()=>{
+  const b=boot({now:'2026-11-09T01:00:00Z',catalog:dailyCatalog});b.app.startLesson('serve-plus-one');assert.equal(b.app.featuredDaily().lesson.slug,'serve-plus-one');assert.equal(b.app.featuredDaily().seen,true);
+  b.app.complete('serve-plus-one',1,3);const first={...b.app.S.done['serve-plus-one']};b.time('2026-12-11T01:00:00Z');
+  assert.equal(b.app.featuredDaily().lesson.slug,'serve-plus-one');assert.equal(b.app.featuredDaily().done,false);assert.equal(b.app.featuredDaily().previouslyPlayed,true);
+  b.app.complete('serve-plus-one',3,3);assert.equal(b.app.featuredDaily().done,true);assert.equal(b.app.S.done['serve-plus-one'].first,first.first);assert.equal(b.app.S.done['serve-plus-one'].n,1);assert.equal(b.app.S.done['serve-plus-one'].best,3);
+});
+test('another activity can count for the streak without claiming the featured challenge is complete',()=>{
+  const b=boot({now:'2026-11-09T01:00:00Z',catalog:dailyCatalog});b.app.complete('live-point-serve-see',2,2);
+  assert.equal(b.app.streakNow(),1);assert.equal(b.app.featuredDaily().done,false);assert.equal(b.app.log().filter(e=>e[1]==='featured_daily_complete').length,0);
+});
+test('daily share targets stay exact when the date advances and include no score',()=>{
+  const b=boot({now:'2026-11-09T01:00:00Z',catalog:dailyCatalog}),url=b.app.dailyShareUrl('serve-plus-one');b.time('2026-11-10T01:00:00Z');
+  assert.equal(url,b.app.dailyShareUrl('serve-plus-one'));assert.equal(url,'https://www.gamesharptennis.com/play.html?l=serve-plus-one&challenge=daily');assert.equal(b.app.dailyShareUrl('missing'),null);
+});
+test('only explicitly matched base points are offered; unpaired and later-day reads are not substituted',()=>{
+  const b=boot({catalog:dailyCatalog});assert.equal(b.app.relatedPoint('serve-plus-one').lesson.slug,'live-point-serve-see');assert.equal(b.app.relatedPoint('the-winner'),null);
+  const catalog={...dailyCatalog,play:[{slug:'live-point-serve-see',livePoint:true,transferOf:'other'}]};assert.equal(boot({catalog}).app.relatedPoint('serve-plus-one'),null);
+});
+test('invalid calendar dates do not become featured challenges',()=>{
+  const b=boot({catalog:dailyCatalog});for(const date of ['bad','2026-02-30','2026-13-01'])assert.equal(b.app.featuredDaily(date),null);
+});
