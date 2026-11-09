@@ -11,19 +11,19 @@
     },
     "app_src/build.py": {
       "baseline": "3f1d03c5e72fcf042d3c229382dcc2c418ef918f007d7634b3929d53e6e1d2af",
-      "candidate": "1285733c54c6297b5cb6eea21c9d6b1029d2a886f94bc2d3fb98f071bb0e077a"
+      "candidate": "3b419b0f65e7fc0d0a453d1b0f9a63179725379cd0726c6978caa0278184036e"
     },
     "app_src/index.html": {
       "baseline": "00163393d40147a179823abd1fddfc8dc6f9474fcd2cffc173cb2eac0e4c4fef",
-      "candidate": "35e1f410e17f7986fa8e1058265cb138a21dd101df43d0389cc147c2b2d5de96"
+      "candidate": "a47ff622236c5ba739c90e1e2e30673429cbc3ee8f12637d44f259f57decfc5f"
     },
     "app_src/play_host.html": {
       "baseline": "c1db12fd0d142ace07be667d8d7a0a3a2d965fcf7f0f6aaf784a97c336cf97ac",
-      "candidate": "154c18760f5f33c7903eefd0adf0d25e65cbfe933818d062a49e7d37f61d8967"
+      "candidate": "c825f3bb957636994b7b49621bfb180564eafee5ca0145d653b6d1e471fad713"
     },
     "app_src/practice.css": {
       "baseline": null,
-      "candidate": "387ce8bb7fbe0213b5b2d20d542344f65e8cbe2e196e96c741de93f02aabcbcb"
+      "candidate": "6d1435eb06ffadf58e0a16748aa9865cb04b6160276239b0e61e304317a41d91"
     },
     "app_src/practice.js": {
       "baseline": null,
@@ -295,7 +295,7 @@
     },
     "docs/features/sharing-practice.md": {
       "baseline": null,
-      "candidate": "fb2b7b7930d044b8ab8f55dddcedbe6fe9af7f98379d9adc7bd6eb0304eaf5f3"
+      "candidate": "3f9fbc1e05f06a3b844b4a19823d4d308e8b7273174a3a1507e9ff8ebc993b26"
     },
     "tools/browser-checks.mjs": {
       "baseline": "ffef79011b46fda985b425a874cccce67d2177f92d7c22dc6c713287ade4f350",
@@ -303,15 +303,15 @@
     },
     "tools/daily-home-browser.mjs": {
       "baseline": "4c2c08ab1b5de7c5c7721e054b880311261cce3b0431ac783ac88e6e618edff8",
-      "candidate": "d96a035d110f3d7984b4945167e20ec4663959fc0660310fb6d8c913183ac264"
+      "candidate": "c722150c6ed262961b3bd5d132ccdbfe7ee249e2284b8334ded776f5957f0c15"
     },
     "tools/doubles-browser.mjs": {
       "baseline": "7cf6151c858d28e9a00afee1584ae14707b6f6a264d5ea8e9c551a46b2dda99f",
-      "candidate": "2437fc9662808f67dbfed7420ef4d97fbb9bba01582744ea27a8f9d212a2ffec"
+      "candidate": "c7d11ffa5d2ae0e44ae15c5e051cb1f612a48b0a829914c2a61b7bf75b4072e9"
     },
     "tools/flagship-browser.mjs": {
       "baseline": "d5fd95e1852628c061a93493005aae60d3380bc4dbe318bbdeeda6d72bb4afe9",
-      "candidate": "194a1bb02538b9c56666bb37a243417e4bf5fc8dae8012d801bdc6a0ea0676a3"
+      "candidate": "d45625f348d4e0074310f80720d20937e25f4023f64a9c62554dff4987274b75"
     },
     "tools/render-share-previews.mjs": {
       "baseline": null,
@@ -319,15 +319,19 @@
     },
     "tools/sharing-practice-browser.mjs": {
       "baseline": null,
-      "candidate": "dfade346c4648ead67b4ef1cc22749ee77838b28abe1189fe26df7f3925d8b5b"
+      "candidate": "2d2103f61dc6a5bbe7d201a25c71af74be98da1dc6f4d3e9faa312ef2e8345b6"
     },
     "tools/ux-audit-browser.mjs": {
       "baseline": "0c75775f02fc447581fcdea7e86fb0429c91b17d0c2c0eff73f13482eb7b6bc0",
-      "candidate": "d667a9c244059612f2ecc8db217fa3b36bfc3259d5832fa60bc48225bc44d4ec"
+      "candidate": "53c984beb33b15bf018fd1c2fd82f527c8851cf9a253fa7a321b48b70978f56c"
     },
     "tools/verify-migration-host.py": {
       "baseline": null,
       "candidate": "46e31883195245ba8f4e153f47d48dda7cb146a737f74173a182cafa36a55810"
+    },
+    "app_src/share.js": {
+      "baseline": null,
+      "candidate": "65063f00ce4baa49cec2151e36837f8c93666945e9e6097418ff74b2afde42e2"
     }
   },
   "release": {
@@ -337,19 +341,19 @@
     },
     "app/catalog.js": {
       "baseline": "feb4ea3c184a83b196b9d9f82f94fdc6eefcd51464943785a846d27802b49c56",
-      "candidate": "834b60eec106f553459781e7bb866162c7c256156ebd3e091fc281dbfdfb00b2"
+      "candidate": "d0f27356628315f7095ca4413ede478afc6c837d7b7b201a5f469a55e7599f47"
     },
     "app/index.html": {
       "baseline": "e6c74aefdc75bf1fda47d8585ee9889a281d512238b038f8269f24c1f036a2cd",
-      "candidate": "100baff299b2b95b0a11e25cf7a3987901f53f91a18d20d0690fa5986c4706f7"
+      "candidate": "9b48a6f02e1f2acd7f040c7ba91162b3f72d983b49f705bf354639da820c19fa"
     },
     "app/play.html": {
       "baseline": "0c57e7da58dbb59e7837eda5a400be4c900ea48e2e666c9a59edc187cf2cc072",
-      "candidate": "442974851e1d19232dc5220441c50b108f68a5fb14eb487b65a345f8b02479d7"
+      "candidate": "8a3565342c771080bd078ab2fd4ecebcbd6f41b3b8e5643e214d9bc1f6409bd1"
     },
     "app/practice.css": {
       "baseline": null,
-      "candidate": "387ce8bb7fbe0213b5b2d20d542344f65e8cbe2e196e96c741de93f02aabcbcb"
+      "candidate": "6d1435eb06ffadf58e0a16748aa9865cb04b6160276239b0e61e304317a41d91"
     },
     "app/practice.js": {
       "baseline": null,
@@ -862,6 +866,10 @@
     "app/sharpen.js": {
       "baseline": "7be74425c34ed9c6e66113c943a1b99ee8c2748a379f7a6a3408849b632f5342",
       "candidate": "b62a7d0d033aa286417f22ef5184652875c4000e5036cbef8e5d4899bd0aa90f"
+    },
+    "app/share.js": {
+      "baseline": null,
+      "candidate": "65063f00ce4baa49cec2151e36837f8c93666945e9e6097418ff74b2afde42e2"
     }
   }
 }

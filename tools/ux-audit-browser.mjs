@@ -21,11 +21,11 @@ try{
   check(await p.locator('.voice-controls [data-gs-coach]').inputValue()===selected,slug+': completion keeps chosen coach');
   check(await p.locator('#sharePointButton').isVisible(),slug+': partner sharing is outside disclosures');
   await p.evaluate(()=>{window.__shares=[];Object.defineProperty(navigator,'share',{configurable:true,value:async payload=>{__shares.push(payload);throw new DOMException('Cancelled','AbortError')}});});
-  await p.locator('#sharePointButton').click();const payload=await p.evaluate(()=>__shares[0]);
+  await p.locator('#sharePointButton').click();check(await p.locator('#quickSharePanel').isVisible()&&await p.evaluate(()=>__shares.length===0),slug+': branded panel precedes native sharing');await p.locator('#quickShareNative').click();const payload=await p.evaluate(()=>__shares[0]);
   check(new URL(payload.url).pathname==='/s/'+slug+'.html'&&new URL(payload.url).search==='',slug+': share has no scores or chosen answers');
   check((await p.locator('#shareStatus').innerText()).includes('cancelled'),slug+': cancellation is not claimed as delivery');
-  await p.locator('#pairPlan summary').click();await p.locator('#pairPlanText').fill('');await p.locator('#sharePairPlan').click();check((await p.locator('#pairPlanStatus').innerText()).includes('Add a plan'),slug+': empty plan rejected');
-  await p.locator('#pairPlanText').fill('Agree who covers before the serve.');await p.locator('#sharePairPlan').click();check((await p.evaluate(()=>__shares.at(-1).text)).includes('Proposed plan'),slug+': draft is not claimed as agreement');
+  await p.locator('#quickShareClose').click();await p.locator('#pairPlan summary').click();await p.locator('#pairPlanText').fill('');await p.locator('#sharePairPlan').click();check((await p.locator('#pairPlanStatus').innerText()).includes('Add a plan'),slug+': empty plan rejected');
+  await p.locator('#pairPlanText').fill('Agree who covers before the serve.');await p.locator('#sharePairPlan').click();await p.locator('#quickShareNative').click();check((await p.evaluate(()=>__shares.at(-1).text)).includes('Proposed plan'),slug+': draft is not claimed as agreement');await p.locator('#quickShareClose').click();
  }
  for(const id of ['mistake','pressure','partner']){
   await p.goto(base+'?review=1&z=reset&r='+id);await p.locator('#resetSave').click();check(await p.locator('#resetRemove').isVisible(),id+': new reminder is immediately removable');await p.locator('#resetRemove').click();

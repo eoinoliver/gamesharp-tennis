@@ -95,7 +95,7 @@ build_share_pages(SRC, OUT, cat)
 h = hashlib.sha256()
 for dp, _, fs in sorted(os.walk(OUT)):
     for f in sorted(fs): h.update(open(os.path.join(dp, f), 'rb').read())
-for f in ('app.js', 'practice.js', 'practice.css', 'index.html', 'play_host.html', 'sharpen.js', 'reset.js', 'coach.js', 'coach.css', 'home.css', 'sfx.js', 'home-preview.js', 'cine.js', 'athlete.js'): h.update(open(os.path.join(SRC, f), 'rb').read())
+for f in ('app.js', 'share.js', 'practice.js', 'practice.css', 'index.html', 'play_host.html', 'sharpen.js', 'reset.js', 'coach.js', 'coach.css', 'home.css', 'sfx.js', 'home-preview.js', 'cine.js', 'athlete.js'): h.update(open(os.path.join(SRC, f), 'rb').read())
 h.update(open(os.path.join(SRC, 'daily_plan.json'), 'rb').read())
 for f in sorted(os.listdir(os.path.join(SRC, 'sharpen'))): h.update(open(os.path.join(SRC, 'sharpen', f), 'rb').read())
 VER = h.hexdigest()[:10]
@@ -111,11 +111,12 @@ open(os.path.join(OUT, 'play.html'), 'w').write(play)
 
 # ---------- shell ----------
 idx = open(os.path.join(SRC, 'index.html')).read()
-for f in ('config.js', 'catalog.js', 'app.js', 'practice.js', 'sharpen.js', 'reset.js', 'coach.js', 'sfx.js', 'home-preview.js', 'cine.js'): idx = idx.replace('src="%s"' % f, 'src="%s?v=%s"' % (f, VER))
+for f in ('config.js', 'catalog.js', 'app.js', 'share.js', 'practice.js', 'sharpen.js', 'reset.js', 'coach.js', 'sfx.js', 'home-preview.js', 'cine.js'): idx = idx.replace('src="%s"' % f, 'src="%s?v=%s"' % (f, VER))
 idx = idx.replace('href="practice.css"', 'href="practice.css?v=%s"' % VER)
 idx = idx.replace('href="coach.css"', 'href="coach.css?v=%s"' % VER)
 open(os.path.join(OUT, 'index.html'), 'w').write(idx)
 shutil.copy(os.path.join(SRC, 'app.js'), OUT)
+shutil.copy(os.path.join(SRC, 'share.js'), OUT)
 shutil.copy(os.path.join(SRC, 'practice.js'), OUT)
 shutil.copy(os.path.join(SRC, 'practice.css'), OUT)
 shutil.copy(os.path.join(SRC, 'sharpen.js'), OUT)

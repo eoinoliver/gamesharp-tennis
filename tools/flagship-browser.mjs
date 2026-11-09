@@ -46,10 +46,10 @@ try{
   }
   await p.locator('#compareDone').tap();check(await p.locator('#liveCompareDock').isHidden(),'Exit restores the court cue');
   await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:async()=>{throw new DOMException('cancelled','AbortError');}}));
-  await openCompletionPanels(p);await p.locator('#sharePointButton').tap();check(await p.locator('#shareStatus').innerText()==='Share cancelled.','Cancelling native share does not copy or announce success');
-  check(await p.locator('#shareFallback').isHidden(),'Cancel does not force a fallback');
+  await openCompletionPanels(p);await p.locator('#sharePointButton').tap();await p.locator('#quickShareNative').tap();check(await p.locator('#shareStatus').innerText()==='Share cancelled.','Cancelling native share does not copy or announce success');
+  check(await p.locator('#quickSharePanel').isVisible(),'Cancel returns to the branded panel without copying');await p.locator('#quickShareClose').tap();
   await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:undefined}));await openCompletionPanels(p);await p.locator('#sharePointButton').tap();
-  const link=await p.locator('#challengeLink').inputValue(),url=new URL(link);
+  const link=await p.locator('#quickShareLink').inputValue(),url=new URL(link);
   check(url.origin==='https://www.gamesharptennis.com'&&url.pathname==='/s/'+slug+'.html'&&url.search==='','Share contains only a point identifier');
   await p.screenshot({path:`${out}/${slug}-${picks}-ending.png`,fullPage:true});
   const exposures=await p.evaluate(()=>GSApp.log().filter(x=>x[1]==='live_point_comparison'));check(exposures.length===2,'Comparison exposure is recorded only at its evidence freeze: '+JSON.stringify(exposures));

@@ -1047,3 +1047,22 @@ it the same branded title/message and extend the real-completion browser check
 to inspect that native payload. All 66 Daily/Home checks pass locally. This
 follow-up supersedes the prior branding preview; Codex owns the fresh exact
 Git preview, required CI and hosted verification.
+
+## Branded panel before native sharing — 9 November 2026
+
+Codex owns the correction requested after the user showed the native Mac menu:
+all Share entry points must open the GameSharp green/gold panel first, even when
+navigator.share is available. Copy stays inside the branded panel; opening the
+system share menu is a separate, explicit action. Use one shared panel for the
+court, completion, Home and proposed doubles plans. Verify the real first-click
+path with native sharing available; earlier fallback-only visual evidence did
+not prove that path. Preserve exact links, spoiler-free invitations, editable
+plans, cancellation/error truth and the court layout. Review/preview only.
+
+The normal Share click was also verified in the actual in-app browser with
+native sharing available: the GameSharp panel appears first and was left open
+for review. Local checks pass: 420 sharing/practice checks in each engine,
+67 Daily/Home, 89 UX, 137 flagship and 24 complete mobile doubles routes.
+The first-click regression now asserts zero native calls until the explicit
+second action. Copy, native cancellation/failure and panel dismissal were checked
+at 320/390/1440px. Codex owns the fresh Git preview, full CI and hosted checks.

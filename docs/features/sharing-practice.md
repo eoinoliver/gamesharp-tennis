@@ -5,15 +5,20 @@ audio, silent Home motion and the three primary Home routes are preserved.
 
 ## Sharing
 
-Every activity has an in-play Share control and a completion action outside
-collapsed panels. Native share titles/messages identify GameSharp Tennis and the
-activity type; teaching titles are omitted from outgoing invitations when they
-could reveal the answer. The copy-link dialog uses the green/gold wordmark and
-actual court card. Native share-sheet colours remain OS-controlled. Social
-metadata titles include the brand. Native share cancellation and clipboard
-failure are explicit.
-The existing six editable doubles plans remain proposed plans, not evidence of
-partner agreement. No messages are sent by the app without the user's share tap.
+Every Share entry point opens the same GameSharp green/gold panel first:
+court toolbar, completion, Home and proposed doubles plans. This applies even
+when native sharing is available. Copy link stays in that panel; the optional
+"Share via another app" action opens the device's native share menu only after
+a second explicit tap. A native cancellation returns to the branded panel
+without claiming success. Clipboard failure leaves selectable text. Escape and
+the Close control return to the existing activity without moving the court.
+
+The panel uses the actual court card. Outgoing titles/messages identify
+GameSharp Tennis and the activity type; teaching titles are omitted from blind
+invitations. The six editable doubles plans remain proposals, not evidence of
+partner agreement. No messages are sent without the user's explicit action.
+Native OS share-menu colours remain OS-controlled. Social metadata carries
+the brand and exact opening question.
 
 Stable `/s/<slug>.html` invitations contain server-rendered Open Graph/Twitter
 metadata and an actual scene image, then immediately open the exact lesson.
