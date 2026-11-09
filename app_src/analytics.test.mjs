@@ -256,7 +256,7 @@ test('an earlier look, even without an answer, invalidates a fresh later-day tra
 });
 test('challenge links identify the point and contain no player, answer, route or score',()=>{
  const b=boot({catalog:liveCatalog});b.app.complete('point',1,2);
- assert.equal(b.app.challengeUrl('point'),'https://www.gamesharptennis.com/play.html?l=point&challenge=point');
+ assert.equal(b.app.challengeUrl('point'),'https://www.gamesharptennis.com/s/point.html');
  assert.equal(b.app.challengeUrl('one'),null);assert.equal(b.app.challengeUrl('untrusted&score=2'),null);
 });
 
@@ -397,7 +397,7 @@ test('another activity can count for the streak without claiming the featured ch
 });
 test('daily share targets stay exact when the date advances and include no score',()=>{
   const b=boot({now:'2026-11-09T01:00:00Z',catalog:dailyCatalog}),url=b.app.dailyShareUrl('serve-plus-one');b.time('2026-11-10T01:00:00Z');
-  assert.equal(url,b.app.dailyShareUrl('serve-plus-one'));assert.equal(url,'https://www.gamesharptennis.com/play.html?l=serve-plus-one&challenge=daily');assert.equal(b.app.dailyShareUrl('missing'),null);
+  assert.equal(url,b.app.dailyShareUrl('serve-plus-one'));assert.equal(url,'https://www.gamesharptennis.com/s/serve-plus-one.html');assert.equal(b.app.dailyShareUrl('missing'),null);
 });
 test('only explicitly matched base points are offered; unpaired and later-day reads are not substituted',()=>{
   const b=boot({catalog:dailyCatalog});assert.equal(b.app.relatedPoint('serve-plus-one').lesson.slug,'live-point-serve-see');assert.equal(b.app.relatedPoint('the-winner'),null);
@@ -405,4 +405,58 @@ test('only explicitly matched base points are offered; unpaired and later-day re
 });
 test('invalid calendar dates do not become featured challenges',()=>{
   const b=boot({catalog:dailyCatalog});for(const date of ['bad','2026-02-30','2026-13-01'])assert.equal(b.app.featuredDaily(date),null);
+});
+
+test('practice history is automatic, counts completed days rather than correct answers, and preserves first results',()=>{
+ const b=boot({now:'2026-11-09T01:00:00Z',catalog:dailyCatalog});b.app.opened('home');assert.equal(b.app.practiceSummary().count,0);
+ b.app.complete('serve-plus-one',0,3);b.app.complete('serve-plus-one',3,3);b.app.complete('short-ball',0,3);
+ const p=b.app.practiceSummary();assert.equal(p.count,1);assert.equal(p.rows.length,2);assert.equal(p.goal,0);
+ const row=p.rows.find(r=>r.lesson.slug==='serve-plus-one');assert.equal(row.n,0);assert.equal(row.times,2);assert.equal(row.later,null);assert.equal(row.tried,0);assert.equal(b.app.savedCues().length,0);
+ assert.equal(p.days[0].date,'2026-11-09');assert.equal(p.days[0].done,true);
+});
+test('weekly goals are optional, use local Monday boundaries, and never erase history',()=>{
+ const b=boot({now:'2026-11-15T12:59:00Z',catalog:dailyCatalog});assert.equal(b.app.setPracticeGoal(3),true);b.app.complete('serve-plus-one',0,3);
+ assert.equal(b.app.practiceSummary().count,1);assert.equal(b.app.practiceSummary().days[6].date,'2026-11-15');
+ b.time('2026-11-15T13:01:00Z');assert.equal(b.app.practiceSummary().count,0);assert.equal(b.app.practiceSummary().rows.length,1);assert.equal(b.app.practiceSummary().goal,3);
+ assert.equal(b.app.setPracticeGoal(4),false);assert.equal(b.app.setPracticeGoal('3'),false);assert.equal(b.app.setPracticeGoal(0),true);assert.equal(b.app.practiceSummary().goal,0);assert.equal(b.app.practiceSummary().rows.length,1);
+});
+test('changing a goal reads the newest completion from another tab and reports storage failure',()=>{
+ let fail=false;const a=boot({catalog:dailyCatalog,writeError:k=>fail&&k==='gs6'}),b=boot({catalog:dailyCatalog,storage:a.storage});
+ b.app.complete('serve-plus-one',2,3);assert.equal(a.app.setPracticeGoal(2),true);assert.equal(a.app.practiceSummary().rows.length,1);
+ fail=true;assert.equal(a.app.setPracticeGoal(5),false);assert.equal(a.app.practiceSummary().saved,false);assert.equal(JSON.parse(a.storage.get('gs6')).practiceGoal,2);
+});
+test('authored later-day variations become the next read only after the original day',()=>{
+ const catalog={daily:[],predict:[],play:[{slug:'p',title:'Original',livePoint:true,followup:'v'},{slug:'v',title:'Variation',livePoint:true,transferOf:'p'}]};
+ const b=boot({catalog});b.app.complete('p',0,2);let p=b.app.practiceSummary();assert.equal(p.next.kind,'tomorrow');assert.equal(p.next.lesson.slug,'v');
+ b.time('2026-09-29T00:00:00Z');assert.equal(b.app.practiceSummary().next.kind,'later');
+ b.app.startLesson('v');b.app.beginLiveAttempt('v');for(const i of [0,1])b.app.recordLiveRead('v',{i,X:'A',ok:i===0});b.app.complete('v',1,2);
+ assert.equal(b.app.practiceSummary().next,null);let r=b.app.practiceSummary().rows.find(r=>r.lesson.slug==='v');assert.equal(r.later.n,1);
+ b.app.beginLiveAttempt('v');for(const i of [0,1])b.app.recordLiveRead('v',{i,X:'B',ok:true});b.app.complete('v',2,2);
+ r=b.app.practiceSummary().rows.find(r=>r.lesson.slug==='v');assert.equal(r.later.n,1,'later retries never rewrite the first delayed read');
+});
+test('an early look does not become a later-day learning claim in practice history',()=>{
+ const b=boot({catalog:liveCatalog});b.app.complete('point',2,2);b.app.startLesson('return');b.time('2026-09-29T00:00:00Z');b.app.beginLiveAttempt('return');
+ for(const i of [0,1])b.app.recordLiveRead('return',{i,X:'B',ok:true});b.app.complete('return',2,2);
+ assert.equal(b.app.practiceSummary().rows.find(r=>r.lesson.slug==='return').later,null);
+});
+test('practice history distinguishes a self-reported court attempt from merely choosing a cue',()=>{
+ const b=withFocus();b.app.complete('cue-one',1,3);b.app.selectFocus('cue-one',null);assert.equal(b.app.practiceSummary().rows[0].tried,0);
+ const id=b.app.nextHit().active.id;b.app.focusAction(id,'played');b.app.focusAction(id,'occurred','yes');b.app.focusAction(id,'tried','yes');b.app.focusAction(id,'useful','partly');
+ assert.equal(b.app.practiceSummary().rows[0].tried,1);b.app.focusAction(id,'finish');assert.equal(b.app.practiceSummary().rows[0].tried,1);
+});
+test('all catalogue formats have exact private share links, unknown activities do not',()=>{
+ const catalog={daily:[{slug:'daily'}],predict:[{slug:'anticipation'}],play:[{slug:'legacy'},{slug:'doubles',livePoint:true,doubles:true}]};const b=boot({catalog});
+ for(const slug of ['daily','anticipation','legacy','doubles'])assert.equal(b.app.shareUrl(slug),'https://www.gamesharptennis.com/s/'+slug+'.html');
+ assert.equal(b.app.shareUrl('missing'),null);assert.equal(b.app.shareUrl('../injected'),null);
+});
+test('calendar reminders validate inputs, start in the future and follow chosen local weekdays',()=>{
+ const w={};vm.runInNewContext(readFileSync(new URL('./practice.js',import.meta.url),'utf8'),{window:w,Date});
+ const make=w.GSPractice.calendarFile;
+ assert.equal(make([],'08:00'),null);assert.equal(make(['MO'],'24:00'),null);assert.equal(make(['MO\nSUMMARY:bad'],'08:00'),null);
+ const file=make(['FR','MO','WE','MO'],'08:00',new Date('2026-11-09T01:00:00Z'));
+ assert.match(file,/DTSTART:20261111T080000/);assert.match(file,/RRULE:FREQ=WEEKLY;BYDAY=MO,WE,FR/);assert.match(file,/DTSTAMP:20261109T010000Z/);assert.match(file,/BEGIN:VALARM\r\nTRIGGER:PT0M/);assert(!/(?<!\r)\n/.test(file));
+});
+test('updated activities keep old completion records visibly separate from current practice',()=>{
+ const b=boot({catalog:liveCatalog});b.app.complete('point',1,2);const revised={...liveCatalog,play:liveCatalog.play.map(l=>l.slug==='point'?{...l,edition:'new'}:l)};
+ const c=boot({catalog:revised,storage:b.storage}),p=c.app.practiceSummary();assert.equal(p.rows.length,0);assert.equal(p.archived.length,1);assert.equal(p.archived[0].n,1);assert.equal(p.archived[0].lesson.slug,'point');assert.equal(p.next,null);
 });

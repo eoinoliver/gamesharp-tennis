@@ -1,0 +1,39 @@
+/* My Game stays a readable practice record, not another grid of destinations. */
+#practiceOverview h2,.practice-history h2{font-size:clamp(23px,5.6vw,30px);line-height:1.15;letter-spacing:-.02em}
+.practice-week{padding:24px 0 18px;border-bottom:1px solid #ffffff20}
+.practice-week ol{display:flex;justify-content:space-between;max-width:400px;list-style:none;margin:22px 0 14px;padding:0;gap:6px}
+.practice-week li{display:grid;text-align:center;gap:9px;color:#b6c4ba;font-size:12px}
+.practice-week li b{display:grid;place-items:center;width:36px;height:36px;border:1px solid #ffffff30;border-radius:50%;font-size:17px;font-weight:500}
+.practice-week li.practised b{background:#d0b65b;color:#071810;border-color:#d0b65b}
+.practice-week li.today span{color:#e5cf82;font-weight:700}
+.practice-next{padding:27px 0 24px;border-bottom:1px solid #ffffff20}
+.practice-next p,.practice-record p{max-width:55ch;line-height:1.55}
+.practice-link{display:inline-flex;align-items:center;min-height:44px;color:#e4ce83;background:none;border:0;border-bottom:1px solid #c9ad5b66;border-radius:0;font-family:inherit;font-size:15px;font-weight:600;line-height:1.4;text-align:left;text-decoration:none;padding:8px 0;cursor:pointer}
+.practice-link:hover{color:#fff2c3}.practice-link:focus-visible,.practice-record a:focus-visible{outline:2px solid #e4ce83;outline-offset:5px}
+.practice-history{margin:30px 0}.practice-record{padding:22px 0;border-bottom:1px solid #ffffff20}
+.practice-record-meta,.practice-evidence{color:#b5c6bb;font-size:13px;line-height:1.65}
+.practice-record h3{font-size:20px;line-height:1.25;margin:7px 0 10px}.practice-record a{color:#f4f1e8;text-decoration:none}
+.practice-record .practice-evidence{margin:10px 0 0}.practice-record .practice-link{font-size:14px;margin-top:6px}
+.practice-history details>summary,.practice-settings>summary,.practice-reminder>summary{min-height:48px;cursor:pointer;align-content:center;color:#e4ce83}
+.practice-settings{border-top:1px solid #ffffff20;margin:30px 0 16px;padding-top:12px}
+.practice-settings>label,.practice-reminder>label{display:block;margin-top:15px}
+.practice-settings select,.practice-settings input[type=time]{display:block;max-width:100%;min-height:48px;margin:10px 0;padding:10px 14px;background:#14261c;border:1px solid #7e907f;border-radius:8px;font:inherit;color:#f4f1e8;color-scheme:dark}
+.practice-settings fieldset{padding:0;margin:16px 0;border:0}.practice-settings legend{margin-bottom:8px}
+.practice-reminder-days{display:flex;flex-wrap:wrap;gap:6px 14px}.practice-reminder-days label{display:flex;align-items:center;gap:7px;min-height:44px;font-size:15px}.practice-reminder-days input{width:19px;height:19px;accent-color:#d0b65b}
+.practice-settings [role=status]:empty,.practice-history [role=status]:empty{display:none}
+#tools{grid-template-columns:minmax(0,1fr) repeat(5,44px)}
+#quickSharePanel{width:min(420px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow-y:auto;box-sizing:border-box;padding:24px;margin:auto;background:#071810;color:#f4f1e8;border:1px solid #d0b65b66;border-radius:16px;font:16px/1.5 "DM Sans",sans-serif;color-scheme:dark}
+#quickSharePanel::backdrop{background:#000b}#quickSharePanel h2{margin:18px 0 6px;font-size:24px;line-height:1.15;letter-spacing:-.02em}
+#quickSharePanel :focus-visible{outline:2px solid #e4ce83;outline-offset:3px}
+.share-brand{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:20px;padding-right:32px}.share-brand>span{font:28px "Bebas Neue",Impact,sans-serif;letter-spacing:.08em}.share-brand strong{color:#d0b65b;font-weight:inherit}.share-brand small{color:#d0b65b;font-size:10px;letter-spacing:.14em;border-left:1px solid #d0b65b66;padding-left:8px}
+.share-scene{display:block;width:100%;height:auto;border-radius:8px}.share-invitation{margin:0 0 20px;color:#b5c6bb;font-size:14px}
+#quickSharePanel label{display:block;font-size:13px;color:#b5c6bb}#quickSharePanel input,#quickSharePanel textarea{box-sizing:border-box;width:100%;padding:12px;background:#10231b;border:1px solid #ffffff30;border-radius:6px;color:#f4f1e8;font:inherit;margin:8px 0}#quickSharePanel textarea{resize:vertical}
+.quick-share-actions{display:grid;gap:10px;margin-top:12px}.quick-share-actions button{min-height:44px}
+#quickShareClose{position:absolute;top:10px;right:10px;display:grid;place-items:center;width:44px;height:44px;color:#c7d3c9;background:transparent;border:0;border-radius:50%;cursor:pointer}#quickShareClose svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7}
+#quickShareNative{padding:12px;border:1px solid #d0b65b66;border-radius:10px;background:transparent;color:#e4ce83;font:600 14px/1.4 "DM Sans",sans-serif;cursor:pointer}#quickShareNativeHint{margin:8px 0;color:#b5c6bb;font-size:12px}#quickShareNative[hidden],#quickShareNativeHint[hidden]{display:none}
+#sharePoint{border-top:1px solid #ffffff25;padding-top:24px}#sharePointButton,#quickShareCopy,#copyChallenge{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border:0;border-radius:10px;background:#d0b65b;color:#071810;font:700 15px/1.4 "DM Sans",sans-serif;text-decoration:none;cursor:pointer}#sharePointButton:hover,#quickShareCopy:hover,#copyChallenge:hover{background:#e1c974}#sharePointButton:focus-visible,#quickShareCopy:focus-visible,#copyChallenge:focus-visible{outline:2px solid #f4f1e8;outline-offset:4px}#shareStatus:empty{display:none}
+@media(max-width:360px){.practice-week li b{width:32px;height:32px}.practice-week ol{gap:4px}}
+
+#quickShareStatus:empty{display:none}#quickShareStatus{font-size:13px;text-align:left;color:#b5c6bb}
+
+.practice-record>p:not(.practice-evidence){font-size:16px;color:#dde6de;line-height:1.55}

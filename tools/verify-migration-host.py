@@ -89,7 +89,7 @@ def check(case):
             assert not deployment_id or re.fullmatch(r'dpl_[A-Za-z0-9]+', deployment_id), 'Invalid deployment ID'
             feedback = ('<script async data-explicit-opt-in="true" data-deployment-id="' + deployment_id + '" src="https://vercel.live/_next-live/feedback/feedback.js"></script>').encode()
             normalized = body
-            if not production and case['path'] in ('/index.html', '/play.html') and body.endswith(feedback):
+            if not production and (case['path'] in ('/index.html', '/play.html') or re.fullmatch(r'/s/[a-z0-9-]+\.html', case['path'])) and body.endswith(feedback):
                 normalized = body[:-len(feedback)]
                 result['platformSuffix'] = feedback.decode()
             result['rawSha256'] = hashlib.sha256(body).hexdigest()

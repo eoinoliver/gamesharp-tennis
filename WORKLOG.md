@@ -905,3 +905,164 @@ The feature intentionally replaces bare-entry auto-start with a clear playable
 Home invitation; existing explicit automatic-entry links remain supported.
 No new tennis lesson or learning-efficacy claim is added. Full build, browser,
 Git preview/staged/live verification remains required for release.
+
+## 9 November 2026 — Home clarity (Codex)
+
+Branch codex/home-clarity-2026-11-09 from main 559ef8e. Eoin approved the
+mobile Home redesign after reviewing his screenshots: one clear Daily Challenge,
+compact singles/doubles entries, audio preferences in a disclosure, saved cues
+in My Game, and a smaller completed state. Remove the repeated feature directory.
+Use concise, situation-led Home copy and frames from the actual daily lessons.
+Preserve lesson content, progress, day/revisit semantics, coach choice and all
+existing practice destinations. Verify first, returning, revisited and completed
+states at small/large mobile sizes and desktop, plus keyboard and storage failure.
+
+Review candidate app 97243b2214 preserves the exact 63 lesson files, engine and
+all audio. Build parity: 313 release files / 312 public; 431 source/test inputs.
+93 unit checks, 114 Home checks in each of Chromium/WebKit, 65 real Daily
+completion/share checks and 37 coach checks (74 Lara files decoded) passed.
+Full shell checks and Git CI/hosted verification are in progress. The first local
+shell run overlapped a rebuild that temporarily removed served assets; rerun
+against the stable generated output. This is a preview task; production remains
+9a939878ec. Codex owns completing checks, PR and presenting the review build.
+
+CI caught one remaining pre-redesign expectation in the flagship journey check:
+an unfinished point on Home. The check now taps Play singles, finds Continue
+your point, and verifies the original unfinished lesson opens. Only this test
+and its explicit fingerprint coverage changed; app 97243b2214 is byte-identical.
+The previous CI build/routes/shell/sound jobs passed; learning is being rerun.
+
+The completed follow-up checks pass: 137 flagship, 28 mobile learning, 44 recap,
+and 2,149 question-action assertions across all 211 questions. The updated-edition
+check also follows Play singles and preserves the earlier 2/2 score. Every local
+suite now passes when combined with the unchanged-application CI route, doubles,
+ten-point and six-point checks. Full CI is rerunning on the final test revision.
+
+Eoin rejected the pale challenge panel and asked for a more coherent, disciplined
+Home. Continue PR 85: remove the enclosing card, let the actual court scene sit
+within the green surface, use typography/space and one gold action for hierarchy,
+and reduce singles/doubles to quiet text routes. Preserve the completed state,
+all controls and all lesson behaviour. This remains a design-review preview.
+
+Continuous-surface review app 4bbdf03f8c: 114 Home checks pass in each of
+Chromium/WebKit, 65 real Daily completion/share checks pass, and all 93 unit
+checks pass. Build parity remains 313 files / 312 public and 431 source/test
+inputs. Visually reviewed small/large mobile, desktop and completion. No lesson,
+voice, animation, progress or routing changes; Home stills omit text labels only.
+
+Eoin requested motion as soon as Home opens. Codex owns the PR 85 follow-up:
+render silent previews from each of the 32 actual Daily scenes, autoplay once
+and hold at the decision, with reduced-motion and browser-policy fallbacks,
+pause/replay, and no change to lesson behaviour or saved completion. Verify
+mobile Chromium/WebKit and all rotation assets before updating the preview.
+
+Home motion candidate ddbeaee68a: all 32 actual scenes rendered and visually
+reviewed at opening/midpoint/decision; H.264 assets have no audio streams, range
+0.9–5 seconds, max 454 KiB. 47 playback checks pass in each of Chromium/WebKit,
+including real autoplay, pause/replay, offscreen suspension, reduced motion,
+autoplay rejection and unavailable media. Existing 114 Home checks pass in both
+engines, 65 real Daily completion/share checks pass, and all 93 unit tests pass.
+Build parity: 346 release / 345 public files; 467 source/test inputs. All 63
+lesson files, engine and audio are byte-identical to the previous preview.
+Codex owns Git preview/hosted verification and full CI; production unchanged.
+
+Eoin approved the look and asked to lead Sharpen with the Forehand drive
+animation, followed by What needs work. Codex owns this PR 85 layout follow-up:
+swap the two sections, preserve their controls/content/routes, keep Home's three
+current routes, and verify mobile/desktop reading order and stroke controls.
+
+Sharpen flow candidate bf5a821bf0: animation/reference first, What needs work
+second; all eight practice areas, Reset and My Game retained. Visually inspected
+320/390/1440px and confirmed no overflow. 73 complete experience checks pass
+in each of Chromium and WebKit; 47 Home playback checks pass. Build parity:
+346 release / 345 public files and 467 checked inputs. No engine, athlete,
+lesson, audio or Home preview media changes. Codex owns hosted preview and CI;
+this remains review-only, with production unchanged.
+
+Final flow refinement 613334a79f: keep the initial stroke breakdown collapsed,
+so What needs work begins around 745px on a 390px phone (previously 1245px).
+Reference phases remain available on expansion and stroke selection. 73 complete
+experience checks pass again in both engines; 93 unit checks pass. Final build
+parity and all source/release fingerprints match. The hosted failure-retry test
+now falls through to the authenticated transport instead of bypassing it; this
+is a test-harness correction, with no application retry behaviour change.
+
+## Mobile sharing and personal practice — 9 November 2026
+
+Codex owns the authorized PR 85 follow-up: visible sharing across all 63
+activities with direct, spoiler-free social previews; automatic My Game practice
+history, an optional weekly practice goal and calendar reminder, and authored
+later-day revisits. Preserve first-attempt learning evidence, intentional saved
+cues, next-hit reflections, the simple Home and all lesson content. Fix the
+stale promise that return reads appear on Home. Build, mobile/desktop review,
+full checks and a Git-built preview remain the delivery scope; production is
+unchanged.
+
+Candidate bae716998f: 474 release files / 473 public, 537 checked source/test
+inputs; parity and 102 unit checks pass. All 63 raw social metadata pages and
+fresh-recipient routes pass in Chromium and WebKit. Seven actual completion
+formats expose sharing; all 63 existing lessons, engine, audio and Home media
+retain their pre-feature hashes. Existing 90 next-hit/path, 59 trust/practice,
+65 Daily and 73 experience checks pass. Codex is completing the personal-view
+calendar/reflection browser checks and owns full CI plus exact hosted verification.
+Production remains unchanged; PR 85 continues as the review candidate.
+
+Follow-up: both engines pass all 348 new checks. The hosted verifier initially
+reported 63 share-page hash mismatches: inspection proved each difference was
+Vercel's exact deployment-specific feedback suffix, already normalized on the
+two older HTML pages. Extend that same strict suffix rule to the new share HTML
+paths; production hashes remain untouched. Final copy specifies challenges or
+points for the weekly goal (Reset sessions are not counted) and removes doubled
+punctuation in variation titles. No functional learning/share changes.
+
+Final visual inspection caught a class-name collision with the old Home practice
+card. Scope the new history rows as practice-record, removing the inherited
+boxed/flex presentation and keeping their takeaways readable at 16px. This is a
+local presentation fix; Home cards and all stored practice semantics stay intact.
+Codex owns final parity, fresh Git preview verification and CI for this correction.
+
+Full CI found two height regressions from the extra in-play Share row and an
+interrupted cue/professional-story/continuation sequence. Move in-play sharing
+into the existing court toolbar; its copy fallback is a dismissible dialog.
+Place completion sharing after the existing teaching/continuation sequence.
+The 325 Contact Clue, 9 layout/navigation and 28 mobile-learning regressions
+pass locally. Both engines passed the 349 sharing/practice checks after the
+toolbar change; Codex owns final exact-candidate verification and fresh full CI.
+Production remains unchanged.
+
+## Share branding — 9 November 2026
+
+Codex owns the authorized PR 85 follow-up: replace generic native share titles
+and messages with GameSharp Tennis branding, preserve one-tap native sharing,
+and style the copy-link dialog and completion share controls in the existing
+green/gold identity. Include the real activity card in the copy dialog; add the
+brand to all 63 social metadata titles. Keep recipient invitations free of the
+teaching answer, including lesson names that could give the decision away.
+Native OS share-sheet colours remain controlled by the phone/browser. Public
+share pages still return 404 until the review release is promoted. Scope is
+implementation, checks and a fresh Git preview; production stays unchanged.
+
+The final sharing sweep also found Home's completed-Daily native action. Give
+it the same branded title/message and extend the real-completion browser check
+to inspect that native payload. All 66 Daily/Home checks pass locally. This
+follow-up supersedes the prior branding preview; Codex owns the fresh exact
+Git preview, required CI and hosted verification.
+
+## Branded panel before native sharing — 9 November 2026
+
+Codex owns the correction requested after the user showed the native Mac menu:
+all Share entry points must open the GameSharp green/gold panel first, even when
+navigator.share is available. Copy stays inside the branded panel; opening the
+system share menu is a separate, explicit action. Use one shared panel for the
+court, completion, Home and proposed doubles plans. Verify the real first-click
+path with native sharing available; earlier fallback-only visual evidence did
+not prove that path. Preserve exact links, spoiler-free invitations, editable
+plans, cancellation/error truth and the court layout. Review/preview only.
+
+The normal Share click was also verified in the actual in-app browser with
+native sharing available: the GameSharp panel appears first and was left open
+for review. Local checks pass: 420 sharing/practice checks in each engine,
+67 Daily/Home, 89 UX, 137 flagship and 24 complete mobile doubles routes.
+The first-click regression now asserts zero native calls until the explicit
+second action. Copy, native cancellation/failure and panel dismissal were checked
+at 320/390/1440px. Codex owns the fresh Git preview, full CI and hosted checks.

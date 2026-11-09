@@ -195,7 +195,8 @@ function relatedPoint(slug){
   const pair=CAT.dailyPlan?.related?.[slug],lesson=pair&&bySlug(pair.slug);
   return lesson?.livePoint&&!lesson.transferOf?{lesson,bridge:pair.bridge}:null;
 }
-function dailyShareUrl(slug){return isDaily(slug)?'https://www.gamesharptennis.com/play.html?l='+encodeURIComponent(slug)+'&challenge=daily':null;}
+function shareUrl(slug){return bySlug(slug)?'https://www.gamesharptennis.com/s/'+encodeURIComponent(slug)+'.html':null;}
+function dailyShareUrl(slug){return isDaily(slug)?shareUrl(slug):null;}
 function nextLivePoint(){
   syncProgress();
   const points=(CAT.play||[]).filter(l=>l.livePoint),seen=S.seen||{};
@@ -243,7 +244,32 @@ function transferEvidence(slug){
   const text=lesson.liveFeedback?.summaries[`${+reply.ok}${+recovery.ok}`]||(reply.ok?(recovery.ok?(blind&&prior?.[1]?.ok===false?'This time, you recovered while your ball travelled.':'You chose more time and recovered while the ball travelled.'):'You chose more time, then waited to recover.'):(recovery.ok?'You recovered promptly. A higher reply could have bought more time.':'The quicker reply and the wait left you less recovery time.'));
   return {kind:blind?'first_later_day':'practice',reply:reply.ok,recovery:recovery.ok,text};
 }
-function challengeUrl(slug){return bySlug(slug)?.livePoint?'https://www.gamesharptennis.com/play.html?l='+encodeURIComponent(slug)+'&challenge=point':null;}
+function challengeUrl(slug){return bySlug(slug)?.livePoint?shareUrl(slug):null;}
+/* Practice days reward showing up, including wrong answers. These summaries
+   use saved completions, never page opens or an inferred tennis ability. */
+function setPracticeGoal(value){
+  if(![0,2,3,5,7].includes(value))return false;
+  syncProgress();S.practiceGoal=value;const ok=save(S);
+  if(ok)track('practice_goal_set',{days:value});return ok;
+}
+function practiceSummary(){
+  syncProgress();
+  const t=today(),now=new Date(),monday=addDays(t,-((now.getDay()+6)%7));
+  const days=Array.from({length:7},(_,i)=>{const date=addDays(monday,i);return {date,done:S.days.includes(date),future:date>t};});
+  const focus=focusStore(),reflections=[...(focus?.history||[]),...(focus?.active?[focus.active]:[])];
+  const rows=all().filter(l=>S.done[l.slug]).map(lesson=>{
+    const done=S.done[lesson.slug],attempt=S.liveAttempts?.[lesson.slug]?.find(a=>a.id===S.liveFirstAttemptIds?.[lesson.slug]);
+    const later=!!(lesson.transferOf&&attempt?.result&&attempt.reads?.length>=2&&attempt.reads[0].delayed&&attempt.reads[1].delayed);
+    const tried=reflections.filter(f=>f.slug===lesson.slug&&f.edition===(lesson.edition||'original')&&f.reflection?.tried==='yes');
+    return {lesson,...done,later:later?{day:attempt.day,n:attempt.result.n,total:attempt.result.total}:null,tried:tried.length};
+  }).sort((a,b)=>b.last.localeCompare(a.last)||b.first.localeCompare(a.first)||a.lesson.title.localeCompare(b.lesson.title));
+  const pending=rows.map(r=>({source:r.lesson,lesson:bySlug(r.lesson.followup)})).filter(p=>p.lesson&&!S.done[p.lesson.slug]);
+  const due=pending.find(p=>S.done[p.source.slug].first<t),waiting=pending[0];
+  let next=due?{...due,kind:'later'}:waiting?{...waiting,kind:'tomorrow'}:null;
+  if(!next)for(const r of rows){const pair=relatedPoint(r.lesson.slug);if(pair&&!S.done[pair.lesson.slug]){next={...pair,source:r.lesson,kind:'related'};break;}}
+  const archived=all().flatMap(lesson=>(S.editionHistory?.[lesson.slug]||[]).filter(r=>r.done).map(r=>({lesson,edition:r.edition,...r.done}))).sort((a,b)=>b.last.localeCompare(a.last));
+  return {archived,days,count:days.filter(d=>d.done).length,goal:[2,3,5,7].includes(S.practiceGoal)?S.practiceGoal:0,rows,next,saved:progressSaved};
+}
 /* Show exhaustion or an explicit unfinished revisit before today's completion. */
 function todays(){
   syncProgress();
@@ -292,7 +318,7 @@ const listeners=[];
 function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
-window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,featuredDaily,relatedPoint,dailyShareUrl,displayTitle,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,startLesson,complete,setLevel,feedback,emit,on,
+window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,featuredDaily,relatedPoint,dailyShareUrl,shareUrl,practiceSummary,setPracticeGoal,displayTitle,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,startLesson,complete,setLevel,feedback,emit,on,
   activityLabel,remaining,savedCues,cueSaved,saveCue,nextHit,selectFocus,focusAction,practicePath,pathProgress,PRACTICE_PATHS,progressSaved:()=>progressSaved,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();

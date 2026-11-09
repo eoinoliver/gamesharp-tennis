@@ -46,18 +46,21 @@ try{
   }
   await p.locator('#compareDone').tap();check(await p.locator('#liveCompareDock').isHidden(),'Exit restores the court cue');
   await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:async()=>{throw new DOMException('cancelled','AbortError');}}));
-  await openCompletionPanels(p);await p.locator('#sharePointButton').tap();check(await p.locator('#shareStatus').innerText()==='Share cancelled.','Cancelling native share does not copy or announce success');
-  check(await p.locator('#shareFallback').isHidden(),'Cancel does not force a fallback');
+  await openCompletionPanels(p);await p.locator('#sharePointButton').tap();await p.locator('#quickShareNative').tap();check(await p.locator('#shareStatus').innerText()==='Share cancelled.','Cancelling native share does not copy or announce success');
+  check(await p.locator('#quickSharePanel').isVisible(),'Cancel returns to the branded panel without copying');await p.locator('#quickShareClose').tap();
   await p.evaluate(()=>Object.defineProperty(navigator,'share',{configurable:true,value:undefined}));await openCompletionPanels(p);await p.locator('#sharePointButton').tap();
-  const link=await p.locator('#challengeLink').inputValue(),url=new URL(link);
-  check(url.origin==='https://www.gamesharptennis.com'&&url.search==='?l='+slug+'&challenge=point','Share contains only a point identifier');
+  const link=await p.locator('#quickShareLink').inputValue(),url=new URL(link);
+  check(url.origin==='https://www.gamesharptennis.com'&&url.pathname==='/s/'+slug+'.html'&&url.search==='','Share contains only a point identifier');
   await p.screenshot({path:`${out}/${slug}-${picks}-ending.png`,fullPage:true});
   const exposures=await p.evaluate(()=>GSApp.log().filter(x=>x[1]==='live_point_comparison'));check(exposures.length===2,'Comparison exposure is recorded only at its evidence freeze: '+JSON.stringify(exposures));
   await c.close();
  }
  const c=await context(),p=await c.newPage();await p.goto(base+'?home=1');await p.waitForFunction(()=>window.GSApp);
  await p.evaluate(()=>{GSApp.startLesson('live-point-buy-time');});await p.reload();
- check(await p.locator('#livePoint').innerText().then(t=>t.includes('Return to the point')),'Unfinished point remains reachable from Home');
+ await p.locator('#homeSingles').tap();await p.waitForURL(/kind=live/);
+ check(await p.locator('#resumeLivePoint').innerText().then(t=>t.toLowerCase().includes('continue your point')),'Singles identifies the unfinished point');
+ await p.locator('#resumeLivePoint').tap();await p.waitForFunction(()=>window.__test);
+ check(new URL(p.url()).searchParams.get('l')==='live-point-buy-time','Home → singles resumes the original unfinished point');
  await c.close();check(!errors.length,'No browser errors');
 }finally{await browser.close();writeFileSync(out+'/report.json',JSON.stringify({base,engine,checks,errors},null,2));}
 console.log(`PASS ${checks.length} flagship checks (${engine})`);

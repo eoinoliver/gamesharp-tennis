@@ -1,0 +1,875 @@
+{
+  "scope": "63 exact social invitations and mobile share controls; browser-local practice history, authored revisits, optional weekly rhythm/calendar. No lesson, engine or audio edits.",
+  "source": {
+    "app_src/analytics.test.mjs": {
+      "baseline": "d0a4306e23d0e6de6cec13149d868007333741edb0280621a392a828f30d3d9c",
+      "candidate": "169fb1f7541c4435762d6ccde9295009741e714c71b42a10aca7bc5a44079280"
+    },
+    "app_src/app.js": {
+      "baseline": "7e4ef871b680382e2b88889b42b662e0fa33ab92e2a999155abd502896f73a8e",
+      "candidate": "78037cdcd3028252114c04ab275cd64bd639c0d9913f4ea910b210d3adbe4d40"
+    },
+    "app_src/build.py": {
+      "baseline": "3f1d03c5e72fcf042d3c229382dcc2c418ef918f007d7634b3929d53e6e1d2af",
+      "candidate": "3b419b0f65e7fc0d0a453d1b0f9a63179725379cd0726c6978caa0278184036e"
+    },
+    "app_src/index.html": {
+      "baseline": "00163393d40147a179823abd1fddfc8dc6f9474fcd2cffc173cb2eac0e4c4fef",
+      "candidate": "a47ff622236c5ba739c90e1e2e30673429cbc3ee8f12637d44f259f57decfc5f"
+    },
+    "app_src/play_host.html": {
+      "baseline": "c1db12fd0d142ace07be667d8d7a0a3a2d965fcf7f0f6aaf784a97c336cf97ac",
+      "candidate": "c825f3bb957636994b7b49621bfb180564eafee5ca0145d653b6d1e471fad713"
+    },
+    "app_src/practice.css": {
+      "baseline": null,
+      "candidate": "6d1435eb06ffadf58e0a16748aa9865cb04b6160276239b0e61e304317a41d91"
+    },
+    "app_src/practice.js": {
+      "baseline": null,
+      "candidate": "dfe7a97b24dd7873dcaa3d94893769973cbe92dfea0f92bf15b251cfb912e6c2"
+    },
+    "app_src/share/answer-the-drop.jpg": {
+      "baseline": null,
+      "candidate": "fdfefd4ea38671102aef3535db6e44adab39f87234d8c64a35e8c49847a73670"
+    },
+    "app_src/share/approach-volley.jpg": {
+      "baseline": null,
+      "candidate": "5e2fed9c5760760584a33c2115afdd7749e2b9b145911370671c2af12ae2c6e2"
+    },
+    "app_src/share/attack-the-backhand.jpg": {
+      "baseline": null,
+      "candidate": "fe808c704991eda9ccea6cb10270e2132762a31229ef2fef5cd727f50f5a190c"
+    },
+    "app_src/share/contact-clue.jpg": {
+      "baseline": null,
+      "candidate": "a0fcdac7bc905d41eb830700efc4f8640d7cb3518f237efcaf4f0b721af03cdb"
+    },
+    "app_src/share/doubles-cross-cover.jpg": {
+      "baseline": null,
+      "candidate": "bd59ce534ce77717c11987181c2e4e8927f09018cb3fc767d7a4e7361b3d0c5e"
+    },
+    "app_src/share/doubles-hold-cover.jpg": {
+      "baseline": null,
+      "candidate": "d996c55eee1eb00aff55ee70aea5e78daba5031060e7aba79b90569770be6541"
+    },
+    "app_src/share/doubles-lob-overhead.jpg": {
+      "baseline": null,
+      "candidate": "00fdf9a72bc3a24d6c73cda4aebb0fad07b14e936a8633576f7c4cceac3dc1fd"
+    },
+    "app_src/share/doubles-lob-switch.jpg": {
+      "baseline": null,
+      "candidate": "5fd567799e4dc6c4efeedcdf063c6c4eafbf50aec2a4b4211871c42fcb73ac82"
+    },
+    "app_src/share/doubles-return-line.jpg": {
+      "baseline": null,
+      "candidate": "65e7fb903bd4ee5d4413737f033366f310483703b44f2518cf62b7c4731060b7"
+    },
+    "app_src/share/doubles-return-space.jpg": {
+      "baseline": null,
+      "candidate": "aede002e0c13d8c683416f684031cc083df447947c4f42a1734c20488d8be63a"
+    },
+    "app_src/share/down-the-line.jpg": {
+      "baseline": null,
+      "candidate": "4330b27881361b96e8d55aedd554c3dd31c2b4f2845c95b3dec3308b7a625c5c"
+    },
+    "app_src/share/earned-attack.jpg": {
+      "baseline": null,
+      "candidate": "997426a66d84e63393c386a4a8067ffb0fce885408ad05e5ff50d3d52df17c22"
+    },
+    "app_src/share/earned-defence.jpg": {
+      "baseline": null,
+      "candidate": "40015fd8471af1d68333e63e175caa626be2b57427d66c5a40bbcee4c330696e"
+    },
+    "app_src/share/earned-net.jpg": {
+      "baseline": null,
+      "candidate": "b4303ad926229489edc21ae50a8498dfe9821b77371028f2ab59be63a3232991"
+    },
+    "app_src/share/find-your-return-spot.jpg": {
+      "baseline": null,
+      "candidate": "b7ce0da8054a21876037eb3281e3edad92d354c074fe80f587a5cf9f6b514389"
+    },
+    "app_src/share/forehand-bill.jpg": {
+      "baseline": null,
+      "candidate": "bf02b94d07c7c20ddcf115aa71fbb95579371c123d9d5305fa5889da5dec95ea"
+    },
+    "app_src/share/high-ball.jpg": {
+      "baseline": null,
+      "candidate": "a676efd5822e9eb423a229b3931c77e2e01ea0acf838cf2093de73902050a12f"
+    },
+    "app_src/share/late-is-the-culprit.jpg": {
+      "baseline": null,
+      "candidate": "ad720b4039a9094e118cba7398e24f301ba06aa51f7ecdfe57678fbe95835bb7"
+    },
+    "app_src/share/live-point-arrive-options.jpg": {
+      "baseline": null,
+      "candidate": "ecf6100019164709443f3aa5c5f384383bac7137a95d7703b740918b26001d4f"
+    },
+    "app_src/share/live-point-buy-time.jpg": {
+      "baseline": null,
+      "candidate": "b839464df9e58fd97fbfa04acc4742ea8040a4c4595f11d3268375f19aa68d1d"
+    },
+    "app_src/share/live-point-line-opens.jpg": {
+      "baseline": null,
+      "candidate": "dc8f499af901937b2e9b8dc5f402bce42c8075cb3137448b5edb5a67cd81f985"
+    },
+    "app_src/share/live-point-line-tempting.jpg": {
+      "baseline": null,
+      "candidate": "5133986a99d98a99b9f848feb98ba22f6cce97f48aec6ab4c042c10d5be04773"
+    },
+    "app_src/share/live-point-make-room.jpg": {
+      "baseline": null,
+      "candidate": "ed01b029d56fa8e7a04607fe13dd2b7b6773b36c08a6ba68f90e4957ac71272e"
+    },
+    "app_src/share/live-point-other-wing.jpg": {
+      "baseline": null,
+      "candidate": "8b65b174d6c1237542fd702e0f2fc99fb3a9692aa5663dd2ecab0b4bb684a5cd"
+    },
+    "app_src/share/live-point-over-head.jpg": {
+      "baseline": null,
+      "candidate": "b64639ddcef490ef19409ba71d89ae932c839997cb18b0fef192190264c87704"
+    },
+    "app_src/share/live-point-pass-two.jpg": {
+      "baseline": null,
+      "candidate": "deca865564f904ae709b575486942d805e21ceaa03db3e60e09a40d4ee01e568"
+    },
+    "app_src/share/live-point-reach-drop.jpg": {
+      "baseline": null,
+      "candidate": "3e965a040129a8271530a4ad9d671c3f49f6b3068ceb3773032dc0a23c038f10"
+    },
+    "app_src/share/live-point-return-deep.jpg": {
+      "baseline": null,
+      "candidate": "a0c2c12193543f18a736781b984441830b5605f3fe10050cc0feca8fd0060b6c"
+    },
+    "app_src/share/live-point-return-pressure.jpg": {
+      "baseline": null,
+      "candidate": "a811150c927e6a75268c5b8f49051ab1fcd989890aed83f914c3041a812315db"
+    },
+    "app_src/share/live-point-return-time.jpg": {
+      "baseline": null,
+      "candidate": "81f6158482b079e4f5e24b41899880b25faa97a24ec6bf33589e0101e9425fb4"
+    },
+    "app_src/share/live-point-serve-see.jpg": {
+      "baseline": null,
+      "candidate": "959b36ed6010b81e6978f3c6e2b07639b76936da3984397084f6ece8d123f4c0"
+    },
+    "app_src/share/live-point-short-low.jpg": {
+      "baseline": null,
+      "candidate": "05c1cca29b371ee7ba244c406aebded07a2c8fabba9c0ab5fce7a2adbfd31571"
+    },
+    "app_src/share/live-point-volley-build.jpg": {
+      "baseline": null,
+      "candidate": "66a905c30f2b1b60acfc2379718df968dc3a9bcc69de7811db848a7fc435ed02"
+    },
+    "app_src/share/live-point-volley-opening.jpg": {
+      "baseline": null,
+      "candidate": "f632a1fdac87af071b8681262dade8abc347a0ffdd659d1296e06649d967b1f2"
+    },
+    "app_src/share/middle-return.jpg": {
+      "baseline": null,
+      "candidate": "dbd46a3632bf41bb62184fb17014c4093d7ceeda3a4dfdacf84b0e37beff83c3"
+    },
+    "app_src/share/midweek-point-1.jpg": {
+      "baseline": null,
+      "candidate": "4a5f2677c9bc3c62fcda6d6203031fb860263c896c874ce416946c5c8634add4"
+    },
+    "app_src/share/net-rusher.jpg": {
+      "baseline": null,
+      "candidate": "d819bc3f9e7f97d2bff1e613323d730d4eb0c453f34b071b5fdc05a923386365"
+    },
+    "app_src/share/open-court.jpg": {
+      "baseline": null,
+      "candidate": "999b9339e60039c282d9fc68e1231dfa53a463bcf3c7876003f8ef8e15d61907"
+    },
+    "app_src/share/pass-where-they-arent.jpg": {
+      "baseline": null,
+      "candidate": "ff8b39aac258a319f2fcea111069243868508ab0cc89e27bdc67ca536255d8ff"
+    },
+    "app_src/share/play-the-point.jpg": {
+      "baseline": null,
+      "candidate": "61f3edcc9589c9894cbddb82618c893b94f2c0fe3edcfbe7a95df271d9ab4770"
+    },
+    "app_src/share/predict-second-serve.jpg": {
+      "baseline": null,
+      "candidate": "52a9ab532d2ad5029b58f84ead3baa683104fe4002fc87fa3a6c6d91983b5c31"
+    },
+    "app_src/share/predict-the-point.jpg": {
+      "baseline": null,
+      "candidate": "567c9a74acfb388c8f68240b39c30d7c958ef7dea80fa341856eb25fd4e6b996"
+    },
+    "app_src/share/pulled-wide.jpg": {
+      "baseline": null,
+      "candidate": "e94351bcc3d0b0e6970b45af0f66283ad41e275faca734957f0928528f361d9b"
+    },
+    "app_src/share/recovery.jpg": {
+      "baseline": null,
+      "candidate": "3fae9f329a4ac8e02975ab2fd8d8c6bf1bd2c9a2a7f99b3fbd59622d5adda439"
+    },
+    "app_src/share/running-around.jpg": {
+      "baseline": null,
+      "candidate": "065010b3502671560c2b40b5a7d8a5f591cc7244b60932deec940b56a8229d9f"
+    },
+    "app_src/share/rushed-out-wide.jpg": {
+      "baseline": null,
+      "candidate": "7ea70245ea6318dbed52b06866fd6eca23c7e11b06769aaddcdf9024408904d8"
+    },
+    "app_src/share/saturday-point-1.jpg": {
+      "baseline": null,
+      "candidate": "a1989cbdca1afaae020929852d668a83725e46918bd5f3cc79832e7c631c0acd"
+    },
+    "app_src/share/saturday-point-2.jpg": {
+      "baseline": null,
+      "candidate": "ae586b8e5babdc26436c30c948e2ec59f3393d63a7dd0b7773db13e95234f808"
+    },
+    "app_src/share/saturday-point-3.jpg": {
+      "baseline": null,
+      "candidate": "377cce04e5605f3d351fdf3ea4b99532ca5505fe56b3326704e3915d8e237e49"
+    },
+    "app_src/share/saturday-point-4.jpg": {
+      "baseline": null,
+      "candidate": "41ab239bc0bc4c082fef2cec56dc2bef76d38dd31cb961ff4121da1c9ea0d9ee"
+    },
+    "app_src/share/saturday-point-5.jpg": {
+      "baseline": null,
+      "candidate": "3b38fe1a6e9296ed2f41153efdda53eaf1d91a9c07c873947d68f685f9ce007e"
+    },
+    "app_src/share/second-serve.jpg": {
+      "baseline": null,
+      "candidate": "ff6b5a9abe64620d5c4b3b035ae9e766a90d48f85f57c7ec7873db2dbda19535"
+    },
+    "app_src/share/serve-away-from-the-lean.jpg": {
+      "baseline": null,
+      "candidate": "a5e69d4950568f114985a1d7bf9599453479f8fc2a036938f58d546cd07d76e8"
+    },
+    "app_src/share/serve-plus-one.jpg": {
+      "baseline": null,
+      "candidate": "51533a18c3d8d17d57ae15597986c45e8bf0b90938740df6bdbb1052062a66d8"
+    },
+    "app_src/share/short-ball.jpg": {
+      "baseline": null,
+      "candidate": "6bc045c07728e925e1b35f6f2613ca6ac7eaccd287ffef39d7304b6df818ffb9"
+    },
+    "app_src/share/split-step.jpg": {
+      "baseline": null,
+      "candidate": "5b8905dadc0b692732453fe211d62ea5b9e2944d9834cda56befe578744914d8"
+    },
+    "app_src/share/the-big-hitter.jpg": {
+      "baseline": null,
+      "candidate": "2d2432ce72c639072ba2b598a9ab2908c2929e75a6d08586ce5275add0c160da"
+    },
+    "app_src/share/the-lead.jpg": {
+      "baseline": null,
+      "candidate": "9125367cd54e02181bc25211abf76da299b8db434b36296e22a1858254812cd4"
+    },
+    "app_src/share/the-lefty.jpg": {
+      "baseline": null,
+      "candidate": "4bfd56680f59beb0c91a5234336683ea7dad52e475193095dd5663fed155bbc8"
+    },
+    "app_src/share/the-line.jpg": {
+      "baseline": null,
+      "candidate": "3a8c4277de09a26bb26b0178011707440da1ab6b6dcd872d40e7d6842c4b6eb8"
+    },
+    "app_src/share/the-moonballer.jpg": {
+      "baseline": null,
+      "candidate": "24d796ea715218cfcf205efe3b4011ae753beb81640b3f69eaaffe4a6b259c82"
+    },
+    "app_src/share/the-pusher.jpg": {
+      "baseline": null,
+      "candidate": "ffdeb179beccf43bf0ffd265623bf46f3501dc70277deecb1b32390a6fedd8a9"
+    },
+    "app_src/share/the-winner.jpg": {
+      "baseline": null,
+      "candidate": "251269320db2cf02cd188a79ed9876d9dd627de93704b96c74d4846728ede482"
+    },
+    "app_src/share_pages.py": {
+      "baseline": null,
+      "candidate": "465da358e1295787fd0bcf605fb3429772ff3bb08ea5017a5dcd6c6db801472a"
+    },
+    "app_src/sharpen.js": {
+      "baseline": "7be74425c34ed9c6e66113c943a1b99ee8c2748a379f7a6a3408849b632f5342",
+      "candidate": "b62a7d0d033aa286417f22ef5184652875c4000e5036cbef8e5d4899bd0aa90f"
+    },
+    "docs/features/share-preview-frames.json": {
+      "baseline": null,
+      "candidate": "f1935ffa6d4822ba7746f27190f80fa82bf8d1c6ac986994e8bbbf32e8187708"
+    },
+    "docs/features/sharing-practice.md": {
+      "baseline": null,
+      "candidate": "3f9fbc1e05f06a3b844b4a19823d4d308e8b7273174a3a1507e9ff8ebc993b26"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "ffef79011b46fda985b425a874cccce67d2177f92d7c22dc6c713287ade4f350",
+      "candidate": "5f5d2cd129dbd5895ccd43a3f70c07fc23996feafdd5d69c9bfb2e7ba01e2d37"
+    },
+    "tools/daily-home-browser.mjs": {
+      "baseline": "4c2c08ab1b5de7c5c7721e054b880311261cce3b0431ac783ac88e6e618edff8",
+      "candidate": "c722150c6ed262961b3bd5d132ccdbfe7ee249e2284b8334ded776f5957f0c15"
+    },
+    "tools/doubles-browser.mjs": {
+      "baseline": "7cf6151c858d28e9a00afee1584ae14707b6f6a264d5ea8e9c551a46b2dda99f",
+      "candidate": "c7d11ffa5d2ae0e44ae15c5e051cb1f612a48b0a829914c2a61b7bf75b4072e9"
+    },
+    "tools/flagship-browser.mjs": {
+      "baseline": "d5fd95e1852628c061a93493005aae60d3380bc4dbe318bbdeeda6d72bb4afe9",
+      "candidate": "d45625f348d4e0074310f80720d20937e25f4023f64a9c62554dff4987274b75"
+    },
+    "tools/render-share-previews.mjs": {
+      "baseline": null,
+      "candidate": "613abcc2be98ceaae69635cd50e5c51ebd39f52055a40d59d63cf6c35aca1328"
+    },
+    "tools/sharing-practice-browser.mjs": {
+      "baseline": null,
+      "candidate": "2d2103f61dc6a5bbe7d201a25c71af74be98da1dc6f4d3e9faa312ef2e8345b6"
+    },
+    "tools/ux-audit-browser.mjs": {
+      "baseline": "0c75775f02fc447581fcdea7e86fb0429c91b17d0c2c0eff73f13482eb7b6bc0",
+      "candidate": "53c984beb33b15bf018fd1c2fd82f527c8851cf9a253fa7a321b48b70978f56c"
+    },
+    "tools/verify-migration-host.py": {
+      "baseline": null,
+      "candidate": "46e31883195245ba8f4e153f47d48dda7cb146a737f74173a182cafa36a55810"
+    },
+    "app_src/share.js": {
+      "baseline": null,
+      "candidate": "65063f00ce4baa49cec2151e36837f8c93666945e9e6097418ff74b2afde42e2"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "7e4ef871b680382e2b88889b42b662e0fa33ab92e2a999155abd502896f73a8e",
+      "candidate": "78037cdcd3028252114c04ab275cd64bd639c0d9913f4ea910b210d3adbe4d40"
+    },
+    "app/catalog.js": {
+      "baseline": "feb4ea3c184a83b196b9d9f82f94fdc6eefcd51464943785a846d27802b49c56",
+      "candidate": "d0f27356628315f7095ca4413ede478afc6c837d7b7b201a5f469a55e7599f47"
+    },
+    "app/index.html": {
+      "baseline": "e6c74aefdc75bf1fda47d8585ee9889a281d512238b038f8269f24c1f036a2cd",
+      "candidate": "9b48a6f02e1f2acd7f040c7ba91162b3f72d983b49f705bf354639da820c19fa"
+    },
+    "app/play.html": {
+      "baseline": "0c57e7da58dbb59e7837eda5a400be4c900ea48e2e666c9a59edc187cf2cc072",
+      "candidate": "8a3565342c771080bd078ab2fd4ecebcbd6f41b3b8e5643e214d9bc1f6409bd1"
+    },
+    "app/practice.css": {
+      "baseline": null,
+      "candidate": "6d1435eb06ffadf58e0a16748aa9865cb04b6160276239b0e61e304317a41d91"
+    },
+    "app/practice.js": {
+      "baseline": null,
+      "candidate": "dfe7a97b24dd7873dcaa3d94893769973cbe92dfea0f92bf15b251cfb912e6c2"
+    },
+    "app/s/answer-the-drop.html": {
+      "baseline": null,
+      "candidate": "4c9e17f3558bbfdce2c08345b7f2b4db10d3b64281c36a8d247216595856dd43"
+    },
+    "app/s/approach-volley.html": {
+      "baseline": null,
+      "candidate": "aa3df5f78184779c1dd077076045665787a4662fc82bbb35dac0915cd32885f5"
+    },
+    "app/s/attack-the-backhand.html": {
+      "baseline": null,
+      "candidate": "bdcd087927c7c02f553bcef7bf6cdffe6188d8e3be7e7dbee6988075d883c28a"
+    },
+    "app/s/contact-clue.html": {
+      "baseline": null,
+      "candidate": "ce5395a9cd5fd7ff5526861da8260eb15cc37b25aa8f2485258daed31196d8c5"
+    },
+    "app/s/doubles-cross-cover.html": {
+      "baseline": null,
+      "candidate": "02b6f664797bb7099fa9d3713c355785e6f9db332df6e69d9372192842e6a9f8"
+    },
+    "app/s/doubles-hold-cover.html": {
+      "baseline": null,
+      "candidate": "01ed5d244feac5f3dd0c043584112f9d61ae8ad795c8e3abdff27e3c491bbac7"
+    },
+    "app/s/doubles-lob-overhead.html": {
+      "baseline": null,
+      "candidate": "a370aaa96f4f2a5edf0f03da7c202f8a9829114e09cc5e4f9e85acd0bda9d202"
+    },
+    "app/s/doubles-lob-switch.html": {
+      "baseline": null,
+      "candidate": "9d577c906b444ef4904b77ffc1097561531bc0d57392856edbca1e10dd5a3bde"
+    },
+    "app/s/doubles-return-line.html": {
+      "baseline": null,
+      "candidate": "07224cbe64a6429615dc79266628d183b8ef03a68f3feb3a5491b8e023ec2d21"
+    },
+    "app/s/doubles-return-space.html": {
+      "baseline": null,
+      "candidate": "60c7a7552d8bb74b1c99e68c3f347f408203ec5f37e6cf275ce815966736c88c"
+    },
+    "app/s/down-the-line.html": {
+      "baseline": null,
+      "candidate": "762469fe6290f4de9f828742e0ff80f591105886b941b73e95e138aa79b7ea37"
+    },
+    "app/s/earned-attack.html": {
+      "baseline": null,
+      "candidate": "d27c9802ec600a4a8a44c14bc28d2dcf87325848009af03e78c7b195fa8c4442"
+    },
+    "app/s/earned-defence.html": {
+      "baseline": null,
+      "candidate": "f800c50a79c93edd5e643efe5291b418975700fa5c1c6d6549c58b7e0d8bd8ef"
+    },
+    "app/s/earned-net.html": {
+      "baseline": null,
+      "candidate": "4b2c1e3cd9c885d50ccff911a8d8b6c3197221aaa280975b46b4c08a7225c573"
+    },
+    "app/s/find-your-return-spot.html": {
+      "baseline": null,
+      "candidate": "73de0df287a6595c22196081c4d4dcb5e250396669dc1c61c2ca235851dac73d"
+    },
+    "app/s/forehand-bill.html": {
+      "baseline": null,
+      "candidate": "e7c0c627fd3dfb0b86cc6c72fb0e9ee0303c8b9f6b23a83b05a15dc2d4128697"
+    },
+    "app/s/high-ball.html": {
+      "baseline": null,
+      "candidate": "dcb960d5ca332a02edd36ecd807b2e51adb249c0aa7a65d945961b2c07fa929b"
+    },
+    "app/s/late-is-the-culprit.html": {
+      "baseline": null,
+      "candidate": "64ea77453e1f0f856f986406517db164077e1afc2b3110abe48bea4c7a5a18cc"
+    },
+    "app/s/live-point-arrive-options.html": {
+      "baseline": null,
+      "candidate": "0e1a3e2a6201f1f6792afbe0f9e029099782dd15c9d64a008e3b8a99f3e888a7"
+    },
+    "app/s/live-point-buy-time.html": {
+      "baseline": null,
+      "candidate": "ce2f0a37a609e04ddd3f8f81a4637c3fd239e6470d0b90dec2e211fa55d840a6"
+    },
+    "app/s/live-point-line-opens.html": {
+      "baseline": null,
+      "candidate": "890f417f6df5d4e53ae26c748890c8e9fb792bb480faa96ff1ffb239ee7bca56"
+    },
+    "app/s/live-point-line-tempting.html": {
+      "baseline": null,
+      "candidate": "76310116639e193eeca492f94ac7d2ac218e42bd43c6be4136a59bca5893485e"
+    },
+    "app/s/live-point-make-room.html": {
+      "baseline": null,
+      "candidate": "f1f532bf68f99b33818bbb893d0b53abcbad2457cd38dba937d40d78ad0ead1a"
+    },
+    "app/s/live-point-other-wing.html": {
+      "baseline": null,
+      "candidate": "8dcdddbd6e943e3c5aed36d7dfd8ded3118084393f41c336920d88b21aefefa8"
+    },
+    "app/s/live-point-over-head.html": {
+      "baseline": null,
+      "candidate": "eeaa8295fc74bb88fd777b7236688e21074d555939db054c924e5d24acb494dd"
+    },
+    "app/s/live-point-pass-two.html": {
+      "baseline": null,
+      "candidate": "30de8654dcd936d345bd6acba9228811436a3f73e8da93e9abe35b8c3ccc97aa"
+    },
+    "app/s/live-point-reach-drop.html": {
+      "baseline": null,
+      "candidate": "b152e217904fb9313751c9cb746139200744ae94a025b7350367416e98a7de70"
+    },
+    "app/s/live-point-return-deep.html": {
+      "baseline": null,
+      "candidate": "f2ac77670c6ae31b8cba8a3ec6a104d8dbd7d1784d3ca3999683c8def197ad80"
+    },
+    "app/s/live-point-return-pressure.html": {
+      "baseline": null,
+      "candidate": "0ad92bfa7f37a03ab332e2b1bdc95e29a41a0a9656b6b6b450dfefe79bbb7456"
+    },
+    "app/s/live-point-return-time.html": {
+      "baseline": null,
+      "candidate": "1352a2e87e34fcc1bb84d5b63498678e0cca360e8a02d9cb93057d61a5c65887"
+    },
+    "app/s/live-point-serve-see.html": {
+      "baseline": null,
+      "candidate": "75cb46477074b62618b6b11625785d3e4162df7ceb2c4a5b8021e5c5871b65cf"
+    },
+    "app/s/live-point-short-low.html": {
+      "baseline": null,
+      "candidate": "2ee131a38e7ef74254321e82565b882bca0cbf70a87f09c1fad1ae7515155a74"
+    },
+    "app/s/live-point-volley-build.html": {
+      "baseline": null,
+      "candidate": "e98bf5471a9a5028e4992f87bfe13e77e1b7eca7edcc0bbd4a3f09731b16b7c3"
+    },
+    "app/s/live-point-volley-opening.html": {
+      "baseline": null,
+      "candidate": "884700e0ebeedb4e6697b64525bebaf2162d666ee41e50c6927c32587a74ae72"
+    },
+    "app/s/middle-return.html": {
+      "baseline": null,
+      "candidate": "1cb6840c446b257e900ae68c9484beb6e8356cf9b87c3b03f3a079958573cba7"
+    },
+    "app/s/midweek-point-1.html": {
+      "baseline": null,
+      "candidate": "ca4c84abfbaf0b4f8a537cc4826234d381aac1061729cfae508403f2ae644f2e"
+    },
+    "app/s/net-rusher.html": {
+      "baseline": null,
+      "candidate": "636bf0335a657c5b5f2709e6886ffcb4c19fcd7979b709664665e0a3e16b1986"
+    },
+    "app/s/open-court.html": {
+      "baseline": null,
+      "candidate": "62494def5d2bbc8dd74ef375c48281e5ca8bdd2ae64f30ba208c454a0e701800"
+    },
+    "app/s/pass-where-they-arent.html": {
+      "baseline": null,
+      "candidate": "e6d84c9cfaeb933d04a5c35daed9b00b30f04ac91e1fd082288b99691cc81f6f"
+    },
+    "app/s/play-the-point.html": {
+      "baseline": null,
+      "candidate": "fed8fda13b39ac818d3c66fd8a000dae817b5c70be6a6b3509c0e9deca217e93"
+    },
+    "app/s/predict-second-serve.html": {
+      "baseline": null,
+      "candidate": "985146c7682445a4c5bfec4a5ddd728e80e5137b76b5423a6d6d8b7dbfa8671d"
+    },
+    "app/s/predict-the-point.html": {
+      "baseline": null,
+      "candidate": "9662d7f493893b2578553938bd1fbb733648b9abe728bf3f613bffc6a7bb4f40"
+    },
+    "app/s/pulled-wide.html": {
+      "baseline": null,
+      "candidate": "f5bf97d33e6f0ad08248ae23edd52c4c64717722544cf8c2693962fb35a032e5"
+    },
+    "app/s/recovery.html": {
+      "baseline": null,
+      "candidate": "9f4f1b592174abc601e13782cb05f42d72f5410af08bbf3ff79c1932403b2440"
+    },
+    "app/s/running-around.html": {
+      "baseline": null,
+      "candidate": "70581582904e170325a59e6c5f04aabfce2d0e60899f158c833f763f6b5fd04a"
+    },
+    "app/s/rushed-out-wide.html": {
+      "baseline": null,
+      "candidate": "b3ffd1ceb67907d68379ba759a3bfe759e0a9294ac3e5b92e8f42d4f03139ce0"
+    },
+    "app/s/saturday-point-1.html": {
+      "baseline": null,
+      "candidate": "1cae633ebeefe6ac4ad1a304a67c457f257e8f44a54cae234a033e885c1d267f"
+    },
+    "app/s/saturday-point-2.html": {
+      "baseline": null,
+      "candidate": "7f78b1c19eb4855d90dee21368659ea13a7dbebcaeb61934ba87fdb6977de30f"
+    },
+    "app/s/saturday-point-3.html": {
+      "baseline": null,
+      "candidate": "63ab2cd1cf5597ad20715a472474eaffab251f52b3f590507a7a8a2c36e4bc43"
+    },
+    "app/s/saturday-point-4.html": {
+      "baseline": null,
+      "candidate": "319756f518c9e72dfa0c7959194df1f26a3f0a7fa92cc0c270097e3778ef1981"
+    },
+    "app/s/saturday-point-5.html": {
+      "baseline": null,
+      "candidate": "6e2be97a0a735c2bbcc17331ce217d2967d75bab0e151840ce783b3bd0423ec8"
+    },
+    "app/s/second-serve.html": {
+      "baseline": null,
+      "candidate": "14348104c1729277789463ceeafc5aa104a503f8e4a1160729b900771c3d680d"
+    },
+    "app/s/serve-away-from-the-lean.html": {
+      "baseline": null,
+      "candidate": "11ccf0efe126a88cd9b9bd05eb32bcc202febb5eed35dd953cb79546144ff962"
+    },
+    "app/s/serve-plus-one.html": {
+      "baseline": null,
+      "candidate": "e60371270710e2a39451c074e871a9a21c0bbecf65bbf177ea44cdf6abae1810"
+    },
+    "app/s/short-ball.html": {
+      "baseline": null,
+      "candidate": "52b41ca2cb3974223707b8112cf7ef2b56be46743b7462860d2636908bb0a3e6"
+    },
+    "app/s/split-step.html": {
+      "baseline": null,
+      "candidate": "11a7f43a93829bf79dc904a27f43ee1c7c7f0bc1ad2fc65f44ed98128c5f3cc7"
+    },
+    "app/s/the-big-hitter.html": {
+      "baseline": null,
+      "candidate": "a1e205ea8787332f7ac4e968d4fe8d205bfe1e911c1b59b7194707ba67b91781"
+    },
+    "app/s/the-lead.html": {
+      "baseline": null,
+      "candidate": "16265ec73a86ea841a2ccf711faec762395bd32ba603e6277bfe33d0c483ce02"
+    },
+    "app/s/the-lefty.html": {
+      "baseline": null,
+      "candidate": "78ecc86e49d4dd14cece5e1638f5d4f22ec42fd7e03601903e8bd706a959b294"
+    },
+    "app/s/the-line.html": {
+      "baseline": null,
+      "candidate": "c87d11ab4fc91142919ed0a773999c0c0d186bd04455b8a894ce39e33ab07f06"
+    },
+    "app/s/the-moonballer.html": {
+      "baseline": null,
+      "candidate": "b92c8258bd4f84cf211fbed3862724e5131d8c873b3dce3334a0765551fcbcb8"
+    },
+    "app/s/the-pusher.html": {
+      "baseline": null,
+      "candidate": "61b344e1f77be449819b180b0056582d55125fde2c0695da3a3dbfcbb5c7d4fb"
+    },
+    "app/s/the-winner.html": {
+      "baseline": null,
+      "candidate": "78ce979f780af00e1dda4220a266eac19eaaae04e4ca5d9628ba39073fc41cd6"
+    },
+    "app/share/answer-the-drop.jpg": {
+      "baseline": null,
+      "candidate": "fdfefd4ea38671102aef3535db6e44adab39f87234d8c64a35e8c49847a73670"
+    },
+    "app/share/approach-volley.jpg": {
+      "baseline": null,
+      "candidate": "5e2fed9c5760760584a33c2115afdd7749e2b9b145911370671c2af12ae2c6e2"
+    },
+    "app/share/attack-the-backhand.jpg": {
+      "baseline": null,
+      "candidate": "fe808c704991eda9ccea6cb10270e2132762a31229ef2fef5cd727f50f5a190c"
+    },
+    "app/share/contact-clue.jpg": {
+      "baseline": null,
+      "candidate": "a0fcdac7bc905d41eb830700efc4f8640d7cb3518f237efcaf4f0b721af03cdb"
+    },
+    "app/share/doubles-cross-cover.jpg": {
+      "baseline": null,
+      "candidate": "bd59ce534ce77717c11987181c2e4e8927f09018cb3fc767d7a4e7361b3d0c5e"
+    },
+    "app/share/doubles-hold-cover.jpg": {
+      "baseline": null,
+      "candidate": "d996c55eee1eb00aff55ee70aea5e78daba5031060e7aba79b90569770be6541"
+    },
+    "app/share/doubles-lob-overhead.jpg": {
+      "baseline": null,
+      "candidate": "00fdf9a72bc3a24d6c73cda4aebb0fad07b14e936a8633576f7c4cceac3dc1fd"
+    },
+    "app/share/doubles-lob-switch.jpg": {
+      "baseline": null,
+      "candidate": "5fd567799e4dc6c4efeedcdf063c6c4eafbf50aec2a4b4211871c42fcb73ac82"
+    },
+    "app/share/doubles-return-line.jpg": {
+      "baseline": null,
+      "candidate": "65e7fb903bd4ee5d4413737f033366f310483703b44f2518cf62b7c4731060b7"
+    },
+    "app/share/doubles-return-space.jpg": {
+      "baseline": null,
+      "candidate": "aede002e0c13d8c683416f684031cc083df447947c4f42a1734c20488d8be63a"
+    },
+    "app/share/down-the-line.jpg": {
+      "baseline": null,
+      "candidate": "4330b27881361b96e8d55aedd554c3dd31c2b4f2845c95b3dec3308b7a625c5c"
+    },
+    "app/share/earned-attack.jpg": {
+      "baseline": null,
+      "candidate": "997426a66d84e63393c386a4a8067ffb0fce885408ad05e5ff50d3d52df17c22"
+    },
+    "app/share/earned-defence.jpg": {
+      "baseline": null,
+      "candidate": "40015fd8471af1d68333e63e175caa626be2b57427d66c5a40bbcee4c330696e"
+    },
+    "app/share/earned-net.jpg": {
+      "baseline": null,
+      "candidate": "b4303ad926229489edc21ae50a8498dfe9821b77371028f2ab59be63a3232991"
+    },
+    "app/share/find-your-return-spot.jpg": {
+      "baseline": null,
+      "candidate": "b7ce0da8054a21876037eb3281e3edad92d354c074fe80f587a5cf9f6b514389"
+    },
+    "app/share/forehand-bill.jpg": {
+      "baseline": null,
+      "candidate": "bf02b94d07c7c20ddcf115aa71fbb95579371c123d9d5305fa5889da5dec95ea"
+    },
+    "app/share/high-ball.jpg": {
+      "baseline": null,
+      "candidate": "a676efd5822e9eb423a229b3931c77e2e01ea0acf838cf2093de73902050a12f"
+    },
+    "app/share/late-is-the-culprit.jpg": {
+      "baseline": null,
+      "candidate": "ad720b4039a9094e118cba7398e24f301ba06aa51f7ecdfe57678fbe95835bb7"
+    },
+    "app/share/live-point-arrive-options.jpg": {
+      "baseline": null,
+      "candidate": "ecf6100019164709443f3aa5c5f384383bac7137a95d7703b740918b26001d4f"
+    },
+    "app/share/live-point-buy-time.jpg": {
+      "baseline": null,
+      "candidate": "b839464df9e58fd97fbfa04acc4742ea8040a4c4595f11d3268375f19aa68d1d"
+    },
+    "app/share/live-point-line-opens.jpg": {
+      "baseline": null,
+      "candidate": "dc8f499af901937b2e9b8dc5f402bce42c8075cb3137448b5edb5a67cd81f985"
+    },
+    "app/share/live-point-line-tempting.jpg": {
+      "baseline": null,
+      "candidate": "5133986a99d98a99b9f848feb98ba22f6cce97f48aec6ab4c042c10d5be04773"
+    },
+    "app/share/live-point-make-room.jpg": {
+      "baseline": null,
+      "candidate": "ed01b029d56fa8e7a04607fe13dd2b7b6773b36c08a6ba68f90e4957ac71272e"
+    },
+    "app/share/live-point-other-wing.jpg": {
+      "baseline": null,
+      "candidate": "8b65b174d6c1237542fd702e0f2fc99fb3a9692aa5663dd2ecab0b4bb684a5cd"
+    },
+    "app/share/live-point-over-head.jpg": {
+      "baseline": null,
+      "candidate": "b64639ddcef490ef19409ba71d89ae932c839997cb18b0fef192190264c87704"
+    },
+    "app/share/live-point-pass-two.jpg": {
+      "baseline": null,
+      "candidate": "deca865564f904ae709b575486942d805e21ceaa03db3e60e09a40d4ee01e568"
+    },
+    "app/share/live-point-reach-drop.jpg": {
+      "baseline": null,
+      "candidate": "3e965a040129a8271530a4ad9d671c3f49f6b3068ceb3773032dc0a23c038f10"
+    },
+    "app/share/live-point-return-deep.jpg": {
+      "baseline": null,
+      "candidate": "a0c2c12193543f18a736781b984441830b5605f3fe10050cc0feca8fd0060b6c"
+    },
+    "app/share/live-point-return-pressure.jpg": {
+      "baseline": null,
+      "candidate": "a811150c927e6a75268c5b8f49051ab1fcd989890aed83f914c3041a812315db"
+    },
+    "app/share/live-point-return-time.jpg": {
+      "baseline": null,
+      "candidate": "81f6158482b079e4f5e24b41899880b25faa97a24ec6bf33589e0101e9425fb4"
+    },
+    "app/share/live-point-serve-see.jpg": {
+      "baseline": null,
+      "candidate": "959b36ed6010b81e6978f3c6e2b07639b76936da3984397084f6ece8d123f4c0"
+    },
+    "app/share/live-point-short-low.jpg": {
+      "baseline": null,
+      "candidate": "05c1cca29b371ee7ba244c406aebded07a2c8fabba9c0ab5fce7a2adbfd31571"
+    },
+    "app/share/live-point-volley-build.jpg": {
+      "baseline": null,
+      "candidate": "66a905c30f2b1b60acfc2379718df968dc3a9bcc69de7811db848a7fc435ed02"
+    },
+    "app/share/live-point-volley-opening.jpg": {
+      "baseline": null,
+      "candidate": "f632a1fdac87af071b8681262dade8abc347a0ffdd659d1296e06649d967b1f2"
+    },
+    "app/share/middle-return.jpg": {
+      "baseline": null,
+      "candidate": "dbd46a3632bf41bb62184fb17014c4093d7ceeda3a4dfdacf84b0e37beff83c3"
+    },
+    "app/share/midweek-point-1.jpg": {
+      "baseline": null,
+      "candidate": "4a5f2677c9bc3c62fcda6d6203031fb860263c896c874ce416946c5c8634add4"
+    },
+    "app/share/net-rusher.jpg": {
+      "baseline": null,
+      "candidate": "d819bc3f9e7f97d2bff1e613323d730d4eb0c453f34b071b5fdc05a923386365"
+    },
+    "app/share/open-court.jpg": {
+      "baseline": null,
+      "candidate": "999b9339e60039c282d9fc68e1231dfa53a463bcf3c7876003f8ef8e15d61907"
+    },
+    "app/share/pass-where-they-arent.jpg": {
+      "baseline": null,
+      "candidate": "ff8b39aac258a319f2fcea111069243868508ab0cc89e27bdc67ca536255d8ff"
+    },
+    "app/share/play-the-point.jpg": {
+      "baseline": null,
+      "candidate": "61f3edcc9589c9894cbddb82618c893b94f2c0fe3edcfbe7a95df271d9ab4770"
+    },
+    "app/share/predict-second-serve.jpg": {
+      "baseline": null,
+      "candidate": "52a9ab532d2ad5029b58f84ead3baa683104fe4002fc87fa3a6c6d91983b5c31"
+    },
+    "app/share/predict-the-point.jpg": {
+      "baseline": null,
+      "candidate": "567c9a74acfb388c8f68240b39c30d7c958ef7dea80fa341856eb25fd4e6b996"
+    },
+    "app/share/pulled-wide.jpg": {
+      "baseline": null,
+      "candidate": "e94351bcc3d0b0e6970b45af0f66283ad41e275faca734957f0928528f361d9b"
+    },
+    "app/share/recovery.jpg": {
+      "baseline": null,
+      "candidate": "3fae9f329a4ac8e02975ab2fd8d8c6bf1bd2c9a2a7f99b3fbd59622d5adda439"
+    },
+    "app/share/running-around.jpg": {
+      "baseline": null,
+      "candidate": "065010b3502671560c2b40b5a7d8a5f591cc7244b60932deec940b56a8229d9f"
+    },
+    "app/share/rushed-out-wide.jpg": {
+      "baseline": null,
+      "candidate": "7ea70245ea6318dbed52b06866fd6eca23c7e11b06769aaddcdf9024408904d8"
+    },
+    "app/share/saturday-point-1.jpg": {
+      "baseline": null,
+      "candidate": "a1989cbdca1afaae020929852d668a83725e46918bd5f3cc79832e7c631c0acd"
+    },
+    "app/share/saturday-point-2.jpg": {
+      "baseline": null,
+      "candidate": "ae586b8e5babdc26436c30c948e2ec59f3393d63a7dd0b7773db13e95234f808"
+    },
+    "app/share/saturday-point-3.jpg": {
+      "baseline": null,
+      "candidate": "377cce04e5605f3d351fdf3ea4b99532ca5505fe56b3326704e3915d8e237e49"
+    },
+    "app/share/saturday-point-4.jpg": {
+      "baseline": null,
+      "candidate": "41ab239bc0bc4c082fef2cec56dc2bef76d38dd31cb961ff4121da1c9ea0d9ee"
+    },
+    "app/share/saturday-point-5.jpg": {
+      "baseline": null,
+      "candidate": "3b38fe1a6e9296ed2f41153efdda53eaf1d91a9c07c873947d68f685f9ce007e"
+    },
+    "app/share/second-serve.jpg": {
+      "baseline": null,
+      "candidate": "ff6b5a9abe64620d5c4b3b035ae9e766a90d48f85f57c7ec7873db2dbda19535"
+    },
+    "app/share/serve-away-from-the-lean.jpg": {
+      "baseline": null,
+      "candidate": "a5e69d4950568f114985a1d7bf9599453479f8fc2a036938f58d546cd07d76e8"
+    },
+    "app/share/serve-plus-one.jpg": {
+      "baseline": null,
+      "candidate": "51533a18c3d8d17d57ae15597986c45e8bf0b90938740df6bdbb1052062a66d8"
+    },
+    "app/share/short-ball.jpg": {
+      "baseline": null,
+      "candidate": "6bc045c07728e925e1b35f6f2613ca6ac7eaccd287ffef39d7304b6df818ffb9"
+    },
+    "app/share/split-step.jpg": {
+      "baseline": null,
+      "candidate": "5b8905dadc0b692732453fe211d62ea5b9e2944d9834cda56befe578744914d8"
+    },
+    "app/share/the-big-hitter.jpg": {
+      "baseline": null,
+      "candidate": "2d2432ce72c639072ba2b598a9ab2908c2929e75a6d08586ce5275add0c160da"
+    },
+    "app/share/the-lead.jpg": {
+      "baseline": null,
+      "candidate": "9125367cd54e02181bc25211abf76da299b8db434b36296e22a1858254812cd4"
+    },
+    "app/share/the-lefty.jpg": {
+      "baseline": null,
+      "candidate": "4bfd56680f59beb0c91a5234336683ea7dad52e475193095dd5663fed155bbc8"
+    },
+    "app/share/the-line.jpg": {
+      "baseline": null,
+      "candidate": "3a8c4277de09a26bb26b0178011707440da1ab6b6dcd872d40e7d6842c4b6eb8"
+    },
+    "app/share/the-moonballer.jpg": {
+      "baseline": null,
+      "candidate": "24d796ea715218cfcf205efe3b4011ae753beb81640b3f69eaaffe4a6b259c82"
+    },
+    "app/share/the-pusher.jpg": {
+      "baseline": null,
+      "candidate": "ffdeb179beccf43bf0ffd265623bf46f3501dc70277deecb1b32390a6fedd8a9"
+    },
+    "app/share/the-winner.jpg": {
+      "baseline": null,
+      "candidate": "251269320db2cf02cd188a79ed9876d9dd627de93704b96c74d4846728ede482"
+    },
+    "app/sharpen.js": {
+      "baseline": "7be74425c34ed9c6e66113c943a1b99ee8c2748a379f7a6a3408849b632f5342",
+      "candidate": "b62a7d0d033aa286417f22ef5184652875c4000e5036cbef8e5d4899bd0aa90f"
+    },
+    "app/share.js": {
+      "baseline": null,
+      "candidate": "65063f00ce4baa49cec2151e36837f8c93666945e9e6097418ff74b2afde42e2"
+    }
+  }
+}
