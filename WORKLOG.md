@@ -1006,3 +1006,11 @@ retain their pre-feature hashes. Existing 90 next-hit/path, 59 trust/practice,
 65 Daily and 73 experience checks pass. Codex is completing the personal-view
 calendar/reflection browser checks and owns full CI plus exact hosted verification.
 Production remains unchanged; PR 85 continues as the review candidate.
+
+Follow-up: both engines pass all 348 new checks. The hosted verifier initially
+reported 63 share-page hash mismatches: inspection proved each difference was
+Vercel's exact deployment-specific feedback suffix, already normalized on the
+two older HTML pages. Extend that same strict suffix rule to the new share HTML
+paths; production hashes remain untouched. Final copy specifies challenges or
+points for the weekly goal (Reset sessions are not counted) and removes doubled
+punctuation in variation titles. No functional learning/share changes.

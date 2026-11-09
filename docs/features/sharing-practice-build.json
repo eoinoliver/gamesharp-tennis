@@ -27,7 +27,7 @@
     },
     "app_src/practice.js": {
       "baseline": null,
-      "candidate": "698ad80c282ec31b6b6c194f4ad197b47925aeea754aa4d6f9ac43638edbdc01"
+      "candidate": "7ff6d12ac5c72182693e951188fb48c7a04d5d51c7235cd1867186bd42c4489e"
     },
     "app_src/share/answer-the-drop.jpg": {
       "baseline": null,
@@ -324,6 +324,10 @@
     "tools/ux-audit-browser.mjs": {
       "baseline": "0c75775f02fc447581fcdea7e86fb0429c91b17d0c2c0eff73f13482eb7b6bc0",
       "candidate": "d667a9c244059612f2ecc8db217fa3b36bfc3259d5832fa60bc48225bc44d4ec"
+    },
+    "tools/verify-migration-host.py": {
+      "baseline": null,
+      "candidate": "46e31883195245ba8f4e153f47d48dda7cb146a737f74173a182cafa36a55810"
     }
   },
   "release": {
@@ -333,15 +337,15 @@
     },
     "app/catalog.js": {
       "baseline": "feb4ea3c184a83b196b9d9f82f94fdc6eefcd51464943785a846d27802b49c56",
-      "candidate": "612510f21ba128e7193a91e08516ed6d21a7ee24373cf7d388f64865f137e715"
+      "candidate": "2a8a74d9b5c5fb5aae898b0600b3be5dbda4d5c2a74581a83f3cb8877c925798"
     },
     "app/index.html": {
       "baseline": "e6c74aefdc75bf1fda47d8585ee9889a281d512238b038f8269f24c1f036a2cd",
-      "candidate": "1451f9b2fd49ce18fc9e866b3303a9739e353d34ceb4f371754402146971d317"
+      "candidate": "16e01b2674b082412d9b4aac6522fd4e68651cec8f217e36a3617b5d3631b087"
     },
     "app/play.html": {
       "baseline": "0c57e7da58dbb59e7837eda5a400be4c900ea48e2e666c9a59edc187cf2cc072",
-      "candidate": "54c7a65e98915dc83a5de20ff098558d9b3c512e1315a0dd2874f418d2fe1395"
+      "candidate": "1c14a4df9e573edb3a459727844f88b5badca7c17b49c79662f13f8dc40d0a57"
     },
     "app/practice.css": {
       "baseline": null,
@@ -349,7 +353,7 @@
     },
     "app/practice.js": {
       "baseline": null,
-      "candidate": "698ad80c282ec31b6b6c194f4ad197b47925aeea754aa4d6f9ac43638edbdc01"
+      "candidate": "7ff6d12ac5c72182693e951188fb48c7a04d5d51c7235cd1867186bd42c4489e"
     },
     "app/s/answer-the-drop.html": {
       "baseline": null,
