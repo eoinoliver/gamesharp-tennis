@@ -953,7 +953,7 @@ body.daily-led .supplement h2{font-size:23px;line-height:1.2;margin:8px 0 12px}.
 @media(max-height:700px) and (max-width:700px){body.daily-led .cine-bg{height:95px}.daily-copy .cine-title{font-size:23px}.daily-copy .cine-sit{font-size:13px}.daily-feature-grid{gap:10px}}
 
 </style>
-<link rel="stylesheet" href="coach.css?v=49049cf9eb">
+<link rel="stylesheet" href="coach.css?v=9a939878ec">
 </head><body><a class="skip-link" href="#main">Skip to today’s challenge</a>
 <div id="homeScreen" class="screen active">
 
@@ -967,12 +967,12 @@ body.daily-led .supplement h2{font-size:23px;line-height:1.2;margin:8px 0 12px}.
 <div class="gs-main"><header class="gs-hero gs-hero-header"><a class="gs-hero-wordmark" href="./?home=1" aria-label="GameSharp home"><div class="gs-hero-logo home-logo">GAME<span>SHARP</span></div><div class="gs-hero-beside">See the game<br>differently</div></a><div class="gs-hero-botrow"><div class="gs-hero-slogan">See clearer. Think sharper.</div><div class="gs-hero-streak-wrap"><div class="gs-streak-chip" id="streak"></div></div><button class="header-sound" data-gs-sound type="button" aria-label="Enable sound"></button><button class="gs-home-profile" id="profile" aria-label="Player level" type="button">👤</button></div></header><div class="gs-coach-bar" data-gs-coach-control></div>
 <main id="main" tabindex="-1"></main><p class="foot">We use a random browser ID to measure app opens, lesson activity and feedback. Please keep personal details out of comments.</p><div class="log" id="log"></div></div>
 <nav class="gs-bottom-nav" aria-label="Main navigation"><a class="gs-bnav-item" href="./?home=1" data-nav="Home" aria-label="Home"><svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11H3z"/><path d="M9 22V12h6v10"/></svg><span>Home</span></a><a class="gs-bnav-item" href="?review=1" data-nav="Sharpen" aria-label="Sharpen"><svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 17l6-6 5 5 9-9M16 7h6v6"/></svg><span>Sharpen</span></a><a class="gs-bnav-item" href="?all=1" data-nav="Explore" aria-label="Explore"><svg class="gs-bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M16 8l-3 5-5 3 3-5z"/></svg><span>Explore</span></a></nav></div>
-<script src="config.js?v=49049cf9eb"></script><script src="catalog.js?v=49049cf9eb"></script><script src="app.js?v=49049cf9eb"></script>
-<script src="sharpen.js?v=49049cf9eb"></script>
-<script src="reset.js?v=49049cf9eb"></script>
-<script src="coach.js?v=49049cf9eb"></script>
-<script src="sfx.js?v=49049cf9eb"></script>
-<script src="cine.js?v=49049cf9eb"></script>
+<script src="config.js?v=9a939878ec"></script><script src="catalog.js?v=9a939878ec"></script><script src="app.js?v=9a939878ec"></script>
+<script src="sharpen.js?v=9a939878ec"></script>
+<script src="reset.js?v=9a939878ec"></script>
+<script src="coach.js?v=9a939878ec"></script>
+<script src="sfx.js?v=9a939878ec"></script>
+<script src="cine.js?v=9a939878ec"></script>
 <script>
 (function(){
 const A=GSApp,S=A.S,$=id=>document.getElementById(id),q=new URLSearchParams(location.search),ALL=q.has("all"),REVIEW=q.has("review");
@@ -1041,7 +1041,7 @@ function library(){
 }
 function paint(){streak();const cine=!(ALL||REVIEW);document.body.classList.toggle("cine-on",cine);document.body.classList.toggle("daily-led",cine);window.__cine?.stop();window.__cine=null;$("homeScreen").classList.toggle("library-view",ALL||REVIEW);$("main").innerHTML=legacyNotice()+(!A.progressSaved()?'<p class="storage-warning" role="status">Browser storage is unavailable. New progress on this page will not be saved.</p>':'')+(REVIEW&&window.GS_SHARPEN?GS_SHARPEN.render(A,S,href,dots3,esc):ALL||REVIEW?library():today()+focusReminder())   /* Daily is the consistent invitation; all practice remains in Explore / Sharpen. */+first();document.querySelectorAll("[data-flavour]").forEach(a=>a.addEventListener("click",()=>A.track("taster_open",{flavour:a.dataset.flavour})));document.querySelectorAll('[data-level]').forEach(b=>b.onclick=()=>{A.setLevel(b.dataset.level);levelOpen=false;paint();});const m=$("more");if(m)m.onclick=()=>A.track("asked_more",{next:A.nextDaily()?.slug||null});const pp=$("playPoint");if(pp)pp.onclick=()=>A.track("play_point_open",{from:"home"});if(cine&&window.GSCine)window.__cine=GSCine($("cineCourt"));if(cine)wireDaily();if(window.GSSfx)GSSfx.wire(document);if(REVIEW&&window.GS_SHARPEN&&GS_SHARPEN.mount)GS_SHARPEN.mount(A,paint);const cd=$("cineCd");if(cd){clearInterval(window.__cdT);window.__cdT=setInterval(()=>{cd.textContent=cdText();},30000);}document.querySelectorAll('[data-nav]').forEach(a=>{const on=a.dataset.nav===(ALL?"Explore":REVIEW?"Sharpen":"Home");a.classList.toggle('gs-nav-active',on);a.classList.toggle('gs-bnav-active',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});}
 let paintedDay=A.today();
-function refreshDay(){if(!document.hidden&&A.today()!==paintedDay){paintedDay=A.today();paint();}}
+function refreshDay(){if(!(ALL||REVIEW)&&!document.hidden&&A.today()!==paintedDay){paintedDay=A.today();paint();}}
 window.addEventListener('storage',e=>{if(e.key==='gs6'&&!(ALL||REVIEW)){A.featuredDaily();paint();}});
 window.addEventListener('focus',refreshDay);document.addEventListener('visibilitychange',refreshDay);if(!(ALL||REVIEW))setInterval(refreshDay,30000);
 paint();$("profile").onclick=()=>{levelOpen=true;paint();const p=$("player-level");p.scrollIntoView({block:"center"});p.querySelector('button').focus();};window.addEventListener('pageshow',e=>{if(e.persisted)paint();});
