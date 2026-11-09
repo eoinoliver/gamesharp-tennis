@@ -931,3 +931,9 @@ an unfinished point on Home. The check now taps Play singles, finds Continue
 your point, and verifies the original unfinished lesson opens. Only this test
 and its explicit fingerprint coverage changed; app 97243b2214 is byte-identical.
 The previous CI build/routes/shell/sound jobs passed; learning is being rerun.
+
+The completed follow-up checks pass: 137 flagship, 28 mobile learning, 44 recap,
+and 2,149 question-action assertions across all 211 questions. The updated-edition
+check also follows Play singles and preserves the earlier 2/2 score. Every local
+suite now passes when combined with the unchanged-application CI route, doubles,
+ten-point and six-point checks. Full CI is rerunning on the final test revision.

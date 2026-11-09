@@ -174,11 +174,15 @@
     },
     "tools/flagship-browser.mjs": {
       "baseline": "eebe7b419897411c3d3e31aa78695d0e7e239ea65de25cbdc509625cbc10e1b1",
-      "candidate": "4bea71790965b6b21998e5bd1df0ce83a3f320f933380dc8dcbfa75db7d9c22b"
+      "candidate": "d5fd95e1852628c061a93493005aae60d3380bc4dbe318bbdeeda6d72bb4afe9"
     },
     "tools/home-clarity-browser.mjs": {
       "baseline": null,
       "candidate": "6223afa99734206cb16267dc6ccc7ad302100532ceb8d34dc15a2522307d626c"
+    },
+    "tools/mobile-learning-browser.mjs": {
+      "baseline": "d94a354091a272f27d220d0196efe4813b577e663f0c7a36bd8ce806bc6dcc17",
+      "candidate": "aee8ae49416e5939f04af78b32879ea32084f60f80cafacb7dd427356bf9a038"
     },
     "tools/render-home-stills.mjs": {
       "baseline": null,
