@@ -30,8 +30,8 @@ try{
    if(slug==='the-winner'){await p.locator('#askOpts button').nth(2).click();await p.locator('#next').click();await ready(p);}
    const palette=slug==='short-ball'?['#f0a35e','#b9a3f0','#6fd6c4','#c8a84b']:['#6fd6c4','#f0a35e','#c8a84b','#b9a3f0'];
    const rgb=palette.map(c=>'rgb('+c.slice(1).match(/../g).map(v=>parseInt(v,16)).join(', ')+')');
-   await p.waitForFunction(()=>[...document.querySelectorAll('#svg text')].filter(e=>/^[ABCD]$/.test(e.textContent)).length===4);
-   check(await p.evaluate(({palette,rgb})=>[...document.querySelectorAll('#askOpts .l')].every((e,j)=>getComputedStyle(e).backgroundColor===rgb[j])&&[...document.querySelectorAll('#svg text')].filter(e=>/^[ABCD]$/.test(e.textContent)).every(e=>e.getAttribute('fill')===palette['ABCD'.indexOf(e.textContent)]),{palette,rgb}),`${slug}/${width}/${pick}: tile badges match the four on-court letters`);
+   await p.waitForFunction(()=>[...document.querySelectorAll('#svg > text')].filter(e=>/^[ABCD]$/.test(e.textContent)).length===4);
+   check(await p.evaluate(({palette,rgb})=>[...document.querySelectorAll('#askOpts .l')].every((e,j)=>getComputedStyle(e).backgroundColor===rgb[j])&&[...document.querySelectorAll('#svg > text')].filter(e=>/^[ABCD]$/.test(e.textContent)).every(e=>e.getAttribute('fill')===palette['ABCD'.indexOf(e.textContent)]),{palette,rgb}),`${slug}/${width}/${pick}: tile badges match the four on-court letters`);
    if(pick===2)await p.screenshot({path:`${out}/${slug}-${width}-choices.png`,fullPage:true});
    const before=await p.evaluate(()=>ans.slice());await p.locator('#askOpts button').nth(pick).click();await board(p);await p.waitForTimeout(350);
    const state=await p.evaluate(()=>({ans,step,scene,t,contact:contactsOf(SC[scene],'you').find(f=>f>=SC[scene].info.freeze-2),state:GSDirected.state,tiles:[...document.querySelectorAll('#askOpts button')].map(e=>({visible:!e.classList.contains('hide'),enabled:!e.disabled,note:e.querySelector('.directed-note')?.textContent,first:!!e.querySelector('.directed-first')}))}));
