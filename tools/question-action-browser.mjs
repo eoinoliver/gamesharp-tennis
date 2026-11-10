@@ -71,14 +71,15 @@ try{
      const freeze=t,sounds=__sounds.length;await new Promise(r=>nativeTimeout(r,100));
      return{samples,changes,freeze,stopAt,playing,stable:t===freeze,quiet:__sounds.length===sounds,
        sounds:__sounds.slice(start),enabled:[...$('askOpts').children].every(b=>!b.disabled),
-       caption:$('questionContext').textContent,during,earlyWords,earlyAsk,firstWord,
+       caption:$('questionContext').textContent,scene,watchCount:document.querySelectorAll('#watchDirected').length,during,earlyWords,earlyAsk,firstWord,
        stableTextHeight:Math.abs(reserved-$('sitTx').getBoundingClientRect().height)<1};
     }finally{window.setTimeout=nativeTimeout;}
    },i);
    check(r.continuous||(live.changes>1&&live.samples>2),id+': rendered motion actually advances');
    check(!live.playing&&live.freeze===r.to&&live.stable&&live.quiet,id+': freeze is stable and silent');
+   check(live.scene===r.scene&&live.watchCount===1,id+': exactly one scene replay control for the current decision');
    check(live.enabled,id+': choices available after playback and reading');
-   check(live.during.words===0&&live.during.inert&&live.during.hidden&&live.during.silentText,id+': action begins without competing setup or choices');
+   check(r.continuous||(live.during.words===0&&live.during.inert&&live.during.hidden&&live.during.silentText),id+': motion begins without competing setup or choices; held continuations retain the decision frame');
    check(!live.earlyWords&&live.firstWord?.frame===r.to&&!live.firstWord.playing,id+': first word follows completed animation');
    check(!live.earlyAsk,id+': choices follow the complete sentence');
    check(live.stableTextHeight,id+': reserved text space prevents layout shift');

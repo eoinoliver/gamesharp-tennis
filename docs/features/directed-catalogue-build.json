@@ -4,7 +4,7 @@
   "source": {
     "rally/directed.js": {
       "baseline": "65d223c9edb3aa64bee688f86160eac1e905b31807f5ae84a7e7b0ad4c338905",
-      "candidate": "98068d7ff60450657712e3cbed7ad5e80b4fbe08e3147f8a9026568a14505dca"
+      "candidate": "cef570a32b974f79f228a81370f22ca7f2aff4dfa80bb317dac1c53dc4b9b98d"
     },
     "rally/directed.css": {
       "baseline": "aeff22b261578ef04885e65a865d24336674cd836c2d883dce52516c62a2d46a",
@@ -36,25 +36,25 @@
     },
     "tools/question-action-browser.mjs": {
       "baseline": "7528cbecd89e2c4be4275ce2891a3ee29c8fb346a8fb118fb38f624df89c071a",
-      "candidate": "1ee5c7fb9f553bda76faafb32c8ce2d11dbe1057d92534259635eadab61bac0a"
+      "candidate": "73802fb6606969f6ec493ae87df54f61c7831cec77b0ed3b34509fcd7b515851"
     }
   },
   "release": {
     "app/catalog.js": {
       "baseline": "c0a046675b579f568e261cbedc21fcae83a7faea2ddd2d51eb2b782850bf0110",
-      "candidate": "2b887b35e85a1560128978b1d5cef92a5f7e21809be2a7b36ea037c37be44017"
+      "candidate": "b733ea202588a0b775afb3afe3bfcf6e0cc55649ec7a608b383126aa29a31855"
     },
     "app/index.html": {
       "baseline": "892ce1f9d5a7e90ee201cd39a225f7b7482e2730af1cd3ca88c584046641470e",
-      "candidate": "64bfd775462e8b0f1f2bf2241273b93fd76dd76546ddd36334ba9b9eb0a0d5d4"
+      "candidate": "2ed7ba9e42bcc476103bcdfc4c7fc2543cc94c40c0c66f54cd5084caffa1ec7e"
     },
     "app/play.html": {
       "baseline": "11fc6ce50585f23bf99054b0f13e1ae59c35657ce8aa4e6088110bfb27dd4b27",
-      "candidate": "4af75405dc118beb1e0f3ffca8396d327b2fad310a761a13ba772f824df3d5c2"
+      "candidate": "615260af72f5bd39cbff8d032312912b9e8dd6d110580cf1ff586b7cceede6ba"
     },
     "app/engine/engine.js": {
       "baseline": "2cf108f1e1938be43470c5a3568090d1515c925fa274323eaf8b89dacdfba1ad",
-      "candidate": "575b1835b7cb38e85025fd27bc1529197262413faf4d0b574101740a0b182cf4"
+      "candidate": "5678c583a68f767c0e3211fee06b1aace2e89997b79f0bec8f17dcd3d07a91b2"
     }
   }
 }

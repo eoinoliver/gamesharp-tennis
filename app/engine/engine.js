@@ -1395,7 +1395,7 @@ window.GSDirected=(()=>{
   function restoreQuestion(S,cb){
     const q=questionRange(S);silentPlayback=!!q.silent;frame(q.scene,q.to);showDots=false;
     remember('intro:'+S.scene);questionCaption(q.after);render();cb();
-    rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=pilot(S)&&height?'Watch the height again':'Watch the scene again';
+    rewatch?.remove();rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=pilot(S)&&height?'Watch the height again':'Watch the scene again';
     rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal||S.noTargets?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);
   }
   function question(S,cb,force=false){
