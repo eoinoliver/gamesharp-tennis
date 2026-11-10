@@ -67,9 +67,11 @@ try{
   await p.close();
  }
  // Pause a held deciding-detail frame; skip and navigate while callbacks are pending.
- const p=await page('short-ball');await p.waitForFunction(()=>GSDirected.state.phase==='height');
+ const p=await page('short-ball');await p.evaluate(()=>window.__speed=1);await p.waitForFunction(()=>GSDirected.state.phase==='height');await p.waitForTimeout(1000);
  await p.locator('#playBtn').click();await p.evaluate(()=>window.__speed=1);const held=await p.evaluate(()=>({t,cam:JSON.stringify(cam)}));await p.waitForTimeout(600);
  check(await p.evaluate(()=>GSDirected.state.paused),'held detail can pause');check(await p.evaluate(f=>t===f,held.t),'paused evidence does not advance');
+ check(await p.evaluate(()=>[...document.querySelectorAll('#svg text')].filter(e=>/^(CONTACT|TAPE) \d+ CM$/.test(e.textContent)).length===2),'both height measurements visible');
+ check(await p.evaluate(()=>[...document.querySelectorAll('#svg text')].filter(e=>/^(CONTACT|TAPE) \d+ CM$/.test(e.textContent)).every(e=>{const r=e.getBBox();return r.x>=0&&r.y>=0&&r.x+r.width<=VW&&r.y+r.height<=VH;})),'height measurement labels fit the phone frame');
  await p.screenshot({path:`${out}/height-paused.png`});await p.locator('#skipDirected').click();await ready(p);
  await p.locator('#askOpts button').nth(0).click();await p.locator('#back').click();await p.waitForURL(url=>!url.pathname.endsWith('play.html'));await p.waitForTimeout(300);await p.close();
  for(const slug of ['short-ball','the-winner']){

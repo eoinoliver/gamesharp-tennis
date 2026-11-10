@@ -300,7 +300,7 @@ for records, expected in [(daily_about['source'], source), (daily_about['release
 
 # Directed two-lesson pilot. All historical fingerprints remain frozen.
 directed = json.loads((ROOT/'docs/features/directed-lessons-build.json').read_text())
-assert set(directed['source']) == {'app_src/build.py','rally/lesson_body.html','rally/directed.js','rally/directed.css','docs/features/directed-lessons.md','tools/directed-browser.mjs','tools/question-action-browser.mjs','tools/browser-checks.mjs'}
+assert set(directed['source']) == {'app_src/build.py','rally/lesson_body.html','rally/directed.js','rally/directed.css','docs/features/directed-lessons.md','tools/directed-browser.mjs','tools/question-action-browser.mjs','tools/browser-checks.mjs','gs/gate.mjs'}
 assert set(directed['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
 for records, expected in [(directed['source'], source), (directed['release'], manifest)]:
     for name, hashes in records.items():

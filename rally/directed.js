@@ -20,7 +20,7 @@ window.GSDirected=(()=>{
   function cancel(){
     film=null;shot=null;queue=[];finish=null;board=false;eye=null;framing=null;last=null;
     clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;onStop=null;
-    cap.hidden=dock.hidden=true;$('viewer').classList.remove('directing');
+    window.__pc=null;cap.hidden=dock.hidden=true;$('viewer').classList.remove('directing');
     if(rewatch){rewatch.remove();rewatch=null;}
   }
   function caption(s){cap.children[0].textContent=s.eye||'';cap.children[1].textContent=s.title||'';cap.children[2].textContent=s.copy||'';}
@@ -128,6 +128,7 @@ window.GSDirected=(()=>{
     else if(kind==='opening')points=you.pose.concat([add(you.pose[I.head],[0,0,.3]),[0,5,1]]);
     else points=[[-5.4,-13.4,0],[5.4,-13.4,0],[-5.4,13,0],[5.4,13,0],[0,-12,2],[0,12,2]];
     if(board||kind==='samples')points.push(...[...LETTERS].flatMap(X=>dotsOf(prefix+X).map(([x,y])=>[x,y<1?-.15:y,.02])));
+    if(kind==='wide')points.push(...you.pose,...actorAt(sc,'opp',t).pose);
     const q=points.map(toCam).filter(q=>q.z>ZNEAR),us=q.map(q=>q.x/q.z),vs=q.map(q=>q.y/q.z);
     const u0=Math.min(...us),u1=Math.max(...us),v0=Math.min(...vs),v1=Math.max(...vs);
     const top=film?Math.max(120,cap.getBoundingClientRect().height*VW/$('stage').clientWidth+28):32,bottom=45;
