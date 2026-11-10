@@ -3,8 +3,17 @@ window.GSDirected=(()=>{
   const slug=new URLSearchParams(location.search).get('l');
   if(!['the-winner','short-ball'].includes(slug))return null;
   const prefix=slug==='short-ball'?'sb3':'wn2',height=prefix==='sb3';
-  const cues=height?[['tight','Below the tape'],['tradeoff','Caught mid-court'],['margin','Builds a volley'],['tight','Little net clearance']]:
-    [['margin','Room for error'],['tight','Little net clearance'],['tight','Narrow target'],['tradeoff','They can run it down']];
+  const colours=height?['#f0a35e','#b9a3f0','#6fd6c4','#c8a84b']:['#6fd6c4','#f0a35e','#c8a84b','#b9a3f0'];
+  const cues=height?['Below the tape','Caught mid-court','Builds a volley','Little net clearance']:
+    ['Room for error','Little net clearance','Narrow target','They can run it down'];
+  function optionColour(key,X){return key===prefix?colours[LETTERS.indexOf(X)]:null;}
+  function colourChoices(S){
+    if(S.scene!==prefix)return;
+    [...$('askOpts').children].forEach((b,j)=>{
+      b.classList.add('directed-choice');
+      b.style.setProperty('--choice',colours[j].slice(1).match(/../g).map(v=>parseInt(v,16)).join(','));
+    });
+  }
   const revealed=new Set();
   const storeKey='gs_directed_v1_'+slug;
   const seen=new Set();try{for(const k of JSON.parse(localStorage.getItem(storeKey)||'[]'))seen.add(k);}catch{}
@@ -98,12 +107,13 @@ window.GSDirected=(()=>{
     board=true;
     const pulse=!revealed.has(i);revealed.add(i);
     [...$('askOpts').children].forEach((b,j)=>{
-      const Y=LETTERS[j],[tone,note]=cues[j],first=Y===ans[i];
-      b.className='opt directed-option '+tone+(pulse?' reveal-choice':'');b.disabled=false;
+      const Y=LETTERS[j],note=cues[j],first=Y===ans[i];
+      b.className='opt directed-option'+(pulse?' reveal-choice':'');b.disabled=false;
       b.innerHTML=`<span class="l">${Y}</span><span>${S.opts[j]}<small class="directed-note">${note}</small>${first?'<small class="directed-first">Your first choice</small>':''}</span>`;
       b.setAttribute('aria-label',`Watch option ${Y}: ${S.opts[j]}. ${note}.${first?' Your first choice.':''}`);
       b.setAttribute('aria-pressed',String(Y===X));b.onclick=()=>choose(i,Y,true);
     });
+    colourChoices(S);
     const b=document.createElement('div');b.className='directed-review';b.id='directedReview';
     b.innerHTML='<p>Tap a choice to watch it. Your first answer stays saved.</p><div class="directed-compare"><button id="directedOther">Rewind & compare</button></div>';
     $('verdict').querySelector('.fb').appendChild(b);
@@ -160,5 +170,5 @@ window.GSDirected=(()=>{
     }
     if(kind==='line')label(frag,[-4,11.13,0],'IN BY '+Math.round(SC.wn1.info.shot.courtMargin*100)+' CM','#e3cd83',22,1,22);
   }
-  return {question,answer,feedback,cancel,skip,pause,tick,camera,fit,draw,replay,get active(){return !!film;},get board(){return board;},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
+  return {question,answer,feedback,cancel,skip,pause,tick,camera,fit,draw,replay,optionColour,colourChoices,get active(){return !!film;},get board(){return board;},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
 })();

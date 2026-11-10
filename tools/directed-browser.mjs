@@ -26,14 +26,20 @@ try{
    await p.exposeFunction('directedPhase',phase=>seen.add(phase));
    await p.evaluate(()=>{const el=document.querySelector('#viewer');new MutationObserver(()=>window.directedPhase(el.dataset.directedPhase)).observe(el,{attributes:true,attributeFilter:['data-directed-phase']});});
    await ready(p);
-   check(await p.locator('.directed-option').count()===0,`${slug}/${width}/${pick}: no answer colours before commitment`);
+   check(await p.locator('.directed-option,.directed-note,.reveal-choice').count()===0,`${slug}/${width}/${pick}: no coaching cues or pulse before commitment`);
    if(slug==='the-winner'){await p.locator('#askOpts button').nth(2).click();await p.locator('#next').click();await ready(p);}
+   const palette=slug==='short-ball'?['#f0a35e','#b9a3f0','#6fd6c4','#c8a84b']:['#6fd6c4','#f0a35e','#c8a84b','#b9a3f0'];
+   const rgb=palette.map(c=>'rgb('+c.slice(1).match(/../g).map(v=>parseInt(v,16)).join(', ')+')');
+   await p.waitForFunction(()=>[...document.querySelectorAll('#svg text')].filter(e=>/^[ABCD]$/.test(e.textContent)).length===4);
+   check(await p.evaluate(({palette,rgb})=>[...document.querySelectorAll('#askOpts .l')].every((e,j)=>getComputedStyle(e).backgroundColor===rgb[j])&&[...document.querySelectorAll('#svg text')].filter(e=>/^[ABCD]$/.test(e.textContent)).every(e=>e.getAttribute('fill')===palette['ABCD'.indexOf(e.textContent)]),{palette,rgb}),`${slug}/${width}/${pick}: tile badges match the four on-court letters`);
+   if(pick===2)await p.screenshot({path:`${out}/${slug}-${width}-choices.png`,fullPage:true});
    const before=await p.evaluate(()=>ans.slice());await p.locator('#askOpts button').nth(pick).click();await board(p);await p.waitForTimeout(350);
    const state=await p.evaluate(()=>({ans,step,scene,t,contact:contactsOf(SC[scene],'you').find(f=>f>=SC[scene].info.freeze-2),state:GSDirected.state,tiles:[...document.querySelectorAll('#askOpts button')].map(e=>({visible:!e.classList.contains('hide'),enabled:!e.disabled,note:e.querySelector('.directed-note')?.textContent,first:!!e.querySelector('.directed-first')}))}));
    const label=`${slug}/${width}/${pick}`;
    check(seen.has('rewind')&&!seen.has('samples'),label+': full comparison without probability sequence');
    check(state.ans[state.step]==='ABCD'[pick]&&before.filter(Boolean).length===state.ans.filter(Boolean).length-1,label+': comparison preserves first answer');
    check(state.scene===(slug==='short-ball'?'sb3':'wn2')+'ABCD'[pick]&&state.t===state.contact-1,label+': board restored to original contact');
+   check(await p.locator('#askOpts .l').evaluateAll((es,rgb)=>es.every((e,j)=>getComputedStyle(e).backgroundColor===rgb[j]),rgb),label+': choice identity colours survive feedback');
    check(state.tiles.length===4&&state.tiles.every(e=>e.visible&&e.enabled&&e.note)&&state.tiles.filter(e=>e.first).length===1&&state.tiles[pick].first,label+': four explorable choices with text cues and original choice');
    check(!/ten tries|\d+\s*\/\s*10/i.test(await p.locator('#directedReview').innerText()),label+': no probability board');
    check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),label+': no horizontal overflow');

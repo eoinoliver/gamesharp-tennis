@@ -10,8 +10,10 @@ The pilot adapts the local showcase's editorial pattern into the shared engine:
 - Settle into the existing question and option layout.
 - Play the selected route in full, rewind to its first contact and play the
   preferred alternative (or the contrasting shot if the first choice was best).
-- After commitment, reveal all four original answer tiles with one brief glow,
-  qualitative colour and a short cue grounded in the existing explanation. Each
+- Match each answer tile to its on-court letter using the showcase option palette.
+  Colour identifies the shot before and after commitment; it does not grade it.
+- After commitment, reveal all four original answer tiles with one brief glow
+  and a short cue grounded in the existing explanation. Each
   tile plays its route without changing the first answer. Text conveys the meaning
   without relying on colour. Reduced motion disables the glow.
 - The app has no directed ten-trial animation or numerical probability board.
