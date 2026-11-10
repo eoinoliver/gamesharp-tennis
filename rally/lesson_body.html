@@ -944,7 +944,7 @@ function stageInView(){const r=$("viewer").getBoundingClientRect();
 
 /* ---------- the decision zone ---------- */
 function paintAsk(S){
-  $("askQ").textContent=S.q; const box=$("askOpts"); box.replaceChildren();
+  $("askQ").textContent=S.q; const box=$("askOpts"); box.replaceChildren();box.classList.remove('directed-single');
   S.opts.forEach((txt,i)=>{const b=document.createElement("button");b.className="opt";b.disabled=true;
     b.innerHTML=`<span class="l">${LETTERS[i]}</span><span>${txt}</span>`;b.onclick=()=>pick(LETTERS[i]);box.appendChild(b);});
   window.GSDirected?.colourChoices(S);

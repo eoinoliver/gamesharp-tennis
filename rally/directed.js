@@ -106,19 +106,29 @@ window.GSDirected=(()=>{
     const S=LESSON.steps[i];if(S.scene!==prefix)return;
     board=true;
     const pulse=!revealed.has(i);revealed.add(i);
+    const recommended=LETTERS[S.correct];
+    let expanded=false;
     [...$('askOpts').children].forEach((b,j)=>{
-      const Y=LETTERS[j],note=cues[j],first=Y===ans[i];
+      const Y=LETTERS[j],note=cues[j],first=Y===ans[i],pick=Y===recommended;
       b.className='opt directed-option'+(pulse?' reveal-choice':'');b.disabled=false;
-      b.innerHTML=`<span class="l">${Y}</span><span>${S.opts[j]}<small class="directed-note">${note}</small>${first?'<small class="directed-first">Your first choice</small>':''}</span>`;
-      b.setAttribute('aria-label',`Watch option ${Y}: ${S.opts[j]}. ${note}.${first?' Your first choice.':''}`);
+      b.innerHTML=`<span class="l">${Y}</span><span>${S.opts[j]}<small class="directed-note">${note}</small><span class="directed-meta">${pick?'<small class="directed-pick" aria-label="GS recommended choice">GS <span aria-hidden="true">✓</span></small>':''}${first?'<small class="directed-first">Your first choice</small>':''}</span></span>`;
+      b.setAttribute('aria-label',`Watch option ${Y}: ${S.opts[j]}. ${note}.${pick?' GS recommended choice.':''}${first?' Your first choice.':''}`);
       b.setAttribute('aria-pressed',String(Y===X));b.onclick=()=>choose(i,Y,true);
     });
     colourChoices(S);
     const b=document.createElement('div');b.className='directed-review';b.id='directedReview';
-    b.innerHTML='<p>Tap a choice to watch it. Your first answer stays saved.</p><div class="directed-compare"><button id="directedOther">Rewind & compare</button></div>';
+    b.innerHTML=`<p>First answer: ${ans[i]||X} · saved. Tap a tile to replay.</p><div class="directed-compare"><button id="exploreDirected" aria-expanded="false" aria-controls="askOpts">Explore other shots</button><button id="directedOther">Rewind & compare</button></div>`;
     $('verdict').querySelector('.fb').appendChild(b);
     $('tryOther').hidden=true;
     $('directedOther').onclick=()=>answer(i,X,true,()=>{board=true;},true);
+    function showChoices(){
+      [...$('askOpts').children].forEach((tile,j)=>tile.classList.toggle('hide',!expanded&&LETTERS[j]!==X&&LETTERS[j]!==recommended));
+      $('askOpts').classList.toggle('directed-single',!expanded&&X===recommended);
+      $('exploreDirected').setAttribute('aria-expanded',String(expanded));
+      $('exploreDirected').textContent=expanded?'Show fewer shots':'Explore other shots';
+    }
+    $('exploreDirected').onclick=()=>{expanded=!expanded;showChoices();tallView();};
+    showChoices();
   }
   function replay(){
     if(film){const stages=sequence.slice(),cb=finish,label=$('skipDirected').textContent;start(stages,cb,label);return true;}

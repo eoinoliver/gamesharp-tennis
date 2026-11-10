@@ -8,23 +8,23 @@
     },
     "rally/lesson_body.html": {
       "baseline": "5dd776dcd8c1b82d93eb40104792c6e795be11901d5f288bbaadaf3235b09f37",
-      "candidate": "7bb7ff607d68864c4449e541b50c89d25c69406e539d1d2b8f0c25fb172a567b"
+      "candidate": "9148fb884603abf12765e9844adf57b1a07c9290d4f637fec2463f5a614cef86"
     },
     "rally/directed.js": {
       "baseline": null,
-      "candidate": "89df214f25031da3b6fc5c03996f964f273fef6cc1d844f483092a04314d3aea"
+      "candidate": "65d223c9edb3aa64bee688f86160eac1e905b31807f5ae84a7e7b0ad4c338905"
     },
     "rally/directed.css": {
       "baseline": null,
-      "candidate": "6f061ef81d8bd1bf23e193db894eb7ae96c851f62bf244ac7ed7b703af5bd368"
+      "candidate": "aeff22b261578ef04885e65a865d24336674cd836c2d883dce52516c62a2d46a"
     },
     "docs/features/directed-lessons.md": {
       "baseline": null,
-      "candidate": "cbbbb79016c20659c4d6009b1b6db3b2d51dbf7df5ad7e131760b56008a35e72"
+      "candidate": "3ef173701b0cf815090c85ff3e6c7f52565106f1554b6035d85f224b03649ca9"
     },
     "tools/directed-browser.mjs": {
       "baseline": null,
-      "candidate": "e25eb51fa52c1d1aa033df26e12cf2d6652729587932bf02a89fa61ccb498ed1"
+      "candidate": "bd5728e130a6fc32fe66d3723f8b5b999a5457927c1351c0b050a2cca830a0ad"
     },
     "tools/question-action-browser.mjs": {
       "baseline": "43c01518631414dec43d7a279b88ee8462cb03c2d7e86d74c36a11200a634581",
@@ -42,19 +42,19 @@
   "release": {
     "app/catalog.js": {
       "baseline": "fa6dd6fde08ab6efe18added184858687b0f0af2756c8589dbb8e6dd706059fe",
-      "candidate": "46b33514c252ec2874270624d40d700516c50b90f0b4172ca0acc5fa25b290d6"
+      "candidate": "c0a046675b579f568e261cbedc21fcae83a7faea2ddd2d51eb2b782850bf0110"
     },
     "app/index.html": {
       "baseline": "09edd061b8483110dd5ff44d139e692bcd2fef2f896c590b422a02ce610bcf02",
-      "candidate": "d544f7cf083ceaf255eb9837f306a3e4937e7cdb2aac1283438c0bfb8b172b5d"
+      "candidate": "892ce1f9d5a7e90ee201cd39a225f7b7482e2730af1cd3ca88c584046641470e"
     },
     "app/play.html": {
       "baseline": "4e3f14c2286f915feb168785716a6b086f0a1556c3c84f4c34a8885e83e1faee",
-      "candidate": "e715425c32566e5002b239ef0a39ccf824adc821e89e35b3037ea1ebb9338ea7"
+      "candidate": "11fc6ce50585f23bf99054b0f13e1ae59c35657ce8aa4e6088110bfb27dd4b27"
     },
     "app/engine/engine.js": {
       "baseline": "c3241a46d2b78353ed7d9d403fbe1680395a0dc55f8c2ff37eb4ba6fee0eb4ff",
-      "candidate": "204c6d6767a558ee12997bd1abb378262a2cc741cc4babcf77c1e494705c596e"
+      "candidate": "2cf108f1e1938be43470c5a3568090d1515c925fa274323eaf8b89dacdfba1ad"
     }
   }
 }

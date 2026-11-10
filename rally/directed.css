@@ -16,8 +16,12 @@
 .opt.directed-choice .l{background:rgb(var(--choice));color:#07130b}
 .opt.directed-choice:not(:disabled):hover,.opt.directed-choice:not(:disabled):active{border-color:rgb(var(--choice))}
 .opt.directed-option[aria-pressed=true]{border-width:2px;padding:5px 8px}
+.opts.directed-single{grid-template-columns:1fr}
 .directed-note{display:block;font-size:11px;line-height:1.35;color:var(--ink);opacity:.85;margin-top:5px}
-.directed-first{display:block;font-size:9px;line-height:1.4;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);margin-top:4px}
+.directed-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px}
+.directed-meta:empty{display:none}
+.directed-first{display:block;font-size:9px;line-height:1.4;letter-spacing:.04em;text-transform:uppercase;color:var(--gold)}
+.directed-pick{display:inline-flex;align-items:center;gap:4px;padding:2px 5px;border:1px solid rgba(240,236,227,.4);border-radius:5px;font-size:10px;font-weight:800;letter-spacing:.05em;color:var(--ink)}
 .opt.directed-option:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 @keyframes choice-reveal{0%,100%{box-shadow:0 0 0 0 rgba(var(--choice),0)}40%{box-shadow:0 0 0 4px rgba(var(--choice),.16),0 0 18px rgba(var(--choice),.18)}}
 .reveal-choice{animation:choice-reveal 850ms ease-out 1}

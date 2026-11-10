@@ -12,10 +12,13 @@ The pilot adapts the local showcase's editorial pattern into the shared engine:
   preferred alternative (or the contrasting shot if the first choice was best).
 - Match each answer tile to its on-court letter using the showcase option palette.
   Colour identifies the shot before and after commitment; it does not grade it.
-- After commitment, reveal all four original answer tiles with one brief glow
-  and a short cue grounded in the existing explanation. Each
-  tile plays its route without changing the first answer. Text conveys the meaning
-  without relying on colour. Reduced motion disables the glow.
+- After commitment, show the viewed choice plus the recommended choice when
+  different, with one brief glow and the existing short cues. The recommendation
+  carries a compact **GS ✓** badge, with an accessible recommendation label.
+  Explore other shots reveals all four on demand; choosing a shot returns to compact
+  feedback. The saved first answer stays explicit and cannot be rescored.
+  All four unmarked choices return at the next decision. Reduced motion disables
+  the glow. Text and letters preserve meaning without colour.
 - The app has no directed ten-trial animation or numerical probability board.
   The independent social showcase remains untouched.
 
