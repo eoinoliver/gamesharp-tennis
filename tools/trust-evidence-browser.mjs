@@ -72,6 +72,12 @@ try{
   await p.locator('.fb').evaluate(async e=>{await Promise.all(e.getAnimations().map(a=>a.finished));});
   await p.screenshot({path:`${out}/short-ball-feedback-${width}.png`,fullPage:true});
  }
+ await load(p,'short-ball');await answer(p,0);await answer(p,2);
+ await p.locator('#inspectContact').click();
+ check((await p.locator('[data-contact=first]').textContent())==='Option C','contact comparison identifies the explored option');
+ check((await p.locator('[data-contact=first]').getAttribute('aria-label')).startsWith('Option C:'),'accessible contact label does not call an alternative the first choice');
+ check((await p.locator('[data-contact=outcome]').textContent())==='Result · C →','contact result names the viewed option');
+ check((await p.locator('#directedIdentity').textContent())==='Viewing C · First answer A','contact inspection retains original answer identity');
  await load(p,'high-ball');await answer(p,1);
  check((await p.locator('.fb .lab').textContent())==='Also works','accepted alternative keeps credit without conflicting best label');
  // Complete a real Predict attempt; exploration changes the viewed option only.

@@ -723,10 +723,10 @@ function inspectContact(sample){
   $('inspectContact').setAttribute('aria-expanded','true');
   const controls=document.createElement('div');controls.id='contactControls';controls.className='contact-controls';
   controls.setAttribute('role','group');controls.setAttribute('aria-label','Compare contact positions');
-  const labels=CONTACT_KIND==='space'?['First contact','Your next ball']:['Your choice '+chosen,'Compare '+compare];
-  controls.innerHTML=`<button type="button" data-contact="first" aria-pressed="${sample==='first'}">${labels[0]}</button><button type="button" data-contact="next" aria-pressed="${sample==='next'}">${labels[1]}</button><button type="button" data-contact="outcome">Your result →</button>`;
+  const labels=CONTACT_KIND==='space'?['First contact','Next ball · '+chosen]:['Option '+chosen,'Compare '+compare];
+  controls.innerHTML=`<button type="button" data-contact="first" aria-pressed="${sample==='first'}">${labels[0]}</button><button type="button" data-contact="next" aria-pressed="${sample==='next'}">${labels[1]}</button><button type="button" data-contact="outcome">Result · ${chosen} →</button>`;
   if(CONTACT_KIND!=='space'){
-    controls.querySelector('[data-contact=first]').setAttribute('aria-label','Your choice '+chosen+': '+S.opts[LETTERS.indexOf(chosen)]);
+    controls.querySelector('[data-contact=first]').setAttribute('aria-label','Option '+chosen+': '+S.opts[LETTERS.indexOf(chosen)]);
     controls.querySelector('[data-contact=next]').setAttribute('aria-label','Compare '+compare+': '+S.opts[LETTERS.indexOf(compare)]);
   }
   controls.querySelectorAll('button').forEach(b=>b.onclick=e=>{e.stopPropagation();if(b.dataset.contact==='outcome'){
@@ -1207,7 +1207,7 @@ function render(){
   if(PREM()) lightOverlay(frag);
   drawArrivalEvidence(frag,sc,g);
   window.GSDirected?.draw(frag);
-  if(CONTACT_FOCUS){drawContactEvidence(frag,you,b);const m=$('contactMode');const txt=done?'':contactInspection?(CONTACT_KIND==='space'?(contactInspection.sample==='first'?'First contact · held':'Your next ball · held'):(contactInspection.missing?'No contact · ball bounces twice':'Option '+contactInspection.option+' · '+LESSON.steps[step].opts[LETTERS.indexOf(contactInspection.option)])):contactCameraOn()&&contactMix()>.95?'Contact view · look closely':'Court view · watch the result';if(m.textContent!==txt)m.textContent=txt;m.hidden=!txt;}
+  if(CONTACT_FOCUS){drawContactEvidence(frag,you,b);const m=$('contactMode');const txt=done?'':contactInspection?(CONTACT_KIND==='space'?(contactInspection.sample==='first'?'First contact · held':'Next ball · option '+contactInspection.option+' · held'):(contactInspection.missing?'No contact · ball bounces twice':'Option '+contactInspection.option+' · '+LESSON.steps[step].opts[LETTERS.indexOf(contactInspection.option)])):contactCameraOn()&&contactMix()>.95?'Contact view · look closely':'Court view · watch the result';if(m.textContent!==txt)m.textContent=txt;m.hidden=!txt;}
   svg2.replaceChildren(frag);
   {const sc2=$("scorechip"), v=sc.info.score||""; if(sc2.dataset.v!==v){sc2.dataset.v=v;sc2.hidden=!v;sc2.innerHTML=v?"YOU <b>"+v+"</b>":"";}}
   if(St&&fz!=null){const n=answered?3:[0,1,2].filter(k=>g>=fz-80+30*k).length;setRail(n);}
