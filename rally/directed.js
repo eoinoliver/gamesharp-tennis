@@ -1,10 +1,11 @@
-/* Directed pilot: shared scene data, first-answer scoring and normal lesson navigation.
-   The showcase supplies the editorial pattern; authored landing samples are not resimulated. */
+/* Directed pilot: shared scene data, first-answer scoring and normal lesson navigation. */
 window.GSDirected=(()=>{
   const slug=new URLSearchParams(location.search).get('l');
   if(!['the-winner','short-ball'].includes(slug))return null;
   const prefix=slug==='short-ball'?'sb3':'wn2',height=prefix==='sb3';
-  const palette=['#6fd6c4','#f0a35e','#c8a84b','#b9a3f0'];
+  const cues=height?[['tight','Below the tape'],['tradeoff','Caught mid-court'],['margin','Builds a volley'],['tight','Little net clearance']]:
+    [['margin','Room for error'],['tight','Little net clearance'],['tight','Narrow target'],['tradeoff','They can run it down']];
+  const revealed=new Set();
   const storeKey='gs_directed_v1_'+slug;
   const seen=new Set();try{for(const k of JSON.parse(localStorage.getItem(storeKey)||'[]'))seen.add(k);}catch{}
   const remember=k=>{seen.add(k);try{localStorage.setItem(storeKey,JSON.stringify([...seen]));}catch{}};
@@ -88,21 +89,26 @@ window.GSDirected=(()=>{
       route(key,'Your choice · follow the consequence'),
       {kind:'wide',key,from:SC[key].frames-1,ms:1300,eye:'What it earns',title:height&&X==='C'?'Approach. Then volley.':endLabel(key),copy:S.lines[X]},
       {kind:'rewind',key,from:SC[key].frames-1,to:contact(key)-1,ms:1000,eye:'Rewind',title:'Same contact. Another choice.'},
-      route(other,'Compare · '+S.opts[LETTERS.indexOf(alt)]),
-      {kind:'samples',key,from:contact(key)-1,ms:3200,eye:'Same ball · ten tries per shot',title:'Compare the margin.'}
+      route(other,'Compare · '+S.opts[LETTERS.indexOf(alt)])
     ];
     start(stages,end,'Skip to feedback →');stageInView();return true;
   }
   function feedback(i,X){
     const S=LESSON.steps[i];if(S.scene!==prefix)return;
     board=true;
-    const b=document.createElement('div');b.className='directed-board';b.id='directedBoard';
-    b.innerHTML='<p>Ten tries · balls in court</p>'+[...LETTERS].map((Y,j)=>{const d=dotsOf(prefix+Y),n=d.filter(x=>x[2]).length;
-      return `<div class="directed-row" style="--sample:${palette[j]}"><span>${S.opts[j]}${Y===ans[i]?'<small>Your first choice</small>':''}</span><span class="directed-pips" aria-hidden="true">${d.map((_,k)=>'<i class="'+(k<n?'in':'')+'"></i>').join('')}</span><b>${n}/${d.length}</b></div>`;
-    }).join('')+'<div class="directed-compare"><button id="directedOwn">Replay your shot</button><button id="directedOther">Rewind & compare</button></div>';
+    const pulse=!revealed.has(i);revealed.add(i);
+    [...$('askOpts').children].forEach((b,j)=>{
+      const Y=LETTERS[j],[tone,note]=cues[j],first=Y===ans[i];
+      b.className='opt directed-option '+tone+(pulse?' reveal-choice':'');b.disabled=false;
+      b.innerHTML=`<span class="l">${Y}</span><span>${S.opts[j]}<small class="directed-note">${note}</small>${first?'<small class="directed-first">Your first choice</small>':''}</span>`;
+      b.setAttribute('aria-label',`Watch option ${Y}: ${S.opts[j]}. ${note}.${first?' Your first choice.':''}`);
+      b.setAttribute('aria-pressed',String(Y===X));b.onclick=()=>choose(i,Y,true);
+    });
+    const b=document.createElement('div');b.className='directed-review';b.id='directedReview';
+    b.innerHTML='<p>Tap a choice to watch it. Your first answer stays saved.</p><div class="directed-compare"><button id="directedOther">Rewind & compare</button></div>';
     $('verdict').querySelector('.fb').appendChild(b);
-    $('directedOwn').onclick=()=>{const original=ans[i]||X;answer(i,original,true,()=>{board=true;},true,prefix+original);};
-    $('directedOther').onclick=()=>answer(i,ans[i]||X,true,()=>{board=true;},true);
+    $('tryOther').hidden=true;
+    $('directedOther').onclick=()=>answer(i,X,true,()=>{board=true;},true);
   }
   function replay(){
     if(film){const stages=sequence.slice(),cb=finish,label=$('skipDirected').textContent;start(stages,cb,label);return true;}
@@ -110,7 +116,7 @@ window.GSDirected=(()=>{
     return false;
   }
   function desired(){
-    const kind=shot?.kind||'samples',h=actorAt(SC[scene],'you',t).pose[I.hips],u=smooth(0,1800,elapsed);
+    const kind=shot?.kind||'wide',h=actorAt(SC[scene],'you',t).pose[I.hips],u=smooth(0,1800,elapsed);
     if(kind==='height')return {az:-24,el:9,d:14,fov:40,tgt:[at()[0],-2.8,.7]};
     if(kind==='line')return {az:-177,el:9,d:9,fov:40,tgt:[-3.9,11.1,.55]};
     if(kind==='net')return {az:-100,el:9,d:8,fov:40,tgt:[2.5,0,.65]};
@@ -131,7 +137,6 @@ window.GSDirected=(()=>{
     else if(kind==='net')points=[[1.3,0,0],[3.8,0,0],[2.5,0,1.7]];
     else if(kind==='opening')points=you.pose.concat([you.rq.centre,add(you.rq.centre,[.5,0,.5]),add(you.rq.centre,[-.5,0,-.5]),add(you.pose[I.head],[0,0,.3]),[0,5,1]]);
     else points=[[-5.4,-13.4,0],[5.4,-13.4,0],[-5.4,13,0],[5.4,13,0],[0,-12,2],[0,12,2]];
-    if(board||kind==='samples')points.push(...[...LETTERS].flatMap(X=>dotsOf(prefix+X).map(([x,y])=>[x,y<1?-.15:y,.02])));
     if(kind==='wide')points.push(...you.pose,...actorAt(sc,'opp',t).pose);
     const q=points.map(toCam).filter(q=>q.z>ZNEAR),us=q.map(q=>q.x/q.z),vs=q.map(q=>q.y/q.z);
     const u0=Math.min(...us),u1=Math.max(...us),v0=Math.min(...vs),v1=Math.max(...vs);
@@ -154,19 +159,6 @@ window.GSDirected=(()=>{
       evidenceLabel(frag,[p[0],0,nh],'TAPE '+Math.round(nh*100)+' CM','#f08a8a',-18);
     }
     if(kind==='line')label(frag,[-4,11.13,0],'IN BY '+Math.round(SC.wn1.info.shot.courtMargin*100)+' CM','#e3cd83',22,1,22);
-    if(kind!=='samples'&&!board)return;
-    const p=at();[...LETTERS].forEach((X,j)=>{
-      const dots=dotsOf(prefix+X);dots.forEach(([x,y,ok],k)=>{
-        const u=board?1:clamp((elapsed-k*130-j*70)/1300,0,1);if(!u)return;
-        const end=[x,y<1?-.15:y,.02],peak=y<1?.25:Math.max(.8,SC[prefix+X].info.shot.netMarginCm/100+.4);
-        let prev=p;for(let n=1;n<=Math.ceil(u*18);n++){
-          const v=Math.min(u,n/18),q=[lerp(p[0],end[0],v),lerp(p[1],end[1],v),lerp(p[2],.02,v)+4*peak*v*(1-v)];
-          seg(frag,prev,q,palette[j],1.3,board?.14:.38);prev=q;
-        }
-        if(u<1){const q=P(prev);if(q)frag.appendChild(el_('circle',{cx:q.s[0],cy:q.s[1],r:4,fill:palette[j]}));}
-        else ring(frag,end,.18,.15,ok?palette[j]:'#e07070',1.5,.9,ok?palette[j]:'none');
-      });
-    });
   }
   return {question,answer,feedback,cancel,skip,pause,tick,camera,fit,draw,replay,get active(){return !!film;},get board(){return board;},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
 })();

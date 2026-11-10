@@ -249,18 +249,22 @@ details.note a{color:var(--gold)}
 .directing .stage{background:#07130b}
 .directing .stage:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(#07130b99,transparent 40%,transparent 85%,#07130b66)}
 .directed-rewatch{display:block;margin:8px 0 0 auto}
-.directed-board{border-top:1px solid var(--line);margin-top:12px;padding-top:12px}
-.directed-board>p{margin:0 0 8px;font-size:11px;letter-spacing:.07em;color:#e3cd83;text-transform:uppercase;font-weight:700}
-.directed-row{display:grid;grid-template-columns:minmax(0,1fr) 75px 36px;gap:8px;align-items:center;min-height:44px;font-size:12px;border-bottom:1px solid rgba(255,255,255,.05)}
-.directed-row small{display:block;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
-.directed-pips{display:flex;gap:2px}
-.directed-pips i{width:6px;height:13px;border:1px solid var(--sample);border-radius:1px}
-.directed-pips i.in{background:var(--sample)}
-.directed-row b{font-size:13px;text-align:right}
+.directed-review{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
+.directed-review>p{margin:0;font-size:11px;color:var(--muted);line-height:1.5}
+.opt.directed-option{--choice:224,112,112;border-color:rgba(var(--choice),.65);background:rgba(var(--choice),.09);color:var(--ink)}
+.opt.directed-option.margin{--choice:89,189,112}
+.opt.directed-option.tradeoff{--choice:200,168,75}
+.opt.directed-option .l{background:rgba(var(--choice),.22);color:var(--ink)}
+.opt.directed-option[aria-pressed=true]{border-width:2px;padding:5px 8px}
+.directed-note{display:block;font-size:11px;line-height:1.35;color:var(--ink);opacity:.85;margin-top:5px}
+.directed-first{display:block;font-size:9px;line-height:1.4;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);margin-top:4px}
+.opt.directed-option:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+@keyframes choice-reveal{0%,100%{box-shadow:0 0 0 0 rgba(var(--choice),0)}40%{box-shadow:0 0 0 4px rgba(var(--choice),.16),0 0 18px rgba(var(--choice),.18)}}
+.reveal-choice{animation:choice-reveal 850ms ease-out 1}
 .directed-compare{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .directed-compare button{flex:1;min-height:44px;padding:8px;border:1px solid var(--line);border-radius:10px;background:#183023;color:var(--ink);font:600 12px 'DM Sans',sans-serif;cursor:pointer}
-@media(max-width:350px){.directed-cap{inset:8px 8px auto}.directed-cap p{font-size:11px}.directed-row{grid-template-columns:minmax(0,1fr) 65px 32px;gap:5px}.directed-pips{gap:1px}}
-@media(prefers-reduced-motion:reduce){.directed-cap *{transition:none}}
+@media(max-width:350px){.directed-cap{inset:8px 8px auto}.directed-cap p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.directed-cap *{transition:none}.reveal-choice{animation:none}}
 
 </style>
 
@@ -307,7 +311,7 @@ details.note a{color:var(--gold)}
 
 </div>
 
-<link rel="stylesheet" href="coach.css?v=db559285be">
+<link rel="stylesheet" href="coach.css?v=612e3acf69">
 <style>
 .daily-completion .daily-complete-message{font-size:15px;color:#dce8d7;line-height:1.5}.daily-completion .daily-related{margin-top:22px;padding-top:20px;border-top:1px solid #c8a84b30}.daily-related h2{font-size:22px;margin:8px 0}.daily-related p{font-size:14px;line-height:1.55;color:#b8c7b6}.daily-related .alt{min-height:44px;display:inline-flex;align-items:center}.daily-completion .k{display:block!important}
 
@@ -402,18 +406,18 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<link rel="stylesheet" href="practice.css?v=db559285be">
-<link rel="stylesheet" href="takeaways.css?v=db559285be">
-<script src="config.js?v=db559285be"></script>
-<script src="catalog.js?v=db559285be"></script>
-<script src="app.js?v=db559285be"></script>
-<script src="share.js?v=db559285be"></script>
-<script src="takeaways.js?v=db559285be"></script>
-<script src="coach.js?v=db559285be"></script>
-<script src="sfx.js?v=db559285be"></script>
+<link rel="stylesheet" href="practice.css?v=612e3acf69">
+<link rel="stylesheet" href="takeaways.css?v=612e3acf69">
+<script src="config.js?v=612e3acf69"></script>
+<script src="catalog.js?v=612e3acf69"></script>
+<script src="app.js?v=612e3acf69"></script>
+<script src="share.js?v=612e3acf69"></script>
+<script src="takeaways.js?v=612e3acf69"></script>
+<script src="coach.js?v=612e3acf69"></script>
+<script src="sfx.js?v=612e3acf69"></script>
 <script>
 (function(){
-const A=GSApp, V="db559285be", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="612e3acf69", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */

@@ -12,19 +12,19 @@
     },
     "rally/directed.js": {
       "baseline": null,
-      "candidate": "80ae5c99aee6c16b4e89a2b94b8edbe9bf2c941ee472e6163e4aeb9818836195"
+      "candidate": "a2438c2653f0a7128709917e32f1e537424db19bffd502feeb3c3d553b2734f4"
     },
     "rally/directed.css": {
       "baseline": null,
-      "candidate": "016337a9209b2e0396e162d62d8368f6f50ec7a91e354ac064a175399b02e9d0"
+      "candidate": "4b65b61d474b199d2b25fe32250aa7a6935f04cfeaf48e3b521a272be54e1153"
     },
     "docs/features/directed-lessons.md": {
       "baseline": null,
-      "candidate": "cc28667f49bc68633314eb5acfd1d1b3061a8da7b57966c3203d30b1e024c9cc"
+      "candidate": "30190cbb7620ca00d40b0b6f19f31859786ece8e6af1f95ac3b56b702f8df5d3"
     },
     "tools/directed-browser.mjs": {
       "baseline": null,
-      "candidate": "ba2bc167e2390214a752cc326a6b688a3ac31a3057f6dbdcb8d2989e80522a91"
+      "candidate": "c5046bcaf15e744abad45720ee7dd8e518d81f6cf02e3888f6ed2c94e8175a41"
     },
     "tools/question-action-browser.mjs": {
       "baseline": "43c01518631414dec43d7a279b88ee8462cb03c2d7e86d74c36a11200a634581",
@@ -42,19 +42,19 @@
   "release": {
     "app/catalog.js": {
       "baseline": "fa6dd6fde08ab6efe18added184858687b0f0af2756c8589dbb8e6dd706059fe",
-      "candidate": "8bd0659c63622858469768752217c5854da20140fb4c77258b49ed3a59416519"
+      "candidate": "22ea586faaad2fbd7d190fd3d1e1f2d810a418c3b55e808a4cb5b3a170c6e121"
     },
     "app/index.html": {
       "baseline": "09edd061b8483110dd5ff44d139e692bcd2fef2f896c590b422a02ce610bcf02",
-      "candidate": "2d1f9d3cb24c128feb2fa47fde00bf875549c55450f3f2491edf9bba6859f52d"
+      "candidate": "440c2a8e4f9a120521b5723758506404d36646364033c2617c7b4298073c2336"
     },
     "app/play.html": {
       "baseline": "4e3f14c2286f915feb168785716a6b086f0a1556c3c84f4c34a8885e83e1faee",
-      "candidate": "637b7a37a960586b64d4e11af5e5ab93cbd730d31530da75920cb30322942480"
+      "candidate": "3075f0fc96396054bd22a32f020c4736aaf05a385a4df359a705a91b8ca344bb"
     },
     "app/engine/engine.js": {
       "baseline": "c3241a46d2b78353ed7d9d403fbe1680395a0dc55f8c2ff37eb4ba6fee0eb4ff",
-      "candidate": "d889290e2854cec6212140f391465f0704882808778c8c02766d2121b96e9744"
+      "candidate": "088d789f81fca48d54b79d4c579742a12849fc42d3c4b979d2526280677ae7b0"
     }
   }
 }

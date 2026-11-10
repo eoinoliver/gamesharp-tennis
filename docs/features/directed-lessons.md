@@ -10,13 +10,16 @@ The pilot adapts the local showcase's editorial pattern into the shared engine:
 - Settle into the existing question and option layout.
 - Play the selected route in full, rewind to its first contact and play the
   preferred alternative (or the contrasting shot if the first choice was best).
-- Animate the existing ten landing samples for each option and retain their
-  counts beside the feedback. These are authored visual samples, not measured
-  probabilities or new trials. About retains the educational explanation.
+- After commitment, reveal all four original answer tiles with one brief glow,
+  qualitative colour and a short cue grounded in the existing explanation. Each
+  tile plays its route without changing the first answer. Text conveys the meaning
+  without relying on colour. Reduced motion disables the glow.
+- The app has no directed ten-trial animation or numerical probability board.
+  The independent social showcase remains untouched.
 
 Comparison is sequential from the same contact, keeping the court legible on a
 phone. It cannot replace or score the first answer. Normal feedback, Inspect
-contact, Try another, saved cues, recap, professional context and Home remain.
+contact, saved cues, recap, professional context and Home remain.
 
 Every sequence has a keyboard-accessible skip. Stage tap and playback control
 pause both held evidence and motion. Background tabs stop the director clock.
