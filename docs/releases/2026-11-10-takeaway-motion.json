@@ -1,0 +1,56 @@
+{
+  "approvedHead": "8591328eb2bb8d1d54058add43a612f907fb8e3b",
+  "approval": "I\u2019d happy deploy all live",
+  "approvedApp": "eac907fa40",
+  "projectId": "prj_SHIw7K0JxhCtoQQgh1zVHlR3r2Pe",
+  "teamId": "team_FbcFTSxz1dTyY33hXlXd1S6D",
+  "automaticProductionDomains": false,
+  "rollback": {
+    "id": "dpl_E2cV5QAmYdUx42QpTsv71tfdVqhw",
+    "url": "https://gamesharp-tennis-k90euz4x9-eoinlynn-5978s-projects.vercel.app",
+    "commit": "0525c0c7847dc563d289be3a9303e8ca2569ab61"
+  },
+  "status": "live_verified",
+  "gitTreeEqual": true,
+  "tree": "34db2211380d6b3aaf391f299823257b9c7b330a",
+  "approvedCommit": "8591328eb2bb8d1d54058add43a612f907fb8e3b",
+  "mergeCommit": "76122e3a9abdb322eff06f45ee2c684f40803cf9",
+  "projectSettingsEqual": true,
+  "runtimeConfigEqual": true,
+  "functions": 0,
+  "applicationEnvironmentVariables": 0,
+  "buildEnvironmentKeyDifferences": [
+    "VERCEL_DETECT_CRYPTO_MINER_IN_BUILD_LOG",
+    "VERCEL_PREWARM_CLI",
+    "VERCEL_RICHER_DEPLOYMENT_OUTPUTS"
+  ],
+  "explanation": "Only Vercel platform flags differ. The static Python builder reads repository files, not environment variables. There are no configured app environment inputs or runtime functions. Identical Git tree, full output path inventory and all public file hashes establish application output parity. Preview HTML contains only the verifier-approved Vercel Feedback suffix; Production does not. Deployment IDs, timestamps, Git merge metadata, URLs and target differ as expected.",
+  "routing": "Root vercel.json identical by Git tree; all configured redirects, headers and exclusions verified on staged production (618/618 host checks).",
+  "hostChecks": 618,
+  "browserChecks": 616,
+  "browserErrors": [],
+  "productionDeploymentId": "dpl_bYEagL2zpq8nyuqazPcD8FrqTmr5",
+  "productionDeploymentUrl": "https://gamesharp-tennis-4nbmyg68t-eoinlynn-5978s-projects.vercel.app",
+  "appVersion": "eac907fa40",
+  "verifiedAt": "2026-11-10T01:30:42.631357+00:00",
+  "liveUrl": "https://www.gamesharptennis.com",
+  "liveFileRoutingChecks": 618,
+  "liveBrowserChecks": 18,
+  "liveBrowserErrors": [],
+  "apexRedirect": "307 to https://www.gamesharptennis.com/",
+  "autoAssignCustomDomains": false,
+  "rollbackRequired": false,
+  "rollbackDeploymentId": "dpl_E2cV5QAmYdUx42QpTsv71tfdVqhw",
+  "rollbackApp": "e4cf57314d",
+  "outputInventoryCount": 476,
+  "outputInventoryPathSha256": "9b0533be8b3185247bb8ae8092739126f5921f0d5b6e862c99dbe28261fef37e",
+  "coverage": {
+    "dailySummaries": 32,
+    "animatedPanels": 64,
+    "nonDailyActivitiesUnchanged": 31
+  },
+  "limits": [
+    "Browser checks are not physical-device testing.",
+    "Schematic learning cues are not measured trajectories."
+  ]
+}
