@@ -3,7 +3,7 @@ window.GSTakeaways=(()=>{
   const cards=__TAKEAWAYS__;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const dot=(p,cls,r=5)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${r}" class="${cls}"/>`;
-  function drawing(p,id,motion){
+  function drawing(p,id){
     const arrow=(from,to,cls='tk-ball-path')=>`<path class="${cls}" d="M${from} L${to}" marker-end="url(#${id}-${cls==='tk-move'?'move':'ball'})"/>`;
     let body='';
     if(p.kind==='court'){
@@ -14,21 +14,23 @@ window.GSTakeaways=(()=>{
         body+=arrow(p.you,p.target,'tk-ball-path')+dot(p.target,'tk-ball',3.5);
       }
       if(p.opMove)body+=arrow(p.them,p.opMove,'tk-move');
-      if(p.move){const origin=motion==='recovery'?p.you:p.move;body+=arrow(p.you,p.move,'tk-move')+`<circle cx="${origin[0]}" cy="${origin[1]}" r="6" class="tk-future"/>`;}
-      const you=motion==='recovery'?p.move:p.you;
+      if(p.move)body+=arrow(p.you,p.move,'tk-move')+`<circle cx="${p.you[0]}" cy="${p.you[1]}" r="6" class="tk-future"/>`;
+      const you=p.move||p.you;
+      const sideLabel=p.move&&Math.abs(p.you[0]-you[0])<20&&p.you[1]-you[1]>10;
+      const label=sideLabel?[you[0]-22,you[1]+3]:[Math.min(132,Math.max(28,you[0])),Math.min(184,you[1]+16)];
       body+=dot(p.them,'tk-opponent')+dot(you,'tk-you');
-      body+=`<text x="${Math.min(132,Math.max(28,p.them[0]))}" y="${p.them[1]<20?p.them[1]+17:p.them[1]-11}" class="tk-person-label">THEM</text><text x="${Math.min(132,Math.max(28,you[0]))}" y="${Math.min(184,you[1]+16)}" class="tk-person-label">YOU</text>`;
+      body+=`<text x="${Math.min(132,Math.max(28,p.them[0]))}" y="${p.them[1]<20?p.them[1]+17:p.them[1]-11}" class="tk-person-label">THEM</text><text x="${label[0]}" y="${label[1]}" class="tk-person-label">YOU</text>`;
       if(p.lefty)body+='<text x="52" y="9" class="tk-side-label">BH</text><text x="108" y="9" class="tk-side-label">FH</text>';
     }else if(p.kind==='height'){
       body='<path class="tk-ground" d="M12 153H148"/><path class="tk-net" d="M95 92V153 M91 92H100"/><path class="tk-net-mesh" d="M97 96V153"/>';
       const y=p.slice?117:p.low?125:p.high?42:77;
-      const path=p.slice?'M26 117 Q72 38 141 124':p.low?'M26 125 Q70 40 142 122':p.high?'M26 98 Q70 0 142 93':p.kick?'M26 76 Q81 15 124 150 Q132 127 143 95':'M26 77 Q81 68 141 116';
+      const path=p.slice?'M26 117 Q72 38 141 124':p.low?'M26 125 Q70 40 142 122':p.high?'M26 98 Q70 0 142 93':p.kick?'M26 76 Q81 15 124 150 Q132 127 143 95':'M26 77 Q81 60 141 116';
       body+=`<path class="tk-reference" d="M12 92H87"/><path class="tk-ball-path" d="${path}" marker-end="url(#${id}-ball)"/>`+dot([26,p.kick?76:p.high?98:y],'tk-ball',6);
       body+='<text x="96" y="176" class="tk-person-label">NET</text>';
     }else if(p.kind==='position'){
-      body='<path class="tk-court" d="M26 96H134 M26 30V166 M134 30V166"/><text x="80" y="88" class="tk-person-label">BASELINE</text>';
+      body='<path class="tk-court" d="M26 96H134 M26 30V166 M134 30V166"/><text x="113" y="88" class="tk-person-label">BASELINE</text>';
       const to=p.position==='in'?[80,52]:[80,152];
-      body+=dot([80,110],'tk-you',7)+arrow([80,110],to,'tk-move')+`<circle cx="${to[0]}" cy="${to[1]}" r="8" class="tk-future"/>`;
+      body+=dot(to,'tk-you',7)+arrow([80,110],to,'tk-move')+'<circle cx="80" cy="110" r="8" class="tk-future"/>';
       body+=dot([107,p.position==='in'?37:53],'tk-ball',5);
     }else if(p.kind==='contact'){
       // A top-down spacing cue: the short bar marks the player's shoulder line.
@@ -53,9 +55,8 @@ window.GSTakeaways=(()=>{
   }
   function render(slug,{home=false}={}){
     const c=cards[slug];if(!c)return '';
-    const motion=slug==='short-ball'?'height':slug==='recovery'?'recovery':'';
     const prefix=`tk-${home?'home':'lesson'}-${slug}`;
-    return `<figure class="lesson-takeaway${home?' takeaway-home':''}" data-takeaway="${esc(slug)}"${motion?` data-takeaway-motion="${motion}"`: ""} aria-label="Visual takeaway: ${esc(c.title)}">${home?`<div class="takeaway-eyebrow">Take this onto court</div><h1 class="takeaway-title">${esc(c.title)}</h1>`:''}<div class="takeaway-pair">${c.panels.map((p,i)=>`<div class="takeaway-panel"><p class="takeaway-condition">${esc(p.label)}</p>${drawing(p,prefix+'-'+i,motion)}<p class="takeaway-action">${esc(p.caption)}</p></div>`).join('')}</div><figcaption class="takeaway-rule${home?' daily-cue':''}">${esc(c.rule)}</figcaption></figure>`;
+    return `<figure class="lesson-takeaway${home?' takeaway-home':''}" data-takeaway="${esc(slug)}" data-takeaway-motion="authored" aria-label="Visual takeaway: ${esc(c.title)}">${home?`<div class="takeaway-eyebrow">Take this onto court</div><h1 class="takeaway-title">${esc(c.title)}</h1>`:''}<div class="takeaway-pair">${c.panels.map((p,i)=>`<div class="takeaway-panel" data-panel-motion="${p.motion}"><p class="takeaway-condition">${esc(p.label)}</p>${drawing(p,prefix+'-'+i)}<p class="takeaway-action">${esc(p.caption)}</p></div>`).join('')}</div><figcaption class="takeaway-rule${home?' daily-cue':''}">${esc(c.rule)}</figcaption></figure>`;
   }
   // Motion is a progressive enhancement. The rendered SVG is always the complete
   // readable takeaway, including the recovery destination, without this controller.
@@ -69,9 +70,7 @@ window.GSTakeaways=(()=>{
     const pending=new Set();
     const key=f=>(f.classList.contains('takeaway-home')?'home:':'lesson:')+f.dataset.takeaway;
     function settle(f){
-      if(active?.figure===f){cancelAnimationFrame(frame);active=null;}
-      f.querySelectorAll('.tk-travel-path,.tk-travel-ball').forEach(e=>e.remove());
-      f.querySelectorAll('.tk-ball-path,.tk-ball,.tk-you').forEach(e=>{e.style.removeProperty('opacity');e.removeAttribute('transform');});
+      if(active?.figure===f){cancelAnimationFrame(frame);active.parts.forEach(p=>p.restore());active=null;}
       f.dataset.motionState='settled';pending.delete(f);
       observer?.unobserve(f.querySelector('.takeaway-pair'));
     }
@@ -91,23 +90,57 @@ window.GSTakeaways=(()=>{
       seen.add(key(f));f.dataset.motionState='playing';
       const panels=cards[f.dataset.takeaway].panels;
       const parts=[...f.querySelectorAll('.tk-drawing')].map((svg,i)=>{
-        if(f.dataset.takeawayMotion==='recovery'){
-          const actor=svg.querySelector('.tk-you'),from=panels[i].you,to=panels[i].move;
-          return {paint(t){const q=t*t*(3-2*t);actor.setAttribute('transform',`translate(${(from[0]-to[0])*(1-q)} ${(from[1]-to[1])*(1-q)})`);}};
+        const p=panels[i],paints=[],restores=[];
+        const clamp=t=>Math.max(0,Math.min(1,t));
+        function translate(actor,dx,dy,progress=t=>t){
+          const original=actor.getAttribute('transform');
+          actor.dataset.tkAnimated='';
+          paints.push(t=>{const q=clamp(progress(t)),ease=q*q*(3-2*q);actor.setAttribute('transform',`translate(${dx*(1-ease)} ${dy*(1-ease)})`);});
+          restores.push(()=>{if(original===null)actor.removeAttribute('transform');else actor.setAttribute('transform',original);delete actor.dataset.tkAnimated;});
         }
-        const path=svg.querySelector('.tk-ball-path'),origin=svg.querySelector('.tk-ball');
-        const trace=path.cloneNode(false),ball=origin.cloneNode(false),length=path.getTotalLength();
-        trace.classList.add('tk-travel-path');trace.removeAttribute('marker-end');
-        trace.style.strokeDasharray=String(length);trace.style.strokeDashoffset=String(length);
-        ball.classList.add('tk-travel-ball');ball.setAttribute('r','4.5');
-        svg.append(trace,ball);path.style.opacity='.22';origin.style.opacity='.45';
-        return {paint(t){
-          const pt=path.getPointAtLength(length*t);trace.style.strokeDashoffset=String(length*(1-t));
-          ball.setAttribute('cx',pt.x);ball.setAttribute('cy',pt.y);ball.style.opacity=t===0||t===1?'0':'1';
-          if(t===1){path.style.removeProperty('opacity');origin.style.removeProperty('opacity');trace.style.opacity='0';}
-        }};
+        function trace(path,{travel=false,progress=t=>t}={}){
+          const ink=path.cloneNode(false),length=path.getTotalLength(),oldOpacity=path.style.opacity;
+          ink.dataset.tkTransient='';ink.classList.add('tk-motion-trace');ink.removeAttribute('marker-end');
+          ink.style.strokeDasharray=String(length);ink.style.strokeDashoffset=String(length);
+          svg.append(ink);
+          const origin=travel?svg.querySelector('.tk-ball'):null,oldOrigin=origin?.style.opacity;
+          let ball;
+          if(origin){ball=origin.cloneNode(false);ball.dataset.tkTransient='';ball.classList.add('tk-travel-ball');ball.setAttribute('r','4.5');svg.append(ball);}
+          paints.push(t=>{
+            const q=clamp(progress(t)),moving=q>0&&q<1;
+            path.style.opacity=moving?'.25':oldOpacity;
+            ink.style.strokeDashoffset=String(length*(1-q));ink.style.opacity=moving?'1':'0';
+            if(ball){const pt=path.getPointAtLength(length*q);ball.setAttribute('cx',pt.x);ball.setAttribute('cy',pt.y);ball.style.opacity=moving?'1':'0';origin.style.opacity=moving?'.45':oldOrigin;}
+          });
+          restores.push(()=>{ink.remove();ball?.remove();path.style.opacity=oldOpacity;if(origin)origin.style.opacity=oldOrigin;});
+        }
+        if(['height','shot','shot-follow'].includes(p.motion)){
+          trace(svg.querySelector('.tk-ball-path'),{travel:true,progress:p.motion==='shot-follow'?t=>t/.65:t=>t});
+        }
+        if(p.motion==='move'||p.motion==='shot-follow'){
+          const from=p.kind==='position'?[80,110]:p.you,to=p.kind==='position'?[80,p.position==='in'?52:152]:p.move;
+          translate(svg.querySelector('.tk-you'),from[0]-to[0],from[1]-to[1],p.motion==='shot-follow'?t=>(t-.65)/.35:t=>t);
+        }else if(p.motion==='space'){
+          trace(svg.querySelector('.tk-space'));
+        }else if(p.motion==='contact'){
+          // Highlight the contact location without inventing a swing or moving the racket.
+          const ball=svg.querySelector('.tk-ball'),ring=document.createElementNS('http://www.w3.org/2000/svg','circle'),length=2*Math.PI*10;
+          for(const a of ['cx','cy'])ring.setAttribute(a,ball.getAttribute(a));
+          ring.setAttribute('r','10');ring.setAttribute('class','tk-contact-highlight');ring.dataset.tkTransient='';
+          ring.style.strokeDasharray=String(length);svg.append(ring);
+          paints.push(t=>{ring.style.strokeDashoffset=String(length*(1-t));ring.style.opacity=t>0&&t<1?'1':'0';});
+          restores.push(()=>ring.remove());
+        }else if(p.motion==='split-rise'||p.motion==='split-land'){
+          translate(svg.querySelector('.tk-foot'),0,p.motion==='split-rise'?12:-12,p.motion==='split-land'?t=>t/.6:t=>t);
+          if(p.motion==='split-land')trace(svg.querySelector('.tk-move'),{progress:t=>(t-.6)/.4});
+        }else if(p.motion==='chase'||p.motion==='steps'){
+          trace(svg.querySelector('.tk-move'));
+        }else if(p.motion==='look'){
+          trace(svg.querySelector('path.tk-eye'));
+        }
+        return {paint(t){paints.forEach(fn=>fn(t));},restore(){restores.forEach(fn=>fn());}};
       });
-      parts.forEach(p=>p.paint(0));active={figure:f};
+      parts.forEach(p=>p.paint(0));active={figure:f,parts};
       const began=performance.now();
       function tick(now){
         if(!f.isConnected||document.hidden||reduce.matches){settle(f);return;}

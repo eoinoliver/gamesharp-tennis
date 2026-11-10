@@ -9,6 +9,9 @@ def build_takeaways(src, out, catalogue):
     cards = json.loads((src / 'takeaways.json').read_text())
     assert set(cards) == {l['slug'] for l in catalogue['daily']}, 'Daily takeaway coverage differs'
     kinds = {'court', 'height', 'position', 'contact', 'timing', 'arrival', 'sequence'}
+    motions = {'court': {'shot', 'shot-follow', 'move'}, 'height': {'height'}, 'position': {'move'},
+               'contact': {'space', 'contact'}, 'timing': {'split-rise', 'split-land'},
+               'arrival': {'space', 'chase'}, 'sequence': {'steps', 'look'}}
     for slug, card in cards.items():
         lesson = json.loads((out / 'lessons' / (slug + '.json')).read_text())['lesson']
         digest = hashlib.sha256(json.dumps(lesson, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
@@ -17,6 +20,10 @@ def build_takeaways(src, out, catalogue):
         assert len(card['title']) < 65 and len(card['rule'].split()) <= 40, slug
         for p in card['panels']:
             assert p['kind'] in kinds and p['label'] and p['caption'], slug
+            assert p.get('motion') in motions[p['kind']], f'Missing or incompatible takeaway motion: {slug}'
+            if p['kind'] == 'court':
+                assert p['motion'] == ('shot-follow' if p.get('target') and p.get('move') else 'shot' if p.get('target') else 'move'), slug
+                assert p.get('target') or p.get('move'), slug
             assert len(p['label']) <= 29 and len(p['caption']) <= 32, slug
             for key in ('you', 'them', 'target', 'move', 'opMove'):
                 if p.get(key) is not None:

@@ -18,7 +18,8 @@
         "target": [
           55,
           38
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "Deep return",
@@ -35,7 +36,8 @@
         "target": [
           80,
           32
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "2f6f318a8756d1e241ab0b044c2ead61c14aaaa5cc2450ad0930ed6be6e559e8"
@@ -48,13 +50,15 @@
         "label": "Low contact",
         "caption": "Lift the approach",
         "kind": "height",
-        "low": true
+        "low": true,
+        "motion": "height"
       },
       {
         "label": "Higher + set",
         "caption": "Attack with margin",
         "kind": "height",
-        "low": false
+        "low": false,
+        "motion": "height"
       }
     ],
     "source": "440a1f02d5fe52dd3564b22bff7a3debc57b3caaf4754b89ccc0246b9bf3ab30"
@@ -78,7 +82,8 @@
         "target": [
           53,
           36
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "Balanced + set",
@@ -95,7 +100,8 @@
         "target": [
           110,
           38
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "ecf67d480f3df17f3638014cf9597ae6cc0d560aa4be02d30cfeda82f7e7f1f8"
@@ -120,7 +126,8 @@
           111,
           20
         ],
-        "tight": true
+        "tight": true,
+        "motion": "shot"
       },
       {
         "label": "Same low ball",
@@ -138,7 +145,8 @@
           62,
           40
         ],
-        "area": true
+        "area": true,
+        "motion": "shot"
       }
     ],
     "source": "ec2bce2291403ce5e3ee691021bc5e95c4b8e1387e6d13dea6f35a372a1267f8"
@@ -164,7 +172,8 @@
           96,
           165
         ],
-        "fan": true
+        "fan": true,
+        "motion": "move"
       },
       {
         "label": "They are balanced",
@@ -183,7 +192,8 @@
           80,
           173
         ],
-        "fan": true
+        "fan": true,
+        "motion": "move"
       }
     ],
     "source": "7d60796dcdbca68f740f0df4f79692d9a4b627c66e5677f759a3ac003b52ad52"
@@ -211,7 +221,8 @@
         "opMove": [
           121,
           29
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "They have stopped",
@@ -228,7 +239,8 @@
         "target": [
           109,
           37
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "9a25718e2ed143095068c525a6d24421a6f1c685261300253af99279ee6eb2ae"
@@ -252,7 +264,8 @@
         "target": [
           80,
           37
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "Shorter + stranded",
@@ -269,7 +282,8 @@
         "target": [
           108,
           37
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "91dfc4111792ef1722da00694db13da230c77b6c9e77ac02396bcb6e5f9fe85c"
@@ -294,7 +308,8 @@
           55,
           39
         ],
-        "area": true
+        "area": true,
+        "motion": "shot"
       },
       {
         "label": "Pushed back at 5–4",
@@ -311,7 +326,8 @@
         "target": [
           80,
           36
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "f19de45d11f224cb45a7ad92b048d2f8cd98b2abeda888180cc3dc0ae091dd8a"
@@ -324,13 +340,15 @@
         "label": "Watch their strike",
         "caption": "Begin the split",
         "kind": "timing",
-        "phase": 0
+        "phase": 0,
+        "motion": "split-rise"
       },
       {
         "label": "Read the direction",
         "caption": "Land, then push",
         "kind": "timing",
-        "phase": 1
+        "phase": 1,
+        "motion": "split-land"
       }
     ],
     "source": "b9332bea490ab4a4834149aedcccb67727342dea8cf8a611948fb9e9bfa49897"
@@ -358,7 +376,8 @@
         "move": [
           100,
           110
-        ]
+        ],
+        "motion": "shot-follow"
       },
       {
         "label": "Short approach",
@@ -379,7 +398,8 @@
         "move": [
           100,
           110
-        ]
+        ],
+        "motion": "shot-follow"
       }
     ],
     "source": "1733c0c09cb678fe9978eacada1b87294ae4449619a34b19340dadb790645cba"
@@ -404,7 +424,8 @@
           80,
           33
         ],
-        "area": true
+        "area": true,
+        "motion": "shot"
       },
       {
         "label": "Middle but short",
@@ -422,7 +443,8 @@
           80,
           64
         ],
-        "tight": true
+        "tight": true,
+        "motion": "shot"
       }
     ],
     "source": "59ad819fc848c7fdaac6b64aa2a9d6709fee77c4cb12e22ddf81d8da8f83719b"
@@ -435,13 +457,15 @@
         "label": "Short + time",
         "caption": "Step in",
         "kind": "position",
-        "position": "in"
+        "position": "in",
+        "motion": "move"
       },
       {
         "label": "Deep + rushed",
         "caption": "Create space",
         "kind": "position",
-        "position": "back"
+        "position": "back",
+        "motion": "move"
       }
     ],
     "source": "2041725d9b66ef0d901a834caeceef02b933fe770c51b9c3309745823bfe12c6"
@@ -455,7 +479,8 @@
         "caption": "Add depth & kick",
         "kind": "height",
         "low": false,
-        "kick": true
+        "kick": true,
+        "motion": "height"
       },
       {
         "label": "They like it high",
@@ -472,7 +497,8 @@
         "target": [
           107,
           65
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "066625ba30c4f045cc69da4443e465817b1412449f286547968a93bfcf8367dc"
@@ -485,13 +511,15 @@
         "label": "Cramped at contact",
         "caption": "Create space",
         "kind": "contact",
-        "space": false
+        "space": false,
+        "motion": "space"
       },
       {
         "label": "Space is clear",
         "caption": "Check another cause",
         "kind": "contact",
-        "space": true
+        "space": true,
+        "motion": "space"
       }
     ],
     "source": "134237d4114f439d37e8aa3a958408abebc16b39ecd7f46ec24387094bade681"
@@ -515,7 +543,8 @@
         "target": [
           107,
           37
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "Deep + still moving",
@@ -532,7 +561,8 @@
         "target": [
           106,
           37
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "8c80c413dd73e4f41382e4877e6c8449497613ac37ff3e27a3a53fb4d1ec24af"
@@ -556,13 +586,15 @@
         "target": [
           81,
           61
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "Crowding the net",
         "caption": "Lob over them",
         "kind": "height",
-        "high": true
+        "high": true,
+        "motion": "height"
       }
     ],
     "source": "a14e7086d93af1874318c6688f3f0bac28f2a78bf4eb9b3f1a854f37905f96f6"
@@ -586,7 +618,8 @@
         "target": [
           51,
           34
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "They shade crosscourt",
@@ -603,7 +636,8 @@
         "target": [
           110,
           34
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "96333d14f19ddbf00476ed00b3608b45ad0551e1dd39b04a9d6da2d40c8d81b9"
@@ -617,14 +651,16 @@
         "caption": "Late in this example",
         "kind": "contact",
         "space": true,
-        "late": true
+        "late": true,
+        "motion": "contact"
       },
       {
         "label": "Prepared earlier",
         "caption": "Meet it in front",
         "kind": "contact",
         "space": true,
-        "front": true
+        "front": true,
+        "motion": "contact"
       }
     ],
     "source": "51472f73d1a4bc9941a5ada43b3a88fb285052d4a94c125be71c6bcf956025f2"
@@ -637,7 +673,8 @@
         "label": "High rally ball",
         "caption": "Step in early",
         "kind": "position",
-        "position": "in"
+        "position": "in",
+        "motion": "move"
       },
       {
         "label": "The reply is short",
@@ -658,7 +695,8 @@
         "move": [
           101,
           107
-        ]
+        ],
+        "motion": "shot-follow"
       }
     ],
     "source": "9a9fba674f798e0c9cfba164ea8c568689fc20e28b4845e31ba4a3d531b34223"
@@ -682,7 +720,8 @@
         "target": [
           53,
           75
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "They hold the baseline",
@@ -703,7 +742,8 @@
         "move": [
           100,
           108
-        ]
+        ],
+        "motion": "shot-follow"
       }
     ],
     "source": "804a37479e2f84175a2bd7bd1561d292e3f74ec9a151a7f853494b0516a09f27"
@@ -727,7 +767,8 @@
         "target": [
           53,
           35
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "While the ball travels",
@@ -745,7 +786,8 @@
         "move": [
           83,
           164
-        ]
+        ],
+        "motion": "move"
       }
     ],
     "source": "42fd35f345e92bc1d773e6df5f906acb0f0eb06234cd5b21e520e4be8082c404"
@@ -769,7 +811,8 @@
         "target": [
           110,
           66
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "They move out wide",
@@ -786,7 +829,8 @@
         "target": [
           83,
           66
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "7d6c6246247852daa69181f239be621ba31a116215fc87ccf0d9b2e20126e5e9"
@@ -800,14 +844,16 @@
         "caption": "Low slice",
         "kind": "height",
         "low": true,
-        "slice": true
+        "slice": true,
+        "motion": "height"
       },
       {
         "label": "Above their strike zone",
         "caption": "Height and depth",
         "kind": "height",
         "low": false,
-        "high": true
+        "high": true,
+        "motion": "height"
       }
     ],
     "source": "6457e0315c8b5e7b6837cbb9cd32e7a0a478499fedfa8e57ad83bbf59fa023f5"
@@ -832,7 +878,8 @@
           57,
           35
         ],
-        "lefty": true
+        "lefty": true,
+        "motion": "shot"
       },
       {
         "label": "Inside-out forehand",
@@ -850,7 +897,8 @@
           108,
           35
         ],
-        "lefty": true
+        "lefty": true,
+        "motion": "shot"
       }
     ],
     "source": "cdb39e7ae3d7766706674dad36ea3b4ec1287694b8c6ce824b3f5f4f19e9b9f6"
@@ -863,13 +911,15 @@
         "label": "Big first serve",
         "caption": "Start further back",
         "kind": "position",
-        "position": "back"
+        "position": "back",
+        "motion": "move"
       },
       {
         "label": "Slower kick",
         "caption": "Step in",
         "kind": "position",
-        "position": "in"
+        "position": "in",
+        "motion": "move"
       }
     ],
     "source": "3a1436601e72ed258049eaf15d3351a5f287df1c699efc05a9ce37707d2a4b2f"
@@ -882,13 +932,15 @@
         "label": "Get there",
         "caption": "Arrive under control",
         "kind": "sequence",
-        "symbol": "feet"
+        "symbol": "feet",
+        "motion": "steps"
       },
       {
         "label": "Look up",
         "caption": "Read them before replying",
         "kind": "sequence",
-        "symbol": "eye"
+        "symbol": "eye",
+        "motion": "look"
       }
     ],
     "source": "966038df4fe66c4344f2759eef15faabc7d159d97b4d81d8965920984bd9c871"
@@ -912,7 +964,8 @@
         "target": [
           110,
           36
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "They have moved across",
@@ -929,7 +982,8 @@
         "target": [
           52,
           36
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "6e994214a99f4068e164e2139a98b966ffb7bb54238995f2b9b26c5fb544a01a"
@@ -957,7 +1011,8 @@
         "opMove": [
           83,
           29
-        ]
+        ],
+        "motion": "shot"
       },
       {
         "label": "They cover the line",
@@ -974,7 +1029,8 @@
         "target": [
           53,
           34
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "afa30f6f6bd9088d5308d18352352b8f06bc893a6ff2cd3e763b59d05f873792"
@@ -999,7 +1055,8 @@
           80,
           34
         ],
-        "area": true
+        "area": true,
+        "motion": "shot"
       },
       {
         "label": "Backhand side",
@@ -1017,7 +1074,8 @@
           80,
           34
         ],
-        "area": true
+        "area": true,
+        "motion": "shot"
       }
     ],
     "source": "690743339837a380e40d7955ba161a0c4c5a7c8e695a596117f9abe6ed4a4fba"
@@ -1030,13 +1088,15 @@
         "label": "Arrived with room",
         "caption": "Use the opening",
         "kind": "arrival",
-        "ready": true
+        "ready": true,
+        "motion": "space"
       },
       {
         "label": "Still chasing",
         "caption": "Margin, then recover",
         "kind": "arrival",
-        "ready": false
+        "ready": false,
+        "motion": "chase"
       }
     ],
     "source": "d3c01bb8e5de9cfd51997dcd6cb207972116935a4b8a33d9ca8f793e300c62f1"
@@ -1064,7 +1124,8 @@
         "move": [
           93,
           168
-        ]
+        ],
+        "motion": "shot-follow"
       },
       {
         "label": "Earlier arrival",
@@ -1081,7 +1142,8 @@
         "target": [
           55,
           35
-        ]
+        ],
+        "motion": "shot"
       }
     ],
     "source": "82a0bba16ee893913236c8be899e15abc35b55b342d0ec7ec5a3c3b630eb27a0"
@@ -1094,13 +1156,15 @@
         "label": "Controlled arrival",
         "caption": "Consider the approach",
         "kind": "arrival",
-        "ready": true
+        "ready": true,
+        "motion": "space"
       },
       {
         "label": "Still reaching",
         "caption": "Manage the reply first",
         "kind": "arrival",
-        "ready": false
+        "ready": false,
+        "motion": "chase"
       }
     ],
     "source": "1ac1bcd5726bdfe2740d22e138ef835533e06e8478f816ca2e4576cba5d8b002"
