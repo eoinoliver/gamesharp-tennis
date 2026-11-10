@@ -36,6 +36,8 @@ try{
    check(JSON.stringify(state.counts)===JSON.stringify(slug==='short-ball'?['0/10','10/10','9/10','1/10']:['10/10','5/10','4/10','7/10']),label+': authored landing counts');
    check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),label+': no horizontal overflow');
    if(pick===2)await p.screenshot({path:`${out}/${slug}-${width}-board.png`,fullPage:true});
+   await p.locator('#again').click();
+   check(await p.evaluate(()=>GSDirected.state.active&&GSDirected.state.phase==='wide'),label+': existing Replay uses the directed route');await skip(p);
    await p.locator('#directedOther').click();await skip(p);
    check(JSON.stringify(await p.evaluate(()=>ans))===JSON.stringify(state.ans),label+': skipping replay cannot rescore');
    await p.close();
@@ -70,7 +72,8 @@ try{
   await p.close();
  }
  // Pause a held deciding-detail frame; skip and navigate while callbacks are pending.
- const p=await page('short-ball');await p.evaluate(()=>window.__speed=1);await p.waitForFunction(()=>GSDirected.state.phase==='height');await p.waitForTimeout(1000);
+ const p=await page('short-ball');await p.evaluate(()=>window.__speed=1);await p.locator('#again').click();
+ check(await p.evaluate(()=>GSDirected.state.active&&GSDirected.state.phase==='opening'&&t<100),'Replay restarts the opening without skipping the decision');await p.waitForFunction(()=>GSDirected.state.phase==='height');await p.waitForTimeout(1000);
  await p.locator('#playBtn').click();await p.evaluate(()=>window.__speed=1);const held=await p.evaluate(()=>({t,cam:JSON.stringify(cam)}));await p.waitForTimeout(600);
  check(await p.evaluate(()=>GSDirected.state.paused),'held detail can pause');check(await p.evaluate(f=>t===f,held.t),'paused evidence does not advance');
  check(await p.evaluate(()=>[...document.querySelectorAll('#svg text')].filter(e=>/^(CONTACT|TAPE) \d+ CM$/.test(e.textContent)).length===2),'both height measurements visible');

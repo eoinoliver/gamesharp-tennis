@@ -12,13 +12,13 @@ window.GSDirected=(()=>{
   cap.innerHTML='<small></small><strong></strong><p></p>';$('stage').appendChild(cap);
   const dock=document.createElement('div');dock.id='directedDock';dock.className='directed-dock';dock.hidden=true;
   dock.innerHTML='<span>Watch the point</span><button type="button" id="skipDirected">Skip to decision →</button>';$('viewer').appendChild(dock);
-  let film=null,shot=null,elapsed=0,last=null,paused=false,queue=[],finish=null,board=false,eye=null,framing=null,rewatch=null;
+  let film=null,shot=null,elapsed=0,last=null,paused=false,queue=[],sequence=[],finish=null,board=false,eye=null,framing=null,rewatch=null;
   const contact=k=>contactsOf(SC[k],'you').find(f=>f>=SC[k].info.freeze-2);
   const at=()=>SC[prefix+'C'].info.youContact;
   const net=x=>.914+(1.07-.914)*Math.min(1,Math.abs(x)/6.4)**2;
   const frame=(key,f)=>{scene=key;t=f;stopAt=f;onStop=null;setPlaying(false);};
   function cancel(){
-    film=null;shot=null;queue=[];finish=null;board=false;eye=null;framing=null;last=null;
+    film=null;shot=null;queue=[];sequence=[];finish=null;board=false;eye=null;framing=null;last=null;
     clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;onStop=null;
     window.__pc=null;cap.hidden=dock.hidden=true;$('viewer').classList.remove('directing');
     if(rewatch){rewatch.remove();rewatch=null;}
@@ -34,7 +34,7 @@ window.GSDirected=(()=>{
   }
   function start(stages,cb,label){
     cancel();clearContactInspection();questionCaption();showDots=false;showTargets=null;
-    film=true;paused=false;queue=stages;finish=cb;cap.hidden=dock.hidden=false;
+    film=true;paused=false;sequence=stages.slice();queue=stages.slice();finish=cb;cap.hidden=dock.hidden=false;
     $('viewer').classList.add('directing');$('skipDirected').textContent=label;next();
   }
   function skip(){if(!film)return false;const cb=finish;cancel();setPlaying(false);cb?.();return true;}
@@ -104,7 +104,11 @@ window.GSDirected=(()=>{
     $('directedOwn').onclick=()=>{const original=ans[i]||X;answer(i,original,true,()=>{board=true;},true,prefix+original);};
     $('directedOther').onclick=()=>answer(i,ans[i]||X,true,()=>{board=true;},true);
   }
-  function replay(){if(film){skip();return true;}return false;}
+  function replay(){
+    if(film){const stages=sequence.slice(),cb=finish,label=$('skipDirected').textContent;start(stages,cb,label);return true;}
+    if(board&&LESSON.steps[step]?.scene===prefix){const X=chosen||ans[step];return answer(step,X,true,()=>{board=true;},true,prefix+X);}
+    return false;
+  }
   function desired(){
     const kind=shot?.kind||'samples',h=actorAt(SC[scene],'you',t).pose[I.hips],u=smooth(0,1800,elapsed);
     if(kind==='height')return {az:-24,el:9,d:14,fov:40,tgt:[at()[0],-2.8,.7]};
