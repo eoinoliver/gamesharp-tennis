@@ -1,0 +1,9 @@
+{
+ "slug": "recovery",
+ "set": "v3",
+ "source": "7d60796dcdbca68f740f0df4f79692d9a4b627c66e5677f759a3ac003b52ad52",
+ "panels": [
+  "<svg class=\"tk-drawing tk-editorial\" viewBox=\"0 0 160 164\" aria-hidden=\"true\" font-family=\"DM Sans, system-ui, sans-serif\"><defs><marker id=\"ed-v3-recovery-0-ARR\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\" orient=\"auto\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#ddc36d\"/></marker><pattern id=\"ed-v3-recovery-0-MESH\" width=\"6\" height=\"6\" patternUnits=\"userSpaceOnUse\"><rect width=\"6\" height=\"6\" fill=\"#0f2419\"/><path d=\"M0 0 L6 6 M6 0 L0 6\" stroke=\"#3d5e4a\" stroke-width=\".9\"/></pattern></defs><path d=\"M150 18 L10 150 L130 150 Z\" fill=\"#ddc36d\" opacity=\".22\"/><circle cx=\"150\" cy=\"16\" r=\"6\" fill=\"#e5e9db\"/><line x1=\"6\" y1=\"150\" x2=\"154\" y2=\"150\" stroke=\"#7e9f89\" stroke-width=\"1.2\" opacity=\"0.7\"/><circle cx=\"70\" cy=\"146\" r=\"8\" fill=\"#a3d2b2\" stroke=\"#10271b\" stroke-width=\"2\"/></svg>",
+  "<svg class=\"tk-drawing tk-editorial\" viewBox=\"0 0 160 164\" aria-hidden=\"true\" font-family=\"DM Sans, system-ui, sans-serif\"><defs><marker id=\"ed-v3-recovery-1-ARR\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\" orient=\"auto\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#ddc36d\"/></marker><pattern id=\"ed-v3-recovery-1-MESH\" width=\"6\" height=\"6\" patternUnits=\"userSpaceOnUse\"><rect width=\"6\" height=\"6\" fill=\"#0f2419\"/><path d=\"M0 0 L6 6 M6 0 L0 6\" stroke=\"#3d5e4a\" stroke-width=\".9\"/></pattern></defs><path d=\"M80 18 L16 150 L144 150 Z\" fill=\"#ddc36d\" opacity=\".22\"/><circle cx=\"80\" cy=\"16\" r=\"6\" fill=\"#e5e9db\"/><line x1=\"6\" y1=\"150\" x2=\"154\" y2=\"150\" stroke=\"#7e9f89\" stroke-width=\"1.2\" opacity=\"0.7\"/><circle cx=\"80\" cy=\"146\" r=\"8\" fill=\"#a3d2b2\" stroke=\"#10271b\" stroke-width=\"2\"/></svg>"
+ ]
+}

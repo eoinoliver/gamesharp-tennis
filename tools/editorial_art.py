@@ -2,8 +2,8 @@
 
 Each lesson's two takeaway panels keep their authored condition/action labels.
 This kit only supplies the drawing for each panel (160x164 viewBox, transparent),
-so the metaphor has to read without words. Output: app_src/takeaway-art/<slug>.json
-holding the two panel SVG bodies, plus a review sheet.
+so the metaphor has to read without words. Output goes to design/editorial-takeaways/<set>/,
+which the app build does not read. Sets: v1 (first pass), v2 (young Ryder), v3 (old Ryder).
 
 Palette follows takeaways.css: YOU = mint, THEM = cream, ball/decision = gold.
 """
@@ -226,7 +226,7 @@ def attack_the_backhand():
              path("M50 98 Q86 92 112 98", MUTE, 1.4, "2 3"))
     return L, R
 
-LESSONS = {
+V1 = {
     "short-ball": short_ball, "the-line": the_line, "the-winner": the_winner,
     "recovery": recovery, "forehand-bill": forehand_bill, "middle-return": middle_return,
     "running-around": running_around, "attack-the-backhand": attack_the_backhand,
@@ -246,17 +246,15 @@ def panel_svg(slug, i, body):
     return (f'<svg class="tk-drawing tk-editorial" viewBox="0 0 {W} {H}" aria-hidden="true" '
             f'font-family="DM Sans, system-ui, sans-serif">{defs(uid)}{body}</svg>')
 
-def main(repo):
-    out_dir = os.path.join(repo, "app_src", "takeaway-art")
+def build(repo, set_name, lessons):
+    """Write design/editorial-takeaways/<set>/<slug>.json. Not read by the app build."""
+    out_dir = os.path.join(repo, "design", "editorial-takeaways", set_name)
     os.makedirs(out_dir, exist_ok=True)
     cards = json.load(open(os.path.join(repo, "app_src", "takeaways.json")))
     built = {}
-    for slug, fn in LESSONS.items():
+    for slug, fn in lessons.items():
         L, R = fn()
-        built[slug] = [panel_svg(slug, 0, L), panel_svg(slug, 1, R)]
+        built[slug] = [panel_svg(f"{set_name}-{slug}", 0, L), panel_svg(f"{set_name}-{slug}", 1, R)]
         with open(os.path.join(out_dir, f"{slug}.json"), "w") as f:
-            json.dump({"slug": slug, "source": cards[slug]["source"], "panels": built[slug]}, f, indent=1)
+            json.dump({"slug": slug, "set": set_name, "source": cards[slug]["source"], "panels": built[slug]}, f, indent=1)
     return cards, built
-
-if __name__ == "__main__":
-    main(sys.argv[1])
