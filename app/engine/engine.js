@@ -920,7 +920,6 @@ function choose(i,X,demo){
 }
 function verdict(i,X,demo){
   const S=LESSON.steps[i], also=(S.alsoOk||[]).includes(LETTERS.indexOf(X)), ok=LETTERS.indexOf(X)===S.correct||also, corr=LETTERS[S.correct];
-  const d=dotsOf(S.reveal?S.scene:S.scene+X), n=d?d.filter(x=>x[2]).length:0;
   // Praise the committed decision once. Replays and better-option demos cannot earn it.
   if(ok&&!demo)celebrate(i);
   showOnly(ok||demo?[X]:[X,corr]);
@@ -930,10 +929,9 @@ function verdict(i,X,demo){
   const lab=demo?`Option ${X}`:LESSON.livePoint&&!LESSON.comparison&&i===0?(ok?'More recovery time':'Less recovery time'):also?`Also works · best: ${corr}`:ok?"Good read":`Better: ${corr}`;
   const v=$("verdict");
   zone.classList.add("ans");
-  v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div>${d?`<div class="tries ${n>=9?"good":n>=7?"mid":"bad"}">Illustrated landings · ${n}/${d.length}</div>`:""}<button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
+  v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div><button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
       <div class="copy">${S.lines[X]}</div>
       <div class="prin">${S.take}</div>
-      ${d?'<p class="illustration-note">Illustrative examples, not a prediction of your success rate.</p>':''}
       <div class="whyp" id="whyp" hidden><p>${S.payoff}</p><p>${S.principle}</p><p>${S.why}</p></div></div>
     ${LESSON.flow&&!LESSON.branch&&!ok&&i<NS()-1?`<p class="model-reset">The next decision follows the model pattern: <b>${S.opts[S.correct]}</b>. Your original answer stays saved.</p>`:''}
     <div class="acts">${S.reveal?"":`<button class="alt" id="tryOther">${ok||demo?"Try another":`Watch ${corr} play out`}</button>`}

@@ -289,6 +289,15 @@ for records, expected in [(all_takeaway_motion['source'], source), (all_takeaway
         assert expected.get(name) == hashes['baseline'], f'All-takeaway motion baseline drift: {name}'
         expected[name] = hashes['candidate']
 
+# Daily copy and About credits: retain every historical baseline unchanged.
+daily_about = json.loads((ROOT/'docs/features/daily-about-build.json').read_text())
+assert set(daily_about['source']) == {'app_src/index.html','rally/lesson_body.html','THIRD_PARTY_NOTICES.md','tools/browser-checks.mjs','tools/daily-about-browser.mjs'}
+assert set(daily_about['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
+for records, expected in [(daily_about['source'], source), (daily_about['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Daily/About baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)
