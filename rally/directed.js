@@ -32,6 +32,7 @@ window.GSDirected=(()=>{
     clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;onStop=null;
     window.__pc=null;cap.hidden=dock.hidden=true;$('viewer').classList.remove('directing');
     if(rewatch){rewatch.remove();rewatch=null;}
+    window.GSSceneEvidence?.clear();
   }
   function caption(s){cap.children[0].textContent=s.eye||'';cap.children[1].textContent=s.title||'';cap.children[2].textContent=s.copy||'';}
   function next(){
@@ -64,7 +65,7 @@ window.GSDirected=(()=>{
     const q=questionRange(S);silentPlayback=!!q.silent;frame(q.scene,q.to);showDots=false;
     remember('intro:'+S.scene);questionCaption(q.after);render();cb();
     rewatch?.remove();rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=pilot(S)&&height?'Watch the height again':'Watch the scene again';
-    rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal||S.noTargets?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);
+    rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal||S.noTargets?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);GSSceneEvidence.show(S,rewatch);
   }
   function question(S,cb,force=false){
 
@@ -87,17 +88,18 @@ window.GSDirected=(()=>{
   function finishAnswer(S,X,cb){
     const key=S.reveal?S.scene:S.scene+X;frame(key,S.reveal?questionRange(S).to:pilot(S)?contact(key)-1:SC[key].frames-1);remember('answer:'+S.scene);board=true;eye=null;showDots=!!S.reveal;cb();
   }
+  const viewing=(X,first)=>X===first?'Your first choice '+X:'Alternative '+X;
   function answer(i,X,demo,cb,force=false,only=null){
     const S=LESSON.steps[i];
     if(!pilot(S))return generalAnswer(S,X,demo,cb,force,only);
     const key=S.scene+X,alt=alternative(S,X),other=S.scene+alt;
     const end=()=>finishAnswer(S,X,cb);
     if(!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo)){
-      start([{kind:'wide',key,from:SC[key].info.freeze,to:SC[key].frames-1,play:true,eye:'Your shot',title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');return true;
+      start([{kind:'wide',key,from:SC[key].info.freeze,to:SC[key].frames-1,play:true,eye:viewing(X,ans[i]),title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');return true;
     }
     const route=(k,label)=>({kind:'wide',key:k,from:contact(k)-1,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
-    const stages=only?[route(only,only===key?'Your choice':'Compare the alternative')]:[
-      route(key,'Your choice · follow the consequence'),
+    const stages=only?[route(only,viewing(only.slice(-1),ans[i]))]:[
+      route(key,viewing(X,ans[step])+' · follow the consequence'),
       {kind:'wide',key,from:SC[key].frames-1,ms:1300,eye:'What it earns',title:height&&X==='C'?'Approach. Then volley.':endLabel(key),copy:S.lines[X]},
       {kind:'rewind',key,from:SC[key].frames-1,to:contact(key)-1,ms:1000,eye:'Rewind',title:'Same contact. Another choice.'},
       route(other,'Compare · '+S.opts[LETTERS.indexOf(alt)])
@@ -117,7 +119,7 @@ window.GSDirected=(()=>{
     }
     const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
     const short=!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo);
-    let stages=only?[route(only,'Your choice')]:[route(key,'Your choice · follow the consequence')];
+    let stages=only?[route(only,viewing(only.slice(-1),ans[step]))]:[route(key,viewing(X,ans[step])+' · follow the consequence')];
     if(!short&&!only){
       stages.push(
         {kind:'rewind',key,from:sc.frames-1,to:sc.info.freeze,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},
@@ -154,7 +156,11 @@ window.GSDirected=(()=>{
     });
     colourChoices(S);
     const b=document.createElement('div');b.className='directed-review';b.id='directedReview';
-    b.innerHTML=`<p>First answer: ${ans[i]||X} · saved. ${S.reveal?'Tap a tile to review.':'Tap a tile to replay.'}</p><div class="directed-compare"><button id="exploreDirected" aria-expanded="false" aria-controls="askOpts">${S.reveal?'Explore other answers':'Explore other shots'}</button><button id="directedOther">${S.reveal?'Replay the evidence':'Rewind & compare'}</button></div>`;
+    b.innerHTML=`<div class="directed-compare"><button id="exploreDirected" aria-expanded="false" aria-controls="askOpts">${S.reveal?'Explore other answers':'Explore other shots'}</button><button id="directedOther">${S.reveal?'Replay the evidence':'Rewind & compare'}</button></div>`;
+    const identity=document.createElement('p');identity.className='directed-identity';identity.id='directedIdentity';
+    identity.textContent=`Viewing ${X} · First answer ${ans[i]||X}`;
+    $('verdict').querySelector('.fbh').after(identity);
+    GSSceneEvidence.feedback(S,X,ans[i]||X);
     $('verdict').appendChild(b);
     if($('tryOther'))$('tryOther').hidden=true;
     $('directedOther').onclick=()=>answer(i,X,true,()=>{board=true;},true);
@@ -181,11 +187,13 @@ window.GSDirected=(()=>{
       const original=row.querySelector('.ra'),explanation=original.nextElementSibling;original.remove();
       row.querySelector('p b')?.remove();
       const box=document.createElement('div');box.className='opts';box.id='predictOptions'+i;
+      const identity=document.createElement('p');identity.className='directed-identity';
       const tools=document.createElement('div');tools.className='directed-compare';
       const explore=document.createElement('button');explore.textContent='Explore other shots';explore.setAttribute('aria-controls',box.id);
       const compare=document.createElement('button');compare.textContent='Rewind & compare';
       tools.append(explore,compare);
       function paint(){
+        identity.textContent=`Viewing ${viewed} · First answer ${first}`;
         box.replaceChildren();box.classList.toggle('directed-single',!expanded&&viewed===pick);explanation.textContent=S.lines[viewed];
         explore.setAttribute('aria-expanded',String(expanded));explore.textContent=expanded?'Show fewer':'Explore other shots';
         S.opts.forEach((text,j)=>{
@@ -199,12 +207,12 @@ window.GSDirected=(()=>{
       function play(compare){
         const key=S.scene+viewed,other=S.scene+alternative(S,viewed);
         const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
-        const stages=[route(key,'Read '+(i+1)+' · your choice')];
+        const stages=[route(key,'Read '+(i+1)+' · '+viewing(viewed,first))];
         if(compare)stages.push({kind:'rewind',key,from:SC[key].frames-1,to:SC[key].info.freeze,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},route(other,'Compare the alternative'));
-        start(stages,()=>{frame(key,SC[key].frames-1);questionCaption('Your court cue');},'Back to review →');stageInView();
+        start(stages,()=>{frame(key,SC[key].frames-1);questionCaption('Your court cue');GSSceneEvidence.feedback(S,viewed,first);},'Back to review →');stageInView();
       }
       row.querySelector('[data-watch]')?.remove();
-      row.querySelector('.rq').after(box);row.append(tools);explore.onclick=()=>{expanded=!expanded;paint();};compare.onclick=()=>play(true);paint();
+      row.querySelector('.rq').after(box,identity);row.append(tools);explore.onclick=()=>{expanded=!expanded;paint();};compare.onclick=()=>play(true);paint();
     });
   }
   function desired(){

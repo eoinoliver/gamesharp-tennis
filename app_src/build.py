@@ -72,6 +72,7 @@ for slug, pair in cat['dailyPlan']['related'].items():
 
 # ---------- engine (core + figure + the lesson runtime, data and lesson supplied by the page) ----------
 body = open(os.path.join(R, 'lesson_body.html')).read()
+body = body.replace('/* __SCENE_EVIDENCE__ */', open(os.path.join(R, 'scene-evidence.js')).read())
 body = body.replace('/* __DIRECTED_LESSONS__ */', open(os.path.join(R, 'directed.js')).read())
 body = body.replace('/* __DIRECTED_STYLES__ */', open(os.path.join(R, 'directed.css')).read())
 m = re.search(r'<script>\nconst DATA=__DATA__;\n</script>\n<script>\n__CORE__\n__FIGURE__\n</script>\n<script>\n(.*)</script>\s*$', body, re.S)

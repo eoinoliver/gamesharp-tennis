@@ -756,6 +756,7 @@ if(CONTACT_FOCUS){
 
 let stopTimer=null, stopGeneration=0, pendingStop=null, silentPlayback=false;
 function run(key,from,stop,cb,silent=false,keepRecap=false){
+  window.GSSceneEvidence?.playing();
   if(!keepRecap)cancelRecap();
   silentPlayback=silent;
   clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;
@@ -935,14 +936,14 @@ function verdict(i,X,demo){
   optEl(X).classList.add(ok?"right":"wrong"); if(!ok&&!demo) optEl(corr).classList.add("right");
   setInk(ok||S.reveal?S.unlock:endLabel(S.scene+X),!ok&&!S.reveal);
   // Every explanation remains until the learner continues, including connected points.
-  const lab=demo?`Option ${X}`:LESSON.livePoint&&!LESSON.comparison&&i===0?(ok?'More recovery time':'Less recovery time'):also?`Also works · best: ${corr}`:ok?"Good read":`Better: ${corr}`;
+  const lab=demo?`Option ${X}`:LESSON.livePoint&&!LESSON.comparison&&i===0?(ok?'More recovery time':'Less recovery time'):also?`Also works`:ok?"Good read":`Better: ${corr}`;
   const v=$("verdict");
   zone.classList.add("ans");
   v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div><button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
       <div class="copy">${S.lines[X]}</div>
       <div class="prin">${S.take}</div>
       <div class="whyp" id="whyp" hidden><p>${S.payoff}</p><p>${S.principle}</p><p>${S.why}</p></div></div>
-    ${LESSON.flow&&!LESSON.branch&&!ok&&i<NS()-1?`<p class="model-reset">The next decision follows the model pattern: <b>${S.opts[S.correct]}</b>. Your original answer stays saved.</p>`:''}
+    ${LESSON.flow&&!LESSON.branch&&!ok&&i<NS()-1?`<p class="model-reset">The next decision follows the model pattern: <b>${S.opts[S.correct]}</b>. Your first answer still counts for this attempt.</p>`:''}
     <div class="acts">${S.reveal?"":`<button class="alt" id="tryOther">${ok||demo?"Try another":`Watch ${corr} play out`}</button>`}
     <button class="next" id="next">${LESSON.flow&&!LESSON.branch&&!ok&&i<NS()-1?'Continue model pattern →':demo&&LESSON.livePoint?'Continue your chosen route →':i<NS()-1?"Next decision →":LESSON.livePoint?"See what you created →":LESSON.branch?"Watch your point →":"Take it to court →"}</button></div>`;
   if(CONTACT_FOCUS){const bt=document.createElement('button');bt.id='inspectContact';bt.className='contact-inspect';bt.textContent='Inspect contact';bt.setAttribute('aria-expanded','false');bt.onclick=()=>inspectContact('first');v.querySelector('.fbh').insertBefore(bt,$('why'));}
@@ -1330,6 +1331,84 @@ function setupPredict(){
   }
   $("again").onclick=()=>{if(window.GSDirected?.replay())return;if(done||step===3){startStep(3);}else startStep(step);};
 }
+/* Describe the evidence available at the decision, never an unplayed option.
+   Positions use the renderer's poses at questionRange().to. Editorial notes
+   describe already-shown replays; they contain no recommended answer. */
+window.GSSceneEvidence=(()=>{
+  const slug=new URLSearchParams(location.search).get('l');
+  const observed={
+    'contact-clue':{
+      cp1:'In the held forehand contact, your hitting arm is tucked close to your body, with the elbow bent.',
+      cp2:'In the held forehand contact, your hitting arm has space away from your body.',
+      cp3:'In the held forehand contact, your hitting arm is tucked close to your body again.'
+    },
+    'late-is-the-culprit':{
+      lc1:'In the held forehand contact, the ball is beside and slightly behind your hitting-side hip.',
+      lc2:'The faster forehand is held with the ball beside and slightly behind your hitting-side hip again.',
+      lc3:'In the held backhand contact, the ball is beside and slightly behind your hip.'
+    },
+    'second-serve':{sq1:'In the two serves just shown, the receiver meets the first ball around chest height and the second above shoulder height.'},
+    'serve-plus-one':{daily1:'In both returns just shown, the receiver reaches outside the sideline. The return lands short, towards the middle.'},
+    'the-winner':{wn1:'The shot just shown starts from a low contact and lands on the down-the-line edge of the court.'}
+  };
+  function position(p){
+    const x=p[0],y=Math.abs(p[1]);
+    const side=Math.abs(x)<1?'near the middle':Math.abs(x)>4.115?`outside the ${x<0?'left':'right'} singles sideline`:`on the ${x<0?'left':'right'} half`;
+    const depth=y>12.4?'behind the baseline':y>11?'near the baseline':y>6.8?'between the service line and baseline':y>5.7?'near the service line':y>2.3?'inside the service box':'close to the net';
+    return `${side}, ${depth}`;
+  }
+  function movement(a,b){
+    const dx=b[0]-a[0],dy=Math.abs(b[1])-Math.abs(a[1]),parts=[];
+    if(Math.abs(dx)>.35)parts.push(dx>0?'right':'left');
+    if(Math.abs(dy)>.35)parts.push(dy>0?'away from the net':'towards the net');
+    return parts.length?`; moving ${parts.join(' and ')}`:'';
+  }
+  function describe(S){
+    const q=questionRange(S),sc=SC[q.scene],end=q.to;
+    // Held continuations have already shown the parent's last movement.
+    const from=Math.max(q.from===end?0:q.from,end-40);
+    const parts=[];
+    if(observed[slug]?.[S.scene])parts.push(observed[slug][S.scene]);
+    if(sc.info.readiness){
+      const r=sc.info.readiness;
+      parts.push(r.arrive<=end?'You have arrived at the ball and finished moving into your preparation position.':'You are still moving into your preparation position as the ball approaches.');
+    }
+    const timing=sc.info.timing;
+    if(S.reveal&&timing&&[timing.land,timing.contact,timing.push].every(f=>f>=q.from&&f<=end)){
+      parts.push(timing.land<timing.contact?'In the replay, your split step lands before their hit. There is a pause before you push off.':'In the replay, your split step lands just after their hit, followed by your first move.');
+    }
+    parts.push('At the pause, looking from your baseline:');
+    for(const [name,label] of [['you','You are'],['opp','Your opponent is'],['partner','Your partner is'],['oppPartner','Their partner is']]){
+      const now=actorAt(sc,name,end),before=actorAt(sc,name,from);
+      if(now)parts.push(`${label} ${position(now.pose[I.hips])}${before?movement(before.pose[I.hips],now.pose[I.hips]):''}.`);
+    }
+    const ball=ballAt(sc,end),before=ballAt(sc,Math.max(q.from,end-8));
+    if(ball){
+      const z=ball[2],height=z<.15?'close to the ground':z<.9?'low, below net height':z<1.25?'around waist height':z<1.55?'around chest height':z<1.9?'around shoulder height':'above head height';
+      const travel=before&&Math.abs(ball[1]-before[1])>.1?(ball[1]>before[1]?' towards their end':' towards your end'):'';
+      parts.push(`The ball is ${height}${travel?', travelling'+travel:''}.`);
+    }
+    return parts.join(' ');
+  }
+  let row=null;
+  function clear(){row?.remove();row=null;$('svg').setAttribute('aria-label','3D replay of the point');}
+  function playing(){clear();}
+  function show(S,rewatch){
+    row?.remove();row=document.createElement('div');row.className='scene-tools';row.id='sceneTools';
+    const details=document.createElement('details');details.id='sceneDescription';
+    const summary=document.createElement('summary');summary.textContent='Scene description';
+    const p=document.createElement('p');p.textContent=describe(S);p.id='sceneDescriptionText';
+    details.append(summary,p);rewatch.before(row);row.append(details,rewatch);
+    // The image has the same description even while the optional disclosure is closed.
+    $('svg').setAttribute('aria-label',p.textContent);
+  }
+  function feedback(S,X,first){
+    const identity=`Viewing option ${X}. First answer ${first}.`;
+    $('svg').setAttribute('aria-label',S.reveal?`${identity} ${describe(S)}`:`${identity} ${S.lines[X]}`);
+  }
+  return {describe,show,clear,playing,feedback};
+})();
+
 /* Catalogue direction: original scenes, saved first answers and format-aware review. */
 window.GSDirected=(()=>{
   const slug=new URLSearchParams(location.search).get('l');
@@ -1364,6 +1443,7 @@ window.GSDirected=(()=>{
     clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;onStop=null;
     window.__pc=null;cap.hidden=dock.hidden=true;$('viewer').classList.remove('directing');
     if(rewatch){rewatch.remove();rewatch=null;}
+    window.GSSceneEvidence?.clear();
   }
   function caption(s){cap.children[0].textContent=s.eye||'';cap.children[1].textContent=s.title||'';cap.children[2].textContent=s.copy||'';}
   function next(){
@@ -1396,7 +1476,7 @@ window.GSDirected=(()=>{
     const q=questionRange(S);silentPlayback=!!q.silent;frame(q.scene,q.to);showDots=false;
     remember('intro:'+S.scene);questionCaption(q.after);render();cb();
     rewatch?.remove();rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=pilot(S)&&height?'Watch the height again':'Watch the scene again';
-    rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal||S.noTargets?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);
+    rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal||S.noTargets?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);GSSceneEvidence.show(S,rewatch);
   }
   function question(S,cb,force=false){
 
@@ -1419,17 +1499,18 @@ window.GSDirected=(()=>{
   function finishAnswer(S,X,cb){
     const key=S.reveal?S.scene:S.scene+X;frame(key,S.reveal?questionRange(S).to:pilot(S)?contact(key)-1:SC[key].frames-1);remember('answer:'+S.scene);board=true;eye=null;showDots=!!S.reveal;cb();
   }
+  const viewing=(X,first)=>X===first?'Your first choice '+X:'Alternative '+X;
   function answer(i,X,demo,cb,force=false,only=null){
     const S=LESSON.steps[i];
     if(!pilot(S))return generalAnswer(S,X,demo,cb,force,only);
     const key=S.scene+X,alt=alternative(S,X),other=S.scene+alt;
     const end=()=>finishAnswer(S,X,cb);
     if(!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo)){
-      start([{kind:'wide',key,from:SC[key].info.freeze,to:SC[key].frames-1,play:true,eye:'Your shot',title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');return true;
+      start([{kind:'wide',key,from:SC[key].info.freeze,to:SC[key].frames-1,play:true,eye:viewing(X,ans[i]),title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');return true;
     }
     const route=(k,label)=>({kind:'wide',key:k,from:contact(k)-1,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
-    const stages=only?[route(only,only===key?'Your choice':'Compare the alternative')]:[
-      route(key,'Your choice · follow the consequence'),
+    const stages=only?[route(only,viewing(only.slice(-1),ans[i]))]:[
+      route(key,viewing(X,ans[step])+' · follow the consequence'),
       {kind:'wide',key,from:SC[key].frames-1,ms:1300,eye:'What it earns',title:height&&X==='C'?'Approach. Then volley.':endLabel(key),copy:S.lines[X]},
       {kind:'rewind',key,from:SC[key].frames-1,to:contact(key)-1,ms:1000,eye:'Rewind',title:'Same contact. Another choice.'},
       route(other,'Compare · '+S.opts[LETTERS.indexOf(alt)])
@@ -1449,7 +1530,7 @@ window.GSDirected=(()=>{
     }
     const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
     const short=!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo);
-    let stages=only?[route(only,'Your choice')]:[route(key,'Your choice · follow the consequence')];
+    let stages=only?[route(only,viewing(only.slice(-1),ans[step]))]:[route(key,viewing(X,ans[step])+' · follow the consequence')];
     if(!short&&!only){
       stages.push(
         {kind:'rewind',key,from:sc.frames-1,to:sc.info.freeze,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},
@@ -1486,7 +1567,11 @@ window.GSDirected=(()=>{
     });
     colourChoices(S);
     const b=document.createElement('div');b.className='directed-review';b.id='directedReview';
-    b.innerHTML=`<p>First answer: ${ans[i]||X} · saved. ${S.reveal?'Tap a tile to review.':'Tap a tile to replay.'}</p><div class="directed-compare"><button id="exploreDirected" aria-expanded="false" aria-controls="askOpts">${S.reveal?'Explore other answers':'Explore other shots'}</button><button id="directedOther">${S.reveal?'Replay the evidence':'Rewind & compare'}</button></div>`;
+    b.innerHTML=`<div class="directed-compare"><button id="exploreDirected" aria-expanded="false" aria-controls="askOpts">${S.reveal?'Explore other answers':'Explore other shots'}</button><button id="directedOther">${S.reveal?'Replay the evidence':'Rewind & compare'}</button></div>`;
+    const identity=document.createElement('p');identity.className='directed-identity';identity.id='directedIdentity';
+    identity.textContent=`Viewing ${X} · First answer ${ans[i]||X}`;
+    $('verdict').querySelector('.fbh').after(identity);
+    GSSceneEvidence.feedback(S,X,ans[i]||X);
     $('verdict').appendChild(b);
     if($('tryOther'))$('tryOther').hidden=true;
     $('directedOther').onclick=()=>answer(i,X,true,()=>{board=true;},true);
@@ -1513,11 +1598,13 @@ window.GSDirected=(()=>{
       const original=row.querySelector('.ra'),explanation=original.nextElementSibling;original.remove();
       row.querySelector('p b')?.remove();
       const box=document.createElement('div');box.className='opts';box.id='predictOptions'+i;
+      const identity=document.createElement('p');identity.className='directed-identity';
       const tools=document.createElement('div');tools.className='directed-compare';
       const explore=document.createElement('button');explore.textContent='Explore other shots';explore.setAttribute('aria-controls',box.id);
       const compare=document.createElement('button');compare.textContent='Rewind & compare';
       tools.append(explore,compare);
       function paint(){
+        identity.textContent=`Viewing ${viewed} · First answer ${first}`;
         box.replaceChildren();box.classList.toggle('directed-single',!expanded&&viewed===pick);explanation.textContent=S.lines[viewed];
         explore.setAttribute('aria-expanded',String(expanded));explore.textContent=expanded?'Show fewer':'Explore other shots';
         S.opts.forEach((text,j)=>{
@@ -1531,12 +1618,12 @@ window.GSDirected=(()=>{
       function play(compare){
         const key=S.scene+viewed,other=S.scene+alternative(S,viewed);
         const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
-        const stages=[route(key,'Read '+(i+1)+' · your choice')];
+        const stages=[route(key,'Read '+(i+1)+' · '+viewing(viewed,first))];
         if(compare)stages.push({kind:'rewind',key,from:SC[key].frames-1,to:SC[key].info.freeze,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},route(other,'Compare the alternative'));
-        start(stages,()=>{frame(key,SC[key].frames-1);questionCaption('Your court cue');},'Back to review →');stageInView();
+        start(stages,()=>{frame(key,SC[key].frames-1);questionCaption('Your court cue');GSSceneEvidence.feedback(S,viewed,first);},'Back to review →');stageInView();
       }
       row.querySelector('[data-watch]')?.remove();
-      row.querySelector('.rq').after(box);row.append(tools);explore.onclick=()=>{expanded=!expanded;paint();};compare.onclick=()=>play(true);paint();
+      row.querySelector('.rq').after(box,identity);row.append(tools);explore.onclick=()=>{expanded=!expanded;paint();};compare.onclick=()=>play(true);paint();
     });
   }
   function desired(){

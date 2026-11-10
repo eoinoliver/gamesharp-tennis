@@ -316,6 +316,15 @@ for records, expected in [(catalogue_direction['source'], source), (catalogue_di
         assert expected.get(name) == hashes['baseline'], f'Catalogue direction baseline drift: {name}'
         expected[name] = hashes['candidate']
 
+# Trust/accessibility follow-up: preserve the catalogue candidate's fingerprints.
+trust_evidence = json.loads((ROOT/'docs/features/trust-evidence-build.json').read_text())
+assert set(trust_evidence['source']) == {'app_src/build.py','rally/directed.js','rally/directed.css','rally/lesson_body.html','rally/scene-evidence.js','tools/trust-evidence-browser.mjs','tools/browser-checks.mjs','docs/features/trust-evidence.md'}
+assert set(trust_evidence['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
+for records, expected in [(trust_evidence['source'], source), (trust_evidence['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Trust evidence baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)
