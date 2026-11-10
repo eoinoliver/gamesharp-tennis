@@ -262,6 +262,33 @@ for records, expected in [(sharing_practice['source'], source), (sharing_practic
         assert expected.get(name) == hashes['baseline'], f'Sharing/practice baseline drift: {name}'
         expected[name] = hashes['candidate']
 
+# Authored Daily recall figures; historical fingerprints stay frozen.
+takeaways = json.loads((ROOT/'docs/features/visual-takeaways-build.json').read_text())
+assert set(takeaways['source']) == set(['app_src/build.py', 'app_src/index.html', 'app_src/play_host.html', 'app_src/takeaways.css', 'app_src/takeaways.js', 'app_src/takeaways.json', 'app_src/takeaways.py', 'docs/features/visual-takeaways.md', 'tools/browser-checks.mjs', 'tools/daily-home-browser.mjs', 'tools/takeaway-browser.mjs'])
+assert set(takeaways['release']) == set(['app/catalog.js', 'app/index.html', 'app/play.html', 'app/takeaways.css', 'app/takeaways.js'])
+for records, expected in [(takeaways['source'], source), (takeaways['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Visual takeaway baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
+# One-time motion in two reviewed figures; static-summary fingerprints stay frozen.
+takeaway_motion = json.loads((ROOT/'docs/features/visual-takeaway-motion-build.json').read_text())
+assert set(takeaway_motion['source']) == set(['app_src/index.html', 'app_src/play_host.html', 'app_src/takeaways.css', 'app_src/takeaways.js', 'docs/features/visual-takeaway-motion.md', 'tools/browser-checks.mjs', 'tools/takeaway-motion-browser.mjs'])
+assert set(takeaway_motion['release']) == set(['app/catalog.js', 'app/index.html', 'app/play.html', 'app/takeaways.css', 'app/takeaways.js'])
+for records, expected in [(takeaway_motion['source'], source), (takeaway_motion['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Takeaway motion baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
+# Explicit all-Daily motion extension; preserve the original two-example fingerprints.
+all_takeaway_motion = json.loads((ROOT/'docs/features/all-takeaway-motion-build.json').read_text())
+assert set(all_takeaway_motion['source']) == set(['app_src/takeaways.css', 'app_src/takeaways.js', 'app_src/takeaways.json', 'app_src/takeaways.py', 'docs/features/all-takeaway-motion.md', 'tools/takeaway-motion-browser.mjs'])
+assert set(all_takeaway_motion['release']) == set(['app/catalog.js', 'app/index.html', 'app/play.html', 'app/takeaways.css', 'app/takeaways.js'])
+for records, expected in [(all_takeaway_motion['source'], source), (all_takeaway_motion['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'All-takeaway motion baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

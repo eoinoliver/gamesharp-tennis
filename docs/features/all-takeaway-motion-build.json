@@ -1,0 +1,51 @@
+{
+  "description": "Purposeful one-time motion across all 32 Daily takeaways and 64 authored panels.",
+  "source": {
+    "app_src/takeaways.css": {
+      "baseline": "a94d791e7c4afc7ad62a71faddb26e9fc32ed9bff4f78b0a3a7f4f74bfd49f24",
+      "candidate": "46275d58190a82d0d49dba52361090d60b37e635c821003eb6d3d83d9bade318"
+    },
+    "app_src/takeaways.js": {
+      "baseline": "4b847c1e40e8b404c97212d9098433bf5b381691f74f6e3a62cebefe9863cb75",
+      "candidate": "e038fd23392d1d487424575f267aa16ef388767b7149f20c61294b610dedd4b5"
+    },
+    "app_src/takeaways.json": {
+      "baseline": "154d6a663191bb04faae2c577de9535af962320d1e96c160406d34a2e7b6183f",
+      "candidate": "f7584d1fdc581f603d9ca0e3498b949791cf436e3a108c9d825d9db5a3d38cae"
+    },
+    "app_src/takeaways.py": {
+      "baseline": "0d6c876da1a135d15c0ca17ca656fe2c8324c39073a4f177766144ac113d83b6",
+      "candidate": "f4c3231f3cd1843760024cf53d7fd793f73a382182ea39d0c9efd2b5a8c88fd1"
+    },
+    "docs/features/all-takeaway-motion.md": {
+      "baseline": null,
+      "candidate": "3743b4924dc5de829389fe3abe2369b0c54dfc9ba893250c3a255017732d77c9"
+    },
+    "tools/takeaway-motion-browser.mjs": {
+      "baseline": "218b27d3e2204d7ad41b3570ec1934a3cf28446072101a160bc765c933d89153",
+      "candidate": "15b6b11c5bc9b02fe1cbb576b9b6825e2db7ef1bcb220f60db2f39b44faa7ebc"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "e87e677747935d50c8fb0da06be36bce33a1caba71747adce3d3342f0efe0fcf",
+      "candidate": "f0439821c6a4a9a0d37ad689611882d10f633c258c2291c86f2ddedd55257d39"
+    },
+    "app/index.html": {
+      "baseline": "b6c46c3479a0625af18ec420e85f79ea1572aaf5e572929ea8bf77b49c719b0c",
+      "candidate": "e2f7f2bf1bbb4cb2dbe0faa3870218d7896206bda01150307677b58d07cb510d"
+    },
+    "app/play.html": {
+      "baseline": "52e50f820ded44b2a3d11ab14f9cd12f74ee0654a337498dd4040b611ce82bff",
+      "candidate": "c07cf8ae42e1a5f5462aa192b970a3fe404fdce295ba8f08fd2825c4f1625a51"
+    },
+    "app/takeaways.css": {
+      "baseline": "a94d791e7c4afc7ad62a71faddb26e9fc32ed9bff4f78b0a3a7f4f74bfd49f24",
+      "candidate": "46275d58190a82d0d49dba52361090d60b37e635c821003eb6d3d83d9bade318"
+    },
+    "app/takeaways.js": {
+      "baseline": "d2333838458a347abfcad7eb361b956cca547c3132431e640a424240e0bf6c73",
+      "candidate": "3fe4a1f72efcef6b34633072f59564ac9d20b43c5cd0d17f0d05d606dfb8544e"
+    }
+  }
+}

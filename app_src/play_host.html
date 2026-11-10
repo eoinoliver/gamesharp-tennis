@@ -94,10 +94,12 @@
 })();
 </script>
 <link rel="stylesheet" href="practice.css?v=__VER__">
+<link rel="stylesheet" href="takeaways.css?v=__VER__">
 <script src="config.js?v=__VER__"></script>
 <script src="catalog.js?v=__VER__"></script>
 <script src="app.js?v=__VER__"></script>
 <script src="share.js?v=__VER__"></script>
+<script src="takeaways.js?v=__VER__"></script>
 <script src="coach.js?v=__VER__"></script>
 <script src="sfx.js?v=__VER__"></script>
 <script>
@@ -199,6 +201,8 @@ A.on((n,d)=>{
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function wrap(n){
   const w=document.getElementById("wrapup"); if(!w||w.querySelector(".appblk")) return;
+  const takeaway=window.GSTakeaways?.render(slug);
+  if(takeaway)w.firstElementChild?.querySelector('.mem')?.insertAdjacentHTML('afterend',takeaway);
   const s=A.streakNow(), nx=A.nextDaily(), nextPoint=L.livePoint&&A.nextLivePoint(), asked=A.S.fb[slug];
   const isChallenge=A.isDaily(slug)||A.CAT.predict.some(l=>l.slug===slug),featured=A.featuredDaily(),related=isChallenge&&A.relatedPoint(slug);
   const dailyEnd=isChallenge?`<div class="gs-continue daily-completion"><p class="daily-complete-message">${featured?.lesson.slug===slug?"Today's challenge complete.":'Challenge complete.'} One useful read is enough.</p><a class="next" id="dailyDone" href="./?home=1">${featured?.lesson.slug===slug?'Done for today':'Back to home'} →</a>${related?`<div class="daily-related"><div class="k">Optional · go a little further</div><h2>Now try it in a point.</h2><p>${esc(related.bridge)}</p><a class="alt" id="relatedLivePoint" href="play.html?l=${related.lesson.slug}&from=daily&lesson=${encodeURIComponent(slug)}">${esc(A.displayTitle(related.lesson))} →</a></div>`:''}${nx?`<a class="alt" id="nextDaily" href="play.html?l=${nx.slug}">Continue your personal practice →</a>`:'<a class="alt" href="./?all=1">Explore challenges →</a>'}</div>`:'';
@@ -268,6 +272,7 @@ function wrap(n){
   const storage=document.createElement('p');storage.className='strk';storage.id='progressStorage';storage.setAttribute('role','status');
   storage.textContent=A.progressSaved()?'Progress saved in this browser.':'Progress could not be saved. It is only kept on this page; leaving or reloading can lose it.';
   w.firstElementChild.append(storage);
+  window.GSTakeaways?.mount(w);
 
 }
 function afterEngine(){
