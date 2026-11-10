@@ -298,6 +298,15 @@ for records, expected in [(daily_about['source'], source), (daily_about['release
         assert expected.get(name) == hashes['baseline'], f'Daily/About baseline drift: {name}'
         expected[name] = hashes['candidate']
 
+# Directed two-lesson pilot. All historical fingerprints remain frozen.
+directed = json.loads((ROOT/'docs/features/directed-lessons-build.json').read_text())
+assert set(directed['source']) == {'app_src/build.py','rally/lesson_body.html','rally/directed.js','rally/directed.css','docs/features/directed-lessons.md','tools/directed-browser.mjs','tools/question-action-browser.mjs','tools/browser-checks.mjs'}
+assert set(directed['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
+for records, expected in [(directed['source'], source), (directed['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Directed lesson baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

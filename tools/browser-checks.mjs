@@ -14,6 +14,7 @@ const groups={
  'tools/home-motion-browser.mjs':'shell',
  'tools/home-clarity-browser.mjs':'shell',
  'tools/daily-home-browser.mjs':'shell',
+ 'tools/directed-browser.mjs':'learning',
  'tools/pro-insight-browser.mjs':'shell',
  'tools/ux-audit-browser.mjs':'shell',
  'tools/coach-browser.mjs':'sound',
@@ -34,7 +35,7 @@ const groups={
  'tools/readiness-browser.mjs':'shell','gs/app_flow.mjs':'shell','app_src/lesson-layout-regression.mjs':'shell','gs/payoff_check.mjs':'shell','gs/verify_pusher.mjs':'shell'
 };
 const suite=process.env.GS_BROWSER_SUITE||'all';
-tasks.push(['tools/daily-about-browser.mjs',base]);
+tasks.push(['tools/daily-about-browser.mjs',base],['tools/directed-browser.mjs',base]);
 if(!['all',...new Set(Object.values(groups))].includes(suite))throw Error('Unknown browser suite: '+suite);
 if(tasks.some(([file])=>!groups[file]))throw Error('Every release check must belong to exactly one suite');
 // Run cheap per-lesson contracts before the longer complete journeys.

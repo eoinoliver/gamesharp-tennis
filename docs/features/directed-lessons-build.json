@@ -1,0 +1,56 @@
+{
+  "base": "1f696552e30f65218c5e0739fdfbfaf932f4d795",
+  "scope": "Two directed Daily lessons; original authored content and scoring retained.",
+  "source": {
+    "app_src/build.py": {
+      "baseline": "dcff6a07a3ea88ac567654fb6db5c2f975c80b4e24ebf2a05773f9f652cf3731",
+      "candidate": "9add31854013976f81902bf49a1aebca401d36092044e8727f6797405b936a11"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "5dd776dcd8c1b82d93eb40104792c6e795be11901d5f288bbaadaf3235b09f37",
+      "candidate": "7c7a52dcd410e08514c1b570cdac94d193947ca8ea52ef57c5a0c66fba2910f1"
+    },
+    "rally/directed.js": {
+      "baseline": null,
+      "candidate": "3f338b81b19669e2ae6fd5a2461922a46559777a409fe54f6acff8c596d4e0ee"
+    },
+    "rally/directed.css": {
+      "baseline": null,
+      "candidate": "9c0b27ea504214f1beaa16fa997223ffeeab731db5848e82f18bdb160a614557"
+    },
+    "docs/features/directed-lessons.md": {
+      "baseline": null,
+      "candidate": "cc28667f49bc68633314eb5acfd1d1b3061a8da7b57966c3203d30b1e024c9cc"
+    },
+    "tools/directed-browser.mjs": {
+      "baseline": null,
+      "candidate": "831dc3f4b645808dfbf81e8a210fcdbe24bb8f1475e104fe337c53d5a0eb1503"
+    },
+    "tools/question-action-browser.mjs": {
+      "baseline": "43c01518631414dec43d7a279b88ee8462cb03c2d7e86d74c36a11200a634581",
+      "candidate": "7528cbecd89e2c4be4275ce2891a3ee29c8fb346a8fb118fb38f624df89c071a"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "4afc7c8aa3d3e76c524efa94b01d3a43f24f96974b9fcc10fd1827b10888b6dc",
+      "candidate": "884720c938fa93f77823c751ce7ad0fa858657143913ecd28cda07ca2ce6d608"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "fa6dd6fde08ab6efe18added184858687b0f0af2756c8589dbb8e6dd706059fe",
+      "candidate": "ae6d57bd7015790b6b0daeffb4d4e40b23fd132f3994f6010e5233c4823afb7c"
+    },
+    "app/index.html": {
+      "baseline": "09edd061b8483110dd5ff44d139e692bcd2fef2f896c590b422a02ce610bcf02",
+      "candidate": "e24f49d50abad93dffbb4a4b5b8994444af941d7d4f97f4947eb8c38134e48bb"
+    },
+    "app/play.html": {
+      "baseline": "4e3f14c2286f915feb168785716a6b086f0a1556c3c84f4c34a8885e83e1faee",
+      "candidate": "86f7b2bf1bb555f0086e94f2e45c27afb5c09945375e46e8b45b206407d579ae"
+    },
+    "app/engine/engine.js": {
+      "baseline": "c3241a46d2b78353ed7d9d403fbe1680395a0dc55f8c2ff37eb4ba6fee0eb4ff",
+      "candidate": "b7361a693a1ced67e9b933608aebf76302af04c23f3229a1255c0d19e841f3a8"
+    }
+  }
+}

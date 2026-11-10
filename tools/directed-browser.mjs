@@ -1,0 +1,83 @@
+import assert from 'node:assert/strict';
+import {chromium,webkit} from 'playwright';
+import {mkdirSync,writeFileSync} from 'node:fs';
+const base=process.argv[2],engine=process.env.GS_DIRECTED_BROWSER||'chromium';
+assert(base?.endsWith('/'));
+const browser=await ({chromium,webkit}[engine]).launch();
+const out=`app_src/evidence/directed-${engine}`;mkdirSync(out,{recursive:true});
+const checks=[],errors=[];const check=(ok,label)=>{assert(ok,label);checks.push(label);};
+async function page(slug,width=390,reduce=false,storageDenied=false){
+ const p=await browser.newPage({viewport:{width,height:width===320?568:width<700?844:900},reducedMotion:reduce?'reduce':'no-preference'});
+ p.on('pageerror',e=>errors.push(e.message));await p.route(/posthog\.com/,r=>r.fulfill({status:200,body:'{}'}));
+ await p.addInitScript(({storageDenied})=>{window.__speed=8;if(storageDenied){Storage.prototype.setItem=()=>{throw Error('Storage denied');};Storage.prototype.getItem=()=>{throw Error('Storage denied');};}},{storageDenied});
+ await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);return p;
+}
+const ready=p=>p.waitForFunction(()=>!!document.querySelector('#askOpts button:not(:disabled)'));
+const board=p=>p.locator('#directedBoard').waitFor();
+try{
+ // Every option at the two directed decisions, on mobile and desktop. Do not skip
+ // the new sequence: exercise actual callbacks, full consequences and comparisons.
+ for(const width of [390,1280])for(const slug of ['short-ball','the-winner']){
+  await Promise.all([0,1,2,3].map(async pick=>{
+   const p=await page(slug,width);const seen=new Set();
+   await p.exposeFunction('directedPhase',phase=>seen.add(phase));
+   await p.evaluate(()=>{const el=document.querySelector('#viewer');new MutationObserver(()=>window.directedPhase(el.dataset.directedPhase)).observe(el,{attributes:true,attributeFilter:['data-directed-phase']});});
+   await ready(p);
+   if(slug==='the-winner'){await p.locator('#askOpts button').nth(2).click();await p.locator('#next').click();await ready(p);}
+   const before=await p.evaluate(()=>ans.slice());await p.locator('#askOpts button').nth(pick).click();await board(p);await p.waitForTimeout(350);
+   const state=await p.evaluate(()=>({ans,step,scene,t,contact:contactsOf(SC[scene],'you').find(f=>f>=SC[scene].info.freeze-2),state:GSDirected.state,counts:[...document.querySelectorAll('.directed-row b')].map(e=>e.textContent)}));
+   const label=`${slug}/${width}/${pick}`;
+   check(seen.has('rewind')&&seen.has('samples'),label+': full comparison and samples ran');
+   check(state.ans[state.step]==='ABCD'[pick]&&before.filter(Boolean).length===state.ans.filter(Boolean).length-1,label+': comparison preserves first answer');
+   check(state.scene===(slug==='short-ball'?'sb3':'wn2')+'ABCD'[pick]&&state.t===state.contact-1,label+': board restored to original contact');
+   check(JSON.stringify(state.counts)===JSON.stringify(slug==='short-ball'?['0/10','10/10','9/10','1/10']:['10/10','5/10','4/10','7/10']),label+': authored landing counts');
+   check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),label+': no horizontal overflow');
+   if(pick===2)await p.screenshot({path:`${out}/${slug}-${width}-board.png`,fullPage:true});
+   await p.locator('#directedOther').click();await p.locator('#skipDirected').click();
+   check(JSON.stringify(await p.evaluate(()=>ans))===JSON.stringify(state.ans),label+': skipping replay cannot rescore');
+   await p.close();
+  }));
+ }
+ // Actual completions, persistence and repeat visits. Check small phone too.
+ for(const width of [320,390,1280])for(const slug of ['short-ball','the-winner']){
+  const p=await page(slug,width);await p.locator('#skipDirected').focus();await p.keyboard.press('Enter');await ready(p);
+  check(!(await p.evaluate(()=>GSDirected.state.active)),`${slug}/${width}: keyboard skip reaches decision`);
+  for(let i=0;i<3;i++){
+   await ready(p);const answer=await p.evaluate(i=>i===(new URL(location).searchParams.get('l')==='short-ball'?0:1)?(LESSON.steps[i].correct+1)%4:LESSON.steps[i].correct,i);
+   await p.locator('#askOpts button').nth(answer).click();
+   if(await p.locator('#skipDirected').isVisible())await p.locator('#skipDirected').click();
+   await p.locator('#verdict:not([hidden]) #next').waitFor();
+   if(await p.locator('#directedBoard').count()){
+    const original=await p.evaluate(()=>ans.slice());await p.locator('#directedOwn').click();await p.locator('#skipDirected').click();
+    check(JSON.stringify(await p.evaluate(()=>ans))===JSON.stringify(original),`${slug}/${width}: replay scoring unchanged`);
+    if(slug==='short-ball'){
+     await p.locator('#inspectContact').click();check(await p.evaluate(()=>!!contactInspection&&!GSDirected.state.board),`${width}: contact inspection owns its camera`);
+     await p.keyboard.press('Escape');
+    }
+   }
+   await p.locator('#why').click();check(await p.locator('#whyp').isVisible(),`${slug}/${width}/${i}: coaching retained`);
+   await p.locator('#next').click();
+  }
+  await p.locator('#progressStorage').waitFor();if(await p.locator('#skipRecap').isVisible())await p.locator('#skipRecap').click();
+  check(await p.evaluate(slug=>GSApp.S.done[slug].best===2&&GSApp.S.done[slug].total===3,slug),`${slug}/${width}: actual 2/3 progress saved`);
+  await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);await ready(p);
+  check(await p.evaluate(()=>!GSDirected.state.active),`${slug}/${width}: repeat opening immediately ready`);
+  check(await p.locator('#watchDirected').isVisible(),`${slug}/${width}: optional directed replay remains`);
+  await p.locator('#watchDirected').click();await p.locator('#skipDirected').click();await ready(p);
+  await p.close();
+ }
+ // Pause a held deciding-detail frame; skip and navigate while callbacks are pending.
+ const p=await page('short-ball');await p.waitForFunction(()=>GSDirected.state.phase==='height');
+ await p.locator('#playBtn').click();await p.evaluate(()=>window.__speed=1);const held=await p.evaluate(()=>({t,cam:JSON.stringify(cam)}));await p.waitForTimeout(600);
+ check(await p.evaluate(()=>GSDirected.state.paused),'held detail can pause');check(await p.evaluate(f=>t===f,held.t),'paused evidence does not advance');
+ await p.screenshot({path:`${out}/height-paused.png`});await p.locator('#skipDirected').click();await ready(p);
+ await p.locator('#askOpts button').nth(0).click();await p.locator('#back').click();await p.waitForURL(url=>!url.pathname.endsWith('play.html'));await p.waitForTimeout(300);await p.close();
+ for(const slug of ['short-ball','the-winner']){
+  const p=await page(slug,390,true);await ready(p);check(await p.evaluate(()=>!GSDirected.state.active),slug+': reduced-motion opening has no automatic sweep');
+  await p.close();
+ }
+ const denied=await page('short-ball',390,false,true);await denied.locator('#skipDirected').click();await ready(denied);check(true,'storage denial retains usable skip');await denied.close();
+ const other=await page('recovery');check(await other.evaluate(()=>GSDirected===null),'unrelated lesson has no director');await other.close();
+ check(!errors.length,errors.join('\n')||'no browser errors');
+}finally{await browser.close();writeFileSync(out+'/report.json',JSON.stringify({base,engine,checks,errors},null,2));}
+console.log(`PASS ${checks.length} directed lesson checks (${engine})`);

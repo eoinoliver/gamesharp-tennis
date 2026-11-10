@@ -48,6 +48,9 @@ try{
     const start=__sounds.length;
     try{
      startStep(0);
+     // Repeat visits may skip the two pilot openings; explicitly replay them
+     // here to keep this suite testing their real action/readiness gates.
+     document.querySelector('#watchDirected')?.click();
      const reserved=$('sitTx').getBoundingClientRect().height;
      const during={words:document.querySelectorAll('#sitTx .w.on').length,inert:zone.inert,
        hidden:getComputedStyle($('askQ')).visibility==='hidden',silentText:$('sitTx').getAttribute('aria-hidden')==='true'};

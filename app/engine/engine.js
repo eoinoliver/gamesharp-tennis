@@ -572,7 +572,7 @@ const CAMS=[
 let camI=0;
 const NARROW=matchMedia("(max-width:600px)"), PHONE_VH=540, PHONE_CYF=0.489, PHONE_FOV=0.8;
 // Full screen on a phone: the stage takes the screen's shape, and fixed cameras zoom so the court fills it
-function fitFull(){window.__pc=null; const tall=!isFull()&&TALL;
+function fitFull(){window.__pc=null; if(window.GSDirected?.fit())return; const tall=!isFull()&&TALL;
   if(contactCameraOn()&&contactMix()>.98){fitContactDetail();return;}
   if(!isFull()&&!tall&&!LESSON.doubles) return; const C=camI===0&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];
   if(contactCameraOn()){FOCAL*=Math.min(VH/PHONE_VH,1.6);window.__pc=[VW/2,VH/2];return;}
@@ -624,6 +624,7 @@ function serveMix(){const sc=SC[scene]; if(!sc) return 0; const W=prep(sc)["you"
     if(t>a-40&&t<b+40) return smooth(a-40,a,t)*(1-smooth(b,b+40,t));}
   return 0;}
 function setCamera(you){
+  if(window.GSDirected?.camera(you))return;
   if(contactCameraOn()){setContactCamera(you);return;}
   if(LESSON.readinessLesson&&camI===1){
     const sc=SC[scene],r=sc.info.readiness,w=prep(sc).you.find(w=>!w.fixed);
@@ -710,6 +711,7 @@ function contactSample(key,sample){
   return hits.find(f=>f>=sc.info.freeze-2)??null;
 }
 function inspectContact(sample){
+  window.GSDirected?.cancel();
   if(!CONTACT_FOCUS||!answered||done)return;
   const S=LESSON.steps[step],compare=chosen===LETTERS[S.correct]?LETTERS[(S.correct+1)%S.opts.length]:LETTERS[S.correct];
   const option=CONTACT_KIND==='space'||sample==='first'?chosen:compare;
@@ -784,6 +786,7 @@ function sfxCross(a,b){if(!window.GSSfx||document.hidden||silentPlayback||contac
     GSSfx[k](v,q?clamp(q[0]/7,-1,1)*(cam&&cam.az>0?-1:1):0,q?clamp((q[1]+12)/24,0,1):0.5);}}
 function slowMo(){return 1;}
 function tick(ts){
+  window.GSDirected?.tick(ts);
   if(document.hidden){lastTs=null;requestAnimationFrame(tick);return;}
   if(playing){if(lastTs!=null){const t0=t;t+=Math.min(50,ts-lastTs)*0.1*rate()*(window.__speed||1)*slowMo(t);
       if(t>=stopAt)t=stopAt; sfxCross(t0,t);
@@ -882,10 +885,11 @@ function questionCaption(text){
   el.textContent=text||'';el.hidden=!text;
 }
 function playQuestion(S,cb){
+  if(window.GSDirected?.question(S,cb))return;
   const q=questionRange(S);questionCaption(q.label);
   run(q.scene,q.from,q.to,()=>{questionCaption(q.after);cb();},q.silent);
 }
-function startStep(i){clearLiveComparison();emit('step',{i,fresh:i===0&&ans.every(a=>a==null)}); clearTimeout(window.__flowT);
+function startStep(i){window.GSDirected?.cancel();clearLiveComparison();emit('step',{i,fresh:i===0&&ans.every(a=>a==null)}); clearTimeout(window.__flowT);
   clearContactInspection();
   step=i; chosen=null; answered=false; showTargets=null; revealPattern=false; showDots=false; done=false;
   $("wrapup").hidden=true; setInk("");
@@ -901,6 +905,7 @@ function startStep(i){clearLiveComparison();emit('step',{i,fresh:i===0&&ans.ever
 }
 // Play one option out. demo = watching the better option after a miss (the first answer still counts).
 function choose(i,X,demo){
+  window.GSDirected?.cancel();
   if(LESSON.livePoint&&ans[i]!=null)demo=true;
   clearContactInspection();questionCaption();
   const S=LESSON.steps[i];
@@ -912,6 +917,7 @@ function choose(i,X,demo){
   }
   chosen=X; answered=true; zone.classList.remove("on"); showOnly([X]); setRail(3); setInk("");
   $("verdict").hidden=true;
+  if(window.GSDirected?.answer(i,X,demo,()=>verdict(i,X,demo)))return;
   if(S.reveal){showDots=true;if(S.pattern)revealPattern=true;verdict(i,X,demo);return;}
   showDots=!!LESSON.tenTries;
   const key=S.scene+X, fr=SC[key].info.freeze;
@@ -943,12 +949,13 @@ function verdict(i,X,demo){
     v.querySelector('.fb').appendChild(evidence);
     evidence.querySelectorAll('button').forEach(b=>b.onclick=()=>replayArrival(b.dataset.arrival));
   }
+  window.GSDirected?.feedback(i,X);
   v.hidden=false; tallView();
   $("why").onclick=()=>{const p=$("whyp"),o=p.hidden;p.hidden=!o;$("why").setAttribute("aria-expanded",o);$("why").innerHTML=`Why? <span aria-hidden="true">${o?"–":"+"}</span>`;};
   $("next").onclick=()=>{startStep(i+1);if(!done)window.scrollTo({top:0,behavior:CALM_MOTION?"auto":"smooth"});};
   if(!S.reveal) $("tryOther").onclick=()=>{
     if(!ok&&!demo){choose(i,corr,true);return;}
-    clearContactInspection();showTargets=null;chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
+    window.GSDirected?.cancel();clearContactInspection();showTargets=null;chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
     playQuestion(S,()=>{if(!S.noTargets)showTargets=S.scene;enableAsk();}); stageInView();};
 }
 function payoffHTML(p){   // Pro Lens shows open; the stroke and the drill sit in toggles so the lesson ends light; with none to offer, the take-home stays readable
@@ -1175,11 +1182,11 @@ function render(){
       parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:rr.toFixed(1),fill:"var(--ball)",stroke:"#6f7d10","stroke-width":.6}),z:zb-0.02});}}
   parts.sort((a,b)=>b.z-a.z); for(const {n} of parts) frag.appendChild(n);
   const St=mode==="daily"&&step<NS()?LESSON.steps[step]:null, fz=St&&scene.startsWith(St.scene)?SC[scene].info.freeze:null;
-  const cueOn=fz!=null&&St.cues&&g>=fz-3&&g<=fz+10;
+  const cueOn=!window.GSDirected?.active&&!window.GSDirected?.board&&fz!=null&&St.cues&&g>=fz-3&&g<=fz+10;
   if(cueOn){const bb=ballAt(sc,g);
     if(bb){seg(frag,[bb[0],bb[1],0.01],bb,"var(--ball)",2,.9);seg(frag,[bb[0]-0.12,bb[1],0.01],[bb[0]+0.12,bb[1],0.01],"var(--ball)",2,.9);
       label(frag,[bb[0]+1.0,bb[1]-0.3,0],St.cues.ball,"#e8f27a",15,1,0);}}
-  if(!detail&&(cueOn||!playing||g<160)){const hp=a=>a&&add(a.pose[I.head],[0,0,0.42]);
+  if(!window.GSDirected?.active&&!window.GSDirected?.board&&!detail&&(cueOn||!playing||g<160)){const hp=a=>a&&add(a.pose[I.head],[0,0,0.42]);
     if(you) label(frag,hp(you),cueOn?"YOU \u00b7 "+St.cues.you:"YOU","#c8a84b",15,.95,0);
     if(opp) label(frag,hp(opp),cueOn?"THEM \u00b7 "+St.cues.opp:"THEM","#9fb8d6",15,.95,0);}
   if(sc.info.doubles&&!detail&&(!playing||g<180)){
@@ -1194,6 +1201,7 @@ function render(){
     if(q)frag.appendChild(el_("circle",{cx:q.s[0].toFixed(1),cy:q.s[1].toFixed(1),r:(8+10*smooth(0,20,g-m.frame)).toFixed(1),fill:"none",stroke:"#e05252","stroke-width":2.2,opacity:1-0.5*smooth(0,30,g-m.frame)}));}}
   if(PREM()) lightOverlay(frag);
   drawArrivalEvidence(frag,sc,g);
+  window.GSDirected?.draw(frag);
   if(CONTACT_FOCUS){drawContactEvidence(frag,you,b);const m=$('contactMode');const txt=done?'':contactInspection?(CONTACT_KIND==='space'?(contactInspection.sample==='first'?'First contact · held':'Your next ball · held'):(contactInspection.missing?'No contact · ball bounces twice':'Option '+contactInspection.option+' · '+LESSON.steps[step].opts[LETTERS.indexOf(contactInspection.option)])):contactCameraOn()&&contactMix()>.95?'Contact view · look closely':'Court view · watch the result';if(m.textContent!==txt)m.textContent=txt;m.hidden=!txt;}
   svg2.replaceChildren(frag);
   {const sc2=$("scorechip"), v=sc.info.score||""; if(sc2.dataset.v!==v){sc2.dataset.v=v;sc2.hidden=!v;sc2.innerHTML=v?"YOU <b>"+v+"</b>":"";}}
@@ -1201,10 +1209,11 @@ function render(){
 }
 
 /* ---------- controls ---------- */
-$("camBtn").onclick=()=>{clearContactInspection();camI=(camI+1)%CAMS.length;toast(CAMS[camI].n);};
-$("stage").onclick=()=>{if(recapActive){toggleRecap();return;}if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);}};
-$("playBtn").onclick=()=>{if(recapActive){toggleRecap();return;}if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);} else $("again").click();};
+$("camBtn").onclick=()=>{window.GSDirected?.skip();window.GSDirected?.cancel();clearContactInspection();camI=(camI+1)%CAMS.length;toast(CAMS[camI].n);};
+$("stage").onclick=()=>{if(window.GSDirected?.pause())return;if(recapActive){toggleRecap();return;}if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);}};
+$("playBtn").onclick=()=>{if(window.GSDirected?.pause())return;if(recapActive){toggleRecap();return;}if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);} else $("again").click();};
 $("again").onclick=()=>{
+  if(window.GSDirected?.replay())return;
   clearContactInspection();
   if(done){clearLiveComparison();if(hasLessonRecap()){playLessonRecap(false);return;}if(LESSON.livePoint){questionCaption('Your chosen route');const note=$('recoveryComparison');if(note)note.textContent='Your original choices.';}const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,revealLiveCompletion);return;}
   const S=LESSON.steps[step];
@@ -1315,6 +1324,170 @@ function setupPredict(){
   }
   $("again").onclick=()=>{if(done||step===3){startStep(3);}else startStep(step);};
 }
+/* Directed pilot: shared scene data, first-answer scoring and normal lesson navigation.
+   The showcase supplies the editorial pattern; authored landing samples are not resimulated. */
+window.GSDirected=(()=>{
+  const slug=new URLSearchParams(location.search).get('l');
+  if(!['the-winner','short-ball'].includes(slug))return null;
+  const prefix=slug==='short-ball'?'sb3':'wn2',height=prefix==='sb3';
+  const palette=['#6fd6c4','#f0a35e','#c8a84b','#b9a3f0'];
+  const storeKey='gs_directed_v1_'+slug;
+  const seen=new Set();try{for(const k of JSON.parse(localStorage.getItem(storeKey)||'[]'))seen.add(k);}catch{}
+  const remember=k=>{seen.add(k);try{localStorage.setItem(storeKey,JSON.stringify([...seen]));}catch{}};
+  const cap=document.createElement('div');cap.id='directedCaption';cap.className='directed-cap';cap.hidden=true;cap.setAttribute('role','status');
+  cap.innerHTML='<small></small><strong></strong><p></p>';$('stage').appendChild(cap);
+  const dock=document.createElement('div');dock.id='directedDock';dock.className='directed-dock';dock.hidden=true;
+  dock.innerHTML='<span>Watch the point</span><button type="button" id="skipDirected">Skip to decision →</button>';$('viewer').appendChild(dock);
+  let film=null,shot=null,elapsed=0,last=null,paused=false,queue=[],finish=null,board=false,eye=null,framing=null,rewatch=null;
+  const contact=k=>contactsOf(SC[k],'you').find(f=>f>=SC[k].info.freeze-2);
+  const at=()=>SC[prefix+'C'].info.youContact;
+  const net=x=>.914+(1.07-.914)*Math.min(1,Math.abs(x)/6.4)**2;
+  const frame=(key,f)=>{scene=key;t=f;stopAt=f;onStop=null;setPlaying(false);};
+  function cancel(){
+    film=null;shot=null;queue=[];finish=null;board=false;eye=null;framing=null;last=null;
+    clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;onStop=null;
+    cap.hidden=dock.hidden=true;$('viewer').classList.remove('directing');
+    if(rewatch){rewatch.remove();rewatch=null;}
+  }
+  function caption(s){cap.children[0].textContent=s.eye||'';cap.children[1].textContent=s.title||'';cap.children[2].textContent=s.copy||'';}
+  function next(){
+    if(!film)return;
+    shot=queue.shift();elapsed=0;last=null;
+    if(!shot){const cb=finish;cancel();cb?.();return;}
+    $('viewer').dataset.directedPhase=shot.kind;caption(shot);dock.firstElementChild.textContent=shot.kind==='rewind'?'Same contact · another choice':'Watch the point';
+    if(shot.play){run(shot.key,shot.from,shot.to,next);}
+    else {frame(shot.key,shot.from);$('playIcon').innerHTML=PAUSE_I;$('playBtn').setAttribute('aria-label','Pause');}
+  }
+  function start(stages,cb,label){
+    cancel();clearContactInspection();questionCaption();showDots=false;showTargets=null;
+    film=true;paused=false;queue=stages;finish=cb;cap.hidden=dock.hidden=false;
+    $('viewer').classList.add('directing');$('skipDirected').textContent=label;next();
+  }
+  function skip(){if(!film)return false;const cb=finish;cancel();setPlaying(false);cb?.();return true;}
+  $('skipDirected').onclick=e=>{e.stopPropagation();skip();};
+  function pause(){if(!film)return false;paused=!paused;if(shot.play)setPlaying(!paused);$('playIcon').innerHTML=paused?PLAY_I:PAUSE_I;$('playBtn').setAttribute('aria-label',paused?'Play':'Pause');dock.firstElementChild.textContent=paused?'Paused · tap court to resume':'Watch the point';last=null;return true;}
+  function tick(ts){
+    if(!film)return;
+    if(document.hidden||paused){last=null;return;}
+    const dt=last==null?0:Math.min(50,ts-last)*(window.__speed||1);last=ts;elapsed+=dt;
+    if(!shot.play){
+      if(shot.kind==='rewind')t=lerp(shot.from,shot.to,smooth(0,shot.ms,elapsed));
+      if(elapsed>=shot.ms)next();
+    }
+  }
+  function restoreQuestion(S,cb){
+    const q=questionRange(S);frame(q.scene,q.to);showDots=false;
+    remember('intro:'+S.scene);questionCaption(q.after);cb();
+    rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=height?'Watch the height again':'Watch the scene again';
+    rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);
+  }
+  function question(S,cb,force=false){
+    if(S.scene!==prefix&&!(slug==='the-winner'&&S.scene==='wn1'))return false;
+    const q=questionRange(S),end=()=>restoreQuestion(S,cb);
+    if(!force&&(CALM_MOTION||seen.has('intro:'+S.scene))){end();return true;}
+    if(S.scene==='wn1'){
+      start([{kind:'opening',key:'wn1',from:62,to:298,play:true,eye:'A low ball. A narrow target.',title:'You go for the line.'},
+        {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}],end,'Skip to decision →');
+    }else if(height){
+      const key=prefix+'A';start([
+        {kind:'opening',key,from:62,to:257,play:true,eye:'A short ball. They’re still deep.',title:'A free point?'},
+        {kind:'net',key,from:257,ms:1100,eye:'Into the tape',title:'Read the height.'},
+        {kind:'rewind',key,from:257,to:contact(key)-1,ms:850,eye:'Rewind',title:'Before you swing.'},
+        {kind:'height',key:prefix+'C',from:contact(prefix+'C')-1,ms:2600,eye:'The deciding detail',title:'Below the tape.',copy:'Contact '+Math.round(at()[2]*100)+' cm. Tape '+Math.round(net(at()[0])*100)+' cm.'}
+      ],end,'Skip to decision →');
+    }else start([{kind:'sweep',key:q.scene,from:q.from,to:q.to,play:true,eye:'Same ball',title:'Choose before the result.'}],end,'Skip to decision →');
+    return true;
+  }
+  function alternative(S,X){return LETTERS[S.correct]!==X?LETTERS[S.correct]:(height?'A':'C');}
+  function finishAnswer(S,X,cb){
+    const key=S.scene+X;frame(key,contact(key)-1);remember('answer:'+S.scene);board=true;eye=null;showDots=false;cb();
+  }
+  function answer(i,X,demo,cb,force=false,only=null){
+    const S=LESSON.steps[i];if(S.scene!==prefix)return false;
+    const key=S.scene+X,alt=alternative(S,X),other=S.scene+alt;
+    const end=()=>finishAnswer(S,X,cb);
+    if(!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo)){
+      start([{kind:'wide',key,from:SC[key].info.freeze,to:SC[key].frames-1,play:true,eye:'Your shot',title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');return true;
+    }
+    const route=(k,label)=>({kind:'wide',key:k,from:contact(k)-1,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
+    const stages=only?[route(only,only===key?'Your choice':'Compare the alternative')]:[
+      route(key,'Your choice · follow the consequence'),
+      {kind:'wide',key,from:SC[key].frames-1,ms:1300,eye:'What it earns',title:height&&X==='C'?'Approach. Then volley.':endLabel(key),copy:S.lines[X]},
+      {kind:'rewind',key,from:SC[key].frames-1,to:contact(key)-1,ms:1000,eye:'Rewind',title:'Same contact. Another choice.'},
+      route(other,'Compare · '+S.opts[LETTERS.indexOf(alt)]),
+      {kind:'samples',key,from:contact(key)-1,ms:3200,eye:'Same ball · ten tries per shot',title:'Compare the margin.'}
+    ];
+    start(stages,end,'Skip to feedback →');stageInView();return true;
+  }
+  function feedback(i,X){
+    const S=LESSON.steps[i];if(S.scene!==prefix)return;
+    board=true;
+    const b=document.createElement('div');b.className='directed-board';b.id='directedBoard';
+    b.innerHTML='<p>Ten tries · balls in court</p>'+[...LETTERS].map((Y,j)=>{const d=dotsOf(prefix+Y),n=d.filter(x=>x[2]).length;
+      return `<div class="directed-row" style="--sample:${palette[j]}"><span>${S.opts[j]}${Y===ans[i]?'<small>Your first choice</small>':''}</span><span class="directed-pips" aria-hidden="true">${d.map((_,k)=>'<i class="'+(k<n?'in':'')+'"></i>').join('')}</span><b>${n}/${d.length}</b></div>`;
+    }).join('')+'<div class="directed-compare"><button id="directedOwn">Replay your shot</button><button id="directedOther">Rewind & compare</button></div>';
+    $('verdict').querySelector('.fb').appendChild(b);
+    $('directedOwn').onclick=()=>{const original=ans[i]||X;answer(i,original,true,()=>{board=true;},true,prefix+original);};
+    $('directedOther').onclick=()=>answer(i,ans[i]||X,true,()=>{board=true;},true);
+  }
+  function replay(){if(film){skip();return true;}return false;}
+  function desired(){
+    const kind=shot?.kind||'samples',h=actorAt(SC[scene],'you',t).pose[I.hips],u=smooth(0,1800,elapsed);
+    if(kind==='height')return {az:-24,el:9,d:14,fov:40,tgt:[at()[0],-2.8,.7]};
+    if(kind==='line')return {az:-177,el:9,d:9,fov:40,tgt:[-3.9,11.1,.55]};
+    if(kind==='net')return {az:-100,el:9,d:8,fov:40,tgt:[2.5,0,.65]};
+    if(kind==='opening')return {az:lerp(-115,-83,u),el:12,d:15,fov:40,tgt:[h[0]*.6,h[1]+4,.8]};
+    return {az:CALM_MOTION?-90:kind==='wide'?-90:lerp(-110,-72,u),el:kind==='wide'?29:39,d:32,fov:40,tgt:[0,0,0]};
+  }
+  function camera(){
+    if(!film&&!board)return false;
+    const c=desired();if(!eye||CALM_MOTION)eye=c;
+    else if(!paused){for(const k of ['az','el','d','fov'])eye[k]=lerp(eye[k],c[k],.09);eye.tgt=lerp3(eye.tgt,c.tgt,.09);}
+    cam={...eye,tgt:[...eye.tgt]};return true;
+  }
+  function fit(){
+    if(!film&&!board)return false;
+    const kind=shot?.kind,sc=SC[scene],you=actorAt(sc,'you',t),p=at();let points;
+    if(kind==='height')points=you.pose.concat([[p[0],0,0],[p[0],0,1.8],[p[0],p[1],0]]);
+    else if(kind==='line')points=[[-4.5,9.5,0],[-3.5,13,0],[-4,11,2]];
+    else if(kind==='net')points=[[1.3,0,0],[3.8,0,0],[2.5,0,1.7]];
+    else if(kind==='opening')points=you.pose.concat([add(you.pose[I.head],[0,0,.3]),[0,5,1]]);
+    else points=[[-5.4,-13.4,0],[5.4,-13.4,0],[-5.4,13,0],[5.4,13,0],[0,-12,2],[0,12,2]];
+    if(board||kind==='samples')points.push(...[...LETTERS].flatMap(X=>dotsOf(prefix+X).map(([x,y])=>[x,y<1?-.15:y,.02])));
+    const q=points.map(toCam).filter(q=>q.z>ZNEAR),us=q.map(q=>q.x/q.z),vs=q.map(q=>q.y/q.z);
+    const u0=Math.min(...us),u1=Math.max(...us),v0=Math.min(...vs),v1=Math.max(...vs);
+    const top=film?Math.max(120,cap.getBoundingClientRect().height*VW/$('stage').clientWidth+28):32,bottom=45;
+    const f=Math.min((VW-(kind==='height'?180:90))/(u1-u0),(VH-top-bottom)/(v1-v0)),x=VW/2-f*(u0+u1)/2,y=top+(VH-top-bottom)/2+f*(v0+v1)/2;
+    if(!framing||CALM_MOTION||!film)framing=[f,x,y];else if(!paused)framing=framing.map((v,i)=>lerp(v,[f,x,y][i],.15));
+    FOCAL=framing[0];window.__pc=framing.slice(1);return true;
+  }
+  function draw(frag){
+    if(!film&&!board)return;
+    const kind=shot?.kind;
+    if(kind==='height'){
+      const p=at(),nh=net(p[0]);seg(frag,[p[0],p[1],0],p,'#e8f27a',4,1);seg(frag,[p[0],0,0],[p[0],0,nh],'#f08a8a',4,1);
+      seg(frag,p,[p[0],0,p[2]],'#e8f27a',2,.7);
+      label(frag,[p[0],p[1],0],'CONTACT '+Math.round(p[2]*100)+' CM','#e8f27a',19,1,26);
+      label(frag,[p[0],0,nh],'TAPE '+Math.round(nh*100)+' CM','#f08a8a',19,1,-18);
+    }
+    if(kind==='line')label(frag,[-4,11.13,0],'IN BY '+Math.round(SC.wn1.info.shot.courtMargin*100)+' CM','#e3cd83',22,1,22);
+    if(kind!=='samples'&&!board)return;
+    const p=at();[...LETTERS].forEach((X,j)=>{
+      const dots=dotsOf(prefix+X);dots.forEach(([x,y,ok],k)=>{
+        const u=board?1:clamp((elapsed-k*130-j*70)/1300,0,1);if(!u)return;
+        const end=[x,y<1?-.15:y,.02],peak=y<1?.25:Math.max(.8,SC[prefix+X].info.shot.netMarginCm/100+.4);
+        let prev=p;for(let n=1;n<=Math.ceil(u*18);n++){
+          const v=Math.min(u,n/18),q=[lerp(p[0],end[0],v),lerp(p[1],end[1],v),lerp(p[2],.02,v)+4*peak*v*(1-v)];
+          seg(frag,prev,q,palette[j],1.3,board?.14:.38);prev=q;
+        }
+        if(u<1){const q=P(prev);if(q)frag.appendChild(el_('circle',{cx:q.s[0],cy:q.s[1],r:4,fill:palette[j]}));}
+        else ring(frag,end,.18,.15,ok?palette[j]:'#e07070',1.5,.9,ok?palette[j]:'none');
+      });
+    });
+  }
+  return {question,answer,feedback,cancel,skip,pause,tick,camera,fit,draw,replay,get active(){return !!film;},get board(){return board;},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
+})();
+
 if(LESSON.predict) setupPredict();
 
 if(!LESSON.cam0||LESSON.startBehind) camI=1;   // Behind you is the default view; a lesson that needs another sets cam0 (startBehind: cam0 only widens Broadcast)

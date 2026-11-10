@@ -233,6 +233,8 @@ details.note a{color:var(--gold)}
 .cue-actions{margin-top:16px}.cue-actions .alt{display:inline-block;margin-left:12px}.cue-actions p{font-size:12px;color:#b6c4ba;line-height:1.5}.completion-more,.completion-extras{margin:22px 0 0;border-top:1px solid #c8a84b30;padding:16px 0;}.completion-more>summary,.completion-extras>summary{font:600 15px "DM Sans",sans-serif;min-height:44px;cursor:pointer;color:#dbe5de;list-style:none;display:flex;align-items:center;justify-content:space-between}.completion-more>summary:after,.completion-extras>summary:after{content:'+';color:#c8a84b}.completion-more[open]>summary:after,.completion-extras[open]>summary:after{content:'−'}
 #wrapup .gs-continue{padding:20px 0;margin:0;border:0}#wrapup .gs-continue .k{display:none}#wrapup .gs-continue .next{min-height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center}#wrapup .voice-controls{margin-top:14px;}.completion-more .pay[open]{margin-top:14px}
 
+
+/* __DIRECTED_STYLES__ */
 </style>
 
 <div class="shell">
@@ -684,7 +686,7 @@ const CAMS=[
 let camI=0;
 const NARROW=matchMedia("(max-width:600px)"), PHONE_VH=540, PHONE_CYF=0.489, PHONE_FOV=0.8;
 // Full screen on a phone: the stage takes the screen's shape, and fixed cameras zoom so the court fills it
-function fitFull(){window.__pc=null; const tall=!isFull()&&TALL;
+function fitFull(){window.__pc=null; if(window.GSDirected?.fit())return; const tall=!isFull()&&TALL;
   if(contactCameraOn()&&contactMix()>.98){fitContactDetail();return;}
   if(!isFull()&&!tall&&!LESSON.doubles) return; const C=camI===0&&LESSON.cam0?{...CAMS[0],...LESSON.cam0}:CAMS[camI];
   if(contactCameraOn()){FOCAL*=Math.min(VH/PHONE_VH,1.6);window.__pc=[VW/2,VH/2];return;}
@@ -736,6 +738,7 @@ function serveMix(){const sc=SC[scene]; if(!sc) return 0; const W=prep(sc)["you"
     if(t>a-40&&t<b+40) return smooth(a-40,a,t)*(1-smooth(b,b+40,t));}
   return 0;}
 function setCamera(you){
+  if(window.GSDirected?.camera(you))return;
   if(contactCameraOn()){setContactCamera(you);return;}
   if(LESSON.readinessLesson&&camI===1){
     const sc=SC[scene],r=sc.info.readiness,w=prep(sc).you.find(w=>!w.fixed);
@@ -822,6 +825,7 @@ function contactSample(key,sample){
   return hits.find(f=>f>=sc.info.freeze-2)??null;
 }
 function inspectContact(sample){
+  window.GSDirected?.cancel();
   if(!CONTACT_FOCUS||!answered||done)return;
   const S=LESSON.steps[step],compare=chosen===LETTERS[S.correct]?LETTERS[(S.correct+1)%S.opts.length]:LETTERS[S.correct];
   const option=CONTACT_KIND==='space'||sample==='first'?chosen:compare;
@@ -896,6 +900,7 @@ function sfxCross(a,b){if(!window.GSSfx||document.hidden||silentPlayback||contac
     GSSfx[k](v,q?clamp(q[0]/7,-1,1)*(cam&&cam.az>0?-1:1):0,q?clamp((q[1]+12)/24,0,1):0.5);}}
 function slowMo(){return 1;}
 function tick(ts){
+  window.GSDirected?.tick(ts);
   if(document.hidden){lastTs=null;requestAnimationFrame(tick);return;}
   if(playing){if(lastTs!=null){const t0=t;t+=Math.min(50,ts-lastTs)*0.1*rate()*(window.__speed||1)*slowMo(t);
       if(t>=stopAt)t=stopAt; sfxCross(t0,t);
@@ -994,10 +999,11 @@ function questionCaption(text){
   el.textContent=text||'';el.hidden=!text;
 }
 function playQuestion(S,cb){
+  if(window.GSDirected?.question(S,cb))return;
   const q=questionRange(S);questionCaption(q.label);
   run(q.scene,q.from,q.to,()=>{questionCaption(q.after);cb();},q.silent);
 }
-function startStep(i){clearLiveComparison();emit('step',{i,fresh:i===0&&ans.every(a=>a==null)}); clearTimeout(window.__flowT);
+function startStep(i){window.GSDirected?.cancel();clearLiveComparison();emit('step',{i,fresh:i===0&&ans.every(a=>a==null)}); clearTimeout(window.__flowT);
   clearContactInspection();
   step=i; chosen=null; answered=false; showTargets=null; revealPattern=false; showDots=false; done=false;
   $("wrapup").hidden=true; setInk("");
@@ -1013,6 +1019,7 @@ function startStep(i){clearLiveComparison();emit('step',{i,fresh:i===0&&ans.ever
 }
 // Play one option out. demo = watching the better option after a miss (the first answer still counts).
 function choose(i,X,demo){
+  window.GSDirected?.cancel();
   if(LESSON.livePoint&&ans[i]!=null)demo=true;
   clearContactInspection();questionCaption();
   const S=LESSON.steps[i];
@@ -1024,6 +1031,7 @@ function choose(i,X,demo){
   }
   chosen=X; answered=true; zone.classList.remove("on"); showOnly([X]); setRail(3); setInk("");
   $("verdict").hidden=true;
+  if(window.GSDirected?.answer(i,X,demo,()=>verdict(i,X,demo)))return;
   if(S.reveal){showDots=true;if(S.pattern)revealPattern=true;verdict(i,X,demo);return;}
   showDots=!!LESSON.tenTries;
   const key=S.scene+X, fr=SC[key].info.freeze;
@@ -1055,12 +1063,13 @@ function verdict(i,X,demo){
     v.querySelector('.fb').appendChild(evidence);
     evidence.querySelectorAll('button').forEach(b=>b.onclick=()=>replayArrival(b.dataset.arrival));
   }
+  window.GSDirected?.feedback(i,X);
   v.hidden=false; tallView();
   $("why").onclick=()=>{const p=$("whyp"),o=p.hidden;p.hidden=!o;$("why").setAttribute("aria-expanded",o);$("why").innerHTML=`Why? <span aria-hidden="true">${o?"–":"+"}</span>`;};
   $("next").onclick=()=>{startStep(i+1);if(!done)window.scrollTo({top:0,behavior:CALM_MOTION?"auto":"smooth"});};
   if(!S.reveal) $("tryOther").onclick=()=>{
     if(!ok&&!demo){choose(i,corr,true);return;}
-    clearContactInspection();showTargets=null;chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
+    window.GSDirected?.cancel();clearContactInspection();showTargets=null;chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
     playQuestion(S,()=>{if(!S.noTargets)showTargets=S.scene;enableAsk();}); stageInView();};
 }
 function payoffHTML(p){   // Pro Lens shows open; the stroke and the drill sit in toggles so the lesson ends light; with none to offer, the take-home stays readable
@@ -1287,11 +1296,11 @@ function render(){
       parts.push({n:el_("circle",{cx:qb.s[0].toFixed(1),cy:qb.s[1].toFixed(1),r:rr.toFixed(1),fill:"var(--ball)",stroke:"#6f7d10","stroke-width":.6}),z:zb-0.02});}}
   parts.sort((a,b)=>b.z-a.z); for(const {n} of parts) frag.appendChild(n);
   const St=mode==="daily"&&step<NS()?LESSON.steps[step]:null, fz=St&&scene.startsWith(St.scene)?SC[scene].info.freeze:null;
-  const cueOn=fz!=null&&St.cues&&g>=fz-3&&g<=fz+10;
+  const cueOn=!window.GSDirected?.active&&!window.GSDirected?.board&&fz!=null&&St.cues&&g>=fz-3&&g<=fz+10;
   if(cueOn){const bb=ballAt(sc,g);
     if(bb){seg(frag,[bb[0],bb[1],0.01],bb,"var(--ball)",2,.9);seg(frag,[bb[0]-0.12,bb[1],0.01],[bb[0]+0.12,bb[1],0.01],"var(--ball)",2,.9);
       label(frag,[bb[0]+1.0,bb[1]-0.3,0],St.cues.ball,"#e8f27a",15,1,0);}}
-  if(!detail&&(cueOn||!playing||g<160)){const hp=a=>a&&add(a.pose[I.head],[0,0,0.42]);
+  if(!window.GSDirected?.active&&!window.GSDirected?.board&&!detail&&(cueOn||!playing||g<160)){const hp=a=>a&&add(a.pose[I.head],[0,0,0.42]);
     if(you) label(frag,hp(you),cueOn?"YOU \u00b7 "+St.cues.you:"YOU","#c8a84b",15,.95,0);
     if(opp) label(frag,hp(opp),cueOn?"THEM \u00b7 "+St.cues.opp:"THEM","#9fb8d6",15,.95,0);}
   if(sc.info.doubles&&!detail&&(!playing||g<180)){
@@ -1306,6 +1315,7 @@ function render(){
     if(q)frag.appendChild(el_("circle",{cx:q.s[0].toFixed(1),cy:q.s[1].toFixed(1),r:(8+10*smooth(0,20,g-m.frame)).toFixed(1),fill:"none",stroke:"#e05252","stroke-width":2.2,opacity:1-0.5*smooth(0,30,g-m.frame)}));}}
   if(PREM()) lightOverlay(frag);
   drawArrivalEvidence(frag,sc,g);
+  window.GSDirected?.draw(frag);
   if(CONTACT_FOCUS){drawContactEvidence(frag,you,b);const m=$('contactMode');const txt=done?'':contactInspection?(CONTACT_KIND==='space'?(contactInspection.sample==='first'?'First contact · held':'Your next ball · held'):(contactInspection.missing?'No contact · ball bounces twice':'Option '+contactInspection.option+' · '+LESSON.steps[step].opts[LETTERS.indexOf(contactInspection.option)])):contactCameraOn()&&contactMix()>.95?'Contact view · look closely':'Court view · watch the result';if(m.textContent!==txt)m.textContent=txt;m.hidden=!txt;}
   svg2.replaceChildren(frag);
   {const sc2=$("scorechip"), v=sc.info.score||""; if(sc2.dataset.v!==v){sc2.dataset.v=v;sc2.hidden=!v;sc2.innerHTML=v?"YOU <b>"+v+"</b>":"";}}
@@ -1313,10 +1323,11 @@ function render(){
 }
 
 /* ---------- controls ---------- */
-$("camBtn").onclick=()=>{clearContactInspection();camI=(camI+1)%CAMS.length;toast(CAMS[camI].n);};
-$("stage").onclick=()=>{if(recapActive){toggleRecap();return;}if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);}};
-$("playBtn").onclick=()=>{if(recapActive){toggleRecap();return;}if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);} else $("again").click();};
+$("camBtn").onclick=()=>{window.GSDirected?.skip();window.GSDirected?.cancel();clearContactInspection();camI=(camI+1)%CAMS.length;toast(CAMS[camI].n);};
+$("stage").onclick=()=>{if(window.GSDirected?.pause())return;if(recapActive){toggleRecap();return;}if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);}};
+$("playBtn").onclick=()=>{if(window.GSDirected?.pause())return;if(recapActive){toggleRecap();return;}if(t<stopAt){if(playing&&window.GSSfx)GSSfx.stop();setPlaying(!playing);} else $("again").click();};
 $("again").onclick=()=>{
+  if(window.GSDirected?.replay())return;
   clearContactInspection();
   if(done){clearLiveComparison();if(hasLessonRecap()){playLessonRecap(false);return;}if(LESSON.livePoint){questionCaption('Your chosen route');const note=$('recoveryComparison');if(note)note.textContent='Your original choices.';}const k=LESSON.finaleScene;run(k,LESSON.finaleFull?0:Math.max(0,SC[k].info.freeze-40),SC[k].frames-1,revealLiveCompletion);return;}
   const S=LESSON.steps[step];
@@ -1427,6 +1438,7 @@ function setupPredict(){
   }
   $("again").onclick=()=>{if(done||step===3){startStep(3);}else startStep(step);};
 }
+/* __DIRECTED_LESSONS__ */
 if(LESSON.predict) setupPredict();
 
 if(!LESSON.cam0||LESSON.startBehind) camI=1;   // Behind you is the default view; a lesson that needs another sets cam0 (startBehind: cam0 only widens Broadcast)
