@@ -37,6 +37,10 @@
     "tools/question-action-browser.mjs": {
       "baseline": "7528cbecd89e2c4be4275ce2891a3ee29c8fb346a8fb118fb38f624df89c071a",
       "candidate": "73802fb6606969f6ec493ae87df54f61c7831cec77b0ed3b34509fcd7b515851"
+    },
+    "tools/takeaway-motion-browser.mjs": {
+      "baseline": "15b6b11c5bc9b02fe1cbb576b9b6825e2db7ef1bcb220f60db2f39b44faa7ebc",
+      "candidate": "c26a720283e8bc5d170cf0b9de81fe63eff0b896d56dd415378a8890ad19ddbf"
     }
   },
   "release": {

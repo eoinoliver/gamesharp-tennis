@@ -23,10 +23,16 @@ async function home(p,slug,extra){
  await p.clock.setFixedTime(dateFor(slug));await p.goto(base+'?home=1');await p.evaluate(s=>GSApp.complete(s,2,3),slug);
  await p.addInitScript(()=>{window.__sampleMotion=true;});if(extra)await p.addInitScript(extra);await p.reload({waitUntil:'domcontentloaded'});
 }
-async function settled(p){await p.waitForFunction(()=>document.querySelector('[data-motion-state="settled"]'));}
+async function settled(p){
+ try{await p.waitForFunction(()=>document.querySelector('[data-motion-state="settled"]'));}
+ catch(error){console.error('Takeaway did not settle',await p.evaluate(()=>({url:location.href,state:document.querySelector('.lesson-takeaway')?.dataset.motionState,fonts:document.fonts?.status,rect:document.querySelector('.takeaway-pair')?.getBoundingClientRect().toJSON(),height:innerHeight,hidden:document.hidden})));throw error;}
+}
 async function finish(p,slug){await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);await p.evaluate(()=>{window.__sampleMotion=true;window.__speed=24;const delay=setTimeout;window.setTimeout=(fn,t,...a)=>delay(fn,t/8,...a);});
  for(let i=0;i<3;i++){await p.waitForFunction(i=>step===i&&!!document.querySelector('#askOpts button:not(:disabled)'),i);const correct=await p.evaluate(()=>LESSON.steps[step].correct);await p.locator('#askOpts button').nth(correct).click();await p.locator('#verdict:not([hidden]) #next').waitFor();await p.locator('#verdict #next').click();}
- if(await p.locator('#skipRecap').isVisible())await p.locator('#skipRecap').click();await p.locator('#wrapup .lesson-takeaway').waitFor();await p.locator('.takeaway-pair').scrollIntoViewIfNeeded();await settled(p);
+ if(await p.locator('#skipRecap').isVisible())await p.locator('#skipRecap').click();await p.locator('#wrapup .lesson-takeaway').waitFor();
+ // The observer excludes the bottom 80px. A fully visible pair can still be
+ // outside that trigger area; center it and cancel completion's smooth scroll.
+ await p.locator('.takeaway-pair').evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}));await settled(p);
 }
 try{
  const representative=['short-ball','recovery','high-ball','contact-clue','late-is-the-culprit','split-step','answer-the-drop','earned-attack','approach-volley'];
