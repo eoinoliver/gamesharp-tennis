@@ -53,7 +53,7 @@ try{
      await p.locator('#verdict:not([hidden]) #next').waitFor();
      check(await p.evaluate(original=>JSON.stringify({ans:ans.slice(),route:LESSON.steps.map(s=>s.scene),finale:LESSON.finaleScene})===JSON.stringify(original),original),tag+': explore '+j+' preserves first answers and connected route');
     }
-    await p.locator('#directedOther').click();await skip(p);
+    if(await p.locator('#directedOther').isVisible()){await p.locator('#directedOther').click();await skip(p);}
    }
    check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),tag+': no horizontal overflow');
    await p.locator('#why').click();check(await p.locator('#whyp').isVisible(),tag+': coaching retained');

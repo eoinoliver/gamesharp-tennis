@@ -309,7 +309,7 @@ for records, expected in [(directed['source'], source), (directed['release'], ma
 
 # Catalogue-wide direction extends the reviewed pilot; neither baseline is rewritten.
 catalogue_direction = json.loads((ROOT/'docs/features/directed-catalogue-build.json').read_text())
-assert set(catalogue_direction['source']) == {'rally/directed.js','rally/directed.css','rally/lesson_body.html','tools/directed-browser.mjs','tools/directed-catalogue-browser.mjs','tools/browser-checks.mjs','docs/features/directed-catalogue.md'}
+assert set(catalogue_direction['source']) == {'rally/directed.js','rally/directed.css','rally/lesson_body.html','tools/directed-browser.mjs','tools/directed-catalogue-browser.mjs','tools/browser-checks.mjs','docs/features/directed-catalogue.md','tools/live-point-browser.mjs','tools/question-action-browser.mjs'}
 assert set(catalogue_direction['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
 for records, expected in [(catalogue_direction['source'], source), (catalogue_direction['release'], manifest)]:
     for name, hashes in records.items():

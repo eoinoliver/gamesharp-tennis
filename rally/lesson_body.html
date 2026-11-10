@@ -1403,7 +1403,7 @@ function setupPredict(){
     // Read freezes are BEFORE the shot. Its evidence ends at the NEXT freeze.
     const evidenceEnds=[...readAt.slice(1),SC[K].frames-1];let k=0,voiceGeneration;
     const next=()=>{
-      if(k===evidenceEnds.length){questionCaption();review(voiceGeneration);return;}
+      if(k===evidenceEnds.length){window.GSDirected?.cancel();questionCaption();review(voiceGeneration);return;}
       stageSit((P.says&&P.says[k])||LESSON.steps[k].payoff);
       questionCaption(`Worked example · ${k+1} of 3`);
       run(K,k?evidenceEnds[k-1]:0,evidenceEnds[k],()=>{
@@ -1412,6 +1412,7 @@ function setupPredict(){
       voiceGeneration=window.GSSfx?.voiceState().generation;
     };
     next();
+    window.GSDirected?.offerSkip(()=>{cancelFlow();setPlaying(false);questionCaption();review(voiceGeneration);},'Skip to review →');
   }
   function review(voiceGeneration){
     done=true; const n=[0,1,2].filter(okAt).length; typeT.forEach(clearTimeout);
@@ -1441,7 +1442,7 @@ function setupPredict(){
     window.GSDirected?.predictReview(w);
     $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();window.__trail=[];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
   }
-  $("again").onclick=()=>{if(done||step===3){startStep(3);}else startStep(step);};
+  $("again").onclick=()=>{if(window.GSDirected?.replay())return;if(done||step===3){startStep(3);}else startStep(step);};
 }
 /* __DIRECTED_LESSONS__ */
 if(LESSON.predict) setupPredict();

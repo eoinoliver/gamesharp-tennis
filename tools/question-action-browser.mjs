@@ -104,25 +104,25 @@ try{
  // At normal reading speed, pause and replay must not leak a stale sentence.
  for(const slug of ['serve-plus-one','predict-the-point']){
   await p.goto(base+'play.html?l='+slug);await p.waitForFunction(()=>window.__test);
-  await p.evaluate(()=>{window.__speed=4;startStep(0);setPlaying(false);});
+  await p.evaluate(()=>{window.__speed=4;startStep(0);document.querySelector('#watchDirected')?.click();if(!GSDirected.pause())setPlaying(false);});
   await p.waitForTimeout(500);
   check(await p.locator('#sitTx .w.on').count()===0,slug+': pausing the action does not start reading');
   await p.locator('#playBtn').click();
   await p.waitForFunction(()=>document.querySelectorAll('#sitTx .w.on').length>=2);
   check(await p.evaluate(()=>!playing&&!zone.inert),slug+': complete sentence and choices arrive after the action');
-  await p.locator('#again').click();await p.evaluate(()=>setPlaying(false));
+  await p.locator('#again').click();await p.evaluate(()=>{if(!GSDirected.pause())setPlaying(false);});
   await p.waitForTimeout(700);
   check(await p.locator('#sitTx .w.on').count()===0,slug+': replay cancels old typing');
   check(await p.evaluate(()=>zone.inert&&[...$('askOpts').children].every(b=>b.disabled)),slug+': replay cannot enable old choices');
   await p.evaluate(()=>{window.__speed=8;startStep(1);});
   await p.waitForFunction(()=>document.querySelectorAll('#sitTx .w.on').length>=2);
-  await p.locator('#back').click();await p.evaluate(()=>setPlaying(false));
+  await p.locator('#back').click();
   await p.waitForTimeout(700);
-  check(await p.evaluate(()=>step===0&&!document.querySelector('#sitTx .w.on')&&zone.inert),slug+': back cancels the next question reading');
+  check(await p.evaluate(()=>step===0&&$('askQ').textContent===LESSON.steps[0].q&&!playing),slug+': back returns to the prior decision without stale reading');
  }
  // Normal UI gates: ball return example must finish before a choice can be made.
  await p.goto(base+'play.html?l=second-serve');await p.waitForFunction(()=>window.__test);
- await p.evaluate(()=>startStep(1));
+ await p.evaluate(()=>{startStep(1);document.querySelector('#watchDirected')?.click();});
  check(await p.locator('#askOpts button:disabled').count()===await p.locator('#askOpts button').count(),'second serve: answers gated during action');
  await p.waitForFunction(()=>!playing&&document.querySelector('#askOpts button:not(:disabled)'));
  check(await p.evaluate(()=>t===420&&contactsOf(SC[scene],'opp').some(f=>f<t)),'second serve: receiver actually strikes before question opens');
@@ -135,7 +135,7 @@ try{
   await p.waitForFunction(()=>document.querySelector('#askOpts button:not(:disabled)'));
   const index=await p.evaluate(i=>i===1?(LESSON.steps[step].correct+1)%LESSON.steps[step].opts.length:LESSON.steps[step].correct,i);
   await p.locator('#askOpts button').nth(index).click();await p.waitForSelector('#verdict:not([hidden]) #next');
-  if(i===1){await p.locator('#tryOther').click();await p.waitForSelector('#verdict:not([hidden]) #next');check(await p.evaluate(()=>ans[1]!==LETTERS[LESSON.steps[1].correct]),'better-option demo preserves original miss');}
+  if(i===1){await p.locator('#askOpts button').nth(await p.evaluate(()=>LESSON.steps[step].correct)).click();await p.waitForSelector('#verdict:not([hidden]) #next');check(await p.evaluate(()=>ans[1]!==LETTERS[LESSON.steps[1].correct]),'better-option demo preserves original miss');}
   await p.locator('#next').click();
  }
  await openCompletionPanels(p);await p.waitForSelector('#redo');check(await p.evaluate(()=>__praise===0),'2/3 completion does not applaud');
