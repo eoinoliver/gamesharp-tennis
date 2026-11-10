@@ -307,6 +307,15 @@ for records, expected in [(directed['source'], source), (directed['release'], ma
         assert expected.get(name) == hashes['baseline'], f'Directed lesson baseline drift: {name}'
         expected[name] = hashes['candidate']
 
+# Catalogue-wide direction extends the reviewed pilot; neither baseline is rewritten.
+catalogue_direction = json.loads((ROOT/'docs/features/directed-catalogue-build.json').read_text())
+assert set(catalogue_direction['source']) == {'rally/directed.js','rally/directed.css','rally/lesson_body.html','tools/directed-browser.mjs','tools/directed-catalogue-browser.mjs','tools/browser-checks.mjs','docs/features/directed-catalogue.md'}
+assert set(catalogue_direction['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
+for records, expected in [(catalogue_direction['source'], source), (catalogue_direction['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Catalogue direction baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

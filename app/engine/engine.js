@@ -815,6 +815,7 @@ function drawArrivalEvidence(frag,sc,g){
   frag.appendChild(trace);
 }
 function replayArrival(key){
+  window.GSDirected?.cancel();
   if(!answered||!LESSON.readinessLesson||!SC[key]?.info.readiness)return;
   const sc=SC[key];run(key,0,sc.info.freeze,null,true);
   const note=$('arrivalNote');if(note)note.textContent=sc.info.readiness.evidence;
@@ -1260,7 +1261,7 @@ function setupPredict(){
     return segs.slice(0,3).map(f=>{const q=sc.ball[f]||sc.ball[f+1];return q?[q[0],q[1],q[2]]:[0,-11,1];});})();
   const okAt=i=>ans[i]!=null&&(LETTERS.indexOf(ans[i])===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(ans[i])));
   startStep=function(i){
-    cancelFlow();if(window.GSSfx)GSSfx.stop();
+    window.GSDirected?.cancel();cancelFlow();if(window.GSSfx)GSSfx.stop();
     step=i; chosen=null; answered=false; showTargets=null; showDots=false; done=false;
     $("wrapup").hidden=true;
     if(i===0)reviewed=false;
@@ -1273,14 +1274,14 @@ function setupPredict(){
     window.__camOverride=P.askCam||null; if(i===0) savedTrail=null; window.__trail=(window.__trail||[]).slice(0,i); showTargets=null;
     pick=X=>{questionCaption();ans[i]=X;emit('answer',{i,X,node:S.scene,signal:LESSON.learningSignals?.[i],ok:okAt(i)}); optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
       const land=SC[S.scene+X].info.shot.land;
-      window.__trail.push({from:hitFrom[i],to:land,h:hitFrom[i][2],arc:i===0?0.4:1,X,col:"#c8a84b",t0:performance.now()});
+      window.__trail.push({from:hitFrom[i],to:land,h:hitFrom[i][2],arc:i===0?0.4:1,X,col:window.GSDirected?.optionColour(S.scene,X)||"#c8a84b",t0:performance.now()});
       later(()=>startStep(i+1),450);};
     stageSit(S.sit);
     playQuestion(S,()=>{if(step!==i)return;
       typeIn($("sitTx"),S.sit,()=>{if(step===i){showTargets=S.scene;enableAsk();}});});
   };
   function chip(k,after){const S=LESSON.steps[k],ok=okAt(k); typeIn($("sitTx"),(P.says&&P.says[k])||S.payoff,after,6);
-    setInk(ok?`Read ${k+1} · ${S.short}: you had it`:`Read ${k+1} · ${S.short}: you said ${ans[k]}, best is ${LETTERS[S.correct]}`,!ok);}
+    setInk(ok?`Read ${k+1} · ${S.short}: you had it`:`Read ${k+1} · ${S.short}: you said ${ans[k]}, GS ✓: ${LETTERS[S.correct]}`,!ok);}
   function watchPoint(){
     questionCaption();window.__camOverride=null; savedTrail=(savedTrail&&savedTrail.length===3?savedTrail:(window.__trail||[])).map(x=>({...x})); window.__trail=[];   // redrawn read by read as the point plays
     zone.hidden=true; $("count").textContent="Worked example";
@@ -1315,7 +1316,7 @@ function setupPredict(){
       <div class="score3">${ans.map((a,i)=>`<i class="${okAt(i)?"ok":"no"}"></i>`).join("")}</div></div>
       ${LESSON.steps.map((S,i)=>{const X=ans[i],ok=okAt(i);return `<div class="review"><p class="rq">Read ${i+1} · ${S.q}</p>
         <p class="ra ${ok?"ok":"no"}">${ok?"✓":"✗"} You: ${S.opts[LETTERS.indexOf(X)]}</p><p>${S.lines[X]}</p>
-        ${ok?"":`<p><b>Best: ${S.opts[S.correct]}.</b> ${S.payoff}</p><button class="alt" data-watch="${i}">Watch your choice play out</button>`}</div>`;}).join("")}
+        ${ok?"":`<p><b>GS ✓: ${S.opts[S.correct]}.</b> ${S.payoff}</p><button class="alt" data-watch="${i}">Watch your choice play out</button>`}</div>`;}).join("")}
       <div class="blk"><div class="k">Take it to court</div><p><b>${LESSON.tomorrow}</b></p></div>
       ${LESSON.pro?`<details class="completion-more"><summary>Professional context</summary>${payoffHTML(LESSON.pro)}</details>`:''}
       <button class="next" id="redo">${LESSON.redoLabel||"Play again"}</button>`;
@@ -1323,24 +1324,25 @@ function setupPredict(){
     w.querySelectorAll("details.pay").forEach(d=>{let first=d.open;d.addEventListener("toggle",()=>{if(first){first=false;return;}if(d.open)emit('payoff_open',{k:d.dataset.k});});});
     w.querySelectorAll("[data-watch]").forEach(bt=>bt.onclick=()=>{const i=+bt.dataset.watch,key=LESSON.steps[i].scene+ans[i],fr=SC[key].info.freeze;
       stageInView(); setInk(`Read ${i+1}: your choice`,true); run(key,Math.max(0,(SC[key].info.from||fr-60)),SC[key].frames-1,null);});
+    window.GSDirected?.predictReview(w);
     $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();window.__trail=[];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
   }
   $("again").onclick=()=>{if(done||step===3){startStep(3);}else startStep(step);};
 }
-/* Directed pilot: shared scene data, first-answer scoring and normal lesson navigation. */
+/* Catalogue direction: original scenes, saved first answers and format-aware review. */
 window.GSDirected=(()=>{
   const slug=new URLSearchParams(location.search).get('l');
-  if(!['the-winner','short-ball'].includes(slug))return null;
-  const prefix=slug==='short-ball'?'sb3':'wn2',height=prefix==='sb3';
-  const colours=height?['#f0a35e','#b9a3f0','#6fd6c4','#c8a84b']:['#6fd6c4','#f0a35e','#c8a84b','#b9a3f0'];
+  const prefix=slug==='short-ball'?'sb3':slug==='the-winner'?'wn2':null,height=slug==='short-ball';
+  const standard=['#f0a35e','#b9a3f0','#6fd6c4','#c8a84b'];
+  const pilot=S=>!!prefix&&S.scene===prefix;
+  const coloursFor=key=>slug==='the-winner'&&key==='wn2'?['#6fd6c4','#f0a35e','#c8a84b','#b9a3f0']:standard;
   const cues=height?['Below the tape','Caught mid-court','Builds a volley','Little net clearance']:
     ['Room for error','Little net clearance','Narrow target','They can run it down'];
-  function optionColour(key,X){return key===prefix?colours[LETTERS.indexOf(X)]:null;}
+  function optionColour(key,X){return coloursFor(key)[LETTERS.indexOf(X)]||null;}
   function colourChoices(S){
-    if(S.scene!==prefix)return;
     [...$('askOpts').children].forEach((b,j)=>{
       b.classList.add('directed-choice');
-      b.style.setProperty('--choice',colours[j].slice(1).match(/../g).map(v=>parseInt(v,16)).join(','));
+      b.style.setProperty('--choice',coloursFor(S.scene)[j].slice(1).match(/../g).map(v=>parseInt(v,16)).join(','));
     });
   }
   const revealed=new Set();
@@ -1352,7 +1354,7 @@ window.GSDirected=(()=>{
   const dock=document.createElement('div');dock.id='directedDock';dock.className='directed-dock';dock.hidden=true;
   dock.innerHTML='<span>Watch the point</span><button type="button" id="skipDirected">Skip to decision →</button>';$('viewer').appendChild(dock);
   let film=null,shot=null,elapsed=0,last=null,paused=false,queue=[],sequence=[],finish=null,board=false,eye=null,framing=null,rewatch=null;
-  const contact=k=>contactsOf(SC[k],'you').find(f=>f>=SC[k].info.freeze-2);
+  const contact=k=>contactsOf(SC[k],'you').find(f=>f>=SC[k].info.freeze-2)??SC[k].info.freeze;
   const at=()=>SC[prefix+'C'].info.youContact;
   const net=x=>.914+(1.07-.914)*Math.min(1,Math.abs(x)/6.4)**2;
   const frame=(key,f)=>{scene=key;t=f;stopAt=f;onStop=null;setPlaying(false);};
@@ -1368,7 +1370,7 @@ window.GSDirected=(()=>{
     shot=queue.shift();elapsed=0;last=null;
     if(!shot){const cb=finish;cancel();cb?.();return;}
     $('viewer').dataset.directedPhase=shot.kind;caption(shot);dock.firstElementChild.textContent=shot.kind==='rewind'?'Same contact · another choice':'Watch the point';
-    if(shot.play){run(shot.key,shot.from,shot.to,next);}
+    if(shot.play){run(shot.key,shot.from,shot.to,next,!!shot.silent);}
     else {frame(shot.key,shot.from);$('playIcon').innerHTML=PAUSE_I;$('playBtn').setAttribute('aria-label','Pause');}
   }
   function start(stages,cb,label){
@@ -1391,32 +1393,33 @@ window.GSDirected=(()=>{
   function restoreQuestion(S,cb){
     const q=questionRange(S);frame(q.scene,q.to);showDots=false;
     remember('intro:'+S.scene);questionCaption(q.after);cb();
-    rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=height?'Watch the height again':'Watch the scene again';
-    rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);
+    rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=pilot(S)&&height?'Watch the height again':'Watch the scene again';
+    rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal||S.noTargets?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);
   }
   function question(S,cb,force=false){
-    if(S.scene!==prefix&&!(slug==='the-winner'&&S.scene==='wn1'))return false;
+
     const q=questionRange(S),end=()=>restoreQuestion(S,cb);
-    if(!force&&(CALM_MOTION||seen.has('intro:'+S.scene))){end();return true;}
+    if(q.from===q.to||!force&&(CALM_MOTION||seen.has('intro:'+S.scene))){end();return true;}
     if(S.scene==='wn1'){
       start([{kind:'opening',key:'wn1',from:62,to:298,play:true,eye:'A low ball. A narrow target.',title:'You go for the line.'},
         {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}],end,'Skip to decision →');
-    }else if(height){
+    }else if(pilot(S)&&height){
       const key=prefix+'A';start([
         {kind:'opening',key,from:62,to:257,play:true,eye:'A short ball. They’re still deep.',title:'A free point?'},
         {kind:'net',key,from:257,ms:1100,eye:'Into the tape',title:'Read the height.'},
         {kind:'rewind',key,from:257,to:contact(key)-1,ms:850,eye:'Rewind',title:'Before you swing.'},
         {kind:'height',key:prefix+'C',from:contact(prefix+'C')-1,ms:2600,eye:'The deciding detail',title:'Below the tape.',copy:'Contact '+Math.round(at()[2]*100)+' cm. Tape '+Math.round(net(at()[0])*100)+' cm.'}
       ],end,'Skip to decision →');
-    }else start([{kind:'sweep',key:q.scene,from:q.from,to:q.to,play:true,eye:'Same ball',title:'Choose before the result.'}],end,'Skip to decision →');
+    }else start([{kind:'sweep',key:q.scene,from:q.from,to:q.to,play:true,silent:q.silent,eye:q.label||'Read the situation',title:S.name||'Your next decision',native:!!(LESSON.predict||LESSON.readinessLesson||CONTACT_FOCUS||q.type==='held-continuation')}],end,'Skip to decision →');
     return true;
   }
-  function alternative(S,X){return LETTERS[S.correct]!==X?LETTERS[S.correct]:(height?'A':'C');}
+  function alternative(S,X){return LETTERS[S.correct]!==X?LETTERS[S.correct]:pilot(S)?(height?'A':'C'):LETTERS[(S.correct+1)%S.opts.length];}
   function finishAnswer(S,X,cb){
-    const key=S.scene+X;frame(key,contact(key)-1);remember('answer:'+S.scene);board=true;eye=null;showDots=false;cb();
+    const key=S.reveal?S.scene:S.scene+X;frame(key,S.reveal?questionRange(S).to:pilot(S)?contact(key)-1:SC[key].frames-1);remember('answer:'+S.scene);board=true;eye=null;showDots=!!S.reveal;cb();
   }
   function answer(i,X,demo,cb,force=false,only=null){
-    const S=LESSON.steps[i];if(S.scene!==prefix)return false;
+    const S=LESSON.steps[i];
+    if(!pilot(S))return generalAnswer(S,X,demo,cb,force,only);
     const key=S.scene+X,alt=alternative(S,X),other=S.scene+alt;
     const end=()=>finishAnswer(S,X,cb);
     if(!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo)){
@@ -1431,41 +1434,109 @@ window.GSDirected=(()=>{
     ];
     start(stages,end,'Skip to feedback →');stageInView();return true;
   }
+  // Observation questions have one authored scene, not one outcome per answer.
+  // Connected routes compare at the saved decision, never by changing the branch.
+  function generalAnswer(S,X,demo,cb,force,only){
+    const key=S.reveal?S.scene:S.scene+X,sc=SC[key],q=questionRange(S);
+    const end=()=>finishAnswer(S,X,cb);
+    if(S.reveal){
+      if(LESSON.readinessLesson&&force){cancel();replayArrival(S.scene);return true;}
+      showDots=true;revealPattern=!!S.pattern;
+      if(!force){end();return true;}
+      start([{kind:'evidence',key,from:q.from,to:q.to,play:true,silent:q.silent,native:true,eye:'Replay the evidence',title:S.unlock}],end,'Skip to feedback →');return true;
+    }
+    const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
+    const short=!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo);
+    let stages=only?[route(only,'Your choice')]:[route(key,'Your choice · follow the consequence')];
+    if(!short&&!only){
+      stages.push(
+        {kind:'rewind',key,from:sc.frames-1,to:sc.info.freeze,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},
+        detail(S,key),
+        route(S.scene+alternative(S,X),'Compare the alternative'));
+    }
+    start(stages,end,'Skip to feedback →');stageInView();return true;
+  }
+  function detail(S,key){
+    const sc=SC[key],info=sc.info;
+    // Contact inspection already has a lens authored for these lessons. Else,
+    // retain the full spatial relationship: recovery, opponent or pair coverage.
+    const contactLessons=['contact-clue','late-is-the-culprit'];
+    const heightLessons=['high-ball','short-ball','live-point-short-low','live-point-volley-build','live-point-volley-opening'];
+    const coverageLessons=['recovery','forehand-bill','pulled-wide','rushed-out-wide','live-point-buy-time','live-point-other-wing'];
+    const focus=contactLessons.includes(slug)?'contact':heightLessons.includes(slug)?'height':LESSON.doubles?'pair':coverageLessons.includes(slug)?'coverage':'opponent';
+    const hit=contactsOf(sc,'you').find(f=>f>=info.freeze-2);
+    const f=['contact','height'].includes(focus)?hit??info.freeze:info.liveRecovery?.theirHit??info.authoredPoint?.theirHit??info.freeze;
+    return {kind:'evidence',key,from:f,ms:1800,eye:'The deciding detail',title:S.unlock,copy:S.take,focus};
+  }
+
   function feedback(i,X){
-    const S=LESSON.steps[i];if(S.scene!==prefix)return;
+    const S=LESSON.steps[i];
     board=true;
     const pulse=!revealed.has(i);revealed.add(i);
     const recommended=LETTERS[S.correct];
     let expanded=false;
     [...$('askOpts').children].forEach((b,j)=>{
-      const Y=LETTERS[j],note=cues[j],first=Y===ans[i],pick=Y===recommended;
+      const Y=LETTERS[j],note=pilot(S)?cues[j]:'',first=Y===ans[i],pick=Y===recommended;
       b.className='opt directed-option'+(pulse?' reveal-choice':'');b.disabled=false;
-      b.innerHTML=`<span class="l">${Y}</span><span>${S.opts[j]}<small class="directed-note">${note}</small><span class="directed-meta">${pick?'<small class="directed-pick" aria-label="GS recommended choice">GS <span aria-hidden="true">✓</span></small>':''}${first?'<small class="directed-first">Your first choice</small>':''}</span></span>`;
-      b.setAttribute('aria-label',`Watch option ${Y}: ${S.opts[j]}. ${note}.${pick?' GS recommended choice.':''}${first?' Your first choice.':''}`);
+      b.innerHTML=`<span class="l">${Y}</span><span>${S.opts[j]}${note?`<small class="directed-note">${note}</small>`:''}<span class="directed-meta">${pick?'<small class="directed-pick" aria-label="GS recommended choice">GS <span aria-hidden="true">✓</span></small>':''}${first?'<small class="directed-first">Your first choice</small>':''}</span></span>`;
+      b.setAttribute('aria-label',`Review option ${Y}: ${S.opts[j]}.${note?' '+note+'.':''}${pick?' GS recommended choice.':''}${first?' Your first choice.':''}`);
       b.setAttribute('aria-pressed',String(Y===X));b.onclick=()=>choose(i,Y,true);
     });
     colourChoices(S);
     const b=document.createElement('div');b.className='directed-review';b.id='directedReview';
-    b.innerHTML=`<p>First answer: ${ans[i]||X} · saved. Tap a tile to replay.</p><div class="directed-compare"><button id="exploreDirected" aria-expanded="false" aria-controls="askOpts">Explore other shots</button><button id="directedOther">Rewind & compare</button></div>`;
+    b.innerHTML=`<p>First answer: ${ans[i]||X} · saved. ${S.reveal?'Tap a tile to review.':'Tap a tile to replay.'}</p><div class="directed-compare"><button id="exploreDirected" aria-expanded="false" aria-controls="askOpts">${S.reveal?'Explore other answers':'Explore other shots'}</button><button id="directedOther">${S.reveal?'Replay the evidence':'Rewind & compare'}</button></div>`;
     $('verdict').querySelector('.fb').appendChild(b);
-    $('tryOther').hidden=true;
+    if($('tryOther'))$('tryOther').hidden=true;
     $('directedOther').onclick=()=>answer(i,X,true,()=>{board=true;},true);
     function showChoices(){
       [...$('askOpts').children].forEach((tile,j)=>tile.classList.toggle('hide',!expanded&&LETTERS[j]!==X&&LETTERS[j]!==recommended));
       $('askOpts').classList.toggle('directed-single',!expanded&&X===recommended);
       $('exploreDirected').setAttribute('aria-expanded',String(expanded));
-      $('exploreDirected').textContent=expanded?'Show fewer shots':'Explore other shots';
+      $('exploreDirected').textContent=expanded?'Show fewer':S.reveal?'Explore other answers':'Explore other shots';
     }
     $('exploreDirected').onclick=()=>{expanded=!expanded;showChoices();tallView();};
+    if(S.opts.length===2&&X!==recommended)$('exploreDirected').hidden=true;
     showChoices();
   }
   function replay(){
     if(film){const stages=sequence.slice(),cb=finish,label=$('skipDirected').textContent;start(stages,cb,label);return true;}
-    if(board&&LESSON.steps[step]?.scene===prefix){const X=chosen||ans[step];return answer(step,X,true,()=>{board=true;},true,prefix+X);}
+    if(board&&LESSON.steps[step]){const S=LESSON.steps[step],X=chosen||ans[step];return answer(step,X,true,()=>{board=true;},true,S.reveal?S.scene:S.scene+X);}
     return false;
+  }
+  function predictReview(root){
+    root.querySelectorAll('.review').forEach((row,i)=>{
+      const S=LESSON.steps[i],first=ans[i],pick=LETTERS[S.correct];let viewed=first,expanded=false;
+      const box=document.createElement('div');box.className='opts';box.id='predictOptions'+i;
+      const tools=document.createElement('div');tools.className='directed-compare';
+      const explore=document.createElement('button');explore.textContent='Explore other shots';explore.setAttribute('aria-controls',box.id);
+      const compare=document.createElement('button');compare.textContent='Rewind & compare';
+      tools.append(explore,compare);
+      function paint(){
+        box.replaceChildren();box.classList.toggle('directed-single',!expanded&&viewed===pick);
+        explore.setAttribute('aria-expanded',String(expanded));explore.textContent=expanded?'Show fewer':'Explore other shots';
+        S.opts.forEach((text,j)=>{
+          const X=LETTERS[j],b=document.createElement('button');b.className='opt directed-choice directed-option';
+          b.style.setProperty('--choice',coloursFor(S.scene)[j].slice(1).match(/../g).map(v=>parseInt(v,16)).join(','));
+          b.classList.toggle('hide',!expanded&&X!==viewed&&X!==pick);b.setAttribute('aria-pressed',String(X===viewed));
+          b.innerHTML=`<span class="l">${X}</span><span>${text}<span class="directed-meta">${X===pick?'<small class="directed-pick" aria-label="GS recommended choice">GS <span aria-hidden="true">✓</span></small>':''}${X===first?'<small class="directed-first">Your first choice</small>':''}</span></span>`;
+          b.onclick=()=>{viewed=X;expanded=false;paint();play(false);};box.appendChild(b);
+        });
+      }
+      function play(compare){
+        const key=S.scene+viewed,other=S.scene+alternative(S,viewed);
+        const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
+        const stages=[route(key,'Read '+(i+1)+' · your choice')];
+        if(compare)stages.push({kind:'rewind',key,from:SC[key].frames-1,to:SC[key].info.freeze,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},route(other,'Compare the alternative'));
+        start(stages,()=>{frame(key,SC[key].frames-1);questionCaption('Your court cue');},'Back to review →');stageInView();
+      }
+      row.querySelector('[data-watch]')?.remove();
+      row.append(box,tools);explore.onclick=()=>{expanded=!expanded;paint();};compare.onclick=()=>play(true);paint();
+    });
   }
   function desired(){
     const kind=shot?.kind||'wide',h=actorAt(SC[scene],'you',t).pose[I.hips],u=smooth(0,1800,elapsed);
+    if(kind==='evidence'&&['contact','height'].includes(shot.focus)){const b=ballAt(SC[scene],t)||h;return {az:-40,el:15,d:7,fov:38,tgt:[b[0],b[1],1]};}
+    if(kind==='evidence')return {az:-90,el:35,d:32,fov:40,tgt:[0,0,0]};
     if(kind==='height')return {az:-24,el:9,d:14,fov:40,tgt:[at()[0],-2.8,.7]};
     if(kind==='line')return {az:-177,el:9,d:9,fov:40,tgt:[-3.9,11.1,.55]};
     if(kind==='net')return {az:-100,el:9,d:8,fov:40,tgt:[2.5,0,.65]};
@@ -1473,20 +1544,22 @@ window.GSDirected=(()=>{
     return {az:CALM_MOTION?-90:kind==='wide'?-90:lerp(-110,-72,u),el:kind==='wide'?29:39,d:32,fov:40,tgt:[0,0,0]};
   }
   function camera(){
-    if(!film&&!board)return false;
+    if(shot?.native||!film&&(!board||!pilot(LESSON.steps[step]||{})))return false;
     const c=desired();if(!eye||CALM_MOTION)eye=c;
     else if(!paused){for(const k of ['az','el','d','fov'])eye[k]=lerp(eye[k],c[k],.09);eye.tgt=lerp3(eye.tgt,c.tgt,.09);}
     cam={...eye,tgt:[...eye.tgt]};return true;
   }
   function fit(){
-    if(!film&&!board)return false;
-    const kind=shot?.kind,sc=SC[scene],you=actorAt(sc,'you',t),p=at();let points;
+    if(shot?.native||!film&&(!board||!pilot(LESSON.steps[step]||{})))return false;
+    const kind=shot?.kind,sc=SC[scene],you=actorAt(sc,'you',t),p=kind==='height'?at():null;let points;
     if(kind==='height')points=you.pose.concat([[p[0],0,0],[p[0],0,1.8],[p[0],p[1],0]]);
+    else if(kind==='evidence'&&['contact','height'].includes(shot.focus))points=you.pose.concat([you.rq.centre,ballAt(sc,t)||you.rq.centre]);
     else if(kind==='line')points=[[-4.5,9.5,0],[-3.5,13,0],[-4,11,2]];
     else if(kind==='net')points=[[1.3,0,0],[3.8,0,0],[2.5,0,1.7]];
     else if(kind==='opening')points=you.pose.concat([you.rq.centre,add(you.rq.centre,[.5,0,.5]),add(you.rq.centre,[-.5,0,-.5]),add(you.pose[I.head],[0,0,.3]),[0,5,1]]);
     else points=[[-5.4,-13.4,0],[5.4,-13.4,0],[-5.4,13,0],[5.4,13,0],[0,-12,2],[0,12,2]];
-    if(kind==='wide')points.push(...you.pose,...actorAt(sc,'opp',t).pose);
+    if(kind==='wide'||kind==='sweep'||kind==='evidence'&&!['contact','height'].includes(shot.focus))for(const who of Object.keys(sc.actors)){const a=actorAt(sc,who,t);if(a)points.push(...a.pose,a.rq.centre,add(a.pose[I.head],[0,0,.4]));}
+    const ball=ballAt(sc,t);if(ball&&!['height','line','net','opening'].includes(kind))points.push(ball);
     const q=points.map(toCam).filter(q=>q.z>ZNEAR),us=q.map(q=>q.x/q.z),vs=q.map(q=>q.y/q.z);
     const u0=Math.min(...us),u1=Math.max(...us),v0=Math.min(...vs),v1=Math.max(...vs);
     const top=film?Math.max(120,cap.getBoundingClientRect().height*VW/$('stage').clientWidth+28):32,bottom=45;
@@ -1507,9 +1580,20 @@ window.GSDirected=(()=>{
       evidenceLabel(frag,[p[0],p[1],0],'CONTACT '+Math.round(p[2]*100)+' CM','#e8f27a',26);
       evidenceLabel(frag,[p[0],0,nh],'TAPE '+Math.round(nh*100)+' CM','#f08a8a',-18);
     }
+    if(kind==='evidence'&&!shot.native){
+      const sc=SC[scene],you=actorAt(sc,'you',t),ball=ballAt(sc,t),col='#e3cd83';
+      if(['contact','height'].includes(shot.focus)&&ball){
+        const a=shot.focus==='contact'?you.pose[I.hipR]:[ball[0],ball[1],0];
+        seg(frag,a,ball,col,3,.9);
+        for(const p of [a,ball]){const q=P(p);if(q)frag.appendChild(el_('circle',{cx:q.s[0],cy:q.s[1],r:12,fill:'none',stroke:col,'stroke-width':2.5}));}
+      }else{
+        const who=shot.focus==='pair'?Object.keys(sc.actors):shot.focus==='coverage'?['you','opp']:['opp'];
+        for(const name of who){const a=actorAt(sc,name,t);if(a){const h=a.pose[I.hips];ring(frag,[h[0],h[1],.02],.65,.65,col,2,.9);}}
+      }
+    }
     if(kind==='line')label(frag,[-4,11.13,0],'IN BY '+Math.round(SC.wn1.info.shot.courtMargin*100)+' CM','#e3cd83',22,1,22);
   }
-  return {question,answer,feedback,cancel,skip,pause,tick,camera,fit,draw,replay,optionColour,colourChoices,get active(){return !!film;},get board(){return board;},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
+  return {question,answer,feedback,predictReview,cancel,skip,pause,tick,camera,fit,draw,replay,optionColour,colourChoices,get active(){return !!film;},get board(){return board&&pilot(LESSON.steps[step]||{});},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
 })();
 
 if(LESSON.predict) setupPredict();

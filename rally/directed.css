@@ -1,4 +1,4 @@
-/* Two-lesson directed pilot. The normal decision and feedback remain in the shell. */
+/* Shared lesson direction. Shot colours identify options, not correctness. */
 .directed-cap{position:absolute;inset:12px 12px auto;pointer-events:none;text-align:center;z-index:2;text-shadow:0 2px 12px #07130b}
 .directed-cap small{display:block;color:#e3cd83;font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
 .directed-cap strong{display:block;font:400 clamp(25px,6vw,40px)/1.05 'Bebas Neue',Impact,sans-serif;letter-spacing:.035em;margin:5px 0}
@@ -29,3 +29,5 @@
 .directed-compare button{flex:1;min-height:44px;padding:8px;border:1px solid var(--line);border-radius:10px;background:#183023;color:var(--ink);font:600 12px 'DM Sans',sans-serif;cursor:pointer}
 @media(max-width:350px){.directed-cap{inset:8px 8px auto}.directed-cap p{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.directed-cap *{transition:none}.reveal-choice{animation:none}}
+
+.review .opts{margin-top:12px}.review .directed-compare{margin-bottom:16px}

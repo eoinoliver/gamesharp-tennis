@@ -237,7 +237,7 @@ details.note a{color:var(--gold)}
 #wrapup .gs-continue{padding:20px 0;margin:0;border:0}#wrapup .gs-continue .k{display:none}#wrapup .gs-continue .next{min-height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center}#wrapup .voice-controls{margin-top:14px;}.completion-more .pay[open]{margin-top:14px}
 
 
-/* Two-lesson directed pilot. The normal decision and feedback remain in the shell. */
+/* Shared lesson direction. Shot colours identify options, not correctness. */
 .directed-cap{position:absolute;inset:12px 12px auto;pointer-events:none;text-align:center;z-index:2;text-shadow:0 2px 12px #07130b}
 .directed-cap small{display:block;color:#e3cd83;font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
 .directed-cap strong{display:block;font:400 clamp(25px,6vw,40px)/1.05 'Bebas Neue',Impact,sans-serif;letter-spacing:.035em;margin:5px 0}
@@ -268,6 +268,8 @@ details.note a{color:var(--gold)}
 .directed-compare button{flex:1;min-height:44px;padding:8px;border:1px solid var(--line);border-radius:10px;background:#183023;color:var(--ink);font:600 12px 'DM Sans',sans-serif;cursor:pointer}
 @media(max-width:350px){.directed-cap{inset:8px 8px auto}.directed-cap p{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.directed-cap *{transition:none}.reveal-choice{animation:none}}
+
+.review .opts{margin-top:12px}.review .directed-compare{margin-bottom:16px}
 
 </style>
 
@@ -314,7 +316,7 @@ details.note a{color:var(--gold)}
 
 </div>
 
-<link rel="stylesheet" href="coach.css?v=34b25f91d0">
+<link rel="stylesheet" href="coach.css?v=7b5049a8bd">
 <style>
 .daily-completion .daily-complete-message{font-size:15px;color:#dce8d7;line-height:1.5}.daily-completion .daily-related{margin-top:22px;padding-top:20px;border-top:1px solid #c8a84b30}.daily-related h2{font-size:22px;margin:8px 0}.daily-related p{font-size:14px;line-height:1.55;color:#b8c7b6}.daily-related .alt{min-height:44px;display:inline-flex;align-items:center}.daily-completion .k{display:block!important}
 
@@ -409,18 +411,18 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<link rel="stylesheet" href="practice.css?v=34b25f91d0">
-<link rel="stylesheet" href="takeaways.css?v=34b25f91d0">
-<script src="config.js?v=34b25f91d0"></script>
-<script src="catalog.js?v=34b25f91d0"></script>
-<script src="app.js?v=34b25f91d0"></script>
-<script src="share.js?v=34b25f91d0"></script>
-<script src="takeaways.js?v=34b25f91d0"></script>
-<script src="coach.js?v=34b25f91d0"></script>
-<script src="sfx.js?v=34b25f91d0"></script>
+<link rel="stylesheet" href="practice.css?v=7b5049a8bd">
+<link rel="stylesheet" href="takeaways.css?v=7b5049a8bd">
+<script src="config.js?v=7b5049a8bd"></script>
+<script src="catalog.js?v=7b5049a8bd"></script>
+<script src="app.js?v=7b5049a8bd"></script>
+<script src="share.js?v=7b5049a8bd"></script>
+<script src="takeaways.js?v=7b5049a8bd"></script>
+<script src="coach.js?v=7b5049a8bd"></script>
+<script src="sfx.js?v=7b5049a8bd"></script>
 <script>
 (function(){
-const A=GSApp, V="34b25f91d0", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="7b5049a8bd", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */

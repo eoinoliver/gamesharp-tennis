@@ -111,7 +111,7 @@ try{
   await p.close();
  }
  const denied=await page('short-ball',390,false,true);await skip(denied);await ready(denied);check(true,'storage denial retains usable skip');await denied.close();
- const other=await page('recovery');check(await other.evaluate(()=>GSDirected===null),'unrelated lesson has no director');await other.close();
+ const other=await page('recovery');check(await other.evaluate(()=>!!GSDirected),'catalogue lesson has shared director');await other.close();
  check(!errors.length,errors.join('\n')||'no browser errors');
 }finally{await browser.close();writeFileSync(out+'/report.json',JSON.stringify({base,engine,checks,errors},null,2));}
 console.log(`PASS ${checks.length} directed lesson checks (${engine})`);
