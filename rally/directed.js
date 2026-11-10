@@ -62,7 +62,7 @@ window.GSDirected=(()=>{
   }
   function restoreQuestion(S,cb){
     const q=questionRange(S);silentPlayback=!!q.silent;frame(q.scene,q.to);showDots=false;
-    remember('intro:'+S.scene);questionCaption(q.after);cb();
+    remember('intro:'+S.scene);questionCaption(q.after);render();cb();
     rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=pilot(S)&&height?'Watch the height again':'Watch the scene again';
     rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal||S.noTargets?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);
   }
@@ -178,13 +178,15 @@ window.GSDirected=(()=>{
   function predictReview(root){
     root.querySelectorAll('.review').forEach((row,i)=>{
       const S=LESSON.steps[i],first=ans[i],pick=LETTERS[S.correct];let viewed=first,expanded=false;
+      const original=row.querySelector('.ra'),explanation=original.nextElementSibling;original.remove();
+      row.querySelector('p b')?.remove();
       const box=document.createElement('div');box.className='opts';box.id='predictOptions'+i;
       const tools=document.createElement('div');tools.className='directed-compare';
       const explore=document.createElement('button');explore.textContent='Explore other shots';explore.setAttribute('aria-controls',box.id);
       const compare=document.createElement('button');compare.textContent='Rewind & compare';
       tools.append(explore,compare);
       function paint(){
-        box.replaceChildren();box.classList.toggle('directed-single',!expanded&&viewed===pick);
+        box.replaceChildren();box.classList.toggle('directed-single',!expanded&&viewed===pick);explanation.textContent=S.lines[viewed];
         explore.setAttribute('aria-expanded',String(expanded));explore.textContent=expanded?'Show fewer':'Explore other shots';
         S.opts.forEach((text,j)=>{
           const X=LETTERS[j],b=document.createElement('button');b.className='opt directed-choice directed-option';
@@ -202,7 +204,7 @@ window.GSDirected=(()=>{
         start(stages,()=>{frame(key,SC[key].frames-1);questionCaption('Your court cue');},'Back to review →');stageInView();
       }
       row.querySelector('[data-watch]')?.remove();
-      row.append(box,tools);explore.onclick=()=>{expanded=!expanded;paint();};compare.onclick=()=>play(true);paint();
+      row.querySelector('.rq').after(box);row.append(tools);explore.onclick=()=>{expanded=!expanded;paint();};compare.onclick=()=>play(true);paint();
     });
   }
   function desired(){

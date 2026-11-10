@@ -4,7 +4,7 @@
   "source": {
     "rally/directed.js": {
       "baseline": "65d223c9edb3aa64bee688f86160eac1e905b31807f5ae84a7e7b0ad4c338905",
-      "candidate": "cd3a59ad33f97c512e6ecf889143eb85aac9f69a06f7e0602c50e7dc25700615"
+      "candidate": "f7d67f3eff4aede9a46c57140fc8317d27c475349793d6565c203cfad326064a"
     },
     "rally/directed.css": {
       "baseline": "aeff22b261578ef04885e65a865d24336674cd836c2d883dce52516c62a2d46a",
@@ -20,7 +20,7 @@
     },
     "tools/directed-catalogue-browser.mjs": {
       "baseline": null,
-      "candidate": "4bf726fd85d85311c341cb6bee7078a96ddab6292d64da764417cd42004fd2e9"
+      "candidate": "25f576785c1afab0e5e2676fc9da8f4428b910c59f610e04cc80e7308387a48e"
     },
     "tools/browser-checks.mjs": {
       "baseline": "884720c938fa93f77823c751ce7ad0fa858657143913ecd28cda07ca2ce6d608",
@@ -42,19 +42,19 @@
   "release": {
     "app/catalog.js": {
       "baseline": "c0a046675b579f568e261cbedc21fcae83a7faea2ddd2d51eb2b782850bf0110",
-      "candidate": "28e76a8a55d9780a8283d4c1b38284af6ef238c7c89d9567b7423dec72e18359"
+      "candidate": "2faf28db2bba9c18a8d448b68cc7fa0b824436dcaac2cc0c219a15bd2e61b246"
     },
     "app/index.html": {
       "baseline": "892ce1f9d5a7e90ee201cd39a225f7b7482e2730af1cd3ca88c584046641470e",
-      "candidate": "bc3888b3f01b1fa7dc54d90cc592d3b156a5b842e9a4cf5a86040b80362b23f3"
+      "candidate": "90333416873a2a8a468086aa41502ec1323cc33ccb4b2e89c7e48d6904e05e6e"
     },
     "app/play.html": {
       "baseline": "11fc6ce50585f23bf99054b0f13e1ae59c35657ce8aa4e6088110bfb27dd4b27",
-      "candidate": "3742d3376436c772a811d4cec1d7e70f24eafb934f0cf8a42194059af7aa8732"
+      "candidate": "56e53125baddc8081926d11f7d6ad7f0040df7ede6f01b333c5a265084b07c65"
     },
     "app/engine/engine.js": {
       "baseline": "2cf108f1e1938be43470c5a3568090d1515c925fa274323eaf8b89dacdfba1ad",
-      "candidate": "e505e8d5b86fd188349e71d8d33992a42a3d665266ccd45c50d59de0b8d09d9f"
+      "candidate": "cfb208e24a85c17f92964baf07db0da5a490711ca93665150c677638b103e32e"
     }
   }
 }
