@@ -6,7 +6,7 @@ panels. The same figure appears on completed Home and at lesson completion.
 The 31 non-Daily activities do not acquire a generic or substituted summary.
 
 Motion follows the visual teaching already present: a shot traces its path;
-approach/recovery follows the shot where appropriate; a player moves to the
+approach/recovery starts while the shot is still travelling where appropriate; a player moves to the
 chosen starting position; spacing or contact receives a short outline emphasis;
 feet rise or land for split-step timing; a directional cue or eye outline draws
 attention to arriving and looking up. Rackets do not acquire invented swings.

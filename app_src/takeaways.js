@@ -115,11 +115,11 @@ window.GSTakeaways=(()=>{
           restores.push(()=>{ink.remove();ball?.remove();path.style.opacity=oldOpacity;if(origin)origin.style.opacity=oldOrigin;});
         }
         if(['height','shot','shot-follow'].includes(p.motion)){
-          trace(svg.querySelector('.tk-ball-path'),{travel:true,progress:p.motion==='shot-follow'?t=>t/.65:t=>t});
+          trace(svg.querySelector('.tk-ball-path'),{travel:true});
         }
         if(p.motion==='move'||p.motion==='shot-follow'){
           const from=p.kind==='position'?[80,110]:p.you,to=p.kind==='position'?[80,p.position==='in'?52:152]:p.move;
-          translate(svg.querySelector('.tk-you'),from[0]-to[0],from[1]-to[1],p.motion==='shot-follow'?t=>(t-.65)/.35:t=>t);
+          translate(svg.querySelector('.tk-you'),from[0]-to[0],from[1]-to[1],p.motion==='shot-follow'?t=>(t-.18)/.72:t=>t);
         }else if(p.motion==='space'){
           trace(svg.querySelector('.tk-space'));
         }else if(p.motion==='contact'){

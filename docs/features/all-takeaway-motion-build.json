@@ -7,7 +7,7 @@
     },
     "app_src/takeaways.js": {
       "baseline": "4b847c1e40e8b404c97212d9098433bf5b381691f74f6e3a62cebefe9863cb75",
-      "candidate": "926bcc185892d3cf275ae0e74719177bd55d04f4edc46d321ac99bede09eacec"
+      "candidate": "e038fd23392d1d487424575f267aa16ef388767b7149f20c61294b610dedd4b5"
     },
     "app_src/takeaways.json": {
       "baseline": "154d6a663191bb04faae2c577de9535af962320d1e96c160406d34a2e7b6183f",
@@ -19,25 +19,25 @@
     },
     "docs/features/all-takeaway-motion.md": {
       "baseline": null,
-      "candidate": "c0aa9fae5cbd4e02c448b493dc38781724bcc4a982cc7f34e2193d50b7f42a6c"
+      "candidate": "3743b4924dc5de829389fe3abe2369b0c54dfc9ba893250c3a255017732d77c9"
     },
     "tools/takeaway-motion-browser.mjs": {
       "baseline": "218b27d3e2204d7ad41b3570ec1934a3cf28446072101a160bc765c933d89153",
-      "candidate": "2f786300797fb50a56c1c5ef66a2847db63316a901819e63dc93375494795c9b"
+      "candidate": "15b6b11c5bc9b02fe1cbb576b9b6825e2db7ef1bcb220f60db2f39b44faa7ebc"
     }
   },
   "release": {
     "app/catalog.js": {
       "baseline": "e87e677747935d50c8fb0da06be36bce33a1caba71747adce3d3342f0efe0fcf",
-      "candidate": "158a0abcf22ad12522c74f79f6925a6f8533bea831f9091120175fd15313a05a"
+      "candidate": "f0439821c6a4a9a0d37ad689611882d10f633c258c2291c86f2ddedd55257d39"
     },
     "app/index.html": {
       "baseline": "b6c46c3479a0625af18ec420e85f79ea1572aaf5e572929ea8bf77b49c719b0c",
-      "candidate": "4062c0b70273e6eca49ea118740fcc57d7db632e124ee3df9ff863e9a4b3ce45"
+      "candidate": "e2f7f2bf1bbb4cb2dbe0faa3870218d7896206bda01150307677b58d07cb510d"
     },
     "app/play.html": {
       "baseline": "52e50f820ded44b2a3d11ab14f9cd12f74ee0654a337498dd4040b611ce82bff",
-      "candidate": "21f1c3fc7b5e9f7d77e736edfcc2c61782b11f8dd996475acee9638d34e1b1d8"
+      "candidate": "c07cf8ae42e1a5f5462aa192b970a3fe404fdce295ba8f08fd2825c4f1625a51"
     },
     "app/takeaways.css": {
       "baseline": "a94d791e7c4afc7ad62a71faddb26e9fc32ed9bff4f78b0a3a7f4f74bfd49f24",
@@ -45,7 +45,7 @@
     },
     "app/takeaways.js": {
       "baseline": "d2333838458a347abfcad7eb361b956cca547c3132431e640a424240e0bf6c73",
-      "candidate": "0b669a6d666034c319f99d64032f206e2eda3f17e06f9ec52b880a68f537b441"
+      "candidate": "3fe4a1f72efcef6b34633072f59564ac9d20b43c5cd0d17f0d05d606dfb8544e"
     }
   }
 }
