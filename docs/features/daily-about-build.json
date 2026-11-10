@@ -1,0 +1,42 @@
+{
+  "source": {
+    "app_src/index.html": {
+      "baseline": "7c6f4527f874abd5ecdc64c89f37c75f1eaf1319bae0d0ea92dc8d86d49c5f26",
+      "candidate": "6557af96d2f1785577548138f31ead39649b8de8a44332f6c401664d332ffb8d"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "d99ad447f30f9cdc80d5b99df53b04f5639a5165aea1807b1530e1e73c7581a2",
+      "candidate": "5dd776dcd8c1b82d93eb40104792c6e795be11901d5f288bbaadaf3235b09f37"
+    },
+    "THIRD_PARTY_NOTICES.md": {
+      "baseline": "24487f7300c469aa44aac446a8e37847a7b841b3631ed1e8a1bcaab9499cebf3",
+      "candidate": "60f7f296477f1a27a8ab9b58c51ba6457142351c8c87a856b926f7bca34b1e1b"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "26f1428348776002df9702b1444dbf55d6d8dc9ef8a7311f48b21e3ba376d6df",
+      "candidate": "4afc7c8aa3d3e76c524efa94b01d3a43f24f96974b9fcc10fd1827b10888b6dc"
+    },
+    "tools/daily-about-browser.mjs": {
+      "baseline": null,
+      "candidate": "0e3c826a9afa58278196a29de525232e53f57cb82956f21537e85f2c1684f5d9"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "f0439821c6a4a9a0d37ad689611882d10f633c258c2291c86f2ddedd55257d39",
+      "candidate": "fa6dd6fde08ab6efe18added184858687b0f0af2756c8589dbb8e6dd706059fe"
+    },
+    "app/index.html": {
+      "baseline": "e2f7f2bf1bbb4cb2dbe0faa3870218d7896206bda01150307677b58d07cb510d",
+      "candidate": "09edd061b8483110dd5ff44d139e692bcd2fef2f896c590b422a02ce610bcf02"
+    },
+    "app/play.html": {
+      "baseline": "c07cf8ae42e1a5f5462aa192b970a3fe404fdce295ba8f08fd2825c4f1625a51",
+      "candidate": "4e3f14c2286f915feb168785716a6b086f0a1556c3c84f4c34a8885e83e1faee"
+    },
+    "app/engine/engine.js": {
+      "baseline": "4d9abb6e75ec0604d4ad1861c697fb936171bd6d1fe5375df909a49f4840de11",
+      "candidate": "c3241a46d2b78353ed7d9d403fbe1680395a0dc55f8c2ff37eb4ba6fee0eb4ff"
+    }
+  }
+}

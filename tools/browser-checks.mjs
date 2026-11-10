@@ -7,6 +7,7 @@ const tasks=[['tools/takeaway-motion-browser.mjs',base],['tools/takeaway-browser
 // The opt-in comparison preserves first scores and withholds annotations until commitment.
 tasks.push(['tools/contact-focus-browser.mjs',base]);
 const groups={
+ 'tools/daily-about-browser.mjs':'shell',
  'tools/takeaway-motion-browser.mjs':'shell',
  'tools/takeaway-browser.mjs':'shell',
  'tools/sharing-practice-browser.mjs':'shell',
@@ -33,6 +34,7 @@ const groups={
  'tools/readiness-browser.mjs':'shell','gs/app_flow.mjs':'shell','app_src/lesson-layout-regression.mjs':'shell','gs/payoff_check.mjs':'shell','gs/verify_pusher.mjs':'shell'
 };
 const suite=process.env.GS_BROWSER_SUITE||'all';
+tasks.push(['tools/daily-about-browser.mjs',base]);
 if(!['all',...new Set(Object.values(groups))].includes(suite))throw Error('Unknown browser suite: '+suite);
 if(tasks.some(([file])=>!groups[file]))throw Error('Every release check must belong to exactly one suite');
 // Run cheap per-lesson contracts before the longer complete journeys.

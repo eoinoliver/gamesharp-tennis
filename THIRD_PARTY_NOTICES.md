@@ -10,7 +10,8 @@ https://creativecommons.org/licenses/by-sa/3.0/.
 Derived pose/clip data (`rally/*_data.json`, generated `app/clips/*.json`) and
 motion-derived Sharpen renders retain that license. GameSharp edits, retimes,
 retargets and places motion on court; racquet, running and ball flight are
-modelled. The live Explore credit and source/license links remain unchanged.
+modelled. The full motion credit and source/license links are available in About →
+Credits & Licences.
 This notice does not grant rights to unrelated application code or named-player
 reference material. Pro Lens source links are retained; no source video is copied.
 

@@ -104,11 +104,8 @@ button{font:inherit}
 .fb.miss .lab{color:var(--gold)}
 .fb .copy{color:rgba(255,255,255,.84);font-size:14px;line-height:1.48}
 .fb .prin{margin-top:6px;color:rgba(255,255,255,.58);font-size:12.5px;line-height:1.48}
-.fb .tries{display:inline-block;margin:0 0 7px;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700}
-.tries.good{background:rgba(89,189,112,.14);color:#8fd49c}.tries.mid{background:rgba(200,168,75,.14);color:var(--gold)}.tries.bad{background:rgba(224,112,112,.14);color:#f0a0a0}
 .fbh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-7px -6px 1px 0}
 .fbh .lab{margin:0}
-.fbh .tries{margin:0 auto 0 0}
 .why{min-width:62px;min-height:34px;margin:0;padding:5px 8px;border:0;background:transparent;color:var(--gold);cursor:pointer;
   font-size:12px;font-weight:800;letter-spacing:.4px;text-align:left}
 .why span{display:inline-block;margin-left:3px;font-size:15px}
@@ -167,7 +164,6 @@ details.pay .pbody p:first-child{margin-top:0}
 .recap-dock{display:flex;justify-content:center;gap:8px;padding:8px;border-top:1px solid rgba(200,168,75,.2)}
 .recap-dock[hidden]{display:none}
 .recap-dock button{min-height:44px;padding:8px 12px;border:1px solid rgba(240,236,227,.35);border-radius:12px;background:#10231e;color:#f0ece3;font:600 12px "DM Sans",sans-serif;cursor:pointer}
-.illustration-note{font-size:12px;line-height:1.4;color:rgba(255,255,255,.72);margin:8px 0 0}
 .contact-focus .tools{z-index:5}
 .contact-focus.inspecting .tools,.contact-focus.inspecting .paused{visibility:hidden}
 .contact-focus.inspecting .contact-mode{max-width:calc(100% - 20px)}
@@ -1036,7 +1032,6 @@ function choose(i,X,demo){
 }
 function verdict(i,X,demo){
   const S=LESSON.steps[i], also=(S.alsoOk||[]).includes(LETTERS.indexOf(X)), ok=LETTERS.indexOf(X)===S.correct||also, corr=LETTERS[S.correct];
-  const d=dotsOf(S.reveal?S.scene:S.scene+X), n=d?d.filter(x=>x[2]).length:0;
   // Praise the committed decision once. Replays and better-option demos cannot earn it.
   if(ok&&!demo)celebrate(i);
   showOnly(ok||demo?[X]:[X,corr]);
@@ -1046,10 +1041,9 @@ function verdict(i,X,demo){
   const lab=demo?`Option ${X}`:LESSON.livePoint&&!LESSON.comparison&&i===0?(ok?'More recovery time':'Less recovery time'):also?`Also works · best: ${corr}`:ok?"Good read":`Better: ${corr}`;
   const v=$("verdict");
   zone.classList.add("ans");
-  v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div>${d?`<div class="tries ${n>=9?"good":n>=7?"mid":"bad"}">Illustrated landings · ${n}/${d.length}</div>`:""}<button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
+  v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div><button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
       <div class="copy">${S.lines[X]}</div>
       <div class="prin">${S.take}</div>
-      ${d?'<p class="illustration-note">Illustrative examples, not a prediction of your success rate.</p>':''}
       <div class="whyp" id="whyp" hidden><p>${S.payoff}</p><p>${S.principle}</p><p>${S.why}</p></div></div>
     ${LESSON.flow&&!LESSON.branch&&!ok&&i<NS()-1?`<p class="model-reset">The next decision follows the model pattern: <b>${S.opts[S.correct]}</b>. Your original answer stays saved.</p>`:''}
     <div class="acts">${S.reveal?"":`<button class="alt" id="tryOther">${ok||demo?"Try another":`Watch ${corr} play out`}</button>`}
