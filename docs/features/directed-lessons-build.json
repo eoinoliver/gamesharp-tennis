@@ -24,7 +24,7 @@
     },
     "tools/directed-browser.mjs": {
       "baseline": null,
-      "candidate": "21c5d1256734b0dbfc2d5e3831684ce989a607067ad8057c9c141c544f88ad10"
+      "candidate": "e25eb51fa52c1d1aa033df26e12cf2d6652729587932bf02a89fa61ccb498ed1"
     },
     "tools/question-action-browser.mjs": {
       "baseline": "43c01518631414dec43d7a279b88ee8462cb03c2d7e86d74c36a11200a634581",
