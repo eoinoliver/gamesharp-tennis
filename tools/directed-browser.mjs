@@ -38,8 +38,9 @@ try{
    check(!/ten tries|\d+\s*\/\s*10/i.test(await p.locator('#directedReview').innerText()),label+': no probability board');
    check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),label+': no horizontal overflow');
    if(pick===2)await p.screenshot({path:`${out}/${slug}-${width}-board.png`,fullPage:true});
-   await p.locator('#again').click();
-   check(await p.evaluate(()=>GSDirected.state.active&&GSDirected.state.phase==='wide'),label+': existing Replay uses the directed route');await skip(p);
+   // Observe this short route at real speed; at 8x it can finish during click settling.
+   await p.evaluate(()=>window.__speed=1);await p.locator('#again').click();
+   check(await p.evaluate(()=>GSDirected.state.active&&GSDirected.state.phase==='wide'),label+': existing Replay uses the directed route');await skip(p);await p.evaluate(()=>window.__speed=8);
    await p.locator('#directedOther').click();await skip(p);
    check(JSON.stringify(await p.evaluate(()=>ans))===JSON.stringify(state.ans),label+': skipping replay cannot rescore');
    for(let alternative=0;alternative<4;alternative++){
