@@ -1451,16 +1451,20 @@ window.GSDirected=(()=>{
     if(kind==='height')points=you.pose.concat([[p[0],0,0],[p[0],0,1.8],[p[0],p[1],0]]);
     else if(kind==='line')points=[[-4.5,9.5,0],[-3.5,13,0],[-4,11,2]];
     else if(kind==='net')points=[[1.3,0,0],[3.8,0,0],[2.5,0,1.7]];
-    else if(kind==='opening')points=you.pose.concat([add(you.pose[I.head],[0,0,.3]),[0,5,1]]);
+    else if(kind==='opening')points=you.pose.concat([you.rq.centre,add(you.rq.centre,[.5,0,.5]),add(you.rq.centre,[-.5,0,-.5]),add(you.pose[I.head],[0,0,.3]),[0,5,1]]);
     else points=[[-5.4,-13.4,0],[5.4,-13.4,0],[-5.4,13,0],[5.4,13,0],[0,-12,2],[0,12,2]];
     if(board||kind==='samples')points.push(...[...LETTERS].flatMap(X=>dotsOf(prefix+X).map(([x,y])=>[x,y<1?-.15:y,.02])));
     if(kind==='wide')points.push(...you.pose,...actorAt(sc,'opp',t).pose);
     const q=points.map(toCam).filter(q=>q.z>ZNEAR),us=q.map(q=>q.x/q.z),vs=q.map(q=>q.y/q.z);
     const u0=Math.min(...us),u1=Math.max(...us),v0=Math.min(...vs),v1=Math.max(...vs);
     const top=film?Math.max(120,cap.getBoundingClientRect().height*VW/$('stage').clientWidth+28):32,bottom=45;
-    const f=Math.min((VW-(kind==='height'?180:90))/(u1-u0),(VH-top-bottom)/(v1-v0)),x=VW/2-f*(u0+u1)/2,y=top+(VH-top-bottom)/2+f*(v0+v1)/2;
+    const f=Math.min((VW-(kind==='height'||kind==='opening'?180:90))/(u1-u0),(VH-top-bottom)/(v1-v0)),x=VW/2-f*(u0+u1)/2,y=top+(VH-top-bottom)/2+f*(v0+v1)/2;
     if(!framing||CALM_MOTION||!film)framing=[f,x,y];else if(!paused)framing=framing.map((v,i)=>lerp(v,[f,x,y][i],.15));
     FOCAL=framing[0];window.__pc=framing.slice(1);return true;
+  }
+  function evidenceLabel(frag,p,text,col,dy){
+    const q=P(p);if(!q)return;
+    const label=el_('text',{x:clamp(q.s[0],110,VW-110),y:clamp(q.s[1]+dy,40,VH-30),'text-anchor':'middle',fill:col,'font-family':'Bebas Neue, Impact, sans-serif','font-size':32,stroke:'#07130b','stroke-width':3,'paint-order':'stroke'});label.textContent=text;frag.appendChild(label);
   }
   function draw(frag){
     if(!film&&!board)return;
@@ -1468,8 +1472,8 @@ window.GSDirected=(()=>{
     if(kind==='height'){
       const p=at(),nh=net(p[0]);seg(frag,[p[0],p[1],0],p,'#e8f27a',4,1);seg(frag,[p[0],0,0],[p[0],0,nh],'#f08a8a',4,1);
       seg(frag,p,[p[0],0,p[2]],'#e8f27a',2,.7);
-      label(frag,[p[0],p[1],0],'CONTACT '+Math.round(p[2]*100)+' CM','#e8f27a',19,1,26);
-      label(frag,[p[0],0,nh],'TAPE '+Math.round(nh*100)+' CM','#f08a8a',19,1,-18);
+      evidenceLabel(frag,[p[0],p[1],0],'CONTACT '+Math.round(p[2]*100)+' CM','#e8f27a',26);
+      evidenceLabel(frag,[p[0],0,nh],'TAPE '+Math.round(nh*100)+' CM','#f08a8a',-18);
     }
     if(kind==='line')label(frag,[-4,11.13,0],'IN BY '+Math.round(SC.wn1.info.shot.courtMargin*100)+' CM','#e3cd83',22,1,22);
     if(kind!=='samples'&&!board)return;

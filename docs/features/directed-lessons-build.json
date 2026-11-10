@@ -12,7 +12,7 @@
     },
     "rally/directed.js": {
       "baseline": null,
-      "candidate": "78c8b6a9dea52f7810a0481ba1f7681421203d7d247ef780106ce666536342bb"
+      "candidate": "af4910fca9f781f7b93c7907372ebd22a0ff12fb61e47cc1c649efaa7e8045b1"
     },
     "rally/directed.css": {
       "baseline": null,
@@ -24,7 +24,7 @@
     },
     "tools/directed-browser.mjs": {
       "baseline": null,
-      "candidate": "7079fe0774ff93a305bd8345c5b6c53dae2267a257c42a3de83ab4c946ba8667"
+      "candidate": "b256ad6e4b110eb231ba57cf9a28e04104922f24541868783a963b93d4cc98d2"
     },
     "tools/question-action-browser.mjs": {
       "baseline": "43c01518631414dec43d7a279b88ee8462cb03c2d7e86d74c36a11200a634581",
@@ -42,19 +42,19 @@
   "release": {
     "app/catalog.js": {
       "baseline": "fa6dd6fde08ab6efe18added184858687b0f0af2756c8589dbb8e6dd706059fe",
-      "candidate": "5c4c766ca5f17535978013fcbdd9c9074b0e4e5ac3c076322b4af8cfc54c4321"
+      "candidate": "e8d00b9595051773a72a5a58b0d59b880545892c6c9d46161283deae8accff96"
     },
     "app/index.html": {
       "baseline": "09edd061b8483110dd5ff44d139e692bcd2fef2f896c590b422a02ce610bcf02",
-      "candidate": "0afb62f8da1014ff7374a64a56f484f781318c7e4d20e11afd9e7c77647c2850"
+      "candidate": "5f44893ce6fd2dd7d6b5d3966786c6f82d997398b370eb1d3d6cb066cd74b63d"
     },
     "app/play.html": {
       "baseline": "4e3f14c2286f915feb168785716a6b086f0a1556c3c84f4c34a8885e83e1faee",
-      "candidate": "ba12b0134211b863a89fcf1200f76dac3ffe5373a5184d96b3d587c626f50f32"
+      "candidate": "4fbee56b88750d82d03f9a92119f24ec76e29c8df0ad4b2bc88f293bf22b8b8d"
     },
     "app/engine/engine.js": {
       "baseline": "c3241a46d2b78353ed7d9d403fbe1680395a0dc55f8c2ff37eb4ba6fee0eb4ff",
-      "candidate": "4663a3963d38276b4c4b6d9ea2f3aa97ebeb90d4e266cfc4b6391f9df9132d16"
+      "candidate": "dd63cf9e16867b9f436aa788d715df93b732636fe6b628687e13f17da1c8903c"
     }
   }
 }
