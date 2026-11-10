@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-10",
+  "verifiedAt": "2026-11-10T03:35:22.159027+00:00",
+  "project": "prj_SHIw7K0JxhCtoQQgh1zVHlR3r2Pe",
+  "pr": "https://github.com/eoinoliver/gamesharp-tennis/pull/89",
+  "approval": "Eoin: Ship it; subsequent approval for all remaining release work.",
+  "approvedCommit": "618f7059c24b25b1a9a741a1908a0fd44cbab71f",
+  "mergeCommit": "1f696552e30f65218c5e0739fdfbfaf932f4d795",
+  "gitTree": "819a3c7a6110474de2c07b016feb40ca3b74052a",
+  "appVersion": "c806b623e5",
+  "production": {
+    "id": "dpl_2D4Kmdm6bFgUREC8AC5XCLMsXh6U",
+    "url": "https://gamesharp-tennis-3wj5by619-eoinlynn-5978s-projects.vercel.app",
+    "live": "https://www.gamesharptennis.com",
+    "promotedWithoutRebuild": true
+  },
+  "rollback": {
+    "id": "dpl_bYEagL2zpq8nyuqazPcD8FrqTmr5",
+    "url": "https://gamesharp-tennis-4nbmyg68t-eoinlynn-5978s-projects.vercel.app",
+    "appVersion": "eac907fa40",
+    "needed": false
+  },
+  "autoAssignCustomDomains": false,
+  "equivalence": {
+    "preview": "dpl_6tR5Q9QUA4jKi1rmZR6YrrVnaNyQ",
+    "production": "dpl_2D4Kmdm6bFgUREC8AC5XCLMsXh6U",
+    "approvedCommit": "618f7059c24b25b1a9a741a1908a0fd44cbab71f",
+    "mergeCommit": "1f696552e30f65218c5e0739fdfbfaf932f4d795",
+    "equalFields": {
+      "projectSettings": true,
+      "nodeVersion": true,
+      "config": true,
+      "functions": true,
+      "routes": true,
+      "regions": true
+    },
+    "buildSettings": {
+      "buildCommand": "python3 tools/build-hosted.py",
+      "devCommand": null,
+      "framework": null,
+      "commandForIgnoringBuildStep": null,
+      "installCommand": "npm ci",
+      "outputDirectory": "app",
+      "speedInsights": {
+        "id": "3nJj7uK8uJuuCh4L7vrtYdhzSMy",
+        "hasData": false
+      },
+      "webAnalytics": {
+        "id": "VOlIlkHxTaq1YFH0KXx9cDy7m"
+      },
+      "nodeVersion": "24.x"
+    },
+    "platformEnvironmentNamesOnly": true,
+    "previewOnlyPlatformNames": [],
+    "productionOnlyPlatformNames": [],
+    "functions": 0,
+    "staticPaths": 476,
+    "inventorySha256": "c8c59373ad97bd2407bac95b091d9b31810cbda07fdc26f9bef106a8a9a4f2d6",
+    "inventoryProof": "Complete dashboard Resources tables compared, 476 paths each, zero missing/extra; SHA256 matches all local manifest paths."
+  },
+  "checks": {
+    "approvedHeadCi": "https://github.com/eoinoliver/gamesharp-tennis/actions/runs/42743225986",
+    "browserReleaseChecks": 98,
+    "unitChecks": 102,
+    "localScopedChromium": 148,
+    "localScopedWebKit": 148,
+    "previewHosted": 618,
+    "previewBrowser": 148,
+    "stagedHosted": 618,
+    "stagedBrowser": 148,
+    "liveHosted": 618,
+    "liveBrowser": 148,
+    "livePageErrors": 0,
+    "apexRedirect": "307 to https://www.gamesharptennis.com/",
+    "analytics": "Intercepted in live browser QA; progress isolated in fresh contexts."
+  },
+  "scope": {
+    "newlyEligibleJourneys": 0,
+    "withheldJourneys": 0,
+    "unchangedLessons": 63,
+    "unchangedClips": 22,
+    "unchangedAudio": 155,
+    "physicalDevices": "Unverified; browser checks do not constitute physical-device testing."
+  },
+  "recordOnly": "This documentation branch does not alter the app artifact and must not replace the verified production deployment."
+}
