@@ -4,7 +4,7 @@
   "source": {
     "rally/directed.js": {
       "baseline": "65d223c9edb3aa64bee688f86160eac1e905b31807f5ae84a7e7b0ad4c338905",
-      "candidate": "f7d67f3eff4aede9a46c57140fc8317d27c475349793d6565c203cfad326064a"
+      "candidate": "98068d7ff60450657712e3cbed7ad5e80b4fbe08e3147f8a9026568a14505dca"
     },
     "rally/directed.css": {
       "baseline": "aeff22b261578ef04885e65a865d24336674cd836c2d883dce52516c62a2d46a",
@@ -42,19 +42,19 @@
   "release": {
     "app/catalog.js": {
       "baseline": "c0a046675b579f568e261cbedc21fcae83a7faea2ddd2d51eb2b782850bf0110",
-      "candidate": "2faf28db2bba9c18a8d448b68cc7fa0b824436dcaac2cc0c219a15bd2e61b246"
+      "candidate": "2b887b35e85a1560128978b1d5cef92a5f7e21809be2a7b36ea037c37be44017"
     },
     "app/index.html": {
       "baseline": "892ce1f9d5a7e90ee201cd39a225f7b7482e2730af1cd3ca88c584046641470e",
-      "candidate": "90333416873a2a8a468086aa41502ec1323cc33ccb4b2e89c7e48d6904e05e6e"
+      "candidate": "64bfd775462e8b0f1f2bf2241273b93fd76dd76546ddd36334ba9b9eb0a0d5d4"
     },
     "app/play.html": {
       "baseline": "11fc6ce50585f23bf99054b0f13e1ae59c35657ce8aa4e6088110bfb27dd4b27",
-      "candidate": "56e53125baddc8081926d11f7d6ad7f0040df7ede6f01b333c5a265084b07c65"
+      "candidate": "4af75405dc118beb1e0f3ffca8396d327b2fad310a761a13ba772f824df3d5c2"
     },
     "app/engine/engine.js": {
       "baseline": "2cf108f1e1938be43470c5a3568090d1515c925fa274323eaf8b89dacdfba1ad",
-      "candidate": "cfb208e24a85c17f92964baf07db0da5a490711ca93665150c677638b103e32e"
+      "candidate": "575b1835b7cb38e85025fd27bc1529197262413faf4d0b574101740a0b182cf4"
     }
   }
 }

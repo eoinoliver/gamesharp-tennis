@@ -1487,7 +1487,7 @@ window.GSDirected=(()=>{
     colourChoices(S);
     const b=document.createElement('div');b.className='directed-review';b.id='directedReview';
     b.innerHTML=`<p>First answer: ${ans[i]||X} · saved. ${S.reveal?'Tap a tile to review.':'Tap a tile to replay.'}</p><div class="directed-compare"><button id="exploreDirected" aria-expanded="false" aria-controls="askOpts">${S.reveal?'Explore other answers':'Explore other shots'}</button><button id="directedOther">${S.reveal?'Replay the evidence':'Rewind & compare'}</button></div>`;
-    $('verdict').querySelector('.fb').appendChild(b);
+    $('verdict').appendChild(b);
     if($('tryOther'))$('tryOther').hidden=true;
     $('directedOther').onclick=()=>answer(i,X,true,()=>{board=true;},true);
     function showChoices(){
