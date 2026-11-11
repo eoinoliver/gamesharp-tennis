@@ -1128,3 +1128,13 @@ Codex is integrating the reviewed selections on `codex/daily-recall-art-20261111
 ## 11 November 2026 — Integrate the directed catalogue with live Daily art
 
 Codex is reconciling PR #92 with the live artwork from PR #94 after Eoin reported the missing answer colours, court letters and camera storytelling. Both feature trees feed the canonical Git build.
+## Directed lessons and Daily artwork in production · 11 November 2026
+
+Eoin reported that the live lesson was missing the matching answer colours, court letters and camera storytelling after the Daily artwork release. PR #92 now includes both the catalogue director and the previously released PR #94 artwork.
+
+- Reviewed combined Git head `ee3a022c51171027472b0387c07ec70368372871`, preview `dpl_EAmPkSyiVwNUZNDgmA9Bkrxrx2CE`. Merge `14f18d724a61b080fa3aa7772734790747f496e8` preserves the exact preview tree. Production version `627e19e9a6`, deployment `dpl_G5tmjwryKtvkcw3bGgDsiXSyn2Gb` at https://www.gamesharptennis.com. Auto-assignment was off. Previous live deployment `dpl_ChQHpgAsJzVvhg692weHtt5QoGzy` (app `22e90b375c`) remains the rollback target.
+- All 63 journeys use their authored choice colours. In a 390px browser the opening decisions across all 63 journeys passed on Preview, staged Production and live. The 32 openers with spatial targets showed 114 court letters matching their answer badges. Observation questions use their original visual evidence. Fresh Short Ball play showed the moving opening camera, net, rewind, contact-height and wide views. Return visits exposed the replay control.
+- The 32 Daily takeaway selections remain nine redraws, eight v3 illustrations and fifteen diagrams. Focused browser checks for these passed 222/222 on each deployment surface. The two-lesson directed suite passed 402 checks each in Chromium and WebKit on the combined Git preview.
+- The canonical rebuild verified 477 release files and 575 source/test inputs. All 102 unit tests and the integration commit's GitHub release workflow passed. Preview, staged and live each passed all 618 file, route, header and exclusion checks. Both Vercel resource views reported 476 static assets. Compared settings, routes and functions matched, with zero functions on either build. Physical-device behaviour and learning outcomes were not measured.
+
+[Release checks](https://github.com/eoinoliver/gamesharp-tennis/actions/runs/42943875957)
