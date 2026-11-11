@@ -14,7 +14,7 @@ async function page(width=390,reducedMotion='no-preference'){
  const c=await browser.newContext({viewport:{width,height:844},reducedMotion});await c.route(/posthog\.com/,r=>r.fulfill({status:200,body:'{}'}));
  await c.addInitScript(()=>{localStorage.setItem('gs_sound','0');localStorage.setItem('gs_voice','0');window.__motionFrames=[];window.__sampleMotion=false;
   setInterval(()=>{if(!window.__sampleMotion)return;const f=document.querySelector('[data-takeaway-motion]');if(!f)return;
-   __motionFrames.push({state:f.dataset.motionState,time:performance.now(),panels:[...f.querySelectorAll('.tk-drawing')].map(svg=>[...svg.querySelectorAll('.tk-travel-ball,[data-tk-animated],.tk-motion-trace,.tk-contact-highlight')].map(e=>({type:e.getAttribute('class'),x:e.getAttribute('cx'),y:e.getAttribute('cy'),dash:e.style.strokeDashoffset,opacity:e.style.opacity,transform:e.getAttribute('transform')}))),text:[...f.querySelectorAll('h1,p,figcaption')].map(e=>({text:e.textContent,y:e.getBoundingClientRect().y,height:e.getBoundingClientRect().height}))});
+   __motionFrames.push({state:f.dataset.motionState,time:performance.now(),panels:[...f.querySelectorAll('.tk-drawing')].map(svg=>[...svg.querySelectorAll('.tk-travel-ball,[data-tk-animated],.tk-motion-trace,.tk-contact-highlight')].map(e=>({type:e.getAttribute('class'),x:e.getAttribute('cx'),y:e.getAttribute('cy'),dash:e.style.strokeDashoffset,opacity:e.style.opacity,transform:e.getAttribute('transform')}))),text:[...f.querySelectorAll('h1,p,figcaption')].map(e=>({text:e.textContent,y:e.getBoundingClientRect().y+window.scrollY,height:e.getBoundingClientRect().height}))});
    if(f.dataset.motionState==='settled'&&__motionFrames.some(x=>x.state==='playing'))window.__sampleMotion=false;
   },40);
  });

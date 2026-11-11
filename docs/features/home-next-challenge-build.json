@@ -22,7 +22,7 @@
     },
     "tools/takeaway-motion-browser.mjs": {
       "baseline": "c4e7c9baae850d9e9db8acf71ed18e2cbdf7e3c3e502c943bf74a3d35bd991d7",
-      "candidate": "97c22305013807c63de8a02f30b657fb8da9be73ca33f25d205dfb0d4a249c0c"
+      "candidate": "518aa464f09d790764dd2517430aa1a791bc41bd1ab2b39b3b818d95a52f1985"
     }
   },
   "release": {
