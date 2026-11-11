@@ -1134,3 +1134,7 @@ Codex is reconciling PR #92 with the live artwork from PR #94 after Eoin reporte
 Codex is building a lesson-specific opening for each of the 30 remaining Daily challenges on `codex/daily-camera-stories-20261111`, using the existing Short Ball and Winner films as the reference.
 
 The Git candidate covers 32 Daily openings. The original two pilots retain their shot lists. The 30 new edits bind each rewind and close-up to authored footage. The actual return heights in Second Serve are 1.24 m and 1.60 m. Codex owns the preview checks and subsequent release after review.
+
+## Daily one-pass edit · 11 November 2026
+
+Codex is implementing the reviewed Serve Writes the Next Question edit throughout the existing Daily challenges on `codex/one-pass-daily-films-20261111`. The point advances through camera cuts, and comparison follows an explicit player action.

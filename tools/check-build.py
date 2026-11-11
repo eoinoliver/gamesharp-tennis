@@ -364,6 +364,15 @@ for records, expected in [(films['source'], source), (films['release'], manifest
         assert expected.get(name) == change['baseline'], f'Daily opening baseline drift: {name}'
         expected[name] = change['candidate']
 
+# The one-pass edit builds on the released Daily films.
+films = json.loads((ROOT/'docs/features/one-pass-daily-build.json').read_text())
+assert set(films['source']) == {'rally/daily-films.js','rally/directed.js','rally/lesson_body.html','tools/directed-browser.mjs','tools/daily-films-browser.mjs'}
+assert set(films['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
+for records, expected in [(films['source'], source), (films['release'], manifest)]:
+    for name, change in records.items():
+        assert expected.get(name) == change['baseline'], f'One-pass Daily baseline drift: {name}'
+        expected[name] = change['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

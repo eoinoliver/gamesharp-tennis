@@ -18,10 +18,12 @@ async function inspect(lesson){
     await p.route(/posthog\.com/,r=>r.fulfill({status:200,body:'{}'}));
     await p.addInitScript(()=>{
       window.__speed=6;localStorage.setItem('gs_sound','0');
-      window.filmPhases=[];window.holdForPhoto=true;
+      window.filmPhases=[];window.holdForPhoto=true;window.backtracks=[];let previous=null;
       function observe(){
         if(window.GSDirected?.active){
           const phase=GSDirected.state.phase;
+          if(previous?.scene===scene && t<previous.t)backtracks.push([previous.t,t]);
+          previous={scene,t};
           const title=document.querySelector('#directedCaption strong').textContent;
           if(filmPhases.at(-1)?.title!==title||filmPhases.at(-1)?.phase!==phase)filmPhases.push({phase,title});
           if(holdForPhoto&&['dailyHold','line','height'].includes(phase)&&
@@ -38,20 +40,30 @@ async function inspect(lesson){
     await p.waitForFunction(()=>window.GSDirected?.state.paused,null,{timeout:30000});
     const film=await p.evaluate(()=>({
       phases:filmPhases.slice(),frame:t,scene,az:cam.az,
-      hold:document.querySelector('#directedCaption strong').textContent,
+      backtracks:backtracks.slice(),hold:document.querySelector('#directedCaption strong').textContent,
       overflow:document.documentElement.scrollWidth>innerWidth
     }));
     assert(!film.overflow,lesson.slug);
     const phases=film.phases.map(x=>x.phase);
-    const expected=lesson.slug==='short-ball'?['opening','net','rewind','height']:
-      lesson.slug==='the-winner'?['opening','line']:['sweep','rewind','dailyReplay','dailyHold'];
+    const expected=lesson.slug==='short-ball'?['opening','height']:
+      lesson.slug==='the-winner'?['opening','line']:['sweep','dailyDetail','dailyHold'];
     for(const phase of expected)assert(phases.includes(phase),lesson.slug+' missing '+phase);
+    assert.deepEqual(film.backtracks,[],lesson.slug+' opening doubled back');
+    assert(!phases.includes('rewind'),lesson.slug);
     if(lesson.slug==='second-serve')assert(film.phases.some(p=>p.title==='Chest height.'));
+    if(lesson.slug==='serve-plus-one'){
+      const labels=await p.locator('#svg text').allTextContents();
+      assert(labels.includes('Return bounce')&&!labels.includes('SHORT MIDDLE')&&!labels.includes('LAST POINT'),'serve close-up has one bounce label');
+    }
     await p.locator('#stage').screenshot({path:output+'/'+lesson.slug+'.png'});
     await p.evaluate(()=>GSDirected.pause());
     await p.waitForFunction(()=>window.__test&&!zone.inert&&document.querySelector('#askOpts button:not(:disabled)'));
     const restored=await p.evaluate(()=>{const q=questionRange(LESSON.steps[0]);return !GSDirected.active&&scene===q.scene&&t===q.to;});
     assert(restored,lesson.slug+' must restore its exact decision');
+    if(lesson.slug==='serve-plus-one'){
+      const labels=await p.locator('#svg text').allTextContents();
+      assert(labels.includes('SHORT MIDDLE')&&labels.includes('LAST POINT'),'serve question restores both pieces of evidence');
+    }
     await p.reload();
     await p.waitForFunction(()=>window.__test&&!zone.inert&&document.querySelector('#watchDirected'));
     assert.equal(await p.evaluate(()=>filmPhases.length),0,lesson.slug+' repeat');
