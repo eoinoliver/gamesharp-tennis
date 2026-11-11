@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 164">
+  <defs>
+    <g id="ss-head">
+      <path d="M-3 3l-1 5 6 1 1 -7Z" fill="#b5bea6" />
+      <path d="M-5 -6Q0 -10 5 -6Q8 -3 5 2L2 6H-2l-2 -3 -3 -1 2 -3Z" fill="#e7e6cf" />
+      <path d="M-6 -5q3 -6 10 -3l3 5 -5 -1 -2 -2 -9 2Z" fill="#9ab6a2" />
+    </g>
+    <g id="ts-athlete">
+      <path d="M-1 -30l10 10 6 18" fill="none" stroke="#88a396" stroke-width="5.5" stroke-linecap="round" />
+      <path d="M-1 -28l-8 10 -6 16" fill="none" stroke="#e4dcc0" stroke-width="5.5" stroke-linecap="round" />
+      <path d="M-18 -3h6l3 3 -13 1zM10 -3h7l4 3 -12 1z" fill="#f6ebca" />
+      <path d="M-5 -51q4 -4 10 0l2 20 -11 1 -3 -5Z" fill="#bdd0a7" />
+      <path d="M-6 -34l13 -2 2 8 -6 4 -10 -4Z" fill="#6c9684" />
+      <use href="#ss-head" transform="translate(0,-58)" />
+    </g>
+    <g id="ts-ball">
+      <circle r="5.6" fill="#fadd77" stroke="#263c31" stroke-width="1.5" />
+      <path d="M-3.8 -3.4Q1 -2 2 4.2" fill="none" stroke="#9b803e" stroke-width=".9" />
+    </g>
+    <g id="ts-court">
+      <rect x="2" y="4" width="156" height="156" rx="4" fill="#173a32" />
+      <path d="M2 115L158 96V160H2Z" fill="#285547" />
+      <path d="M4 137H156" stroke="#a8b7a1" stroke-width="1.8" />
+    </g>
+    <pattern id="ts-weave" width="5" height="5" patternUnits="userSpaceOnUse">
+      <path d="M0 5V0H5" fill="none" stroke="#b3c8b6" stroke-width="1.2" />
+    </pattern>
+    <g id="ts-rac">
+      <ellipse cy="-13" rx="9" ry="13" fill="url(#ts-weave)" stroke="#e9ecd4" stroke-width="2.1" />
+      <path d="M-5.5 -2L0 8 5.5 -2M0 8v9" fill="none" stroke="#ddd5af" stroke-width="2.1" />
+      <path d="M0 13v9" stroke="#c28d70" stroke-width="3.8" stroke-linecap="round" />
+    </g>
+  </defs>
+  <svg viewBox="0 0 160 164" role="img" aria-label="A shaded band marks the hitter’s comfortable strike zone. A low slice skids under the band." x="0" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#ts-court" />
+    <rect x="10" y="61" width="140" height="34" rx="2" fill="#8bb99c" opacity=".22" />
+    <path d="M10 61h140M10 95h140" fill="none" stroke="#a7c1a6" stroke-dasharray="4 3" />
+    <g transform="translate(118 137) scale(1.23)">
+      <use href="#ts-athlete" />
+      <path d="M0 -49l-7 17 -9 7" fill="none" stroke="#e4dcc0" stroke-width="4" />
+      <use href="#ts-rac" transform="translate(-19 -21) rotate(-126) scale(.72)" />
+    </g>
+    <g data-recall-cue="">
+      <path d="M7 99Q26 104 49 136Q65 123 84 117" fill="none" stroke="#f4d479" stroke-width="2.8" />
+      <use href="#ts-ball" transform="translate(84 117)" />
+    </g>
+  </svg>
+  <svg viewBox="0 0 160 164" role="img" aria-label="Against the same hitter, a deep bouncing ball climbs above the shaded strike zone." x="160" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#ts-court" />
+    <rect x="10" y="61" width="140" height="34" rx="2" fill="#8bb99c" opacity=".22" />
+    <path d="M10 61h140M10 95h140" fill="none" stroke="#a7c1a6" stroke-dasharray="4 3" />
+    <g transform="translate(118 137) scale(1.23)">
+      <use href="#ts-athlete" />
+      <path d="M0 -49l-9 -6 -7 -12" fill="none" stroke="#e4dcc0" stroke-width="4" />
+      <use href="#ts-rac" transform="translate(-21 -72) rotate(-35) scale(.75)" />
+    </g>
+    <g data-recall-cue="">
+      <path d="M7 63Q24 85 44 136Q63 75 84 40" fill="none" stroke="#f4d479" stroke-width="2.8" />
+      <use href="#ts-ball" transform="translate(84 40)" />
+    </g>
+  </svg>
+</svg>

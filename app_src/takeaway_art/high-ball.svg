@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 164">
+  <defs>
+    <g id="ts-ball">
+      <circle r="5.6" fill="#fadd77" stroke="#263c31" stroke-width="1.5" />
+      <path d="M-3.8 -3.4Q1 -2 2 4.2" fill="none" stroke="#9b803e" stroke-width=".9" />
+    </g>
+    <g id="ts-boot">
+      <path d="M-11 -14l10 1 2 7 8 4 6 2 1 4h-30l-1 -5Z" fill="#e9ebd2" stroke="#203b31" stroke-width="1.6" />
+      <path d="M-12 1q12 3 27 1M-1 -7l-3 3m7 -1l-3 3" fill="none" stroke="#6b8c78" stroke-width="1.5" />
+      <path d="M-10 -14l9 1" stroke="#93b29c" stroke-width="2" />
+    </g>
+    <g id="ts-court">
+      <rect x="2" y="4" width="156" height="156" rx="4" fill="#173a32" />
+      <path d="M2 115L158 96V160H2Z" fill="#285547" />
+      <path d="M4 137H156" stroke="#a8b7a1" stroke-width="1.8" />
+    </g>
+    <pattern id="ts-weave" width="5" height="5" patternUnits="userSpaceOnUse">
+      <path d="M0 5V0H5" fill="none" stroke="#b3c8b6" stroke-width="1.2" />
+    </pattern>
+    <g id="ts-rac">
+      <ellipse cy="-13" rx="9" ry="13" fill="url(#ts-weave)" stroke="#e9ecd4" stroke-width="2.1" />
+      <path d="M-5.5 -2L0 8 5.5 -2M0 8v9" fill="none" stroke="#ddd5af" stroke-width="2.1" />
+      <path d="M0 13v9" stroke="#c28d70" stroke-width="3.8" stroke-linecap="round" />
+    </g>
+  </defs>
+  <svg viewBox="0 0 160 164" role="img" aria-label="The player steps toward the bounce. The strings meet the rising ball at waist height." x="0" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#ts-court" />
+    <path d="M5 77H154" stroke="#b7c8b2" stroke-dasharray="3 4" />
+    <path d="M4 102L18 137Q78 -23 138 137" fill="none" stroke="#849d8d" stroke-width="2" stroke-dasharray="4 3" />
+    <g data-recall-cue="">
+      <path d="M4 102L18 137Q33 97 48 77" fill="none" stroke="#f7d77b" stroke-width="3.4" />
+      <use href="#ts-rac" transform="translate(58 87) rotate(-35)" />
+      <use href="#ts-ball" transform="translate(48 77)" />
+    </g>
+    <path d="M98 117H62l8 -6m-8 6 8 6" fill="none" stroke="#d7e5ca" stroke-width="2.3" />
+    <use href="#ts-boot" transform="translate(89 132) scale(-.72 .72)" />
+  </svg>
+  <svg viewBox="0 0 160 164" role="img" aria-label="The player gives ground. The strings meet the descending ball at the same waist height." x="160" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#ts-court" />
+    <path d="M5 77H154" stroke="#b7c8b2" stroke-dasharray="3 4" />
+    <path d="M4 102L18 137Q78 -23 138 137" fill="none" stroke="#849d8d" stroke-width="2" stroke-dasharray="4 3" />
+    <g data-recall-cue="">
+      <path d="M18 137Q63 17 108 77" fill="none" stroke="#f7d77b" stroke-width="3" />
+      <use href="#ts-rac" transform="translate(119 87) rotate(-35)" />
+      <use href="#ts-ball" transform="translate(108 77)" />
+    </g>
+    <path d="M81 117h39l-8 -6m8 6 -8 6" fill="none" stroke="#d7e5ca" stroke-width="2.3" />
+    <use href="#ts-boot" transform="translate(127 132) scale(-.72 .72)" />
+  </svg>
+</svg>

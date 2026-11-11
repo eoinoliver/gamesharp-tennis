@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 164">
+  <defs>
+    <g id="ts-ball">
+      <circle r="5.6" fill="#fadd77" stroke="#263c31" stroke-width="1.5" />
+      <path d="M-3.8 -3.4Q1 -2 2 4.2" fill="none" stroke="#9b803e" stroke-width=".9" />
+    </g>
+    <g id="ts-boot">
+      <path d="M-11 -14l10 1 2 7 8 4 6 2 1 4h-30l-1 -5Z" fill="#e9ebd2" stroke="#203b31" stroke-width="1.6" />
+      <path d="M-12 1q12 3 27 1M-1 -7l-3 3m7 -1l-3 3" fill="none" stroke="#6b8c78" stroke-width="1.5" />
+      <path d="M-10 -14l9 1" stroke="#93b29c" stroke-width="2" />
+    </g>
+    <g id="ts-court">
+      <rect x="2" y="4" width="156" height="156" rx="4" fill="#173a32" />
+      <path d="M2 115L158 96V160H2Z" fill="#285547" />
+      <path d="M4 137H156" stroke="#a8b7a1" stroke-width="1.8" />
+    </g>
+    <pattern id="ts-weave" width="5" height="5" patternUnits="userSpaceOnUse">
+      <path d="M0 5V0H5" fill="none" stroke="#b3c8b6" stroke-width="1.2" />
+    </pattern>
+    <g id="ts-rac">
+      <ellipse cy="-13" rx="9" ry="13" fill="url(#ts-weave)" stroke="#e9ecd4" stroke-width="2.1" />
+      <path d="M-5.5 -2L0 8 5.5 -2M0 8v9" fill="none" stroke="#ddd5af" stroke-width="2.1" />
+      <path d="M0 13v9" stroke="#c28d70" stroke-width="3.8" stroke-linecap="round" />
+    </g>
+  </defs>
+  <svg viewBox="0 0 160 164" role="img" aria-label="The ball meets the opponent’s strings while both shoes hover just above their shadows." x="0" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#ts-court" />
+    <path d="M6 68H154" stroke="#749689" stroke-dasharray="3 4" />
+    <g data-recall-cue="">
+      <g transform="translate(68 42) rotate(56)">
+        <use href="#ts-rac" transform="scale(1.25)" />
+      </g>
+      <use href="#ts-ball" transform="translate(92 26)" />
+      <path d="M99 19l4 -4m-1 12h6m-13 -13 1 -5" stroke="#e4d1a1" stroke-width="1.7" />
+    </g>
+    <ellipse cx="53" cy="136" rx="20" ry="3" fill="#18382e" />
+    <ellipse cx="103" cy="136" rx="20" ry="3" fill="#18382e" />
+    <path d="M54 83l-1 26m49 -26 2 26" stroke="#abc4aa" stroke-width="9" />
+    <path d="M54 83l-1 12m49 -12 1 12" stroke="#789788" stroke-width="10" />
+    <use href="#ts-boot" transform="translate(51 119) scale(-1 1)" />
+    <use href="#ts-boot" transform="translate(106 119)" />
+  </svg>
+  <svg viewBox="0 0 160 164" role="img" aria-label="As the ball leaves the racket to the right, the shoes land and the outside foot pushes right." x="160" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#ts-court" />
+    <path d="M6 68H154" stroke="#749689" stroke-dasharray="3 4" />
+    <use href="#ts-rac" transform="translate(64 39) rotate(68) scale(1.25)" />
+    <path d="M85 29q24 -7 45 -4" fill="none" stroke="#f9d578" stroke-width="2.5" />
+    <use href="#ts-ball" transform="translate(132 25)" />
+    <g data-recall-cue="">
+      <path d="M66 86l-15 18 -10 22m53 -42 15 18 -4 23" fill="none" stroke="#b0caaf" stroke-width="9" stroke-linejoin="round" />
+      <use href="#ts-boot" transform="translate(38 127) rotate(-19) scale(-1 1)" />
+      <use href="#ts-boot" transform="translate(107 132)" />
+      <path d="M15 140l9 -5m-4 11 8 -7m89 -32h21l-6 -5m6 5 -6 5" fill="none" stroke="#f7dc90" stroke-width="2.2" stroke-linecap="round" />
+    </g>
+  </svg>
+</svg>

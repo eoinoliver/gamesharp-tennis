@@ -1,0 +1,110 @@
+{
+  "source": {
+    "app_src/takeaways.css": {
+      "baseline": "46275d58190a82d0d49dba52361090d60b37e635c821003eb6d3d83d9bade318",
+      "candidate": "5f7be9594370933da45fd138510636a3d7c64d9a8460e470746cffe5d63cb08b"
+    },
+    "app_src/takeaways.js": {
+      "baseline": "e038fd23392d1d487424575f267aa16ef388767b7149f20c61294b610dedd4b5",
+      "candidate": "054066c596f7a1f73b3c1b07869fd87b95ff5cf52fa6e69caa586562f7185dc1"
+    },
+    "app_src/takeaways.py": {
+      "baseline": "f4c3231f3cd1843760024cf53d7fd793f73a382182ea39d0c9efd2b5a8c88fd1",
+      "candidate": "809a9ea6d0f3845b8c247e8d5b2beeb919f03cf47a49f5f9e34e2883b3bd11d5"
+    },
+    "tools/takeaway-motion-browser.mjs": {
+      "baseline": "15b6b11c5bc9b02fe1cbb576b9b6825e2db7ef1bcb220f60db2f39b44faa7ebc",
+      "candidate": "f93f0a03fe871c94b13b54e03f7ff1d84925ee90a0a5f936c568cb13feb06d5d"
+    },
+    "app_src/takeaway_art/answer-the-drop.svg": {
+      "baseline": null,
+      "candidate": "3167dd1332109307df2dff3851a0c66eda364d63f72516c2f3c376b67a35a186"
+    },
+    "app_src/takeaway_art/attack-the-backhand.svg": {
+      "baseline": null,
+      "candidate": "f0f2925643b20c1b69583f532c8d554ee0cf6dd1c7eb78244f2cc86d92a9563b"
+    },
+    "app_src/takeaway_art/earned-net.svg": {
+      "baseline": null,
+      "candidate": "cd0a90571f917b1df8249ada3db61058bf500a1230f9283dd0880eaceb6a95f1"
+    },
+    "app_src/takeaway_art/forehand-bill.svg": {
+      "baseline": null,
+      "candidate": "9f759dcd23eec288856d429d4421ef668ad61ae32a8d83375c5870fa333ff9ec"
+    },
+    "app_src/takeaway_art/high-ball.svg": {
+      "baseline": null,
+      "candidate": "a5673b89c3e678a9ae01d6c08605ecb14138bc783c6ee62e121a3ab178cd700f"
+    },
+    "app_src/takeaway_art/middle-return.svg": {
+      "baseline": null,
+      "candidate": "fb7de82f8e2088c0147981e97c17c7ca84a99873cecfff61c1dbea76fd7109d5"
+    },
+    "app_src/takeaway_art/net-rusher.svg": {
+      "baseline": null,
+      "candidate": "bcf976d32e401d04299355ffee1f0d5f773e8cb62cec87bbc1c90c96e77a3cd2"
+    },
+    "app_src/takeaway_art/open-court.svg": {
+      "baseline": null,
+      "candidate": "c8f64c9dcbee5be81dcfa0b8f71761862c444fb2ce0c28134e75d405b8914dd9"
+    },
+    "app_src/takeaway_art/pulled-wide.svg": {
+      "baseline": null,
+      "candidate": "4d0f1f4e8ddd5a0b6b67bafbf1b3613c1719ac28e53705a5f5340b9a38160bff"
+    },
+    "app_src/takeaway_art/running-around.svg": {
+      "baseline": null,
+      "candidate": "2ba2b6a0da7247bab04473a91a71faaabc1084043ce9b188a7ede3b4b87d9407"
+    },
+    "app_src/takeaway_art/second-serve.svg": {
+      "baseline": null,
+      "candidate": "ed292f4b436b65919c4ecb20d5dd3ecc472b41e55f5916e6ebadb058812768a8"
+    },
+    "app_src/takeaway_art/serve-away-from-the-lean.svg": {
+      "baseline": null,
+      "candidate": "56151a25ef7632a1d2f45ef8d66613bd3a989f500cd53c9d00b53bf5ab1b46e4"
+    },
+    "app_src/takeaway_art/serve-plus-one.svg": {
+      "baseline": null,
+      "candidate": "795099fad4139a84b61d19a4055c4ea6340fdc67d7b7b3a29267272170c1a8b5"
+    },
+    "app_src/takeaway_art/split-step.svg": {
+      "baseline": null,
+      "candidate": "b8a830ead27fe870fd31144cfc593aec9e0b121b71fe03ed06bd7b438d74a528"
+    },
+    "app_src/takeaway_art/the-big-hitter.svg": {
+      "baseline": null,
+      "candidate": "baa0618a468f949ff67dd3b14cf790bcdcec46607c776e029753a1660a14939b"
+    },
+    "app_src/takeaway_art/the-moonballer.svg": {
+      "baseline": null,
+      "candidate": "f2dcc8286ebaee318c86eadce0b10381054535f6717623965711c1b244ca8a9c"
+    },
+    "app_src/takeaway_art/the-winner.svg": {
+      "baseline": null,
+      "candidate": "a8415062dbdb2ed06ec9a48f8404519d7b2ae6d0e82e8860ebca9867626395a1"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "fa6dd6fde08ab6efe18added184858687b0f0af2756c8589dbb8e6dd706059fe",
+      "candidate": "2c2df5234bbc91bfb61aa6d2b5042ca9f9ef8cec09d7a02df1f7d1db9148a1dc"
+    },
+    "app/index.html": {
+      "baseline": "09edd061b8483110dd5ff44d139e692bcd2fef2f896c590b422a02ce610bcf02",
+      "candidate": "b754895cfc0d3c729d1a8e093a8fa561d018d23426fe2aa2d447e5bcc1570b83"
+    },
+    "app/play.html": {
+      "baseline": "4e3f14c2286f915feb168785716a6b086f0a1556c3c84f4c34a8885e83e1faee",
+      "candidate": "8b4579b10c10325f090b1d2bb1886aa0fc9e6cbafc06cfa8f97480751bccb3bc"
+    },
+    "app/takeaways.css": {
+      "baseline": "46275d58190a82d0d49dba52361090d60b37e635c821003eb6d3d83d9bade318",
+      "candidate": "5f7be9594370933da45fd138510636a3d7c64d9a8460e470746cffe5d63cb08b"
+    },
+    "app/takeaways.js": {
+      "baseline": "3fe4a1f72efcef6b34633072f59564ac9d20b43c5cd0d17f0d05d606dfb8544e",
+      "candidate": "e8520f3ae2837328c8546da9c63f120ae63c2ad3e08687041e185f061c36df0b"
+    }
+  }
+}

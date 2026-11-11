@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 164">
+  <svg class="tk-drawing tk-editorial" viewBox="0 0 160 164" aria-hidden="true" font-family="DM Sans, system-ui, sans-serif" x="0" width="160" height="164">
+    <defs>
+      <marker id="ed-v3-running-around-0-ARR" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+        <path d="M0 0 L10 5 L0 10 z" fill="#ddc36d" />
+      </marker>
+      <pattern id="ed-v3-running-around-0-MESH" width="6" height="6" patternUnits="userSpaceOnUse">
+        <rect width="6" height="6" fill="#0f2419" />
+        <path d="M0 0 L6 6 M6 0 L0 6" stroke="#3d5e4a" stroke-width=".9" />
+      </pattern>
+    </defs>
+    <path d="M51 16 h64 l-28 64 l28 64 h-64 l28 -64 z" fill="#06110b" transform="translate(3 3)" />
+    <path d="M48 12 h64 l-28 66 l28 66 h-64 l28 -66 z" fill="#163322" stroke="#e5e9db" stroke-width="2.6" stroke-linejoin="round" />
+    <rect x="40" y="6" width="80" height="8" fill="#e5e9db" />
+    <rect x="40" y="142" width="80" height="8" fill="#e5e9db" />
+    <g data-recall-cue="">
+      <path d="M54 22 h52 l-23 52 h-6 z" fill="#ddc36d" />
+      <line x1="80" y1="78" x2="80" y2="136" stroke="#ddc36d" stroke-width="1.6" opacity="1" />
+      <path d="M70 142 l10 -10 l10 10 z" fill="#ddc36d" />
+    </g>
+  </svg>
+  <svg class="tk-drawing tk-editorial" viewBox="0 0 160 164" aria-hidden="true" font-family="DM Sans, system-ui, sans-serif" x="160" width="160" height="164">
+    <defs>
+      <marker id="ed-v3-running-around-1-ARR" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+        <path d="M0 0 L10 5 L0 10 z" fill="#ddc36d" />
+      </marker>
+      <pattern id="ed-v3-running-around-1-MESH" width="6" height="6" patternUnits="userSpaceOnUse">
+        <rect width="6" height="6" fill="#0f2419" />
+        <path d="M0 0 L6 6 M6 0 L0 6" stroke="#3d5e4a" stroke-width=".9" />
+      </pattern>
+    </defs>
+    <path d="M51 16 h64 l-28 64 l28 64 h-64 l28 -64 z" fill="#06110b" transform="translate(3 3)" />
+    <path d="M48 12 h64 l-28 66 l28 66 h-64 l28 -66 z" fill="#163322" stroke="#e5e9db" stroke-width="2.6" stroke-linejoin="round" />
+    <rect x="40" y="6" width="80" height="8" fill="#e5e9db" />
+    <rect x="40" y="142" width="80" height="8" fill="#e5e9db" />
+    <g data-recall-cue="">
+      <path d="M52 142 Q80 96 108 142 z" fill="#ddc36d" />
+    </g>
+  </svg>
+</svg>
