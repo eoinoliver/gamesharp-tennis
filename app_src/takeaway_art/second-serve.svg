@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 164">
+  <defs>
+    <g id="ss-head">
+      <path d="M-3 3l-1 5 6 1 1 -7Z" fill="#b5bea6" />
+      <path d="M-5 -6Q0 -10 5 -6Q8 -3 5 2L2 6H-2l-2 -3 -3 -1 2 -3Z" fill="#e7e6cf" />
+      <path d="M-6 -5q3 -6 10 -3l3 5 -5 -1 -2 -2 -9 2Z" fill="#9ab6a2" />
+    </g>
+    <g id="ts-athlete">
+      <path d="M-1 -30l10 10 6 18" fill="none" stroke="#88a396" stroke-width="5.5" stroke-linecap="round" />
+      <path d="M-1 -28l-8 10 -6 16" fill="none" stroke="#e4dcc0" stroke-width="5.5" stroke-linecap="round" />
+      <path d="M-18 -3h6l3 3 -13 1zM10 -3h7l4 3 -12 1z" fill="#f6ebca" />
+      <path d="M-5 -51q4 -4 10 0l2 20 -11 1 -3 -5Z" fill="#bdd0a7" />
+      <path d="M-6 -34l13 -2 2 8 -6 4 -10 -4Z" fill="#6c9684" />
+      <use href="#ss-head" transform="translate(0,-58)" />
+    </g>
+    <g id="ts-ball">
+      <circle r="5.6" fill="#fadd77" stroke="#263c31" stroke-width="1.5" />
+      <path d="M-3.8 -3.4Q1 -2 2 4.2" fill="none" stroke="#9b803e" stroke-width=".9" />
+    </g>
+    <g id="ts-boot">
+      <path d="M-11 -14l10 1 2 7 8 4 6 2 1 4h-30l-1 -5Z" fill="#e9ebd2" stroke="#203b31" stroke-width="1.6" />
+      <path d="M-12 1q12 3 27 1M-1 -7l-3 3m7 -1l-3 3" fill="none" stroke="#6b8c78" stroke-width="1.5" />
+      <path d="M-10 -14l9 1" stroke="#93b29c" stroke-width="2" />
+    </g>
+    <g id="ts-court">
+      <rect x="2" y="4" width="156" height="156" rx="4" fill="#173a32" />
+      <path d="M2 115L158 96V160H2Z" fill="#285547" />
+      <path d="M4 137H156" stroke="#a8b7a1" stroke-width="1.8" />
+    </g>
+    <pattern id="ts-weave" width="5" height="5" patternUnits="userSpaceOnUse">
+      <path d="M0 5V0H5" fill="none" stroke="#b3c8b6" stroke-width="1.2" />
+    </pattern>
+    <g id="ts-rac">
+      <ellipse cy="-13" rx="9" ry="13" fill="url(#ts-weave)" stroke="#e9ecd4" stroke-width="2.1" />
+      <path d="M-5.5 -2L0 8 5.5 -2M0 8v9" fill="none" stroke="#ddd5af" stroke-width="2.1" />
+      <path d="M0 13v9" stroke="#c28d70" stroke-width="3.8" stroke-linecap="round" />
+    </g>
+    <g id="oc-sole">
+      <path d="M-9 -18Q-4 -23 3 -19Q9 -16 9 -7L12 8Q13 17 7 21Q0 26 -7 21Q-13 16 -11 8L-9 -3Z" fill="#f0ebd6" stroke="#473e32" stroke-width="1.6" />
+      <path d="M-7 -15Q-3 -20 2 -16Q5 -13 5 -8L-5 -6Z" fill="#486f5c" />
+      <path d="M-5 -4l11 -2 2 13 -12 2Z" fill="#8eae94" />
+      <path d="M-4 -2l9 -1m-8 5 9 -2m-8 5 9 -1" fill="none" stroke="#f5f2e5" stroke-width="1.9" stroke-linecap="round" />
+      <path d="M-7 14Q1 9 9 12M-6 18Q1 15 7 15" fill="none" stroke="#adbaa5" stroke-width="1.4" />
+    </g>
+    <g id="ts-target">
+      <circle r="9" stroke="#f6d678" stroke-width="2" fill="#f2d073" fill-opacity=".12" />
+      <circle r="3" fill="#f6d678" />
+    </g>
+  </defs>
+  <svg viewBox="0 0 160 164" role="img" aria-label="Shoes inside the baseline show the returner moving in. A deep kick forces a high contact behind that starting spot." x="0" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#ts-court" />
+    <path d="M85 153l14 -29" stroke="#f2e9ca" stroke-width="3" />
+    <use href="#ts-boot" transform="translate(75 134) scale(-.65 .65)" opacity=".55" />
+    <path d="M78 148h29l-6 -5m6 5 -6 5" fill="none" stroke="#c3dcc4" stroke-width="2" />
+    <g transform="translate(127 135) rotate(7) scale(1.04)">
+      <use href="#ts-athlete" />
+      <path d="M-3 -48l-11 -2 -5 -10" fill="none" stroke="#ece4c6" stroke-width="4.4" />
+      <use href="#ts-rac" transform="translate(-24 -67) rotate(-28) scale(.88)" />
+    </g>
+    <g data-recall-cue="">
+      <path d="M4 77Q24 85 52 136Q73 74 101 44" fill="none" stroke="#f7d677" stroke-width="3.1" />
+      <use href="#ts-ball" transform="translate(101 44)" />
+    </g>
+    <ellipse cx="52" cy="137" rx="6" ry="2" fill="#f5d78b" />
+  </svg>
+  <svg viewBox="0 0 160 164" role="img" aria-label="The receiver is set for the high ball. Two widely separated targets inside one service box show a switch from the body toward the outside." x="160" width="160" height="164" class="tk-drawing tk-redraw">
+    <rect x="2" y="4" width="156" height="156" rx="4" fill="#173a32" />
+    <path d="M12 42H148V151H12Z" fill="#2c5341" />
+    <path d="M12 153V42H148V153M12 77H148M41 77V151" fill="none" stroke="#cbd6bd" stroke-width="1.9" />
+    <path d="M10 151H150" stroke="#e5e6c9" stroke-width="3" />
+    <use href="#oc-sole" transform="translate(73 29) rotate(175) scale(.47)" />
+    <use href="#oc-sole" transform="translate(89 29) rotate(184) scale(.47)" />
+    <g data-recall-cue="">
+      <circle cx="82" cy="89" r="9" stroke="#c7d4be" fill="none" stroke-width="2" stroke-dasharray="3 3" />
+      <path d="M93 91q15 13 33 4l-7 -2m7 2 -4 7" fill="none" stroke="#ecdaa4" stroke-width="2" />
+      <use href="#ts-target" transform="translate(133 86)" />
+    </g>
+  </svg>
+</svg>

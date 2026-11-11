@@ -298,6 +298,19 @@ for records, expected in [(daily_about['source'], source), (daily_about['release
         assert expected.get(name) == hashes['baseline'], f'Daily/About baseline drift: {name}'
         expected[name] = hashes['candidate']
 
+# The reviewed editorial selection. The remaining 15 lessons retain their schematics.
+recall_art = json.loads((ROOT/'docs/features/daily-recall-art-build.json').read_text())
+illustrations = set("""serve-plus-one the-winner open-court forehand-bill split-step middle-return high-ball
+second-serve running-around net-rusher the-moonballer pulled-wide serve-away-from-the-lean
+the-big-hitter answer-the-drop attack-the-backhand earned-net""".split())
+assert set(recall_art['source']) == {f'app_src/takeaway_art/{slug}.svg' for slug in illustrations} | {
+    'app_src/takeaways.css', 'app_src/takeaways.js', 'app_src/takeaways.py', 'tools/takeaway-motion-browser.mjs'}
+assert set(recall_art['release']) == {'app/catalog.js', 'app/index.html', 'app/play.html', 'app/takeaways.css', 'app/takeaways.js'}
+for records, expected in [(recall_art['source'], source), (recall_art['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Daily recall baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

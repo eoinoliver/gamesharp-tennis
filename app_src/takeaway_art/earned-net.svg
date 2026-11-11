@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 164">
+  <defs>
+    <g id="ss-head">
+      <path d="M-3 3l-1 5 6 1 1 -7Z" fill="#b5bea6" />
+      <path d="M-5 -6Q0 -10 5 -6Q8 -3 5 2L2 6H-2l-2 -3 -3 -1 2 -3Z" fill="#e7e6cf" />
+      <path d="M-6 -5q3 -6 10 -3l3 5 -5 -1 -2 -2 -9 2Z" fill="#9ab6a2" />
+    </g>
+    <g id="ts-athlete">
+      <path d="M-1 -30l10 10 6 18" fill="none" stroke="#88a396" stroke-width="5.5" stroke-linecap="round" />
+      <path d="M-1 -28l-8 10 -6 16" fill="none" stroke="#e4dcc0" stroke-width="5.5" stroke-linecap="round" />
+      <path d="M-18 -3h6l3 3 -13 1zM10 -3h7l4 3 -12 1z" fill="#f6ebca" />
+      <path d="M-5 -51q4 -4 10 0l2 20 -11 1 -3 -5Z" fill="#bdd0a7" />
+      <path d="M-6 -34l13 -2 2 8 -6 4 -10 -4Z" fill="#6c9684" />
+      <use href="#ss-head" transform="translate(0,-58)" />
+    </g>
+    <g id="ts-ball">
+      <circle r="5.6" fill="#fadd77" stroke="#263c31" stroke-width="1.5" />
+      <path d="M-3.8 -3.4Q1 -2 2 4.2" fill="none" stroke="#9b803e" stroke-width=".9" />
+    </g>
+    <g id="ts-court">
+      <rect x="2" y="4" width="156" height="156" rx="4" fill="#173a32" />
+      <path d="M2 115L158 96V160H2Z" fill="#285547" />
+      <path d="M4 137H156" stroke="#a8b7a1" stroke-width="1.8" />
+    </g>
+    <pattern id="ts-weave" width="5" height="5" patternUnits="userSpaceOnUse">
+      <path d="M0 5V0H5" fill="none" stroke="#b3c8b6" stroke-width="1.2" />
+    </pattern>
+    <g id="ts-net">
+      <path d="M0 0L8 -4v41l-8 4Z" fill="url(#ts-weave)" opacity=".7" />
+      <path d="M0 41V0l9 -4" fill="none" stroke="#e7ebcd" stroke-width="2.4" stroke-linecap="round" />
+    </g>
+    <g id="ts-rac">
+      <ellipse cy="-13" rx="9" ry="13" fill="url(#ts-weave)" stroke="#e9ecd4" stroke-width="2.1" />
+      <path d="M-5.5 -2L0 8 5.5 -2M0 8v9" fill="none" stroke="#ddd5af" stroke-width="2.1" />
+      <path d="M0 13v9" stroke="#c28d70" stroke-width="3.8" stroke-linecap="round" />
+    </g>
+  </defs>
+  <svg viewBox="0 0 160 164" role="img" aria-label="The opponent is deep. Both feet are set under the player, leaving room to swing at the short ball and follow it in." x="0" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#ts-court" />
+    <use href="#ts-net" transform="translate(96 97)" />
+    <g transform="translate(145 130) scale(.41)">
+      <use href="#ts-athlete" />
+    </g>
+    <path d="M136 137l10 -13M18 138l12 -12" fill="none" stroke="#ccd3b9" stroke-width="1.6" />
+    <g data-recall-cue="">
+      <g transform="translate(43 134) scale(-.91 .91)">
+        <use href="#ts-athlete" />
+        <path d="M-1 -47l-12 7 -6 -1" fill="none" stroke="#e4dcc0" stroke-width="4" />
+        <use href="#ts-rac" transform="translate(-27 -46) rotate(-49) scale(.8)" />
+      </g>
+    </g>
+    <use href="#ts-ball" transform="translate(77 85)" />
+    <path d="M47 148h30l-6 -5m6 5 -6 5" stroke="#c3ddbf" stroke-width="2.1" fill="none" />
+  </svg>
+  <svg viewBox="0 0 160 164" role="img" aria-label="Same short ball and same deep opponent. The player reaches with the racket fully extended and the back foot in the air." x="160" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#ts-court" />
+    <use href="#ts-net" transform="translate(96 97)" />
+    <g transform="translate(145 130) scale(.41)">
+      <use href="#ts-athlete" />
+    </g>
+    <path d="M136 137l10 -13M18 138l12 -12" fill="none" stroke="#ccd3b9" stroke-width="1.6" />
+    <g data-recall-cue="">
+      <path d="M36 109l-14 10 -15 -5" fill="none" stroke="#889f91" stroke-width="5" stroke-linecap="round" />
+      <path d="M6 109l2 5 -2 4 -4 -8Z" fill="#eee6c9" />
+      <path d="M37 107l17 7 7 19" fill="none" stroke="#e2dbbd" stroke-width="5.6" stroke-linejoin="round" />
+      <path d="M58 132h6l5 3h-13Z" fill="#f1e9cd" />
+      <path d="M32 107l8 -17 7 -6 8 6 -9 18 -8 5Z" fill="#b9d0a8" />
+      <path d="M32 104l13 5 -4 6 -11 -5Z" fill="#6e9684" />
+      <use href="#ss-head" transform="translate(53 81) scale(-.82 .82) rotate(12)" />
+      <path d="M46 91l12 2 7 0" fill="none" stroke="#e5dcc0" stroke-width="4" stroke-linecap="round" />
+      <use href="#ts-rac" transform="translate(69 91) rotate(55) scale(.64)" />
+    </g>
+    <use href="#ts-ball" transform="translate(77 85)" />
+  </svg>
+</svg>
