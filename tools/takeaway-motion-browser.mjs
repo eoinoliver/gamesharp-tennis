@@ -14,15 +14,16 @@ async function page(width=390,reducedMotion='no-preference'){
  const c=await browser.newContext({viewport:{width,height:844},reducedMotion});await c.route(/posthog\.com/,r=>r.fulfill({status:200,body:'{}'}));
  await c.addInitScript(()=>{localStorage.setItem('gs_sound','0');localStorage.setItem('gs_voice','0');window.__motionFrames=[];window.__sampleMotion=false;
   setInterval(()=>{if(!window.__sampleMotion)return;const f=document.querySelector('[data-takeaway-motion]');if(!f)return;
-   __motionFrames.push({state:f.dataset.motionState,time:performance.now(),panels:[...f.querySelectorAll('.tk-drawing')].map(svg=>[...svg.querySelectorAll('.tk-travel-ball,[data-tk-animated],.tk-motion-trace,.tk-contact-highlight')].map(e=>({type:e.getAttribute('class'),x:e.getAttribute('cx'),y:e.getAttribute('cy'),dash:e.style.strokeDashoffset,opacity:e.style.opacity,transform:e.getAttribute('transform')}))),text:[...f.querySelectorAll('h1,p,figcaption')].map(e=>({text:e.textContent,y:e.getBoundingClientRect().y,height:e.getBoundingClientRect().height}))});
+   __motionFrames.push({state:f.dataset.motionState,time:performance.now(),panels:[...f.querySelectorAll('.tk-drawing')].map(svg=>[...svg.querySelectorAll('.tk-travel-ball,[data-tk-animated],.tk-motion-trace,.tk-contact-highlight')].map(e=>({type:e.getAttribute('class'),x:e.getAttribute('cx'),y:e.getAttribute('cy'),dash:e.style.strokeDashoffset,opacity:e.style.opacity,transform:e.getAttribute('transform')}))),text:[...f.querySelectorAll('h1,p,figcaption')].map(e=>({text:e.textContent,y:e.getBoundingClientRect().y+window.scrollY,height:e.getBoundingClientRect().height}))});
    if(f.dataset.motionState==='settled'&&__motionFrames.some(x=>x.state==='playing'))window.__sampleMotion=false;
   },40);
  });
  const p=await c.newPage();p.on('pageerror',e=>errors.push(String(e)));return p;
 }
-async function home(p,slug,extra){
+async function home(p,slug,extra,scroll=true){
  await p.clock.setFixedTime(dateFor(slug));await p.goto(base+'?home=1');await p.evaluate(s=>GSApp.complete(s,2,3),slug);
  await p.addInitScript(()=>{window.__sampleMotion=true;});if(extra)await p.addInitScript(extra);await p.reload({waitUntil:'domcontentloaded'});
+ if(scroll)await p.locator('.takeaway-pair').evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}));
 }
 async function settled(p){
  try{await p.waitForFunction(()=>document.querySelector('[data-motion-state="settled"]'));}
@@ -66,7 +67,7 @@ try{
  for(const slug of Object.keys(cards)){
   const p=await page(390,'reduce');await home(p,slug);await settled(p);check(!(await p.evaluate(()=>__motionFrames)).some(f=>f.state==='playing')&&await p.locator('[data-tk-transient],[data-tk-animated]').count()===0,`${slug}: reduced motion is immediately static`);await p.context().close();
  }
- const off=await page();await home(off,'short-ball',()=>document.addEventListener('DOMContentLoaded',()=>{const style=document.createElement('style');style.textContent='.daily-complete{padding-top:1000px!important}';document.head.append(style);}));
+ const off=await page();await home(off,'short-ball',()=>document.addEventListener('DOMContentLoaded',()=>{const style=document.createElement('style');style.textContent='.daily-complete{padding-top:1000px!important}';document.head.append(style);}),false);
  await off.waitForTimeout(250);check(await off.locator('.lesson-takeaway').getAttribute('data-motion-state')==='waiting','offscreen summary waits');await off.locator('.takeaway-pair').scrollIntoViewIfNeeded();await off.waitForFunction(()=>document.querySelector('[data-motion-state="playing"]'));check(true,'scrolling the diagrams into view starts motion');await off.evaluate(()=>scrollTo(0,0));await settled(off);await off.locator('.takeaway-pair').scrollIntoViewIfNeeded();check(await off.locator('.lesson-takeaway').getAttribute('data-motion-state')==='settled','scrolling away settles; returning does not replay');await off.context().close();
  const pref=await page();await home(pref,'recovery');await pref.waitForFunction(()=>document.querySelector('[data-motion-state="playing"]'));await pref.emulateMedia({reducedMotion:'reduce'});await settled(pref);check(await pref.locator('.tk-you[transform]').count()===0,'changing reduced-motion preference settles immediately');await pref.emulateMedia({reducedMotion:'no-preference'});check(await pref.locator('.lesson-takeaway').getAttribute('data-motion-state')==='settled','restoring motion preference does not restart');await pref.context().close();
  const hidden=await page();await home(hidden,'short-ball');await hidden.waitForFunction(()=>document.querySelector('[data-motion-state="playing"]'));await hidden.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});await settled(hidden);await hidden.evaluate(()=>{delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));});check(await hidden.locator('.tk-travel-ball').count()===0&&await hidden.locator('.lesson-takeaway').getAttribute('data-motion-state')==='settled','backgrounding settles without replay on return');await hidden.context().close();

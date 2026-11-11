@@ -18,7 +18,7 @@ try{
  const rotation=await p.evaluate(()=>GSApp.CAT.dailyPlan.rotation);
  for(let i=0;i<rotation.length;i++){
   await p.clock.setFixedTime(new Date(Date.UTC(2026,10,9+i,1)));await p.reload();await moving(p);
-  check(await p.locator('#cineCourt video').evaluate((v,slug)=>v.currentSrc.includes('/'+slug+'.mp4')&&v.videoWidth===820&&v.videoHeight===470&&v.muted&&v.playsInline&&!v.loop,rotation[i]),rotation[i]+': correct silent inline clip autoplays');
+  check(await p.locator('#cineCourt video').evaluate((v,slug)=>v.currentSrc.includes('/'+slug+'.mp4')&&Math.abs(v.playbackRate-2/3)<.001&&v.videoWidth===820&&v.videoHeight===470&&v.muted&&v.playsInline&&!v.loop,rotation[i]),rotation[i]+': correct silent inline clip autoplays');
  }
  await p.clock.setFixedTime('2026-11-09T01:00:00Z');await p.reload();await moving(p);
  check(await p.evaluate(()=>window.__audioStarts===0),'autoplay creates no audio context');

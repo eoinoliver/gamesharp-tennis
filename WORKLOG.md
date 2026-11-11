@@ -1147,5 +1147,12 @@ Codex owns `codex/app-wide-single-pass-20261111` from `ce9f405`. Trace both deci
 
 Codex owns `codex/simplify-sharing-20261111` from `a8a68fe`. Use the same court-first sharing panel from Home, during play, after completion and for a proposed doubles plan. Verify native sharing, copying, manual fallback and the phone layout.
 
+## 11 November 2026 — A next challenge on returning Home
+
+Codex owns `codex/home-next-challenge-20261111` from the released sharing refresh. Keep the common calendar Daily, surface the Daily catalogue, then lead with unfinished or new practice matched to saved cues and completed activities. Verify return visits, eligibility and same-day completion measurement.
+
 - 12 Nov: Codex owns mobile return audit implementation on codex/mobile-return-20261112 from main d3dd42b. Scope: interrupted daily decisions, delayed doubles reads and directly supported mobile clarity/trust fixes.
   Reviewed build 0d58099a55. All 32 Daily lessons use the same browser-local checkpoint; first responses survive reloads, last-answer interruption and day rollover. Three doubles variations use observational openings. First reads, cue reveal, compact comparison and explicit restart passed the new browser journey in both Chromium and WebKit. All 103 unit tests and build contracts pass. No catalogue additions. Player research on cue discovery and sound preference remains open.
+
+12 Nov: Codex owns codex/home-intros-20261112. Integrate fresh Home recommendations with the released Daily checkpoints and slow the opening of each challenge.
+On live 0d58099a55, an actual Daily finish followed by Forehand Bill returned twice to the same takeaway. In the combined build 881fc86b64 both returns lead with a playable challenge; all 63 first scenes measured two-thirds speed, and all 104 unit tests passed. The release candidate includes #105 and preserves #106.

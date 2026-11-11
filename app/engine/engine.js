@@ -765,8 +765,8 @@ function run(key,from,stop,cb,silent=false,keepRecap=false){
 function setPlaying(p){if(!p&&window.GSSfx)GSSfx.stopContacts();playing=p;lastTs=null;$("paused").hidden=p||t>=stopAt;
   const i=$("playIcon"); if(i){const pl=p&&t<stopAt; i.innerHTML=pl?PAUSE_I:PLAY_I; $("playBtn").setAttribute("aria-label",pl?"Pause":"Play");}}
 const PAUSE_I='<path d="M9 5.5v13M15 5.5v13"/>', PLAY_I='<path d="M8 5.5l11 6.5-11 6.5z"/>';
-// Normal tennis speed. Slow inspection is an explicit control, never stacked into every answer.
-function rate(){return 1;}
+// Only the opening sequence uses the slower tempo.
+function rate(){return window.GSDirected?.playbackRate??1;}
 /* All events still drive visual bounce marks. Audio selects only decision context. */
 function sfxEvents(sc){if(sc._sfx)return sc._sfx;const ev=[];
   for(const who of Object.keys(sc.actors))for(const f of contactsOf(sc,who))ev.push([f,"hit",who.startsWith('opp')?.5:1]);
@@ -1544,6 +1544,7 @@ window.GSDirected=(()=>{
   const revealed=new Set();
   const dailyOpening=DailyFilms.sequence(slug);
   let openingSeen=null;
+  let filmRate=1;
   const introKey=S=>dailyOpening&&S===LESSON.steps[0]?'film:1:'+S.scene:'intro:'+S.scene;
   const storeKey='gs_directed_v1_'+slug;
   const seen=new Set();try{for(const k of JSON.parse(localStorage.getItem(storeKey)||'[]'))seen.add(k);}catch{}
@@ -1558,7 +1559,7 @@ window.GSDirected=(()=>{
   const net=x=>.914+(1.07-.914)*Math.min(1,Math.abs(x)/6.4)**2;
   const frame=(key,f)=>{scene=key;t=f;stopAt=f;onStop=null;setPlaying(false);};
   function cancel(){
-    skipCallback=null;film=null;shot=null;queue=[];sequence=[];finish=null;board=false;eye=null;framing=null;last=null;
+    filmRate=1;skipCallback=null;film=null;shot=null;queue=[];sequence=[];finish=null;board=false;eye=null;framing=null;last=null;
     clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;onStop=null;
     window.__pc=null;cap.hidden=dock.hidden=true;$('viewer').classList.remove('directing');
     if(rewatch){rewatch.remove();rewatch=null;}
@@ -1574,9 +1575,9 @@ window.GSDirected=(()=>{
     if(shot.play){run(shot.key,shot.from,shot.to,next,!!shot.silent);}
     else {frame(shot.key,shot.from);$('playIcon').innerHTML=PAUSE_I;$('playBtn').setAttribute('aria-label','Pause');}
   }
-  function start(stages,cb,label){
+  function start(stages,cb,label,playbackRate=1){
     cancel();clearContactInspection();questionCaption();showDots=false;showTargets=null;
-    film=true;paused=false;sequence=stages.slice();queue=stages.slice();finish=cb;cap.hidden=dock.hidden=false;
+    film=true;filmRate=playbackRate;paused=false;sequence=stages.slice();queue=stages.slice();finish=cb;cap.hidden=dock.hidden=false;
     $('viewer').classList.add('directing');$('skipDirected').textContent=label;next();
   }
   function offerSkip(cb,label){skipCallback=cb;dock.hidden=false;dock.firstElementChild.textContent='Watch the point';$('skipDirected').textContent=label;}
@@ -1586,7 +1587,7 @@ window.GSDirected=(()=>{
   function tick(ts){
     if(!film)return;
     if(document.hidden||paused){last=null;return;}
-    const dt=last==null?0:Math.min(50,ts-last)*(window.__speed||1);last=ts;elapsed+=dt;
+    const dt=last==null?0:Math.min(50,ts-last)*(window.__speed||1);last=ts;elapsed+=dt*filmRate;
     if(shot.cut && t>=shot.cut.at){
       // A change of camera within the running clip preserves ball, audio and time.
       shot={...shot,...shot.cut,cut:null};eye=null;framing=null;
@@ -1617,18 +1618,19 @@ window.GSDirected=(()=>{
       end();
     };
     if(q.from===q.to||!force&&(CALM_MOTION||seen.has(introKey(S)))){end();return true;}
+    const play=stages=>start(stages,filmEnded,'Skip to decision →',step===0?2/3:1);
     if(S.scene==='wn1'){
-      start([{kind:'opening',key:'wn1',from:62,to:298,play:true,eye:'A low ball. A narrow target.',title:'You go for the line.'},
-        {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}],filmEnded,'Skip to decision →');
+      play([{kind:'opening',key:'wn1',from:62,to:298,play:true,eye:'A low ball. A narrow target.',title:'You go for the line.'},
+        {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}]);
     }else if(pilot(S)&&height){
-      const key=prefix+'A',hit=contact(key)-1;start([
+      const key=prefix+'A',hit=contact(key)-1;play([
         {kind:'opening',key,from:62,to:hit,play:true,eye:'A short ball. They’re still deep.',title:'A free point?'},
         {kind:'height',key,from:hit,ms:1800,eye:'The deciding detail',title:'Below the tape.',copy:'Contact '+Math.round(at()[2]*100)+' cm. Tape '+Math.round(net(at()[0])*100)+' cm.'},
         {kind:'net',key,from:hit,to:257,play:true,eye:'The shot',title:'Watch the clearance.'}
-      ],filmEnded,'Skip to decision →');
+      ]);
     }else if(dailyOpening&&S===LESSON.steps[0]){
-      start(dailyOpening,filmEnded,'Skip to decision →');
-    }else start([{kind:'sweep',key:q.scene,from:q.from,to:q.to,play:true,silent:q.silent,eye:q.label||'Read the situation',title:S.name||'Your next decision',native:!!(LESSON.predict||LESSON.readinessLesson||CONTACT_FOCUS||q.type==='held-continuation')}],filmEnded,'Skip to decision →');
+      play(dailyOpening);
+    }else play([{kind:'sweep',key:q.scene,from:q.from,to:q.to,play:true,silent:q.silent,eye:q.label||'Read the situation',title:S.name||'Your next decision',native:!!(LESSON.predict||LESSON.readinessLesson||CONTACT_FOCUS||q.type==='held-continuation')}]);
     return true;
   }
   function alternative(S,X){return LETTERS[S.correct]!==X?LETTERS[S.correct]:pilot(S)?(height?'A':'C'):LETTERS[(S.correct+1)%S.opts.length];}
@@ -1739,7 +1741,7 @@ window.GSDirected=(()=>{
     showChoices();
   }
   function replay(){
-    if(film){const stages=sequence.slice(),cb=finish,label=$('skipDirected').textContent;start(stages,cb,label);return true;}
+    if(film){const stages=sequence.slice(),cb=finish,label=$('skipDirected').textContent;start(stages,cb,label,filmRate);return true;}
     if(board&&LESSON.steps[step]){const S=LESSON.steps[step],X=chosen||ans[step];return reviewAnswer(step,X,()=>{board=true;},S.reveal?S.scene:S.scene+X);}
     if(!done&&rewatch){rewatch.click();return true;}
     return false;
@@ -1862,7 +1864,7 @@ window.GSDirected=(()=>{
     }
     if(kind==='line')label(frag,[-4,11.13,0],'IN BY '+Math.round(SC.wn1.info.shot.courtMargin*100)+' CM','#e3cd83',22,1,22);
   }
-  return {question,answer,feedback,predictReview,offerSkip,cancel,skip,pause,tick,camera,fit,draw,replay,optionColour,colourChoices,get active(){return !!film;},get dailyCloseUp(){return !!shot?.edit;},get board(){return board&&pilot(LESSON.steps[step]||{});},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
+  return {question,answer,feedback,predictReview,offerSkip,cancel,skip,pause,tick,camera,fit,draw,replay,optionColour,colourChoices,get playbackRate(){return filmRate;},get active(){return !!film;},get dailyCloseUp(){return !!shot?.edit;},get board(){return board&&pilot(LESSON.steps[step]||{});},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
 })();
 
 if(LESSON.predict) setupPredict();

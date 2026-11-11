@@ -110,3 +110,13 @@ body.daily-led .privacy-note{margin-top:20px}
 }
 
 .daily-copy .restart-daily{display:inline-flex;align-items:center;min-height:44px;margin-top:4px}
+.home-browse{display:flex;align-items:center;gap:8px;width:fit-content;min-height:44px;color:#d4bb73;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:4px}
+.home-next-picture{overflow:hidden;aspect-ratio:820/470;display:grid;align-items:center}
+.home-next-picture .share-court,.home-next-still{width:100%;height:auto}
+.home-next + .today.is-done{border-top:1px solid #526a5980!important;padding-top:20px!important}
+.home-next .daily-copy>a.cine-cta{margin:0}
+@media(max-width:700px) and (max-height:720px){
+ .home-next-picture{max-height:128px}
+ body.daily-led .daily-feature-grid{gap:10px}
+ body.daily-led .daily-meta{margin-bottom:8px}
+}
