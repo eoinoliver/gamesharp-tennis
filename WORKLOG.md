@@ -1138,3 +1138,14 @@ The Git candidate covers 32 Daily openings. The original two pilots retain their
 ## Daily one-pass edit · 11 November 2026
 
 Codex is implementing the reviewed Serve Writes the Next Question edit throughout the existing Daily challenges on `codex/one-pass-daily-films-20261111`. The point advances through camera cuts, and comparison follows an explicit player action.
+
+## Daily single-pass camera release, 11 November 2026
+
+Eoin approved PR #99 at `76455a97fd697afc735bad50e774b08e54cfd2e0`. The Git merge `ce9f405d910aec1a2f64dd58406a321b33a8f832` has the reviewed tree. Vercel promoted the verified production deployment `dpl_CuEK9zh4yhkEHJSGtGW19HtoUVLn` without a rebuild. The live catalogue version is `ea69be7b81`. The previous production deployment `dpl_7AzxJWSZMt3KtP46MyQF8TC5ZMY9` is available for rollback.
+
+- The preview and staged production each contained 476 static assets and zero functions. Both passed all 618 hosted file, routing, header and exclusion checks. Project configuration and build settings matched. The production domain points to the staged deployment, the apex redirects to www, and all 618 HTTP checks passed on www.
+- All 32 openings passed at 390px in Chromium and WebKit on the public domain. A separate normal-speed WebKit pass checked the full sequence through the question and found no backwards frame jumps during any opening.
+- Played through all 96 decisions on the public domain. All 81 shot decisions played the chosen route once. Choosing Rewind & compare played the comparison and kept the first answer. All 15 observations went straight to feedback. The original decision descriptors and first-answer phases matched the preview.
+- The Serve Writes the Next Question passed a complete three-decision run with saved completion on staged production and live. A normal-speed production capture verified that the previous-point trail appears when the question opens. Production analytics were intercepted in browser checks.
+
+[Live serve challenge](https://www.gamesharptennis.com/play.html?l=serve-plus-one) · [Daily catalogue](https://www.gamesharptennis.com/?all=1&kind=daily) · [Release PR #99](https://github.com/eoinoliver/gamesharp-tennis/pull/99) · [Reviewed build checks](https://github.com/eoinoliver/gamesharp-tennis/actions/runs/42968752972)
