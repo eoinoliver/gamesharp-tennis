@@ -1146,3 +1146,11 @@ Codex owns `codex/app-wide-single-pass-20261111` from `ce9f405`. Trace both deci
 ## 11 November 2026 — Simpler sharing across GameSharp Tennis
 
 Codex owns `codex/simplify-sharing-20261111` from `a8a68fe`. Use the same court-first sharing panel from Home, during play, after completion and for a proposed doubles plan. Verify native sharing, copying, manual fallback and the phone layout.
+
+## Simplified sharing released on 11 November 2026
+
+Eoin approved PR #103 at `ec8ef0292f039505bfe80d53e622068d4c27fa3e`. Merge `d3dd42b624548b740aa110742fbaee19758145e5` has the same tree. Staged Production `dpl_AJ1vAfrAaPSJwbYJZwTvv6nPNUjh` was promoted without rebuilding. The www domain serves version `877d6ad3e0`, and the apex redirects to www. Last-good rollback deployment: `dpl_AQbi2F4PWxGPCd8v3WymBa4ZjM7d`.
+
+The preview and staged production each had 476 static assets and zero functions. All 618 file, routing and header checks passed on staged production and the public site. Public Chromium and WebKit each passed all 547 sharing and practice checks across 63 activities, including all seven completion formats. The reported doubles lesson passed all four complete routes with proposal sharing. Browser tests inspected the native payload and clipboard results using simulated system handlers.
+
+[Live share panel — open the lesson and tap Share](https://www.gamesharptennis.com/play.html?l=late-is-the-culprit) · [Release PR #103](https://github.com/eoinoliver/gamesharp-tennis/pull/103)
