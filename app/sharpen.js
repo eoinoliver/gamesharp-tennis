@@ -66,7 +66,7 @@ function mount(A=window.GSApp,redraw=()=>{}){
   let selected='fh',slow=false,paused=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const pause=document.getElementById('shPause');
   const paintPause=()=>{pause.textContent=paused?'Play':'Pause';pause.setAttribute('aria-pressed',String(paused));};paintPause();
-  const go=()=>{if(!st.isConnected)return;ath=window.GSAthlete.mount(st,{order:ATH,start:selected,onStroke:mark,onError:()=>{document.getElementById('shStatus').textContent='Animation unavailable. The reference frames are below. Replay to retry.';}});ath.speed(slow?.5:1);};
+  const go=()=>{if(!st.isConnected)return;ath=window.GSAthlete.mount(st,{order:ATH,start:selected,onStroke:mark,onEnd:()=>{paused=true;paintPause();},onError:()=>{document.getElementById('shStatus').textContent='Animation unavailable. The reference frames are below. Replay to retry.';}});ath.speed(slow?.5:1);};
   chips.forEach(b=>b.onclick=()=>{selected=b.dataset.ath;mark(selected);ath?.play(selected);paused=matchMedia('(prefers-reduced-motion: reduce)').matches;paintPause();
     card.innerHTML=strokeCard(selected).replace('<details','<details open');trackFn?.('sharpen_stroke',{stroke:selected});});
   document.getElementById('shReplay').onclick=()=>{document.getElementById('shStatus').textContent='';ath?.replay();paused=false;paintPause();};
