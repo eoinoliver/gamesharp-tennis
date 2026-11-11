@@ -1226,7 +1226,7 @@ function render(){
   if(detail){frag.appendChild(el_('rect',{width:VW,height:VH,fill:'#10231e'}));}
   else drawCourt(frag);
   // last point's reply, as evidence
-  if(scene==="daily1"){const E=sc.info.evidence;for(let i=1;i<E.length;i++){if(E[i][2]<0.02&&i<E.length-1)continue;
+  if(scene==="daily1"&&(!window.GSDirected?.active||GSDirected.state.phase==="evidence")){const E=sc.info.evidence;for(let i=1;i<E.length;i++){if(E[i][2]<0.02&&i<E.length-1)continue;
       seg(frag,E[i-1],E[i],"rgba(240,236,227,.5)",1.4,.55);}
     const e=E[E.length-1];ring(frag,[e[0],e[1],0.006],0.16,0.12,"rgba(240,236,227,.7)",1.4,.8);
     label(frag,[e[0],e[1],0],"LAST POINT","rgba(240,236,227,.8)",14,.9,-18);}

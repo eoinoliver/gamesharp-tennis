@@ -1112,7 +1112,7 @@ function render(){
   if(detail){frag.appendChild(el_('rect',{width:VW,height:VH,fill:'#10231e'}));}
   else drawCourt(frag);
   // last point's reply, as evidence
-  if(scene==="daily1"){const E=sc.info.evidence;for(let i=1;i<E.length;i++){if(E[i][2]<0.02&&i<E.length-1)continue;
+  if(scene==="daily1"&&(!window.GSDirected?.active||GSDirected.state.phase==="evidence")){const E=sc.info.evidence;for(let i=1;i<E.length;i++){if(E[i][2]<0.02&&i<E.length-1)continue;
       seg(frag,E[i-1],E[i],"rgba(240,236,227,.5)",1.4,.55);}
     const e=E[E.length-1];ring(frag,[e[0],e[1],0.006],0.16,0.12,"rgba(240,236,227,.7)",1.4,.8);
     label(frag,[e[0],e[1],0],"LAST POINT","rgba(240,236,227,.8)",14,.9,-18);}
@@ -1410,7 +1410,7 @@ window.GSSceneEvidence=(()=>{
 })();
 
 /* Camera edits into the existing first-question footage. Frame numbers are local
-   to the named clip. A focus cut replays the same action the wide shot just showed. */
+   to the named clip. The focus cut changes the view while the same clip continues playing. */
 const DailyFilms = (() => {
   const edits = {
     'serve-plus-one': {key:'daily1', intro:'Your serve sends them wide.', turn:'Follow the return back.', hold:'Where does their reply bounce?', mark:'Return bounce', lens:'bounce', from:302, to:367},
@@ -1424,11 +1424,11 @@ const DailyFilms = (() => {
     'middle-return': {key:'mr1A', intro:'The first serve takes you wide.', turn:'Follow the serve out to your racquet.', hold:'Where will you meet it?', mark:'Return contact', lens:'receiver', from:221, to:269},
     'high-ball': {key:'hb1A', intro:'It lands short. Then it climbs.', turn:'Stay beside the bounce.', hold:'How fast does the contact window rise?', mark:'After the bounce', lens:'rise', from:196, to:243},
     'second-serve': {key:'sq1', intro:'Two second serves land in.', turn:'Watch from the receiver’s side.', hold:'Same wing. What changed?', mark:'Second contact', lens:'awayHeight', from:662, to:712},
-    'contact-clue': {key:'cp1A', intro:'Your forehand finds the net.', turn:'Come back to the swing.', hold:'How much room is there beside your hip?', mark:'Hip to ball', lens:'hip', from:485, to:533},
+    'contact-clue': {key:'cp1A', start:278, intro:'Your forehand finds the net.', turn:'Come back to the swing.', hold:'How much room is there beside your hip?', mark:'Hip to ball', lens:'hip', from:485, to:533},
     'running-around': {key:'ra1A', intro:'Your slice stays low.', turn:'Track where they take it.', hold:'How much time does that buy you?', mark:'Their feet', lens:'opponentTrack', from:352, to:406},
     'net-rusher': {key:'nr1A', intro:'They follow the approach in.', turn:'Find their feet before you swing.', hold:'How close are they to the service line?', mark:'Service line', lens:'serviceLine', from:110, to:176},
     'pass-where-they-arent': {key:'pa1A', intro:'They close on the net.', turn:'Look along the passing lane.', hold:'Which side are they guarding?', mark:'Centre of net', lens:'netGap', from:106, to:168},
-    'late-is-the-culprit': {key:'lc1A', intro:'You aimed crosscourt. It flew wide.', turn:'Look along the contact plane.', hold:'Where is the ball relative to your hip?', mark:'At contact', lens:'sideHip', from:532, to:583},
+    'late-is-the-culprit': {key:'lc1A', start:328, intro:'You aimed crosscourt. It flew wide.', turn:'Look along the contact plane.', hold:'Where is the ball relative to your hip?', mark:'At contact', lens:'sideHip', from:532, to:583},
     'the-moonballer': {key:'mb1A', intro:'Another looping forehand comes back.', turn:'Follow it up off the court.', hold:'What happens if you wait here?', mark:'Rising ball', lens:'rise', from:198, to:260},
     'the-pusher': {key:'pu1A', intro:'They send another slow ball back.', turn:'Go behind their baseline.', hold:'How much court is in front of them?', mark:'Baseline', lens:'awayBaseline', from:122, to:188},
     'pulled-wide': {key:'pw1A', intro:'Their angle pulls you out.', turn:'Follow your run to the sideline.', hold:'Where would recovery start?', mark:'Your path', lens:'homeTrack', from:106, to:164},
@@ -1449,17 +1449,16 @@ const DailyFilms = (() => {
     const edit=edits[slug];
     if(!edit)return null;
     const {key,intro,turn,hold,from,to}=edit;
-    const wide={kind:'sweep',key,from:0,to,play:true,eye:'Watch the point',title:intro};
-    const rewind={kind:'rewind',key,from:to,to:from,ms:700,eye:'Rewind',title:turn};
-    const close={kind:'dailyReplay',key,from,to,play:true,silent:true,edit,eye:'Look again',title:turn};
-    const clue={kind:'dailyHold',key,from:to,ms:1900,edit,eye:'The deciding detail',title:hold};
+    const cut={at:from,kind:'dailyDetail',edit,eye:slug==='serve-plus-one'?'The return':'Watch closely',title:turn};
+    const wide={kind:'sweep',key,from:edit.start??0,to,play:true,eye:'Watch the point',title:intro,cut};
+    const clue={kind:'dailyHold',key,from:to,ms:1100,edit,eye:'The deciding detail',title:hold};
     if(slug==='second-serve'){
-      // The two actual receive contacts are 1.24 m and 1.60 m. Use the same
-      // angle for each; rewinding the second serve alone would hide the contrast.
-      return [{...wide,to:339},{...clue,from:339,ms:1150,eye:'First serve of the pair',title:'Chest height.'},
-        {...wide,from:415,eye:'Second serve of the pair'},rewind,close,clue];
+      // Each serve approaches its own contact once, from the same receiver-side view.
+      return [{...wide,to:339,cut:{...cut,at:289,title:'Watch the first return.'}},
+        {...clue,from:339,ms:1100,eye:'First serve of the pair',title:'Chest height.'},
+        {...wide,from:415,eye:'Second serve of the pair'},clue];
     }
-    return [wide,rewind,close,clue];
+    return [wide,clue];
   }
 
   const away=new Set(['opponentTrack','awayCentre','serviceLine','netGap','awayBaseline','awayHeight','awayRacquet']);
@@ -1532,6 +1531,7 @@ window.GSDirected=(()=>{
   }
   const revealed=new Set();
   const dailyOpening=DailyFilms.sequence(slug);
+  const dailyLesson=Boolean(dailyOpening||prefix);
   const introKey=S=>dailyOpening&&S===LESSON.steps[0]?'film:1:'+S.scene:'intro:'+S.scene;
   const storeKey='gs_directed_v1_'+slug;
   const seen=new Set();try{for(const k of JSON.parse(localStorage.getItem(storeKey)||'[]'))seen.add(k);}catch{}
@@ -1575,6 +1575,11 @@ window.GSDirected=(()=>{
     if(!film)return;
     if(document.hidden||paused){last=null;return;}
     const dt=last==null?0:Math.min(50,ts-last)*(window.__speed||1);last=ts;elapsed+=dt;
+    if(shot.cut && t>=shot.cut.at){
+      // A change of camera within the running clip preserves ball, audio and time.
+      shot={...shot,...shot.cut,cut:null};eye=null;framing=null;
+      $('viewer').dataset.directedPhase=shot.kind;caption(shot);
+    }
     if(!shot.play){
       if(shot.kind==='rewind')t=lerp(shot.from,shot.to,smooth(0,shot.ms,elapsed));
       if(elapsed>=shot.ms)next();
@@ -1594,11 +1599,10 @@ window.GSDirected=(()=>{
       start([{kind:'opening',key:'wn1',from:62,to:298,play:true,eye:'A low ball. A narrow target.',title:'You go for the line.'},
         {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}],end,'Skip to decision →');
     }else if(pilot(S)&&height){
-      const key=prefix+'A';start([
-        {kind:'opening',key,from:62,to:257,play:true,eye:'A short ball. They’re still deep.',title:'A free point?'},
-        {kind:'net',key,from:257,ms:1100,eye:'Into the tape',title:'Read the height.'},
-        {kind:'rewind',key,from:257,to:contact(key)-1,ms:850,eye:'Rewind',title:'Before you swing.'},
-        {kind:'height',key:prefix+'C',from:contact(prefix+'C')-1,ms:2600,eye:'The deciding detail',title:'Below the tape.',copy:'Contact '+Math.round(at()[2]*100)+' cm. Tape '+Math.round(net(at()[0])*100)+' cm.'}
+      const key=prefix+'A',hit=contact(key)-1;start([
+        {kind:'opening',key,from:62,to:hit,play:true,eye:'A short ball. They’re still deep.',title:'A free point?'},
+        {kind:'height',key,from:hit,ms:1800,eye:'The deciding detail',title:'Below the tape.',copy:'Contact '+Math.round(at()[2]*100)+' cm. Tape '+Math.round(net(at()[0])*100)+' cm.'},
+        {kind:'net',key,from:hit,to:257,play:true,eye:'The shot',title:'Watch the clearance.'}
       ],end,'Skip to decision →');
     }else if(dailyOpening&&S===LESSON.steps[0]){
       start(dailyOpening,end,'Skip to decision →');
@@ -1615,7 +1619,7 @@ window.GSDirected=(()=>{
     if(!pilot(S))return generalAnswer(S,X,demo,cb,force,only);
     const key=S.scene+X,alt=alternative(S,X),other=S.scene+alt;
     const end=()=>finishAnswer(S,X,cb);
-    if(!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo)){
+    if(!force){
       start([{kind:'wide',key,from:SC[key].info.freeze,to:SC[key].frames-1,play:true,eye:viewing(X,ans[i]),title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');return true;
     }
     const route=(k,label)=>({kind:'wide',key:k,from:contact(k)-1,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
@@ -1639,7 +1643,7 @@ window.GSDirected=(()=>{
       start([{kind:'evidence',key,from:q.from,to:q.to,play:true,silent:q.silent,native:true,eye:'Replay the evidence',title:S.unlock}],end,'Skip to feedback →');return true;
     }
     const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
-    const short=!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo);
+    const short=!force&&(dailyLesson||CALM_MOTION||seen.has('answer:'+S.scene)||demo);
     let stages=only?[route(only,viewing(only.slice(-1),ans[step]))]:[route(key,viewing(X,ans[step])+' · follow the consequence')];
     if(!short&&!only){
       stages.push(
@@ -1756,9 +1760,9 @@ window.GSDirected=(()=>{
     return {az:CALM_MOTION?-90:kind==='wide'?-90:lerp(-110,-72,u),el:kind==='wide'?29:39,d:32,fov:40,tgt:[0,0,0]};
   }
   // Readiness pairs share the actual arrival camera. Only the lead-in sweeps;
-  // the authored close-up follows the rewind after the shared view has played.
+  // the close-up then follows the same action to the decision.
   function nativeView(){
-    return shot?.native || (LESSON.readinessLesson && shot?.kind==='sweep' &&
+    return shot?.native || (LESSON.readinessLesson && (shot?.kind==='sweep'||shot?.kind==='dailyDetail') &&
       t>=SC[scene].info.readiness.start);
   }
   function camera(){

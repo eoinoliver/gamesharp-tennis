@@ -1,5 +1,5 @@
 /* Camera edits into the existing first-question footage. Frame numbers are local
-   to the named clip. A focus cut replays the same action the wide shot just showed. */
+   to the named clip. The focus cut changes the view while the same clip continues playing. */
 const DailyFilms = (() => {
   const edits = {
     'serve-plus-one': {key:'daily1', intro:'Your serve sends them wide.', turn:'Follow the return back.', hold:'Where does their reply bounce?', mark:'Return bounce', lens:'bounce', from:302, to:367},
@@ -13,11 +13,11 @@ const DailyFilms = (() => {
     'middle-return': {key:'mr1A', intro:'The first serve takes you wide.', turn:'Follow the serve out to your racquet.', hold:'Where will you meet it?', mark:'Return contact', lens:'receiver', from:221, to:269},
     'high-ball': {key:'hb1A', intro:'It lands short. Then it climbs.', turn:'Stay beside the bounce.', hold:'How fast does the contact window rise?', mark:'After the bounce', lens:'rise', from:196, to:243},
     'second-serve': {key:'sq1', intro:'Two second serves land in.', turn:'Watch from the receiver’s side.', hold:'Same wing. What changed?', mark:'Second contact', lens:'awayHeight', from:662, to:712},
-    'contact-clue': {key:'cp1A', intro:'Your forehand finds the net.', turn:'Come back to the swing.', hold:'How much room is there beside your hip?', mark:'Hip to ball', lens:'hip', from:485, to:533},
+    'contact-clue': {key:'cp1A', start:278, intro:'Your forehand finds the net.', turn:'Come back to the swing.', hold:'How much room is there beside your hip?', mark:'Hip to ball', lens:'hip', from:485, to:533},
     'running-around': {key:'ra1A', intro:'Your slice stays low.', turn:'Track where they take it.', hold:'How much time does that buy you?', mark:'Their feet', lens:'opponentTrack', from:352, to:406},
     'net-rusher': {key:'nr1A', intro:'They follow the approach in.', turn:'Find their feet before you swing.', hold:'How close are they to the service line?', mark:'Service line', lens:'serviceLine', from:110, to:176},
     'pass-where-they-arent': {key:'pa1A', intro:'They close on the net.', turn:'Look along the passing lane.', hold:'Which side are they guarding?', mark:'Centre of net', lens:'netGap', from:106, to:168},
-    'late-is-the-culprit': {key:'lc1A', intro:'You aimed crosscourt. It flew wide.', turn:'Look along the contact plane.', hold:'Where is the ball relative to your hip?', mark:'At contact', lens:'sideHip', from:532, to:583},
+    'late-is-the-culprit': {key:'lc1A', start:328, intro:'You aimed crosscourt. It flew wide.', turn:'Look along the contact plane.', hold:'Where is the ball relative to your hip?', mark:'At contact', lens:'sideHip', from:532, to:583},
     'the-moonballer': {key:'mb1A', intro:'Another looping forehand comes back.', turn:'Follow it up off the court.', hold:'What happens if you wait here?', mark:'Rising ball', lens:'rise', from:198, to:260},
     'the-pusher': {key:'pu1A', intro:'They send another slow ball back.', turn:'Go behind their baseline.', hold:'How much court is in front of them?', mark:'Baseline', lens:'awayBaseline', from:122, to:188},
     'pulled-wide': {key:'pw1A', intro:'Their angle pulls you out.', turn:'Follow your run to the sideline.', hold:'Where would recovery start?', mark:'Your path', lens:'homeTrack', from:106, to:164},
@@ -38,17 +38,16 @@ const DailyFilms = (() => {
     const edit=edits[slug];
     if(!edit)return null;
     const {key,intro,turn,hold,from,to}=edit;
-    const wide={kind:'sweep',key,from:0,to,play:true,eye:'Watch the point',title:intro};
-    const rewind={kind:'rewind',key,from:to,to:from,ms:700,eye:'Rewind',title:turn};
-    const close={kind:'dailyReplay',key,from,to,play:true,silent:true,edit,eye:'Look again',title:turn};
-    const clue={kind:'dailyHold',key,from:to,ms:1900,edit,eye:'The deciding detail',title:hold};
+    const cut={at:from,kind:'dailyDetail',edit,eye:slug==='serve-plus-one'?'The return':'Watch closely',title:turn};
+    const wide={kind:'sweep',key,from:edit.start??0,to,play:true,eye:'Watch the point',title:intro,cut};
+    const clue={kind:'dailyHold',key,from:to,ms:1100,edit,eye:'The deciding detail',title:hold};
     if(slug==='second-serve'){
-      // The two actual receive contacts are 1.24 m and 1.60 m. Use the same
-      // angle for each; rewinding the second serve alone would hide the contrast.
-      return [{...wide,to:339},{...clue,from:339,ms:1150,eye:'First serve of the pair',title:'Chest height.'},
-        {...wide,from:415,eye:'Second serve of the pair'},rewind,close,clue];
+      // Each serve approaches its own contact once, from the same receiver-side view.
+      return [{...wide,to:339,cut:{...cut,at:289,title:'Watch the first return.'}},
+        {...clue,from:339,ms:1100,eye:'First serve of the pair',title:'Chest height.'},
+        {...wide,from:415,eye:'Second serve of the pair'},clue];
     }
-    return [wide,rewind,close,clue];
+    return [wide,clue];
   }
 
   const away=new Set(['opponentTrack','awayCentre','serviceLine','netGap','awayBaseline','awayHeight','awayRacquet']);

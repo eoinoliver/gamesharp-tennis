@@ -16,6 +16,7 @@ window.GSDirected=(()=>{
   }
   const revealed=new Set();
   const dailyOpening=DailyFilms.sequence(slug);
+  const dailyLesson=Boolean(dailyOpening||prefix);
   const introKey=S=>dailyOpening&&S===LESSON.steps[0]?'film:1:'+S.scene:'intro:'+S.scene;
   const storeKey='gs_directed_v1_'+slug;
   const seen=new Set();try{for(const k of JSON.parse(localStorage.getItem(storeKey)||'[]'))seen.add(k);}catch{}
@@ -59,6 +60,11 @@ window.GSDirected=(()=>{
     if(!film)return;
     if(document.hidden||paused){last=null;return;}
     const dt=last==null?0:Math.min(50,ts-last)*(window.__speed||1);last=ts;elapsed+=dt;
+    if(shot.cut && t>=shot.cut.at){
+      // A change of camera within the running clip preserves ball, audio and time.
+      shot={...shot,...shot.cut,cut:null};eye=null;framing=null;
+      $('viewer').dataset.directedPhase=shot.kind;caption(shot);
+    }
     if(!shot.play){
       if(shot.kind==='rewind')t=lerp(shot.from,shot.to,smooth(0,shot.ms,elapsed));
       if(elapsed>=shot.ms)next();
@@ -78,11 +84,10 @@ window.GSDirected=(()=>{
       start([{kind:'opening',key:'wn1',from:62,to:298,play:true,eye:'A low ball. A narrow target.',title:'You go for the line.'},
         {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}],end,'Skip to decision →');
     }else if(pilot(S)&&height){
-      const key=prefix+'A';start([
-        {kind:'opening',key,from:62,to:257,play:true,eye:'A short ball. They’re still deep.',title:'A free point?'},
-        {kind:'net',key,from:257,ms:1100,eye:'Into the tape',title:'Read the height.'},
-        {kind:'rewind',key,from:257,to:contact(key)-1,ms:850,eye:'Rewind',title:'Before you swing.'},
-        {kind:'height',key:prefix+'C',from:contact(prefix+'C')-1,ms:2600,eye:'The deciding detail',title:'Below the tape.',copy:'Contact '+Math.round(at()[2]*100)+' cm. Tape '+Math.round(net(at()[0])*100)+' cm.'}
+      const key=prefix+'A',hit=contact(key)-1;start([
+        {kind:'opening',key,from:62,to:hit,play:true,eye:'A short ball. They’re still deep.',title:'A free point?'},
+        {kind:'height',key,from:hit,ms:1800,eye:'The deciding detail',title:'Below the tape.',copy:'Contact '+Math.round(at()[2]*100)+' cm. Tape '+Math.round(net(at()[0])*100)+' cm.'},
+        {kind:'net',key,from:hit,to:257,play:true,eye:'The shot',title:'Watch the clearance.'}
       ],end,'Skip to decision →');
     }else if(dailyOpening&&S===LESSON.steps[0]){
       start(dailyOpening,end,'Skip to decision →');
@@ -99,7 +104,7 @@ window.GSDirected=(()=>{
     if(!pilot(S))return generalAnswer(S,X,demo,cb,force,only);
     const key=S.scene+X,alt=alternative(S,X),other=S.scene+alt;
     const end=()=>finishAnswer(S,X,cb);
-    if(!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo)){
+    if(!force){
       start([{kind:'wide',key,from:SC[key].info.freeze,to:SC[key].frames-1,play:true,eye:viewing(X,ans[i]),title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');return true;
     }
     const route=(k,label)=>({kind:'wide',key:k,from:contact(k)-1,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
@@ -123,7 +128,7 @@ window.GSDirected=(()=>{
       start([{kind:'evidence',key,from:q.from,to:q.to,play:true,silent:q.silent,native:true,eye:'Replay the evidence',title:S.unlock}],end,'Skip to feedback →');return true;
     }
     const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
-    const short=!force&&(CALM_MOTION||seen.has('answer:'+S.scene)||demo);
+    const short=!force&&(dailyLesson||CALM_MOTION||seen.has('answer:'+S.scene)||demo);
     let stages=only?[route(only,viewing(only.slice(-1),ans[step]))]:[route(key,viewing(X,ans[step])+' · follow the consequence')];
     if(!short&&!only){
       stages.push(
@@ -240,9 +245,9 @@ window.GSDirected=(()=>{
     return {az:CALM_MOTION?-90:kind==='wide'?-90:lerp(-110,-72,u),el:kind==='wide'?29:39,d:32,fov:40,tgt:[0,0,0]};
   }
   // Readiness pairs share the actual arrival camera. Only the lead-in sweeps;
-  // the authored close-up follows the rewind after the shared view has played.
+  // the close-up then follows the same action to the decision.
   function nativeView(){
-    return shot?.native || (LESSON.readinessLesson && shot?.kind==='sweep' &&
+    return shot?.native || (LESSON.readinessLesson && (shot?.kind==='sweep'||shot?.kind==='dailyDetail') &&
       t>=SC[scene].info.readiness.start);
   }
   function camera(){

@@ -1,0 +1,42 @@
+{
+  "source": {
+    "rally/daily-films.js": {
+      "baseline": "7f4eacaaa44e52d071cf811270123a52bbb1550f142d5be38c0589fb8bc4f38e",
+      "candidate": "faad9e71a2ca15283a15394eb45c3084fd157847eb7914fc65526c5f258d686e"
+    },
+    "rally/directed.js": {
+      "baseline": "95db4e93bdcc8f98f028a30f1c5d2c25ea78a640b0eb7e8b85df1bd434058f01",
+      "candidate": "4e0ac7eddfda353fcfe25d319c1488df1d7b261f95ae90a3a2a3aefd1560e763"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "f6f6f2e037f855f0cf045752e6590d8254a265351bbf303d0ee09237994e16e7",
+      "candidate": "2032fb8c0bea67b0ee833a5063a5d72f233f83a305d94545cd7b9a373e8b6a01"
+    },
+    "tools/directed-browser.mjs": {
+      "baseline": "af4c3c1ce887cb5638df60e060389dacf1fa621c5cdb6d52f4007f7ae658fc81",
+      "candidate": "b6455f0f6169703a6f424f24786a4ce2368856e7ef6022a27952d6455e780cef"
+    },
+    "tools/daily-films-browser.mjs": {
+      "baseline": "3f33ef7e2a621f30462ad436524cd8c94efe7933b9c5950df8c4108ae033ba5a",
+      "candidate": "40fe50f12629be3dd548033a8af12717763831b75d43d9a66ae9fbb0199e3f88"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "de3eb5069787918beea01fa9b0653ec6a4e3b6adf34561cea2333166c825cf66",
+      "candidate": "772fb406fa59d5c62c5f180ecad15f6c9f31b3cdd9c7e4c96b2757caa3724064"
+    },
+    "app/index.html": {
+      "baseline": "d17b024455d6414459138974ef97de335aa02d0eaf0bc603246928603f5749dd",
+      "candidate": "f3bbaba55601a0743d4dbce11d6bce2549af231221f0f074d1364614515b3f26"
+    },
+    "app/play.html": {
+      "baseline": "5b8b053d1343f0db0f7936be339d2fb5e3b5266b5e7d991cbf8a76feeb91ed5c",
+      "candidate": "ece43253a704b84001fb6e5fee8252d207b0bc6ae5695af6bc0e7b5e97c3c111"
+    },
+    "app/engine/engine.js": {
+      "baseline": "e5a55dd22436ce4ad78f3d1569ff9099b4f10084f95f3f6f027806a30ec1158e",
+      "candidate": "86a0fdb43d4d37f1e8990025d2cc991a1e6108408a32d363f19fe9365042f2be"
+    }
+  }
+}

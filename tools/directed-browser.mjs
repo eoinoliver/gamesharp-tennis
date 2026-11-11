@@ -36,7 +36,7 @@ try{
    const before=await p.evaluate(()=>ans.slice());await p.locator('#askOpts button').nth(pick).click();await board(p);await p.waitForTimeout(350);
    const state=await p.evaluate(()=>({ans,step,scene,t,contact:contactsOf(SC[scene],'you').find(f=>f>=SC[scene].info.freeze-2),state:GSDirected.state,tiles:[...document.querySelectorAll('#askOpts button')].map(e=>({visible:!e.classList.contains('hide'),enabled:!e.disabled,note:e.querySelector('.directed-note')?.textContent,first:!!e.querySelector('.directed-first'),recommended:!!e.querySelector('.directed-pick')}))}));
    const label=`${slug}/${width}/${pick}`;
-   check(seen.has('rewind')&&!seen.has('samples'),label+': full comparison without probability sequence');
+   check(!seen.has('rewind')&&!seen.has('samples'),label+': first choice plays once');
    check(state.ans[state.step]==='ABCD'[pick]&&before.filter(Boolean).length===state.ans.filter(Boolean).length-1,label+': comparison preserves first answer');
    check(state.scene===(slug==='short-ball'?'sb3':'wn2')+'ABCD'[pick]&&state.t===state.contact-1,label+': board restored to original contact');
    check(await p.locator('#askOpts .l').evaluateAll((es,rgb)=>es.every((e,j)=>getComputedStyle(e).backgroundColor===rgb[j]),rgb),label+': choice identity colours survive feedback');
@@ -54,7 +54,7 @@ try{
    // Observe this short route at real speed; at 8x it can finish during click settling.
    await p.evaluate(()=>window.__speed=1);await p.locator('#again').click();
    check(await p.evaluate(()=>GSDirected.state.active&&GSDirected.state.phase==='wide'),label+': existing Replay uses the directed route');await skip(p);await p.evaluate(()=>window.__speed=8);
-   await p.locator('#directedOther').click();await skip(p);
+   await p.locator('#directedOther').click();await p.waitForFunction(()=>GSDirected.state.phase==='rewind');await skip(p);
    check(JSON.stringify(await p.evaluate(()=>ans))===JSON.stringify(state.ans),label+': skipping replay cannot rescore');
    for(let alternative=0;alternative<4;alternative++){
     if(await p.locator('#exploreDirected').getAttribute('aria-expanded')==='false')await p.locator('#exploreDirected').click();
