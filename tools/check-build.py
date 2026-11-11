@@ -298,6 +298,35 @@ for records, expected in [(daily_about['source'], source), (daily_about['release
         assert expected.get(name) == hashes['baseline'], f'Daily/About baseline drift: {name}'
         expected[name] = hashes['candidate']
 
+art_source, art_manifest = source.copy(), manifest.copy()
+
+# Directed two-lesson pilot. All historical fingerprints remain frozen.
+directed = json.loads((ROOT/'docs/features/directed-lessons-build.json').read_text())
+assert set(directed['source']) == {'app_src/build.py','rally/lesson_body.html','rally/directed.js','rally/directed.css','docs/features/directed-lessons.md','tools/directed-browser.mjs','tools/question-action-browser.mjs','tools/browser-checks.mjs','gs/gate.mjs'}
+assert set(directed['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
+for records, expected in [(directed['source'], source), (directed['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Directed lesson baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
+# Catalogue-wide direction extends the reviewed pilot; neither baseline is rewritten.
+catalogue_direction = json.loads((ROOT/'docs/features/directed-catalogue-build.json').read_text())
+assert set(catalogue_direction['source']) == {'rally/directed.js','rally/directed.css','rally/lesson_body.html','tools/directed-browser.mjs','tools/directed-catalogue-browser.mjs','tools/browser-checks.mjs','docs/features/directed-catalogue.md','tools/live-point-browser.mjs','tools/question-action-browser.mjs','tools/takeaway-motion-browser.mjs'}
+assert set(catalogue_direction['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
+for records, expected in [(catalogue_direction['source'], source), (catalogue_direction['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Catalogue direction baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
+# Trust/accessibility follow-up: preserve the catalogue candidate's fingerprints.
+trust_evidence = json.loads((ROOT/'docs/features/trust-evidence-build.json').read_text())
+assert set(trust_evidence['source']) == {'app_src/build.py','rally/directed.js','rally/directed.css','rally/lesson_body.html','rally/scene-evidence.js','tools/trust-evidence-browser.mjs','tools/browser-checks.mjs','docs/features/trust-evidence.md'}
+assert set(trust_evidence['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
+for records, expected in [(trust_evidence['source'], source), (trust_evidence['release'], manifest)]:
+    for name, hashes in records.items():
+        assert expected.get(name) == hashes['baseline'], f'Trust evidence baseline drift: {name}'
+        expected[name] = hashes['candidate']
+
 # The reviewed editorial selection. The remaining 15 lessons retain their schematics.
 recall_art = json.loads((ROOT/'docs/features/daily-recall-art-build.json').read_text())
 illustrations = set("""serve-plus-one the-winner open-court forehand-bill split-step middle-return high-ball
@@ -306,10 +335,25 @@ the-big-hitter answer-the-drop attack-the-backhand earned-net""".split())
 assert set(recall_art['source']) == {f'app_src/takeaway_art/{slug}.svg' for slug in illustrations} | {
     'app_src/takeaways.css', 'app_src/takeaways.js', 'app_src/takeaways.py', 'tools/takeaway-motion-browser.mjs'}
 assert set(recall_art['release']) == {'app/catalog.js', 'app/index.html', 'app/play.html', 'app/takeaways.css', 'app/takeaways.js'}
-for records, expected in [(recall_art['source'], source), (recall_art['release'], manifest)]:
+for records, expected in [(recall_art['source'], art_source), (recall_art['release'], art_manifest)]:
     for name, hashes in records.items():
         assert expected.get(name) == hashes['baseline'], f'Daily recall baseline drift: {name}'
         expected[name] = hashes['candidate']
+
+# Each feature was reviewed from Daily/About. Keep both histories and verify the
+# four shared outputs against their independently rebuilt combined versions.
+integration = json.loads((ROOT/'docs/features/directed-recall-integration-build.json').read_text())
+assert set(integration['source']) == {'tools/takeaway-motion-browser.mjs'}
+assert set(integration['release']) == {'app/catalog.js', 'app/index.html', 'app/play.html'}
+for kind, directed_state, art_state in [('source', source, art_source), ('release', manifest, art_manifest)]:
+    for name, change in recall_art[kind].items():
+        if name in integration[kind]:
+            merged = integration[kind][name]
+            assert merged['directed'] == directed_state[name] and merged['art'] == art_state[name], name
+            directed_state[name] = merged['combined']
+        else:
+            assert directed_state.get(name) == change['baseline'], name
+            directed_state[name] = art_state[name]
 
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)

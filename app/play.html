@@ -236,6 +236,55 @@ details.note a{color:var(--gold)}
 .cue-actions{margin-top:16px}.cue-actions .alt{display:inline-block;margin-left:12px}.cue-actions p{font-size:12px;color:#b6c4ba;line-height:1.5}.completion-more,.completion-extras{margin:22px 0 0;border-top:1px solid #c8a84b30;padding:16px 0;}.completion-more>summary,.completion-extras>summary{font:600 15px "DM Sans",sans-serif;min-height:44px;cursor:pointer;color:#dbe5de;list-style:none;display:flex;align-items:center;justify-content:space-between}.completion-more>summary:after,.completion-extras>summary:after{content:'+';color:#c8a84b}.completion-more[open]>summary:after,.completion-extras[open]>summary:after{content:'−'}
 #wrapup .gs-continue{padding:20px 0;margin:0;border:0}#wrapup .gs-continue .k{display:none}#wrapup .gs-continue .next{min-height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center}#wrapup .voice-controls{margin-top:14px;}.completion-more .pay[open]{margin-top:14px}
 
+
+/* Shared lesson direction. Shot colours identify options, not correctness. */
+.directed-cap{position:absolute;inset:12px 12px auto;pointer-events:none;text-align:center;z-index:2;text-shadow:0 2px 12px #07130b}
+.directed-cap small{display:block;color:#e3cd83;font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+.directed-cap strong{display:block;font:400 clamp(25px,6vw,40px)/1.05 'Bebas Neue',Impact,sans-serif;letter-spacing:.035em;margin:5px 0}
+.directed-cap p{font-size:12px;line-height:1.4;margin:4px auto;max-width:38ch}
+.directed-dock{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:7px 10px;background:#08170b;border-top:1px solid var(--line)}
+.directed-dock span{font-size:11px;color:#e3cd83}
+.directed-dock button,.directed-rewatch{min-height:44px;padding:8px 12px;color:var(--ink);background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:10px;cursor:pointer;font:600 12px 'DM Sans',sans-serif}
+.directing #questionContext,.directing .contact-mode,.directing .scorechip{display:none}
+.directing .stage{background:#07130b}
+.directing .stage:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(#07130b99,transparent 40%,transparent 85%,#07130b66)}
+.directed-rewatch{display:block;margin:8px 0 0 auto}
+.directed-review{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
+.directed-review>p{margin:0;font-size:11px;color:var(--muted);line-height:1.5}
+.opt.directed-choice{border-color:rgba(var(--choice),.65);background:rgba(var(--choice),.09);color:var(--ink)}
+.opt.directed-choice .l{background:rgb(var(--choice));color:#07130b}
+.opt.directed-choice:not(:disabled):hover,.opt.directed-choice:not(:disabled):active{border-color:rgb(var(--choice))}
+.opt.directed-option[aria-pressed=true]{border-width:2px;padding:5px 8px}
+.opts.directed-single{grid-template-columns:1fr}
+.directed-note{display:block;font-size:11px;line-height:1.35;color:var(--ink);opacity:.85;margin-top:5px}
+.directed-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px}
+.directed-meta:empty{display:none}
+.directed-first{display:block;font-size:9px;line-height:1.4;letter-spacing:.04em;text-transform:uppercase;color:var(--gold)}
+.directed-pick{display:inline-flex;align-items:center;gap:4px;padding:2px 5px;border:1px solid rgba(240,236,227,.4);border-radius:5px;font-size:10px;font-weight:800;letter-spacing:.05em;color:var(--ink)}
+.opt.directed-option:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+@keyframes choice-reveal{0%,100%{box-shadow:0 0 0 0 rgba(var(--choice),0)}40%{box-shadow:0 0 0 4px rgba(var(--choice),.16),0 0 18px rgba(var(--choice),.18)}}
+.reveal-choice{animation:choice-reveal 850ms ease-out 1}
+.directed-compare{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.directed-compare button{flex:1;min-height:44px;padding:8px;border:1px solid var(--line);border-radius:10px;background:#183023;color:var(--ink);font:600 12px 'DM Sans',sans-serif;cursor:pointer}
+@media(max-width:350px){.directed-cap{inset:8px 8px auto}.directed-cap p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.directed-cap *{transition:none}.reveal-choice{animation:none}}
+
+.review .opts{margin-top:12px}.review .directed-compare{margin-bottom:16px}
+
+/* One quiet row replaces the existing replay row; descriptions are optional. */
+.scene-tools{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:0 8px;margin-top:8px;position:relative}
+.scene-tools details{flex:1;min-width:0;color:var(--muted);font-size:12px;line-height:1.5}
+.scene-tools summary{display:flex;align-items:center;min-height:44px;cursor:pointer;color:var(--ink);font-weight:600}
+.scene-tools summary::before{content:'+';margin-right:6px}
+.scene-tools details[open] summary::before{content:'−'}
+.scene-tools details[open]{flex-basis:100%}
+.scene-tools details[open] summary{padding-right:160px}
+.scene-tools details[open]+.directed-rewatch{position:absolute;right:0;top:0}
+.scene-tools p{margin:4px 0 12px}
+.scene-tools .directed-rewatch{margin:0;flex:none;font-size:11px;padding:8px}
+.scene-tools summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:5px}
+.directed-identity{font-size:11px;line-height:1.4;color:var(--muted);margin:3px 0 5px}
+
 </style>
 
 </head>
@@ -281,7 +330,7 @@ details.note a{color:var(--gold)}
 
 </div>
 
-<link rel="stylesheet" href="coach.css?v=22e90b375c">
+<link rel="stylesheet" href="coach.css?v=627e19e9a6">
 <style>
 .daily-completion .daily-complete-message{font-size:15px;color:#dce8d7;line-height:1.5}.daily-completion .daily-related{margin-top:22px;padding-top:20px;border-top:1px solid #c8a84b30}.daily-related h2{font-size:22px;margin:8px 0}.daily-related p{font-size:14px;line-height:1.55;color:#b8c7b6}.daily-related .alt{min-height:44px;display:inline-flex;align-items:center}.daily-completion .k{display:block!important}
 
@@ -376,18 +425,18 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<link rel="stylesheet" href="practice.css?v=22e90b375c">
-<link rel="stylesheet" href="takeaways.css?v=22e90b375c">
-<script src="config.js?v=22e90b375c"></script>
-<script src="catalog.js?v=22e90b375c"></script>
-<script src="app.js?v=22e90b375c"></script>
-<script src="share.js?v=22e90b375c"></script>
-<script src="takeaways.js?v=22e90b375c"></script>
-<script src="coach.js?v=22e90b375c"></script>
-<script src="sfx.js?v=22e90b375c"></script>
+<link rel="stylesheet" href="practice.css?v=627e19e9a6">
+<link rel="stylesheet" href="takeaways.css?v=627e19e9a6">
+<script src="config.js?v=627e19e9a6"></script>
+<script src="catalog.js?v=627e19e9a6"></script>
+<script src="app.js?v=627e19e9a6"></script>
+<script src="share.js?v=627e19e9a6"></script>
+<script src="takeaways.js?v=627e19e9a6"></script>
+<script src="coach.js?v=627e19e9a6"></script>
+<script src="sfx.js?v=627e19e9a6"></script>
 <script>
 (function(){
-const A=GSApp, V="22e90b375c", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="627e19e9a6", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */

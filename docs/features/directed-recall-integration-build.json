@@ -1,0 +1,26 @@
+{
+  "source": {
+    "tools/takeaway-motion-browser.mjs": {
+      "directed": "c26a720283e8bc5d170cf0b9de81fe63eff0b896d56dd415378a8890ad19ddbf",
+      "art": "f93f0a03fe871c94b13b54e03f7ff1d84925ee90a0a5f936c568cb13feb06d5d",
+      "combined": "c4e7c9baae850d9e9db8acf71ed18e2cbdf7e3c3e502c943bf74a3d35bd991d7"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "directed": "1b04fef5cd03e918111d520d92fecf16b360ae0f0213b7d8a54f29295434c918",
+      "art": "2c2df5234bbc91bfb61aa6d2b5042ca9f9ef8cec09d7a02df1f7d1db9148a1dc",
+      "combined": "f6f1f22a386459e0c3592a9b5aca0b358541e3f6485579d88299bcad8577dd2f"
+    },
+    "app/index.html": {
+      "directed": "1f1831b76743b12696b0fc126eef418f3b0b3e7519645c557410425649f208de",
+      "art": "b754895cfc0d3c729d1a8e093a8fa561d018d23426fe2aa2d447e5bcc1570b83",
+      "combined": "69e4a8ebaa80b9852713d6b9433b7bfddd54f1453d62a044000c016b1743bc8c"
+    },
+    "app/play.html": {
+      "directed": "56538af86074a84c0859995b0d38efa4f90ee21d07dab55ee7e335d5afb6c9d2",
+      "art": "8b4579b10c10325f090b1d2bb1886aa0fc9e6cbafc06cfa8f97480751bccb3bc",
+      "combined": "61ec2ef21368ec351e3e0c5739fe72ff19a0f5731786315e2b194bbf03a225ce"
+    }
+  }
+}

@@ -26,7 +26,7 @@ for(const width of [375,820,1280]){
     await p.waitForSelector('#verdict:not([hidden]) #next');
     check(await p.evaluate(()=>!playing),`${slug}/${path}/${i}: consequence settles before feedback`);
     if(i===0&&width===375&&path==='AA'&&slug==='live-point-buy-time'){
-     await p.locator('#tryOther').click();await p.waitForSelector('#verdict:not([hidden]) #next');
+     await p.locator('#askOpts button').nth(await p.evaluate(()=>LESSON.steps[step].correct)).click();await p.waitForSelector('#verdict:not([hidden]) #next');
      check(await p.locator('#next').innerText()==='Continue your chosen route →','Alternative demo clearly continues original route');
      check(await p.evaluate(()=>ans[0]==='A'),'Alternative demo preserves first answer');
     }

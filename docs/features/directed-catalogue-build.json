@@ -1,0 +1,64 @@
+{
+  "base": "7b5b24126f1f4237129799b8c63d5bd38fb184fd",
+  "scope": "All 63 journeys; format-aware direction and compact GS tick feedback; authored data, motion and first scores retained.",
+  "source": {
+    "rally/directed.js": {
+      "baseline": "65d223c9edb3aa64bee688f86160eac1e905b31807f5ae84a7e7b0ad4c338905",
+      "candidate": "cef570a32b974f79f228a81370f22ca7f2aff4dfa80bb317dac1c53dc4b9b98d"
+    },
+    "rally/directed.css": {
+      "baseline": "aeff22b261578ef04885e65a865d24336674cd836c2d883dce52516c62a2d46a",
+      "candidate": "5d61b9e629524f871a93655a7c691264d56d6d65a935a01d97930a02966f7f49"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "9148fb884603abf12765e9844adf57b1a07c9290d4f637fec2463f5a614cef86",
+      "candidate": "59f38282eb80d172aea11f68d84290829e0e38ad71985f4fd7178d5cec30a014"
+    },
+    "tools/directed-browser.mjs": {
+      "baseline": "bd5728e130a6fc32fe66d3723f8b5b999a5457927c1351c0b050a2cca830a0ad",
+      "candidate": "af4c3c1ce887cb5638df60e060389dacf1fa621c5cdb6d52f4007f7ae658fc81"
+    },
+    "tools/directed-catalogue-browser.mjs": {
+      "baseline": null,
+      "candidate": "25f576785c1afab0e5e2676fc9da8f4428b910c59f610e04cc80e7308387a48e"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "884720c938fa93f77823c751ce7ad0fa858657143913ecd28cda07ca2ce6d608",
+      "candidate": "a9f5ca6e604907afd284314e7290c9eb46eb203a49f79cfe895397e6505cbc25"
+    },
+    "docs/features/directed-catalogue.md": {
+      "baseline": null,
+      "candidate": "1655136a60d2c5710a6f24fd1d2bf960d312710c5c2f118107b6432cd59c5725"
+    },
+    "tools/live-point-browser.mjs": {
+      "baseline": "dec25db8e8b0f2214b2f975f408d31246ecb7d93d87cfd28fa1d2b737bd92d37",
+      "candidate": "f7929b22aab3007932b42d6ca61f10a8b8e46a325aa77b6ea013c2cf77a21821"
+    },
+    "tools/question-action-browser.mjs": {
+      "baseline": "7528cbecd89e2c4be4275ce2891a3ee29c8fb346a8fb118fb38f624df89c071a",
+      "candidate": "73802fb6606969f6ec493ae87df54f61c7831cec77b0ed3b34509fcd7b515851"
+    },
+    "tools/takeaway-motion-browser.mjs": {
+      "baseline": "15b6b11c5bc9b02fe1cbb576b9b6825e2db7ef1bcb220f60db2f39b44faa7ebc",
+      "candidate": "c26a720283e8bc5d170cf0b9de81fe63eff0b896d56dd415378a8890ad19ddbf"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "c0a046675b579f568e261cbedc21fcae83a7faea2ddd2d51eb2b782850bf0110",
+      "candidate": "b733ea202588a0b775afb3afe3bfcf6e0cc55649ec7a608b383126aa29a31855"
+    },
+    "app/index.html": {
+      "baseline": "892ce1f9d5a7e90ee201cd39a225f7b7482e2730af1cd3ca88c584046641470e",
+      "candidate": "2ed7ba9e42bcc476103bcdfc4c7fc2543cc94c40c0c66f54cd5084caffa1ec7e"
+    },
+    "app/play.html": {
+      "baseline": "11fc6ce50585f23bf99054b0f13e1ae59c35657ce8aa4e6088110bfb27dd4b27",
+      "candidate": "615260af72f5bd39cbff8d032312912b9e8dd6d110580cf1ff586b7cceede6ba"
+    },
+    "app/engine/engine.js": {
+      "baseline": "2cf108f1e1938be43470c5a3568090d1515c925fa274323eaf8b89dacdfba1ad",
+      "candidate": "5678c583a68f767c0e3211fee06b1aace2e89997b79f0bec8f17dcd3d07a91b2"
+    }
+  }
+}

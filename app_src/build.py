@@ -72,6 +72,9 @@ for slug, pair in cat['dailyPlan']['related'].items():
 
 # ---------- engine (core + figure + the lesson runtime, data and lesson supplied by the page) ----------
 body = open(os.path.join(R, 'lesson_body.html')).read()
+body = body.replace('/* __SCENE_EVIDENCE__ */', open(os.path.join(R, 'scene-evidence.js')).read())
+body = body.replace('/* __DIRECTED_LESSONS__ */', open(os.path.join(R, 'directed.js')).read())
+body = body.replace('/* __DIRECTED_STYLES__ */', open(os.path.join(R, 'directed.css')).read())
 m = re.search(r'<script>\nconst DATA=__DATA__;\n</script>\n<script>\n__CORE__\n__FIGURE__\n</script>\n<script>\n(.*)</script>\s*$', body, re.S)
 assert m, 'template layout changed'
 runtime = m.group(1)
@@ -101,6 +104,7 @@ for dp, _, fs in sorted(os.walk(OUT)):
 for f in ('app.js', 'share.js', 'practice.js', 'practice.css', 'index.html', 'play_host.html', 'sharpen.js', 'reset.js', 'coach.js', 'coach.css', 'home.css', 'sfx.js', 'home-preview.js', 'cine.js', 'athlete.js'): h.update(open(os.path.join(SRC, f), 'rb').read())
 h.update(open(os.path.join(SRC, 'daily_plan.json'), 'rb').read())
 for f in sorted(os.listdir(os.path.join(SRC, 'sharpen'))): h.update(open(os.path.join(SRC, 'sharpen', f), 'rb').read())
+h.update(open(os.path.join(R, 'directed.css'), 'rb').read())
 VER = h.hexdigest()[:10]
 open(os.path.join(OUT, 'catalog.js'), 'w').write('window.GS_CATALOG=%s;\nwindow.GS_VERSION="%s";\n' % (dump(cat), VER))
 

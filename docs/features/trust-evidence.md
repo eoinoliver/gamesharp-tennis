@@ -1,0 +1,11 @@
+# Answer identity and accessible scene evidence
+
+Follow-up to the user-journey/trust audit of PR92, based on `8f96d69d6d37f72f6c4d8390b813d3f6a942677d`.
+
+The viewed alternative and the first answer are now identified beside the feedback, including Predict review. Replay captions and contact-inspection controls identify alternatives rather than calling them the learner's first choice. No in-progress answer claims to be saved: the existing app records completion on finish, and unfinished refreshes still restart the attempt. Accepted alternatives say “Also works”; the existing GS tick identifies the authored recommendation. Exploration never changes the first answer, score or connected branch.
+
+A collapsed Scene description shares the existing replay row. It becomes available at the decision, with the same text attached to the court image for assistive technology. Court descriptions sample the same rendered poses and ball at the actual question endpoint, including all four doubles actors and parent-scene continuations. Movement compares only frames already reached. Explicit notes cover the already-shown contact, timing and serve comparisons; readiness notes distinguish completed arrival from ongoing movement. Neither answer recommendations nor outcome/explanation fields generate pre-answer descriptions. Replay clears stale descriptions.
+
+This improves access to the deciding evidence; it is not a claim of full screen-reader equivalence or accessibility certification. Full nonvisual comprehension, physical-device behaviour and coaching efficacy still require independent testing. Camera timing, authored lesson JSON, clips, scoring, sound, About and licensing remain unchanged.
+
+Validation: `tools/trust-evidence-browser.mjs` covers all 211 reachable decisions across 63 journeys, disclosure keyboard operation, grading-independent descriptions, observed-versus-future timing, contact/arrival contrasts, compact feedback, Predict exploration, blocked storage and unfinished reload semantics. Existing release suites retain responsibility for complete journeys, persisted completion, saved cues, camera and scoring behaviour. The new build overlay preserves all prior fingerprints rather than rewriting the historical baseline.

@@ -6,7 +6,9 @@ const catalog=JSON.parse(readFileSync('app/catalog.js','utf8').match(/GS_CATALOG
 const tasks=[['tools/takeaway-motion-browser.mjs',base],['tools/takeaway-browser.mjs',base],['tools/sharing-practice-browser.mjs',base],['tools/home-motion-browser.mjs',base],['tools/home-clarity-browser.mjs',base],['tools/daily-home-browser.mjs',base],['tools/pro-insight-browser.mjs',base],['tools/ux-audit-browser.mjs',base],['tools/coach-browser.mjs',base],['tools/lara-catalogue-browser.mjs',base],['tools/doubles-browser.mjs',base],['tools/reset-browser.mjs',base],['tools/next-hit-browser.mjs',base],['tools/trust-practice-browser.mjs',base],['tools/ten-live-browser.mjs',base],['tools/experience-browser.mjs',base],['tools/serve-toss-browser.mjs',base],['tools/sharpen-stroke-browser.mjs',base],['tools/six-play-browser.mjs',base],['tools/flagship-browser.mjs',base],['tools/mobile-learning-browser.mjs',base],['tools/stroke-integrity-browser.mjs',base],['tools/lesson-recap-browser.mjs',base],['tools/live-point-browser.mjs',base],['tools/voice-catalogue-browser.mjs',base],['tools/voice-browser.mjs',base],['tools/question-action-browser.mjs',base],['tools/readiness-browser.mjs',base],['tools/sensory-browser.mjs',base],['gs/app_flow.mjs',base],['app_src/lesson-layout-regression.mjs',base],['gs/payoff_check.mjs',base],['gs/verify_pusher.mjs',base+'play.html?l=the-pusher'],...catalog.daily.concat(catalog.predict,catalog.play||[]).map(l=>['gs/gate.mjs',base+'play.html?l='+l.slug])];
 // The opt-in comparison preserves first scores and withholds annotations until commitment.
 tasks.push(['tools/contact-focus-browser.mjs',base]);
+tasks.push(['tools/trust-evidence-browser.mjs',base]);
 const groups={
+ 'tools/trust-evidence-browser.mjs':'learning',
  'tools/daily-about-browser.mjs':'shell',
  'tools/takeaway-motion-browser.mjs':'shell',
  'tools/takeaway-browser.mjs':'shell',
@@ -14,6 +16,8 @@ const groups={
  'tools/home-motion-browser.mjs':'shell',
  'tools/home-clarity-browser.mjs':'shell',
  'tools/daily-home-browser.mjs':'shell',
+ 'tools/directed-browser.mjs':'learning',
+ 'tools/directed-catalogue-browser.mjs':'learning',
  'tools/pro-insight-browser.mjs':'shell',
  'tools/ux-audit-browser.mjs':'shell',
  'tools/coach-browser.mjs':'sound',
@@ -34,7 +38,7 @@ const groups={
  'tools/readiness-browser.mjs':'shell','gs/app_flow.mjs':'shell','app_src/lesson-layout-regression.mjs':'shell','gs/payoff_check.mjs':'shell','gs/verify_pusher.mjs':'shell'
 };
 const suite=process.env.GS_BROWSER_SUITE||'all';
-tasks.push(['tools/daily-about-browser.mjs',base]);
+tasks.push(['tools/daily-about-browser.mjs',base],['tools/directed-browser.mjs',base],['tools/directed-catalogue-browser.mjs',base]);
 if(!['all',...new Set(Object.values(groups))].includes(suite))throw Error('Unknown browser suite: '+suite);
 if(tasks.some(([file])=>!groups[file]))throw Error('Every release check must belong to exactly one suite');
 // Run cheap per-lesson contracts before the longer complete journeys.
