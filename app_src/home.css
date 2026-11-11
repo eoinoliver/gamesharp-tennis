@@ -108,3 +108,5 @@ body.daily-led .privacy-note{margin-top:20px}
  body.daily-led .cine-title{font-size:26px}
  .home-play{gap:20px}.home-play b{font-size:14px}.home-play small{font-size:10px}
 }
+
+.daily-copy .restart-daily{display:inline-flex;align-items:center;min-height:44px;margin-top:4px}

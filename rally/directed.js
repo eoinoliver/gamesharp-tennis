@@ -204,6 +204,11 @@ window.GSDirected=(()=>{
     $('exploreDirected').onclick=()=>{expanded=!expanded;showChoices();tallView();};
     if(S.opts.length===2&&X!==recommended)$('exploreDirected').hidden=true;
     if(LESSON.readinessLesson)$('directedOther').hidden=true;
+    if(matchMedia('(max-height:740px) and (max-width:600px)').matches&&!$('exploreDirected').hidden){
+      const explore=$('exploreDirected');
+      explore.classList.add('compact-explore');
+      $('verdict').querySelector('.acts').prepend(explore);
+    }
     showChoices();
   }
   function replay(){

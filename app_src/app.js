@@ -203,6 +203,28 @@ function nextLivePoint(){
   const due=points.find(l=>l.transferOf&&S.done[l.transferOf]?.first<today()&&!S.done[l.slug]);
   return due||points.find(l=>!l.transferOf&&!S.done[l.slug])||null;
 }
+// A daily attempt stays attached to its lesson when the calendar pick changes.
+function dailyDraft(slug){
+  syncProgress();
+  const lesson=bySlug(slug), draft=S.dailyDrafts?.[slug];
+  if(!isDaily(slug)||!draft||typeof draft.id!=='string'||
+     draft.edition!==(lesson.edition||CAT.dailyPlan.edition)||
+     !Array.isArray(draft.picks)||draft.picks.length>lesson.decisionCount||
+     !draft.picks.every(pick=>typeof pick==='string'&&/^[A-D]$/.test(pick)))return null;
+  return draft;
+}
+function openDaily(slug,restart=false){
+  const previous=dailyDraft(slug);
+  if(previous&&!restart)return previous;
+  const draft={id:rid(),edition:bySlug(slug).edition||CAT.dailyPlan.edition,picks:[]};
+  S.dailyDrafts||={};S.dailyDrafts[slug]=draft;save(S);
+  return draft;
+}
+function recordDailyPick(slug,id,i,pick){
+  const draft=dailyDraft(slug);
+  if(draft?.id!==id||i!==draft.picks.length)return false;
+  draft.picks.push(pick);save(S);return true;
+}
 function startLesson(slug){
   if(!isDaily(slug)&&!bySlug(slug)?.livePoint)return;
   syncProgress();if(bySlug(slug)?.livePoint){S.liveFirstSeen||={};S.liveFirstSeen[slug]||=S.seen?.[slug]?'earlier':today();}S.seen||={};S.seen[slug]=Math.max(Date.now(),...Object.values(S.seen).map(Number).filter(Number.isFinite),0)+1;
@@ -277,8 +299,10 @@ function todays(){
   const next=nextDaily();
   return !next||S.seen?.[next.slug]?next:f||next;
 }
-function complete(slug,n,total=3){
+function complete(slug,n,total=3,draftId=null){
   syncProgress();
+  if(draftId&&S.dailyDrafts?.[slug]?.id!==draftId)return;
+  if(draftId)delete S.dailyDrafts[slug];
   const t=today(), d=S.done[slug], firstTime=!d;
   const bestTotal=d?.bestTotal||d?.total||3;
   const improves=!d||n/total>d.best/bestTotal||(n/total===d.best/bestTotal&&total>bestTotal);
@@ -318,7 +342,7 @@ const listeners=[];
 function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
-window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,featuredDaily,relatedPoint,dailyShareUrl,shareUrl,practiceSummary,setPracticeGoal,displayTitle,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,startLesson,complete,setLevel,feedback,emit,on,
+window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,featuredDaily,relatedPoint,dailyShareUrl,shareUrl,practiceSummary,setPracticeGoal,displayTitle,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,dailyDraft,openDaily,recordDailyPick,startLesson,complete,setLevel,feedback,emit,on,
   activityLabel,remaining,savedCues,cueSaved,saveCue,nextHit,selectFocus,focusAction,practicePath,pathProgress,PRACTICE_PATHS,progressSaved:()=>progressSaved,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();

@@ -291,6 +291,8 @@ details.note a{color:var(--gold)}
 
 @media(max-width:600px){.directing .directed-cap{inset-inline:48px}}
 
+.acts .compact-explore{flex:1;min-height:44px;padding:7px;border:1px solid var(--line);border-radius:12px;color:var(--ink);background:#183023;font:600 12px 'DM Sans',sans-serif}
+
 </style>
 
 </head>
@@ -336,7 +338,7 @@ details.note a{color:var(--gold)}
 
 </div>
 
-<link rel="stylesheet" href="coach.css?v=877d6ad3e0">
+<link rel="stylesheet" href="coach.css?v=0d58099a55">
 <style>
 .daily-completion .daily-complete-message{font-size:15px;color:#dce8d7;line-height:1.5}.daily-completion .daily-related{margin-top:22px;padding-top:20px;border-top:1px solid #c8a84b30}.daily-related h2{font-size:22px;margin:8px 0}.daily-related p{font-size:14px;line-height:1.55;color:#b8c7b6}.daily-related .alt{min-height:44px;display:inline-flex;align-items:center}.daily-completion .k{display:block!important}
 
@@ -416,6 +418,8 @@ details.note a{color:var(--gold)}
 @keyframes gswGlint{0%{opacity:0;background-position:110% 0}12%,80%{opacity:1}100%{opacity:0;background-position:-10% 0}}
 @keyframes gswPulse{50%{opacity:.72}}
 @media (prefers-reduced-motion:reduce){#gsw *{animation:none!important;transition:none!important}}
+.daily-finish-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:stretch}
+.daily-finish-actions #dailyDone,.daily-finish-actions #saveCue{display:grid;place-items:center;text-align:center;margin:0;min-width:0;min-height:44px;width:100%;box-sizing:border-box}
 </style>
 <div id="loading"><div class="ld-in"><div class="ld-logo">GAME<span>SHARP</span></div><div class="ld-ball" aria-hidden="true"></div><div class="ld-tag">See clearer. Think sharper.</div><span class="ld-sr">Loading the lesson…</span></div></div>
 <!-- Welcome: only on auto-started visits (?auto). Decided here, before the scripts load, so the plain loader never flashes first.
@@ -431,18 +435,18 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<link rel="stylesheet" href="practice.css?v=877d6ad3e0">
-<link rel="stylesheet" href="takeaways.css?v=877d6ad3e0">
-<script src="config.js?v=877d6ad3e0"></script>
-<script src="catalog.js?v=877d6ad3e0"></script>
-<script src="app.js?v=877d6ad3e0"></script>
-<script src="share.js?v=877d6ad3e0"></script>
-<script src="takeaways.js?v=877d6ad3e0"></script>
-<script src="coach.js?v=877d6ad3e0"></script>
-<script src="sfx.js?v=877d6ad3e0"></script>
+<link rel="stylesheet" href="practice.css?v=0d58099a55">
+<link rel="stylesheet" href="takeaways.css?v=0d58099a55">
+<script src="config.js?v=0d58099a55"></script>
+<script src="catalog.js?v=0d58099a55"></script>
+<script src="app.js?v=0d58099a55"></script>
+<script src="share.js?v=0d58099a55"></script>
+<script src="takeaways.js?v=0d58099a55"></script>
+<script src="coach.js?v=0d58099a55"></script>
+<script src="sfx.js?v=0d58099a55"></script>
 <script>
 (function(){
-const A=GSApp, V="877d6ad3e0", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="0d58099a55", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
@@ -526,7 +530,24 @@ const W=(()=>{
   return {ready(){ready=true;check();}, whenGone:f=>gone?f():after.push(f), drop:remove};
 })();
 A.opened("lesson");
-let started=false;
+let started=false, dailyAttempt=null;
+const useDailyDraft=A.isDaily(slug)&&!QS.has('via')&&!QS.has('auto')&&!practiceContext&&
+  (QS.get('challenge')==='daily'||A.dailyDraft(slug));
+if(useDailyDraft){
+  // Consume the explicit restart once so that refreshing this URL can resume.
+  const restart=QS.get('restart')==='1';
+  if(restart){const url=new URL(location.href);url.searchParams.delete('restart');history.replaceState(history.state,'',url);}
+  window.GSDailyAttempt={
+    open(steps,again=false){
+      dailyAttempt=A.openDaily(slug,restart||again);
+      if(!dailyAttempt.picks.every((x,i)=>steps[i]?.opts['ABCD'.indexOf(x)]))
+        dailyAttempt=A.openDaily(slug,true);
+      return dailyAttempt.picks.slice();
+    },
+    pick(i,x){return A.recordDailyPick(slug,dailyAttempt.id,i,x);}
+  };
+}
+
 A.on((n,d)=>{
   if(n==='step'&&d.fresh){A.beginLiveAttempt(slug);GSSfx.configureVoice(slug);}
   if(n==="step"&&!started){started=true;A.startLesson(slug);A.track("lesson_start",{lesson:slug,replay:!!A.S.done[slug],daily:A.isDaily(slug)});}
@@ -534,7 +555,7 @@ A.on((n,d)=>{
   if(n==='comparison_seen')A.track('live_point_comparison',{lesson:slug,...d});
   if(n==="cue_save") A.track("cue_save",{lesson:slug,cue:d&&d.cue});   /* payoff layer (4 Oct) */
   if(n==="payoff_open") A.track("payoff_open",{lesson:slug,part:d&&d.k});
-  if(n==="complete"){A.complete(slug,d.n,d.total);setTimeout(()=>wrap(d.n),0);}
+  if(n==="complete"){A.complete(slug,d.n,d.total,dailyAttempt?.id);setTimeout(()=>wrap(d.n),0);}
 });
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function wrap(n){
@@ -577,6 +598,12 @@ function wrap(n){
     if(previousPanel&&![...previousPanel.children].some(el=>el.tagName!=='SUMMARY'&&el.textContent.trim()))previousPanel.remove();
   }
   if(continuation&&!practiceReturn)(pro||w.querySelector('#liveEvidence')||w.firstElementChild).after(continuation);
+  const saveActions=w.querySelector('.cue-actions');
+  const dailyDone=w.querySelector('#dailyDone');
+  if(saveActions&&dailyDone&&!practiceReturn){
+    const buttons=document.createElement('div');buttons.className='daily-finish-actions';
+    saveActions.prepend(buttons);buttons.append(dailyDone,w.querySelector('#saveCue'));
+  }
   w.querySelector('#relatedLivePoint')?.addEventListener('click',()=>A.track('daily_to_live',{from:slug,to:related.lesson.slug}));
   wireChallenge(w);
   const pendingText='Sending…';
@@ -613,6 +640,7 @@ function wrap(n){
   window.GSTakeaways?.mount(w);
 
 }
+function localStorageIntroSeen(){try{return localStorage.getItem('gs_intro_seen')==='1';}catch{return false;}}
 function afterEngine(){
   wireQuickShare();
   const coach=document.createElement('details');coach.className='lesson-coach';
@@ -631,7 +659,7 @@ function afterEngine(){
   const st=document.getElementById("stage");
   if(st&&window.GSSfx){const b=document.createElement("button");b.type="button";b.className="gs-snd";b.setAttribute("data-gs-sound","");st.appendChild(b);GSSfx.wire(st);}
   if(QS.has("auto")) A.track("auto_start",{lesson:slug,intro:QS.has("intro")});
-  if(QS.has("intro")&&st){try{localStorage.setItem("gs_intro_seen","1");}catch(e){}
+  if(QS.has("intro")&&st&&!localStorageIntroSeen()){try{localStorage.setItem("gs_intro_seen","1");}catch(e){}
     (W?W.whenGone:f=>f())(()=>{   /* the first-visit caption comes after the welcome, never under it */
     const c=document.createElement("div");c.className="gs-intro";c.innerHTML=`<b>One three-minute tennis decision a day.</b><span>Here's today's. Watch the ball.</span>`;
     st.appendChild(c);const go=()=>{c.classList.add("out");setTimeout(()=>c.remove(),500);};setTimeout(go,4200);c.addEventListener("click",go);});}
@@ -644,10 +672,10 @@ function wireQuickShare(){
 }
 function wireChallenge(w){
   const daily=A.isDaily(slug),link=A.shareUrl(slug),box=document.createElement('div');box.className='blk';box.id='sharePoint';
-  box.innerHTML=`<div class="k">Let someone else make the call</div><p>Same point. Their decisions. Your answers stay private.</p><button class="alt" id="sharePointButton">Challenge a tennis friend</button><p id="shareStatus" role="status"></p>`;
+  box.innerHTML=`<div class="k">Let someone else make the call</div><p>Your friend plays the same point and makes their own decisions.</p><button class="alt" id="sharePointButton">Challenge a tennis friend</button><p id="shareStatus" role="status"></p>`;
   // Keep the cue, professional story and continuation together before sharing.
   (w.querySelector(':scope > .gs-continue, :scope > #practiceReturn')||w.querySelector(':scope > [data-k=pro]')||w.querySelector('#liveEvidence')||w.firstElementChild).after(box);
-  if(daily){box.querySelector('.k').textContent='Compare decisions with a friend';box.querySelector('p').textContent='Same challenge. Their decision. Your answers stay private.';box.querySelector('#sharePointButton').textContent='Send this challenge to a friend';}
+  if(daily){box.querySelector('.k').textContent='Compare decisions with a friend';box.querySelector('p').textContent='Your friend gets the same challenge and makes their own choices.';box.querySelector('#sharePointButton').textContent='Send this challenge to a friend';}
   const status=box.querySelector('#shareStatus');
   box.querySelector('#sharePointButton').onclick=()=>{
     A.track(daily?'daily_share_intent':'challenge_share_intent',{lesson:slug});

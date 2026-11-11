@@ -377,21 +377,21 @@
       "scene": "dhA",
       "frame": 304,
       "question": "Your partner holds their side. Where do you recover?",
-      "situation": "Same serving pair. This time your partner holds position and the return comes to your half. The crossing plan no longer fits."
+      "situation": "Your partner stays near the net. The return is coming towards your side of the baseline."
     },
     {
       "slug": "doubles-return-line",
       "scene": "drlA",
       "frame": 290,
       "question": "Their net player moves across early. What changes?",
-      "situation": "The net player moves early toward the middle. This serve gives you enough time to see the lane they have left."
+      "situation": "As the serve bounces, their net player moves towards the middle."
     },
     {
       "slug": "doubles-lob-overhead",
       "scene": "dloA",
       "frame": 175,
       "question": "You can reach this lob in balance. Who takes it?",
-      "situation": "This lob is shorter. You have time to turn and get under it. Calling your partner through would give away that comfortable overhead."
+      "situation": "The lob is dropping behind you. Your partner is deeper, and you have time to turn."
     },
     {
       "slug": "saturday-point-1",

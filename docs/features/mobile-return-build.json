@@ -1,0 +1,144 @@
+{
+  "source": {
+    "app_src/analytics.test.mjs": {
+      "baseline": "169fb1f7541c4435762d6ccde9295009741e714c71b42a10aca7bc5a44079280",
+      "candidate": "9a360885f17b12640044b6b38f5a04ec985e4e37a49cac0b8a74f2eab278ec08"
+    },
+    "app_src/app.js": {
+      "baseline": "78037cdcd3028252114c04ab275cd64bd639c0d9913f4ea910b210d3adbe4d40",
+      "candidate": "7c29f0b9addc4d93621b4bd00fff6c570b323503031cea0eede5045115bbcc38"
+    },
+    "app_src/home.css": {
+      "baseline": "3e8234e55b00ad6a84e5eec28104a91ee669fb04a2a284e4de930e6635bdc486",
+      "candidate": "48b5f71d6aa9750c221fd0a3dfe3c1de160887dbfcb71685c82ffc339190053e"
+    },
+    "app_src/index.html": {
+      "baseline": "6557af96d2f1785577548138f31ead39649b8de8a44332f6c401664d332ffb8d",
+      "candidate": "e066eb3c8ebbe24222bf927f0daafd2e416fee1f720ffc3e6931e66e96ffe3c8"
+    },
+    "app_src/play_host.html": {
+      "baseline": "c4d61aef762bd16237c90e20db7eda1f9d64fb592cf7b2de083ef34762094f6e",
+      "candidate": "45d370a7e3840872164e595c6b53d4fb2baae1d8af09b934a1e1866e9fc7e455"
+    },
+    "app_src/share.js": {
+      "baseline": "cb95868e09dbad93639ae2045c62fa7a628ece22ad2b581cd8212bd06bc10f18",
+      "candidate": "15b29936ae8799f380c618aa187b8e1f39e0e8ca641f122ef8f16578331dd258"
+    },
+    "docs/features/share-preview-frames.json": {
+      "baseline": "f1935ffa6d4822ba7746f27190f80fa82bf8d1c6ac986994e8bbbf32e8187708",
+      "candidate": "f0a677f45ec6df5cff06cbcfca4fcb4f45681f37125d207b2635925024bdf300"
+    },
+    "rally/build_doubles.py": {
+      "baseline": "78e03a8bcb9cd171567024b60b6ed18ac3f1f58113ea279fa14ca046b2cc1263",
+      "candidate": "67a77175fa7ce38f1581ac31f0a1c3f5e4fbbd6b464b46058e97a77c2453cd85"
+    },
+    "rally/directed.css": {
+      "baseline": "bd1950ba8948f25cf7a2b6bbaceedecbabc87a767653d6b1e36e53b87c31b102",
+      "candidate": "c3f210648e64f0803cdb47487ca3ee62f4b1b96a5b6183331f0dff6bad9d8572"
+    },
+    "rally/directed.js": {
+      "baseline": "5916016bf447025668f91803b57a4d0608cb0e07c812480b0233182bdfde48c2",
+      "candidate": "b4a6a4acb383d862c4f990968157ec185a6d0e6807c8b5c0d1e21922652ad7fa"
+    },
+    "rally/drl_data.json": {
+      "baseline": "59bd156d63457e96c7a3c5f0928e669b7d52a2e8f7ac734d8156ae27abeb2220",
+      "candidate": "07249e75bb6b716c6517c88e75085679b5f03b47451763ff5e5869223645eb21"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "abf3dcd890dc6d813072d64798b9a3d37bbb8cc7a8c2a1fb58128affee0dc5f9",
+      "candidate": "86e3d79a32de002cd2a433d31599bc4c5fe980b5c6e28dc1e0ae040f5b4c4eb1"
+    },
+    "rally/lesson_dh.js": {
+      "baseline": "9ac3ee3e024b7e560743a7bd8a4a18f5aa7470c088611f6dbf808c5197bfdf58",
+      "candidate": "08248120303c214e586d6825a36b443083e7636cd4ce9cbc3f149d180f69b125"
+    },
+    "rally/lesson_dlo.js": {
+      "baseline": "169c94c97b4c55ffeba9084e4f928835983b8510200ddf157f55403f316905e0",
+      "candidate": "d6f79929483116d01ba4ca2f16fdad7eec0a2a3b110a315cb10c035cf3866a36"
+    },
+    "rally/lesson_drl.js": {
+      "baseline": "1e86470ffa9f3aa34ea07c81001093f76ca4cbe3a1ec3091b669fbe25fed5690",
+      "candidate": "7642822fb150be1509828335293ccba026be6a6e2f628d73f3b4cbba685c6506"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "9a1da41e904bea670495722096dc66fdcd31b686bbf91d1062b2c8a861de0c8f",
+      "candidate": "590a71873add7ab4351ec6ab04d2903a9d27158b20f7248a4396f313ca9017a1"
+    },
+    "tools/mobile-return-browser.mjs": {
+      "baseline": null,
+      "candidate": "5f78346271ddfcc69442a566dcf75c9971fbf3a344ba813ec72a9ce878fdb7dc"
+    },
+    "tools/pro-insight-source.py": {
+      "baseline": "cafb96d228d1f255625f89e6ce55321de99235451f50ec3b11f4ce0f27af5c22",
+      "candidate": "b21da83f066ea5d8161f30f81bf830ecf49bec65ddaef864e463b63bf4e2ca2a"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "78037cdcd3028252114c04ab275cd64bd639c0d9913f4ea910b210d3adbe4d40",
+      "candidate": "7c29f0b9addc4d93621b4bd00fff6c570b323503031cea0eede5045115bbcc38"
+    },
+    "app/catalog.js": {
+      "baseline": "cdb801b3f7a5efd99b58ded28fa1c57980b7a45909634b6bf49284e461e27507",
+      "candidate": "638be9c38ceb5c2067c5c0998a48a5e73a9050c779d5cd65ff56e1560738666f"
+    },
+    "app/engine/engine.js": {
+      "baseline": "71646e70f85aafb4e9d417628e4f3c52dce64b25468e96d367bd2cecffd8afcd",
+      "candidate": "4ea6f346e9bac6cf67c5adca1dae18326d6af31fa2359b351634ee82817dc51a"
+    },
+    "app/home.css": {
+      "baseline": "3e8234e55b00ad6a84e5eec28104a91ee669fb04a2a284e4de930e6635bdc486",
+      "candidate": "48b5f71d6aa9750c221fd0a3dfe3c1de160887dbfcb71685c82ffc339190053e"
+    },
+    "app/index.html": {
+      "baseline": "26f579a1860601f401df3acb11f2daa1eaebfa7ce9758866db8abb2d9270d29e",
+      "candidate": "fb5026ab7547d7e5167827a24f043b7fa248ae56f947684f7a9f62c66b8f19cf"
+    },
+    "app/lessons/doubles-hold-cover.json": {
+      "baseline": "c879b58559d2c1f6be203df681879615be409831b14eabcec8eda9ecde972379",
+      "candidate": "1e9e67b63b9f887e8ded139b8e8909e8450053c66646662988b9668551540b79"
+    },
+    "app/lessons/doubles-lob-overhead.json": {
+      "baseline": "386dcba25f2aba246e791d53a8cebb66f12cf8592ac39429b3bc8ff16877e54f",
+      "candidate": "a2bca617106b4faaaa4f8f0dba41a3334e46dde14f06bfa840eb6991fc94e1f5"
+    },
+    "app/lessons/doubles-return-line.json": {
+      "baseline": "78aa080a04bd6ead892f458c88c27ee8b3e7cad61d05ff854d4f7c44f77a3b30",
+      "candidate": "0b66bb4052e697ad188017e5ff046cbdf3a00d1218c6e893864ed050b81c372b"
+    },
+    "app/play.html": {
+      "baseline": "52272a60b2bb29b91ff71fec3c035b70040f6a6d3c6be8b7d4dba5dc1dac18c3",
+      "candidate": "1290b11359f2e9d160fd34c60f9d1131024d4761a556ee2736426b75aa743d54"
+    },
+    "app/s/doubles-hold-cover.html": {
+      "baseline": "01ed5d244feac5f3dd0c043584112f9d61ae8ad795c8e3abdff27e3c491bbac7",
+      "candidate": "dbaf02d799140f91e4fa5b636663adc837d2205556e4fc7b691783bf3b823d02"
+    },
+    "app/s/doubles-lob-overhead.html": {
+      "baseline": "a370aaa96f4f2a5edf0f03da7c202f8a9829114e09cc5e4f9e85acd0bda9d202",
+      "candidate": "a75c05a4111c61769263439b75bf760b4de4c5534105bac4781b27f92aa6b334"
+    },
+    "app/s/doubles-return-line.html": {
+      "baseline": "07224cbe64a6429615dc79266628d183b8ef03a68f3feb3a5491b8e023ec2d21",
+      "candidate": "1a0bb512aec32c113d3a6bc3584583b73b23caf798be2f307ee9394923a9c3e5"
+    },
+    "app/share.js": {
+      "baseline": "cb95868e09dbad93639ae2045c62fa7a628ece22ad2b581cd8212bd06bc10f18",
+      "candidate": "15b29936ae8799f380c618aa187b8e1f39e0e8ca641f122ef8f16578331dd258"
+    }
+  },
+  "lessonContracts": {
+    "doubles-hold-cover": {
+      "baseline": "f71d9cfb96492fd355f53b6fbbbb2e80943d62ce4e4c142ad21961cd8b09d023",
+      "candidate": "9b1b23bb5d94a02bd2f101fb5e7673670ea67cbec38f2877926446af06f3008e"
+    },
+    "doubles-lob-overhead": {
+      "baseline": "7d0b629877a7d31cb7e9033de6b1d056347e57b29596c3fe12dbb475fe8051e6",
+      "candidate": "27e937b18e0817d468a4becc3e3a927d51053696b854d0c93632bc98016216fc"
+    },
+    "doubles-return-line": {
+      "baseline": "5a5f14002e6dfb4645762ae3bbe28921b6fc569a2d1e864952850cc33f585646",
+      "candidate": "4929392d115b6a4dd87f22d3e7a71959e9e7136d91661e8f17a3cbd309072baf"
+    }
+  }
+}

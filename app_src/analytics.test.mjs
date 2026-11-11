@@ -460,3 +460,21 @@ test('updated activities keep old completion records visibly separate from curre
  const b=boot({catalog:liveCatalog});b.app.complete('point',1,2);const revised={...liveCatalog,play:liveCatalog.play.map(l=>l.slug==='point'?{...l,edition:'new'}:l)};
  const c=boot({catalog:revised,storage:b.storage}),p=c.app.practiceSummary();assert.equal(p.rows.length,0);assert.equal(p.archived.length,1);assert.equal(p.archived[0].n,1);assert.equal(p.archived[0].lesson.slug,'point');assert.equal(p.next,null);
 });
+
+test("daily checkpoint preserves first choices across tabs and completes a resumed attempt once",()=>{
+  const catalog={daily:[{slug:'lesson',decisionCount:3}],predict:[],dailyPlan:{edition:'one',rotation:['lesson'],startDate:'2026-09-01'}};
+  const first=boot({catalog}), other=boot({catalog,storage:first.storage});
+  const id=first.app.openDaily('lesson').id;
+  assert.equal(first.app.recordDailyPick('lesson',id,0,'B'),true);
+  assert.equal(other.app.openDaily('lesson').id,id);
+  assert.equal(other.app.recordDailyPick('lesson',id,0,'A'),false);
+  const replacement=first.app.openDaily('lesson',true).id;
+  assert.equal(other.app.recordDailyPick('lesson',id,1,'C'),false);
+  other.app.complete('lesson',3,3,id);
+  assert.equal(other.app.S.done.lesson,undefined);
+  ['B','A','C'].forEach((pick,i)=>assert(first.app.recordDailyPick('lesson',replacement,i,pick)));
+  first.app.complete('lesson',2,3,replacement);
+  other.app.complete('lesson',2,3,replacement);
+  assert.equal(other.app.S.done.lesson.times,1);
+  assert.equal(other.app.dailyDraft('lesson'),null);
+});
