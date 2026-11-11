@@ -888,12 +888,12 @@ function questionCaption(text){
   let el=$('questionContext');if(!el){el=document.createElement('div');el.id='questionContext';el.className='question-context';el.setAttribute('role','status');$('stage').appendChild(el);}
   el.textContent=text||'';el.hidden=!text;
 }
-function playQuestion(S,cb){
-  if(window.GSDirected?.question(S,cb))return;
+function playQuestion(S,cb,afterFrame=0){
+  if(window.GSDirected?.question(S,cb,false,afterFrame))return;
   const q=questionRange(S);questionCaption(q.label);
-  run(q.scene,q.from,q.to,()=>{questionCaption(q.after);cb();},q.silent);
+  run(q.scene,Math.min(q.to,Math.max(q.from,afterFrame)),q.to,()=>{questionCaption(q.after);cb();},q.silent);
 }
-function startStep(i){window.GSDirected?.cancel();clearLiveComparison();emit('step',{i,fresh:i===0&&ans.every(a=>a==null)}); clearTimeout(window.__flowT);
+function startStep(i,afterFrame=0){window.GSDirected?.cancel();clearLiveComparison();emit('step',{i,fresh:i===0&&ans.every(a=>a==null)}); clearTimeout(window.__flowT);
   clearContactInspection();
   step=i; chosen=null; answered=false; showTargets=null; revealPattern=false; showDots=false; done=false;
   $("wrapup").hidden=true; setInk("");
@@ -905,7 +905,7 @@ function startStep(i){window.GSDirected?.cancel();clearLiveComparison();emit('st
   pick=X=>choose(i,X,false);
   playQuestion(S,()=>{if(step!==i||answered)return;
     if(!S.reveal&&!S.noTargets)showTargets=S.scene;
-    typeSit(S.sit,()=>{if(step===i&&!answered)enableAsk();});});
+    typeSit(S.sit,()=>{if(step===i&&!answered)enableAsk();});},afterFrame);
 }
 // Play one option out. demo = watching the better option after a miss (the first answer still counts).
 function choose(i,X,demo){
@@ -921,7 +921,7 @@ function choose(i,X,demo){
   }
   chosen=X; answered=true; zone.classList.remove("on"); showOnly([X]); setRail(3); setInk("");
   $("verdict").hidden=true;
-  if(window.GSDirected?.answer(i,X,demo,()=>verdict(i,X,demo)))return;
+  if(window.GSDirected?.answer(i,X,()=>verdict(i,X,demo)))return;
   if(S.reveal){showDots=true;if(S.pattern)revealPattern=true;verdict(i,X,demo);return;}
   showDots=!!LESSON.tenTries;
   const key=S.scene+X, fr=SC[key].info.freeze;
@@ -956,7 +956,11 @@ function verdict(i,X,demo){
   window.GSDirected?.feedback(i,X);
   v.hidden=false; tallView();
   $("why").onclick=()=>{const p=$("whyp"),o=p.hidden;p.hidden=!o;$("why").setAttribute("aria-expanded",o);$("why").innerHTML=`Why? <span aria-hidden="true">${o?"–":"+"}</span>`;};
-  $("next").onclick=()=>{startStep(i+1);if(!done)window.scrollTo({top:0,behavior:CALM_MOTION?"auto":"smooth"});};
+  $("next").onclick=()=>{
+    // Follow the committed route even after the player explores an alternative.
+    const prior=SC[S.scene+ans[i]];
+    const afterFrame=(LESSON.branch||LESSON.flow)&&prior?prior.frames-1:0;
+    startStep(i+1,afterFrame);if(!done)window.scrollTo({top:0,behavior:CALM_MOTION?"auto":"smooth"});};
   if(!S.reveal) $("tryOther").onclick=()=>{
     if(!ok&&!demo){choose(i,corr,true);return;}
     window.GSDirected?.cancel();clearContactInspection();showTargets=null;chosen=null; answered=false; showDots=false; setInk(""); paintAsk(S); pick=Y=>choose(i,Y,true);
@@ -1261,34 +1265,34 @@ function setupPredict(){
   const hitFrom=(()=>{const sc=SC[K], segs=(sc.actors.you||[]).filter(s=>!s.hold).map(s=>s.start+CL[s.clip].contactFrame-1);
     return segs.slice(0,3).map(f=>{const q=sc.ball[f]||sc.ball[f+1];return q?[q[0],q[1],q[2]]:[0,-11,1];});})();
   const okAt=i=>ans[i]!=null&&(LETTERS.indexOf(ans[i])===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(ans[i])));
-  startStep=function(i){
+  startStep=function(i,afterFrame=0,fullReplay=false){
     window.GSDirected?.cancel();cancelFlow();if(window.GSSfx)GSSfx.stop();
     step=i; chosen=null; answered=false; showTargets=null; showDots=false; done=false;
     $("wrapup").hidden=true;
     if(i===0)reviewed=false;
-    if(i===3){watchPoint();return;}
+    if(i===3){watchPoint(fullReplay);return;}
     const S=LESSON.steps[i];
     $("count").textContent=`Read ${i+1} of 3`;
-    paintRail(i===0?[P.intro||"Picture the point"]:LESSON.steps.slice(0,i).map((s,j)=>`${j+1} ${s.short}: ${ans[j]||"–"}`)); setInk(i===0?"Answer all three, then watch":"");
+    paintRail(i===0?[P.intro||"Picture the point"]:LESSON.steps.slice(0,i).map((s,j)=>`${j+1} ${s.short}: ${ans[j]||"–"}`)); setInk(i===0?"Read the point one shot at a time":"");
     paintAsk(S); zone.hidden=false; tallView();
-    scene=K; t=readAt[0]; stopAt=t; setPlaying(false);
+    setPlaying(false);
     window.__camOverride=P.askCam||null; if(i===0) savedTrail=null; window.__trail=(window.__trail||[]).slice(0,i); showTargets=null;
     pick=X=>{questionCaption();ans[i]=X;emit('answer',{i,X,node:S.scene,signal:LESSON.learningSignals?.[i],ok:okAt(i)}); optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
       const land=SC[S.scene+X].info.shot.land;
       window.__trail.push({from:hitFrom[i],to:land,h:hitFrom[i][2],arc:i===0?0.4:1,X,col:window.GSDirected?.optionColour(S.scene,X)||"#c8a84b",t0:performance.now()});
-      later(()=>startStep(i+1),450);};
+      later(()=>startStep(i+1,questionRange(S).to),450);};
     stageSit(S.sit);
     playQuestion(S,()=>{if(step!==i)return;
-      typeIn($("sitTx"),S.sit,()=>{if(step===i){showTargets=S.scene;enableAsk();}});});
+      typeIn($("sitTx"),S.sit,()=>{if(step===i){showTargets=S.scene;enableAsk();}});},afterFrame);
   };
   function chip(k,after){const S=LESSON.steps[k],ok=okAt(k); typeIn($("sitTx"),(P.says&&P.says[k])||S.payoff,after,6);
     setInk(ok?`Read ${k+1} · ${S.short}: you had it`:`Read ${k+1} · ${S.short}: you said ${ans[k]}, GS ✓: ${LETTERS[S.correct]}`,!ok);}
-  function watchPoint(){
+  function watchPoint(fullReplay){
     questionCaption();window.__camOverride=null; savedTrail=(savedTrail&&savedTrail.length===3?savedTrail:(window.__trail||[])).map(x=>({...x})); window.__trail=[];   // redrawn read by read as the point plays
     zone.hidden=true; $("count").textContent="Worked example";
     paintRail(LESSON.steps.map((s,j)=>`${j+1} ${s.short}`)); setInk(""); stageInView();
     // Read freezes are BEFORE the shot. Its evidence ends at the NEXT freeze.
-    const evidenceEnds=[...readAt.slice(1),SC[K].frames-1];let k=0,voiceGeneration;
+    const evidenceEnds=[...readAt.slice(1),SC[K].frames-1];let k=fullReplay?0:2,voiceGeneration;
     const next=()=>{
       if(k===evidenceEnds.length){window.GSDirected?.cancel();questionCaption();review(voiceGeneration);return;}
       stageSit((P.says&&P.says[k])||LESSON.steps[k].payoff);
@@ -1326,10 +1330,13 @@ function setupPredict(){
     w.querySelectorAll("details.pay").forEach(d=>{let first=d.open;d.addEventListener("toggle",()=>{if(first){first=false;return;}if(d.open)emit('payoff_open',{k:d.dataset.k});});});
     w.querySelectorAll("[data-watch]").forEach(bt=>bt.onclick=()=>{const i=+bt.dataset.watch,key=LESSON.steps[i].scene+ans[i],fr=SC[key].info.freeze;
       stageInView(); setInk(`Read ${i+1}: your choice`,true); run(key,Math.max(0,(SC[key].info.from||fr-60)),SC[key].frames-1,null);});
+    const watch=document.createElement('button');watch.className='alt';watch.id='watchModelPoint';
+    watch.textContent='Watch the full worked example';watch.onclick=()=>startStep(3,0,true);
+    $('redo').before(watch);
     window.GSDirected?.predictReview(w);
     $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();window.__trail=[];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
   }
-  $("again").onclick=()=>{if(window.GSDirected?.replay())return;if(done||step===3){startStep(3);}else startStep(step);};
+  $("again").onclick=()=>{if(window.GSDirected?.replay())return;if(done||step===3){startStep(3,0,true);}else startStep(step);};
 }
 /* Describe the evidence available at the decision, never an unplayed option.
    Positions use the renderer's poses at questionRange().to. Editorial notes
@@ -1531,7 +1538,7 @@ window.GSDirected=(()=>{
   }
   const revealed=new Set();
   const dailyOpening=DailyFilms.sequence(slug);
-  const dailyLesson=Boolean(dailyOpening||prefix);
+  let openingSeen=null;
   const introKey=S=>dailyOpening&&S===LESSON.steps[0]?'film:1:'+S.scene:'intro:'+S.scene;
   const storeKey='gs_directed_v1_'+slug;
   const seen=new Set();try{for(const k of JSON.parse(localStorage.getItem(storeKey)||'[]'))seen.add(k);}catch{}
@@ -1591,37 +1598,60 @@ window.GSDirected=(()=>{
     rewatch?.remove();rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=pilot(S)&&height?'Watch the height again':'Watch the scene again';
     rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal||S.noTargets?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);GSSceneEvidence.show(S,rewatch);
   }
-  function question(S,cb,force=false){
-
-    const q=questionRange(S),end=()=>restoreQuestion(S,cb);
+  function question(S,cb,force=false,afterFrame=0){
+    const q=questionRange(S);
+    openingSeen=null;
+    if(!force)q.from=Math.min(q.to,Math.max(q.from,afterFrame));
+    if(force&&q.from===q.to&&step>0&&LESSON.branch){
+      const previous=LESSON.steps[step-1],route=SC[previous.scene+ans[step-1]];
+      if(route)q.from=Math.min(q.to,route.info.freeze);
+    }
+    const end=()=>restoreQuestion(S,cb);
+    const filmEnded=()=>{
+      openingSeen={question:S,scene,frame:Math.floor(t)};
+      end();
+    };
     if(q.from===q.to||!force&&(CALM_MOTION||seen.has(introKey(S)))){end();return true;}
     if(S.scene==='wn1'){
       start([{kind:'opening',key:'wn1',from:62,to:298,play:true,eye:'A low ball. A narrow target.',title:'You go for the line.'},
-        {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}],end,'Skip to decision →');
+        {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}],filmEnded,'Skip to decision →');
     }else if(pilot(S)&&height){
       const key=prefix+'A',hit=contact(key)-1;start([
         {kind:'opening',key,from:62,to:hit,play:true,eye:'A short ball. They’re still deep.',title:'A free point?'},
         {kind:'height',key,from:hit,ms:1800,eye:'The deciding detail',title:'Below the tape.',copy:'Contact '+Math.round(at()[2]*100)+' cm. Tape '+Math.round(net(at()[0])*100)+' cm.'},
         {kind:'net',key,from:hit,to:257,play:true,eye:'The shot',title:'Watch the clearance.'}
-      ],end,'Skip to decision →');
+      ],filmEnded,'Skip to decision →');
     }else if(dailyOpening&&S===LESSON.steps[0]){
-      start(dailyOpening,end,'Skip to decision →');
-    }else start([{kind:'sweep',key:q.scene,from:q.from,to:q.to,play:true,silent:q.silent,eye:q.label||'Read the situation',title:S.name||'Your next decision',native:!!(LESSON.predict||LESSON.readinessLesson||CONTACT_FOCUS||q.type==='held-continuation')}],end,'Skip to decision →');
+      start(dailyOpening,filmEnded,'Skip to decision →');
+    }else start([{kind:'sweep',key:q.scene,from:q.from,to:q.to,play:true,silent:q.silent,eye:q.label||'Read the situation',title:S.name||'Your next decision',native:!!(LESSON.predict||LESSON.readinessLesson||CONTACT_FOCUS||q.type==='held-continuation')}],filmEnded,'Skip to decision →');
     return true;
   }
   function alternative(S,X){return LETTERS[S.correct]!==X?LETTERS[S.correct]:pilot(S)?(height?'A':'C'):LETTERS[(S.correct+1)%S.opts.length];}
-  function finishAnswer(S,X,cb){
-    const key=S.reveal?S.scene:S.scene+X;frame(key,S.reveal?questionRange(S).to:pilot(S)?contact(key)-1:SC[key].frames-1);remember('answer:'+S.scene);board=true;eye=null;showDots=!!S.reveal;cb();
+  function finishAnswer(S,X,cb,endFrame){
+    const key=S.reveal?S.scene:S.scene+X;frame(key,S.reveal?questionRange(S).to:endFrame??SC[key].frames-1);remember('answer:'+S.scene);board=true;eye=null;showDots=!!S.reveal;cb();
   }
   const viewing=(X,first)=>X===first?'Your first choice '+X:'Alternative '+X;
-  function answer(i,X,demo,cb,force=false,only=null){
+  // Committing to an answer has no path to the comparison sequencer.
+  function answer(i,X,cb){
     const S=LESSON.steps[i];
-    if(!pilot(S))return generalAnswer(S,X,demo,cb,force,only);
+    if(S.reveal){showDots=true;revealPattern=!!S.pattern;finishAnswer(S,X,cb);return true;}
+    const key=S.scene+X,sc=SC[key],q=questionRange(S);
+    const next=LESSON.branch?LESSON.nodes[key]:LESSON.flow&&LETTERS[S.correct]===X?LESSON.steps[i+1]:null;
+    const to=next?Math.min(sc.frames-1,questionRange(next).to):sc.frames-1;
+    // The held question is the start of the selected consequence. Variant
+    // metadata can describe a later contact, even beyond a trimmed clip.
+    let from=q.to;
+    if(openingSeen?.question===S&&openingSeen.scene===key)from=Math.max(from,openingSeen.frame);
+    const end=()=>finishAnswer(S,X,cb,to);
+    if(from>=to){end();return true;}
+    start([{kind:'wide',key,from,to,play:true,eye:viewing(X,ans[i]),title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');
+    stageInView();return true;
+  }
+  function reviewAnswer(i,X,cb,only=null){
+    const S=LESSON.steps[i];
+    if(!pilot(S))return generalReview(S,X,cb,only);
     const key=S.scene+X,alt=alternative(S,X),other=S.scene+alt;
     const end=()=>finishAnswer(S,X,cb);
-    if(!force){
-      start([{kind:'wide',key,from:SC[key].info.freeze,to:SC[key].frames-1,play:true,eye:viewing(X,ans[i]),title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');return true;
-    }
     const route=(k,label)=>({kind:'wide',key:k,from:contact(k)-1,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
     const stages=only?[route(only,viewing(only.slice(-1),ans[i]))]:[
       route(key,viewing(X,ans[step])+' · follow the consequence'),
@@ -1633,21 +1663,19 @@ window.GSDirected=(()=>{
   }
   // Observation questions have one authored scene, not one outcome per answer.
   // Connected routes compare at the saved decision, never by changing the branch.
-  function generalAnswer(S,X,demo,cb,force,only){
+  function generalReview(S,X,cb,only){
     const key=S.reveal?S.scene:S.scene+X,sc=SC[key],q=questionRange(S);
     const end=()=>finishAnswer(S,X,cb);
     if(S.reveal){
-      if(LESSON.readinessLesson&&force){cancel();replayArrival(S.scene);return true;}
+      if(LESSON.readinessLesson){cancel();replayArrival(S.scene);return true;}
       showDots=true;revealPattern=!!S.pattern;
-      if(!force){end();return true;}
       start([{kind:'evidence',key,from:q.from,to:q.to,play:true,silent:q.silent,native:true,eye:'Replay the evidence',title:S.unlock}],end,'Skip to feedback →');return true;
     }
-    const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
-    const short=!force&&(dailyLesson||CALM_MOTION||seen.has('answer:'+S.scene)||demo);
+    const route=(k,label)=>({kind:'wide',key:k,from:q.to,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
     let stages=only?[route(only,viewing(only.slice(-1),ans[step]))]:[route(key,viewing(X,ans[step])+' · follow the consequence')];
-    if(!short&&!only){
+    if(!only){
       stages.push(
-        {kind:'rewind',key,from:sc.frames-1,to:sc.info.freeze,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},
+        {kind:'rewind',key,from:sc.frames-1,to:q.to,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},
         detail(S,key),
         route(S.scene+alternative(S,X),'Compare the alternative'));
     }
@@ -1688,7 +1716,7 @@ window.GSDirected=(()=>{
     GSSceneEvidence.feedback(S,X,ans[i]||X);
     $('verdict').appendChild(b);
     if($('tryOther'))$('tryOther').hidden=true;
-    $('directedOther').onclick=()=>answer(i,X,true,()=>{board=true;},true);
+    $('directedOther').onclick=()=>reviewAnswer(i,X,()=>{board=true;});
     function showChoices(){
       [...$('askOpts').children].forEach((tile,j)=>tile.classList.toggle('hide',!expanded&&LETTERS[j]!==X&&LETTERS[j]!==recommended));
       $('askOpts').classList.toggle('directed-single',!expanded&&X===recommended);
@@ -1702,7 +1730,7 @@ window.GSDirected=(()=>{
   }
   function replay(){
     if(film){const stages=sequence.slice(),cb=finish,label=$('skipDirected').textContent;start(stages,cb,label);return true;}
-    if(board&&LESSON.steps[step]){const S=LESSON.steps[step],X=chosen||ans[step];return answer(step,X,true,()=>{board=true;},true,S.reveal?S.scene:S.scene+X);}
+    if(board&&LESSON.steps[step]){const S=LESSON.steps[step],X=chosen||ans[step];return reviewAnswer(step,X,()=>{board=true;},S.reveal?S.scene:S.scene+X);}
     if(!done&&rewatch){rewatch.click();return true;}
     return false;
   }

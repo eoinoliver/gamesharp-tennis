@@ -1,0 +1,70 @@
+{
+  "source": {
+    "rally/directed.js": {
+      "baseline": "3e86557f8338600f3b9c4e15459bd6404aadce2c9b8a0f70318b44b8ed9683e5",
+      "candidate": "5916016bf447025668f91803b57a4d0608cb0e07c812480b0233182bdfde48c2"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "c6eae85253cdde3678985298d140a577d82475189faed988b7e3667da3923888",
+      "candidate": "abf3dcd890dc6d813072d64798b9a3d37bbb8cc7a8c2a1fb58128affee0dc5f9"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "a557225e5c5b35a8bcf9026f1beb2ca337531662466a6d6cfeca71ad5725a086",
+      "candidate": "9a1da41e904bea670495722096dc66fdcd31b686bbf91d1062b2c8a861de0c8f"
+    },
+    "tools/directed-browser.mjs": {
+      "baseline": "b6455f0f6169703a6f424f24786a4ce2368856e7ef6022a27952d6455e780cef",
+      "candidate": "8d256be92866556fb93e9506e034093c9b03a1411501946ac41908812c309f81"
+    },
+    "tools/mobile-learning-browser.mjs": {
+      "baseline": "aee8ae49416e5939f04af78b32879ea32084f60f80cafacb7dd427356bf9a038",
+      "candidate": "586f93b343a75b9bb78ab3d5f659de1a09b4da4d523cb873ddb6eadfbea21555"
+    },
+    "tools/single-pass-browser.mjs": {
+      "baseline": null,
+      "candidate": "78ddd257a29a63ed1224e9f89740870389ec93b84789ff3f48e914ef35b21d76"
+    },
+    ".github/workflows/checks.yml": {
+      "baseline": "dbd2bde4aac6acaf5dae3d4f8ae38d235c2db8333241856aab7f5a28c1a1b452",
+      "candidate": "0e12400fa57c5a2b9ab8726bb4d6130d1fd06115ce26f21689008c922964d8ab"
+    },
+    "app_src/athlete.js": {
+      "baseline": "ecd3f25ca654f67d918bfa9d0913f9f2db6d7a3c9b9a1a74bfcd52506b58358b",
+      "candidate": "23dceff847bb2eb58026df66d046872798f8c5b9778916f9b72cae7cd5f54623"
+    },
+    "app_src/sharpen.js": {
+      "baseline": "b62a7d0d033aa286417f22ef5184652875c4000e5036cbef8e5d4899bd0aa90f",
+      "candidate": "f08163d295c3f4b75c90d6c4b6c2f1fc76111531f0f8eb5a126f00096c117a9c"
+    },
+    "tools/sharpen-stroke-browser.mjs": {
+      "baseline": "fcd78645682d289ca3e458ce66c862872cc36ed7fb38f2ae34075ea70ceaa23e",
+      "candidate": "5ed7025a36bc5815e759ca776c45acabc908228c653935dd0684d410e451a9f6"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "bb5b200f1170b46186963c22685f0c30fcf7ce2d78aa2fe186988cad42fc989e",
+      "candidate": "083ea6d8f12da1c14a36968018cb785b48b410fd8573e037c74e387db981a328"
+    },
+    "app/index.html": {
+      "baseline": "98826788e46954b5d43123bc682b22a73d87c8ce77272a96660f4a1345c57f14",
+      "candidate": "22265c02883ef164e5f5f9a4bdfd12af9ce8566e136f6b04af5b38164c7a8b81"
+    },
+    "app/play.html": {
+      "baseline": "a415c9f54f89a8b21033583460f91f5e294212ae1b7de761d6cbf2cd38777aa4",
+      "candidate": "188737d92c9018e2d6892cd370b6aedee3f228517e6d8472d47a1c5fc914dddf"
+    },
+    "app/engine/engine.js": {
+      "baseline": "cf48a61ab25d822df150041e3f989b1c5bb7cf6e9e46ce4fa846256ce0996361",
+      "candidate": "71646e70f85aafb4e9d417628e4f3c52dce64b25468e96d367bd2cecffd8afcd"
+    },
+    "app/athlete.js": {
+      "baseline": "19ad80c3d9750f22c9fa8bc34c269dfd17a9f6f0824064be66c7fe251518ad14",
+      "candidate": "0f773d728b0dae554cfc2e1aa648b9ad172ef4d76822d787fa7552249248e7c7"
+    },
+    "app/sharpen.js": {
+      "baseline": "b62a7d0d033aa286417f22ef5184652875c4000e5036cbef8e5d4899bd0aa90f",
+      "candidate": "f08163d295c3f4b75c90d6c4b6c2f1fc76111531f0f8eb5a126f00096c117a9c"
+    }
+  }
+}

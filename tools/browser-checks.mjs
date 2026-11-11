@@ -7,7 +7,9 @@ const tasks=[['tools/takeaway-motion-browser.mjs',base],['tools/takeaway-browser
 // The opt-in comparison preserves first scores and withholds annotations until commitment.
 tasks.push(['tools/contact-focus-browser.mjs',base]);
 tasks.push(['tools/trust-evidence-browser.mjs',base],['tools/daily-films-browser.mjs',base]);
+tasks.push(['tools/single-pass-browser.mjs',base]);
 const groups={
+ 'tools/single-pass-browser.mjs':'playback',
  'tools/trust-evidence-browser.mjs':'learning',
  'tools/daily-films-browser.mjs':'learning',
  'tools/daily-about-browser.mjs':'shell',

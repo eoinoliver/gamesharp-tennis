@@ -1138,3 +1138,7 @@ The Git candidate covers 32 Daily openings. The original two pilots retain their
 ## Daily one-pass edit · 11 November 2026
 
 Codex is implementing the reviewed Serve Writes the Next Question edit throughout the existing Daily challenges on `codex/one-pass-daily-films-20261111`. The point advances through camera cuts, and comparison follows an explicit player action.
+
+## 11 November 2026 — Single-pass playback throughout the lesson catalogue
+
+Codex owns `codex/app-wide-single-pass-20261111` from `ce9f405`. Trace both decisions in Now the Line Is Open, remove automatic comparisons and repeated point segments at the shared playback boundaries, and exercise the public player across all catalogue formats.

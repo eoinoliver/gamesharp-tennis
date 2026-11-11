@@ -79,6 +79,15 @@ const before=await page.locator('#shAth svg').innerHTML();
 await page.waitForFunction(before=>document.querySelector('#shAth svg')?.innerHTML!==before,before);
 await page.locator('[data-ath="slice"]').click();
 assert.equal(await page.locator('[data-ath="slice"]').getAttribute('aria-pressed'),'true');
+for(const chip of await page.locator('[data-ath]').all()){
+ await chip.click();
+ await page.waitForFunction(()=>document.querySelector('#shPause').getAttribute('aria-pressed')==='true');
+ const last=await page.locator('#shAth svg').innerHTML();
+ await page.waitForTimeout(1100);
+ assert.equal(await page.locator('#shAth svg').innerHTML(),last,'finished stroke holds until requested');
+}
+await page.locator('#shReplay').click();
+await page.waitForFunction(()=>document.querySelector('#shPause').getAttribute('aria-pressed')==='false');
 await page.close();await browser.close();assert.deepEqual(errors,[]);
 writeFileSync(dir+'/report.json',JSON.stringify({results,errors},null,2));
 console.log(`PASS: ${results.length} responsive stroke views; prompt toss, net clearance/service-box landing, contact anchors, chips, stills and normal motion`);

@@ -268,10 +268,10 @@ window.GSAthlete={mount(stage,o={}){
   const svg=document.createElementNS(SVGNS,"svg");svg.setAttribute("viewBox",`0 0 ${width} ${height}`);svg.setAttribute("aria-hidden","true");
   stage.appendChild(svg);
   const order=o.order||Object.keys(CLIPS), still=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let k=o.start||order[0], f=0, hold=0, last=null, alive=true, c=null, speed=1, paused=still, visible=true, manual=false, raf;
+  let k=o.start||order[0], f=0, ended=false, last=null, alive=true, c=null, speed=1, paused=still, visible=true, manual=false, raf;
   const range=c=>[Math.max(1,k==="serve"?c.tossReleaseFrame-25:c.contactFrame-LEAD[k]),home?c.contactFrame+240:Math.min(c.frameCount,c.contactFrame+(k==="serve"?85:65))];
   function paint(){if(c)draw(svg,k,c,f,home);}
-  function show(nk){if(!CLIPS[nk])return;k=nk;c=null;hold=0;stage.classList.remove('load-error');svg.style.opacity='1';window.GSSfx?.stopContacts();o.onStroke?.(k);
+  function show(nk){if(!CLIPS[nk])return;k=nk;c=null;ended=false;last=null;stage.classList.remove('load-error');svg.style.opacity='1';window.GSSfx?.stopContacts();o.onStroke?.(k);
     load(k).then(cl=>{if(!alive||k!==nk)return;c=cl;
       const h=cl.frames[cl.contactFrame-1][I.hips];
       cam=home?{az:-72,el:26,d:29,fov:24,tgt:[0,8.0,.7]}:{az:["bh","slice","bv"].includes(k)?-120:-65,el:13,d:k==="serve"?10:6.6,fov:35,tgt:[h[0],h[1]+.2,k==="serve"?1.5:(k==="fv"||k==="bv")?.9:1.05]};buildBasis();
@@ -291,16 +291,14 @@ window.GSAthlete={mount(stage,o={}){
     const dt=last==null?0:Math.min(50,ts-last);last=ts;
     if(c&&!paused&&!document.hidden&&visible){const [a,b]=range(c);
       if(f<b){const prev=f;f=Math.min(b,f+dt*.1*speed);sound(prev,f);if(home)svg.style.opacity=String(Math.min(1,(f-a)/20));paint();}
-      else {hold+=dt;const rest=home?1900:900;
-        if(home)svg.style.opacity=String(hold<rest-280?1:Math.max(0,(rest-hold)/280));
-        if(hold>=rest){f=a;hold=0;paint();svg.style.opacity=home?'0':'1';}}
+      if(f>=b){ended=true;paused=true;o.onEnd?.();}
     }
     raf=requestAnimationFrame(tick);
   }
   const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;last=null;},{threshold:.15});observer.observe(stage);
   function stop(){alive=false;cancelAnimationFrame(raf);observer.disconnect();}
   show(k);raf=requestAnimationFrame(tick);
-  return {play(nk){manual=false;paused=still;show(nk);},replay(){manual=true;paused=false;show(k);},speed(value){speed=value===.5?.5:1;},pause(value){paused=!!value;if(paused)window.GSSfx?.stopContacts();},stop};
+  return {play(nk){manual=false;paused=still;show(nk);},replay(){manual=true;paused=false;show(k);},speed(value){speed=value===.5?.5:1;},pause(value){paused=!!value;if(paused)window.GSSfx?.stopContacts();else if(ended){manual=true;show(k);}},stop};
 }};
 
 })();
