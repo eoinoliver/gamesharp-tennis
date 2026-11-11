@@ -6,7 +6,7 @@
     },
     "rally/daily-films.js": {
       "baseline": null,
-      "candidate": "8a835fdc6083cbed6f579d735346e672da367206a280621c61267873952e5331"
+      "candidate": "7f4eacaaa44e52d071cf811270123a52bbb1550f142d5be38c0589fb8bc4f38e"
     },
     "rally/directed.js": {
       "baseline": "6c8e2d52b9efd4b05e10c7b51d37632a89eecd39d79097b4ae78e7131010d7d9",
@@ -28,19 +28,19 @@
   "release": {
     "app/catalog.js": {
       "baseline": "f6f1f22a386459e0c3592a9b5aca0b358541e3f6485579d88299bcad8577dd2f",
-      "candidate": "6d847049a23b789f6f8e31ae34c10046d37fe71f4d8c7f57fbed57580037df23"
+      "candidate": "cb73a62835a8c69fccd28288f5397008cea1229ee78e7b22c5321fd46261f93c"
     },
     "app/index.html": {
       "baseline": "69e4a8ebaa80b9852713d6b9433b7bfddd54f1453d62a044000c016b1743bc8c",
-      "candidate": "ce0b13eda8dedc4e4450984a35f20b66244fabf38fcb2c9ca30c900fbbc6a361"
+      "candidate": "fd4e4d9e3eb2d5fef2fe3474ac8ebfddbb8917444c88abcaf0b7fe249e158269"
     },
     "app/play.html": {
       "baseline": "61ec2ef21368ec351e3e0c5739fe72ff19a0f5731786315e2b194bbf03a225ce",
-      "candidate": "dc92ec77cdc2f872e3055067361b8b0a637675b0260839ffb19f9b5190eecf00"
+      "candidate": "69fedf60154cd7c7f91c5e5304035cb79d7424135dac76f78228cdbcbfd1ebb8"
     },
     "app/engine/engine.js": {
       "baseline": "1c21bb63358a8b15efeceee8015b3698e45483009acdfc0b516f3eac863e6f99",
-      "candidate": "d10109d6cf996270e290bb639e5d8f1677e566b8eb82a1441c36bad4637150e4"
+      "candidate": "93943d5e4cbcde277d2a2090a1341143c950e04a9f9784d3c1fdc1566d656d64"
     }
   }
 }
