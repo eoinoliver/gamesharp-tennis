@@ -375,7 +375,7 @@ for records, expected in [(films['source'], source), (films['release'], manifest
 
 # Catalogue-wide playback follows the reviewed Daily-only release.
 playback = json.loads((ROOT/'docs/features/catalogue-single-pass-build.json').read_text())
-assert set(playback['source']) == {'rally/directed.js','rally/lesson_body.html','tools/browser-checks.mjs','tools/directed-browser.mjs','tools/mobile-learning-browser.mjs','tools/single-pass-browser.mjs'}
+assert set(playback['source']) == {'rally/directed.js','rally/lesson_body.html','tools/browser-checks.mjs','tools/directed-browser.mjs','tools/mobile-learning-browser.mjs','tools/single-pass-browser.mjs','.github/workflows/checks.yml'}
 assert set(playback['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
 for records, expected in [(playback['source'], source), (playback['release'], manifest)]:
     for name, change in records.items():

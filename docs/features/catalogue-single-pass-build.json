@@ -23,6 +23,10 @@
     "tools/single-pass-browser.mjs": {
       "baseline": null,
       "candidate": "78ddd257a29a63ed1224e9f89740870389ec93b84789ff3f48e914ef35b21d76"
+    },
+    ".github/workflows/checks.yml": {
+      "baseline": "dbd2bde4aac6acaf5dae3d4f8ae38d235c2db8333241856aab7f5a28c1a1b452",
+      "candidate": "0e12400fa57c5a2b9ab8726bb4d6130d1fd06115ce26f21689008c922964d8ab"
     }
   },
   "release": {
