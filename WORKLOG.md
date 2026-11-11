@@ -1149,3 +1149,9 @@ Codex owns `codex/simplify-sharing-20261111` from `a8a68fe`. Use the same court-
 
 - 12 Nov: Codex owns mobile return audit implementation on codex/mobile-return-20261112 from main d3dd42b. Scope: interrupted daily decisions, delayed doubles reads and directly supported mobile clarity/trust fixes.
   Reviewed build 0d58099a55. All 32 Daily lessons use the same browser-local checkpoint; first responses survive reloads, last-answer interruption and day rollover. Three doubles variations use observational openings. First reads, cue reveal, compact comparison and explicit restart passed the new browser journey in both Chromium and WebKit. All 103 unit tests and build contracts pass. No catalogue additions. Player research on cue discovery and sound preference remains open.
+
+## Mobile return release · 12 November 2026
+
+Eoin approved [PR #106](https://github.com/eoinoliver/gamesharp-tennis/pull/106) at `b8d10f3c7baf612f8fe8feed06c4177febd14cdd`. The merge commit `82e3fe08ab1107ed0f82d0a66e7da9bbdc65a12c` has the same Git tree. Vercel reported 476 static assets and zero functions for both the reviewed preview and staged production. The verified staged deployment `dpl_JC6L2mrKfRAsMEkgnbzxyQ7iW7Bd` was promoted without rebuilding. [GameSharp Tennis](https://www.gamesharptennis.com/) serves catalogue version `0d58099a55`. The apex redirects to www with HTTP 307. The previous production deployment is `dpl_AJ1vAfrAaPSJwbYJZwTvv6nPNUjh`.
+
+All 618 asset, route and header checks passed on staged production and again on the live domain. Live mobile Chromium and WebKit each passed interruption, reload, return after a date change, preservation of the first score, explicit restart, three doubles cue reveals and the 375 × 667 comparison controls. The browser tests intercepted analytics.
