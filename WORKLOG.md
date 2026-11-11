@@ -1146,3 +1146,7 @@ Codex owns `codex/app-wide-single-pass-20261111` from `ce9f405`. Trace both deci
 ## 11 November 2026 — Simpler sharing across GameSharp Tennis
 
 Codex owns `codex/simplify-sharing-20261111` from `a8a68fe`. Use the same court-first sharing panel from Home, during play, after completion and for a proposed doubles plan. Verify native sharing, copying, manual fallback and the phone layout.
+
+## 11 November 2026 — A next challenge on returning Home
+
+Codex owns `codex/home-next-challenge-20261111` from the released sharing refresh. Keep the common calendar Daily, surface the Daily catalogue, then lead with unfinished or new practice matched to saved cues and completed activities. Verify return visits, eligibility and same-day completion measurement.

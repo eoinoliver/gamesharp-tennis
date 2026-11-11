@@ -1,0 +1,50 @@
+{
+  "source": {
+    "app_src/index.html": {
+      "baseline": "6557af96d2f1785577548138f31ead39649b8de8a44332f6c401664d332ffb8d",
+      "candidate": "81b915945ad52f68946d986f2bbd20d44621c906d2d39d8ddb096d576a937511"
+    },
+    "app_src/home.css": {
+      "baseline": "3e8234e55b00ad6a84e5eec28104a91ee669fb04a2a284e4de930e6635bdc486",
+      "candidate": "7ce95dc2b6c339241916a5d0788c11e4c63b4851eddcb062cdf87a340142a979"
+    },
+    "app_src/app.js": {
+      "baseline": "78037cdcd3028252114c04ab275cd64bd639c0d9913f4ea910b210d3adbe4d40",
+      "candidate": "700d1e76a5fcdf5378308757d077aedb6d17270d025d2dba7fdcb66d704aad4e"
+    },
+    "app_src/analytics.test.mjs": {
+      "baseline": "169fb1f7541c4435762d6ccde9295009741e714c71b42a10aca7bc5a44079280",
+      "candidate": "4a4a6c0bf656f5b0786a5c862a818239750c9d5af142bc2bb1feaaddbdd84959"
+    },
+    "tools/daily-home-browser.mjs": {
+      "baseline": "ef5d944f0fe6c0ee4e437e949c0245b0a5986dadae6ef48fa0b67119d034a53a",
+      "candidate": "5b69df652f89dea38764093667f78e763c8b9ed5c863993c9b1d08c5baf3b3c8"
+    },
+    "tools/takeaway-motion-browser.mjs": {
+      "baseline": "c4e7c9baae850d9e9db8acf71ed18e2cbdf7e3c3e502c943bf74a3d35bd991d7",
+      "candidate": "97c22305013807c63de8a02f30b657fb8da9be73ca33f25d205dfb0d4a249c0c"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "78037cdcd3028252114c04ab275cd64bd639c0d9913f4ea910b210d3adbe4d40",
+      "candidate": "700d1e76a5fcdf5378308757d077aedb6d17270d025d2dba7fdcb66d704aad4e"
+    },
+    "app/catalog.js": {
+      "baseline": "cdb801b3f7a5efd99b58ded28fa1c57980b7a45909634b6bf49284e461e27507",
+      "candidate": "cb543f0c1ad7b2acd11f1fb9e68a9e4397ede5ceade240c74398f4988ce3d9ae"
+    },
+    "app/home.css": {
+      "baseline": "3e8234e55b00ad6a84e5eec28104a91ee669fb04a2a284e4de930e6635bdc486",
+      "candidate": "7ce95dc2b6c339241916a5d0788c11e4c63b4851eddcb062cdf87a340142a979"
+    },
+    "app/index.html": {
+      "baseline": "26f579a1860601f401df3acb11f2daa1eaebfa7ce9758866db8abb2d9270d29e",
+      "candidate": "c416698ee759af1e661ff8cd163307a6611914ad2ba4bd851d612a4615bdb7fe"
+    },
+    "app/play.html": {
+      "baseline": "52272a60b2bb29b91ff71fec3c035b70040f6a6d3c6be8b7d4dba5dc1dac18c3",
+      "candidate": "c755f41dc28020ae2b324e5ac70f887940a9fc9826478bcf67e1ec3d3ff8bdc7"
+    }
+  }
+}

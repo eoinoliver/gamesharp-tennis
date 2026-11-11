@@ -195,6 +195,36 @@ function relatedPoint(slug){
   const pair=CAT.dailyPlan?.related?.[slug],lesson=pair&&bySlug(pair.slug);
   return lesson?.livePoint&&!lesson.transferOf?{lesson,bridge:pair.bridge}:null;
 }
+// Personal practice starts after the shared Daily; score never enters the ranking.
+function nextHomeChallenge(dailySlug){
+  syncProgress();
+  const lessons=all(), day=today(), seen=S.seen||{};
+  const eligible=lessons.filter(l=>l.slug!==dailySlug&&!S.done[l.slug]&&(!l.transferOf||S.done[l.transferOf]?.first<day));
+  if(!eligible.length)return null;
+  const last=lessons.filter(l=>S.done[l.slug]).sort((a,b)=>{
+    const x=S.done[a.slug],y=S.done[b.slug];
+    return (y.last||'').localeCompare(x.last||'')||(y.completedAt||seen[b.slug]||0)-(x.completedAt||seen[a.slug]||0);
+  })[0];
+  const lastFinish=last&&(S.done[last.slug].completedAt||seen[last.slug]||0);
+  const unfinished=eligible.filter(l=>seen[l.slug]>lastFinish).sort((a,b)=>seen[b.slug]-seen[a.slug])[0];
+  if(unfinished)return unfinished;
+  const focus=nextHit();
+  const sources=[!focus.changed&&focus.current?.slug,savedCues()[0]?.slug,last?.slug];
+  for(const slug of new Set(sources.filter(Boolean))){
+    const source=bySlug(slug);
+    if(!source)continue;
+    const linked=[source.followup,relatedPoint(slug)?.lesson.slug];
+    for(const target of linked){
+      const match=eligible.find(l=>l.slug===target);
+      if(match)return match;
+    }
+    if(source.doubles){
+      const doubles=eligible.find(l=>l.doubles&&l.family===source.family)||eligible.find(l=>l.doubles);
+      if(doubles)return doubles;
+    }
+  }
+  return eligible.find(l=>!seen[l.slug])||eligible[0];
+}
 function shareUrl(slug){return bySlug(slug)?'https://www.gamesharptennis.com/s/'+encodeURIComponent(slug)+'.html':null;}
 function dailyShareUrl(slug){return isDaily(slug)?shareUrl(slug):null;}
 function nextLivePoint(){
@@ -204,8 +234,8 @@ function nextLivePoint(){
   return due||points.find(l=>!l.transferOf&&!S.done[l.slug])||null;
 }
 function startLesson(slug){
-  if(!isDaily(slug)&&!bySlug(slug)?.livePoint)return;
-  syncProgress();if(bySlug(slug)?.livePoint){S.liveFirstSeen||={};S.liveFirstSeen[slug]||=S.seen?.[slug]?'earlier':today();}S.seen||={};S.seen[slug]=Math.max(Date.now(),...Object.values(S.seen).map(Number).filter(Number.isFinite),0)+1;
+  const lesson=bySlug(slug);if(!lesson)return;
+  syncProgress();if(lesson.livePoint){S.liveFirstSeen||={};S.liveFirstSeen[slug]||=S.seen?.[slug]?'earlier':today();}S.seen||={};S.seen[slug]=Math.max(Date.now(),...Object.values(S.seen).map(Number).filter(Number.isFinite),0)+1;
   S.seenEditions||={};S.seenEditions[slug]=bySlug(slug)?.edition||'original';save(S);
 }
 const activeAttempts={};
@@ -280,10 +310,12 @@ function todays(){
 function complete(slug,n,total=3){
   syncProgress();
   const t=today(), d=S.done[slug], firstTime=!d;
+  const secondToday=d?.last!==t&&Object.values(S.done).filter(row=>row.last===t).length===1;
   const bestTotal=d?.bestTotal||d?.total||3;
   const improves=!d||n/total>d.best/bestTotal||(n/total===d.best/bestTotal&&total>bestTotal);
   // n/total is the immutable first result; best/bestTotal always stay a pair.
   S.done[slug]=d?Object.assign(d,{last:t,times:d.times+1,best:improves?n:d.best,bestTotal:improves?total:bestTotal,lastScore:n,lastTotal:total}):{first:t,last:t,times:1,best:n,bestTotal:total,n,total,edition:bySlug(slug)?.edition||'original'};
+  S.done[slug].completedAt=Date.now();
   const attempt=S.liveAttempts?.[slug]?.find(a=>a.id===activeAttempts[slug]?.id);
   const firstCompletion=attempt&&!attempt.result;
   if(firstCompletion)attempt.result={n,total};
@@ -294,6 +326,7 @@ function complete(slug,n,total=3){
   save(S);
   const transfer=firstCompletion&&transferEvidence(slug);if(transfer)track('live_point_transfer',{lesson:slug,attempt:attempt.id,...transfer,text:undefined});
   track("lesson_complete",{lesson:slug,edition:bySlug(slug)?.edition||'original',daily:isDaily(slug),first_time:firstTime,score:n,total,times:S.done[slug].times});
+  if(secondToday)track("second_activity_today",{lesson:slug,date:t});
   const featured=featuredDaily();
   if(featured?.lesson.slug===slug)track('featured_daily_complete',{lesson:slug,date:t,edition:featured.edition,revisit:!firstTime});
   if(isDaily(slug)&&firstTime&&!nextDaily()) track("content_exhausted",{});
@@ -318,7 +351,7 @@ const listeners=[];
 function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
-window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,featuredDaily,relatedPoint,dailyShareUrl,shareUrl,practiceSummary,setPracticeGoal,displayTitle,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,startLesson,complete,setLevel,feedback,emit,on,
+window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,nextHomeChallenge,featuredDaily,relatedPoint,dailyShareUrl,shareUrl,practiceSummary,setPracticeGoal,displayTitle,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,startLesson,complete,setLevel,feedback,emit,on,
   activityLabel,remaining,savedCues,cueSaved,saveCue,nextHit,selectFocus,focusAction,practicePath,pathProgress,PRACTICE_PATHS,progressSaved:()=>progressSaved,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();
