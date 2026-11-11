@@ -1134,3 +1134,13 @@ Codex is reconciling PR #92 with the live artwork from PR #94 after Eoin reporte
 Codex is building a lesson-specific opening for each of the 30 remaining Daily challenges on `codex/daily-camera-stories-20261111`, using the existing Short Ball and Winner films as the reference.
 
 The Git candidate covers 32 Daily openings. The original two pilots retain their shot lists. The 30 new edits bind each rewind and close-up to authored footage. The actual return heights in Second Serve are 1.24 m and 1.60 m. Codex owns the preview checks and subsequent release after review.
+
+## Daily opening films in production
+
+Eoin approved PR #97 at `14d7ce9d305a682dac0faad7f1bf5b5df681920b` and requested live verification of all 32 opening sequences. The Git merge `5a96ea4213cfee769bab406b4955a69b1b15124b` has the approved preview's tree. Vercel staged and then promoted `dpl_7AzxJWSZMt3KtP46MyQF8TC5ZMY9`, app version `9f3c08bfcb`, with automatic production-domain assignment disabled. Previous production `dpl_G5tmjwryKtvkcw3bGgDsiXSyn2Gb` is the recorded rollback target.
+
+- Vercel listed 476 static assets on both preview and staged production. Routing, runtime and build settings matched. Zero functions. Preview, staged production and live each passed 618/618 file, header, redirect and exclusion checks.
+- On the public www domain all 32 openings played at 390px in Chromium and WebKit. Each reached the reviewed decisive frame and restored the original question. Return visits, replay and skip passed in both engines. A separate production pass covered all 96 decisions. Their questions and post-answer sequences matched the reviewed preview.
+- Second Serve passed a complete three-question journey with saved completion on staged production and live. The apex redirects to www. QA used fresh browser contexts with production analytics intercepted. These were browser tests, not physical-device or player recall studies.
+
+[Live Daily challenges](https://www.gamesharptennis.com/?all=1&kind=daily) · [PR #97](https://github.com/eoinoliver/gamesharp-tennis/pull/97) · [Release checks](https://github.com/eoinoliver/gamesharp-tennis/actions/runs/42961255580)
