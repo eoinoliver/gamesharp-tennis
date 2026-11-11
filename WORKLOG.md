@@ -1100,3 +1100,12 @@ Implementation `21243d011c359f06c47553aa8064aba7f1e166d5`, app `c806b623e5`: Chr
 ## 11 November 2026 — Daily recall artwork
 
 Codex is integrating the reviewed selections on `codex/daily-recall-art-20261111`: nine redraws, eight v3 illustrations and fifteen existing diagrams, on completion and completed Home. Eoin requested production deployment after verification.
+
+## 11 November 2026 — Daily recall artwork in production
+
+Eoin approved the recommended phone gallery selections for live deployment. PR #94 integrated the nine redraws, eight v3 illustrations and fifteen existing diagrams for all 32 Daily challenges on lesson completion and completed Home. The clay marks for “But it went in” and the v3 receipt for Forehand bill match his selections.
+
+- Reviewed head `a655251098fbd4e0463b9183cf559f5582ef4f9b`. The merge `14e83944781aeba17b432bcea8b478ba99fbc7e2` has the identical Git tree. Git preview `dpl_4vBewtWNRMchkXguieN35eDxV3Jt`.
+- Production app `22e90b375c`, deployment `dpl_ChQHpgAsJzVvhg692weHtt5QoGzy`, served at https://www.gamesharptennis.com after staging and promotion. Auto-assignment was disabled before merge. Previous verified Production `dpl_2D4Kmdm6bFgUREC8AC5XCLMsXh6U`, app `c806b623e5`, is the rollback target.
+- 477 canonical release files and 566 source/test fingerprints. All 102 unit tests and GitHub release checks passed. The preview and staged inventories each reported 476 static assets, with zero functions. Every public file hash, route, header and exclusion check passed on Preview, staged Production and the live domain (618/618 on each). The staged environment additionally named USE_RUST_LAYER_LATEST. The project had no custom environment variables or Rust functions, and the static artifact matched throughout.
+- All 32 actual completions and returns to Home were verified on both Preview and live at 390px with isolated practice data. 222 focused browser checks passed on Preview, staged and live, including reduced-motion, fallback, saving and sharing. A separate local Chromium run passed 656 motion checks and local WebKit passed 222 takeaway checks. The 31 non-Daily journeys were outside the artwork change. Physical devices and on-court recall were not measured.
