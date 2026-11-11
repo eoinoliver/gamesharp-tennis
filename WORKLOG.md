@@ -1142,3 +1142,7 @@ Codex is implementing the reviewed Serve Writes the Next Question edit throughou
 ## 11 November 2026 — Single-pass playback throughout the lesson catalogue
 
 Codex owns `codex/app-wide-single-pass-20261111` from `ce9f405`. Trace both decisions in Now the Line Is Open, remove automatic comparisons and repeated point segments at the shared playback boundaries, and exercise the public player across all catalogue formats.
+
+## 11 November 2026 — Simpler sharing across GameSharp Tennis
+
+Codex owns `codex/simplify-sharing-20261111` from `a8a68fe`. Use the same court-first sharing panel from Home, during play, after completion and for a proposed doubles plan. Verify native sharing, copying, manual fallback and the phone layout.
