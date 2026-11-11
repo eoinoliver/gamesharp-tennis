@@ -43,7 +43,7 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  ok(ev.filter(e=>e==='read').length===3,'three reads logged');
  ok((await p.getAttribute('a.home','href'))==='./?home=1','Back to home never auto-starts');
  await p.click('a.home'); await p.waitForSelector('#main .today');
- const home=await p.textContent('#main'); ok(home.includes('Live Point'),'home offers the unplayed Live Point after a daily completion'); ok(/today.s challenge.*complete/i.test(home),'daily completion stays primary alongside the optional point');
+ const home=await p.textContent('#main'); ok(await p.locator('.home-next [data-home-next]').getAttribute('data-home-next')==='live-point-serve-see','home leads with the related unplayed Live Point after the Daily'); ok(/today.s challenge.*complete/i.test(home),'the shared Daily remains available below the next point');
  ok(!home.includes("What's your game"),'completion has no unsolicited level prompt'); await p.click('#profile'); await p.click('#levelSettings'); ok(await p.locator('#player-level').isVisible(),'player level remains available in My Game'); await p.click('[data-level=club]'); ok(!(await p.textContent('#main')).includes("What's your game"),'level saved');
  await p.goto(base+'?home=1'); await p.waitForSelector('#main .today');
  ok((await p.textContent('#streak')).includes('1'),'streak chip 1');

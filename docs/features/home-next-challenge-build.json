@@ -1,5 +1,9 @@
 {
   "source": {
+    "gs/app_flow.mjs": {
+      "baseline": "04bec0714e904ca50bea32e4bc0e99159a313144be6be9c19057a7b12ccddb9b",
+      "candidate": "d2c10a400fbbb64caaa36eb08566557a84896ad29d5aa0e08a9a1618f24e232e"
+    },
     "app_src/index.html": {
       "baseline": "6557af96d2f1785577548138f31ead39649b8de8a44332f6c401664d332ffb8d",
       "candidate": "81b915945ad52f68946d986f2bbd20d44621c906d2d39d8ddb096d576a937511"

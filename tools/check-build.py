@@ -393,7 +393,7 @@ for records, expected in [(sharing['source'], source), (sharing['release'], mani
 
 # Same-day personal practice builds on the shared calendar and sharing refresh.
 home_next = json.loads((ROOT/'docs/features/home-next-challenge-build.json').read_text())
-assert set(home_next['source']) == {'app_src/analytics.test.mjs', 'app_src/app.js', 'app_src/home.css', 'app_src/index.html', 'tools/daily-home-browser.mjs', 'tools/takeaway-motion-browser.mjs'}
+assert set(home_next['source']) == {'gs/app_flow.mjs', 'app_src/analytics.test.mjs', 'app_src/app.js', 'app_src/home.css', 'app_src/index.html', 'tools/daily-home-browser.mjs', 'tools/takeaway-motion-browser.mjs'}
 assert set(home_next['release']) == {'app/app.js', 'app/catalog.js', 'app/home.css', 'app/index.html', 'app/play.html'}
 for records, expected in [(home_next['source'], source), (home_next['release'], manifest)]:
     for name, change in records.items():
