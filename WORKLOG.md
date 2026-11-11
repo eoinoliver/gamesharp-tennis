@@ -1128,3 +1128,7 @@ Codex is integrating the reviewed selections on `codex/daily-recall-art-20261111
 ## 11 November 2026 — Integrate the directed catalogue with live Daily art
 
 Codex is reconciling PR #92 with the live artwork from PR #94 after Eoin reported the missing answer colours, court letters and camera storytelling. Both feature trees feed the canonical Git build.
+
+## Daily opening films · 11 November 2026
+
+Codex is building a lesson-specific opening for each of the 30 remaining Daily challenges on `codex/daily-camera-stories-20261111`, using the existing Short Ball and Winner films as the reference.

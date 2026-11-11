@@ -15,6 +15,8 @@ window.GSDirected=(()=>{
     });
   }
   const revealed=new Set();
+  const dailyOpening=DailyFilms.sequence(slug);
+  const introKey=S=>dailyOpening&&S===LESSON.steps[0]?'film:1:'+S.scene:'intro:'+S.scene;
   const storeKey='gs_directed_v1_'+slug;
   const seen=new Set();try{for(const k of JSON.parse(localStorage.getItem(storeKey)||'[]'))seen.add(k);}catch{}
   const remember=k=>{seen.add(k);try{localStorage.setItem(storeKey,JSON.stringify([...seen]));}catch{}};
@@ -39,6 +41,7 @@ window.GSDirected=(()=>{
     if(!film)return;
     shot=queue.shift();elapsed=0;last=null;
     if(!shot){const cb=finish;cancel();cb?.();return;}
+    if(shot.edit){eye=null;framing=null;}
     $('viewer').dataset.directedPhase=shot.kind;caption(shot);dock.firstElementChild.textContent=shot.kind==='rewind'?'Same contact · another choice':'Watch the point';
     if(shot.play){run(shot.key,shot.from,shot.to,next,!!shot.silent);}
     else {frame(shot.key,shot.from);$('playIcon').innerHTML=PAUSE_I;$('playBtn').setAttribute('aria-label','Pause');}
@@ -63,14 +66,14 @@ window.GSDirected=(()=>{
   }
   function restoreQuestion(S,cb){
     const q=questionRange(S);silentPlayback=!!q.silent;frame(q.scene,q.to);showDots=false;
-    remember('intro:'+S.scene);questionCaption(q.after);render();cb();
+    remember(introKey(S));questionCaption(q.after);render();cb();
     rewatch?.remove();rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=pilot(S)&&height?'Watch the height again':'Watch the scene again';
     rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal||S.noTargets?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);GSSceneEvidence.show(S,rewatch);
   }
   function question(S,cb,force=false){
 
     const q=questionRange(S),end=()=>restoreQuestion(S,cb);
-    if(q.from===q.to||!force&&(CALM_MOTION||seen.has('intro:'+S.scene))){end();return true;}
+    if(q.from===q.to||!force&&(CALM_MOTION||seen.has(introKey(S)))){end();return true;}
     if(S.scene==='wn1'){
       start([{kind:'opening',key:'wn1',from:62,to:298,play:true,eye:'A low ball. A narrow target.',title:'You go for the line.'},
         {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}],end,'Skip to decision →');
@@ -81,6 +84,8 @@ window.GSDirected=(()=>{
         {kind:'rewind',key,from:257,to:contact(key)-1,ms:850,eye:'Rewind',title:'Before you swing.'},
         {kind:'height',key:prefix+'C',from:contact(prefix+'C')-1,ms:2600,eye:'The deciding detail',title:'Below the tape.',copy:'Contact '+Math.round(at()[2]*100)+' cm. Tape '+Math.round(net(at()[0])*100)+' cm.'}
       ],end,'Skip to decision →');
+    }else if(dailyOpening&&S===LESSON.steps[0]){
+      start(dailyOpening,end,'Skip to decision →');
     }else start([{kind:'sweep',key:q.scene,from:q.from,to:q.to,play:true,silent:q.silent,eye:q.label||'Read the situation',title:S.name||'Your next decision',native:!!(LESSON.predict||LESSON.readinessLesson||CONTACT_FOCUS||q.type==='held-continuation')}],end,'Skip to decision →');
     return true;
   }
@@ -215,7 +220,16 @@ window.GSDirected=(()=>{
       row.querySelector('.rq').after(box,identity);row.append(tools);explore.onclick=()=>{expanded=!expanded;paint();};compare.onclick=()=>play(true);paint();
     });
   }
+  // Camera, framing and overlay use the same sampled pose for this frame.
+  let lastEdit,lastFrame,lastView;
+  function dailyView(){
+    if(lastEdit!==shot||lastFrame!==t){
+      lastEdit=shot;lastFrame=t;lastView=DailyFilms.composition(shot,SC[scene],t);
+    }
+    return lastView;
+  }
   function desired(){
+    if(shot?.edit)return dailyView().camera;
     const kind=shot?.kind||'wide',h=actorAt(SC[scene],'you',t).pose[I.hips],u=smooth(0,1800,elapsed);
     if(kind==='evidence'&&['contact','height'].includes(shot.focus)){const b=ballAt(SC[scene],t)||h;return {az:-40,el:15,d:7,fov:38,tgt:[b[0],b[1],1]};}
     if(kind==='evidence')return {az:-90,el:35,d:32,fov:40,tgt:[0,0,0]};
@@ -227,26 +241,27 @@ window.GSDirected=(()=>{
   }
   function camera(){
     if(shot?.native||!film&&(!board||!pilot(LESSON.steps[step]||{})))return false;
-    const c=desired();if(!eye||CALM_MOTION)eye=c;
+    const c=desired();if(!eye||CALM_MOTION||shot?.kind==='dailyHold')eye=c;
     else if(!paused){for(const k of ['az','el','d','fov'])eye[k]=lerp(eye[k],c[k],.09);eye.tgt=lerp3(eye.tgt,c.tgt,.09);}
     cam={...eye,tgt:[...eye.tgt]};return true;
   }
   function fit(){
     if(shot?.native||!film&&(!board||!pilot(LESSON.steps[step]||{})))return false;
     const kind=shot?.kind,sc=SC[scene],you=actorAt(sc,'you',t),p=kind==='height'?at():null;let points;
-    if(kind==='height')points=you.pose.concat([[p[0],0,0],[p[0],0,1.8],[p[0],p[1],0]]);
+    if(shot?.edit)points=dailyView().points;
+    else if(kind==='height')points=you.pose.concat([[p[0],0,0],[p[0],0,1.8],[p[0],p[1],0]]);
     else if(kind==='evidence'&&['contact','height'].includes(shot.focus))points=you.pose.concat([add(you.pose[I.head],[0,0,.4]),you.rq.centre,ballAt(sc,t)||you.rq.centre]);
     else if(kind==='line')points=[[-4.5,9.5,0],[-3.5,13,0],[-4,11,2]];
     else if(kind==='net')points=[[1.3,0,0],[3.8,0,0],[2.5,0,1.7]];
     else if(kind==='opening')points=you.pose.concat([you.rq.centre,add(you.rq.centre,[.5,0,.5]),add(you.rq.centre,[-.5,0,-.5]),add(you.pose[I.head],[0,0,.3]),[0,5,1]]);
     else points=[[-5.4,-13.4,0],[5.4,-13.4,0],[-5.4,13,0],[5.4,13,0],[0,-12,2],[0,12,2]];
     if(kind==='wide'||kind==='sweep'||kind==='evidence'&&!['contact','height'].includes(shot.focus))for(const who of Object.keys(sc.actors)){const a=actorAt(sc,who,t);if(a)points.push(...a.pose,a.rq.centre,add(a.pose[I.head],[0,0,.4]));}
-    const ball=ballAt(sc,t);if(ball&&!['height','line','net','opening'].includes(kind))points.push(ball);
+    const ball=ballAt(sc,t);if(ball&&!shot?.edit&&!['height','line','net','opening'].includes(kind))points.push(ball);
     const q=points.map(toCam).filter(q=>q.z>ZNEAR),us=q.map(q=>q.x/q.z),vs=q.map(q=>q.y/q.z);
     const u0=Math.min(...us),u1=Math.max(...us),v0=Math.min(...vs),v1=Math.max(...vs);
     const top=film?Math.max(120,cap.getBoundingClientRect().height*VW/$('stage').clientWidth+28):32,bottom=45;
-    const f=Math.min((VW-(kind==='height'||kind==='opening'?180:90))/(u1-u0),(VH-top-bottom)/(v1-v0)),x=VW/2-f*(u0+u1)/2,y=top+(VH-top-bottom)/2+f*(v0+v1)/2;
-    if(!framing||CALM_MOTION||!film)framing=[f,x,y];else if(!paused)framing=framing.map((v,i)=>lerp(v,[f,x,y][i],.15));
+    const f=Math.min((VW-(kind==='height'||kind==='opening'||shot?.edit?180:90))/(u1-u0),(VH-top-bottom)/(v1-v0)),x=VW/2-f*(u0+u1)/2,y=top+(VH-top-bottom)/2+f*(v0+v1)/2;
+    if(!framing||CALM_MOTION||!film||shot?.kind==='dailyHold')framing=[f,x,y];else if(!paused)framing=framing.map((v,i)=>lerp(v,[f,x,y][i],.15));
     FOCAL=framing[0];window.__pc=framing.slice(1);return true;
   }
   function evidenceLabel(frag,p,text,col,dy){
@@ -256,6 +271,14 @@ window.GSDirected=(()=>{
   function draw(frag){
     if(!film&&!board)return;
     const kind=shot?.kind;
+    if(shot?.edit){
+      const view=dailyView();
+      DailyFilms.draw(frag,view);
+      if(kind==='dailyHold'){
+        const label=slug==='second-serve'?Math.round(view.b[2]*100)+' CM':shot.edit.mark;
+        evidenceLabel(frag,view.b,label,'#f4d478',-26);
+      }
+    }
     if(kind==='height'){
       const p=at(),nh=net(p[0]);seg(frag,[p[0],p[1],0],p,'#e8f27a',4,1);seg(frag,[p[0],0,0],[p[0],0,nh],'#f08a8a',4,1);
       seg(frag,p,[p[0],0,p[2]],'#e8f27a',2,.7);

@@ -355,6 +355,15 @@ for kind, directed_state, art_state in [('source', source, art_source), ('releas
             assert directed_state.get(name) == change['baseline'], name
             directed_state[name] = art_state[name]
 
+# Only the Daily opening director, its build wiring and its browser coverage change.
+films = json.loads((ROOT/'docs/features/daily-films-build.json').read_text())
+assert set(films['source']) == {'app_src/build.py','rally/daily-films.js','rally/directed.js','rally/directed.css','tools/browser-checks.mjs','tools/daily-films-browser.mjs'}
+assert set(films['release']) == {'app/catalog.js','app/index.html','app/play.html','app/engine/engine.js'}
+for records, expected in [(films['source'], source), (films['release'], manifest)]:
+    for name, change in records.items():
+        assert expected.get(name) == change['baseline'], f'Daily opening baseline drift: {name}'
+        expected[name] = change['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)
