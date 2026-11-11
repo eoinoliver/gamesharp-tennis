@@ -391,6 +391,15 @@ for records, expected in [(sharing['source'], source), (sharing['release'], mani
         assert expected.get(name) == change['baseline'], f'Sharing panel baseline drift: {name}'
         expected[name] = change['candidate']
 
+# Mobile return UX changes only these reviewed shell, teaching and test inputs.
+mobile=json.loads((ROOT/'docs/features/mobile-return-build.json').read_text())
+assert set(mobile['source']) == {'app_src/analytics.test.mjs', 'app_src/app.js', 'app_src/home.css', 'app_src/index.html', 'app_src/play_host.html', 'app_src/share.js', 'docs/features/share-preview-frames.json', 'rally/build_doubles.py', 'rally/directed.css', 'rally/directed.js', 'rally/drl_data.json', 'rally/lesson_body.html', 'rally/lesson_dh.js', 'rally/lesson_dlo.js', 'rally/lesson_drl.js', 'tools/browser-checks.mjs', 'tools/mobile-return-browser.mjs', 'tools/pro-insight-source.py'}
+assert set(mobile['release']) == {'app/app.js', 'app/catalog.js', 'app/engine/engine.js', 'app/home.css', 'app/index.html', 'app/lessons/doubles-hold-cover.json', 'app/lessons/doubles-lob-overhead.json', 'app/lessons/doubles-return-line.json', 'app/play.html', 'app/s/doubles-hold-cover.html', 'app/s/doubles-lob-overhead.html', 'app/s/doubles-return-line.html', 'app/share.js'}
+for records, expected in [(mobile['source'], source), (mobile['release'], manifest)]:
+    for name, change in records.items():
+        assert expected.get(name)==change['baseline'], f'Mobile return baseline drift: {name}'
+        expected[name]=change['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

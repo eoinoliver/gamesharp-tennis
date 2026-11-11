@@ -1031,7 +1031,12 @@ function choose(i,X,demo){
   if(LESSON.livePoint&&ans[i]!=null)demo=true;
   clearContactInspection();questionCaption();
   const S=LESSON.steps[i];
-  if(!demo&&ans[i]==null){ans[i]=X;emit('answer',{i,X,node:S.scene,signal:LESSON.learningSignals?.[i],ok:LETTERS.indexOf(X)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(X))});
+  if(!demo&&ans[i]==null){
+    if(window.GSDailyAttempt&&!GSDailyAttempt.pick(i,X)){
+      // A different tab moved or restarted this attempt. Reload its committed picks.
+      location.reload();return;
+    }
+    ans[i]=X;emit('answer',{i,X,node:S.scene,signal:LESSON.learningSignals?.[i],ok:LETTERS.indexOf(X)===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(X))});
     if(LESSON.branch){const k=S.scene+X, nx=LESSON.nodes[k];   /* nodes are keyed by the pick that leads to them */ LESSON.steps.length=i+1; if(nx) LESSON.steps.push(nx); LESSON.finaleScene=k;}}   // your real pick decides where the point goes
   if(LESSON.livePoint&&!demo&&i===1){
     const good=j=>LETTERS.indexOf(ans[j])===LESSON.steps[j].correct||(LESSON.steps[j].alsoOk||[]).includes(LETTERS.indexOf(ans[j]));
@@ -1183,7 +1188,7 @@ function finishLesson(){
   w.hidden=false; w.querySelectorAll("details.pay").forEach(d=>{let first=d.open; d.addEventListener("toggle",()=>{if(first){first=false;return;} if(d.open)emit('payoff_open',{k:d.dataset.k});});});   // only opens the player makes: Pro Lens starts open
   const sc=$("saveCue"); if(sc){if(cueSaved())sc.classList.add("on");
     sc.onclick=()=>{if(cueSaved())return; if(saveCue()){sc.textContent="Saved in this browser ✓";sc.classList.add("on");$("cueSaveStatus").textContent="Saved. Open My Game for the cue and practice drill.";emit('cue_save',{lesson:LESSON.title,cue:LESSON.cue});}else{$("cueSaveStatus").textContent="Could not save: browser storage is unavailable or full. You can retry, or keep a copy of the cue.";sc.textContent="Retry saving cue";}};}
-  $("redo").onclick=()=>{ans=[];celebrated.clear();if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
+  $("redo").onclick=()=>{window.GSDailyAttempt?.open(LESSON.steps,true);ans=[];celebrated.clear();if(LESSON.branch)LESSON.steps=[LESSON.nodes[LESSON.branch]];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
   wireCompletionVoice();
   const turning=$('replayTurningPoint');if(turning){
     const inspect=other=>{
@@ -1261,7 +1266,7 @@ function render(){
     if(g>=t0){const a=smooth(0,25,g-t0);
       let cx=0,cy=0;for(const [x,y,ok] of DT){cx+=x/DT.length;cy+=y/DT.length;
         ring(frag,[x,y,0.008],0.2,0.16,ok?"#7fbf7a":"#e05252",1.8,.95*a,ok?"rgba(127,191,122,.55)":"rgba(224,82,82,.55)");}
-      const n=DT.filter(d=>d[2]).length; label(frag,[cx,cy-(cy>0?2.8:-2.8),0],`${n} OF 10 IN`,n>=9?"#9fd89a":n>=7?"#c8a84b":"#f08a8a",19,a,0);}}
+      const n=DT.filter(d=>d[2]).length; label(frag,[cx,cy-(cy>0?2.8:-2.8),0],`EXAMPLE: ${n} OF 10 IN`,n>=9?"#9fd89a":n>=7?"#c8a84b":"#f08a8a",19,a,0);}}
   // decision targets
   if(showTargets){const nt=nT(showTargets), L=[...LETTERS].slice(0,nt).map(X=>SC[showTargets+X].info.shot.land), dx=[0,0,0,0];
     for(let a=0;a<nt;a++)for(let c=a+1;c<nt;c++)if(Math.hypot(L[a][0]-L[c][0],L[a][1]-L[c][1])<1.0){const s=L[a][0]<=L[c][0]?1:-1;dx[a]-=0.45*s;dx[c]+=0.45*s;}   // keep close letters apart
@@ -1463,7 +1468,14 @@ if(LESSON.predict) setupPredict();
 if(!LESSON.cam0||LESSON.startBehind) camI=1;   // Behind you is the default view; a lesson that needs another sets cam0 (startBehind: cam0 only widens Broadcast)
 window.__camDefault=camI;
 $("lessonName").textContent=window.GS_BLIND_CHALLENGE?"A point for you":(window.GS_DISPLAY_TITLE||LESSON.title);
-startStep(0);
+const savedPicks=window.GSDailyAttempt?.open(LESSON.steps)||[];
+savedPicks.forEach((pick,i)=>{ans[i]=pick;celebrated.add(i);});
+const resumeStep=Math.min(savedPicks.length,NS()-1);
+startStep(resumeStep);
+if(savedPicks.length&&savedPicks.length===NS()){
+  // The final choice was committed, but its feedback may never have been seen.
+  choose(resumeStep,savedPicks[resumeStep],false);
+}
 requestAnimationFrame(tick);
 window.__test={SC,go:(k,f)=>{scene=k;t=f;setPlaying(false);},setCam:i=>{camI=i;},state:()=>({mode,step,scene,t,stopAt,playing})};
 </script>

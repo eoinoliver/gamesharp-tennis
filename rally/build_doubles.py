@@ -32,24 +32,24 @@ ROWS=[
   why='Here the deeper partner has the shorter route. An early call assigns the ball and the uncovered half. Turn to run; don’t backpedal under a ball already beyond comfortable overhead range.',
   insight='The LTA’s doubles guidance connects each player’s movement to their partner and the ball. On a deep lob, helping can mean covering the space rather than chasing the same ball.',source='LTA · Doubles tactics',url=LTA,
   drill='Start one up, one back. Feed a deep lob. Require an early ownership call, a switch and a recovery shot, then play out the next two balls.'),
- dict(batch=2,p='dh',slug='doubles-hold-cover',title='They Hold. So Do You.',family='doubles-serve',kind='serve',variant=True,transferOf='doubles-cross-cover',
-  intro='Same serving pair. This time your partner holds position and the return comes to your half. The crossing plan no longer fits.',
+ dict(batch=2,p='dh',slug='doubles-hold-cover',title='After Your Serve',family='doubles-serve',kind='serve',variant=True,transferOf='doubles-cross-cover',
+  intro='Your partner stays near the net. The return is coming towards your side of the baseline.',
   q='Your partner holds their side. Where do you recover?',opts=['Start crossing behind your partner','Keep covering your serving side'],good=1,
   lines=['You switch without your partner crossing, then reverse for the return.','You keep responsibility for your half and prepare for the return.'],
   cue='Partner holds. Keep covering your half.',plan='If you hold at the net, I keep my half. We switch when the movement calls for it, not automatically.',
   why='Switching is a response to your partner’s movement. Here they hold, so a blind switch leaves the return lane uncovered. Recover, split for the return and read the height you receive.',
   insight='Peter Farrell’s serve-location practice gives both partners a shared starting plan. The point still asks you to read what actually happens after that plan.',source='Peter Farrell · Tennis Ireland',url=TI,
   drill='Alternate agreed cross and hold signals before serving. Play the return. The server must cover the appropriate half without guessing from the previous point.'),
- dict(batch=2,p='drl',slug='doubles-return-line',title='Now the Line Is Open',family='doubles-return',kind='return',variant=True,transferOf='doubles-return-space',
-  intro='The net player moves early toward the middle. This serve gives you enough time to see the lane they have left.',
-  q='Their net player moves across early. What changes?',opts=['Keep returning crosscourt','Use the line they have left'],good=1,
+ dict(batch=2,p='drl',slug='doubles-return-line',title='The Early Move',family='doubles-return',kind='return',variant=True,transferOf='doubles-return-space',
+  intro='As the serve bounces, their net player moves towards the middle.',
+  q='Their net player moves across early. What changes?',opts=['Keep returning crosscourt','Return down the line'],good=1,
   lines=['This time their crossing net player is in the crosscourt lane. They intercept.','You use the open line with margin. Their server can still retrieve.'],
   cue='When they leave the line, read the opening.',plan='If their net player crosses early and the serve gives us time, use the vacated line with margin. Keep covering the next ball.',
   why='The same return target is not right for every net position. The line is available here because the net player moves early and your contact is manageable. It is not a command to hit a low-percentage winner.',
   insight='The LTA links forward and sideways movement to pressure and coverage. A net player can close one lane while opening another; the returner has to see the trade-off.',source='LTA · Doubles tactics',url=LTA,
   drill='Repeat the return drill with an occasional early crossing move. Reward recognising the changed lane and recovering; do not award extra points for outright winners.'),
- dict(batch=2,p='dlo',slug='doubles-lob-overhead',title='This Lob Is Yours',family='doubles-lob',kind='lob',variant=True,transferOf='doubles-lob-switch',
-  intro='This lob is shorter. You have time to turn and get under it. Calling your partner through would give away that comfortable overhead.',
+ dict(batch=2,p='dlo',slug='doubles-lob-overhead',title='A Lob Over the Net Player',family='doubles-lob',kind='lob',variant=True,transferOf='doubles-lob-switch',
+  intro='The lob is dropping behind you. Your partner is deeper, and you have time to turn.',
   q='You can reach this lob in balance. Who takes it?',opts=['Call partner through and switch','Call “Mine” and take the overhead'],good=1,
   lines=['Your partner retrieves after the bounce. You gave up a reachable overhead.','You turn, set and take the overhead. Your partner covers the space behind you.'],
   cue='Reachable overhead? Call it. Your partner covers.',plan='Take a reachable overhead with an early “Mine.” The partner covers behind. If it carries beyond reach, call the switch early.',
@@ -155,7 +155,15 @@ def build(d):
    s,freeze,decision=route(d,a,b);s['info']['doublesParent']={'scene':root+X,'through':decision}
    scenes[root+X+Y]=s
   prefix=copy.deepcopy(scenes[root+X+'A']);prefix['info']['doublesParent']={'scene':root,'through':freeze};prefix['ball']=prefix['ball'][:decision+1];prefix['marks']=[m for m in prefix['marks'] if m['frame']<=decision];prefix['frames']=decision+1;prefix['info']['freeze']=freeze;prefix['info']['from']=0;scenes[root+X]=prefix
-  nodes[root+X]=node(dict(d,principle=d['cue']),root+X,'Your pair has reorganised. Read this contact before trying to finish.','What does this next ball call for?',
+  situation='Your pair has reorganised. Read this contact before trying to finish.'
+  question='What does this next ball call for?'
+  if d['variant']:
+   situation,question={
+    'serve':('The return bounces deep on your serving side.','Where will you send this groundstroke?'),
+    'return':('Their reply bounces near your baseline. Your partner is ahead of you.','Which target fits this reply?'),
+    'lob':('The ball is coming back to you before the bounce.','Where will you place this volley?')
+   }[d['kind']]
+  nodes[root+X]=node(dict(d,principle=d['cue']),root+X,situation,question,
    ['Use controlled depth through the middle','Try the shorter outside angle'],0,
    ['You give the ball room and prepare together for another reply.','It lands here, but the smaller target leaves less margin. Keep covering.'])
   nodes[root+X]['opening']=dict(scene=root+X+'A',**{'from':decision,'to':decision},label='Read the next ball',after='Choose from this contact',silent=True,continuous=True)

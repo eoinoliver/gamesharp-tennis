@@ -47,3 +47,5 @@
 .directed-identity{font-size:11px;line-height:1.4;color:var(--muted);margin:3px 0 5px}
 
 @media(max-width:600px){.directing .directed-cap{inset-inline:48px}}
+
+.acts .compact-explore{flex:1;min-height:44px;padding:7px;border:1px solid var(--line);border-radius:12px;color:var(--ink);background:#183023;font:600 12px 'DM Sans',sans-serif}

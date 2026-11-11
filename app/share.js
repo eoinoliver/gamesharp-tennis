@@ -45,7 +45,7 @@ function open(slug,options={}){
  copy.disabled=false;native.disabled=false;native.hidden=typeof navigator.share!=='function';
  const primary=native.hidden?copy:native;
  native.autofocus=!native.hidden;copy.autofocus=native.hidden;
- status.textContent=plan?'Agree the plan together before playing.':'Your answers and scores stay private.';
+ status.textContent=plan?'Agree the plan together before playing.':'The link shares the activity. Your answers and score stay out of the link.';
  const say=text=>{status.textContent=text;options.onStatus?.(text);};
  const active=()=>current===opening&&p.open;
  copy.onclick=async()=>{

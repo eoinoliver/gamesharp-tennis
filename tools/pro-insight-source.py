@@ -13,6 +13,12 @@ assert set(cards)==set(scope['protectedLessonHashes'])==slugs
 assert {k for k,v in cards.items() if v is None}==set(scope['withoutDedicatedInsight'])
 kinds={'From the players','From the player','From the coach','From an opponent','Reported coaching','Match analysis','Research','Coaching insight'}
 digest=lambda o:hashlib.sha256(json.dumps(o,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
+# The mobile-return copy was reviewed separately from the professional cards.
+updated=json.loads((ROOT/'docs/features/mobile-return-build.json').read_text())['lessonContracts']
+assert set(updated)=={'doubles-hold-cover','doubles-return-line','doubles-lob-overhead'}
+for slug,change in updated.items():
+    assert scope['protectedLessonHashes'][slug]==change['baseline']
+    scope['protectedLessonHashes'][slug]=change['candidate']
 for slug,p in cards.items():
     data=json.loads((ROOT/'app/lessons'/f'{slug}.json').read_text())
     assert data['lesson'].get('pro')==p,('stale professional context',slug)
