@@ -49,15 +49,15 @@ async function inspect(lesson){
     if(lesson.slug==='second-serve')assert(film.phases.some(p=>p.title==='Chest height.'));
     await p.locator('#stage').screenshot({path:output+'/'+lesson.slug+'.png'});
     await p.evaluate(()=>GSDirected.pause());
-    await p.waitForFunction(()=>!zone.inert&&document.querySelector('#askOpts button:not(:disabled)'));
+    await p.waitForFunction(()=>window.__test&&!zone.inert&&document.querySelector('#askOpts button:not(:disabled)'));
     const restored=await p.evaluate(()=>{const q=questionRange(LESSON.steps[0]);return !GSDirected.active&&scene===q.scene&&t===q.to;});
     assert(restored,lesson.slug+' must restore its exact decision');
     await p.reload();
-    await p.waitForFunction(()=>!zone.inert&&document.querySelector('#watchDirected'));
+    await p.waitForFunction(()=>window.__test&&!zone.inert&&document.querySelector('#watchDirected'));
     assert.equal(await p.evaluate(()=>filmPhases.length),0,lesson.slug+' repeat');
     await p.locator('#watchDirected').click();
     await p.locator('#skipDirected').click();
-    await p.waitForFunction(()=>!zone.inert&&document.querySelector('#askOpts button:not(:disabled)'));
+    await p.waitForFunction(()=>window.__test&&!zone.inert&&document.querySelector('#askOpts button:not(:disabled)'));
     assert.deepEqual(errors,[]);
     results.push({slug:lesson.slug,...film});console.log('PASS',lesson.slug,film.hold);
   }finally{await p.close();}
