@@ -1142,3 +1142,14 @@ Codex is implementing the reviewed Serve Writes the Next Question edit throughou
 ## 11 November 2026 — Single-pass playback throughout the lesson catalogue
 
 Codex owns `codex/app-wide-single-pass-20261111` from `ce9f405`. Trace both decisions in Now the Line Is Open, remove automatic comparisons and repeated point segments at the shared playback boundaries, and exercise the public player across all catalogue formats.
+
+## App-wide single-pass playback release, 11 November 2026
+
+Eoin approved PR #101 at `0c5387a4bebe2eaa1dd3bec27b0d12bb81654d8e` after verification across the full catalogue. The merge `a8a68feb95f553c72d169b4bc61d0b58a104422e` has the identical Git tree. The public domain serves version `acdcdd3076` from the verified staged production deployment `dpl_AQbi2F4PWxGPCd8v3WymBa4ZjM7d`. Prior production `dpl_CuEK9zh4yhkEHJSGtGW19HtoUVLn` remains available for rollback.
+
+- Each of Chromium and WebKit at 390 px passed 63 activities, 250 playthroughs and 694 decisions on the public domain. Every connected route and every independent option was exercised. The check inspects actual animation intervals at answer, Next and completion. It reproduced the unwanted automatic comparison on the previous public build.
+- A separate live normal-speed 390 px run of Now the Line Is Open played both selected shots once. A separate complete path checked feedback, optional review and saved results. Seven Sharpen stroke demonstrations held at their final frames. Home passed 47 playback assertions. The takeaway motion checks reported `PASS 656 takeaway motion checks (chromium)`.
+- Vercel Resources showed 476 static assets and no functions in both preview and staged production. All 618 asset, header and routing checks passed on both staged production and the public domain. The apex redirects to www. No rebuild during promotion. Production analytics were intercepted in browser QA.
+- A dedicated playback CI job enumerates the current catalogue for every PR. All five required browser suites and build contracts passed on the reviewed commit.
+
+[Live doubles lesson](https://www.gamesharptennis.com/play.html?l=doubles-return-line) · [Release PR](https://github.com/eoinoliver/gamesharp-tennis/pull/101) · [Reviewed checks](https://github.com/eoinoliver/gamesharp-tennis/actions/runs/42985442147)
