@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 164">
+  <svg class="tk-drawing tk-editorial" viewBox="0 0 160 164" aria-hidden="true" font-family="DM Sans, system-ui, sans-serif" x="0" width="160" height="164">
+    <defs>
+      <marker id="ed-v3-serve-plus-one-0-ARR" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+        <path d="M0 0 L10 5 L0 10 z" fill="#ddc36d" />
+      </marker>
+      <pattern id="ed-v3-serve-plus-one-0-MESH" width="6" height="6" patternUnits="userSpaceOnUse">
+        <rect width="6" height="6" fill="#0f2419" />
+        <path d="M0 0 L6 6 M6 0 L0 6" stroke="#3d5e4a" stroke-width=".9" />
+      </pattern>
+    </defs>
+    <rect x="43" y="17" width="80" height="136" rx="0" fill="#06110b" opacity="1" />
+    <rect x="40" y="14" width="80" height="136" rx="0" fill="#3d5e4a" opacity="1" />
+    <g data-recall-cue="">
+      <path d="M48 22 L112 22 L112 150 L48 150 Z" fill="#ddc36d" />
+      <path d="M48 22 L28 12 L28 160 L48 150 Z" fill="#0f2419" stroke="#e5e9db" stroke-width="1.8" />
+    </g>
+  </svg>
+  <svg class="tk-drawing tk-editorial" viewBox="0 0 160 164" aria-hidden="true" font-family="DM Sans, system-ui, sans-serif" x="160" width="160" height="164">
+    <defs>
+      <marker id="ed-v3-serve-plus-one-1-ARR" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+        <path d="M0 0 L10 5 L0 10 z" fill="#ddc36d" />
+      </marker>
+      <pattern id="ed-v3-serve-plus-one-1-MESH" width="6" height="6" patternUnits="userSpaceOnUse">
+        <rect width="6" height="6" fill="#0f2419" />
+        <path d="M0 0 L6 6 M6 0 L0 6" stroke="#3d5e4a" stroke-width=".9" />
+      </pattern>
+    </defs>
+    <rect x="43" y="17" width="80" height="136" rx="0" fill="#06110b" opacity="1" />
+    <rect x="40" y="14" width="80" height="136" rx="0" fill="#3d5e4a" opacity="1" />
+    <g data-recall-cue="">
+      <rect x="48" y="22" width="64" height="128" rx="0" fill="#0f2419" opacity="1" stroke="#e5e9db" stroke-width="1.8" />
+      <circle cx="102" cy="90" r="3.5" fill="#e5e9db" />
+    </g>
+  </svg>
+</svg>

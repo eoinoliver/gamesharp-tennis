@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 164">
+  <defs>
+    <pattern id="oc-dust" width="23" height="19" patternUnits="userSpaceOnUse">
+      <path d="M2 6l2 -1m10 7l3 -1m4 -9h1" stroke="#d59773" stroke-width=".9" />
+      <circle cx="6" cy="16" r=".8" fill="#89513e" />
+    </pattern>
+    <g id="oc-clay">
+      <rect x="2" y="5" width="156" height="154" rx="4" fill="#ac6851" />
+      <rect x="2" y="5" width="156" height="154" rx="4" fill="url(#oc-dust)" />
+      <path d="M12 155V32H148V155" fill="none" stroke="#ecdbc3" stroke-width="2.5" />
+      <path d="M12 123H148M80 123v36" fill="none" stroke="#e2ceb3" stroke-width="1.5" />
+    </g>
+    <g id="oc-landing">
+      <ellipse rx="7" ry="4" transform="rotate(-22)" fill="#5a3c31" />
+      <circle r="4" fill="#ffdd79" stroke="#52472d" stroke-width="1.3" />
+    </g>
+    <g id="oc-sole">
+      <path d="M-9 -18Q-4 -23 3 -19Q9 -16 9 -7L12 8Q13 17 7 21Q0 26 -7 21Q-13 16 -11 8L-9 -3Z" fill="#f0ebd6" stroke="#473e32" stroke-width="1.6" />
+      <path d="M-7 -15Q-3 -20 2 -16Q5 -13 5 -8L-5 -6Z" fill="#486f5c" />
+      <path d="M-5 -4l11 -2 2 13 -12 2Z" fill="#8eae94" />
+      <path d="M-4 -2l9 -1m-8 5 9 -2m-8 5 9 -1" fill="none" stroke="#f5f2e5" stroke-width="1.9" stroke-linecap="round" />
+      <path d="M-7 14Q1 9 9 12M-6 18Q1 15 7 15" fill="none" stroke="#adbaa5" stroke-width="1.4" />
+    </g>
+  </defs>
+  <svg class="tk-drawing tk-redraw" viewBox="0 0 160 164" role="img" aria-label="A returner slides to the right on clay. The ball lands behind their movement." x="0" width="160" height="164">
+    <use href="#oc-clay" />
+    <g data-recall-cue="">
+      <path d="M15 64q18 3 53 -3M18 69q24 2 56 -8M31 74q22 -1 44 -8" fill="none" stroke="#774532" stroke-width="2.7" stroke-linecap="round" />
+      <path d="M17 67q24 2 46 -2M36 71l19 -2" fill="none" stroke="#d39a76" stroke-width="1.3" />
+      <use href="#oc-sole" transform="translate(48 52) rotate(-38) scale(.71)" />
+      <use href="#oc-sole" transform="translate(80 58) rotate(-68) scale(.84)" />
+      <path d="M94 53q11 -1 18 -4m-6 -3 6 3 -4 6" fill="none" stroke="#f5ead4" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <path d="M100 145Q49 123 28 83" fill="none" stroke="#4e4433" stroke-width="4.8" />
+    <path d="M100 145Q49 123 28 83" fill="none" stroke="#f8da79" stroke-width="2.6" />
+    <path d="M24 78l11 7 -8 4Z" fill="#f8da79" />
+    <use href="#oc-landing" transform="translate(22 72)" />
+  </svg>
+  <svg class="tk-drawing tk-redraw" viewBox="0 0 160 164" role="img" aria-label="Both shoes are planted on the left half. The ball goes to the open space on the right." x="160" width="160" height="164">
+    <use href="#oc-clay" />
+    <ellipse cx="44" cy="65" rx="12" ry="5" fill="#814b39" />
+    <ellipse cx="71" cy="66" rx="12" ry="5" fill="#814b39" />
+    <g data-recall-cue="">
+      <use href="#oc-sole" transform="translate(46 54) rotate(13) scale(.81)" />
+      <use href="#oc-sole" transform="translate(70 55) rotate(-12) scale(.81)" />
+    </g>
+    <path d="M100 145Q121 120 133 85" fill="none" stroke="#4e4433" stroke-width="4.8" />
+    <path d="M100 145Q121 120 133 85" fill="none" stroke="#f8da79" stroke-width="2.6" />
+    <path d="M136 78l1 12 -8 -3Z" fill="#f8da79" />
+    <use href="#oc-landing" transform="translate(138 72)" />
+  </svg>
+</svg>

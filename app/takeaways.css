@@ -9,6 +9,7 @@
 .takeaway-action{font-size:15px!important;line-height:1.35!important;font-weight:600;color:#e2cd8a!important;margin:8px 0 0!important;max-width:16ch}
 .tk-drawing{display:block;width:100%;max-width:160px;height:164px;overflow:visible}
 .tk-drawing path,.tk-drawing ellipse,.tk-drawing circle{vector-effect:non-scaling-stroke}
+.tk-redraw :is(path,ellipse,circle){vector-effect:none}
 .tk-court,.tk-ground{fill:none;stroke:#7e9f896e;stroke-width:1.1}
 .tk-net{fill:none;stroke:#bdd0bd;stroke-width:1.6}
 .tk-net-mesh{fill:none;stroke:#7e9f896e;stroke-width:4;stroke-dasharray:2 3}

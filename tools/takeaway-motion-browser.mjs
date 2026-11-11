@@ -1,10 +1,11 @@
 // Actual browser motion, settlement and lifecycle. Practice data stays in isolated contexts.
 import assert from 'node:assert/strict';
 import {chromium,webkit} from 'playwright';
-import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
+import {readFileSync,mkdirSync,writeFileSync,readdirSync} from 'node:fs';
 const base=process.argv[2],engine=process.env.GS_TAKEAWAY_BROWSER||'chromium';assert(base?.endsWith('/'));
 const cards=JSON.parse(readFileSync('app_src/takeaways.json','utf8'));
 const plan=JSON.parse(readFileSync('app_src/daily_plan.json','utf8'));
+const illustrated=new Set(readdirSync('app_src/takeaway_art').map(file=>file.replace(/\.svg$/,'')));
 const dateFor=slug=>new Date(Date.parse(plan.startDate+'T01:00:00Z')+plan.rotation.indexOf(slug)*86400000).toISOString();
 const out=process.env.GS_TAKEAWAY_EVIDENCE||`app_src/evidence/takeaway-motion-${engine}`;mkdirSync(out,{recursive:true});
 const browser=await ({chromium,webkit}[engine]).launch(),checks=[],errors=[];
@@ -45,7 +46,8 @@ try{
   for(let i=0;i<2;i++)check(new Set(playing.map(f=>JSON.stringify(f.panels[i]))).size>5,`${slug}/${width}: panel ${i+1} visibly changes`);
   const firstChanges=[0,1].map(i=>playing.findIndex(f=>JSON.stringify(f.panels[i])!==JSON.stringify(playing[0].panels[i])));
   check(firstChanges[0]>=0&&firstChanges[1]>firstChanges[0],`${slug}/${width}: first cue precedes the second`);
-  for(let i=0;i<2;i++)if(['move','shot-follow'].includes(cards[slug].panels[i].motion)){
+  check(await p.locator('[data-recall-cue]').count()===(illustrated.has(slug)?2:0),slug+': both panels use their selected treatment');
+  for(let i=0;i<2;i++)if(!illustrated.has(slug)&&['move','shot-follow'].includes(cards[slug].panels[i].motion)){
    const panel=cards[slug].panels[i],expected=panel.kind==='position'?[80,panel.position==='in'?52:152]:panel.move;
    const actual=await p.locator('.tk-drawing').nth(i).locator('.tk-you').evaluate(e=>[+e.getAttribute('cx'),+e.getAttribute('cy')]);
    check(JSON.stringify(actual)===JSON.stringify(expected),`${slug}/${width}: panel ${i+1} rests at its destination`);

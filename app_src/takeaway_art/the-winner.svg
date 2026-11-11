@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 164">
+  <defs>
+    <pattern id="gs-grit" width="27" height="23" patternUnits="userSpaceOnUse">
+      <path d="M2 6l2 -1 M13 18l3 -1 M22 4h2 M5 20h1" stroke="#713d2d" stroke-width="1.1" opacity=".43" />
+      <path d="M5 13l2 -1 M17 6h2 M25 19l1 -1" stroke="#efb193" stroke-width=".95" opacity=".65" />
+    </pattern>
+    <g id="gs-corner">
+      <rect x="3" y="9" width="154" height="146" rx="3" fill="#a95f45" />
+      <rect x="3" y="9" width="154" height="146" rx="3" fill="url(#gs-grit)" />
+      <path d="M3 46H112V155" fill="none" stroke="#f3e5c9" stroke-width="4" />
+      <path d="M7 145q29 -18 54 -17 M15 146q25 -13 40 -13 M20 152q25 -14 44 -15" fill="none" stroke="#c58060" stroke-width="1.4" opacity=".8" />
+    </g>
+    <g id="gs-skid">
+      <path d="M-9 5Q-4 1 2 -2Q7 -5 8 -3Q9 0 4 3Q-1 6 -9 5Z" fill="#693c2c" />
+      <path d="M-7 5Q-1 5 5 1" stroke="#e3a17a" stroke-width="1.2" fill="none" />
+    </g>
+    <g id="gs-scatter">
+      <use href="#gs-skid" transform="translate(-17 -18) rotate(8)" />
+      <use href="#gs-skid" transform="translate(9 -20) rotate(14)" />
+      <use href="#gs-skid" transform="translate(22 -8) rotate(-4)" />
+      <use href="#gs-skid" transform="translate(18 13) rotate(2)" />
+      <use href="#gs-skid" transform="translate(-20 12) rotate(-14)" />
+      <path d="M-9 4Q-2 1 3 -2Q7 -4 9 -3Q9 1 4 4Q-1 7 -9 4Z" fill="#ffdb72" stroke="#553e23" stroke-width="1.5" />
+      <path d="M-14 -4a15 15 0 0 1 20 -9 M14 2a15 15 0 0 1 -14 14" stroke="#fff0be" stroke-width="1.4" fill="none" />
+    </g>
+  </defs>
+  <svg viewBox="0 0 160 164" role="img" aria-label="One gold skid catches the corner line. Several surrounding marks lie long or wide." x="0" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#gs-corner" />
+    <g data-recall-cue="">
+      <use href="#gs-scatter" transform="translate(112 46)" />
+    </g>
+  </svg>
+  <svg viewBox="0 0 160 164" role="img" aria-label="The same spread of marks sits inside the lines when the target moves inward." x="160" width="160" height="164" class="tk-drawing tk-redraw">
+    <use href="#gs-corner" />
+    <g data-recall-cue="">
+      <use href="#gs-scatter" transform="translate(77 82)" />
+    </g>
+  </svg>
+</svg>

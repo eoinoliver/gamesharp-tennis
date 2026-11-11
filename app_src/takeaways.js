@@ -4,6 +4,7 @@ window.GSTakeaways=(()=>{
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const dot=(p,cls,r=5)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${r}" class="${cls}"/>`;
   function drawing(p,id){
+    if(p.art)return p.art.replaceAll('__INSTANCE__',id);
     const arrow=(from,to,cls='tk-ball-path')=>`<path class="${cls}" d="M${from} L${to}" marker-end="url(#${id}-${cls==='tk-move'?'move':'ball'})"/>`;
     let body='';
     if(p.kind==='court'){
@@ -56,7 +57,7 @@ window.GSTakeaways=(()=>{
   function render(slug,{home=false}={}){
     const c=cards[slug];if(!c)return '';
     const prefix=`tk-${home?'home':'lesson'}-${slug}`;
-    return `<figure class="lesson-takeaway${home?' takeaway-home':''}" data-takeaway="${esc(slug)}" data-takeaway-motion="authored" aria-label="Visual takeaway: ${esc(c.title)}">${home?`<div class="takeaway-eyebrow">Take this onto court</div><h1 class="takeaway-title">${esc(c.title)}</h1>`:''}<div class="takeaway-pair">${c.panels.map((p,i)=>`<div class="takeaway-panel" data-panel-motion="${p.motion}"><p class="takeaway-condition">${esc(p.label)}</p>${drawing(p,prefix+'-'+i)}<p class="takeaway-action">${esc(p.caption)}</p></div>`).join('')}</div><figcaption class="takeaway-rule${home?' daily-cue':''}">${esc(c.rule)}</figcaption></figure>`;
+    return `<figure class="lesson-takeaway${home?' takeaway-home':''}" data-takeaway="${esc(slug)}" data-takeaway-motion="authored" aria-label="Visual takeaway: ${esc(c.title)}">${home?`<div class="takeaway-eyebrow">Take this onto court</div><h1 class="takeaway-title">${esc(c.title)}</h1>`:''}<div class="takeaway-pair">${c.panels.map((p,i)=>`<div class="takeaway-panel" data-panel-motion="${p.art ? 'emphasis' : p.motion}"><p class="takeaway-condition">${esc(p.label)}</p>${drawing(p,prefix+'-'+i)}<p class="takeaway-action">${esc(p.caption)}</p></div>`).join('')}</div><figcaption class="takeaway-rule${home?' daily-cue':''}">${esc(c.rule)}</figcaption></figure>`;
   }
   // Motion is a progressive enhancement. The rendered SVG is always the complete
   // readable takeaway, including the recovery destination, without this controller.
@@ -113,6 +114,14 @@ window.GSTakeaways=(()=>{
             if(ball){const pt=path.getPointAtLength(length*q);ball.setAttribute('cx',pt.x);ball.setAttribute('cy',pt.y);ball.style.opacity=moving?'1':'0';origin.style.opacity=moving?'.45':oldOrigin;}
           });
           restores.push(()=>{ink.remove();ball?.remove();path.style.opacity=oldOpacity;if(origin)origin.style.opacity=oldOrigin;});
+        }
+        if(p.art){
+          const cue=svg.querySelector('[data-recall-cue]');
+          cue.dataset.tkAnimated='';
+          return {
+            paint(t){cue.style.opacity=String(1-.5*Math.sin(Math.PI*t));},
+            restore(){cue.style.removeProperty('opacity');cue.removeAttribute('style');delete cue.dataset.tkAnimated;}
+          };
         }
         if(['height','shot','shot-follow'].includes(p.motion)){
           trace(svg.querySelector('.tk-ball-path'),{travel:true});
