@@ -116,7 +116,9 @@ window.GSDirected=(()=>{
     const key=S.scene+X,sc=SC[key],q=questionRange(S);
     const next=LESSON.branch?LESSON.nodes[key]:LESSON.flow&&LETTERS[S.correct]===X?LESSON.steps[i+1]:null;
     const to=next?Math.min(sc.frames-1,questionRange(next).to):sc.frames-1;
-    let from=Math.max(sc.info.freeze,q.to);
+    // The held question is the start of the selected consequence. Variant
+    // metadata can describe a later contact, even beyond a trimmed clip.
+    let from=q.to;
     if(openingSeen?.question===S&&openingSeen.scene===key)from=Math.max(from,openingSeen.frame);
     const end=()=>finishAnswer(S,X,cb,to);
     if(from>=to){end();return true;}
@@ -147,11 +149,11 @@ window.GSDirected=(()=>{
       showDots=true;revealPattern=!!S.pattern;
       start([{kind:'evidence',key,from:q.from,to:q.to,play:true,silent:q.silent,native:true,eye:'Replay the evidence',title:S.unlock}],end,'Skip to feedback →');return true;
     }
-    const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
+    const route=(k,label)=>({kind:'wide',key:k,from:q.to,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
     let stages=only?[route(only,viewing(only.slice(-1),ans[step]))]:[route(key,viewing(X,ans[step])+' · follow the consequence')];
     if(!only){
       stages.push(
-        {kind:'rewind',key,from:sc.frames-1,to:sc.info.freeze,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},
+        {kind:'rewind',key,from:sc.frames-1,to:q.to,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},
         detail(S,key),
         route(S.scene+alternative(S,X),'Compare the alternative'));
     }

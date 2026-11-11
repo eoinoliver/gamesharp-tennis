@@ -2,7 +2,7 @@
   "source": {
     "rally/directed.js": {
       "baseline": "3e86557f8338600f3b9c4e15459bd6404aadce2c9b8a0f70318b44b8ed9683e5",
-      "candidate": "438b23fefb946db60a00f421be920d5da367221dfe3d6360fcc4e33403bb7fd8"
+      "candidate": "5916016bf447025668f91803b57a4d0608cb0e07c812480b0233182bdfde48c2"
     },
     "rally/lesson_body.html": {
       "baseline": "c6eae85253cdde3678985298d140a577d82475189faed988b7e3667da3923888",
@@ -44,19 +44,19 @@
   "release": {
     "app/catalog.js": {
       "baseline": "bb5b200f1170b46186963c22685f0c30fcf7ce2d78aa2fe186988cad42fc989e",
-      "candidate": "db438a6662436d5059b84864789564881407bad2e78730aebd59c8a80814f5c6"
+      "candidate": "083ea6d8f12da1c14a36968018cb785b48b410fd8573e037c74e387db981a328"
     },
     "app/index.html": {
       "baseline": "98826788e46954b5d43123bc682b22a73d87c8ce77272a96660f4a1345c57f14",
-      "candidate": "038b4c5a79e09c06c56e233062dd4aa088f51b1d0a862d64e4943d85f3446a2c"
+      "candidate": "22265c02883ef164e5f5f9a4bdfd12af9ce8566e136f6b04af5b38164c7a8b81"
     },
     "app/play.html": {
       "baseline": "a415c9f54f89a8b21033583460f91f5e294212ae1b7de761d6cbf2cd38777aa4",
-      "candidate": "0d874eb14df74ee75027218a6ac1e287d6f2b484e51b057efd312350e78f3c0a"
+      "candidate": "188737d92c9018e2d6892cd370b6aedee3f228517e6d8472d47a1c5fc914dddf"
     },
     "app/engine/engine.js": {
       "baseline": "cf48a61ab25d822df150041e3f989b1c5bb7cf6e9e46ce4fa846256ce0996361",
-      "candidate": "2fb2a963a0942b90dd6cf444e8bb8b54b0a70e917dca8e7301de41991fbbf1fe"
+      "candidate": "71646e70f85aafb4e9d417628e4f3c52dce64b25468e96d367bd2cecffd8afcd"
     },
     "app/athlete.js": {
       "baseline": "19ad80c3d9750f22c9fa8bc34c269dfd17a9f6f0824064be66c7fe251518ad14",
