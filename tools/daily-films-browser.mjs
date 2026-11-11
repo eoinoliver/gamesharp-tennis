@@ -51,11 +51,19 @@ async function inspect(lesson){
     assert.deepEqual(film.backtracks,[],lesson.slug+' opening doubled back');
     assert(!phases.includes('rewind'),lesson.slug);
     if(lesson.slug==='second-serve')assert(film.phases.some(p=>p.title==='Chest height.'));
+    if(lesson.slug==='serve-plus-one'){
+      const labels=await p.locator('#svg text').allTextContents();
+      assert(labels.includes('Return bounce')&&!labels.includes('SHORT MIDDLE')&&!labels.includes('LAST POINT'),'serve close-up has one bounce label');
+    }
     await p.locator('#stage').screenshot({path:output+'/'+lesson.slug+'.png'});
     await p.evaluate(()=>GSDirected.pause());
     await p.waitForFunction(()=>window.__test&&!zone.inert&&document.querySelector('#askOpts button:not(:disabled)'));
     const restored=await p.evaluate(()=>{const q=questionRange(LESSON.steps[0]);return !GSDirected.active&&scene===q.scene&&t===q.to;});
     assert(restored,lesson.slug+' must restore its exact decision');
+    if(lesson.slug==='serve-plus-one'){
+      const labels=await p.locator('#svg text').allTextContents();
+      assert(labels.includes('SHORT MIDDLE')&&labels.includes('LAST POINT'),'serve question restores both pieces of evidence');
+    }
     await p.reload();
     await p.waitForFunction(()=>window.__test&&!zone.inert&&document.querySelector('#watchDirected'));
     assert.equal(await p.evaluate(()=>filmPhases.length),0,lesson.slug+' repeat');

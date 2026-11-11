@@ -6,11 +6,11 @@
     },
     "rally/directed.js": {
       "baseline": "95db4e93bdcc8f98f028a30f1c5d2c25ea78a640b0eb7e8b85df1bd434058f01",
-      "candidate": "4e0ac7eddfda353fcfe25d319c1488df1d7b261f95ae90a3a2a3aefd1560e763"
+      "candidate": "3e86557f8338600f3b9c4e15459bd6404aadce2c9b8a0f70318b44b8ed9683e5"
     },
     "rally/lesson_body.html": {
       "baseline": "f6f6f2e037f855f0cf045752e6590d8254a265351bbf303d0ee09237994e16e7",
-      "candidate": "2032fb8c0bea67b0ee833a5063a5d72f233f83a305d94545cd7b9a373e8b6a01"
+      "candidate": "c6eae85253cdde3678985298d140a577d82475189faed988b7e3667da3923888"
     },
     "tools/directed-browser.mjs": {
       "baseline": "af4c3c1ce887cb5638df60e060389dacf1fa621c5cdb6d52f4007f7ae658fc81",
@@ -18,25 +18,25 @@
     },
     "tools/daily-films-browser.mjs": {
       "baseline": "3f33ef7e2a621f30462ad436524cd8c94efe7933b9c5950df8c4108ae033ba5a",
-      "candidate": "40fe50f12629be3dd548033a8af12717763831b75d43d9a66ae9fbb0199e3f88"
+      "candidate": "4649c27e21e0a3d27cdd649107a6044e449fb741d1200a7fa4ba28199330fd29"
     }
   },
   "release": {
     "app/catalog.js": {
       "baseline": "de3eb5069787918beea01fa9b0653ec6a4e3b6adf34561cea2333166c825cf66",
-      "candidate": "772fb406fa59d5c62c5f180ecad15f6c9f31b3cdd9c7e4c96b2757caa3724064"
+      "candidate": "bb5b200f1170b46186963c22685f0c30fcf7ce2d78aa2fe186988cad42fc989e"
     },
     "app/index.html": {
       "baseline": "d17b024455d6414459138974ef97de335aa02d0eaf0bc603246928603f5749dd",
-      "candidate": "f3bbaba55601a0743d4dbce11d6bce2549af231221f0f074d1364614515b3f26"
+      "candidate": "98826788e46954b5d43123bc682b22a73d87c8ce77272a96660f4a1345c57f14"
     },
     "app/play.html": {
       "baseline": "5b8b053d1343f0db0f7936be339d2fb5e3b5266b5e7d991cbf8a76feeb91ed5c",
-      "candidate": "ece43253a704b84001fb6e5fee8252d207b0bc6ae5695af6bc0e7b5e97c3c111"
+      "candidate": "a415c9f54f89a8b21033583460f91f5e294212ae1b7de761d6cbf2cd38777aa4"
     },
     "app/engine/engine.js": {
       "baseline": "e5a55dd22436ce4ad78f3d1569ff9099b4f10084f95f3f6f027806a30ec1158e",
-      "candidate": "86a0fdb43d4d37f1e8990025d2cc991a1e6108408a32d363f19fe9365042f2be"
+      "candidate": "cf48a61ab25d822df150041e3f989b1c5bb7cf6e9e46ce4fa846256ce0996361"
     }
   }
 }

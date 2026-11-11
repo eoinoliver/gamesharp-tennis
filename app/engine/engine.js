@@ -1127,7 +1127,7 @@ function render(){
       if(fin) ring(frag,p,0.1,0.075,"none",0,.9,col);}
     const show=fin||age<130||(revealPattern&&m.label==="SHORT MIDDLE");
     const txt=revealPattern&&m.label==="SHORT MIDDLE"?"SHORT MIDDLE \u00d7"+"2":m.kind==="out"?"OUT \u00b7 "+m.label:m.label;
-    if(show&&m.label&&m.kind!=="net"&&!(cueOnEarly&&!fin)) label(frag,[m.pos[0],m.pos[1],0],txt,txtCol,fin?18:15,fin?1:1-smooth(90,130,age)*(revealPattern?0:1));}
+    if(show&&m.label&&!window.GSDirected?.dailyCloseUp&&m.kind!=="net"&&!(cueOnEarly&&!fin)) label(frag,[m.pos[0],m.pos[1],0],txt,txtCol,fin?18:15,fin?1:1-smooth(90,130,age)*(revealPattern?0:1));}
   // evidence from earlier points: faint landing rings, one label
   if(!detail&&sc.info.ghosts){let cx=0,cy=0;const G=sc.info.ghosts;
     for(const [x,y,l] of G){cx+=x/G.length;cy+=y/G.length;ring(frag,[x,y,0.006],0.22,0.17,sc.info.ghostCol||"rgba(240,236,227,.55)",1.4,.8);
@@ -1824,7 +1824,7 @@ window.GSDirected=(()=>{
     }
     if(kind==='line')label(frag,[-4,11.13,0],'IN BY '+Math.round(SC.wn1.info.shot.courtMargin*100)+' CM','#e3cd83',22,1,22);
   }
-  return {question,answer,feedback,predictReview,offerSkip,cancel,skip,pause,tick,camera,fit,draw,replay,optionColour,colourChoices,get active(){return !!film;},get board(){return board&&pilot(LESSON.steps[step]||{});},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
+  return {question,answer,feedback,predictReview,offerSkip,cancel,skip,pause,tick,camera,fit,draw,replay,optionColour,colourChoices,get active(){return !!film;},get dailyCloseUp(){return !!shot?.edit;},get board(){return board&&pilot(LESSON.steps[step]||{});},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
 })();
 
 if(LESSON.predict) setupPredict();

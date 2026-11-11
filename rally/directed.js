@@ -309,5 +309,5 @@ window.GSDirected=(()=>{
     }
     if(kind==='line')label(frag,[-4,11.13,0],'IN BY '+Math.round(SC.wn1.info.shot.courtMargin*100)+' CM','#e3cd83',22,1,22);
   }
-  return {question,answer,feedback,predictReview,offerSkip,cancel,skip,pause,tick,camera,fit,draw,replay,optionColour,colourChoices,get active(){return !!film;},get board(){return board&&pilot(LESSON.steps[step]||{});},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
+  return {question,answer,feedback,predictReview,offerSkip,cancel,skip,pause,tick,camera,fit,draw,replay,optionColour,colourChoices,get active(){return !!film;},get dailyCloseUp(){return !!shot?.edit;},get board(){return board&&pilot(LESSON.steps[step]||{});},get state(){return {active:!!film,phase:shot?.kind,board,paused,seen:[...seen]};}};
 })();
