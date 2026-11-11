@@ -1,0 +1,50 @@
+{
+  "source": {
+    "app_src/share.js": {
+      "baseline": "65063f00ce4baa49cec2151e36837f8c93666945e9e6097418ff74b2afde42e2",
+      "candidate": "cb95868e09dbad93639ae2045c62fa7a628ece22ad2b581cd8212bd06bc10f18"
+    },
+    "app_src/practice.css": {
+      "baseline": "6d1435eb06ffadf58e0a16748aa9865cb04b6160276239b0e61e304317a41d91",
+      "candidate": "8731247c3aa8194a3582b2f7c5f2c4b6e81ea3d6474110fc097e7bf9425ae968"
+    },
+    "tools/daily-home-browser.mjs": {
+      "baseline": "4205eb778db11bf45b4f36e10f89d22f27bf2e4fbe12553b16d62b15eda0724e",
+      "candidate": "ef5d944f0fe6c0ee4e437e949c0245b0a5986dadae6ef48fa0b67119d034a53a"
+    },
+    "tools/flagship-browser.mjs": {
+      "baseline": "d45625f348d4e0074310f80720d20937e25f4023f64a9c62554dff4987274b75",
+      "candidate": "365f8cff786d0d86ae9ed2be7cc19258f8bb3643a4dcc8c20dd23af4a4d885cb"
+    },
+    "tools/sharing-practice-browser.mjs": {
+      "baseline": "2d2103f61dc6a5bbe7d201a25c71af74be98da1dc6f4d3e9faa312ef2e8345b6",
+      "candidate": "b609608327ead31d001d8421c896bed56f5d703c401cbb2dc98523dda5aa1365"
+    },
+    "tools/doubles-browser.mjs": {
+      "baseline": "c7d11ffa5d2ae0e44ae15c5e051cb1f612a48b0a829914c2a61b7bf75b4072e9",
+      "candidate": "fd7c96a8a8b6dd7c7e66dd1fcf2ab805e02878a8972c920d6b5e4979e540ecdb"
+    }
+  },
+  "release": {
+    "app/share.js": {
+      "baseline": "65063f00ce4baa49cec2151e36837f8c93666945e9e6097418ff74b2afde42e2",
+      "candidate": "cb95868e09dbad93639ae2045c62fa7a628ece22ad2b581cd8212bd06bc10f18"
+    },
+    "app/practice.css": {
+      "baseline": "6d1435eb06ffadf58e0a16748aa9865cb04b6160276239b0e61e304317a41d91",
+      "candidate": "8731247c3aa8194a3582b2f7c5f2c4b6e81ea3d6474110fc097e7bf9425ae968"
+    },
+    "app/index.html": {
+      "baseline": "22265c02883ef164e5f5f9a4bdfd12af9ce8566e136f6b04af5b38164c7a8b81",
+      "candidate": "26f579a1860601f401df3acb11f2daa1eaebfa7ce9758866db8abb2d9270d29e"
+    },
+    "app/play.html": {
+      "baseline": "188737d92c9018e2d6892cd370b6aedee3f228517e6d8472d47a1c5fc914dddf",
+      "candidate": "52272a60b2bb29b91ff71fec3c035b70040f6a6d3c6be8b7d4dba5dc1dac18c3"
+    },
+    "app/catalog.js": {
+      "baseline": "083ea6d8f12da1c14a36968018cb785b48b410fd8573e037c74e387db981a328",
+      "candidate": "cdb801b3f7a5efd99b58ded28fa1c57980b7a45909634b6bf49284e461e27507"
+    }
+  }
+}

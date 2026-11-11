@@ -382,6 +382,15 @@ for records, expected in [(playback['source'], source), (playback['release'], ma
         assert expected.get(name) == change['baseline'], f'Single-pass catalogue baseline drift: {name}'
         expected[name] = change['candidate']
 
+# Shared court-first panel, with unchanged recipient cards and links.
+sharing = json.loads((ROOT/'docs/features/simplified-sharing-build.json').read_text())
+assert set(sharing['source']) == {'tools/flagship-browser.mjs', 'app_src/practice.css', 'tools/sharing-practice-browser.mjs', 'tools/doubles-browser.mjs', 'app_src/share.js', 'tools/daily-home-browser.mjs'}
+assert set(sharing['release']) == {'app/share.js', 'app/practice.css', 'app/catalog.js', 'app/index.html', 'app/play.html'}
+for records, expected in [(sharing['source'], source), (sharing['release'], manifest)]:
+    for name, change in records.items():
+        assert expected.get(name) == change['baseline'], f'Sharing panel baseline drift: {name}'
+        expected[name] = change['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)
