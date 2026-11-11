@@ -34,11 +34,11 @@ try{
    check(await p.evaluate(({palette,rgb})=>[...document.querySelectorAll('#askOpts .l')].every((e,j)=>getComputedStyle(e).backgroundColor===rgb[j])&&palette.every((c,j)=>[...document.querySelectorAll('#svg text')].some(e=>e.textContent==='ABCD'[j]&&e.getAttribute('fill')===c)),{palette,rgb}),`${slug}/${width}/${pick}: tile badges match the four on-court letters`);
    if(pick===2)await p.screenshot({path:`${out}/${slug}-${width}-choices.png`,fullPage:true});
    const before=await p.evaluate(()=>ans.slice());await p.locator('#askOpts button').nth(pick).click();await board(p);await p.waitForTimeout(350);
-   const state=await p.evaluate(()=>({ans,step,scene,t,contact:contactsOf(SC[scene],'you').find(f=>f>=SC[scene].info.freeze-2),state:GSDirected.state,tiles:[...document.querySelectorAll('#askOpts button')].map(e=>({visible:!e.classList.contains('hide'),enabled:!e.disabled,note:e.querySelector('.directed-note')?.textContent,first:!!e.querySelector('.directed-first'),recommended:!!e.querySelector('.directed-pick')}))}));
+   const state=await p.evaluate(()=>({ans,step,scene,t,lastFrame:SC[scene].frames-1,state:GSDirected.state,tiles:[...document.querySelectorAll('#askOpts button')].map(e=>({visible:!e.classList.contains('hide'),enabled:!e.disabled,note:e.querySelector('.directed-note')?.textContent,first:!!e.querySelector('.directed-first'),recommended:!!e.querySelector('.directed-pick')}))}));
    const label=`${slug}/${width}/${pick}`;
    check(!seen.has('rewind')&&!seen.has('samples'),label+': first choice plays once');
    check(state.ans[state.step]==='ABCD'[pick]&&before.filter(Boolean).length===state.ans.filter(Boolean).length-1,label+': comparison preserves first answer');
-   check(state.scene===(slug==='short-ball'?'sb3':'wn2')+'ABCD'[pick]&&state.t===state.contact-1,label+': board restored to original contact');
+   check(state.scene===(slug==='short-ball'?'sb3':'wn2')+'ABCD'[pick]&&state.t===state.lastFrame,label+': feedback holds the chosen outcome');
    check(await p.locator('#askOpts .l').evaluateAll((es,rgb)=>es.every((e,j)=>getComputedStyle(e).backgroundColor===rgb[j]),rgb),label+': choice identity colours survive feedback');
    const recommended=slug==='short-ball'?2:0;
    check(state.tiles.length===4&&state.tiles.every((e,j)=>e.visible===(j===pick||j===recommended))&&state.tiles.every(e=>e.enabled&&e.note)&&state.tiles[pick].first,label+': compact chosen tile plus recommendation');

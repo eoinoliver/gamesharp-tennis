@@ -16,7 +16,7 @@ window.GSDirected=(()=>{
   }
   const revealed=new Set();
   const dailyOpening=DailyFilms.sequence(slug);
-  const dailyLesson=Boolean(dailyOpening||prefix);
+  let openingSeen=null;
   const introKey=S=>dailyOpening&&S===LESSON.steps[0]?'film:1:'+S.scene:'intro:'+S.scene;
   const storeKey='gs_directed_v1_'+slug;
   const seen=new Set();try{for(const k of JSON.parse(localStorage.getItem(storeKey)||'[]'))seen.add(k);}catch{}
@@ -76,37 +76,58 @@ window.GSDirected=(()=>{
     rewatch?.remove();rewatch=document.createElement('button');rewatch.className='directed-rewatch';rewatch.id='watchDirected';rewatch.textContent=pilot(S)&&height?'Watch the height again':'Watch the scene again';
     rewatch.onclick=()=>{stageSit(S.sit);paintAsk(S);question(S,()=>{showTargets=S.reveal||S.noTargets?null:S.scene;typeSit(S.sit,enableAsk);},true);stageInView();};$('ask').before(rewatch);GSSceneEvidence.show(S,rewatch);
   }
-  function question(S,cb,force=false){
-
-    const q=questionRange(S),end=()=>restoreQuestion(S,cb);
+  function question(S,cb,force=false,afterFrame=0){
+    const q=questionRange(S);
+    openingSeen=null;
+    if(!force)q.from=Math.min(q.to,Math.max(q.from,afterFrame));
+    if(force&&q.from===q.to&&step>0&&LESSON.branch){
+      const previous=LESSON.steps[step-1],route=SC[previous.scene+ans[step-1]];
+      if(route)q.from=Math.min(q.to,route.info.freeze);
+    }
+    const end=()=>restoreQuestion(S,cb);
+    const filmEnded=()=>{
+      openingSeen={question:S,scene,frame:Math.floor(t)};
+      end();
+    };
     if(q.from===q.to||!force&&(CALM_MOTION||seen.has(introKey(S)))){end();return true;}
     if(S.scene==='wn1'){
       start([{kind:'opening',key:'wn1',from:62,to:298,play:true,eye:'A low ball. A narrow target.',title:'You go for the line.'},
-        {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}],end,'Skip to decision →');
+        {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}],filmEnded,'Skip to decision →');
     }else if(pilot(S)&&height){
       const key=prefix+'A',hit=contact(key)-1;start([
         {kind:'opening',key,from:62,to:hit,play:true,eye:'A short ball. They’re still deep.',title:'A free point?'},
         {kind:'height',key,from:hit,ms:1800,eye:'The deciding detail',title:'Below the tape.',copy:'Contact '+Math.round(at()[2]*100)+' cm. Tape '+Math.round(net(at()[0])*100)+' cm.'},
         {kind:'net',key,from:hit,to:257,play:true,eye:'The shot',title:'Watch the clearance.'}
-      ],end,'Skip to decision →');
+      ],filmEnded,'Skip to decision →');
     }else if(dailyOpening&&S===LESSON.steps[0]){
-      start(dailyOpening,end,'Skip to decision →');
-    }else start([{kind:'sweep',key:q.scene,from:q.from,to:q.to,play:true,silent:q.silent,eye:q.label||'Read the situation',title:S.name||'Your next decision',native:!!(LESSON.predict||LESSON.readinessLesson||CONTACT_FOCUS||q.type==='held-continuation')}],end,'Skip to decision →');
+      start(dailyOpening,filmEnded,'Skip to decision →');
+    }else start([{kind:'sweep',key:q.scene,from:q.from,to:q.to,play:true,silent:q.silent,eye:q.label||'Read the situation',title:S.name||'Your next decision',native:!!(LESSON.predict||LESSON.readinessLesson||CONTACT_FOCUS||q.type==='held-continuation')}],filmEnded,'Skip to decision →');
     return true;
   }
   function alternative(S,X){return LETTERS[S.correct]!==X?LETTERS[S.correct]:pilot(S)?(height?'A':'C'):LETTERS[(S.correct+1)%S.opts.length];}
-  function finishAnswer(S,X,cb){
-    const key=S.reveal?S.scene:S.scene+X;frame(key,S.reveal?questionRange(S).to:pilot(S)?contact(key)-1:SC[key].frames-1);remember('answer:'+S.scene);board=true;eye=null;showDots=!!S.reveal;cb();
+  function finishAnswer(S,X,cb,endFrame){
+    const key=S.reveal?S.scene:S.scene+X;frame(key,S.reveal?questionRange(S).to:endFrame??SC[key].frames-1);remember('answer:'+S.scene);board=true;eye=null;showDots=!!S.reveal;cb();
   }
   const viewing=(X,first)=>X===first?'Your first choice '+X:'Alternative '+X;
-  function answer(i,X,demo,cb,force=false,only=null){
+  // Committing to an answer has no path to the comparison sequencer.
+  function answer(i,X,cb){
     const S=LESSON.steps[i];
-    if(!pilot(S))return generalAnswer(S,X,demo,cb,force,only);
+    if(S.reveal){showDots=true;revealPattern=!!S.pattern;finishAnswer(S,X,cb);return true;}
+    const key=S.scene+X,sc=SC[key],q=questionRange(S);
+    const next=LESSON.branch?LESSON.nodes[key]:LESSON.flow&&LETTERS[S.correct]===X?LESSON.steps[i+1]:null;
+    const to=next?Math.min(sc.frames-1,questionRange(next).to):sc.frames-1;
+    let from=Math.max(sc.info.freeze,q.to);
+    if(openingSeen?.question===S&&openingSeen.scene===key)from=Math.max(from,openingSeen.frame);
+    const end=()=>finishAnswer(S,X,cb,to);
+    if(from>=to){end();return true;}
+    start([{kind:'wide',key,from,to,play:true,eye:viewing(X,ans[i]),title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');
+    stageInView();return true;
+  }
+  function reviewAnswer(i,X,cb,only=null){
+    const S=LESSON.steps[i];
+    if(!pilot(S))return generalReview(S,X,cb,only);
     const key=S.scene+X,alt=alternative(S,X),other=S.scene+alt;
     const end=()=>finishAnswer(S,X,cb);
-    if(!force){
-      start([{kind:'wide',key,from:SC[key].info.freeze,to:SC[key].frames-1,play:true,eye:viewing(X,ans[i]),title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');return true;
-    }
     const route=(k,label)=>({kind:'wide',key:k,from:contact(k)-1,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
     const stages=only?[route(only,viewing(only.slice(-1),ans[i]))]:[
       route(key,viewing(X,ans[step])+' · follow the consequence'),
@@ -118,19 +139,17 @@ window.GSDirected=(()=>{
   }
   // Observation questions have one authored scene, not one outcome per answer.
   // Connected routes compare at the saved decision, never by changing the branch.
-  function generalAnswer(S,X,demo,cb,force,only){
+  function generalReview(S,X,cb,only){
     const key=S.reveal?S.scene:S.scene+X,sc=SC[key],q=questionRange(S);
     const end=()=>finishAnswer(S,X,cb);
     if(S.reveal){
-      if(LESSON.readinessLesson&&force){cancel();replayArrival(S.scene);return true;}
+      if(LESSON.readinessLesson){cancel();replayArrival(S.scene);return true;}
       showDots=true;revealPattern=!!S.pattern;
-      if(!force){end();return true;}
       start([{kind:'evidence',key,from:q.from,to:q.to,play:true,silent:q.silent,native:true,eye:'Replay the evidence',title:S.unlock}],end,'Skip to feedback →');return true;
     }
     const route=(k,label)=>({kind:'wide',key:k,from:SC[k].info.freeze,to:SC[k].frames-1,play:true,eye:label,title:S.opts[LETTERS.indexOf(k.slice(-1))]});
-    const short=!force&&(dailyLesson||CALM_MOTION||seen.has('answer:'+S.scene)||demo);
     let stages=only?[route(only,viewing(only.slice(-1),ans[step]))]:[route(key,viewing(X,ans[step])+' · follow the consequence')];
-    if(!short&&!only){
+    if(!only){
       stages.push(
         {kind:'rewind',key,from:sc.frames-1,to:sc.info.freeze,ms:850,eye:'Rewind',title:'Same moment. Another choice.'},
         detail(S,key),
@@ -173,7 +192,7 @@ window.GSDirected=(()=>{
     GSSceneEvidence.feedback(S,X,ans[i]||X);
     $('verdict').appendChild(b);
     if($('tryOther'))$('tryOther').hidden=true;
-    $('directedOther').onclick=()=>answer(i,X,true,()=>{board=true;},true);
+    $('directedOther').onclick=()=>reviewAnswer(i,X,()=>{board=true;});
     function showChoices(){
       [...$('askOpts').children].forEach((tile,j)=>tile.classList.toggle('hide',!expanded&&LETTERS[j]!==X&&LETTERS[j]!==recommended));
       $('askOpts').classList.toggle('directed-single',!expanded&&X===recommended);
@@ -187,7 +206,7 @@ window.GSDirected=(()=>{
   }
   function replay(){
     if(film){const stages=sequence.slice(),cb=finish,label=$('skipDirected').textContent;start(stages,cb,label);return true;}
-    if(board&&LESSON.steps[step]){const S=LESSON.steps[step],X=chosen||ans[step];return answer(step,X,true,()=>{board=true;},true,S.reveal?S.scene:S.scene+X);}
+    if(board&&LESSON.steps[step]){const S=LESSON.steps[step],X=chosen||ans[step];return reviewAnswer(step,X,()=>{board=true;},S.reveal?S.scene:S.scene+X);}
     if(!done&&rewatch){rewatch.click();return true;}
     return false;
   }

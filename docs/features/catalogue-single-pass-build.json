@@ -1,0 +1,46 @@
+{
+  "source": {
+    "rally/directed.js": {
+      "baseline": "3e86557f8338600f3b9c4e15459bd6404aadce2c9b8a0f70318b44b8ed9683e5",
+      "candidate": "438b23fefb946db60a00f421be920d5da367221dfe3d6360fcc4e33403bb7fd8"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "c6eae85253cdde3678985298d140a577d82475189faed988b7e3667da3923888",
+      "candidate": "abf3dcd890dc6d813072d64798b9a3d37bbb8cc7a8c2a1fb58128affee0dc5f9"
+    },
+    "tools/browser-checks.mjs": {
+      "baseline": "a557225e5c5b35a8bcf9026f1beb2ca337531662466a6d6cfeca71ad5725a086",
+      "candidate": "9a1da41e904bea670495722096dc66fdcd31b686bbf91d1062b2c8a861de0c8f"
+    },
+    "tools/directed-browser.mjs": {
+      "baseline": "b6455f0f6169703a6f424f24786a4ce2368856e7ef6022a27952d6455e780cef",
+      "candidate": "8d256be92866556fb93e9506e034093c9b03a1411501946ac41908812c309f81"
+    },
+    "tools/mobile-learning-browser.mjs": {
+      "baseline": "aee8ae49416e5939f04af78b32879ea32084f60f80cafacb7dd427356bf9a038",
+      "candidate": "586f93b343a75b9bb78ab3d5f659de1a09b4da4d523cb873ddb6eadfbea21555"
+    },
+    "tools/single-pass-browser.mjs": {
+      "baseline": null,
+      "candidate": "78ddd257a29a63ed1224e9f89740870389ec93b84789ff3f48e914ef35b21d76"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "bb5b200f1170b46186963c22685f0c30fcf7ce2d78aa2fe186988cad42fc989e",
+      "candidate": "b5cc87dbbe27883f04a42ba76fa05dd87f92a226c4cae5512e1d20c506ef18f0"
+    },
+    "app/index.html": {
+      "baseline": "98826788e46954b5d43123bc682b22a73d87c8ce77272a96660f4a1345c57f14",
+      "candidate": "4fc67b41ef72f9298960722f3f3fe55ea900425f7fc95c4317b2dbad908b9bef"
+    },
+    "app/play.html": {
+      "baseline": "a415c9f54f89a8b21033583460f91f5e294212ae1b7de761d6cbf2cd38777aa4",
+      "candidate": "31be3a458aa3ceb334d20953dbe325b159002930cdb7ff8dfb6c3fec9770fc4e"
+    },
+    "app/engine/engine.js": {
+      "baseline": "cf48a61ab25d822df150041e3f989b1c5bb7cf6e9e46ce4fa846256ce0996361",
+      "candidate": "2fb2a963a0942b90dd6cf444e8bb8b54b0a70e917dca8e7301de41991fbbf1fe"
+    }
+  }
+}

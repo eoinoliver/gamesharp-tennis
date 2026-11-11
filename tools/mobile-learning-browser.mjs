@@ -14,11 +14,13 @@ async function open(slug){await p.goto(base+'play.html?l='+slug);await p.waitFor
 async function answer(){await p.waitForSelector('#askOpts button:not(:disabled)');await p.locator('#askOpts button').nth(await p.evaluate(()=>LESSON.steps[step].correct)).tap();}
 try{
  await open('predict-the-point');
+ for(let i=0;i<3;i++){await answer();await p.waitForFunction(i=>step!==i,i);}
+ await p.waitForFunction(()=>done);
  await p.evaluate(()=>{window.__chips=[];window.__overlap=[];const samples=()=>{if(document.getElementById('count').textContent==='Worked example'){
  const words=document.querySelectorAll('#sitTx .w.on').length;if(playing&&words)__overlap.push({t,words});
  if(!playing&&words&&(!__chips.length||__chips.at(-1).frame!==t))__chips.push({frame:t,text:document.getElementById('sitTx').textContent});
  }};window.__watchTimer=setInterval(samples,25);});
- for(let i=0;i<3;i++){await answer();await p.waitForFunction(i=>step!==i,i);}
+ await p.locator('#watchModelPoint').tap();
  await p.waitForFunction(()=>done);await p.evaluate(()=>clearInterval(__watchTimer));
  const prediction=await p.evaluate(()=>({chips:__chips,overlap:__overlap,ends:[...LESSON.predict.reads.slice(1).map(r=>typeof r==='string'?SC[r].info.freeze:r),SC[LESSON.finaleScene].frames-1]}));
  check(prediction.overlap.length===0,'Predict never reveals explanation words during worked-example motion');
