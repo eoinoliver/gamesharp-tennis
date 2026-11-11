@@ -27,7 +27,7 @@ async function inspect(lesson){
           if(holdForPhoto&&['dailyHold','line','height'].includes(phase)&&
               !(new URLSearchParams(location.search).get('l')==='second-serve'&&t===339)){
             // Let the camera settle before taking the photograph.
-            if(++window.holdFrames===6){GSDirected.pause();window.holdForPhoto=false;}
+            if(++window.holdFrames===2){GSDirected.pause();window.holdForPhoto=false;}
           }
         }
         requestAnimationFrame(observe);

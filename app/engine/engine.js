@@ -1755,14 +1755,20 @@ window.GSDirected=(()=>{
     if(kind==='opening')return {az:lerp(-115,-83,u),el:12,d:15,fov:40,tgt:[h[0]*.6,h[1]+4,.8]};
     return {az:CALM_MOTION?-90:kind==='wide'?-90:lerp(-110,-72,u),el:kind==='wide'?29:39,d:32,fov:40,tgt:[0,0,0]};
   }
+  // Readiness pairs share the actual arrival camera. Only the lead-in sweeps;
+  // the authored close-up follows the rewind after the shared view has played.
+  function nativeView(){
+    return shot?.native || (LESSON.readinessLesson && shot?.kind==='sweep' &&
+      t>=SC[scene].info.readiness.start);
+  }
   function camera(){
-    if(shot?.native||!film&&(!board||!pilot(LESSON.steps[step]||{})))return false;
+    if(nativeView()||!film&&(!board||!pilot(LESSON.steps[step]||{})))return false;
     const c=desired();if(!eye||CALM_MOTION||shot?.kind==='dailyHold')eye=c;
     else if(!paused){for(const k of ['az','el','d','fov'])eye[k]=lerp(eye[k],c[k],.09);eye.tgt=lerp3(eye.tgt,c.tgt,.09);}
     cam={...eye,tgt:[...eye.tgt]};return true;
   }
   function fit(){
-    if(shot?.native||!film&&(!board||!pilot(LESSON.steps[step]||{})))return false;
+    if(nativeView()||!film&&(!board||!pilot(LESSON.steps[step]||{})))return false;
     const kind=shot?.kind,sc=SC[scene],you=actorAt(sc,'you',t),p=kind==='height'?at():null;let points;
     if(shot?.edit)points=dailyView().points;
     else if(kind==='height')points=you.pose.concat([[p[0],0,0],[p[0],0,1.8],[p[0],p[1],0]]);

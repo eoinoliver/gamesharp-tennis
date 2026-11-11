@@ -10,7 +10,7 @@
     },
     "rally/directed.js": {
       "baseline": "6c8e2d52b9efd4b05e10c7b51d37632a89eecd39d79097b4ae78e7131010d7d9",
-      "candidate": "08ccaa3ee96a3fc4fad1321dc6fe61baeddf40c9f60ec43ab28a5591fa781821"
+      "candidate": "95db4e93bdcc8f98f028a30f1c5d2c25ea78a640b0eb7e8b85df1bd434058f01"
     },
     "rally/directed.css": {
       "baseline": "56da4140e008cf978873305d87e3d64205aaff836a5a38838898aaae2f51140e",
@@ -22,25 +22,25 @@
     },
     "tools/daily-films-browser.mjs": {
       "baseline": null,
-      "candidate": "f2846d9fb7f2e957f7c6aa132b8c7680f6f6dcc6cc71e9e7cf00ae91eab6e614"
+      "candidate": "3f33ef7e2a621f30462ad436524cd8c94efe7933b9c5950df8c4108ae033ba5a"
     }
   },
   "release": {
     "app/catalog.js": {
       "baseline": "f6f1f22a386459e0c3592a9b5aca0b358541e3f6485579d88299bcad8577dd2f",
-      "candidate": "cb73a62835a8c69fccd28288f5397008cea1229ee78e7b22c5321fd46261f93c"
+      "candidate": "de3eb5069787918beea01fa9b0653ec6a4e3b6adf34561cea2333166c825cf66"
     },
     "app/index.html": {
       "baseline": "69e4a8ebaa80b9852713d6b9433b7bfddd54f1453d62a044000c016b1743bc8c",
-      "candidate": "fd4e4d9e3eb2d5fef2fe3474ac8ebfddbb8917444c88abcaf0b7fe249e158269"
+      "candidate": "d17b024455d6414459138974ef97de335aa02d0eaf0bc603246928603f5749dd"
     },
     "app/play.html": {
       "baseline": "61ec2ef21368ec351e3e0c5739fe72ff19a0f5731786315e2b194bbf03a225ce",
-      "candidate": "69fedf60154cd7c7f91c5e5304035cb79d7424135dac76f78228cdbcbfd1ebb8"
+      "candidate": "5b8b053d1343f0db0f7936be339d2fb5e3b5266b5e7d991cbf8a76feeb91ed5c"
     },
     "app/engine/engine.js": {
       "baseline": "1c21bb63358a8b15efeceee8015b3698e45483009acdfc0b516f3eac863e6f99",
-      "candidate": "93943d5e4cbcde277d2a2090a1341143c950e04a9f9784d3c1fdc1566d656d64"
+      "candidate": "e5a55dd22436ce4ad78f3d1569ff9099b4f10084f95f3f6f027806a30ec1158e"
     }
   }
 }
