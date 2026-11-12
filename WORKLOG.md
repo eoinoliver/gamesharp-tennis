@@ -1162,3 +1162,9 @@ Build 6995e36ddd. Reproduced the Nov 12 Home pairing on production and checked t
 Final build eaf3f20cc1 also keeps tomorrow's changed point behind its availability date on the completion screen and names the restart honestly when reopening an unfinished Live Point. All release files reproduced from source.
 
 12 November · Codex continues the pending reveal-timing preview with the reported Earned Attack playback repair. Production awarded all three correct reads on a stationary arrival frame. The six selected replies now extend the actual incoming ball through racket contact and an in-court bounce. Both plans keep their original grades and saved first choices.
+
+## Home review and Earned Attack release · 12 November 2026
+
+Eoin approved GameSharp Tennis build `0d7fca8d99` at `e73bbe2af520a11056744de246c79bf30cd3970c` on [PR #110](https://github.com/eoinoliver/gamesharp-tennis/pull/110). Merge commit `8e54f5d1a1c5d03a7d25fb167c11c247364cc60b` matched the reviewed Git tree. The Git-triggered production deployment `dpl_2bR17iqXDSBbUtNRT215ti2cfZTo` was promoted after staged verification. The live www domain resolves to that deployment and the apex redirects to www. Rollback target `dpl_HdNzen13AXowYVezcCA1gtrQ89CS` served build `881fc86b64`.
+
+The preview and staged production inventories matched all 476 static files and had zero functions or middleware. Staged and live production each passed 618 HTTP checks and 89 Home/completion checks. Mobile WebKit verified the next challenge above the closed Daily review, the previous answer on explicit review, fresh invitations in Explore, and all three correct Earned Attack shots moving to their final frame before feedback. The full PR release suite passed before merge. Test analytics were intercepted.
