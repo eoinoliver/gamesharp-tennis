@@ -52,7 +52,10 @@ const log=[], errs=[], fails=[]; const ok=(c,m)=>{log.push((c?'ok   ':'FAIL ')+m
  await p.waitForFunction(()=>window.__test);
  const ev2=await p.evaluate(()=>GSApp.log().map(e=>e[1])); ok(ev2.includes('asked_more'),'asked_more logged');
  ok(ev2.filter(e=>e==='app_open').length===1,'one app_open per day');
- await p.goto(base);await p.waitForSelector('#livePoint');ok(!p.url().includes('play.html'),'returning player sees their daily completion and related Live Point');
+ await p.goto(base);await p.waitForSelector('[data-home-next="short-ball"]');
+ ok(!p.url().includes('play.html')&&!await p.locator('#livePoint').isVisible(),'returning Home leads with the unfinished challenge');
+ await p.locator('#dailyRecap summary').click();await p.waitForSelector('#livePoint');
+ ok((await p.locator('#livePoint').getAttribute('href')).includes('l=live-point-serve-see'),'explicit Daily review retains its own related point');
  await p.goto(base+'?all=1&kind=daily'); await p.click('#more');await p.waitForFunction(()=>window.__test);ok(!p.url().includes('l=serve-plus-one')&&!p.url().includes('l=short-ball'),'daily continuation still skips completed and encountered lessons');
  await ctx.close();}
 

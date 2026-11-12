@@ -36,6 +36,10 @@
       "baseline": "f0a677f45ec6df5cff06cbcfca4fcb4f45681f37125d207b2635925024bdf300",
       "candidate": "a0aaef274031e99f6c992190a278a78100f957f979798c6859b06ddcd94e601c"
     },
+    "gs/app_flow.mjs": {
+      "baseline": "d2c10a400fbbb64caaa36eb08566557a84896ad29d5aa0e08a9a1618f24e232e",
+      "candidate": "b68971fafa1e83968ff1bfd708c81bb43a477cf4e11efd87fdc513c0bab0f970"
+    },
     "rally/build_doubles.py": {
       "baseline": "67a77175fa7ce38f1581ac31f0a1c3f5e4fbbd6b464b46058e97a77c2453cd85",
       "candidate": "730834d4507f10a08ea5995a8f029a7815b1c2f90802064a8fbeba86a3e84041"
