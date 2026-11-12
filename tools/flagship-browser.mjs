@@ -59,9 +59,9 @@ try{
  const c=await context(),p=await c.newPage();await p.goto(base+'?home=1');await p.waitForFunction(()=>window.GSApp);
  await p.evaluate(()=>{GSApp.startLesson('live-point-buy-time');});await p.reload();
  await p.locator('#homeSingles').tap();await p.waitForURL(/kind=live/);
- check(await p.locator('#resumeLivePoint').innerText().then(t=>t.toLowerCase().includes('continue your point')),'Singles identifies the unfinished point');
+ check(await p.locator('#resumeLivePoint').innerText().then(t=>t.toLowerCase().includes('play this point from the start')),'Singles makes the restart clear for an unfinished point');
  await p.locator('#resumeLivePoint').tap();await p.waitForFunction(()=>window.__test);
- check(new URL(p.url()).searchParams.get('l')==='live-point-buy-time','Home → singles resumes the original unfinished point');
+ check(new URL(p.url()).searchParams.get('l')==='live-point-buy-time','Home → singles reopens the original unfinished point from the start');
  await c.close();check(!errors.length,'No browser errors');
 }finally{await browser.close();writeFileSync(out+'/report.json',JSON.stringify({base,engine,checks,errors},null,2));}
 console.log(`PASS ${checks.length} flagship checks (${engine})`);

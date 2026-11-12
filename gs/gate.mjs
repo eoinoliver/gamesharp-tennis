@@ -10,6 +10,7 @@ const r=await p.evaluate(()=>{
   // have their own phase-specific framing checks in tools/directed-browser.mjs.
   window.GSDirected?.cancel();
   const cls=k=>{if(SC[k].info.livePoint)return ['net','out'].includes(SC[k].info.outcome)?'lost':'in_play';const ms=SC[k].marks, m=ms[ms.length-1]; if(!m) return 'none';
+    if(SC[k].info.outcome==='in_play'&&m.kind==='bounce')return 'in_play';
     return m.kind==='land'?'won':m.kind==='rally'?'neutral':m.kind==='contact'?'observed':(m.kind==='reply'||m.kind==='out'||m.kind==='net')?'lost':'?';};
   const L=(s,n,what)=>{if(s&&s.length>n) fails.push(`text too long (${s.length}>${n}): ${what}: "${s}"`);};
   (LESSON.branch?Object.values(LESSON.nodes):LESSON.steps).forEach((S,i)=>{   // a branching point: check every node

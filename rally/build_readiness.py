@@ -1,12 +1,13 @@
-"""Author nine decision freezes from existing licensed incoming rallies.
+"""Author paired decision freezes and the attack lesson’s six outgoing shots.
 
 The paired ball and opponent are byte-identical. Only your starting position and
-arrival change. No outgoing shot or point result is invented. The setup pose is
+arrival change. Attack replies stop at their first bounce. The setup pose is
 adapted from the existing Tennis-MoCap clip, movement uses the shared footwork
 renderer. This is an authored tactical illustration, not player motion analysis.
 """
 import copy, json
 from pathlib import Path
+from build_live_ten import append_flight, ready as ready_stance, rot
 R = Path(__file__).parent
 
 # Sourced examples; the next-point application is our coaching interpretation,
@@ -68,10 +69,55 @@ def step(scene, sit, opts, correct, take, why, lines, compare=None, also=None):
     if also: out['alsoOk']=also
     return out
 
-def write(p, title, hook, cue, tomorrow, specs, steps):
+def attack_routes(s, full, clips, choices):
+    """Continue the held arrival through the source stroke and the selected landing."""
+    r = s['info']['readiness']
+    swing = next(a for a in s['actors']['you'] if not a.get('hold'))
+    clip = clips[swing['clip']]
+    hit = swing['start'] + clip['contactFrame'] - 1 - swing.get('poseFrameOffset', 0)
+    freeze = s['info']['freeze']
+    assert hit > freeze and full['ball'][:freeze+1] == s['ball']
+    # The racket is prepared at the held frame and meets the original incoming
+    # ball at the licensed strike. Both plans start from precisely that pose.
+    r['setupFrame'] = freeze
+    placement = rot(clip['racquetFrames'][clip['contactFrame']-1]['centre'], swing['yaw'])
+    contact = [a+b for a,b in zip(swing['T'], placement)]
+    incoming = copy.deepcopy(full['ball'][:hit+1])
+    delta = [a-b for a,b in zip(contact, incoming[-1])]
+    assert max(abs(d) for d in delta) < .5
+    for f in range(freeze+1,hit+1):
+        u = (f-freeze)/(hit-freeze)
+        incoming[f] = [round(a+d*u*u,5) for a,d in zip(incoming[f],delta)]
+    for target, duration in choices:
+        route = copy.deepcopy(s)
+        route['ball'] = copy.deepcopy(incoming)
+        append_flight(route, target, duration, .12)
+        route['frames'] = len(route['ball'])
+        # The held and running arrivals share the incoming ball. The existing
+        # preparation blend releases into the actual captured stroke at contact.
+        route['info'] = dict(freeze=freeze, outcome='in_play', youContact=contact,
+            liveSetup=dict(start=0, move=r['start'], arrive=r['arrive'], origin=r['from'],
+                setupFrame=r['setupFrame'], canonical=swing, clipStart=swing['start'],
+                decision=freeze, release=hit, end=hit))
+        end = route['frames']-1
+        route['actors']['you'].append(ready_stance([.3 if contact[0]>0 else -.3,-10.7], end))
+        opponent = route['actors']['opp'][-1]
+        assert opponent.get('hold')
+        route['actors']['opp'].append(dict(opponent, start=hit+12))
+        route['actors']['opp'].append(ready_stance([target[0]*.85,11.8],end,opp=True))
+        yield route
+
+def write(p, title, hook, cue, tomorrow, specs, steps, replies=None):
     clips, scenes = {}, {}
-    for key,args in specs:
+    for index,(key,args) in enumerate(specs):
         s,c = scene(*args); scenes[key]=s
+        if replies:
+            prefix, source = args[:2]
+            full = json.loads((R/f'{prefix}_data.json').read_text())['scenes'][source]
+            for letter,route in zip('AB',attack_routes(s, full, c, replies[index])):
+                scenes[key+letter] = route
+            steps[index].pop('reveal')
+            steps[index]['opening'] = dict(scene=key, **{'from':0}, to=s['info']['freeze'], continuous=True)
         for k,v in c.items():
             assert k not in clips or clips[k]==v
             clips[k]=v
@@ -104,7 +150,12 @@ write('ea','Have You Earned the Attack?',
      step('ea3','A new rally. What would you choose here?',list(reversed(attack)),0,
         'Read your arrival again; the previous answer is not a rule.',
         'Here you are being pulled wide and the opponent is central. Height and depth give you a better chance to recover. This is a different ball and court position, but the same readiness check.',
-        ['Height and depth help you work your way back.','Still moving wide, with no clear opening: forcing pressure adds risk.'])])
+        ['Height and depth help you work your way back.','Still moving wide, with no clear opening: forcing pressure adds risk.'])],
+    replies=[
+        [([3.0,10.0],1.02), ([0,10.4],1.56)],
+        [([3.0,10.0],1.02), ([0,10.4],1.56)],
+        [([-1.5,10.4],1.60), ([-3.1,9.9],1.06)],
+    ])
 
 defend=['Drive down the line, with margin','High and deep crosscourt, then recover']
 write('ed','Defence Can Change Before You Hit',
@@ -148,4 +199,4 @@ write('en','Have You Earned the Net?',
         'Being prepared does not remove the need to read the ball.',
         'You have arrived, but the backhand contact will be low. Preparation makes a controlled approach available; it does not make a flat finish from below net height the better plan. Use lift and margin against the deep opponent.',
         ['Your arrival is good, but the low ball still needs lift.','Prepared, low ball, opponent deep: lift the approach with margin.'])])
-print('Authored 3 readiness lessons / 9 decision freezes; no simulated point outcomes.')
+print('Authored 3 readiness lessons / 9 decision freezes and 6 attack replies.')

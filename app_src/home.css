@@ -120,3 +120,8 @@ body.daily-led .privacy-note{margin-top:20px}
  body.daily-led .daily-feature-grid{gap:10px}
  body.daily-led .daily-meta{margin-bottom:8px}
 }
+
+.daily-complete:has(#dailyRecap){margin-top:12px}
+#dailyRecap summary{cursor:pointer;padding:12px 0;min-height:44px;color:var(--white);font-weight:600}
+#dailyRecap summary span{display:block;margin:4px 0 0 18px;color:#acc3b7;font-size:14px;font-weight:400}
+#dailyRecap[open] .recap-content{margin-top:20px}

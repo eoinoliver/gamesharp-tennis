@@ -35,11 +35,11 @@ function open(slug,options={}){
  const payload=plan?{title:'GameSharp Tennis · Our doubles plan',text:message}:{title,text:title+'\n'+(L.doubles?'Make your calls, then compare with your partner.':'Watch the point. Make your call.'),url:link};
  const copyText=message||link, fallback=p.querySelector('#quickShareFallback');
  fallback.replaceChildren();
- p.querySelector('#quickShareTitle').textContent=plan?'Your proposed doubles plan':A.displayTitle(L);
+ p.querySelector('#quickShareTitle').textContent=plan?'Your proposed doubles plan':A.invitation(L).title;
  const proposal=p.querySelector('#quickSharePlan');
  proposal.hidden=!plan;proposal.textContent=plan?options.plan.trim():'';
  const scene=p.querySelector('.share-scene');
- scene.src='share/'+slug+'.jpg?v='+A.VER;scene.alt='The opening situation for '+A.displayTitle(L);
+ scene.src='share/'+slug+'.jpg?v='+A.VER;scene.alt='The opening situation for '+A.invitation(L).title;
  const copy=p.querySelector('#quickShareCopy'),native=p.querySelector('#quickShareNative'),status=p.querySelector('#quickShareStatus');
  copy.textContent=plan?'Copy plan':'Copy link';
  copy.disabled=false;native.disabled=false;native.hidden=typeof navigator.share!=='function';

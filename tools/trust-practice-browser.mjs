@@ -15,10 +15,12 @@ try{
   const coverage=await p.evaluate(()=>{const mapped=new Set(GS_SHARPEN.ZONES.flatMap(z=>z.items.flatMap(([,ls])=>ls)));const expected=GSApp.CAT.daily.concat(GSApp.CAT.play.filter(l=>l.livePoint)).map(l=>l.slug);return {size:mapped.size,missing:expected.filter(s=>!mapped.has(s)),extra:[...mapped].filter(s=>!expected.includes(s))};});check(coverage.size===54&&!coverage.missing.length&&!coverage.extra.length,width+': all 32 Daily, 16 singles and six doubles points are mapped exactly');
   check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+': Sharpen fits');
   await p.screenshot({path:`${out}/sharpen-${width}.png`,fullPage:true});
-  await p.getByRole('link',{name:/^Net Approaching/}).click();await p.waitForURL(/z=net/);await p.getByRole('link',{name:/^First Volley: Build/}).click();await p.waitForURL(/l=live-point-volley-build/);await p.waitForFunction(()=>window.__test);
+  await p.getByRole('link',{name:/^Net Approaching/}).click();await p.waitForURL(/z=net/);await p.getByRole('link',{name:/^A dipping first volley/}).click();await p.waitForURL(/l=live-point-volley-build/);await p.waitForFunction(()=>window.__test);
   check(new URL(p.url()).searchParams.get('l')==='live-point-volley-build',width+': symptom leads to its Live Point');
   await finish(p,'live-point-volley-build');check(await p.locator('#saveCue').isVisible(),width+': save cue is outside collapsed panels');
   check(await p.locator('.gsfb').isVisible(),width+': useful question is visible');check(await p.locator('#returnRead').isVisible(),width+': paired read is visible');
+  const variation=await p.evaluate(()=>GSApp.invitation(GSApp.bySlug(GSApp.bySlug('live-point-volley-build').followup)).setup);
+  check(!(await p.locator('#returnRead').innerText()).includes(variation),width+': tomorrow’s changed situation is withheld until due');
   const detail=await p.evaluate(()=>LESSON.steps[0].lines[LETTERS[LESSON.steps[0].correct]]);check((await p.locator('#liveEvidence').innerText()).includes(detail),width+': completion describes the committed choice');
   await p.locator('#saveCue').click();check((await p.locator('#saveCue').innerText()).includes('Saved in this browser'),width+': save acknowledged accurately');
   await p.screenshot({path:`${out}/completion-${width}.png`,fullPage:true});

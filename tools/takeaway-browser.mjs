@@ -17,6 +17,7 @@ try{
   check(await p.locator('.lesson-takeaway').count()===0,'unplayed Daily does not expose its takeaway');
   for(let i=0;i<plan.rotation.length;i++){
     const slug=plan.rotation[i];await p.clock.setFixedTime(new Date(Date.UTC(2026,10,9+i,1)));await p.reload();await p.evaluate(slug=>GSApp.complete(slug,1,3),slug);await p.reload();
+    check(await p.locator('.lesson-takeaway').count()===0,slug+': automatic Home has no answer');await p.locator('#dailyRecap summary').click();await p.locator('.lesson-takeaway').waitFor();
     const f=p.locator('.lesson-takeaway');check(await f.count()===1&&await f.getAttribute('data-takeaway')===slug,slug+': completion uses its own authored takeaway');
     check(await f.locator('h1').innerText()===data[slug].title&&await f.locator('figcaption').innerText()===data[slug].rule,slug+': authored title and decision rule rendered');
     check(await f.locator('.takeaway-panel').count()===2&&await f.locator('svg').count()===2,slug+': one visual comparison, two readable conditions');
@@ -35,14 +36,14 @@ try{
       await q.locator('#saveCue').click();await q.locator('#sharePointButton').click();check(await q.locator('#quickSharePanel').isVisible(),'completion sharing still opens the branded panel');await q.locator('#quickShareClose').click();
       await q.screenshot({path:out+'/short-ball-completion.png',fullPage:true});
     }
-    await q.locator('#dailyDone').click();await q.waitForURL(/home=1/);check(await q.locator('.takeaway-rule').innerText()===data[slug].rule,slug+': Home recalls the same rule after real completion');
+    await q.locator('#dailyDone').click();await q.waitForURL(/home=1/);check(await q.locator('.takeaway-rule').count()===0,'Home withholds the previous rule');await q.locator('#dailyRecap summary').click();check(await q.locator('.takeaway-rule').innerText()===data[slug].rule,slug+': Home recalls the same rule after real completion');
     if(slug==='short-ball'){
       check(await q.evaluate(()=>GSApp.cueSaved('short-ball')),'saving a cue survives the return to Home');
       for(const width of [320,390,1440]){await q.setViewportSize({width,height:width<500?844:1000});await q.screenshot({path:out+'/short-ball-home-'+width+'.png',fullPage:true});check(await q.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),width+': completed Home fits');}
     }
     await q.context().close();
   }
-  const fallback=await page();await fallback.clock.setFixedTime('2026-11-10T01:00:00Z');await fallback.route('**/takeaways.js?*',r=>r.abort());await fallback.goto(base+'?home=1');await fallback.evaluate(()=>GSApp.complete('short-ball',1,3));await fallback.reload();check(await fallback.locator('.daily-cue').innerText()===await fallback.evaluate(()=>GSApp.bySlug('short-ball').cue),'missing visual module retains the authored plain-text cue');check(await fallback.locator('#livePoint').isVisible()&&await fallback.locator('#shareDaily').isVisible(),'missing module leaves continuation and sharing usable');await fallback.context().close();
+  const fallback=await page();await fallback.clock.setFixedTime('2026-11-10T01:00:00Z');await fallback.route('**/takeaways.js?*',r=>r.abort());await fallback.goto(base+'?home=1');await fallback.evaluate(()=>GSApp.complete('short-ball',1,3));await fallback.reload();await fallback.locator('#dailyRecap summary').click();check(await fallback.locator('.daily-cue').innerText()===await fallback.evaluate(()=>GSApp.bySlug('short-ball').cue),'missing visual module retains the authored plain-text cue');check(await fallback.locator('#livePoint').isVisible()&&await fallback.locator('#shareDaily').isVisible(),'missing module leaves continuation and sharing usable');await fallback.context().close();
   check(!errors.length,errors.join('\n')||'no browser errors');
 }finally{writeFileSync(out+'/report.json',JSON.stringify({base,engine,checks,errors},null,2));await browser.close();}
 console.log(`PASS ${checks.length} visual takeaway checks (${engine})`);

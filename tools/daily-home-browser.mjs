@@ -30,7 +30,8 @@ try{
  check(await p.locator('#wrapup>[data-k=pro]').isVisible(),'professional story is visible in the payoff');
  check((await p.locator('#relatedLivePoint').getAttribute('href')).includes('l=live-point-serve-see'),'serve lesson offers its actual related point');
  check(/optional/i.test(await p.locator('.daily-related').innerText()),'continuation is explicitly optional');
- await p.screenshot({path:out+'/completed-lesson.png',fullPage:true});const spokenCue=await p.evaluate(()=>GSSfx.voiceInfo().text);check(await p.locator('#wrapup .mem').innerText()===spokenCue,'lesson ending retains the coach’s approved spoken cue');const visualRule=await p.locator('#wrapup .takeaway-rule').innerText();await p.locator('#dailyDone').click();check(await p.locator('.takeaway-rule').innerText()===visualRule,'Home repeats the completed lesson’s visual decision rule');
+ await p.screenshot({path:out+'/completed-lesson.png',fullPage:true});const spokenCue=await p.evaluate(()=>GSSfx.voiceInfo().text);check(await p.locator('#wrapup .mem').innerText()===spokenCue,'lesson ending retains the coach’s approved spoken cue');const visualRule=await p.locator('#wrapup .takeaway-rule').innerText();await p.locator('#dailyDone').click();check(await p.locator('.lesson-takeaway').count()===0,'return Home keeps the completed answer out of the page');await p.locator('#dailyRecap summary').click();check(await p.locator('.takeaway-rule').innerText()===visualRule,'explicit Daily review recalls the actual completed rule');await p.locator('#dailyRecap summary').click();
+ check(!await p.locator('#shareDaily').isVisible(),'completed challenge actions stay with its review');await p.locator('#dailyRecap summary').click();
  check(/complete/i.test(await p.locator('.today').innerText()),'Home retains the completed daily');check(await p.locator('#todayChallenge').count()===0,'a live point does not replace today’s completion');
  check((await p.locator('#livePoint').getAttribute('href')).includes('l=live-point-serve-see'),'related Live Point follows completed daily on Home');
  await p.evaluate(()=>{window.__homeShare=null;Object.defineProperty(navigator,'share',{configurable:true,value:async payload=>{window.__homeShare=payload;}});});await p.locator('#shareDaily').click();check(await p.locator('#quickSharePanel').isVisible()&&await p.evaluate(()=>__homeShare===null),'Home first opens the branded panel, even with native sharing available');await p.locator('#quickShareNative').click();
@@ -53,7 +54,7 @@ try{
  const next=returning.locator('[data-home-next]');
  check(await next.getAttribute('data-home-next')==='live-point-serve-see','authored related challenge leads after Daily');
  await next.click();await returning.waitForFunction(()=>window.__test);await returning.goBack();
- check((await next.innerText()).includes('Continue'),'unfinished next challenge stays in place');
+ check(await next.getAttribute('data-home-next')==='live-point-serve-see'&&(await next.innerText()).includes('Play from the start'),'returning to the same Live Point accurately describes its restart');
  await returning.evaluate(()=>GSApp.complete('live-point-serve-see',2,2));await returning.reload();
  check(await next.getAttribute('data-home-next')!=='live-point-serve-see','finishing advances the choice');
  await returning.context().close();
@@ -67,7 +68,15 @@ try{
   check(await report.locator('#main h1').first().innerText()===await report.locator('#homeNextTitle').innerText()&&
     await report.evaluate(s=>!!GSApp.bySlug(s)&&!GSApp.S.done[s],candidate),slug+': Home leads with a playable unfinished challenge');
  }
- await report.context().close();
+ // A separate session must start with an invitation even after explicitly reviewing the Daily.
+ const recap=report.locator('#dailyRecap summary');
+ await recap.click();await report.locator('#dailyRecap [data-takeaway="the-winner"]').waitFor();
+ check(await report.getByText('A result, not a verdict',{exact:true}).isVisible(),'the Nov 12 review opens the finished Daily');
+ const restored=await browser.newContext({storageState:await report.context().storageState(),viewport:{width:390,height:844},reducedMotion:'reduce'});
+ await restored.route(/posthog\.com/,r=>r.fulfill({status:200,body:'{}'}));
+ const again=await restored.newPage();await again.clock.setFixedTime('2026-11-12T01:00:00Z');await again.goto(base);
+ check(await again.locator('[data-home-next]').isVisible() && !await again.locator('#dailyRecap').evaluate(d=>d.open) && await again.locator('.lesson-takeaway').count()===0,'a new session opens Home without the earlier answer');
+ await restored.close();await report.context().close();
  const reset=await page();await reset.goto(base+'?review=1&z=reset&r=pressure');await reset.locator('#resetIntention').selectOption('Read the serve, then return with margin');await reset.locator('#resetStart').click();await reset.locator('#resetNext').click();await reset.clock.setFixedTime('2026-11-10T01:00:00Z');await reset.evaluate(()=>window.dispatchEvent(new Event('focus')));check(await reset.locator('#resetIntention').inputValue()==='Read the serve, then return with margin','daily rollover preserves an unfinished Reset intention');check(await reset.locator('#resetPause').isVisible(),'daily rollover preserves the active Reset rehearsal');await reset.context().close();
  const blocked=await page();await blocked.addInitScript(()=>{Storage.prototype.setItem=function(){throw new DOMException('Full','QuotaExceededError');};});await blocked.goto(base);check((await blocked.locator('.storage-warning').innerText()).includes('will not be saved'),'storage failure stays visible');await blocked.context().close();
  check(errors.length===0,errors.join('\n')||'no browser errors');

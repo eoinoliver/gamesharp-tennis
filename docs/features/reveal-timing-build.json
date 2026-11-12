@@ -1,0 +1,200 @@
+{
+  "source": {
+    "app_src/app.js": {
+      "baseline": "214ccf3cca43dd81a812b6561ee04cfd8e00c6e90e0b4dc1af01bcd5dc64c268",
+      "candidate": "71123d56b473fda756d85710d7c070fb813c0df83044bbd7997ec381d07cd120"
+    },
+    "app_src/build.py": {
+      "baseline": "63ce41b48b91e8a13720d9d4430bd823047ee5a9444eaf1d4c9e1abe94ea4503",
+      "candidate": "f443cb0b66bd77cae3688eaa5553d700ec69ac6ce77fd16c54c1c47a7bdcc515"
+    },
+    "app_src/home.css": {
+      "baseline": "a0fede5fc322c598cb3db774fb7159ade39572527b8289271237b74c924e79a9",
+      "candidate": "61cc6003cbca30ecdac32b1f17a18f4189da4841dfdb4fb65832389e9eeb9109"
+    },
+    "app_src/index.html": {
+      "baseline": "473544d466c92805cdbc1d7f2af29a52031fbfdafaf25727831d5b387854e927",
+      "candidate": "e82649ad5d46e37363703c70e2073e12aae96075db6124e630707d78f0a4c872"
+    },
+    "app_src/play_host.html": {
+      "baseline": "45d370a7e3840872164e595c6b53d4fb2baae1d8af09b934a1e1866e9fc7e455",
+      "candidate": "7fd57d34255c9f0b6af7179baa9571ffbfc197166f1e93152948c4e7c1dce94e"
+    },
+    "app_src/practice.js": {
+      "baseline": "dfe7a97b24dd7873dcaa3d94893769973cbe92dfea0f92bf15b251cfb912e6c2",
+      "candidate": "4488df9487a8f9c0e8734fadde648568d596fd5a531e4c8e9c5a7aaef89a499a"
+    },
+    "app_src/share.js": {
+      "baseline": "15b29936ae8799f380c618aa187b8e1f39e0e8ca641f122ef8f16578331dd258",
+      "candidate": "a44a9384ccf688579d9456646ef65194abf1ae2655d618986a7c7ebdc31efddd"
+    },
+    "app_src/sharpen.js": {
+      "baseline": "f08163d295c3f4b75c90d6c4b6c2f1fc76111531f0f8eb5a126f00096c117a9c",
+      "candidate": "dab5d153d1058be7ec90c88f36d31a27523d46c2d99473374f8deb98a7dd7aa9"
+    },
+    "docs/features/share-preview-frames.json": {
+      "baseline": "f0a677f45ec6df5cff06cbcfca4fcb4f45681f37125d207b2635925024bdf300",
+      "candidate": "a0aaef274031e99f6c992190a278a78100f957f979798c6859b06ddcd94e601c"
+    },
+    "gs/app_flow.mjs": {
+      "baseline": "d2c10a400fbbb64caaa36eb08566557a84896ad29d5aa0e08a9a1618f24e232e",
+      "candidate": "b68971fafa1e83968ff1bfd708c81bb43a477cf4e11efd87fdc513c0bab0f970"
+    },
+    "rally/build_doubles.py": {
+      "baseline": "67a77175fa7ce38f1581ac31f0a1c3f5e4fbbd6b464b46058e97a77c2453cd85",
+      "candidate": "730834d4507f10a08ea5995a8f029a7815b1c2f90802064a8fbeba86a3e84041"
+    },
+    "rally/build_live_ten.py": {
+      "baseline": "ae6aa86c740afd189e60ab660fb377918dd38b72cdbb36ae9c2d9e029eb248b8",
+      "candidate": "2631dea074e7c64fe6a9f8eee28cc49774d1716eb7a71d5a3c90acb57512311e"
+    },
+    "rally/lesson_dc.js": {
+      "baseline": "90cc4525085d1e2491003f1b5deac4a1dc78b330e1342ca0d96a14f250065d8d",
+      "candidate": "49c6ade5c186576059e2dbdd4f527f39dc4016070ce2f8bbd75bf405c602adc4"
+    },
+    "rally/lesson_dlb.js": {
+      "baseline": "1a106b81ceca7fd1b5dac5b4da139d6eac33b2910e042d71cac5dce4e18ca530",
+      "candidate": "4827482c653440ad07cc6b1b2bfd8925c1e5c3b16db9e0c040f21ef58e421a19"
+    },
+    "rally/lesson_dr.js": {
+      "baseline": "1d9d189370664bcb341f78aac8ae7396552255b5ffd125fe523c86a41c1ac934",
+      "candidate": "f896861b3da3b1c99f4b6bcc711cd46015c42087e152efd0a5dbee9ab0f1b739"
+    },
+    "rally/lesson_tb.js": {
+      "baseline": "7be7fb9ea98c2a1ff2f2be3c471aacc398eb27f1d49c8e82075bc0b3efd7500d",
+      "candidate": "584733b62dd2a9ce873929641d3075fb723173247f763aa853222cfa04d0b450"
+    },
+    "rally/lesson_tt.js": {
+      "baseline": "4c5a7ee9c1a2e82c3b4e82f4fcdc5abd9da606fdab12c48c912e28c95b1bf7b2",
+      "candidate": "a198f5abbc78ed55c7e27b55df4b2a762ea7441ff0d2a92088991fe841b16253"
+    },
+    "tools/daily-home-browser.mjs": {
+      "baseline": "b72d4bc8129cad58e40b9b1925ccb46525123c6edf07d7265ca2eaec31d5ead2",
+      "candidate": "2e96389ba137a0c8551c15b3950ca99dd59deb0c352ffd8f2fc618a6d9badfd2"
+    },
+    "tools/flagship-browser.mjs": {
+      "baseline": "365f8cff786d0d86ae9ed2be7cc19258f8bb3643a4dcc8c20dd23af4a4d885cb",
+      "candidate": "5628aed516d73d19bb13ef889fb72d013862aae90c86a7182b4066cd86b91151"
+    },
+    "tools/home-clarity-browser.mjs": {
+      "baseline": "6223afa99734206cb16267dc6ccc7ad302100532ceb8d34dc15a2522307d626c",
+      "candidate": "c64e070cb32dd39caf762bf5ef912fa31769d4cce0aa6392e3f4c9d06d5ca211"
+    },
+    "tools/pro-insight-source.py": {
+      "baseline": "b21da83f066ea5d8161f30f81bf830ecf49bec65ddaef864e463b63bf4e2ca2a",
+      "candidate": "a80067693f6ec1fe3d103c41dc6da3b511087e5e3dff23dd377acb3b54cd8b36"
+    },
+    "tools/sharing-practice-browser.mjs": {
+      "baseline": "b609608327ead31d001d8421c896bed56f5d703c401cbb2dc98523dda5aa1365",
+      "candidate": "6d4453b7d37b3bdaed151af7d7f8752e7c1806a8499a82e63758934ec6da2efb"
+    },
+    "tools/takeaway-browser.mjs": {
+      "baseline": "e9897434919ad2159b32524f27fa2b0c45997fb7e5a1274a3e83b93ca5b5c0cf",
+      "candidate": "bcf0054eae25c1ed090a9a06cad05ea16c2a00d902792e236d1b29f28fd7ab6b"
+    },
+    "tools/takeaway-motion-browser.mjs": {
+      "baseline": "bd41bc6492c7dbae055dfc54d2552b8b8c2bfddc4f22e1e886ffefb015449dd9",
+      "candidate": "7240ed09552ee6f41fcb070b5500cde74b9b575806eb90b146d542a30ebb448c"
+    },
+    "tools/trust-practice-browser.mjs": {
+      "baseline": "a1185d3911297c779d33d0ef7f106300b2eefbaaf0e585cfed00a23142c48c35",
+      "candidate": "3b31a4ab0399d7568ce0eddeed00eb9cf9053867b664a8120c723d9dd43706c6"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "214ccf3cca43dd81a812b6561ee04cfd8e00c6e90e0b4dc1af01bcd5dc64c268",
+      "candidate": "71123d56b473fda756d85710d7c070fb813c0df83044bbd7997ec381d07cd120"
+    },
+    "app/catalog.js": {
+      "baseline": "fd7c0085e1ebfcd22de42e71f18c984658473b2f3ed659f2836d74b173a0c430",
+      "candidate": "6878e568f845604852a2f908c3be1065dae31233017eccfd24bc9d3de185bc3d"
+    },
+    "app/home.css": {
+      "baseline": "a0fede5fc322c598cb3db774fb7159ade39572527b8289271237b74c924e79a9",
+      "candidate": "61cc6003cbca30ecdac32b1f17a18f4189da4841dfdb4fb65832389e9eeb9109"
+    },
+    "app/index.html": {
+      "baseline": "00dec6677b02d07112896beb5bd631aad6bbeaf8905bdbe8bc3b701556341638",
+      "candidate": "2878fc99611fcb522a780e4735c5c3e673a90a44f2c194386bf8d4f394538723"
+    },
+    "app/lessons/doubles-cross-cover.json": {
+      "baseline": "34a1a60c2484ec0d8e75a0b694f99911db8a31d4c549d52870248f6600e9ca34",
+      "candidate": "96f830988f275c1bd4a2cca142eb55e1aa1fbf25d836b596d76acfe0577cb643"
+    },
+    "app/lessons/doubles-lob-switch.json": {
+      "baseline": "2d17047845978e35265c7eb34b6d4fa52559ff48df784203eecdc6824d351f52",
+      "candidate": "15e54bb902c5bfd9358a154aaf4b686efebc85ff3ba6423b649fe34d32baf2aa"
+    },
+    "app/lessons/doubles-return-space.json": {
+      "baseline": "670fcafd5db69042713c0f9ec86ddff80fce7fede2a75b037b1a433b5ef643c3",
+      "candidate": "e2314074fd32d1355690f269caa6d7ed115dfb76e9a7af5d41045e448248b1cd"
+    },
+    "app/lessons/live-point-over-head.json": {
+      "baseline": "23a2eb95989307b7a2948ae53658eee428c76e5383a4b0a73da04ae4cf6e2836",
+      "candidate": "ea28a176f676123b4d9580843094a9638ac1d86646673637cc7cc1746bb61609"
+    },
+    "app/lessons/live-point-return-time.json": {
+      "baseline": "1d09dc8cf51864bc9da04d35071b2bc02e144ced59a06f98674205f79b7c2e67",
+      "candidate": "737e178dac173de8f5e31cba168bb118bf4e48339fead8f1f45f833100bf3fd0"
+    },
+    "app/play.html": {
+      "baseline": "d2ae00347c61d3635330b6f8c3b5b39db70c1009159fd6fa3ada9d4009dd0cf7",
+      "candidate": "f4f5720360353d1febdc0f887205f9e3f05f8884787256ff93e888caf0fafa61"
+    },
+    "app/practice.js": {
+      "baseline": "dfe7a97b24dd7873dcaa3d94893769973cbe92dfea0f92bf15b251cfb912e6c2",
+      "candidate": "4488df9487a8f9c0e8734fadde648568d596fd5a531e4c8e9c5a7aaef89a499a"
+    },
+    "app/s/doubles-cross-cover.html": {
+      "baseline": "02b6f664797bb7099fa9d3713c355785e6f9db332df6e69d9372192842e6a9f8",
+      "candidate": "b5ae6d4bc9f40bb1b0778c191e6ce810e19a2dc56abc1455173465e5c19bc184"
+    },
+    "app/s/doubles-lob-switch.html": {
+      "baseline": "9d577c906b444ef4904b77ffc1097561531bc0d57392856edbca1e10dd5a3bde",
+      "candidate": "2b4c10703dfc46935bcbd033b0f94971ce4cbeeca13273a238b94c7c8a58b908"
+    },
+    "app/s/doubles-return-space.html": {
+      "baseline": "60c7a7552d8bb74b1c99e68c3f347f408203ec5f37e6cf275ce815966736c88c",
+      "candidate": "14741962eab97cfa94ef0b5af455aef5b8753a3aba5cdfc68a02f84a3c0ee660"
+    },
+    "app/s/live-point-over-head.html": {
+      "baseline": "eeaa8295fc74bb88fd777b7236688e21074d555939db054c924e5d24acb494dd",
+      "candidate": "243662a67a8714c2b3e8e0463f1a02adbd720e982abd35c0549c542f994b1c1f"
+    },
+    "app/s/live-point-return-time.html": {
+      "baseline": "1352a2e87e34fcc1bb84d5b63498678e0cca360e8a02d9cb93057d61a5c65887",
+      "candidate": "d4c46de6533eb585aba4c7ba5fc0a824839712b1349e26d23f3568f7a5bc86cc"
+    },
+    "app/share.js": {
+      "baseline": "15b29936ae8799f380c618aa187b8e1f39e0e8ca641f122ef8f16578331dd258",
+      "candidate": "a44a9384ccf688579d9456646ef65194abf1ae2655d618986a7c7ebdc31efddd"
+    },
+    "app/sharpen.js": {
+      "baseline": "f08163d295c3f4b75c90d6c4b6c2f1fc76111531f0f8eb5a126f00096c117a9c",
+      "candidate": "dab5d153d1058be7ec90c88f36d31a27523d46c2d99473374f8deb98a7dd7aa9"
+    }
+  },
+  "lessonContracts": {
+    "doubles-cross-cover": {
+      "baseline": "3b3e1f9c76cc045b754eb660d582c8c1a2122831231cc5997a0f7a5e9f741fa6",
+      "candidate": "908a5b0e0da2797ec5bc106a856d4fa8030266224dba5bb6bc2ade605913d0f3"
+    },
+    "doubles-lob-switch": {
+      "baseline": "cdd236c7d89b68dbb220d46b2f317feea117586c97abe4825506deb7962d065d",
+      "candidate": "0dde3dea0cb67e17529a8c9912b67d071a9fe9fe453f18cd9e4d1e852dab9870"
+    },
+    "doubles-return-space": {
+      "baseline": "b24a455d8ebf20accab77c7d3898da56a22b210c8a559e19dc4394d4034dea7c",
+      "candidate": "025004f5986aacb53ab867ae98c60da93c977ea00358ad913f77ed95a4c98a85"
+    },
+    "live-point-over-head": {
+      "baseline": "d8b705c1ec1fd1197035338647793d6d385f16e46fd4a63e66cc67bb315c17f1",
+      "candidate": "d7cefc83a8e655b3722f4a876dd5b5edcbd8426154698e3c17a3d4f478a64533"
+    },
+    "live-point-return-time": {
+      "baseline": "24524b75da07b1c62ef0995331df8d06f4a92999dd291b897370ac3d436e5dfb",
+      "candidate": "237024defa63074770ded10f4c0e72bd6be7f64f4bc361ec16c0e46a786e20da"
+    }
+  }
+}

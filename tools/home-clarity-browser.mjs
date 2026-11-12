@@ -48,7 +48,7 @@ try{
  await p.unroute('**/home/*.jpg?*');await p.reload();
  // A past completion must not masquerade as completion today.
  await p.evaluate(()=>GSApp.complete('serve-plus-one',2));await p.reload();
- check(await p.locator('.today.is-done').count()===1&&await p.locator('#cineCourt').count()===0,'today’s completion collapses to its cue');
+ check(await p.locator('.today.is-done').count()===1&&await p.locator('#cineCourt').count()===0,'completed Daily has a review control');
  await p.clock.setFixedTime('2026-12-11T01:00:00Z');await p.reload();
  check(await p.locator('#todayChallenge').innerText().then(t=>t.includes('Replay')),'historical result is offered as a revisit');
  check(await p.locator('.today.is-done').count()===0,'historical completion does not complete today');
