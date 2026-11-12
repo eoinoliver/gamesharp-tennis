@@ -87,6 +87,10 @@
     "tools/takeaway-motion-browser.mjs": {
       "baseline": "bd41bc6492c7dbae055dfc54d2552b8b8c2bfddc4f22e1e886ffefb015449dd9",
       "candidate": "7240ed09552ee6f41fcb070b5500cde74b9b575806eb90b146d542a30ebb448c"
+    },
+    "tools/trust-practice-browser.mjs": {
+      "baseline": "a1185d3911297c779d33d0ef7f106300b2eefbaaf0e585cfed00a23142c48c35",
+      "candidate": "6b189202bcf36f902359205c50dc277ce9fab28a80eeb2357c4b6b98000ddd75"
     }
   },
   "release": {
