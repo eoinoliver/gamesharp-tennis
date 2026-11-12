@@ -175,7 +175,7 @@ const LESSON={
    "correct": 0,
    "payoff": "Landing as they hit lets you push the moment the pass appears.",
    "principle": "Land for their hit, not before it or after it.",
-   "why": "Land as they hit and you push off the moment the pass can be read: 0.21 s to spare at the volley. Land early and you settle, then push late: 0.09 s, less than half the time.",
+   "why": "Watch your feet against their racket. With the early split you have already landed when they strike. With the timed split you land as the direction of the pass becomes clear.",
    "rail": [
     "1 Closing in",
     "2 Their swing",
@@ -190,7 +190,7 @@ const LESSON={
    "take": "At the net? Land your split as they hit.",
    "lines": {
     "A": "Right: you push as the pass appears. Set, and you put it away.",
-    "B": "Early, you settle and push late: 0.09 s to spare instead of 0.21."
+    "B": "Your feet are already down when they hit the pass."
    },
    "noTargets": true
   }

@@ -18,7 +18,7 @@
     },
     "gs/gate.mjs": {
       "baseline": "c34151538e06d962ab2ff9634dd3f5c025f7f5c23a0b6c850a51e3a59d404c73",
-      "candidate": "ecf0d60a29a7e22bdeb1e35497972acbc16ea7ce8ae502f6d30cd16143bb0a10"
+      "candidate": "c725f062dec9c2de2c9a985b023e63ef6d093d6b6d305d87baf739403e040601"
     },
     "rally/build_readiness.py": {
       "baseline": "1e5d2d6d25e81e32cf07b1f9d6e45f1a8c8da699407bbaf4f8e97a75d5a4e94d",
@@ -52,6 +52,10 @@
       "baseline": "49a8ddb9379c195d26788dbd0256bca1a9f52d0e58b248667a61c121ec11dd08",
       "candidate": "782ba61be0f5aa9347e6b1dc0dacb85e8444202067fa222291e2aa91003c95e9"
     },
+    "rally/lesson_sb.js": {
+      "baseline": "1ee53d77b9b0281eb1052e8b9de563c125dfbc7b674d7be8d07a3701ce434809",
+      "candidate": "7ef2748b68a4fa9451a94d0c565219a9b4224a9ff5547d3a6167621029d69602"
+    },
     "rally/lesson_serve.js": {
       "baseline": "35c7b0965a206eb1f388594ab9be7930f4af2f93d0ee0510796097e4cafa1dc1",
       "candidate": "8ac3ac3d394f1295b12097c07492cabc42e180b5242483f2f3725aae2dc6e9aa"
@@ -68,6 +72,10 @@
       "baseline": "e85de1aefe98522047ef50dc578c44f561b3c123b7734f3d8b0fd4abac86b72a",
       "candidate": "334f52a64f55aba1d96d93d822bccd9b40a95410f1fdb056acfcad7f18925f4f"
     },
+    "rally/sb_data.json": {
+      "baseline": "22a0778735ed5b6e7d2a8618cf9954e1586ec1701c448dbc04b0113193a325ad",
+      "candidate": "637d22471654132cf7b1d8ca186916b64d534f537b5082672004910186dee8fd"
+    },
     "tools/directed-catalogue-browser.mjs": {
       "baseline": "25f576785c1afab0e5e2676fc9da8f4428b910c59f610e04cc80e7308387a48e",
       "candidate": "7f8127d060cddce076f2292875a5a2f1e03c0f86ad4a4aa1f31c9e6f2c60547c"
@@ -78,7 +86,7 @@
     },
     "tools/pro-insight-source.py": {
       "baseline": "6e9a02dde3049250d8926c505f8beed499358ed8ae28354def0346a0ca5bc814",
-      "candidate": "94a9dda3cd90c2fcd7d633de81ce90757a8d3af1de8a7d4e4f29745bdfca87ab"
+      "candidate": "a32ded49b6b1a358b2c21b48ef364b804301a06ce6158abbf73f65914bbbbaa0"
     },
     "tools/readiness-browser.mjs": {
       "baseline": "35fda7dfb4fa2d791124adfdea0596475f3f58f84617e3d33c817c0eb1fd2fc2",
@@ -96,7 +104,7 @@
     },
     "app/catalog.js": {
       "baseline": "ce7397a8a8b70f499ec63412ebf67929276e86d76b684016ebdd2b3d8ec64e54",
-      "candidate": "c46c57ba7ffab20610fb0d0c54493ff57745a75c7e64dc7810dcfde4fa97b804"
+      "candidate": "094b806ebcfd32783460d0bd5ee9588a345804b0ea36e2546354676c7105b282"
     },
     "app/engine/engine.js": {
       "baseline": "9a10f09824ed4bfd6b5849ca081f44c23b536e265ef21a380170c133e748e968",
@@ -104,7 +112,7 @@
     },
     "app/index.html": {
       "baseline": "45b29bf44a392e8863f82aa72d168891e497a4c647bca3b6797c4f0f815cbbdd",
-      "candidate": "50a3719b7e9ee1a27f2c32f18545044163f65af7ed41bde4fb6ef431172dbccb"
+      "candidate": "1b6155010b08c872467264eb36ae58c27c48d0c47c524451cbd84a7c086b07ed"
     },
     "app/lessons/earned-defence.json": {
       "baseline": "049306f32df580265d49389b586b064c9f44d1b6cf2db03343df96478d2dfe53",
@@ -117,6 +125,10 @@
     "app/lessons/middle-return.json": {
       "baseline": "14df050c8e392cc6e28a5266cfac259578c034a5df47e570c866ebb2d258dc4a",
       "candidate": "8fd31cedf0c2b73fe64ebb1b76d6f7a2e244c52385af805b15a7ebb2c1cea98a"
+    },
+    "app/lessons/saturday-point-2.json": {
+      "baseline": "0eee69a41695d5f79bf6412e23cc99f43d36343a5f05fc6013c0cd1803741972",
+      "candidate": "f1b015cd3750078555fe99bb470f4abd6ae9a81062ac8992ec333467c51d53a5"
     },
     "app/lessons/second-serve.json": {
       "baseline": "8327ac14b510baaaedf574affd5d2973f8682adf0c55bce60767a314b3c321eb",
@@ -136,7 +148,7 @@
     },
     "app/play.html": {
       "baseline": "98dd6eb39850b745df58674fd31b88491812206d8cdc83d2616da7b8330e9a40",
-      "candidate": "26b06fbe1e27250a2c3d8e301761606de548fb1f726822615b447b03509301aa"
+      "candidate": "43e7293535d301cf4bb53869237e94e677bfd6b2dc5885fae71b62130dc8ed4a"
     }
   },
   "lessonContracts": {
@@ -151,6 +163,10 @@
     "middle-return": {
       "baseline": "cd49e6379af924eea17fa9855fd32bb242d5d8d4231065a76c7dbf1e6e6aa96e",
       "candidate": "4d4291179c01a439b8f8e77b2f2dea1c38e2d2360d221869fb634011c602a8bd"
+    },
+    "saturday-point-2": {
+      "baseline": "fd2b77855a7985ba53255ecaa2372c67efaf166e57e475c41444436b84678e02",
+      "candidate": "b0f0e64dcf97f03e2ffe73957e33c635b52d55fcbeb9b39c3d8c5a448e0b7937"
     },
     "second-serve": {
       "baseline": "955634fc57599d851ad4636dfbc948e5c275a315aa8b327ad70928fb5703a8e9",

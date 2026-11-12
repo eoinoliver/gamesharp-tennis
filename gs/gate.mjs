@@ -29,6 +29,12 @@ const r=await p.evaluate(()=>{
       if('ABCD'.indexOf(X)!==S.correct&&c==='won') notes.push(`  note: wrong answer ${k} ends as a won point`);
       if(c==='neutral'){const segs=SC[k].actors, last=a=>Math.max(...(segs[a]||[]).filter(s=>!s.hold).map(s=>s.start+CL[s.clip].contactFrame));
         if(last('you')<last('opp')) fails.push(`${k}: neutral ending but the last shot is theirs`);}}});
+  if(SC.sb5A&&SC.sb5B){
+    const timed=SC.sb5A,early=SC.sb5B,hit=timed.info.timing.contact;
+    const height=(sc,f)=>actorAt(sc,'you',f).pose[I.ankleL][2];
+    if(!(early.info.timing.land<hit&&hit<timed.info.timing.land&&height(timed,hit)>height(early,hit)+.03))
+      fails.push('Saturday split: the early player must have landed while the timed player is airborne');
+  }
   for(const [k,s] of Object.entries(SC).filter(([k,s])=>s.info.liveRecovery&&!s.info.liveRead)){
     const h=s.info.liveRecovery.theirHit;
     if(s.info.outcome!=='in_play'||s.frames!==h+19||!ballAt(s,h+18))fails.push(k+': Live Point must stop with the reply in flight');
