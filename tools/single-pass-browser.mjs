@@ -44,7 +44,22 @@ async function journey(slug,path){
     await page.evaluate(()=>{
       window.played=[];window.phases=[];
       const original=run;
-      run=function(key,from,to,...args){played.push({key,from,to});return original(key,from,to,...args);};
+      run=function(key,from,to,...args){
+        played.push({key,from,to,positions:[]});
+        // Even the shortest shot must reach several display frames under acceleration.
+        window.__speed=Math.max(1,Math.min(24,(to-from)/40));
+        return original(key,from,to,...args);
+      };
+      const paint=render;
+      render=function(){
+        paint();
+        const run=played.at(-1);
+        if(!run||run.key!==scene||run.positions.length>=4)return;
+        const ball=document.querySelector('#stage circle[stroke="#6f7d10"]');
+        if(!ball)return;
+        const xy=ball.getAttribute('cx')+','+ball.getAttribute('cy');
+        if(!run.positions.includes(xy))run.positions.push(xy);
+      };
       const viewer=document.getElementById('viewer');
       new MutationObserver(()=>phases.push(viewer.dataset.directedPhase)).observe(viewer,{attributes:true,attributeFilter:['data-directed-phase']});
     });
@@ -54,25 +69,29 @@ async function journey(slug,path){
     for(const [i,pick] of path.entries()){
       const label=slug+'/'+path.map(n=>letters[n]).join('')+' decision '+(i+1);
       const before=await page.evaluate(j=>{
-        const s=LESSON.steps[step],q=questionRange(s),key=s.scene+LETTERS[j];
+        const s=LESSON.steps[step],q=questionRange(s),key=s.reveal?s.scene:s.scene+LETTERS[j];
         played.length=phases.length=0;
         return {key,observe:!!s.reveal,predict:!!LESSON.predict,connected:!!(LESSON.branch||LESSON.flow),at:q.to};
       },pick);
       await page.locator('#askOpts button').nth(pick).dispatchEvent('click');
+      const visibleShot=r=>assert(r?.positions.length>=2,label+' must draw a moving ball on the selected court: '+JSON.stringify(r));
       if(before.predict){
         if(i+1===path.length)await page.waitForFunction(()=>done);else await ready(i+1);
         const runs=await page.evaluate(()=>played.slice());
-        assert(runs.length<=1&&runs.every(r=>r.from>=before.at),label+' replayed a previous read: '+JSON.stringify(runs));
+        visibleShot(runs[0]);
+        assert(runs[0]?.key===before.key&&runs[0].from===before.at&&runs[0].to>before.at,label+' selected Predict shot missing');
+        assert(runs.length<=2&&runs.every(r=>r.from>=before.at),label+' replayed a previous read: '+JSON.stringify(runs));
         continue;
       }
       await page.locator('#verdict:not([hidden]) #next').waitFor();
       const result=await page.evaluate(()=>({runs:played.slice(),phases:phases.slice(),held:t,answer:ans[step]}));
       assert.equal(result.answer,letters[pick],label);
       assert(!result.phases.includes('rewind')&&!result.phases.includes('evidence'),label+' auto-compared');
-      assert.equal(result.runs.length,before.observe?0:1,label+' must show a single chosen outcome');
+      assert.equal(result.runs.length,1,label+' must show a single chosen outcome');
       for(const r of result.runs){
+        visibleShot(r);
         assert.equal(r.key,before.key,label);
-        assert(r.from>=before.at&&r.to>r.from,label+' restarted the setup: '+JSON.stringify(r));
+        assert((before.observe?r.to===before.at:r.from>=before.at)&&r.to>r.from,label+' restarted the setup: '+JSON.stringify(r));
         assert.equal(result.held,r.to,label+' jumped away from feedback');
       }
       if(slug==='doubles-return-line'&&i===0){

@@ -945,8 +945,8 @@ function setRail(n){if(n===railOn)return;railOn=n;[...$("rail").children].forEac
 function setInk(txt,miss){const s=$("ink");s.className="";s.textContent=txt||"";s.parentNode.classList.toggle("has",!!txt);if(!txt)return;void s.offsetWidth;s.className="on"+(miss?" miss":"");}
 let toastT=0;
 function toast(txt){const e=$("toast");e.textContent=txt;e.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove("on"),1300);}
-function stageInView(){const r=$("viewer").getBoundingClientRect();
-  if(r.top<0||r.top>innerHeight*0.45) window.scrollTo({top:scrollY+r.top-72,behavior:"smooth"});}
+function stageInView(behavior="smooth"){const r=$("viewer").getBoundingClientRect();
+  if(r.top<0||r.top>innerHeight*0.45) window.scrollTo({top:scrollY+r.top-72,behavior});}
 
 /* ---------- the decision zone ---------- */
 function paintAsk(S){
@@ -1002,6 +1002,19 @@ function questionRange(S){
   }
   return {scene:key,from,to,type:'decision',silent:false};
 }
+// An interpretation revisits the recorded evidence. A tactical choice plays
+// its own route up to the next decision in a connected point, or to its end.
+function answerRange(S,X,i){
+  const q=questionRange(S);
+  if(S.reveal){
+    const from=S.evidenceFrom;
+    return {key:S.scene,from,to:q.to};
+  }
+  const key=S.scene+X,sc=SC[key];
+  const next=LESSON.branch?LESSON.nodes[key]:(LESSON.flow||LESSON.predict)&&X===LETTERS[S.correct]?LESSON.steps[i+1]:null;
+  const to=next?Math.min(sc.frames-1,questionRange(next).to):sc.frames-1;
+  return {key,from:q.to,to};
+}
 function questionCaption(text){
   let el=$('questionContext');if(!el){el=document.createElement('div');el.id='questionContext';el.className='question-context';el.setAttribute('role','status');$('stage').appendChild(el);}
   el.textContent=text||'';el.hidden=!text;
@@ -1045,11 +1058,9 @@ function choose(i,X,demo){
   chosen=X; answered=true; zone.classList.remove("on"); showOnly([X]); setRail(3); setInk("");
   $("verdict").hidden=true;
   if(window.GSDirected?.answer(i,X,()=>verdict(i,X,demo)))return;
-  if(S.reveal){showDots=true;if(S.pattern)revealPattern=true;verdict(i,X,demo);return;}
-  showDots=!!LESSON.tenTries;
-  const key=S.scene+X, fr=SC[key].info.freeze;
-  run(key,demo?Math.max(0,fr-45):S.opening?fr:t,SC[key].frames-1,()=>verdict(i,X,demo));
-  stageInView();
+  const {key,from,to}=answerRange(S,X,i);
+  stageInView('instant');
+  run(key,from,to,()=>{showDots=!!(S.reveal||LESSON.tenTries);revealPattern=!!S.pattern;verdict(i,X,demo);});
 }
 function verdict(i,X,demo){
   const S=LESSON.steps[i], also=(S.alsoOk||[]).includes(LETTERS.indexOf(X)), ok=LETTERS.indexOf(X)===S.correct||also, corr=LETTERS[S.correct];
@@ -1061,7 +1072,7 @@ function verdict(i,X,demo){
   // Every explanation remains until the learner continues, including connected points.
   const lab=demo?`Option ${X}`:LESSON.livePoint&&!LESSON.comparison&&i===0?(ok?'More recovery time':'Less recovery time'):also?`Also works`:ok?"Good read":`Better: ${corr}`;
   const v=$("verdict");
-  zone.classList.add("ans");
+  zone.inert=false;zone.classList.remove("reading");zone.classList.add("ans");
   v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div><button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
       <div class="copy">${S.lines[X]}</div>
       <div class="prin">${S.take}</div>
@@ -1078,6 +1089,7 @@ function verdict(i,X,demo){
   }
   window.GSDirected?.feedback(i,X);
   v.hidden=false; tallView();
+  if(!demo)window.GSDailyAttempt?.shown(i);
   $("why").onclick=()=>{const p=$("whyp"),o=p.hidden;p.hidden=!o;$("why").setAttribute("aria-expanded",o);$("why").innerHTML=`Why? <span aria-hidden="true">${o?"–":"+"}</span>`;};
   $("next").onclick=()=>{
     // Follow the committed route even after the player explores an alternative.
@@ -1275,16 +1287,6 @@ function render(){
       const choiceColour=window.GSDirected?.optionColour(showTargets,X);
       ring(frag,p,0.34,0.28,choiceColour||(on?"var(--accent)":"rgba(240,236,227,.6)"),on?2:1.3,on?.95:.75);
       label(frag,[p[0]+dx[k],p[1],0],X,choiceColour||(on?"#c8a84b":"#f0ece3"),19,1,6);}}
-  // Predict the Point: the picks so far, stitched on court as shot tracers
-  if(window.__trail) for(const tr of window.__trail){const a=Math.min(1,(performance.now()-tr.t0)/1000), e=a*a*(3-2*a), n=40, pts=[];
-    const at=u=>[lerp(tr.from[0],tr.to[0],u),lerp(tr.from[1],tr.to[1],u),lerp(tr.h,0.02,u)+1.6*u*(1-u)*tr.arc];
-    for(let k=0;k<=Math.round(n*e);k++) pts.push(at(k/n));
-    // a tracer: bright near its head, fading behind it; once it lands it settles to a steady line
-    for(let k=1;k<pts.length;k++){const behind=(pts.length-1-k)/n, op=a<1?Math.max(0.18,1-behind*2.2):.85;
-      seg(frag,pts[k-1],pts[k],tr.col,a<1?2.8:2.2,op);}
-    if(a<1&&pts.length){const hd=P(pts[pts.length-1]); if(hd){frag.appendChild(el_("circle",{cx:hd.s[0].toFixed(1),cy:hd.s[1].toFixed(1),r:9,fill:tr.col,opacity:.25}));
-      frag.appendChild(el_("circle",{cx:hd.s[0].toFixed(1),cy:hd.s[1].toFixed(1),r:3.6,fill:"#fff8dc"}));}}
-    if(a>=1){ring(frag,[tr.to[0],tr.to[1],0.006],0.34,0.28,tr.col,2,.95);label(frag,[tr.to[0],tr.to[1],0],tr.X,tr.col,19,1,6);}}
   // depth-sorted: net, bodies, ball
   const parts=[];
   if(!detail)parts.push({n:netGroup(),z:toCam([0,0,0.5]).z});
@@ -1371,9 +1373,9 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&viewer.classList.co
 paintFs();
 fitView();tallView();NARROW.addEventListener?.("change",()=>{fitView();tallView();});addEventListener("resize",()=>{if(isFull())fullView();else{fitView();tallView();}});
 
-/* ---------- Predict the Point: answer every read first, then watch the whole point ---------- */
+/* ---------- Predict the Point: play each selected shot, then review the reads ---------- */
 function setupPredict(){
-  const P=LESSON.predict, K=P.scene; let savedTrail=null, typeT=[], reviewed=false;
+  const P=LESSON.predict, K=P.scene; let typeT=[], reviewed=false;
   let flowGeneration=0; const flowTimers=new Set();
   function later(fn,delay){const generation=flowGeneration;
     const timer=setTimeout(()=>{flowTimers.delete(timer);if(generation===flowGeneration)fn();},delay);
@@ -1384,9 +1386,6 @@ function setupPredict(){
   // Show the complete sentence after the action, without a forced reading delay.
   function typeIn(el,html,done){typeT.forEach(clearTimeout);typeT=[];el.removeAttribute("aria-hidden");el.innerHTML=html.split(/\s+/).map(w=>`<span class="w on">${w}</span>`).join(" ");if(done)done();}
   const readAt=P.reads.map(r=>typeof r==="string"?SC[r].info.freeze:r);
-  // where you strike each of the three shots, on the best line
-  const hitFrom=(()=>{const sc=SC[K], segs=(sc.actors.you||[]).filter(s=>!s.hold).map(s=>s.start+CL[s.clip].contactFrame-1);
-    return segs.slice(0,3).map(f=>{const q=sc.ball[f]||sc.ball[f+1];return q?[q[0],q[1],q[2]]:[0,-11,1];});})();
   const okAt=i=>ans[i]!=null&&(LETTERS.indexOf(ans[i])===LESSON.steps[i].correct||(LESSON.steps[i].alsoOk||[]).includes(LETTERS.indexOf(ans[i])));
   startStep=function(i,afterFrame=0,fullReplay=false){
     window.GSDirected?.cancel();cancelFlow();if(window.GSSfx)GSSfx.stop();
@@ -1399,19 +1398,29 @@ function setupPredict(){
     paintRail(i===0?[P.intro||"Picture the point"]:LESSON.steps.slice(0,i).map((s,j)=>`${j+1} ${s.short}: ${ans[j]||"–"}`)); setInk(i===0?"Read the point one shot at a time":"");
     paintAsk(S); zone.hidden=false; tallView();
     setPlaying(false);
-    window.__camOverride=P.askCam||null; if(i===0) savedTrail=null; window.__trail=(window.__trail||[]).slice(0,i); showTargets=null;
-    pick=X=>{questionCaption();ans[i]=X;emit('answer',{i,X,node:S.scene,signal:LESSON.learningSignals?.[i],ok:okAt(i)}); optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
-      const land=SC[S.scene+X].info.shot.land;
-      window.__trail.push({from:hitFrom[i],to:land,h:hitFrom[i][2],arc:i===0?0.4:1,X,col:window.GSDirected?.optionColour(S.scene,X)||"#c8a84b",t0:performance.now()});
-      later(()=>startStep(i+1,questionRange(S).to),450);};
-    stageSit(S.sit);
+    window.__camOverride=P.askCam||null; showTargets=null;
+    pick=X=>{
+      if(answered)return;
+      answered=true;chosen=X;zone.classList.remove("on");questionCaption();ans[i]=X;emit('answer',{i,X,node:S.scene,signal:LESSON.learningSignals?.[i],ok:okAt(i)}); optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
+      window.__camOverride=null;
+      let voiceGeneration;
+      const advance=()=>{
+        if(i===2){step=3;zone.hidden=true;review(voiceGeneration);return;}
+        const next=LESSON.steps[i+1];
+        startStep(i+1,okAt(i)?questionRange(next).to:questionRange(S).to);
+      };
+      window.GSDirected.answer(i,X,advance);
+      voiceGeneration=window.GSSfx?.voiceState().generation;
+    };
+    const situation=i>0&&!okAt(i-1)?`Model point. ${S.sit}`:S.sit;
+    stageSit(situation);
     playQuestion(S,()=>{if(step!==i)return;
-      typeIn($("sitTx"),S.sit,()=>{if(step===i){showTargets=S.scene;enableAsk();}});},afterFrame);
+      typeIn($("sitTx"),situation,()=>{if(step===i){showTargets=S.scene;enableAsk();}});},afterFrame);
   };
   function chip(k,after){const S=LESSON.steps[k],ok=okAt(k); typeIn($("sitTx"),(P.says&&P.says[k])||S.payoff,after,6);
     setInk(ok?`Read ${k+1} · ${S.short}: you had it`:`Read ${k+1} · ${S.short}: you said ${ans[k]}, GS ✓: ${LETTERS[S.correct]}`,!ok);}
   function watchPoint(fullReplay){
-    questionCaption();window.__camOverride=null; savedTrail=(savedTrail&&savedTrail.length===3?savedTrail:(window.__trail||[])).map(x=>({...x})); window.__trail=[];   // redrawn read by read as the point plays
+    questionCaption();window.__camOverride=null;
     zone.hidden=true; $("count").textContent="Worked example";
     paintRail(LESSON.steps.map((s,j)=>`${j+1} ${s.short}`)); setInk(""); stageInView();
     // Read freezes are BEFORE the shot. Its evidence ends at the NEXT freeze.
@@ -1457,7 +1466,7 @@ function setupPredict(){
     watch.textContent='Watch the full worked example';watch.onclick=()=>startStep(3,0,true);
     $('redo').before(watch);
     window.GSDirected?.predictReview(w);
-    $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();window.__trail=[];startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
+    $("redo").onclick=()=>{ans=[null,null,null];celebrated.clear();startStep(0);window.scrollTo({top:0,behavior:"smooth"});};
   }
   $("again").onclick=()=>{if(window.GSDirected?.replay())return;if(done||step===3){startStep(3,0,true);}else startStep(step);};
 }
@@ -1470,9 +1479,10 @@ window.__camDefault=camI;
 $("lessonName").textContent=window.GS_BLIND_CHALLENGE?"A point for you":(window.GS_DISPLAY_TITLE||LESSON.title);
 const savedPicks=window.GSDailyAttempt?.open(LESSON.steps)||[];
 savedPicks.forEach((pick,i)=>{ans[i]=pick;celebrated.add(i);});
-const resumeStep=Math.min(savedPicks.length,NS()-1);
+const pendingReply=window.GSDailyAttempt?.pending();
+const resumeStep=pendingReply??Math.min(savedPicks.length,NS()-1);
 startStep(resumeStep);
-if(savedPicks.length&&savedPicks.length===NS()){
+if(pendingReply!=null||savedPicks.length&&savedPicks.length===NS()){
   // The final choice was committed, but its feedback may never have been seen.
   choose(resumeStep,savedPicks[resumeStep],false);
 }

@@ -29,6 +29,11 @@ assert set(attack)=={'earned-attack'}
 change=attack['earned-attack']
 assert scope['protectedLessonHashes']['earned-attack']==change['baseline']
 scope['protectedLessonHashes']['earned-attack']=change['candidate']
+court=json.loads((ROOT/'docs/features/court-consequences-build.json').read_text())['lessonContracts']
+assert set(court)=={'earned-defence','earned-net','middle-return','second-serve','serve-plus-one','split-step','the-winner','saturday-point-2'}
+for slug,change in court.items():
+    assert scope['protectedLessonHashes'][slug]==change['baseline']
+    scope['protectedLessonHashes'][slug]=change['candidate']
 for slug,p in cards.items():
     data=json.loads((ROOT/'app/lessons'/f'{slug}.json').read_text())
     assert data['lesson'].get('pro')==p,('stale professional context',slug)

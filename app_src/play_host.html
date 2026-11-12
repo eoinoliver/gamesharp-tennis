@@ -204,7 +204,9 @@ if(useDailyDraft){
         dailyAttempt=A.openDaily(slug,true);
       return dailyAttempt.picks.slice();
     },
-    pick(i,x){return A.recordDailyPick(slug,dailyAttempt.id,i,x);}
+    pick(i,x){return A.recordDailyPick(slug,dailyAttempt.id,i,x);},
+    pending(){const i=dailyAttempt.pendingReply;return Number.isInteger(i)&&i>=0&&i===dailyAttempt.picks.length-1?i:null;},
+    shown(i){A.dailyReplyShown(slug,dailyAttempt.id,i);}
   };
 }
 

@@ -270,7 +270,11 @@ function openDaily(slug,restart=false){
 function recordDailyPick(slug,id,i,pick){
   const draft=dailyDraft(slug);
   if(draft?.id!==id||i!==draft.picks.length)return false;
-  draft.picks.push(pick);save(S);return true;
+  draft.picks.push(pick);draft.pendingReply=i;save(S);return true;
+}
+function dailyReplyShown(slug,id,i){
+  const draft=dailyDraft(slug);
+  if(draft?.id===id&&draft.pendingReply===i){delete draft.pendingReply;save(S);}
 }
 function startLesson(slug){
   const lesson=bySlug(slug);if(!lesson)return;
@@ -392,7 +396,7 @@ const listeners=[];
 function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
-window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,nextHomeChallenge,featuredDaily,relatedPoint,dailyShareUrl,shareUrl,practiceSummary,setPracticeGoal,displayTitle,invitation,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,dailyDraft,openDaily,recordDailyPick,startLesson,complete,setLevel,feedback,emit,on,
+window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,nextHomeChallenge,featuredDaily,relatedPoint,dailyShareUrl,shareUrl,practiceSummary,setPracticeGoal,displayTitle,invitation,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,dailyDraft,openDaily,recordDailyPick,dailyReplyShown,startLesson,complete,setLevel,feedback,emit,on,
   activityLabel,remaining,savedCues,cueSaved,saveCue,nextHit,selectFocus,focusAction,practicePath,pathProgress,PRACTICE_PATHS,progressSaved:()=>progressSaved,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();

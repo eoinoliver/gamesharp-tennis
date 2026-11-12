@@ -28,7 +28,7 @@ for(const size of [{width:375,height:812},{width:430,height:932},{width:820,heig
   check(truth.sameProjection,`${slug}: comparison uses fixed identical camera`);
   check(Math.min(...truth.speeds)<.01&&Math.max(...truth.speeds)>2,`${slug}: visibly different arrival speeds`);
   check(truth.noOutcome&&truth.noClues&&truth.hasTransfer,`${slug}: no invented result or answer cues`);
-  if(slug==='earned-attack'){
+  {
    const routes=await p.evaluate(()=>LESSON.steps.flatMap(s=>s.opts.map((option,j)=>{
     const opening=SC[s.scene],route=SC[s.scene+LETTERS[j]],freeze=opening.info.freeze;
     const contact=contactsOf(route,'you').find(f=>f>freeze),land=route.marks.at(-1);
@@ -40,10 +40,10 @@ for(const size of [{width:375,height:812},{width:430,height:932},{width:820,heig
       depth:land.pos[1],x:land.pos[0],frames:land.frame-contact,
       moved:len(sub(actorAt(route,'you',land.frame).pose[I.hips],you.pose[I.hips])),outcome:route.info.outcome};
    })));
-   check(routes.length===6&&routes.every(r=>r.joins&&r.contact<.03&&r.margin>0&&r.depth>9&&r.depth<11.89&&Math.abs(r.x)<4.115&&r.outcome==='in_play'),'all six attack choices preserve the arrival and meet the ball before an in-court bounce');
-   for(let j=0;j<routes.length;j+=2){
+   check(routes.length===6&&routes.every(r=>r.joins&&r.contact<.03&&r.margin>0&&r.depth>9&&r.depth<11.89&&Math.abs(r.x)<4.115&&r.outcome==='in_play'),slug+': all six choices preserve the arrival and meet the ball before an in-court bounce');
+   if(slug!=='earned-net')for(let j=0;j<routes.length;j+=2){
     const [drive,lift]=routes.slice(j,j+2).sort((a,b)=>a.frames-b.frames);
-    check(drive.option.startsWith('Drive')&&lift.option.startsWith('Lift')&&lift.margin>drive.margin+.5&&lift.moved>1,'the lifted reply gives height and time to recover');
+    check(drive.option.startsWith('Drive')&&/^(Lift|High)/.test(lift.option)&&lift.margin>drive.margin+.5&&lift.moved>1,'the lifted reply gives height and time to recover');
    }
   }
   await p.evaluate(()=>startStep(0));
@@ -53,7 +53,7 @@ for(const size of [{width:375,height:812},{width:430,height:932},{width:820,heig
    check(await p.locator('#arrivalNote').count()===0,`${slug} ${i}: no diagnosis before answer`);
    check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${slug} ${i}: fits ${size.width}`);
    await p.screenshot({path:`${out}/${slug}-${size.width}-${i}-question.png`,fullPage:true});
-   if(slug==='earned-attack')await p.evaluate(()=>{
+   await p.evaluate(()=>{
     const frames=new Set();window.shotFrames=frames;
     function sample(){
      if(answered&&playing)frames.add(Math.floor(t));
@@ -63,11 +63,7 @@ for(const size of [{width:375,height:812},{width:430,height:932},{width:820,heig
    });
    const correct=await p.evaluate(()=>LESSON.steps[step].correct);
    await p.locator('#askOpts button').nth(correct).click();await p.waitForSelector('#verdict:not([hidden]) #arrivalNote');
-   if(slug==='earned-attack'){
-    check(await p.evaluate(()=>scene===LESSON.steps[step].scene+chosen&&t===SC[scene].frames-1&&shotFrames.size>=3),`${slug} ${i}: the selected shot plays on screen before feedback`);
-   }else{
-    await p.waitForSelector('[data-arrival-evidence]');
-   }
+   check(await p.evaluate(()=>scene===LESSON.steps[step].scene+chosen&&t===SC[scene].frames-1&&shotFrames.size>=3),`${slug} ${i}: the selected shot plays on screen before feedback`);
    check(await p.locator('#arrivalNote').isVisible(),`${slug} ${i}: explanation revealed`);
    const score=await p.evaluate(()=>JSON.stringify(ans));
    if(i===1){
@@ -76,13 +72,12 @@ for(const size of [{width:375,height:812},{width:430,height:932},{width:820,heig
     check(await p.locator('[data-arrival]').first().getAttribute('aria-pressed')==='true',`${slug}: selected comparison announced`);
     await p.locator('[data-arrival]').last().click();
    }
-   const hasReply=slug==='earned-attack';
-   if(hasReply){
+   {
     await p.locator('[data-arrival]').last().click();await p.waitForSelector('[data-arrival-evidence]');
     check(await p.evaluate(()=>scene===LESSON.steps[step].scene),'explicit arrival review uses the original setup');
    }
    await p.locator('#again').click();
-   check(await p.evaluate(reply=>reply?scene===LESSON.steps[step].scene+chosen:scene===LESSON.steps[step].scene&&silentPlayback,hasReply),`${slug}: replay uses the selected shot or authored arrival`);
+   check(await p.evaluate(()=>scene===LESSON.steps[step].scene+chosen),`${slug}: replay uses the selected shot or authored arrival`);
    check(await p.evaluate(()=>JSON.stringify(ans))===score,`${slug} ${i}: comparison/replay cannot rescore`);
    await p.locator('#why').click();check(await p.locator('#whyp').isVisible(),`${slug} ${i}: full reasoning available`);
    await p.screenshot({path:`${out}/${slug}-${size.width}-${i}-answer.png`,fullPage:true});

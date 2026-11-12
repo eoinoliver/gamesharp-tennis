@@ -22,6 +22,7 @@ const LESSON={
    "short": "See",
    "name": "Watch both replies",
    "scene": "daily1",
+   "evidenceFrom": 185,
    "unlock": "Short middle, twice",
    "take": "Two short replies? Expect a third — but keep watching.",
    "sit": "Your wide serves have pulled this returner off the court twice. Watch both returns.",

@@ -27,6 +27,7 @@ const LESSON={
    "short": "See",
    "name": "The line winner",
    "scene": "wn1",
+   "evidenceFrom": 190,
    "reveal": true,
    "sit": "Off a low, neutral ball, you go down the line and clip the paint. Winner.",
    "q": "What does that one winner tell you?",

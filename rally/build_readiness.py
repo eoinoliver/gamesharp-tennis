@@ -1,7 +1,7 @@
-"""Author paired decision freezes and the attack lesson’s six outgoing shots.
+"""Author paired decision freezes and the selected replies for all three plans.
 
 The paired ball and opponent are byte-identical. Only your starting position and
-arrival change. Attack replies stop at their first bounce. The setup pose is
+arrival change. Illustrated replies stop at their first bounce. The setup pose is
 adapted from the existing Tennis-MoCap clip, movement uses the shared footwork
 renderer. This is an authored tactical illustration, not player motion analysis.
 """
@@ -69,7 +69,7 @@ def step(scene, sit, opts, correct, take, why, lines, compare=None, also=None):
     if also: out['alsoOk']=also
     return out
 
-def attack_routes(s, full, clips, choices):
+def reply_routes(s, full, clips, choices):
     """Continue the held arrival through the source stroke and the selected landing."""
     r = s['info']['readiness']
     swing = next(a for a in s['actors']['you'] if not a.get('hold'))
@@ -88,7 +88,8 @@ def attack_routes(s, full, clips, choices):
     for f in range(freeze+1,hit+1):
         u = (f-freeze)/(hit-freeze)
         incoming[f] = [round(a+d*u*u,5) for a,d in zip(incoming[f],delta)]
-    for target, duration in choices:
+    for choice in choices:
+        target, duration, *recovery = choice
         route = copy.deepcopy(s)
         route['ball'] = copy.deepcopy(incoming)
         append_flight(route, target, duration, .12)
@@ -100,24 +101,23 @@ def attack_routes(s, full, clips, choices):
                 setupFrame=r['setupFrame'], canonical=swing, clipStart=swing['start'],
                 decision=freeze, release=hit, end=hit))
         end = route['frames']-1
-        route['actors']['you'].append(ready_stance([.3 if contact[0]>0 else -.3,-10.7], end))
+        route['actors']['you'].append(ready_stance(recovery[0] if recovery else [.3 if contact[0]>0 else -.3,-10.7], end))
         opponent = route['actors']['opp'][-1]
         assert opponent.get('hold')
         route['actors']['opp'].append(dict(opponent, start=hit+12))
         route['actors']['opp'].append(ready_stance([target[0]*.85,11.8],end,opp=True))
         yield route
 
-def write(p, title, hook, cue, tomorrow, specs, steps, replies=None):
+def write(p, title, hook, cue, tomorrow, specs, steps, replies):
     clips, scenes = {}, {}
     for index,(key,args) in enumerate(specs):
         s,c = scene(*args); scenes[key]=s
-        if replies:
-            prefix, source = args[:2]
-            full = json.loads((R/f'{prefix}_data.json').read_text())['scenes'][source]
-            for letter,route in zip('AB',attack_routes(s, full, c, replies[index])):
-                scenes[key+letter] = route
-            steps[index].pop('reveal')
-            steps[index]['opening'] = dict(scene=key, **{'from':0}, to=s['info']['freeze'], continuous=True)
+        prefix, source = args[:2]
+        full = json.loads((R/f'{prefix}_data.json').read_text())['scenes'][source]
+        for letter,route in zip('AB',reply_routes(s, full, c, replies[index])):
+            scenes[key+letter] = route
+        steps[index].pop('reveal')
+        steps[index]['opening'] = dict(scene=key, **{'from':0}, to=s['info']['freeze'], continuous=True)
         for k,v in c.items():
             assert k not in clips or clips[k]==v
             clips[k]=v
@@ -176,7 +176,12 @@ write('ed','Defence Can Change Before You Hit',
      step('ed3','Another rally. Choose your plan.',list(reversed(defend)),0,
         'Other wing, same question: how much time do you need?',
         'You are still moving wide on the backhand side. The opponent is central. Choose height and depth to help your recovery instead of treating the sideline as an invitation to redirect.',
-        ['Use the ball’s flight to help your recovery.','A forced change of direction gives you less margin.'])])
+        ['Use the ball’s flight to help your recovery.','A forced change of direction gives you less margin.'])],
+    replies=[
+        [([3.2,10.1],1.12), ([-2.9,10.4],1.65)],
+        [([3.2,10.1],1.12), ([-2.9,10.4],1.65)],
+        [([2.9,10.4],1.65), ([-3.2,10.1],1.12)],
+    ])
 
 approach=['Lift a deep approach and follow it in','Lift deep, regain position before committing']
 write('en','Have You Earned the Net?',
@@ -198,5 +203,10 @@ write('en','Have You Earned the Net?',
         ['Drive flat for the open corner','Lift a deep approach and follow it in'],1,
         'Being prepared does not remove the need to read the ball.',
         'You have arrived, but the backhand contact will be low. Preparation makes a controlled approach available; it does not make a flat finish from below net height the better plan. Use lift and margin against the deep opponent.',
-        ['Your arrival is good, but the low ball still needs lift.','Prepared, low ball, opponent deep: lift the approach with margin.'])])
-print('Authored 3 readiness lessons / 9 decision freezes and 6 attack replies.')
+        ['Your arrival is good, but the low ball still needs lift.','Prepared, low ball, opponent deep: lift the approach with margin.'])],
+    replies=[
+        [([2.6,10.1],1.22,[1.1,-3.5]), ([0,10.5],1.48,[.4,-8.7])],
+        [([2.6,10.1],1.22,[1.1,-3.5]), ([0,10.5],1.48,[.4,-8.7])],
+        [([3.55,10.1],.99,[-1.0,-6.8]), ([-2.5,10.2],1.25,[-1.0,-3.15])],
+    ])
+print('Authored 3 readiness lessons / 9 decision freezes and 18 selected replies.')

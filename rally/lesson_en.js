@@ -25,7 +25,6 @@ const LESSON={
       "short": "Read",
       "name": "Choose your plan",
       "scene": "en1",
-      "reveal": true,
       "noTargets": true,
       "sit": "Their reply lands inside the service line. They remain deep.",
       "q": "Which plan fits this point?",
@@ -51,14 +50,19 @@ const LESSON={
       },
       "alsoOk": [
         1
-      ]
+      ],
+      "opening": {
+        "scene": "en1",
+        "from": 0,
+        "to": 199,
+        "continuous": true
+      }
     },
     {
       "ph": "Read the point",
       "short": "Read",
       "name": "Choose your plan",
       "scene": "en2",
-      "reveal": true,
       "noTargets": true,
       "sit": "The same short ball. They are still deep. Watch your arrival.",
       "q": "Which plan fits this point?",
@@ -82,14 +86,19 @@ const LESSON={
         "A": "Committing now asks too much of an arrival still in progress.",
         "B": "Make a manageable reply, then judge the next position."
       },
-      "compareArrival": "en1"
+      "compareArrival": "en1",
+      "opening": {
+        "scene": "en2",
+        "from": 0,
+        "to": 199,
+        "continuous": true
+      }
     },
     {
       "ph": "Read the point",
       "short": "Read",
       "name": "Choose your plan",
       "scene": "en3",
-      "reveal": true,
       "noTargets": true,
       "sit": "A new point on the other wing. Choose your plan.",
       "q": "Which plan fits this point?",
@@ -112,6 +121,12 @@ const LESSON={
       "lines": {
         "A": "Your arrival is good, but the low ball still needs lift.",
         "B": "Prepared, low ball, opponent deep: lift the approach with margin."
+      },
+      "opening": {
+        "scene": "en3",
+        "from": 0,
+        "to": 192,
+        "continuous": true
       }
     }
   ],
