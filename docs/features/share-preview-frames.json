@@ -293,7 +293,7 @@
       "scene": "tt1A",
       "frame": 266,
       "question": "What can you do with the time available?",
-      "situation": "This serve arrives more slowly. You can meet it inside the baseline with space to swing."
+      "situation": "This serve arrives more slowly. Watch where it bounces and where you are standing."
     },
     {
       "slug": "live-point-line-tempting",
@@ -335,7 +335,7 @@
       "scene": "tb1A",
       "frame": 152,
       "question": "Where is the larger space now?",
-      "situation": "They have closed much nearer the net and cover the passing angles. You have room to lift the ball."
+      "situation": "They have moved closer to the net. You are behind the baseline as the ball arrives."
     },
     {
       "slug": "live-point-reach-drop",
@@ -356,21 +356,21 @@
       "scene": "dcA",
       "frame": 304,
       "question": "Your partner is crossing. Where do you move?",
-      "situation": "You serve. Your partner crosses for the return. For a moment, their old side looks painfully open."
+      "situation": "You serve. Your partner moves across the net as the receiver meets the ball."
     },
     {
       "slug": "doubles-return-space",
       "scene": "drA",
       "frame": 290,
       "question": "Which return uses the space they are giving you?",
-      "situation": "The net player looks ready to pounce. You still have a crosscourt lane to the server. Don’t let their presence choose your return."
+      "situation": "The server stays back. Their partner is near the net as the serve comes towards you."
     },
     {
       "slug": "doubles-lob-switch",
       "scene": "dlbA",
       "frame": 175,
       "question": "Who takes this deep lob?",
-      "situation": "A deep lob goes over you. Your partner is already deeper. Both of you chasing it would leave nobody organising the next ball."
+      "situation": "A deep lob goes over you at the net. Your partner is closer to the baseline."
     },
     {
       "slug": "doubles-hold-cover",

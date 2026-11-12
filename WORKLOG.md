@@ -1156,3 +1156,6 @@ Codex owns `codex/home-next-challenge-20261111` from the released sharing refres
 
 12 Nov: Codex owns codex/home-intros-20261112. Integrate fresh Home recommendations with the released Daily checkpoints and slow the opening of each challenge.
 On live 0d58099a55, an actual Daily finish followed by Forehand Bill returned twice to the same takeaway. In the combined build 881fc86b64 both returns lead with a playable challenge; all 63 first scenes measured two-thirds speed, and all 104 unit tests passed. The release candidate includes #105 and preserves #106.
+
+12 November · Codex owns codex/reveal-timing-20261112 from ef0346e. Review when invitations, observations, answers, completion and recall appear across mobile sessions.
+Build 6995e36ddd. Reproduced the Nov 12 Home pairing on production and checked the corresponding return in mobile WebKit. Completed Daily art, replay and share now open through an explicit review. Home, Explore, Sharpen, player and sharing use situation-led invitations. Five authored points had pre-choice coaching removed. All 63 activities remain available. Codex owns preview and release verification.

@@ -2,7 +2,7 @@ const LESSON={
   "title": "Return With Time",
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
-  "liveIntro": "This serve arrives more slowly. You can meet it inside the baseline with space to swing.",
+  "liveIntro": "This serve arrives more slowly. Watch where it bounces and where you are standing.",
   "specificFeedback": true,
   "livePoint": true,
   "family": "return-pressure",
@@ -91,7 +91,7 @@ const LESSON={
       "ph": "Live Point",
       "short": "Read",
       "name": "What can you do with the time available?",
-      "sit": "This serve arrives more slowly. You can meet it inside the baseline with space to swing.",
+      "sit": "This serve arrives more slowly. Watch where it bounces and where you are standing.",
       "q": "What can you do with the time available?",
       "opts": [
         "Guide the return short through the middle",

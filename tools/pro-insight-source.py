@@ -19,6 +19,11 @@ assert set(updated)=={'doubles-hold-cover','doubles-return-line','doubles-lob-ov
 for slug,change in updated.items():
     assert scope['protectedLessonHashes'][slug]==change['baseline']
     scope['protectedLessonHashes'][slug]=change['candidate']
+reveal=json.loads((ROOT/'docs/features/reveal-timing-build.json').read_text())['lessonContracts']
+assert set(reveal)=={'doubles-cross-cover','doubles-lob-switch','doubles-return-space','live-point-over-head','live-point-return-time'}
+for slug,change in reveal.items():
+    assert scope['protectedLessonHashes'][slug]==change['baseline']
+    scope['protectedLessonHashes'][slug]=change['candidate']
 for slug,p in cards.items():
     data=json.loads((ROOT/'app/lessons'/f'{slug}.json').read_text())
     assert data['lesson'].get('pro')==p,('stale professional context',slug)

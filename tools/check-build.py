@@ -409,6 +409,15 @@ for records, expected in [(home['source'], source), (home['release'], manifest)]
         assert expected.get(name) == change['baseline'], f'Home and intro baseline drift: {name}'
         expected[name] = change['candidate']
 
+# Invitations and completed-Daily reviews build on the released Home queue.
+reveal = json.loads((ROOT/'docs/features/reveal-timing-build.json').read_text())
+assert set(reveal['source']) == set(['app_src/app.js', 'app_src/build.py', 'app_src/home.css', 'app_src/index.html', 'app_src/play_host.html', 'app_src/practice.js', 'app_src/share.js', 'app_src/sharpen.js', 'docs/features/share-preview-frames.json', 'rally/build_doubles.py', 'rally/build_live_ten.py', 'rally/lesson_dc.js', 'rally/lesson_dlb.js', 'rally/lesson_dr.js', 'rally/lesson_tb.js', 'rally/lesson_tt.js', 'tools/daily-home-browser.mjs', 'tools/home-clarity-browser.mjs', 'tools/pro-insight-source.py', 'tools/sharing-practice-browser.mjs', 'tools/takeaway-browser.mjs', 'tools/takeaway-motion-browser.mjs'])
+assert set(reveal['release']) == set(['app/app.js', 'app/catalog.js', 'app/home.css', 'app/index.html', 'app/lessons/doubles-cross-cover.json', 'app/lessons/doubles-lob-switch.json', 'app/lessons/doubles-return-space.json', 'app/lessons/live-point-over-head.json', 'app/lessons/live-point-return-time.json', 'app/play.html', 'app/practice.js', 'app/s/doubles-cross-cover.html', 'app/s/doubles-lob-switch.html', 'app/s/doubles-return-space.html', 'app/s/live-point-over-head.html', 'app/s/live-point-return-time.html', 'app/share.js', 'app/sharpen.js'])
+for records, expected in [(reveal['source'], source), (reveal['release'], manifest)]:
+    for name, change in records.items():
+        assert expected.get(name) == change['baseline'], f'Reveal timing baseline drift: {name}'
+        expected[name] = change['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

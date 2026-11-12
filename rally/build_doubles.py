@@ -9,7 +9,7 @@ LTA='https://www.lta.org.uk/play/tennis-tips-and-techniques/essential-doubles-ta
 TI='https://www.tennisireland.ie/news/tennis-unlocked-doubles-communication-is-key'
 ROWS=[
  dict(batch=1,p='dc',slug='doubles-cross-cover',title='They Cross. You Cover.',family='doubles-serve',kind='serve',variant=False,
-  intro='You serve. Your partner crosses for the return. For a moment, their old side looks painfully open.',
+  intro='You serve. Your partner moves across the net as the receiver meets the ball.',
   q='Your partner is crossing. Where do you move?',opts=['Cover the half they leave','Hold your serving side'],good=0,
   lines=['You cover behind your crossing partner. Both halves have an owner.','You stay on the same half as your partner. The reply sends you across late.'],
   cue='Partner crosses. Cover the space they leave.',plan='If you cross for the return, I cover behind you. Let’s agree the serve target first.',
@@ -17,7 +17,7 @@ ROWS=[
   insight='Coach Peter Farrell asks club players to practise telling their partner the intended serve location before each point. It gives the net player something concrete to work with.',source='Peter Farrell · Tennis Ireland',url=TI,
   drill='Agree a serve target and a crossing signal. Play the return and two more balls. After each point, both name the space they were covering.'),
  dict(batch=1,p='dr',slug='doubles-return-space',title='Return Past the Net Player',family='doubles-return',kind='return',variant=False,
-  intro='The net player looks ready to pounce. You still have a crosscourt lane to the server. Don’t let their presence choose your return.',
+  intro='The server stays back. Their partner is near the net as the serve comes towards you.',
   q='Which return uses the space they are giving you?',opts=['Return crosscourt toward the server','Return down their net player’s side'],good=0,
   lines=['You pass the net player. Both prepare for the server’s reply.','Their net player intercepts. Both of you have less time for the volley.'],
   cue='Read the net player. Return through the available space.',plan='Let’s read the net player before returning. Use the crosscourt lane when it is available, then get ready together.',
@@ -25,7 +25,7 @@ ROWS=[
   insight='The LTA describes four active doubles roles. Even when only one player strikes the ball, the other three are adjusting to its direction and their partner’s position.',source='LTA · Doubles tactics',url=LTA,
   drill='Serve ten practice points. The net player sometimes holds and sometimes moves across. Returners name the lane they saw; both partners recover for the reply.'),
  dict(batch=1,p='dlb',slug='doubles-lob-switch',title='Who Takes the Deep Lob?',family='doubles-lob',kind='lob',variant=False,
-  intro='A deep lob goes over you. Your partner is already deeper. Both of you chasing it would leave nobody organising the next ball.',
+  intro='A deep lob goes over you at the net. Your partner is closer to the baseline.',
   q='Who takes this deep lob?',opts=['Call partner through and switch across','Turn and retrieve it yourself'],good=0,
   lines=['Your deeper partner retrieves. You cross and retreat into a supporting position.','You take the longer run. Your deeper partner could have retrieved sooner.'],
   cue='Call early. Cover while your partner retrieves.',plan='For a lob beyond the net player, call early: “Yours, switching.” The retriever calls “Mine”; the other player covers and retreats.',
@@ -155,7 +155,7 @@ def build(d):
    s,freeze,decision=route(d,a,b);s['info']['doublesParent']={'scene':root+X,'through':decision}
    scenes[root+X+Y]=s
   prefix=copy.deepcopy(scenes[root+X+'A']);prefix['info']['doublesParent']={'scene':root,'through':freeze};prefix['ball']=prefix['ball'][:decision+1];prefix['marks']=[m for m in prefix['marks'] if m['frame']<=decision];prefix['frames']=decision+1;prefix['info']['freeze']=freeze;prefix['info']['from']=0;scenes[root+X]=prefix
-  situation='Your pair has reorganised. Read this contact before trying to finish.'
+  situation='Their reply comes back to your pair. Watch where it reaches your racket.'
   question='What does this next ball call for?'
   if d['variant']:
    situation,question={

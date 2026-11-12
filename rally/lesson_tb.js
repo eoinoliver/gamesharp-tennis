@@ -2,7 +2,7 @@ const LESSON={
   "title": "Over Their Head",
   "decisionCount": 2,
   "hook": "Two connected choices. Watch what your first shot creates.",
-  "liveIntro": "They have closed much nearer the net and cover the passing angles. You have room to lift the ball.",
+  "liveIntro": "They have moved closer to the net. You are behind the baseline as the ball arrives.",
   "specificFeedback": true,
   "livePoint": true,
   "family": "passing-read",
@@ -91,7 +91,7 @@ const LESSON={
       "ph": "Live Point",
       "short": "Read",
       "name": "Where is the larger space now?",
-      "sit": "They have closed much nearer the net and cover the passing angles. You have room to lift the ball.",
+      "sit": "They have moved closer to the net. You are behind the baseline as the ball arrives.",
       "q": "Where is the larger space now?",
       "opts": [
         "Drive the pass crosscourt",

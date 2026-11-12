@@ -29,6 +29,7 @@ async function page(width=390,reducedMotion='no-preference'){
 async function home(p,slug,extra,scroll=true){
  await p.clock.setFixedTime(dateFor(slug));await p.goto(base+'?home=1');await p.evaluate(s=>GSApp.complete(s,2,3),slug);
  await p.addInitScript(()=>{window.__sampleMotion=true;});if(extra)await p.addInitScript(extra);await p.reload({waitUntil:'domcontentloaded'});
+ await p.locator('#dailyRecap summary').click();
  if(scroll)await p.locator('.takeaway-pair').evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}));
 }
 async function settled(p){
@@ -73,7 +74,7 @@ try{
  for(const slug of Object.keys(cards)){
   const p=await page(390,'reduce');await home(p,slug);await settled(p);check(!(await p.evaluate(()=>__motionFrames)).some(f=>f.state==='playing')&&await p.locator('[data-tk-transient],[data-tk-animated]').count()===0,`${slug}: reduced motion is immediately static`);await p.context().close();
  }
- const off=await page();await home(off,'short-ball',()=>document.addEventListener('DOMContentLoaded',()=>{const style=document.createElement('style');style.textContent='.daily-complete{padding-top:1000px!important}';document.head.append(style);}),false);
+ const off=await page();await home(off,'short-ball',()=>document.addEventListener('DOMContentLoaded',()=>{const style=document.createElement('style');style.textContent='.recap-content{padding-top:1000px!important}';document.head.append(style);}),false);
  await off.waitForTimeout(250);check(await off.locator('.lesson-takeaway').getAttribute('data-motion-state')==='waiting','offscreen summary waits');await off.locator('.takeaway-pair').scrollIntoViewIfNeeded();await off.waitForFunction(()=>document.querySelector('[data-motion-state="playing"]'));check(true,'scrolling the diagrams into view starts motion');await off.evaluate(()=>scrollTo(0,0));await settled(off);await off.locator('.takeaway-pair').scrollIntoViewIfNeeded();check(await off.locator('.lesson-takeaway').getAttribute('data-motion-state')==='settled','scrolling away settles; returning does not replay');await off.context().close();
  const pref=await page();await home(pref,'recovery');await pref.waitForFunction(()=>document.querySelector('[data-motion-state="playing"]'));await pref.emulateMedia({reducedMotion:'reduce'});await settled(pref);check(await pref.locator('.tk-you[transform]').count()===0,'changing reduced-motion preference settles immediately');await pref.emulateMedia({reducedMotion:'no-preference'});check(await pref.locator('.lesson-takeaway').getAttribute('data-motion-state')==='settled','restoring motion preference does not restart');await pref.context().close();
  const hidden=await page();await home(hidden,'short-ball');await hidden.waitForFunction(()=>document.querySelector('[data-motion-state="playing"]'));await hidden.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});await settled(hidden);await hidden.evaluate(()=>{delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));});check(await hidden.locator('.tk-travel-ball').count()===0&&await hidden.locator('.lesson-takeaway').getAttribute('data-motion-state')==='settled','backgrounding settles without replay on return');await hidden.context().close();

@@ -36,7 +36,8 @@ for group, rows in (('daily', DAILY), ('predict', PREDICT), ('play', PLAY)):
             s = dump(v)
             assert clips.setdefault(k, s) == s, 'clip %s differs between lessons' % k
         open(os.path.join(OUT, 'lessons', slug + '.json'), 'w').write(dump({'lesson': L, 'scenes': D['scenes']}))
-        _sit = re.sub(r'<[^>]+>', '', (L.get('steps') or [{}])[0].get('sit', '') or '')   # Home teaser: the first situation line
+        first = L['nodes'][L['branch']] if L.get('branch') else L['steps'][0]
+        _sit = re.sub(r'<[^>]+>', '', first['sit'])
         cat[group].append({'slug': slug, 'title': L['title'], 'line': line, 'sit': _sit, 'clips': sorted(D['clips']), 'flavour': FLAV[slug]})
         for field in ('livePoint','doubles','pairPlan','followup','transferOf','decisionCount','edition','family','learningSignals','liveIntro','liveFeedback','returnPrompt','cue','drill'):
             if L.get(field): cat[group][-1][field] = L[field]

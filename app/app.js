@@ -75,6 +75,23 @@ const all=()=>CAT.daily.concat(CAT.predict,CAT.play||[]);
 const bySlug=s=>all().find(l=>l.slug===s);
 const isDaily=s=>CAT.daily.some(l=>l.slug===s);
 const displayTitle=l=>l?.title?.replace(/^Predict the Point: /,'')||'';
+// Invitations describe the upcoming point. Coaching titles also identify saved
+// records, so keep those intact for history and explicit review.
+const pointTitles={
+ 'live-point-buy-time':'Wide on the forehand', 'live-point-other-wing':'Wide on the backhand',
+ 'live-point-make-room':'A ball to your backhand', 'live-point-short-low':'A short ball on the backhand',
+ 'live-point-serve-see':'After the wide serve', 'live-point-return-deep':'The next return',
+ 'live-point-return-pressure':'A fast serve to the backhand', 'live-point-return-time':'A slower serve',
+ 'live-point-line-tempting':'Wide behind the baseline', 'live-point-line-opens':'A shorter backhand',
+ 'live-point-volley-build':'A dipping first volley', 'live-point-volley-opening':'A higher first volley',
+ 'live-point-pass-two':'Facing an approach', 'live-point-over-head':'They close the net',
+ 'live-point-reach-drop':'A late drop-shot pickup', 'live-point-arrive-options':'An earlier drop-shot pickup',
+ 'doubles-cross-cover':'Your partner crosses', 'doubles-return-space':'Facing the net player'
+};
+function invitation(l){
+ return CAT.dailyPlan?.home?.[l.slug]||{title:pointTitles[l.slug]||displayTitle(l),setup:l.sit};
+}
+
 const activityLabel=l=>`${l.doubles?'Doubles · Live Point':l.livePoint?'Live Point':isDaily(l.slug)?'Challenge':CAT.predict.some(p=>p.slug===l.slug)?'Anticipation challenge':'Live Point'}${l.decisionCount?` · ${l.decisionCount>2&&l.livePoint?'Up to ':''}${l.decisionCount} decisions`:''}`;
 const remaining=()=>all().filter(l=>!S.done[l.slug]);
 const CUES='gs_my_game';
@@ -375,7 +392,7 @@ const listeners=[];
 function emit(name,data){listeners.forEach(f=>{try{f(name,data);}catch(e){}});}
 function on(f){listeners.push(f);}
 
-window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,nextHomeChallenge,featuredDaily,relatedPoint,dailyShareUrl,shareUrl,practiceSummary,setPracticeGoal,displayTitle,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,dailyDraft,openDaily,recordDailyPick,startLesson,complete,setLevel,feedback,emit,on,
+window.GSApp={S,CAT,VER,today,track,opened,bySlug,isDaily,streakNow,doneToday,nextDaily,nextLivePoint,nextHomeChallenge,featuredDaily,relatedPoint,dailyShareUrl,shareUrl,practiceSummary,setPracticeGoal,displayTitle,invitation,recordLiveRead,beginLiveAttempt,previousEdition,transferEvidence,challengeUrl,todays,dailyDraft,openDaily,recordDailyPick,startLesson,complete,setLevel,feedback,emit,on,
   activityLabel,remaining,savedCues,cueSaved,saveCue,nextHit,selectFocus,focusAction,practicePath,pathProgress,PRACTICE_PATHS,progressSaved:()=>progressSaved,
   log:()=>{try{return JSON.parse(ls.get(LOGK)||"[]");}catch(e){return [];}}};
 })();

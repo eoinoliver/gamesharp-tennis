@@ -26,6 +26,13 @@ try{
   check(raw.image==='https://www.gamesharptennis.com/share/'+l.slug+'.jpg',l.slug+': specific actual-scene image');
   check(new URL(raw.link,base).searchParams.get('l')===l.slug&&!/score|answer=/.test(raw.link),l.slug+': fallback is exact and private');
  }
+ await visit(p,base+'?all=1');
+ const library=await p.locator('.activity-group .card').evaluateAll(nodes=>nodes.map(a=>({slug:new URL(a.href).searchParams.get('l'),title:a.querySelector('.t').textContent,setup:a.querySelector('.d').textContent})));
+ check(library.length===all.length,'every activity has an Explore invitation');
+ for(const row of library){
+  const invite=await p.evaluate(slug=>GSApp.invitation(GSApp.bySlug(slug)),row.slug);
+  check(invite.setup && row.title===invite.title && row.setup===invite.setup,row.slug+': Explore presents the opening situation');
+ }
  // A recipient with no progress follows every invitation, including the nine older formats.
  for(const l of all){
   await visit(p,base+'s/'+l.slug+'.html');await p.waitForFunction(()=>window.__test);await p.locator('#tools #quickShare').waitFor();
@@ -33,6 +40,9 @@ try{
   await p.evaluate(()=>{window.__shared=null;Object.defineProperty(navigator,'share',{configurable:true,value:async x=>{window.__shared=x;}});});await p.locator('#quickShare').click();
   check(await p.locator('#quickSharePanel').isVisible()&&await p.evaluate(()=>__shared===null),l.slug+': first click opens GameSharp without native sharing');
   const panel=p.locator('#quickSharePanel');
+  const opening=await p.evaluate(()=>({title:GSApp.invitation(GSApp.bySlug(LESSON.slug||new URL(location.href).searchParams.get('l'))).title,blind:window.GS_BLIND_CHALLENGE}));
+  check(await p.locator('#lessonName').innerText()===(opening.blind?'A point for you':opening.title)&&!await p.locator('#verdict').isVisible()&&!await p.locator('#wrapup').isVisible(),l.slug+': first visit shows the situation before feedback');
+  check(await panel.locator('#quickShareTitle').innerText()===opening.title&&await panel.locator('.share-scene').getAttribute('alt')==='The opening situation for '+opening.title,l.slug+': sharing keeps the invitation neutral');
   const art=await panel.locator('.share-scene').evaluate(async img=>{
     await img.decode();
     const court=img.parentElement.getBoundingClientRect(),image=img.getBoundingClientRect();
