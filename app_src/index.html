@@ -985,10 +985,12 @@ const browseChallenges=()=>`<a class="home-browse" href="?all=1&amp;kind=daily&a
 function homeRecommendation(next,related,dailySlug){
  if(!next)return `<section class="home-next"><div class="daily-kicker">Your practice</div><h1 class="cine-title">You’ve played every available challenge.</h1>${browseChallenges()}</section>`;
  const fromDaily=related?.lesson.slug===next.slug;
+ const savedPicks=A.dailyDraft(next.slug)?.picks.length||0;
+ const action=savedPicks===next.decisionCount?'Review last decision':savedPicks?'Resume challenge':S.seen?.[next.slug]&&!A.isDaily(next.slug)?'Play from the start':'Play';
  const image=A.isDaily(next.slug)
    ?`<img class="home-next-still" src="home/${esc(next.slug)}.jpg?v=${A.VER}" width="820" height="470" alt="">`
    :`<div class="share-court"><img class="share-scene" src="share/${esc(next.slug)}.jpg?v=${A.VER}" width="1200" height="630" alt=""></div>`;
- return `<section class="home-next" aria-labelledby="homeNextTitle"><div class="daily-kicker">Your next challenge</div><div class="daily-feature-grid"><div class="home-next-picture">${image}</div><div class="daily-copy"><h1 class="cine-title" id="homeNextTitle">${esc(A.invitation(next).title)}</h1><p class="cine-sit">${esc(A.invitation(next).setup)}</p><a class="btn cine-cta" data-home-next="${esc(next.slug)}" ${fromDaily?'id="livePoint" data-related-from="'+esc(dailySlug)+'"':''} href="${href(next)}&amp;from=home-next">${S.seen?.[next.slug]?'Continue':'Play'} <span aria-hidden="true">→</span></a>${browseChallenges()}</div></div></section>`;
+ return `<section class="home-next" aria-labelledby="homeNextTitle"><div class="daily-kicker">Your next challenge</div><div class="daily-feature-grid"><div class="home-next-picture">${image}</div><div class="daily-copy"><h1 class="cine-title" id="homeNextTitle">${esc(A.invitation(next).title)}</h1><p class="cine-sit">${esc(A.invitation(next).setup)}</p><a class="btn cine-cta" data-home-next="${esc(next.slug)}" ${fromDaily?'id="livePoint" data-related-from="'+esc(dailySlug)+'"':''} href="${href(next)}&amp;from=home-next">${action} <span aria-hidden="true">→</span></a>${browseChallenges()}</div></div></section>`;
 }
 function today(){
  const F=A.featuredDaily();if(!F)return `<section class="today cine-card"><h1>Find your next challenge</h1><a class="btn cine-cta" href="?all=1">Explore practice →</a></section>`;
@@ -1025,7 +1027,7 @@ function practiceEntry(kind){
  if(kind!=='live')return '';
  const next=A.nextLivePoint();if(!next||next.doubles)return '';
  const old=A.previousEdition(next.slug),seen=S.seen?.[next.slug];
- const label=next.transferOf?'A new situation':old?'Updated Live Point':seen?'Continue your point':'Start with this point';
+ const label=next.transferOf?'A new situation':old?'Updated Live Point':seen?'Play this point from the start':'Start with this point';
  return `<a class="practice-entry" id="${next.transferOf?'returnLivePoint':'resumeLivePoint'}" href="${href(next)}"><span class="k">${label}</span><b>${esc(A.invitation(next).title)}</b><span>${next.transferOf?'Make your calls before seeing the cue.':esc(A.activityLabel(next))}${old?' · '+esc(previousScore(next.slug)):''} →</span></a>`;
 }
 let featuredImpression=null;

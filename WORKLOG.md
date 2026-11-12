@@ -1159,3 +1159,4 @@ On live 0d58099a55, an actual Daily finish followed by Forehand Bill returned tw
 
 12 November · Codex owns codex/reveal-timing-20261112 from ef0346e. Review when invitations, observations, answers, completion and recall appear across mobile sessions.
 Build 6995e36ddd. Reproduced the Nov 12 Home pairing on production and checked the corresponding return in mobile WebKit. Completed Daily art, replay and share now open through an explicit review. Home, Explore, Sharpen, player and sharing use situation-led invitations. Five authored points had pre-choice coaching removed. All 63 activities remain available. Codex owns preview and release verification.
+Final build eaf3f20cc1 also keeps tomorrow's changed point behind its availability date on the completion screen and names the restart honestly when reopening an unfinished Live Point. All release files reproduced from source.

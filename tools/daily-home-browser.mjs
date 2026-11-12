@@ -54,7 +54,7 @@ try{
  const next=returning.locator('[data-home-next]');
  check(await next.getAttribute('data-home-next')==='live-point-serve-see','authored related challenge leads after Daily');
  await next.click();await returning.waitForFunction(()=>window.__test);await returning.goBack();
- check((await next.innerText()).includes('Continue'),'unfinished next challenge stays in place');
+ check(await next.getAttribute('data-home-next')==='live-point-serve-see'&&(await next.innerText()).includes('Play from the start'),'returning to the same Live Point accurately describes its restart');
  await returning.evaluate(()=>GSApp.complete('live-point-serve-see',2,2));await returning.reload();
  check(await next.getAttribute('data-home-next')!=='live-point-serve-see','finishing advances the choice');
  await returning.context().close();

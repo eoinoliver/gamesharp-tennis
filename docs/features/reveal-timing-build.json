@@ -14,11 +14,11 @@
     },
     "app_src/index.html": {
       "baseline": "473544d466c92805cdbc1d7f2af29a52031fbfdafaf25727831d5b387854e927",
-      "candidate": "266367b7fe7bb8510b56d13a77e39ee2562be3cacb627df394312c1fa3d9c807"
+      "candidate": "e82649ad5d46e37363703c70e2073e12aae96075db6124e630707d78f0a4c872"
     },
     "app_src/play_host.html": {
       "baseline": "45d370a7e3840872164e595c6b53d4fb2baae1d8af09b934a1e1866e9fc7e455",
-      "candidate": "f590218f2b25cad5a3184e552e41ef837edcf2325ab213c08d298ade43ca253c"
+      "candidate": "7fd57d34255c9f0b6af7179baa9571ffbfc197166f1e93152948c4e7c1dce94e"
     },
     "app_src/practice.js": {
       "baseline": "dfe7a97b24dd7873dcaa3d94893769973cbe92dfea0f92bf15b251cfb912e6c2",
@@ -66,7 +66,7 @@
     },
     "tools/daily-home-browser.mjs": {
       "baseline": "b72d4bc8129cad58e40b9b1925ccb46525123c6edf07d7265ca2eaec31d5ead2",
-      "candidate": "c496da048b23a122bbf4b9abb0268ec62a9f6fe326337a6c08c49d141864704e"
+      "candidate": "2e96389ba137a0c8551c15b3950ca99dd59deb0c352ffd8f2fc618a6d9badfd2"
     },
     "tools/home-clarity-browser.mjs": {
       "baseline": "6223afa99734206cb16267dc6ccc7ad302100532ceb8d34dc15a2522307d626c",
@@ -90,7 +90,7 @@
     },
     "tools/trust-practice-browser.mjs": {
       "baseline": "a1185d3911297c779d33d0ef7f106300b2eefbaaf0e585cfed00a23142c48c35",
-      "candidate": "6b189202bcf36f902359205c50dc277ce9fab28a80eeb2357c4b6b98000ddd75"
+      "candidate": "3b31a4ab0399d7568ce0eddeed00eb9cf9053867b664a8120c723d9dd43706c6"
     }
   },
   "release": {
@@ -100,7 +100,7 @@
     },
     "app/catalog.js": {
       "baseline": "fd7c0085e1ebfcd22de42e71f18c984658473b2f3ed659f2836d74b173a0c430",
-      "candidate": "a38b24b5109cc0ae9db969bf22dee73120080b827b7527db4036f1114a7857f2"
+      "candidate": "6878e568f845604852a2f908c3be1065dae31233017eccfd24bc9d3de185bc3d"
     },
     "app/home.css": {
       "baseline": "a0fede5fc322c598cb3db774fb7159ade39572527b8289271237b74c924e79a9",
@@ -108,7 +108,7 @@
     },
     "app/index.html": {
       "baseline": "00dec6677b02d07112896beb5bd631aad6bbeaf8905bdbe8bc3b701556341638",
-      "candidate": "225869229fed577c8f1aa1d72b7236e87d1d1f8a0c00da880d368fff0002a9a0"
+      "candidate": "2878fc99611fcb522a780e4735c5c3e673a90a44f2c194386bf8d4f394538723"
     },
     "app/lessons/doubles-cross-cover.json": {
       "baseline": "34a1a60c2484ec0d8e75a0b694f99911db8a31d4c549d52870248f6600e9ca34",
@@ -132,7 +132,7 @@
     },
     "app/play.html": {
       "baseline": "d2ae00347c61d3635330b6f8c3b5b39db70c1009159fd6fa3ada9d4009dd0cf7",
-      "candidate": "104d4f34a2d6c2a3a3590d7024f491068fc63dae1e70736b06d105412a56ff63"
+      "candidate": "f4f5720360353d1febdc0f887205f9e3f05f8884787256ff93e888caf0fafa61"
     },
     "app/practice.js": {
       "baseline": "dfe7a97b24dd7873dcaa3d94893769973cbe92dfea0f92bf15b251cfb912e6c2",

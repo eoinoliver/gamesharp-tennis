@@ -19,6 +19,8 @@ try{
   check(new URL(p.url()).searchParams.get('l')==='live-point-volley-build',width+': symptom leads to its Live Point');
   await finish(p,'live-point-volley-build');check(await p.locator('#saveCue').isVisible(),width+': save cue is outside collapsed panels');
   check(await p.locator('.gsfb').isVisible(),width+': useful question is visible');check(await p.locator('#returnRead').isVisible(),width+': paired read is visible');
+  const variation=await p.evaluate(()=>GSApp.invitation(GSApp.bySlug(GSApp.bySlug('live-point-volley-build').followup)).setup);
+  check(!(await p.locator('#returnRead').innerText()).includes(variation),width+': tomorrow’s changed situation is withheld until due');
   const detail=await p.evaluate(()=>LESSON.steps[0].lines[LETTERS[LESSON.steps[0].correct]]);check((await p.locator('#liveEvidence').innerText()).includes(detail),width+': completion describes the committed choice');
   await p.locator('#saveCue').click();check((await p.locator('#saveCue').innerText()).includes('Saved in this browser'),width+': save acknowledged accurately');
   await p.screenshot({path:`${out}/completion-${width}.png`,fullPage:true});
