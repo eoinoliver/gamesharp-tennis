@@ -53,7 +53,7 @@
       "candidate": "782ba61be0f5aa9347e6b1dc0dacb85e8444202067fa222291e2aa91003c95e9"
     },
     "rally/lesson_sb.js": {
-      "baseline": "1ee53d77b9b0281eb1052e8b9de563c125dfbc7b674d7be8d07a3701ce434809",
+      "baseline": null,
       "candidate": "7ef2748b68a4fa9451a94d0c565219a9b4224a9ff5547d3a6167621029d69602"
     },
     "rally/lesson_serve.js": {
@@ -73,7 +73,7 @@
       "candidate": "334f52a64f55aba1d96d93d822bccd9b40a95410f1fdb056acfcad7f18925f4f"
     },
     "rally/sb_data.json": {
-      "baseline": "22a0778735ed5b6e7d2a8618cf9954e1586ec1701c448dbc04b0113193a325ad",
+      "baseline": null,
       "candidate": "637d22471654132cf7b1d8ca186916b64d534f537b5082672004910186dee8fd"
     },
     "tools/directed-catalogue-browser.mjs": {
