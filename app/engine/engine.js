@@ -626,7 +626,7 @@ function serveMix(){const sc=SC[scene]; if(!sc) return 0; const W=prep(sc)["you"
 function setCamera(you){
   if(window.GSDirected?.camera(you))return;
   if(contactCameraOn()){setContactCamera(you);return;}
-  if(LESSON.readinessLesson&&camI===1){
+  if(SC[scene].info.readiness&&camI===1){
     const sc=SC[scene],r=sc.info.readiness,w=prep(sc).you.find(w=>!w.fixed);
     const h=worldOf(localAt(w,r.setupFrame)).pose[I.hips];
     // Anchor both members of a pair to the same setup location. Following the
@@ -954,7 +954,7 @@ function verdict(i,X,demo){
   if(CONTACT_FOCUS){const bt=document.createElement('button');bt.id='inspectContact';bt.className='contact-inspect';bt.textContent='Inspect contact';bt.setAttribute('aria-expanded','false');bt.onclick=()=>inspectContact('first');v.querySelector('.fbh').insertBefore(bt,$('why'));}
   if(LESSON.readinessLesson){
     const evidence=document.createElement('div');evidence.className='arrival-review';
-    evidence.innerHTML=`<p id="arrivalNote" role="status">${SC[S.scene].info.readiness.evidence}</p><div class="arrival-buttons" role="group" aria-label="Inspect arrivals">${S.compareArrival?`<button class="alt" data-arrival="${S.compareArrival}" aria-pressed="false">Previous arrival</button>`:''}<button class="alt" data-arrival="${S.scene}" aria-pressed="true">${S.compareArrival?'This arrival':'Replay the arrival'}</button></div>`;
+    evidence.innerHTML=`<p id="arrivalNote" role="status">${SC[S.scene].info.readiness.evidence}</p><div class="arrival-buttons" role="group" aria-label="Inspect arrivals">${S.compareArrival?`<button class="alt" data-arrival="${S.compareArrival}" aria-pressed="false">Previous arrival</button>`:''}<button class="alt" data-arrival="${S.scene}" aria-pressed="${scene===S.scene}">${S.compareArrival?'This arrival':'Replay the arrival'}</button></div>`;
     v.querySelector('.fb').appendChild(evidence);
     evidence.querySelectorAll('button').forEach(b=>b.onclick=()=>replayArrival(b.dataset.arrival));
   }

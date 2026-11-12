@@ -24,6 +24,11 @@ assert set(reveal)=={'doubles-cross-cover','doubles-lob-switch','doubles-return-
 for slug,change in reveal.items():
     assert scope['protectedLessonHashes'][slug]==change['baseline']
     scope['protectedLessonHashes'][slug]=change['candidate']
+attack=json.loads((ROOT/'docs/features/earned-attack-playback-build.json').read_text())['lessonContracts']
+assert set(attack)=={'earned-attack'}
+change=attack['earned-attack']
+assert scope['protectedLessonHashes']['earned-attack']==change['baseline']
+scope['protectedLessonHashes']['earned-attack']=change['candidate']
 for slug,p in cards.items():
     data=json.loads((ROOT/'app/lessons'/f'{slug}.json').read_text())
     assert data['lesson'].get('pro')==p,('stale professional context',slug)

@@ -25,7 +25,6 @@ const LESSON={
       "short": "Read",
       "name": "Choose your plan",
       "scene": "ea1",
-      "reveal": true,
       "noTargets": true,
       "sit": "Their reply comes to your forehand. The far side is open.",
       "q": "Which plan fits this point?",
@@ -51,14 +50,19 @@ const LESSON={
       },
       "alsoOk": [
         1
-      ]
+      ],
+      "opening": {
+        "scene": "ea1",
+        "from": 0,
+        "to": 199,
+        "continuous": true
+      }
     },
     {
       "ph": "Read the point",
       "short": "Read",
       "name": "Choose your plan",
       "scene": "ea2",
-      "reveal": true,
       "noTargets": true,
       "sit": "The same incoming ball. The same opening. Watch this point.",
       "q": "Which plan fits this point?",
@@ -82,14 +86,19 @@ const LESSON={
         "A": "The space is tempting, but your arrival makes this harder to control.",
         "B": "Give yourself margin and time to recover."
       },
-      "compareArrival": "ea1"
+      "compareArrival": "ea1",
+      "opening": {
+        "scene": "ea2",
+        "from": 0,
+        "to": 199,
+        "continuous": true
+      }
     },
     {
       "ph": "Read the point",
       "short": "Read",
       "name": "Choose your plan",
       "scene": "ea3",
-      "reveal": true,
       "noTargets": true,
       "sit": "A new rally. What would you choose here?",
       "q": "Which plan fits this point?",
@@ -112,6 +121,12 @@ const LESSON={
       "lines": {
         "A": "Height and depth help you work your way back.",
         "B": "Still moving wide, with no clear opening: forcing pressure adds risk."
+      },
+      "opening": {
+        "scene": "ea3",
+        "from": 0,
+        "to": 164,
+        "continuous": true
       }
     }
   ],

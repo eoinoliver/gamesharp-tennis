@@ -418,6 +418,15 @@ for records, expected in [(reveal['source'], source), (reveal['release'], manife
         assert expected.get(name) == change['baseline'], f'Reveal timing baseline drift: {name}'
         expected[name] = change['candidate']
 
+# Earned Attack continuations extend the reviewed invitation and review build.
+reveal = json.loads((ROOT/'docs/features/earned-attack-playback-build.json').read_text())
+assert set(reveal['source']) == set(['app_src/takeaways.json', 'gs/gate.mjs', 'rally/build_readiness.py', 'rally/ea_data.json', 'rally/lesson_body.html', 'rally/lesson_ea.js', 'tools/pro-insight-source.py', 'tools/readiness-browser.mjs'])
+assert set(reveal['release']) == set(['app/catalog.js', 'app/engine/engine.js', 'app/index.html', 'app/lessons/earned-attack.json', 'app/play.html'])
+for records, expected in [(reveal['source'], source), (reveal['release'], manifest)]:
+    for name, change in records.items():
+        assert expected.get(name) == change['baseline'], f'Earned Attack baseline drift: {name}'
+        expected[name] = change['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)
