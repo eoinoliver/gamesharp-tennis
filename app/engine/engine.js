@@ -954,7 +954,7 @@ function verdict(i,X,demo){
   // Every explanation remains until the learner continues, including connected points.
   const lab=demo?`Option ${X}`:LESSON.livePoint&&!LESSON.comparison&&i===0?(ok?'More recovery time':'Less recovery time'):also?`Also works`:ok?"Good read":`Better: ${corr}`;
   const v=$("verdict");
-  zone.classList.add("ans");
+  zone.inert=false;zone.classList.remove("reading");zone.classList.add("ans");
   v.innerHTML=`<div class="fb${ok?"":" miss"}"><div class="fbh"><div class="lab">${lab}</div><button class="why" id="why" aria-expanded="false" aria-controls="whyp">Why? <span aria-hidden="true">+</span></button></div>
       <div class="copy">${S.lines[X]}</div>
       <div class="prin">${S.take}</div>
@@ -1255,7 +1255,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&viewer.classList.co
 paintFs();
 fitView();tallView();NARROW.addEventListener?.("change",()=>{fitView();tallView();});addEventListener("resize",()=>{if(isFull())fullView();else{fitView();tallView();}});
 
-/* ---------- Predict the Point: answer every read first, then watch the whole point ---------- */
+/* ---------- Predict the Point: play each selected shot, then review the reads ---------- */
 function setupPredict(){
   const P=LESSON.predict, K=P.scene; let typeT=[], reviewed=false;
   let flowGeneration=0; const flowTimers=new Set();
@@ -1285,13 +1285,15 @@ function setupPredict(){
       if(answered)return;
       answered=true;chosen=X;zone.classList.remove("on");questionCaption();ans[i]=X;emit('answer',{i,X,node:S.scene,signal:LESSON.learningSignals?.[i],ok:okAt(i)}); optEl(X).classList.add("picked"); showOnly([X]); showTargets=null;
       window.__camOverride=null;
-      const voiceGeneration=window.GSSfx?.voiceState().generation;
+      let voiceGeneration;
       const advance=()=>{
         if(i===2){step=3;zone.hidden=true;review(voiceGeneration);return;}
         const next=LESSON.steps[i+1];
         startStep(i+1,okAt(i)?questionRange(next).to:questionRange(S).to);
       };
-      window.GSDirected.answer(i,X,advance);};
+      window.GSDirected.answer(i,X,advance);
+      voiceGeneration=window.GSSfx?.voiceState().generation;
+    };
     const situation=i>0&&!okAt(i-1)?`Model point. ${S.sit}`:S.sit;
     stageSit(situation);
     playQuestion(S,()=>{if(step!==i)return;
