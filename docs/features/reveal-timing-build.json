@@ -72,6 +72,10 @@
       "baseline": "b72d4bc8129cad58e40b9b1925ccb46525123c6edf07d7265ca2eaec31d5ead2",
       "candidate": "2e96389ba137a0c8551c15b3950ca99dd59deb0c352ffd8f2fc618a6d9badfd2"
     },
+    "tools/flagship-browser.mjs": {
+      "baseline": "365f8cff786d0d86ae9ed2be7cc19258f8bb3643a4dcc8c20dd23af4a4d885cb",
+      "candidate": "5628aed516d73d19bb13ef889fb72d013862aae90c86a7182b4066cd86b91151"
+    },
     "tools/home-clarity-browser.mjs": {
       "baseline": "6223afa99734206cb16267dc6ccc7ad302100532ceb8d34dc15a2522307d626c",
       "candidate": "c64e070cb32dd39caf762bf5ef912fa31769d4cce0aa6392e3f4c9d06d5ca211"
