@@ -16,7 +16,6 @@ window.GSDirected=(()=>{
   }
   const revealed=new Set();
   const dailyOpening=DailyFilms.sequence(slug);
-  let openingSeen=null;
   let filmRate=1;
   const introKey=S=>dailyOpening&&S===LESSON.steps[0]?'film:1:'+S.scene:'intro:'+S.scene;
   const storeKey='gs_directed_v1_'+slug;
@@ -79,19 +78,14 @@ window.GSDirected=(()=>{
   }
   function question(S,cb,force=false,afterFrame=0){
     const q=questionRange(S);
-    openingSeen=null;
     if(!force)q.from=Math.min(q.to,Math.max(q.from,afterFrame));
     if(force&&q.from===q.to&&step>0&&LESSON.branch){
       const previous=LESSON.steps[step-1],route=SC[previous.scene+ans[step-1]];
       if(route)q.from=Math.min(q.to,route.info.freeze);
     }
     const end=()=>restoreQuestion(S,cb);
-    const filmEnded=()=>{
-      openingSeen={question:S,scene,frame:Math.floor(t)};
-      end();
-    };
     if(q.from===q.to||!force&&(CALM_MOTION||seen.has(introKey(S)))){end();return true;}
-    const play=stages=>start(stages,filmEnded,'Skip to decision →',step===0?2/3:1);
+    const play=stages=>start(stages,end,'Skip to decision →',step===0?2/3:1);
     if(S.scene==='wn1'){
       play([{kind:'opening',key:'wn1',from:62,to:298,play:true,eye:'A low ball. A narrow target.',title:'You go for the line.'},
         {kind:'line',key:'wn1',from:298,ms:1800,eye:'Winner',title:'Would you choose it again?',copy:'In by '+Math.round(SC.wn1.info.shot.courtMargin*100)+' cm.'}]);
@@ -114,18 +108,15 @@ window.GSDirected=(()=>{
   // Committing to an answer has no path to the comparison sequencer.
   function answer(i,X,cb){
     const S=LESSON.steps[i];
-    if(S.reveal){showDots=true;revealPattern=!!S.pattern;finishAnswer(S,X,cb);return true;}
-    const key=S.scene+X,sc=SC[key],q=questionRange(S);
-    const next=LESSON.branch?LESSON.nodes[key]:LESSON.flow&&LETTERS[S.correct]===X?LESSON.steps[i+1]:null;
-    const to=next?Math.min(sc.frames-1,questionRange(next).to):sc.frames-1;
-    // The held question is the start of the selected consequence. Variant
-    // metadata can describe a later contact, even beyond a trimmed clip.
-    let from=q.to;
-    if(openingSeen?.question===S&&openingSeen.scene===key)from=Math.max(from,openingSeen.frame);
-    const end=()=>finishAnswer(S,X,cb,to);
-    if(from>=to){end();return true;}
-    start([{kind:'wide',key,from,to,play:true,eye:viewing(X,ans[i]),title:S.opts[LETTERS.indexOf(X)]}],end,'Skip to feedback →');
-    stageInView();return true;
+    const range=answerRange(S,X,i);
+    const end=()=>{
+      revealPattern=!!S.pattern;
+      finishAnswer(S,X,cb,range.to);
+    };
+    start([{kind:'wide',...range,play:true,native:S.reveal||!!LESSON.predict,
+      eye:S.reveal?'Watch the evidence':viewing(X,ans[i]),title:S.reveal?S.name:S.opts[LETTERS.indexOf(X)]}],
+      end,LESSON.predict?'Continue →':'Skip to feedback →');
+    stageInView('instant');return true;
   }
   function reviewAnswer(i,X,cb,only=null){
     const S=LESSON.steps[i];

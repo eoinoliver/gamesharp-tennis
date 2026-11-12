@@ -30,7 +30,7 @@ try{
    await p.locator('#askOpts button').nth(chosen).click();decisions++;
    if(predict){
     if(decisions<3)await p.waitForFunction(i=>step>i,before.step);
-    else {await p.waitForFunction(()=>step===3);if(width>=700){await p.locator('#skipDirected').focus();await p.keyboard.press('Enter');}await p.waitForFunction(()=>done,null,{timeout:60000});}
+    else {await p.waitForFunction(()=>step===3);await p.waitForFunction(()=>done,null,{timeout:60000});}
     await skip(p);continue;
    }
    // First decision plays the real sequence; subsequent ones exercise skip.

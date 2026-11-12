@@ -1162,3 +1162,6 @@ Build 6995e36ddd. Reproduced the Nov 12 Home pairing on production and checked t
 Final build eaf3f20cc1 also keeps tomorrow's changed point behind its availability date on the completion screen and names the restart honestly when reopening an unfinished Live Point. All release files reproduced from source.
 
 12 November · Codex continues the pending reveal-timing preview with the reported Earned Attack playback repair. Production awarded all three correct reads on a stationary arrival frame. The six selected replies now extend the actual incoming ball through racket contact and an in-court bounce. Both plans keep their original grades and saved first choices.
+
+12 November · Codex owns codex/court-consequences-20261112, the live decision-to-court audit, shared playback repair and verification.
+The released 0d7fca8d99 Daily, Defence and Net produced no post-choice ball motion on the first correct read. Predict advanced on a tracer. Build 2e1261f639 plays the selected route before feedback, shows authored evidence for the six interpretation questions, and resumes an interrupted Daily outcome. All 63 activities remain eligible. Release checks now require motion for each choice and inspect the drawn ball through the player. Codex owns the Git preview and release checks.

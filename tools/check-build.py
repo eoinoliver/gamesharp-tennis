@@ -427,6 +427,15 @@ for records, expected in [(reveal['source'], source), (reveal['release'], manife
         assert expected.get(name) == change['baseline'], f'Earned Attack baseline drift: {name}'
         expected[name] = change['candidate']
 
+# Selected outcomes and observation evidence must reproduce from the reviewed sources.
+court = json.loads((ROOT/'docs/features/court-consequences-build.json').read_text())
+assert set(court['source']) == set(['app_src/app.js', 'app_src/index.html', 'app_src/play_host.html', 'app_src/takeaways.json', 'gs/gate.mjs', 'rally/build_readiness.py', 'rally/directed.js', 'rally/ed_data.json', 'rally/en_data.json', 'rally/lesson_body.html', 'rally/lesson_ed.js', 'rally/lesson_en.js', 'rally/lesson_mr.js', 'rally/lesson_serve.js', 'rally/lesson_sq.js', 'rally/lesson_ss.js', 'rally/lesson_winner.js', 'tools/directed-catalogue-browser.mjs', 'tools/mobile-return-browser.mjs', 'tools/pro-insight-source.py', 'tools/readiness-browser.mjs', 'tools/single-pass-browser.mjs'])
+assert set(court['release']) == set(['app/app.js', 'app/catalog.js', 'app/engine/engine.js', 'app/index.html', 'app/lessons/earned-defence.json', 'app/lessons/earned-net.json', 'app/lessons/middle-return.json', 'app/lessons/second-serve.json', 'app/lessons/serve-plus-one.json', 'app/lessons/split-step.json', 'app/lessons/the-winner.json', 'app/play.html'])
+for records, expected in [(court['source'], source), (court['release'], manifest)]:
+    for name, change in records.items():
+        assert expected.get(name) == change['baseline'], f'Court consequence baseline drift: {name}'
+        expected[name] = change['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

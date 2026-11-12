@@ -21,7 +21,12 @@ try {
  const ready=async()=>{await p.waitForFunction(()=>window.__test);await p.locator('#loading').waitFor({state:'hidden'});};
  async function pick(index){await p.locator('#ask.on #askOpts button:not(:disabled)').nth(index).click();await p.locator('#verdict:not([hidden]) #next').waitFor();}
  await p.goto(base);await p.locator('#todayChallenge').click();await ready();
- await pick(0);
+ await p.locator('#ask.on #askOpts button:not(:disabled)').first().click();
+ await p.waitForFunction(()=>answered&&playing&&$('verdict').hidden);
+ await p.reload();await ready();
+ await p.locator('#verdict:not([hidden]) #next').waitFor();
+ assert.equal(await p.locator('#count').innerText(),'1 of 3');
+ assert.equal(await p.evaluate(()=>ans[0]),'A');
  const compare=await p.locator('#exploreDirected').boundingBox();
  assert(compare.y>=0&&compare.y+compare.height<=667,'Compare fits the short phone');
  await p.screenshot({path:evidence+'/compare.png'});

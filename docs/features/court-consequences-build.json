@@ -1,0 +1,172 @@
+{
+  "source": {
+    "app_src/app.js": {
+      "baseline": "71123d56b473fda756d85710d7c070fb813c0df83044bbd7997ec381d07cd120",
+      "candidate": "a7948dbfedf3b92aee991e1ef4c572e866a597439d173de753f336462bf169a5"
+    },
+    "app_src/index.html": {
+      "baseline": "e82649ad5d46e37363703c70e2073e12aae96075db6124e630707d78f0a4c872",
+      "candidate": "62cc983986f7fb2b0de6dd25faf14e6eb0486be679521dd347a6011e4e1d1826"
+    },
+    "app_src/play_host.html": {
+      "baseline": "7fd57d34255c9f0b6af7179baa9571ffbfc197166f1e93152948c4e7c1dce94e",
+      "candidate": "1b4aabc8e96bea2aa2aa2ecbfbfe15f38bc2642c3c227ab1d42a0a26db696195"
+    },
+    "app_src/takeaways.json": {
+      "baseline": "57532ac7e4572c71daa0f506001fcf1f8fb5bd2e1a79d0cbbc03ee0012c035ba",
+      "candidate": "054ec9340a124e58026a6c0820bb53bc75c31c57ec4865e306129fbf25ad10b4"
+    },
+    "gs/gate.mjs": {
+      "baseline": "c34151538e06d962ab2ff9634dd3f5c025f7f5c23a0b6c850a51e3a59d404c73",
+      "candidate": "ecf0d60a29a7e22bdeb1e35497972acbc16ea7ce8ae502f6d30cd16143bb0a10"
+    },
+    "rally/build_readiness.py": {
+      "baseline": "1e5d2d6d25e81e32cf07b1f9d6e45f1a8c8da699407bbaf4f8e97a75d5a4e94d",
+      "candidate": "c8435e474fc56a26d38793622c2fdef6bbf846d2a9548923bd217b7f7217a004"
+    },
+    "rally/directed.js": {
+      "baseline": "4198f59c0bdf3e43072a71826012e724f9d644bd12e4943a18831ea617651b19",
+      "candidate": "1c72a76bd120b1f8d60d6474b2d0ce5e4d0147cfbad81842243b801c129f89c5"
+    },
+    "rally/ed_data.json": {
+      "baseline": "84c686f6847ebc08e5c10dca9362e6877e493ec09319b643623d1cf62cccec70",
+      "candidate": "edc4f985be2aa7968b1fdce3d96b4c2a79641975877705fda82e50acc6fff5f1"
+    },
+    "rally/en_data.json": {
+      "baseline": "e15f42935acc3e73c87c5d1dbf01cf14f7045f25e00a3c6ace9eea3a0082f5f9",
+      "candidate": "2d0f9639ef903f0ec47c39843c8faa92f0a423f71cdd192d94bcd913f8c2cf67"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "2dcab6d0ea1edb87d502778c0ebae0a6eb28ff87f7fa403eb1be560110fc6cd2",
+      "candidate": "10ba5f4f8aa193a3f50c980a455bae22310580bc7c2997eade1d84aa19118246"
+    },
+    "rally/lesson_ed.js": {
+      "baseline": "4c38552df272e333f2919d7fb533c9429449b7179fb3e2e5a180a2eb74af0506",
+      "candidate": "3bbc1fc71e010e2472f7e52922e82c2232c98eac6be02697f2f30f5ec844d18e"
+    },
+    "rally/lesson_en.js": {
+      "baseline": "9be7cddf22ef6ec88fea632a1218982809efea119f83cf4b50f1cba1b3f1bc4e",
+      "candidate": "e34d16c164fb4a692a3f43997a9666075b2c80b853464781fdbf9d7cb3eabe59"
+    },
+    "rally/lesson_mr.js": {
+      "baseline": "49a8ddb9379c195d26788dbd0256bca1a9f52d0e58b248667a61c121ec11dd08",
+      "candidate": "782ba61be0f5aa9347e6b1dc0dacb85e8444202067fa222291e2aa91003c95e9"
+    },
+    "rally/lesson_serve.js": {
+      "baseline": "35c7b0965a206eb1f388594ab9be7930f4af2f93d0ee0510796097e4cafa1dc1",
+      "candidate": "8ac3ac3d394f1295b12097c07492cabc42e180b5242483f2f3725aae2dc6e9aa"
+    },
+    "rally/lesson_sq.js": {
+      "baseline": "9051ac5b6d9ea4f917f2645cd5eefee493c3b1a559092b9cfe657ffa8bddba80",
+      "candidate": "5651de38905e74b8195ace8cf68e1782d66e27cf2bbb73543c6a92794e951ea2"
+    },
+    "rally/lesson_ss.js": {
+      "baseline": "afb4a53cb2c9b0bf9e03211831259ce79ecb0d704075b4720c769244518ef320",
+      "candidate": "f294642f1e94eeb5b0bb93b2320fcc767af81c11ab2cb897d328dacf7f1e26e5"
+    },
+    "rally/lesson_winner.js": {
+      "baseline": "e85de1aefe98522047ef50dc578c44f561b3c123b7734f3d8b0fd4abac86b72a",
+      "candidate": "334f52a64f55aba1d96d93d822bccd9b40a95410f1fdb056acfcad7f18925f4f"
+    },
+    "tools/directed-catalogue-browser.mjs": {
+      "baseline": "25f576785c1afab0e5e2676fc9da8f4428b910c59f610e04cc80e7308387a48e",
+      "candidate": "7f8127d060cddce076f2292875a5a2f1e03c0f86ad4a4aa1f31c9e6f2c60547c"
+    },
+    "tools/mobile-return-browser.mjs": {
+      "baseline": "5f78346271ddfcc69442a566dcf75c9971fbf3a344ba813ec72a9ce878fdb7dc",
+      "candidate": "d78ec275e66df604a74693f97843f866b8c06f18c50a20490f4fc0dba138b0ed"
+    },
+    "tools/pro-insight-source.py": {
+      "baseline": "6e9a02dde3049250d8926c505f8beed499358ed8ae28354def0346a0ca5bc814",
+      "candidate": "94a9dda3cd90c2fcd7d633de81ce90757a8d3af1de8a7d4e4f29745bdfca87ab"
+    },
+    "tools/readiness-browser.mjs": {
+      "baseline": "35fda7dfb4fa2d791124adfdea0596475f3f58f84617e3d33c817c0eb1fd2fc2",
+      "candidate": "ff08713d1cd71844e8035fee33e46d77a145373fdc1d321e8ae8992cc52dab6e"
+    },
+    "tools/single-pass-browser.mjs": {
+      "baseline": "78ddd257a29a63ed1224e9f89740870389ec93b84789ff3f48e914ef35b21d76",
+      "candidate": "db3b63fc2ab50cb7c8baec570a1cffd7769404383ba51a6c4cfb1a2d68d30df7"
+    }
+  },
+  "release": {
+    "app/app.js": {
+      "baseline": "71123d56b473fda756d85710d7c070fb813c0df83044bbd7997ec381d07cd120",
+      "candidate": "a7948dbfedf3b92aee991e1ef4c572e866a597439d173de753f336462bf169a5"
+    },
+    "app/catalog.js": {
+      "baseline": "ce7397a8a8b70f499ec63412ebf67929276e86d76b684016ebdd2b3d8ec64e54",
+      "candidate": "9b40e43d21f3982835b9dce367502f4822ffac9ff74de753f99b3e6c13f3aefe"
+    },
+    "app/engine/engine.js": {
+      "baseline": "9a10f09824ed4bfd6b5849ca081f44c23b536e265ef21a380170c133e748e968",
+      "candidate": "72461fc1028c16cf37e0f61c30f00395e10095850d77b7cb12ab8ab29c140f61"
+    },
+    "app/index.html": {
+      "baseline": "45b29bf44a392e8863f82aa72d168891e497a4c647bca3b6797c4f0f815cbbdd",
+      "candidate": "e205636a9dc3e230141849264176c48cabdc115720be68c63f1a8528bb3549db"
+    },
+    "app/lessons/earned-defence.json": {
+      "baseline": "049306f32df580265d49389b586b064c9f44d1b6cf2db03343df96478d2dfe53",
+      "candidate": "2f42a15a86fd61f25c444e02f0ea876c3dba2535d34a20241bebd76c01417052"
+    },
+    "app/lessons/earned-net.json": {
+      "baseline": "783a69f1519162ad8c757b5d38871ad14fc3b54466a45f07bb36e5080e972edd",
+      "candidate": "bed7851c0708c3d86dcba173f3687de16054424b7af9ded09f53f37c525beea1"
+    },
+    "app/lessons/middle-return.json": {
+      "baseline": "14df050c8e392cc6e28a5266cfac259578c034a5df47e570c866ebb2d258dc4a",
+      "candidate": "8fd31cedf0c2b73fe64ebb1b76d6f7a2e244c52385af805b15a7ebb2c1cea98a"
+    },
+    "app/lessons/second-serve.json": {
+      "baseline": "8327ac14b510baaaedf574affd5d2973f8682adf0c55bce60767a314b3c321eb",
+      "candidate": "067ad4f01d8191e5a1914c8eb767c60e75d2cd9289fe23681192c07d9a221268"
+    },
+    "app/lessons/serve-plus-one.json": {
+      "baseline": "75eee433ffaa60a27c051fc4cc8aefb01c60736b4322b35d10418f3ac296c082",
+      "candidate": "1c94732b698cc430359548d42559cc5a734a73b9be2605aca7cfdebe5a6615d1"
+    },
+    "app/lessons/split-step.json": {
+      "baseline": "6eace6af839cb90fc28e41144f1b2d6d14746922b6ed4eacf5bbfecbfe477814",
+      "candidate": "eb42ced86a011a12526ce5e23eda482f4a798102d5ef1254dc7a8a3b8359a3ca"
+    },
+    "app/lessons/the-winner.json": {
+      "baseline": "831192ae7704e99319e236aa2660ab89812837a587582c808607b992aba9c88f",
+      "candidate": "4cef553742ddf0400c62dd2b1c53fa306fde98748e800ec983602f882223a6a1"
+    },
+    "app/play.html": {
+      "baseline": "98dd6eb39850b745df58674fd31b88491812206d8cdc83d2616da7b8330e9a40",
+      "candidate": "cae45a61e02accdb7d765ab8d51e7d91385759b3c6bf3f044fb931edfa5fd55f"
+    }
+  },
+  "lessonContracts": {
+    "earned-defence": {
+      "baseline": "7ba2a0df7fdcda749d1b86a558676b0d181ad7f0022ac0737eefc9c68a3d6d4e",
+      "candidate": "af322f427f4c66194c5a98f8d102c4ca712f1a5603de2028e43aae5159d31f5d"
+    },
+    "earned-net": {
+      "baseline": "5fe161011b648ab95b6e5a84f777ce249520538b8bdd364cc281a1580af7b832",
+      "candidate": "e3494644353197b41cbbe703663702f318eab54448e74754f3f50c94433a9d78"
+    },
+    "middle-return": {
+      "baseline": "cd49e6379af924eea17fa9855fd32bb242d5d8d4231065a76c7dbf1e6e6aa96e",
+      "candidate": "4d4291179c01a439b8f8e77b2f2dea1c38e2d2360d221869fb634011c602a8bd"
+    },
+    "second-serve": {
+      "baseline": "955634fc57599d851ad4636dfbc948e5c275a315aa8b327ad70928fb5703a8e9",
+      "candidate": "f8899c2d1202479506762109fac69f047cf51a5c4e759a97ea55ae5fd2ca2938"
+    },
+    "serve-plus-one": {
+      "baseline": "d177d2991f2c7af41a622a3e422f83d54b13ee5a723e1a802dd1ea4b8149c23e",
+      "candidate": "cd4a6d79f4208775c5fe3e7e5696b2403ee9e1f7209e3955e58399cb15c9ef04"
+    },
+    "split-step": {
+      "baseline": "ffd11e51962370f87e12456145604d6c848022e9a2e20652808ad58be5e119a0",
+      "candidate": "c37b0c1808133cc7f4fbfa6a5ac82ecc4741831872bdf40fa108321f0efe9866"
+    },
+    "the-winner": {
+      "baseline": "fd37724eb0ae026f4f148f7b25b818e828907a1c500b6ed48eedcadc493c713d",
+      "candidate": "9c4a9a7be0c82a6211d6ab09e933f506bbf0f9b0b79aeb361d836bb2e21990cc"
+    }
+  }
+}

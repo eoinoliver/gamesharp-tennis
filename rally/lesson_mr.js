@@ -62,6 +62,7 @@ const LESSON={
    "short": "Contrast",
    "name": "Short middle, deep middle",
    "scene": "mr2",
+   "evidenceFrom": 185,
    "reveal": true,
    "sit": "Two returns through the middle. One lands near the service line; one lands deep.",
    "q": "What makes the difference to the server?",

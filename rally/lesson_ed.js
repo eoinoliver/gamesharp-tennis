@@ -25,7 +25,6 @@ const LESSON={
       "short": "Read",
       "name": "Choose your plan",
       "scene": "ed1",
-      "reveal": true,
       "noTargets": true,
       "sit": "Their ball takes you towards the sideline. Watch both players.",
       "q": "Which plan fits this point?",
@@ -48,6 +47,12 @@ const LESSON={
       "lines": {
         "A": "An opening alone does not make the change of direction easy.",
         "B": "The extra flight time can help you recover."
+      },
+      "opening": {
+        "scene": "ed1",
+        "from": 0,
+        "to": 192,
+        "continuous": true
       }
     },
     {
@@ -55,7 +60,6 @@ const LESSON={
       "short": "Read",
       "name": "Choose your plan",
       "scene": "ed2",
-      "reveal": true,
       "noTargets": true,
       "sit": "The same ball and opponent. Watch your arrival this time.",
       "q": "Which plan fits this point?",
@@ -82,14 +86,19 @@ const LESSON={
       "compareArrival": "ed1",
       "alsoOk": [
         1
-      ]
+      ],
+      "opening": {
+        "scene": "ed2",
+        "from": 0,
+        "to": 192,
+        "continuous": true
+      }
     },
     {
       "ph": "Read the point",
       "short": "Read",
       "name": "Choose your plan",
       "scene": "ed3",
-      "reveal": true,
       "noTargets": true,
       "sit": "Another rally. Choose your plan.",
       "q": "Which plan fits this point?",
@@ -112,6 +121,12 @@ const LESSON={
       "lines": {
         "A": "Use the ball’s flight to help your recovery.",
         "B": "A forced change of direction gives you less margin."
+      },
+      "opening": {
+        "scene": "ed3",
+        "from": 0,
+        "to": 164,
+        "continuous": true
       }
     }
   ],

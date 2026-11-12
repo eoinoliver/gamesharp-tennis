@@ -1005,7 +1005,7 @@ function today(){
  const intro=!F.seen&&!Object.keys(S.done).length?'&intro=1':'';
  const showComplete=F.done&&!picks;
  const label=showComplete?"Today's challenge · complete":"Today's challenge";
- const action=picks===L.decisionCount?'Review your last decision':picks?`Resume · decision ${picks+1} of ${L.decisionCount}`:F.previouslyPlayed?'Replay this challenge':startedToday?'Continue this challenge':F.seen?'Restart this challenge':"Play today’s challenge";
+ const action=picks&&draft.pendingReply===picks-1?'Watch your last choice':picks===L.decisionCount?'Review your last decision':picks?`Resume · decision ${picks+1} of ${L.decisionCount}`:F.previouslyPlayed?'Replay this challenge':startedToday?'Continue this challenge':F.seen?'Restart this challenge':"Play today’s challenge";
  const cta=`<a class="btn cine-cta" id="todayChallenge" href="${href(L)}&challenge=daily${intro}">${action} <span aria-hidden="true">→</span></a>`+(picks?`<a class="daily-replay restart-daily" href="${href(L)}&challenge=daily&restart=1">Start again</a>`:'');
  let content;
  if(showComplete){
