@@ -400,6 +400,15 @@ for records, expected in [(mobile['source'], source), (mobile['release'], manife
         assert expected.get(name)==change['baseline'], f'Mobile return baseline drift: {name}'
         expected[name]=change['candidate']
 
+# The Home queue and opening pace build on the released Daily checkpoints.
+home = json.loads((ROOT/'docs/features/home-intro-build.json').read_text())
+assert set(home['source']) == {'tools/takeaway-motion-browser.mjs', 'app_src/app.js', 'tools/daily-home-browser.mjs', 'rally/directed.js', 'rally/lesson_body.html', 'tools/home-motion-browser.mjs', 'app_src/analytics.test.mjs', 'app_src/home.css', 'app_src/index.html', 'gs/app_flow.mjs', 'app_src/home-preview.js'}
+assert set(home['release']) == {'app/home.css', 'app/engine/engine.js', 'app/app.js', 'app/play.html', 'app/index.html', 'app/home-preview.js', 'app/catalog.js'}
+for records, expected in [(home['source'], source), (home['release'], manifest)]:
+    for name, change in records.items():
+        assert expected.get(name) == change['baseline'], f'Home and intro baseline drift: {name}'
+        expected[name] = change['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

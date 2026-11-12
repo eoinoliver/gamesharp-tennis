@@ -36,6 +36,7 @@ window.GSHomePreview={mount(figure){
  listen(document,'visibilitychange',sync);
  listen(motion,'change',()=>{if(motion.matches){wanted=false;video.pause();paint();}});
  const observer=new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;sync();},{threshold:.15});observer.observe(figure);
+ video.defaultPlaybackRate=video.playbackRate=2/3;
  video.muted=true;paint();void play();
  return {stop(){disposed=true;wanted=false;observer.disconnect();events.forEach(off=>off());video.pause();video.removeAttribute('src');video.load();}};
 }};

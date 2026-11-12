@@ -883,8 +883,8 @@ function run(key,from,stop,cb,silent=false,keepRecap=false){
 function setPlaying(p){if(!p&&window.GSSfx)GSSfx.stopContacts();playing=p;lastTs=null;$("paused").hidden=p||t>=stopAt;
   const i=$("playIcon"); if(i){const pl=p&&t<stopAt; i.innerHTML=pl?PAUSE_I:PLAY_I; $("playBtn").setAttribute("aria-label",pl?"Pause":"Play");}}
 const PAUSE_I='<path d="M9 5.5v13M15 5.5v13"/>', PLAY_I='<path d="M8 5.5l11 6.5-11 6.5z"/>';
-// Normal tennis speed. Slow inspection is an explicit control, never stacked into every answer.
-function rate(){return 1;}
+// Only the opening sequence uses the slower tempo.
+function rate(){return window.GSDirected?.playbackRate??1;}
 /* All events still drive visual bounce marks. Audio selects only decision context. */
 function sfxEvents(sc){if(sc._sfx)return sc._sfx;const ev=[];
   for(const who of Object.keys(sc.actors))for(const f of contactsOf(sc,who))ev.push([f,"hit",who.startsWith('opp')?.5:1]);
