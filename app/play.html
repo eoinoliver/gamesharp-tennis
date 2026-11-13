@@ -293,6 +293,19 @@ details.note a{color:var(--gold)}
 
 .acts .compact-explore{flex:1;min-height:44px;padding:7px;border:1px solid var(--line);border-radius:12px;color:var(--ink);background:#183023;font:600 12px 'DM Sans',sans-serif}
 
+/* Keep the selected shot below the court until its consequence finishes. */
+#lessonView[data-choice-playback] :is(#sitTx,#ask,#inkRow,.gs-intro){display:none}
+#lessonView[data-choice-playback] #rail{visibility:hidden}
+#lessonView[data-choice-playback] .stage:after{display:none}
+#lessonView[data-choice-playback] .directed-dock span{font:500 13px/1.35 'DM Sans',sans-serif;color:var(--ink)}
+#lessonView[data-choice-playback] .directed-dock button{flex-shrink:0}
+@media(max-width:600px){
+  #lessonView[data-choice-playback] .visual:not(.full):not(:fullscreen){display:grid;grid-template-areas:"court" "choice"}
+  #lessonView[data-choice-playback] .visual:not(.full):not(:fullscreen) .stage{grid-area:court}
+  #lessonView[data-choice-playback] .visual:not(.full):not(:fullscreen) .tools{grid-area:court;bottom:0}
+  #lessonView[data-choice-playback] .directed-dock{grid-area:choice}
+}
+
 </style>
 
 </head>
@@ -338,7 +351,7 @@ details.note a{color:var(--gold)}
 
 </div>
 
-<link rel="stylesheet" href="coach.css?v=951a09ea58">
+<link rel="stylesheet" href="coach.css?v=d6d676c5c1">
 <style>
 .daily-completion .daily-complete-message{font-size:15px;color:#dce8d7;line-height:1.5}.daily-completion .daily-related{margin-top:22px;padding-top:20px;border-top:1px solid #c8a84b30}.daily-related h2{font-size:22px;margin:8px 0}.daily-related p{font-size:14px;line-height:1.55;color:#b8c7b6}.daily-related .alt{min-height:44px;display:inline-flex;align-items:center}.daily-completion .k{display:block!important}
 
@@ -357,7 +370,13 @@ details.note a{color:var(--gold)}
 .wrapup a.next{display:flex;align-items:center;justify-content:center;text-decoration:none;margin-top:14px;color:#16130a}
 #challengeLink{display:block;width:100%;box-sizing:border-box;min-height:44px;margin:8px 0;padding:10px;border:1px solid #758477;border-radius:8px;background:#10231e;color:#f0ece3;font-size:14px}
 .head{position:relative;grid-template-columns:44px minmax(0,1fr) auto 44px;column-gap:4px}
-.lesson-coach{color:#c8d0c4;font-size:12px}.lesson-coach summary{min-height:44px;display:list-item;align-content:center;cursor:pointer;white-space:nowrap}.lesson-coach-panel{position:absolute;right:0;top:calc(100% + 6px);z-index:20;width:min(320px,calc(100vw - 32px));padding:16px;border:1px solid #637363;border-radius:12px;background:#10231e;box-shadow:0 8px 28px #0008}.lesson-coach p{font-size:12px;line-height:1.5;margin:8px 0 0}.lesson-coach summary:focus-visible{outline:3px solid #d3e267;outline-offset:3px}
+.lesson-sound summary{display:grid;place-items:center;width:44px;height:44px;cursor:pointer;list-style:none;color:#c8d0c4}
+.lesson-sound summary::-webkit-details-marker{display:none}
+.lesson-sound summary:focus-visible{outline:3px solid #d3e267}
+.lesson-sound svg{width:23px;height:23px}
+.lesson-sound-panel{position:absolute;right:0;top:100%;z-index:20;width:min(300px,100%);padding:16px;border:1px solid #637363;border-radius:12px;background:#10231e;box-shadow:0 8px 28px #0008}
+.lesson-sound-panel strong{display:block;margin-bottom:8px}
+.lesson-sound-panel label{display:inline-flex;align-items:center;min-height:44px;gap:8px}
 #sharePoint .alt,#returnRead .alt{display:inline-flex;align-items:center;min-height:44px}
 .gs-continue{margin:16px 0;padding:14px;border:1px solid rgba(200,168,75,.4);border-radius:14px}
 .wrapup .fbwrap{flex-wrap:wrap}
@@ -435,18 +454,18 @@ details.note a{color:var(--gold)}
   w.className=m; w.dataset.t0=performance.now(); w.hidden=false;
 })();
 </script>
-<link rel="stylesheet" href="practice.css?v=951a09ea58">
-<link rel="stylesheet" href="takeaways.css?v=951a09ea58">
-<script src="config.js?v=951a09ea58"></script>
-<script src="catalog.js?v=951a09ea58"></script>
-<script src="app.js?v=951a09ea58"></script>
-<script src="share.js?v=951a09ea58"></script>
-<script src="takeaways.js?v=951a09ea58"></script>
-<script src="coach.js?v=951a09ea58"></script>
-<script src="sfx.js?v=951a09ea58"></script>
+<link rel="stylesheet" href="practice.css?v=d6d676c5c1">
+<link rel="stylesheet" href="takeaways.css?v=d6d676c5c1">
+<script src="config.js?v=d6d676c5c1"></script>
+<script src="catalog.js?v=d6d676c5c1"></script>
+<script src="app.js?v=d6d676c5c1"></script>
+<script src="share.js?v=d6d676c5c1"></script>
+<script src="takeaways.js?v=d6d676c5c1"></script>
+<script src="coach.js?v=d6d676c5c1"></script>
+<script src="sfx.js?v=d6d676c5c1"></script>
 <script>
 (function(){
-const A=GSApp, V="951a09ea58", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
+const A=GSApp, V="d6d676c5c1", slug=new URLSearchParams(location.search).get("l"), L=A.bySlug(slug), ld=document.getElementById("loading");
 if(!L){location.replace("./?home=1");return;}
 GSSfx.configureVoice(slug);
 window.GS_HOME_URL="./?home=1";   /* Home never auto-starts a lesson when you come back from one */
@@ -645,12 +664,21 @@ function wrap(n){
 function localStorageIntroSeen(){try{return localStorage.getItem('gs_intro_seen')==='1';}catch{return false;}}
 function afterEngine(){
   wireQuickShare();
-  const coach=document.createElement('details');coach.className='lesson-coach';
-  coach.innerHTML='<summary>Coach: <span data-coach-name></span></summary><div class="lesson-coach-panel"><div data-gs-coach-control></div><p>Your choice is used for spoken cues and Reset. Sound controls stay separate.</p></div>';
-  document.querySelector('.head').insertBefore(coach,document.getElementById('close'));
-  coach.addEventListener('keydown',e=>{if(e.key==='Escape'){coach.open=false;coach.querySelector('summary').focus();}});
-  const paintCoach=()=>{coach.querySelector('[data-coach-name]').textContent=GSCoach.name();};
-  GSCoach.wire(coach);paintCoach();GSCoach.onChange(paintCoach);
+  const sound=document.createElement('details');
+  sound.className='lesson-sound';
+  sound.innerHTML=`<summary aria-label="Sound and coach settings" title="Sound settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 14v-3a8 8 0 0 1 16 0v3M4 12H3v7h4v-7zm16 0h1v7h-4v-7z"/></svg>
+    </summary><div class="lesson-sound-panel"><strong>Sound</strong><div data-gs-coach-control></div>
+    <label><input type="checkbox"> Spoken coaching</label></div>`;
+  document.querySelector('.head').insertBefore(sound,document.getElementById('close'));
+  const narration=sound.querySelector('input');
+  const paintNarration=()=>{narration.checked=GSSfx.voiceState().enabled;};
+  narration.onchange=()=>GSSfx.setVoice(narration.checked);
+  GSSfx.onSettingsChange(paintNarration);
+  paintNarration();
+  GSCoach.wire(sound);
+  document.addEventListener('click',e=>{if(!sound.contains(e.target))sound.open=false;});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sound.open){sound.open=false;sound.querySelector('summary').focus();}});
 
   /* close returns to the Home you came from (so the browser's back doesn't reopen the lesson) */
   const cl=document.getElementById('close');

@@ -73,7 +73,13 @@ async function journey(slug,path){
         played.length=phases.length=0;
         return {key,observe:!!s.reveal,predict:!!LESSON.predict,connected:!!(LESSON.branch||LESSON.flow),at:q.to};
       },pick);
-      await page.locator('#askOpts button').nth(pick).dispatchEvent('click');
+      const quiet=await page.locator('#askOpts button').nth(pick).evaluate(button=>{
+        const selected=Array.from(button.children,el=>el.textContent.trim()).join(' ');
+        button.click();
+        return document.querySelector('#directedDock span').innerText.replace(' · ',' ')===selected &&
+          ['ask','sitTx','inkRow','directedCaption','verdict'].every(id=>!document.getElementById(id).getClientRects().length);
+      });
+      assert(quiet,label+' should show the selected choice once during playback');
       const visibleShot=r=>assert(r?.positions.length>=2,label+' must draw a moving ball on the selected court: '+JSON.stringify(r));
       if(before.predict){
         if(i+1===path.length)await page.waitForFunction(()=>done);else await ready(i+1);

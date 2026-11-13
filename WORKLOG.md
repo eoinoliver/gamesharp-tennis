@@ -1166,3 +1166,5 @@ Final build eaf3f20cc1 also keeps tomorrow's changed point behind its availabili
 12 November · Codex owns codex/court-consequences-20261112, the live decision-to-court audit, shared playback repair and verification.
 The released 0d7fca8d99 Daily, Defence and Net produced no post-choice ball motion on the first correct read. Predict advanced on a tracer. Build 951a09ea58 plays the selected route before feedback, shows authored evidence for the six interpretation questions, and resumes an interrupted Daily outcome. All 63 activities remain eligible. Release checks now require motion for each choice and inspect the drawn ball through the player. Codex owns the Git preview and release checks.
 The Saturday Point 2 early split had the identical landing to the recommended option. Its alternate now lands before the opponent strikes and the gate measures ankle height at their hit. Removed unsupported fractions of a second from that explanation.
+
+13 November · Codex owns codex/quiet-point-20261113. Move the coach preference into lesson Sound settings, keep court mute one tap away, and give the selected consequence a single caption until feedback.

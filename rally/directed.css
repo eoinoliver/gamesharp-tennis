@@ -49,3 +49,16 @@
 @media(max-width:600px){.directing .directed-cap{inset-inline:48px}}
 
 .acts .compact-explore{flex:1;min-height:44px;padding:7px;border:1px solid var(--line);border-radius:12px;color:var(--ink);background:#183023;font:600 12px 'DM Sans',sans-serif}
+
+/* Keep the selected shot below the court until its consequence finishes. */
+#lessonView[data-choice-playback] :is(#sitTx,#ask,#inkRow,.gs-intro){display:none}
+#lessonView[data-choice-playback] #rail{visibility:hidden}
+#lessonView[data-choice-playback] .stage:after{display:none}
+#lessonView[data-choice-playback] .directed-dock span{font:500 13px/1.35 'DM Sans',sans-serif;color:var(--ink)}
+#lessonView[data-choice-playback] .directed-dock button{flex-shrink:0}
+@media(max-width:600px){
+  #lessonView[data-choice-playback] .visual:not(.full):not(:fullscreen){display:grid;grid-template-areas:"court" "choice"}
+  #lessonView[data-choice-playback] .visual:not(.full):not(:fullscreen) .stage{grid-area:court}
+  #lessonView[data-choice-playback] .visual:not(.full):not(:fullscreen) .tools{grid-area:court;bottom:0}
+  #lessonView[data-choice-playback] .directed-dock{grid-area:choice}
+}
