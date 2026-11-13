@@ -1168,3 +1168,7 @@ The released 0d7fca8d99 Daily, Defence and Net produced no post-choice ball moti
 The Saturday Point 2 early split had the identical landing to the recommended option. Its alternate now lands before the opponent strikes and the gate measures ankle height at their hit. Removed unsupported fractions of a second from that explanation.
 
 13 November · Codex owns codex/quiet-point-20261113. Move the coach preference into lesson Sound settings, keep court mute one tap away, and give the selected consequence a single caption until feedback.
+
+## Quiet point playback release · 13 November 2026
+
+GameSharp Tennis build d6d676c5c1 shipped from [PR #114](https://github.com/eoinoliver/gamesharp-tennis/pull/114). Reviewed commit 666aef64a1f62444aee9ee5c6f958188f2dc42ce. Merge 060f631e7dc7d4f0582b0a035b9602807458f398 matched the reviewed tree. Production dpl_CCaNtQo72C6DYGC68kY6wHJydK2A passed staged verification before promotion. Rollback target dpl_85M33Nm6qCTzsBGDKBuWDWbcErSj. Verified the production domain and apex redirect. All 476 preview and production assets matched the expected inventory with no functions or middleware. Preview, staged production and live each passed 618 HTTP checks. On live mobile WebKit, four fresh sessions from Home covered every choice across the Daily's three decisions. All 12 outcomes rendered the opponent reply and the final animation frame before feedback. Coach selection stayed under Sound throughout decision and playback. Mobile verification used iPhone emulation.
