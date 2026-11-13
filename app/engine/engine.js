@@ -1071,7 +1071,7 @@ function finishLesson(){
   const finalOutcome=SC[LESSON.finaleScene]?.info.outcome;
   const liveEnding=finalOutcome==='net'?'This illustrated attempt hit the net.':finalOutcome==='out'?'This illustrated attempt went wide.':'The point is still in play.';
   w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Take this to court</div><div class="mem">${voice?voice.text:LESSON.memHTML}</div>
-      ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button><div data-gs-coach-control></div></div>':''}
+      ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
       ${LESSON.cue?`<div class="cue-actions"><button class="savecue" id="saveCue">${cueSaved()?"Saved in this browser ✓":"Save cue to My Game"}</button><a class="alt" href="./?review=1&z=my-game">My Game →</a><p id="cueSaveStatus" role="status">Cues stay in this browser.</p></div>`:""}
       <div class="score3">${A.map((a,i)=>`<i class="${a==null?"":okA(a,i)?"ok":"no"}"></i>`).join("")}</div></div>
     ${LESSON.livePoint?`<div class="blk live-evidence" id="liveEvidence"><div class="k">Where the point turned</div><p><b>${liveTake}</b></p>${LESSON.decisionCount===4&&A.length===4?`<p>${okA(A[2],2)?'Your first move followed the actual reply.':'Your first move went away from the ball; the correction cost time.'} ${SC[LESSON.finaleScene].info.secondReply?.kind==='higher'?'Your higher reply buys another recovery window.':'Your firmer reply puts the next recovery on a shorter clock.'}</p>`:''}<p>${liveEnding} ${LESSON.decisionCount===4?(A.length===4?'You read the reply and chose again from the next contact.':'Your route left no preparation window for the planned reply.'):LESSON.comparison?(LESSON.comparison.summary||'Compare the preparation, then read the shot.'):'Watch your position as they hit.'}</p><p>${LESSON.comparison?.intro||'Watch the same ball twice. Change only when you recover.'}</p><button class="alt" id="replayTurningPoint">Compare the decision</button><p id="recoveryComparison" role="status"></p></div>`:''}
@@ -1332,7 +1332,7 @@ function setupPredict(){
     if(!firstReview){$("wrapup").hidden=false;return;}
     const w=$("wrapup");
     w.innerHTML=`<div class="blk" style="border:0;margin:14px 0 0;padding:0"><div class="k">Take this to court</div><div class="mem">${voice?voice.text:LESSON.memHTML}</div>
-      ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button><div data-gs-coach-control></div></div>':''}
+      ${voice?'<div class="voice-controls"><button id="hearVoice">Hear court cue</button><button id="voicePreference" aria-pressed="false">Auto voice: off</button></div>':''}
       <div class="score3">${ans.map((a,i)=>`<i class="${okAt(i)?"ok":"no"}"></i>`).join("")}</div></div>
       ${LESSON.steps.map((S,i)=>{const X=ans[i],ok=okAt(i);return `<div class="review"><p class="rq">Read ${i+1} · ${S.q}</p>
         <p class="ra ${ok?"ok":"no"}">${ok?"✓":"✗"} You: ${S.opts[LETTERS.indexOf(X)]}</p><p>${S.lines[X]}</p>
@@ -1569,7 +1569,7 @@ window.GSDirected=(()=>{
   function cancel(){
     filmRate=1;skipCallback=null;film=null;shot=null;queue=[];sequence=[];finish=null;board=false;eye=null;framing=null;last=null;
     clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;onStop=null;
-    window.__pc=null;cap.hidden=dock.hidden=true;$('viewer').classList.remove('directing');
+    window.__pc=null;cap.hidden=dock.hidden=true;delete $('lessonView').dataset.choicePlayback;$('viewer').classList.remove('directing');
     if(rewatch){rewatch.remove();rewatch=null;}
     window.GSSceneEvidence?.clear();
   }
@@ -1591,7 +1591,7 @@ window.GSDirected=(()=>{
   function offerSkip(cb,label){skipCallback=cb;dock.hidden=false;dock.firstElementChild.textContent='Watch the point';$('skipDirected').textContent=label;}
   function skip(){if(skipCallback){const cb=skipCallback;cancel();cb();return true;}if(!film)return false;const cb=finish;cancel();setPlaying(false);cb?.();return true;}
   $('skipDirected').onclick=e=>{e.stopPropagation();skip();};
-  function pause(){if(!film)return false;paused=!paused;if(shot.play)setPlaying(!paused);$('playIcon').innerHTML=paused?PLAY_I:PAUSE_I;$('playBtn').setAttribute('aria-label',paused?'Play':'Pause');dock.firstElementChild.textContent=paused?'Paused · tap court to resume':'Watch the point';last=null;return true;}
+  function pause(){if(!film)return false;paused=!paused;if(shot.play)setPlaying(!paused);$('playIcon').innerHTML=paused?PLAY_I:PAUSE_I;$('playBtn').setAttribute('aria-label',paused?'Play':'Pause');if(!('choicePlayback' in $('lessonView').dataset))dock.firstElementChild.textContent=paused?'Paused · tap court to resume':'Watch the point';last=null;return true;}
   function tick(ts){
     if(!film)return;
     if(document.hidden||paused){last=null;return;}
@@ -1652,6 +1652,9 @@ window.GSDirected=(()=>{
     start([{kind:'wide',...range,play:true,native:S.reveal||!!LESSON.predict,
       eye:S.reveal?'Watch the evidence':viewing(X,ans[i]),title:S.reveal?S.name:S.opts[LETTERS.indexOf(X)]}],
       end,LESSON.predict?'Continue →':'Skip to feedback →');
+    $('lessonView').dataset.choicePlayback='';
+    cap.hidden=true;
+    dock.firstElementChild.textContent=X+' · '+S.opts[LETTERS.indexOf(X)];
     stageInView('instant');return true;
   }
   function reviewAnswer(i,X,cb,only=null){

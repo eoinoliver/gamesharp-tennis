@@ -14,11 +14,11 @@ try{
  for(const [i,slug] of ['doubles-cross-cover','doubles-hold-cover','doubles-return-space','doubles-return-line','doubles-lob-switch','doubles-lob-overhead'].entries()){
   await p.goto(base+'play.html?l='+slug+'&challenge=point');await ready(p);
   check(await p.locator('#lessonName').innerText()==='A point for you',slug+': shared recipient gets a neutral title');
-  await p.locator('.lesson-coach summary').click();const selected=i%2?'frank':'lara';await p.locator('.lesson-coach [data-gs-coach]').selectOption(selected);
+  await p.locator('.lesson-sound summary').click();const selected=i%2?'frank':'lara';await p.locator('.lesson-sound [data-gs-coach]').selectOption(selected);
   check(await p.evaluate(()=>GSCoach.current())===selected,slug+': recipient can choose coach before answering');
   check(await p.evaluate(()=>localStorage.getItem('gs_sound'))==='0',slug+': choosing coach preserves explicit mute');
-  await p.locator('.lesson-coach summary').click();await finish(p);
-  check(await p.locator('.voice-controls [data-gs-coach]').inputValue()===selected,slug+': completion keeps chosen coach');
+  await p.locator('.lesson-sound summary').click();await finish(p);
+  check(await p.locator('.lesson-sound [data-gs-coach]').inputValue()===selected && !await p.locator('[data-gs-coach]').isVisible(),slug+': completion keeps chosen coach');
   check(await p.locator('#sharePointButton').isVisible(),slug+': partner sharing is outside disclosures');
   await p.evaluate(()=>{window.__shares=[];Object.defineProperty(navigator,'share',{configurable:true,value:async payload=>{__shares.push(payload);throw new DOMException('Cancelled','AbortError')}});});
   await p.locator('#sharePointButton').click();check(await p.locator('#quickSharePanel').isVisible()&&await p.evaluate(()=>__shares.length===0),slug+': branded panel precedes native sharing');await p.locator('#quickShareNative').click();const payload=await p.evaluate(()=>__shares[0]);
@@ -46,7 +46,7 @@ try{
  await p.locator('#practiceReturn').click();check(new URL(p.url()).searchParams.get('z')==='my-game','saved doubles cue returns to My Game');
 
  await p.goto(base+'play.html?l=doubles-lob-switch&from=reset&routine=invalid');await ready(p);check(await p.locator('#close').getAttribute('href')==='./?review=1&z=reset','invalid routine safely returns to hub');
- for(const width of [320,390,1280]){await p.setViewportSize({width,height:844});await p.locator('.lesson-coach summary').click();check(await p.locator('.lesson-coach [data-gs-coach]').isVisible(),'early choice visible '+width);check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'early coach fits '+width);await p.screenshot({path:`${out}/early-coach-${width}.png`,fullPage:true});await p.locator('.lesson-coach summary').click();}
+ for(const width of [320,390,1280]){await p.setViewportSize({width,height:844});await p.locator('.lesson-sound summary').click();check(await p.locator('.lesson-sound [data-gs-coach]').isVisible(),'early choice visible '+width);check(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'early coach fits '+width);await p.screenshot({path:`${out}/early-coach-${width}.png`,fullPage:true});await p.locator('.lesson-sound summary').click();}
  await c.close();check(!errors.length,'no page errors');
 }finally{await browser.close();writeFileSync(out+'/report.json',JSON.stringify({base,engine,checks,errors},null,2));}
 console.log('PASS',checks.length,'UX audit regression checks',engine);

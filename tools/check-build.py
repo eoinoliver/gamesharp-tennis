@@ -436,6 +436,14 @@ for records, expected in [(court['source'], source), (court['release'], manifest
         assert expected.get(name) == change['baseline'], f'Court consequence baseline drift: {name}'
         expected[name] = change['candidate']
 
+quiet = json.loads((ROOT/'docs/features/quiet-point-build.json').read_text())
+assert set(quiet['source']) == {'rally/lesson_body.html', 'app_src/play_host.html', 'tools/single-pass-browser.mjs', 'rally/directed.css', 'tools/ux-audit-browser.mjs', 'rally/directed.js'}
+assert set(quiet['release']) == {'app/catalog.js', 'app/play.html', 'app/engine/engine.js', 'app/index.html'}
+for records, expected in [(quiet['source'], source), (quiet['release'], manifest)]:
+    for name, change in records.items():
+        assert expected[name] == change['baseline'], f'Quiet playback baseline drift: {name}'
+        expected[name] = change['candidate']
+
 # Rebuilding the authored scenes must reproduce their committed fingerprints.
 subprocess.run(['python3','rally/build_live_ten.py'],cwd=ROOT,check=True)
 subprocess.run(['python3','tools/ten-live-source.py'],cwd=ROOT,check=True)

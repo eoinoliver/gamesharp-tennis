@@ -1,0 +1,46 @@
+{
+  "source": {
+    "app_src/play_host.html": {
+      "baseline": "1b4aabc8e96bea2aa2aa2ecbfbfe15f38bc2642c3c227ab1d42a0a26db696195",
+      "candidate": "ea3c582c705eedf8e58067d9c1758ec903202025b0785bbed04a07fea509cabc"
+    },
+    "rally/directed.css": {
+      "baseline": "c3f210648e64f0803cdb47487ca3ee62f4b1b96a5b6183331f0dff6bad9d8572",
+      "candidate": "1ddc79dece5ef4b10841903b08d04a406c0ea8b5d430b2bc271fba5e29422e46"
+    },
+    "rally/directed.js": {
+      "baseline": "1c72a76bd120b1f8d60d6474b2d0ce5e4d0147cfbad81842243b801c129f89c5",
+      "candidate": "a9747aeee6d8c4353129c602c87119a6be7c3a0ee5fb7c80fc490aacdb092eb2"
+    },
+    "rally/lesson_body.html": {
+      "baseline": "3d46432caf808fca0a5f2cd1931b7a8376ee20639c097e04c12c0cdd986c1497",
+      "candidate": "51f34af5b5972e16c115ad6dfc4fad91ad77be1122d09d8238fec46f8bacb5ab"
+    },
+    "tools/single-pass-browser.mjs": {
+      "baseline": "db3b63fc2ab50cb7c8baec570a1cffd7769404383ba51a6c4cfb1a2d68d30df7",
+      "candidate": "fc71aaa1a1648151ea95f5169f9e416b8bec42a669e94a352962a67840881aa8"
+    },
+    "tools/ux-audit-browser.mjs": {
+      "baseline": "53c984beb33b15bf018fd1c2fd82f527c8851cf9a253fa7a321b48b70978f56c",
+      "candidate": "7065126dfcda3e9a1993a4a927b921b76729baeea91622f552e58af64ffc771a"
+    }
+  },
+  "release": {
+    "app/catalog.js": {
+      "baseline": "094b806ebcfd32783460d0bd5ee9588a345804b0ea36e2546354676c7105b282",
+      "candidate": "6345fe729b3f268a937efbb4cbba740e1acbce02d7a1b378a0d346112c562301"
+    },
+    "app/engine/engine.js": {
+      "baseline": "8b34d7ef7da1dd364668af223c90e1657a129eb711efa4d80a03445d99ffd4e7",
+      "candidate": "4905a834ca4e39c2f3229212f407ebf6ead9c07e1515fc6803d1b028918c3ab1"
+    },
+    "app/index.html": {
+      "baseline": "1b6155010b08c872467264eb36ae58c27c48d0c47c524451cbd84a7c086b07ed",
+      "candidate": "ba287251a92cf29933d10bb132932a3f55e6020bcddbe6cf601d9b17763175a1"
+    },
+    "app/play.html": {
+      "baseline": "43e7293535d301cf4bb53869237e94e677bfd6b2dc5885fae71b62130dc8ed4a",
+      "candidate": "0f2d113f0da0e5270679e7cf4d62327c57149ffb3ff070ad84dc0a04e52ea174"
+    }
+  }
+}

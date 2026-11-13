@@ -33,7 +33,7 @@ window.GSDirected=(()=>{
   function cancel(){
     filmRate=1;skipCallback=null;film=null;shot=null;queue=[];sequence=[];finish=null;board=false;eye=null;framing=null;last=null;
     clearTimeout(stopTimer);stopTimer=null;pendingStop=null;stopGeneration++;onStop=null;
-    window.__pc=null;cap.hidden=dock.hidden=true;$('viewer').classList.remove('directing');
+    window.__pc=null;cap.hidden=dock.hidden=true;delete $('lessonView').dataset.choicePlayback;$('viewer').classList.remove('directing');
     if(rewatch){rewatch.remove();rewatch=null;}
     window.GSSceneEvidence?.clear();
   }
@@ -55,7 +55,7 @@ window.GSDirected=(()=>{
   function offerSkip(cb,label){skipCallback=cb;dock.hidden=false;dock.firstElementChild.textContent='Watch the point';$('skipDirected').textContent=label;}
   function skip(){if(skipCallback){const cb=skipCallback;cancel();cb();return true;}if(!film)return false;const cb=finish;cancel();setPlaying(false);cb?.();return true;}
   $('skipDirected').onclick=e=>{e.stopPropagation();skip();};
-  function pause(){if(!film)return false;paused=!paused;if(shot.play)setPlaying(!paused);$('playIcon').innerHTML=paused?PLAY_I:PAUSE_I;$('playBtn').setAttribute('aria-label',paused?'Play':'Pause');dock.firstElementChild.textContent=paused?'Paused · tap court to resume':'Watch the point';last=null;return true;}
+  function pause(){if(!film)return false;paused=!paused;if(shot.play)setPlaying(!paused);$('playIcon').innerHTML=paused?PLAY_I:PAUSE_I;$('playBtn').setAttribute('aria-label',paused?'Play':'Pause');if(!('choicePlayback' in $('lessonView').dataset))dock.firstElementChild.textContent=paused?'Paused · tap court to resume':'Watch the point';last=null;return true;}
   function tick(ts){
     if(!film)return;
     if(document.hidden||paused){last=null;return;}
@@ -116,6 +116,9 @@ window.GSDirected=(()=>{
     start([{kind:'wide',...range,play:true,native:S.reveal||!!LESSON.predict,
       eye:S.reveal?'Watch the evidence':viewing(X,ans[i]),title:S.reveal?S.name:S.opts[LETTERS.indexOf(X)]}],
       end,LESSON.predict?'Continue →':'Skip to feedback →');
+    $('lessonView').dataset.choicePlayback='';
+    cap.hidden=true;
+    dock.firstElementChild.textContent=X+' · '+S.opts[LETTERS.indexOf(X)];
     stageInView('instant');return true;
   }
   function reviewAnswer(i,X,cb,only=null){
